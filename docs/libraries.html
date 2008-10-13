@@ -1,0 +1,785 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="libraries_files/filelist.xml">
+<link rel=Edit-Time-Data href="libraries_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Introduction to component libraries</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Matt Pyne</o:Author>
+  <o:LastAuthor>Matt Pyne</o:LastAuthor>
+  <o:Revision>8</o:Revision>
+  <o:TotalTime>20</o:TotalTime>
+  <o:Created>2004-11-28T19:00:00Z</o:Created>
+  <o:LastSaved>2006-02-20T18:33:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>1336</o:Words>
+  <o:Characters>7616</o:Characters>
+  <o:Company>Cametrics Ltd</o:Company>
+  <o:Lines>63</o:Lines>
+  <o:Paragraphs>17</o:Paragraphs>
+  <o:CharactersWithSpaces>8935</o:CharactersWithSpaces>
+  <o:Version>11.6408</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 5 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1914850507;
+	mso-list-template-ids:-1550279736;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+<meta name=CREATED content="20020806;18492927">
+<meta name=CHANGED content="20040925;10125243">
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="5122"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US style='tab-interval:36.0pt'>
+
+<div class=Section1>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>An Introduction to
+Libraries</span></b></p>
+
+<p>Symbols form a very important part of laying out designs.<span
+style='mso-spacerun:yes'>  </span>Symbols are collected together in symbol
+libraries.<span style='mso-spacerun:yes'>  </span>You may edit and create your
+own new symbols and libraries.</p>
+
+<p>It is unlikely that the symbol libraries provided could possibly cover all
+the symbols you might ever want. This program has been designed to allow you to
+create your own symbols very easily.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Selecting libraries</span></b></p>
+
+<p>Before any symbols can be used from a library, the library must be selected
+as in use. This is done by using the Libraries option in the Library menu.</p>
+
+<p style='margin-bottom:12.0pt'><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
+ coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+ filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_s1026" type="#_x0000_t75" alt="" style='position:absolute;
+ margin-left:0;margin-top:0;width:369pt;height:153pt;z-index:1;
+ mso-wrap-distance-left:0;mso-wrap-distance-right:0;mso-position-horizontal:left;
+ mso-position-vertical-relative:line' o:allowoverlap="f">
+ <v:imagedata src="BM7.BMP"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=492 height=204 src=BM7.BMP
+align=left NAME=Graphic1 border=0 v:shapes="_x0000_s1026"><![endif]><br
+clear=left style='mso-special-character:line-break'>
+</p>
+
+<p>This dialogue displays a list of libraries in use. Before a library can be
+edited or before a symbol can be extracted from a library it must be listed
+here. Once the library is listed then you can extract symbols from it using the
+Get option on the Toolbar. </p>
+
+<p><span class=GramE>To add a library to this list click on the Add button.</span>
+A file selection dialogue will appear. Select a library index file (with <span
+class=GramE>a</span> .<span class=SpellE>idx</span> file extension) or database
+file (with .<span class=SpellE>mdb</span> extension). The selected library will
+be added to the list.</p>
+
+<p>To remove a library from the list, click on the library in the list to
+select it and then click on the Remove button. This does not, in any way,
+delete the file and library is still available to others. To actually delete
+the library you must use Windows Explorer.</p>
+
+<p>Libraries that do not exist can also be listed here. If the library does not
+exist, then you will be informed every time the library's index is read. This
+normally occurs when <span class=SpellE>TinyCAD</span> is first started and
+re-read libraries option in the Library menu is selected.</p>
+
+<p>You can open the thumbnail view of the library by double clicking on the
+library name in the list box, or by selecting it and then clicking on the edit
+button.</p>
+
+<p>Upgrading a library converts it from the old format to the new Microsoft
+Access database format. This format creates a slightly larger <span
+class=GramE>file,</span> however, it will enable <span class=SpellE>TinyCAD</span>
+to have more features in the future.</p>
+
+<p>As of <span class=SpellE>TinyCAD</span> 1.90.00, the “Tidy” option is no
+longer required for the new library format, and so has been removed from this
+dialogue.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Editing and Printing
+Libraries</span></b><o:p></o:p></p>
+
+<p style='font-weight:medium'>Use the library dialogue to select the library to
+edit. <span class=GramE>Once selected you will see a new window with a
+thumbnail view of the library.</span> If the library is a brand new library
+then the window will be blank.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p style='margin-bottom:12.0pt'><!--[if gte vml 1]><v:shape id="_x0000_s1027"
+ type="#_x0000_t75" alt="" style='position:absolute;margin-left:0;margin-top:0;
+ width:550.5pt;height:396.75pt;z-index:2;mso-wrap-distance-left:0;
+ mso-wrap-distance-right:0;mso-position-horizontal:left;
+ mso-position-vertical-relative:line' o:allowoverlap="f">
+ <v:imagedata src="bm15.bmp"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=734 height=529 src=bm15.bmp
+align=left NAME=Graphic3 border=0 v:shapes="_x0000_s1027"><![endif]><br
+clear=left style='mso-special-character:line-break'>
+</p>
+
+<p>Use the library editing window to:</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>See all of the thumbnails of the symbols in the
+library</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Add new symbols to the library</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Delete and rename symbols in the library.</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Edit a symbols names and attributes</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Move symbols from one library to another</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Export symbols into an XML file</p>
+
+<p style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span style='font-size:10.0pt;
+mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
+mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Import an XML file of symbols into this library</p>
+
+<p>You can select symbols in the library by clicking on them. Once selected you
+can use the “Symbol” menu to edit or delete the symbol. You may also
+right-click on thumbnails to bring up a context menu, which is a shortcut for
+going to the symbol menu.</p>
+
+<p>Use the symbol menu or the context menu to add a new symbol to the library.</p>
+
+<p>A shortcut to editing a symbol is to double-click on it.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Editing and adding
+symbols</span></b></p>
+
+<p>Symbols are created from normal objects found on the Toolbar. They may
+contain any of these objects except other symbols.</p>
+
+<p>If the symbol does contain any objects with special functions (such as a
+power item or a wire) then these object will be treated as though they were
+annotation. All their special functions are lost when used in a symbol.</p>
+
+<p>To edit an existing symbol, first select the library you wish to edit in the
+Libraries option of the Library menu.</p>
+
+<p>Next select the symbol to edit in the Library thumbnail view by clicking on
+it. A new symbol editing window will open with the symbol in it. The symbol may
+be edited in the same way that a normal design can be edited, with the
+exception no symbols may be inserted but pins may be added.</p>
+
+<p>When you have finished use the Save option in the File menu or simply <span
+class=GramE>close</span> the window. This will enable you to save the new
+symbol back to the library. The dialogue box automatically remembers the
+details of the symbol selected. If you enter a different name here then the
+symbol will be store under the new name, making a copy of the symbol. If you
+enter the name of an existing symbol then it will replace the old symbol in the
+library.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Symbol Pins</span></b></p>
+
+<p><span class=GramE>Connections to a symbol is</span> via the pins. It is
+important to correctly type each pin. This enables the <span class=SpellE>Netlist</span>
+generation and Check Design Rules in the Special menu to operate correctly. The
+pins also enable the part-per-package feature to work correctly.</p>
+
+<p>The design rules determine the type of each pin and can work out if you have
+made a mistake in your design. For example it can check that there is no output
+driving an input. To do this you have to nominate the pins with the correct
+type.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Multiple Parts <span
+class=GramE>Per</span> Package</span></b></p>
+
+<p>Some semiconductors have multiple parts per package. You can define a
+different set of pins per package and optionally outlines for each symbol. When
+you insert the symbol in to your design, you can select which package to use
+from the symbol.</p>
+
+<p>There are two types of symbols with multiple parts per package these are
+homogeneous and heterogeneous symbols:</p>
+
+<p style='margin-left:72.0pt;text-indent:-18.0pt;mso-list:l0 level2 lfo2;
+tab-stops:list 72.0pt'><![if !supportLists]><span style='mso-list:Ignore'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><![endif]>A
+homogeneous symbol has the same outline, but different pins for each part in
+the package.</p>
+
+<p style='margin-left:72.0pt;text-indent:-18.0pt;mso-list:l0 level2 lfo2;
+tab-stops:list 72.0pt'><![if !supportLists]><span style='mso-list:Ignore'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><![endif]>A
+heterogeneous symbol has a different outline and different pins for each of the
+parts in the package.</p>
+
+<p>Use homogeneous symbols when the parts are interchangeable.<span
+style='mso-spacerun:yes'>  </span>Use heterogeneous symbols when the different
+parts represent different aspects of the symbol and therefore cannot be
+interchanged.</p>
+
+<p>Before drawing your symbol decide which type it is to be and then use the “Homogeneous”
+or “Heterogeneous” option in the Library menu or right click on the tabs at the
+bottom of the view. These options will only work before you have set the number
+of parts per package.<span style='mso-spacerun:yes'>  </span></p>
+
+<p>Then use the “Set part per package” option in the Library menu or right
+click on the tabs at the bottom of the view. This option will enable to select
+the number of parts per package for the symbol. Use the tabs at the bottom of
+the symbol to select between editing the different parts.</p>
+
+<p>For a homogeneous symbol, any edits to the outline will be for all
+parts.<span style='mso-spacerun:yes'>  </span>For a heterogeneous symbol you
+may have a different outline for each part.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p style='text-indent:144.0pt'><!--[if gte vml 1]><v:shapetype id="_x0000_t202"
+ coordsize="21600,21600" o:spt="202" path="m,l,21600r21600,l21600,xe">
+ <v:stroke joinstyle="miter"/>
+ <v:path gradientshapeok="t" o:connecttype="rect"/>
+</v:shapetype><v:shape id="_x0000_s1046" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:1.85pt;margin-top:4.5pt;width:2in;height:69.75pt;
+ text-indent:0;z-index:17' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1046'/>
+</v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:17;left:0px;margin-left:2px;margin-top:6px;width:196px;
+height:97px'>
+
+<table cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=196 height=97 style='vertical-align:top'><![endif]><![if !mso]><span
+  style='position:absolute;mso-ignore:vglayout;left:0pt;z-index:17'>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div v:shape="_x0000_s1046" style='padding:3.6pt 7.2pt 3.6pt 7.2pt'
+    class=shape>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>For homogeneous
+    symbols each part has a different set of pins, but the body stays the same<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  </span><![endif]><![if !mso & !vml]>&nbsp;<![endif]><![if !vml]></td>
+ </tr>
+</table>
+
+</span><![endif]><!--[if gte vml 1]><v:line id="_x0000_s1043" style='position:absolute;
+ left:0;text-align:left;z-index:14' from="104.25pt,193.5pt" to="180pt,228pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:14;left:0px;margin-left:138px;margin-top:257px;width:106px;
+height:53px'><img width=106 height=53 src="libraries_files/image007.gif"
+v:shapes="_x0000_s1043"></span><![endif]><!--[if gte vml 1]><v:shape id="_x0000_s1048"
+ type="#_x0000_t202" style='position:absolute;left:0;text-align:left;
+ margin-left:6.35pt;margin-top:160.1pt;width:2in;height:52.5pt;text-indent:0;
+ z-index:19' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1048'/>
+</v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:19;left:0px;margin-left:8px;margin-top:213px;width:196px;
+height:74px'>
+
+<table cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=196 height=74 style='vertical-align:top'><![endif]><![if !mso]><span
+  style='position:absolute;mso-ignore:vglayout;left:0pt;z-index:19'>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div v:shape="_x0000_s1048" style='padding:3.6pt 7.2pt 3.6pt 7.2pt'
+    class=shape>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Right click
+    here to set the number of parts per package.<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  </span><![endif]><![if !mso & !vml]>&nbsp;<![endif]><![if !vml]></td>
+ </tr>
+</table>
+
+</span><![endif]><!--[if gte vml 1]><v:shape id="_x0000_s1047" type="#_x0000_t202"
+ style='position:absolute;left:0;text-align:left;margin-left:1.85pt;
+ margin-top:74.25pt;width:124.9pt;height:69.75pt;text-indent:0;z-index:18'
+ filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1047'/>
+</v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:18;left:0px;margin-left:2px;margin-top:99px;width:171px;
+height:97px'>
+
+<table cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=171 height=97 style='vertical-align:top'><![endif]><![if !mso]><span
+  style='position:absolute;mso-ignore:vglayout;left:0pt;z-index:18'>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div v:shape="_x0000_s1047" style='padding:3.6pt 7.2pt 3.6pt 7.2pt'
+    class=shape>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Power pins
+    (shown in green) are hidden when placed into a drawing.<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  </span><![endif]><![if !mso & !vml]>&nbsp;<![endif]><![if !vml]></td>
+ </tr>
+</table>
+
+</span><![endif]><!--[if gte vml 1]><v:line id="_x0000_s1045" style='position:absolute;
+ left:0;text-align:left;z-index:16' from="123pt,99.75pt" to="180pt,110.25pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:16;left:0px;margin-left:163px;margin-top:132px;width:80px;
+height:21px'><img width=80 height=21 src="libraries_files/image008.gif" v:shapes="_x0000_s1045"></span><![endif]><!--[if gte vml 1]><v:line
+ id="_x0000_s1044" style='position:absolute;left:0;text-align:left;z-index:15'
+ from="114pt,40.5pt" to="206.25pt,84pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:15;left:0px;margin-left:151px;margin-top:53px;width:128px;
+height:65px'><img width=128 height=65 src="libraries_files/image009.gif"
+v:shapes="_x0000_s1044"></span><![endif]><img width=481 height=318
+id="_x0000_i1025" src=image010.png><br clear=left style='mso-special-character:
+line-break'>
+</p>
+
+<p style='margin-left:36.0pt;text-indent:108.0pt'><b>An example of the 7402 IC
+which has 4 parts per package</b></p>
+
+<p>For example, the 7402 has 4 parts per package. These parts are label A, B, C
+and D. This is a homogeneous symbol and so the only difference between each
+part is the pin numbers.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Creating a new symbol
+library</span></b></p>
+
+<p>Creating a new library is easy. Use the “New” button on the library editing
+dialogue. A blank library will be created with the name that you specify.</p>
+
+<p>Double click on the library to edit it. You may now add your first new
+symbol.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p><b><span style='font-size:18.0pt;font-family:Arial'>Symbol Properties</span></b></p>
+
+<p>This option can only be used when you are editing a library or symbol.</p>
+
+<p class=MsoNormal style='text-indent:90.0pt'><!--[if gte vml 1]><v:line id="_x0000_s1030"
+ style='position:absolute;left:0;text-align:left;z-index:3' from="113.25pt,154.1pt"
+ to="149.25pt,154.1pt">
+ <v:stroke endarrow="block"/>
+</v:line><v:shape id="_x0000_s1036" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:23.25pt;margin-top:136.1pt;width:99pt;
+ height:36pt;text-indent:0;z-index:9' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1036'>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Multiple names
+    per symbol<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+</v:shape><v:line id="_x0000_s1033" style='position:absolute;left:0;
+ text-align:left;flip:x;z-index:6' from="365.25pt,45.2pt" to="437.25pt,108.2pt">
+ <v:stroke endarrow="block"/>
+</v:line><v:line id="_x0000_s1034" style='position:absolute;left:0;
+ text-align:left;z-index:7' from="194.25pt,45.2pt" to="203.25pt,108.2pt">
+ <v:stroke endarrow="block"/>
+</v:line><v:line id="_x0000_s1035" style='position:absolute;left:0;
+ text-align:left;flip:x;z-index:8' from="311.25pt,54.15pt" to="311.25pt,126.15pt">
+ <v:stroke endarrow="block"/>
+</v:line><v:shape id="_x0000_s1038" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:383.25pt;margin-top:7.85pt;width:2in;
+ height:36pt;text-indent:0;z-index:11' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1038'>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Default
+    orientation for display and drawing insertion<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+</v:shape><v:shape id="_x0000_s1039" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:149.25pt;margin-top:7.8pt;width:171pt;
+ height:36pt;text-indent:0;z-index:12' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1039'>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Have multiple
+    parts per package (e.g. the 74 library)<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+</v:shape><v:shape id="_x0000_s1040" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:266.25pt;margin-top:35.7pt;width:99pt;
+ height:36pt;text-indent:0;z-index:13' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1040'>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>SPICE
+    integration<o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+</v:shape><v:line id="_x0000_s1031" style='position:absolute;left:0;
+ text-align:left;flip:y;z-index:4' from="113.25pt,208.1pt" to="302.25pt,208.1pt">
+ <v:stroke endarrow="block"/>
+</v:line><v:shape id="_x0000_s1037" type="#_x0000_t202" style='position:absolute;
+ left:0;text-align:left;margin-left:23.25pt;margin-top:190.1pt;width:99pt;
+ height:2in;text-indent:0;z-index:10' filled="f" stroked="f">
+ <v:textbox style='mso-next-textbox:#_x0000_s1037'>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Symbol
+    attributes:<o:p></o:p></span></p>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Used for
+    references, names and PCB package.<o:p></o:p></span></p>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'><o:p>&nbsp;</o:p></span></p>
+    <p class=MsoNormal><span style='font-family:"Arial Narrow"'>Add your own
+    such as part numbers or cost. <o:p></o:p></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+</v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout'>
+
+<table cellpadding=0 cellspacing=0 align=left>
+ <tr>
+  <td width=31 height=10></td>
+  <td width=168></td>
+  <td width=4></td>
+  <td width=204></td>
+  <td width=300></td>
+ </tr>
+ <tr>
+  <td height=162></td>
+  <td></td>
+  <td colspan=3 align=left valign=top><img width=508 height=162
+  src="libraries_files/image005.gif" v:shapes="_x0000_s1033 _x0000_s1034 _x0000_s1035 _x0000_s1038 _x0000_s1039 _x0000_s1040"></td>
+ </tr>
+ <tr>
+  <td height=9></td>
+ </tr>
+ <tr>
+  <td height=52></td>
+  <td colspan=2 align=left valign=top><img width=172 height=52
+  src="libraries_files/image006.gif" v:shapes="_x0000_s1030 _x0000_s1036"></td>
+ </tr>
+ <tr>
+  <td height=20></td>
+ </tr>
+ <tr>
+  <td height=196></td>
+  <td colspan=3 align=left valign=top><img width=376 height=196
+  src="libraries_files/image010.gif" v:shapes="_x0000_s1031 _x0000_s1037"></td>
+ </tr>
+</table>
+
+</span><![endif]><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='text-indent:90.0pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='text-indent:90.0pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='text-indent:90.0pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='text-indent:90.0pt'><o:p>&nbsp;</o:p></p>
+
+<br style='mso-ignore:vglayout' clear=ALL>
+
+<p class=MsoNormal style='text-indent:144.0pt'><!--[if gte vml 1]><v:line id="_x0000_s1032"
+ style='position:absolute;left:0;text-align:left;z-index:5' from="122.25pt,208.8pt"
+ to="284.25pt,226.8pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:5;left:0px;margin-left:162px;margin-top:277px;width:220px;
+height:31px'><img width=220 height=31 src="libraries_files/image004.gif"
+v:shapes="_x0000_s1032"></span><![endif]><img width=467 height=377
+id="_x0000_i1026" src=image005.png></p>
+
+<p style='margin-bottom:12.0pt'><br clear=left style='mso-special-character:
+line-break'>
+</p>
+
+<p>This dialogue is used to edit the symbol's names and default attributes. As
+of version 2.00.00 of <span class=SpellE>TinyCAD</span> you can now give the
+symbol more than one name. <span class=GramE>Associated with each name of the
+symbol can be as many different default attributes as required.</span> There is
+no restriction on the symbol name, you may use upper or lower case and the name
+may include spaces.</p>
+
+<p>You can access this dialogue in two ways. Either right <span class=GramE>click</span>
+on the symbol in the thumbnail view and select “Symbol Properties”, or it is
+displayed after you edit a symbol when you close or save the window.</p>
+
+<p>If you wish the symbol to have more than one name in the library then use
+the “Add name” option. Each name has <span class=GramE>it's</span> own set of
+default attributes and description. You can use additional names to give
+different attributes to the same basic symbol. For example you may wish to have
+a different name for a capacitor for each of the different PCB packages
+(footprint) that you use in your PCB program.<o:p></o:p></p>
+
+<p><span style='font-weight:medium'>You can also add any number of extra
+parameters to the symbol. Use the “Add” and “Delete” buttons to add new
+parameters to the symbol. You cannot delete the name or the reference, as these
+are always required by a symbol.<span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+</span>
+
+<p>You must enter the default reference for the symbol<span class=GramE>..</span>
+This is the text that appears in the reference field of the symbol when it is
+first extracted from the library using the Get command. Remember that the
+reference should normally be a single letter followed by <span class=GramE>a ?.</span>
+For example: U?<o:p></o:p></p>
+
+<p style='font-weight:medium'>These extra parameters can be used to store any
+information you like. <span class=GramE>For example, PCB layout information or
+SPICE information.</span> This information is show to the user when the symbol
+is placed into the design. The parameters are also written out in the <span
+class=SpellE>netlist</span> (see the Special menu).<o:p></o:p></p>
+
+<p style='font-weight:medium'>Click the OK button to store the symbol, or the
+Cancel button to exit without changing the symbol.</p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>

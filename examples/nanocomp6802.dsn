@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD version 2.55.00
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<TinyCADSheets><TinyCAD><NAME>Sheet 1</NAME>
+<DETAILS><Size width='1485' height='1050'/>
+<GUIDES horiz='7' vert='5'/>
+<TITLE></TITLE>
+<AUTHOR></AUTHOR>
+<REVISION>1.0</REVISION>
+<DOCNUMBER></DOCNUMBER>
+<ORGANISATION></ORGANISATION>
+<SHEETS>1 of 1</SHEETS>
+<SHOWS>1</SHOWS>
+<DATE>01 June 2004</DATE>
+<GRID spacing='50' snap='1'/>
+</DETAILS>
+<FONT id='1'><HEIGHT>-10</HEIGHT>
+<WIDTH>0</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='3'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='4'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='5'><HEIGHT>-24</HEIGHT>
+<WIDTH>11</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='0'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='2'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>5</THICKNESS>
+</STYLE>
+<STYLE id='3'><STYLE>0</STYLE>
+<COLOR>808000</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<SYMBOLDEF id='1'><NAME type='0'></NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION>MC6802 Microprocessor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,-1'/>
+<TinyCAD><RECTANGLE a='-52,-89' b='-6,-7' style='2' fill='0'/>
+<PIN pos='-42,-95' which='4' elec='0' direction='1' part='0' number='8' show='3' length='30' number_pos='0' centre_name='1'>+5</PIN>
+<PIN pos='-19,-95' which='4' elec='0' direction='1' part='0' number='35' show='3' length='30' number_pos='0' centre_name='1'>+5</PIN>
+<PIN pos='-58,-82' which='0' elec='0' direction='3' part='0' number='38' show='3' length='30' number_pos='0' centre_name='0'>CLK1</PIN>
+<PIN pos='-58,-78' which='0' elec='0' direction='3' part='0' number='39' show='3' length='30' number_pos='0' centre_name='0'>CLK2</PIN>
+<PIN pos='-58,-69' which='0' elec='0' direction='3' part='0' number='7' show='3' length='30' number_pos='0' centre_name='0'>BA</PIN>
+<PIN pos='-58,-63' which='0' elec='0' direction='3' part='0' number='34' show='3' length='30' number_pos='0' centre_name='0'>R/*W</PIN>
+<PIN pos='-58,-59' which='0' elec='0' direction='3' part='0' number='37' show='3' length='30' number_pos='0' centre_name='0'>E</PIN>
+<PIN pos='-58,-55' which='0' elec='0' direction='3' part='0' number='5' show='3' length='30' number_pos='0' centre_name='0'>VMA</PIN>
+<PIN pos='-58,-51' which='0' elec='0' direction='3' part='0' number='36' show='3' length='30' number_pos='0' centre_name='0'>RE</PIN>
+<PIN pos='-58,-47' which='0' elec='0' direction='3' part='0' number='3' show='3' length='30' number_pos='0' centre_name='0'>MR</PIN>
+<PIN pos='-58,-43' which='0' elec='0' direction='3' part='0' number='40' show='3' length='30' number_pos='0' centre_name='0'>*RESET</PIN>
+<PIN pos='-58,-39' which='0' elec='0' direction='3' part='0' number='4' show='3' length='30' number_pos='0' centre_name='0'>*IRQ</PIN>
+<PIN pos='-58,-35' which='0' elec='0' direction='3' part='0' number='6' show='3' length='30' number_pos='0' centre_name='0'>*NMI</PIN>
+<PIN pos='-58,-31' which='0' elec='0' direction='3' part='0' number='2' show='3' length='30' number_pos='0' centre_name='0'>*HALT</PIN>
+<PIN pos='-41,-1' which='4' elec='0' direction='0' part='0' number='1' show='3' length='30' number_pos='0' centre_name='1'>GND</PIN>
+<PIN pos='-20,-1' which='4' elec='0' direction='0' part='0' number='21' show='3' length='30' number_pos='0' centre_name='1'>GND</PIN>
+<PIN pos='0,-84' which='0' elec='0' direction='2' part='0' number='9' show='3' length='30' number_pos='0' centre_name='0'>A0</PIN>
+<PIN pos='0,-81' which='0' elec='0' direction='2' part='0' number='10' show='3' length='30' number_pos='0' centre_name='0'>A1</PIN>
+<PIN pos='0,-78' which='0' elec='0' direction='2' part='0' number='11' show='3' length='30' number_pos='0' centre_name='0'>A2</PIN>
+<PIN pos='0,-75' which='0' elec='0' direction='2' part='0' number='12' show='3' length='30' number_pos='0' centre_name='0'>A3</PIN>
+<PIN pos='0,-72' which='0' elec='0' direction='2' part='0' number='13' show='3' length='30' number_pos='0' centre_name='0'>A4</PIN>
+<PIN pos='0,-69' which='0' elec='0' direction='2' part='0' number='14' show='3' length='30' number_pos='0' centre_name='0'>A5</PIN>
+<PIN pos='0,-66' which='0' elec='0' direction='2' part='0' number='15' show='3' length='30' number_pos='0' centre_name='0'>A6</PIN>
+<PIN pos='0,-63' which='0' elec='0' direction='2' part='0' number='16' show='3' length='30' number_pos='0' centre_name='0'>A7</PIN>
+<PIN pos='0,-60' which='0' elec='0' direction='2' part='0' number='17' show='3' length='30' number_pos='0' centre_name='0'>A8</PIN>
+<PIN pos='0,-57' which='0' elec='0' direction='2' part='0' number='18' show='3' length='30' number_pos='0' centre_name='0'>A9</PIN>
+<PIN pos='0,-54' which='0' elec='0' direction='2' part='0' number='19' show='3' length='30' number_pos='0' centre_name='0'>A10</PIN>
+<PIN pos='0,-51' which='0' elec='0' direction='2' part='0' number='20' show='3' length='30' number_pos='0' centre_name='0'>A11</PIN>
+<PIN pos='0,-48' which='0' elec='0' direction='2' part='0' number='22' show='3' length='30' number_pos='0' centre_name='0'>A12</PIN>
+<PIN pos='0,-45' which='0' elec='0' direction='2' part='0' number='23' show='3' length='30' number_pos='0' centre_name='0'>A13</PIN>
+<PIN pos='0,-42' which='0' elec='0' direction='2' part='0' number='24' show='3' length='30' number_pos='0' centre_name='0'>A14</PIN>
+<PIN pos='0,-39' which='0' elec='0' direction='2' part='0' number='25' show='3' length='30' number_pos='0' centre_name='0'>A15</PIN>
+<PIN pos='-1,-34' which='0' elec='0' direction='2' part='0' number='33' show='3' length='30' number_pos='0' centre_name='0'>D0</PIN>
+<PIN pos='-1,-31' which='0' elec='0' direction='2' part='0' number='32' show='3' length='30' number_pos='0' centre_name='0'>D1</PIN>
+<PIN pos='-1,-28' which='0' elec='0' direction='2' part='0' number='31' show='3' length='30' number_pos='0' centre_name='0'>D2</PIN>
+<PIN pos='-1,-25' which='0' elec='0' direction='2' part='0' number='30' show='3' length='30' number_pos='0' centre_name='0'>D3</PIN>
+<PIN pos='-1,-22' which='0' elec='0' direction='2' part='0' number='29' show='3' length='30' number_pos='0' centre_name='0'>D4</PIN>
+<PIN pos='-1,-19' which='0' elec='0' direction='2' part='0' number='28' show='3' length='30' number_pos='0' centre_name='0'>D5</PIN>
+<PIN pos='-1,-16' which='0' elec='0' direction='2' part='0' number='27' show='3' length='30' number_pos='0' centre_name='0'>D6</PIN>
+<PIN pos='-1,-13' which='0' elec='0' direction='2' part='0' number='26' show='3' length='30' number_pos='0' centre_name='0'>D7</PIN>
+<LABEL pos='-35,-63' direction='3' font='5' color='208000' style='0'>6802</LABEL>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='2'><NAME type='0'></NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION>MC6821 Peripheral Interface Adapter</DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>DIL40</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>4.0251e+008,-0.2</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><RECTANGLE a='-59,-90' b='-11,0' style='2' fill='0'/>
+<PIN pos='-70,-83' which='4' elec='0' direction='3' part='0' number='1' show='3' length='60' number_pos='18' centre_name='1'>GND</PIN>
+<PIN pos='-70,-79' which='0' elec='5' direction='3' part='0' number='2' show='3' length='60' number_pos='18' centre_name='0'>PA0</PIN>
+<PIN pos='-70,-75' which='0' elec='5' direction='3' part='0' number='3' show='3' length='60' number_pos='18' centre_name='0'>PA1</PIN>
+<PIN pos='-70,-71' which='0' elec='5' direction='3' part='0' number='4' show='3' length='60' number_pos='18' centre_name='0'>PA2</PIN>
+<PIN pos='-70,-67' which='0' elec='5' direction='3' part='0' number='5' show='3' length='60' number_pos='18' centre_name='0'>PA3</PIN>
+<PIN pos='-70,-63' which='0' elec='5' direction='3' part='0' number='6' show='3' length='60' number_pos='18' centre_name='0'>PA4</PIN>
+<PIN pos='-70,-59' which='0' elec='5' direction='3' part='0' number='7' show='3' length='60' number_pos='18' centre_name='0'>PA5</PIN>
+<PIN pos='-70,-55' which='0' elec='5' direction='3' part='0' number='8' show='3' length='60' number_pos='18' centre_name='0'>PA6</PIN>
+<PIN pos='-70,-51' which='0' elec='5' direction='3' part='0' number='9' show='3' length='60' number_pos='18' centre_name='0'>PA7</PIN>
+<PIN pos='-70,-47' which='0' elec='5' direction='3' part='0' number='10' show='3' length='60' number_pos='18' centre_name='0'>PB0</PIN>
+<PIN pos='-70,-43' which='0' elec='5' direction='3' part='0' number='11' show='3' length='60' number_pos='18' centre_name='0'>PB1</PIN>
+<PIN pos='-70,-39' which='0' elec='5' direction='3' part='0' number='12' show='3' length='60' number_pos='18' centre_name='0'>PB2</PIN>
+<PIN pos='-70,-35' which='0' elec='5' direction='3' part='0' number='13' show='3' length='60' number_pos='18' centre_name='0'>PB3</PIN>
+<PIN pos='-70,-31' which='0' elec='5' direction='3' part='0' number='14' show='3' length='60' number_pos='18' centre_name='0'>PB4</PIN>
+<PIN pos='-70,-27' which='0' elec='5' direction='3' part='0' number='15' show='3' length='60' number_pos='18' centre_name='0'>PB5</PIN>
+<PIN pos='-70,-23' which='0' elec='5' direction='3' part='0' number='16' show='3' length='60' number_pos='18' centre_name='0'>PB6</PIN>
+<PIN pos='-70,-19' which='0' elec='5' direction='3' part='0' number='17' show='3' length='60' number_pos='18' centre_name='0'>PB7</PIN>
+<PIN pos='-70,-15' which='0' elec='0' direction='3' part='0' number='18' show='3' length='60' number_pos='18' centre_name='0'>CB1</PIN>
+<PIN pos='-70,-11' which='0' elec='5' direction='3' part='0' number='19' show='3' length='60' number_pos='18' centre_name='0'>CB2</PIN>
+<PIN pos='-70,-7' which='4' elec='0' direction='3' part='0' number='20' show='3' length='60' number_pos='18' centre_name='1'>Vcc</PIN>
+<PIN pos='0,-7' which='4' elec='5' direction='2' part='0' number='21' show='3' length='60' number_pos='18' centre_name='1'>R/*W</PIN>
+<PIN pos='0,-11' which='0' elec='0' direction='2' part='0' number='22' show='3' length='60' number_pos='18' centre_name='0'>CS0</PIN>
+<PIN pos='0,-15' which='0' elec='0' direction='2' part='0' number='23' show='3' length='60' number_pos='18' centre_name='0'>CS1</PIN>
+<PIN pos='0,-19' which='0' elec='0' direction='2' part='0' number='24' show='3' length='60' number_pos='18' centre_name='0'>*CS2</PIN>
+<PIN pos='0,-23' which='0' elec='0' direction='2' part='0' number='25' show='3' length='60' number_pos='18' centre_name='0'>E</PIN>
+<PIN pos='0,-27' which='0' elec='0' direction='2' part='0' number='26' show='3' length='60' number_pos='18' centre_name='0'>D7</PIN>
+<PIN pos='0,-31' which='0' elec='5' direction='2' part='0' number='27' show='3' length='60' number_pos='18' centre_name='0'>D6</PIN>
+<PIN pos='0,-35' which='0' elec='5' direction='2' part='0' number='28' show='3' length='60' number_pos='18' centre_name='0'>D5</PIN>
+<PIN pos='0,-39' which='0' elec='5' direction='2' part='0' number='29' show='3' length='60' number_pos='18' centre_name='0'>D4</PIN>
+<PIN pos='0,-43' which='0' elec='5' direction='2' part='0' number='30' show='3' length='60' number_pos='18' centre_name='0'>D3</PIN>
+<PIN pos='0,-47' which='0' elec='5' direction='2' part='0' number='31' show='3' length='60' number_pos='18' centre_name='0'>D2</PIN>
+<PIN pos='0,-51' which='0' elec='5' direction='2' part='0' number='32' show='3' length='60' number_pos='18' centre_name='0'>D1</PIN>
+<PIN pos='0,-55' which='0' elec='5' direction='2' part='0' number='33' show='3' length='60' number_pos='18' centre_name='0'>D0</PIN>
+<PIN pos='0,-59' which='0' elec='0' direction='2' part='0' number='34' show='3' length='60' number_pos='18' centre_name='0'>*RESET</PIN>
+<PIN pos='0,-63' which='0' elec='0' direction='2' part='0' number='35' show='3' length='60' number_pos='18' centre_name='0'>RS1</PIN>
+<PIN pos='0,-67' which='0' elec='0' direction='2' part='0' number='36' show='3' length='60' number_pos='18' centre_name='0'>RS0</PIN>
+<PIN pos='0,-71' which='0' elec='0' direction='2' part='0' number='37' show='3' length='60' number_pos='18' centre_name='0'>*IRQB</PIN>
+<PIN pos='0,-75' which='0' elec='0' direction='2' part='0' number='38' show='3' length='60' number_pos='18' centre_name='0'>*IRQA</PIN>
+<PIN pos='0,-79' which='0' elec='5' direction='2' part='0' number='39' show='3' length='60' number_pos='18' centre_name='0'>CA2</PIN>
+<PIN pos='0,-83' which='0' elec='0' direction='2' part='0' number='40' show='3' length='60' number_pos='18' centre_name='0'>CA1</PIN>
+<LABEL pos='-45,-80' direction='3' font='5' color='208000' style='0'>MC6821</LABEL>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='3'><NAME type='0'></NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION>2732A 4Kx8 EPROM</DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>DIL24</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>4.0251e+008,-0.2</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><RECTANGLE a='-33,-58' b='-11,-11' style='3' fill='0'/>
+<LABEL pos='-26,-59' direction='3' font='4' color='208000' style='0'>2732A</LABEL>
+<PIN pos='-44,-55' which='0' elec='1' direction='3' part='0' number='9' show='3' length='60' number_pos='18' centre_name='0'>D0</PIN>
+<PIN pos='-44,-52' which='0' elec='1' direction='3' part='0' number='10' show='3' length='60' number_pos='18' centre_name='0'>D1</PIN>
+<PIN pos='-44,-49' which='0' elec='1' direction='3' part='0' number='11' show='3' length='60' number_pos='18' centre_name='0'>D2</PIN>
+<PIN pos='-44,-46' which='0' elec='1' direction='3' part='0' number='13' show='3' length='60' number_pos='18' centre_name='0'>D3</PIN>
+<PIN pos='-44,-43' which='0' elec='1' direction='3' part='0' number='14' show='3' length='60' number_pos='18' centre_name='0'>D4</PIN>
+<PIN pos='-44,-40' which='0' elec='1' direction='3' part='0' number='15' show='3' length='60' number_pos='18' centre_name='0'>D5</PIN>
+<PIN pos='-44,-37' which='0' elec='1' direction='3' part='0' number='16' show='3' length='60' number_pos='18' centre_name='0'>D6</PIN>
+<PIN pos='-44,-34' which='0' elec='1' direction='3' part='0' number='17' show='3' length='60' number_pos='18' centre_name='0'>D7</PIN>
+<PIN pos='0,-55' which='0' elec='0' direction='2' part='0' number='8' show='3' length='60' number_pos='18' centre_name='0'>A0</PIN>
+<PIN pos='0,-52' which='0' elec='0' direction='2' part='0' number='7' show='3' length='60' number_pos='18' centre_name='0'>A1</PIN>
+<PIN pos='0,-49' which='0' elec='0' direction='2' part='0' number='6' show='3' length='60' number_pos='18' centre_name='0'>A2</PIN>
+<PIN pos='0,-46' which='0' elec='0' direction='2' part='0' number='5' show='3' length='60' number_pos='18' centre_name='0'>A3</PIN>
+<PIN pos='0,-43' which='0' elec='0' direction='2' part='0' number='4' show='3' length='60' number_pos='18' centre_name='0'>A4</PIN>
+<PIN pos='0,-40' which='0' elec='0' direction='2' part='0' number='3' show='3' length='60' number_pos='18' centre_name='0'>A5</PIN>
+<PIN pos='0,-37' which='0' elec='0' direction='2' part='0' number='2' show='3' length='60' number_pos='18' centre_name='0'>A6</PIN>
+<PIN pos='0,-34' which='0' elec='0' direction='2' part='0' number='1' show='3' length='60' number_pos='18' centre_name='0'>A7</PIN>
+<PIN pos='0,-31' which='0' elec='0' direction='2' part='0' number='23' show='3' length='60' number_pos='18' centre_name='0'>A8</PIN>
+<PIN pos='0,-28' which='0' elec='0' direction='2' part='0' number='22' show='3' length='60' number_pos='18' centre_name='0'>A9</PIN>
+<PIN pos='0,-25' which='0' elec='0' direction='2' part='0' number='19' show='3' length='60' number_pos='18' centre_name='0'>A10</PIN>
+<PIN pos='-24,0' which='4' elec='0' direction='0' part='0' number='12' show='3' length='60' number_pos='18' centre_name='1'>GND</PIN>
+<PIN pos='-26,-70' which='4' elec='0' direction='1' part='0' number='24' show='3' length='60' number_pos='18' centre_name='1'>VCC</PIN>
+<PIN pos='-44,-27' which='0' elec='0' direction='3' part='0' number='20' show='3' length='60' number_pos='18' centre_name='0'>*OE/VPP</PIN>
+<PIN pos='-44,-23' which='0' elec='0' direction='3' part='0' number='18' show='3' length='60' number_pos='18' centre_name='0'>*CE</PIN>
+<PIN pos='0,-22' which='0' elec='0' direction='2' part='0' number='21' show='3' length='60' number_pos='18' centre_name='0'>A11</PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='4'><NAME type='0'></NAME>
+<REF type='0'>X?</REF>
+<DESCRIPTION>Crystal</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><POLYGON pos='-2,-2' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-2,-8' style='0' fill='0'><POINT pos='0,2' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-2' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-5' style='0' fill='0'><POINT pos='0,2' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-3' style='0' fill='0'><POINT pos='4,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='0,-5' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-5' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-6' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<PIN pos='-2,0' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='-2,-8' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='5'><NAME type='0'></NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION>Capacitor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><POLYGON pos='-2,-3' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='-2,-7' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-3.6,-3' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3.2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-3.6,-4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3.2,0' arc='0'/>
+</POLYGON>
+<PIN pos='-2,-7' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='-2,0' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='6'><NAME type='0'></NAME>
+<REF type='0'>G?</REF>
+<DESCRIPTION>Chassis ground</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><PIN pos='-2,-8' which='0' elec='0' direction='1' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='-4,-2' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-1,-2' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-2' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-3,-2' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='7'><NAME type='0'></NAME>
+<REF type='0'>Q?</REF>
+<DESCRIPTION>N-Channel Insulated Gate FET</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><JUNCTION pos='-4,-10'/>
+<PIN pos='0,-10' which='0' elec='4' direction='2' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'>SOURCE</PIN>
+<PIN pos='-20,-10' which='0' elec='4' direction='3' part='0' number='3' show='0' length='30' number_pos='0' centre_name='0'>DRAIN</PIN>
+<PIN pos='-6,0' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'>GATE</PIN>
+<POLYGON pos='-4,-12' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-11,-8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-8' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-10' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-6,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-14,-6' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-14,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-15,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-6,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-14,-10' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='-6,-10' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-12' style='0' fill='0'><POINT pos='0,2' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-12' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='6,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-16,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='8'><NAME type='0'></NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Resistor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='0,0'/>
+<TinyCAD><RECTANGLE a='-1.4,-2' b='-1.4,-2' style='0' fill='0'/>
+<RECTANGLE a='-1.4,-2' b='-0.4,-6' style='0' fill='0'/>
+<PIN pos='-1,-8' which='0' elec='0' direction='1' part='0' number='1' show='0' length='10' number_pos='0' centre_name='0'></PIN>
+<PIN pos='-1,0' which='0' elec='0' direction='0' part='0' number='2' show='0' length='10' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<OPTIONS><GRID>0</GRID>
+<UNITS>0</UNITS>
+<COLOR_WIRE>FF0000</COLOR_WIRE>
+<COLOR_BUS>0000FF</COLOR_BUS>
+<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+<COLOR_LABEL>208000</COLOR_LABEL>
+<COLOR_POWER>000000</COLOR_POWER>
+<COLOR_PIN>4040C0</COLOR_PIN>
+<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+<COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+</OPTIONS>
+<SYMBOL id='1' pos='93,107' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U1' show='1' pos='-32,-81.6'/>
+<FIELD type='0' description='Name' value='6802' show='1' pos='-33,-84'/>
+</SYMBOL>
+<BUS a='109,16' b='109,75'/>
+<BUSSLASH pos='109,28' direction='1'/>
+<BUSSLASH pos='109,34' direction='1'/>
+<BUSSLASH pos='109,40' direction='1'/>
+<BUSSLASH pos='109,46' direction='1'/>
+<BUSSLASH pos='109,52' direction='1'/>
+<BUSSLASH pos='109,58' direction='1'/>
+<BUSSLASH pos='109,64' direction='1'/>
+<BUSSLASH pos='109,70' direction='1'/>
+<BUSSLASH pos='109,31' direction='1'/>
+<BUSSLASH pos='109,37' direction='1'/>
+<BUSSLASH pos='109,43' direction='1'/>
+<BUSSLASH pos='109,49' direction='1'/>
+<BUSSLASH pos='109,55' direction='1'/>
+<BUSSLASH pos='109,61' direction='1'/>
+<BUSSLASH pos='109,67' direction='1'/>
+<WIRE a='93,24' b='105,24'/>
+<WIRE a='93,27' b='105,27'/>
+<WIRE a='93,30' b='105,30'/>
+<WIRE a='93,33' b='105,33'/>
+<WIRE a='93,36' b='105,36'/>
+<WIRE a='93,39' b='105,39'/>
+<WIRE a='93,42' b='105,42'/>
+<WIRE a='93,45' b='105,45'/>
+<WIRE a='93,48' b='105,48'/>
+<WIRE a='93,51' b='105,51'/>
+<WIRE a='93,54' b='105,54'/>
+<WIRE a='93,57' b='105,57'/>
+<WIRE a='93,60' b='105,60'/>
+<WIRE a='93,63' b='105,63'/>
+<WIRE a='93,66' b='105,66'/>
+<BUSSLASH pos='109,73' direction='1'/>
+<WIRE a='93,69' b='105,69'/>
+<LABEL pos='101,24' direction='3' font='4' color='208000' style='0'>A0</LABEL>
+<LABEL pos='101,27' direction='3' font='4' color='208000' style='0'>A1</LABEL>
+<LABEL pos='101,30' direction='3' font='4' color='208000' style='0'>A2</LABEL>
+<LABEL pos='101,33' direction='3' font='4' color='208000' style='0'>A3</LABEL>
+<LABEL pos='101,36' direction='3' font='4' color='208000' style='0'>A4</LABEL>
+<LABEL pos='101,39' direction='3' font='4' color='208000' style='0'>A5</LABEL>
+<LABEL pos='101,42' direction='3' font='4' color='208000' style='0'>A6</LABEL>
+<LABEL pos='101,45' direction='3' font='4' color='208000' style='0'>A7</LABEL>
+<LABEL pos='101,48' direction='3' font='4' color='208000' style='0'>A8</LABEL>
+<LABEL pos='101,51' direction='3' font='4' color='208000' style='0'>A9</LABEL>
+<LABEL pos='100,54' direction='3' font='4' color='208000' style='0'>A10</LABEL>
+<LABEL pos='100,57' direction='3' font='4' color='208000' style='0'>A11</LABEL>
+<LABEL pos='100,60' direction='3' font='4' color='208000' style='0'>A12</LABEL>
+<LABEL pos='100,63' direction='3' font='4' color='208000' style='0'>A13</LABEL>
+<LABEL pos='100,66' direction='3' font='4' color='208000' style='0'>A14</LABEL>
+<LABEL pos='100,69' direction='3' font='4' color='208000' style='0'>A15</LABEL>
+<SYMBOL id='2' pos='205,105' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U2' show='1' pos='-36,-73.6'/>
+<FIELD type='0' description='Name' value='MC6821' show='1' pos='-39,-76'/>
+<FIELD type='1' description='Package' value='DIL40' show='0' pos='1,-83.2'/>
+</SYMBOL>
+<SYMBOL id='3' pos='152,197' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U3' show='1' pos='-24,-51.6'/>
+<FIELD type='0' description='Name' value='2732A' show='1' pos='-26,-54'/>
+<FIELD type='1' description='Package' value='DIL24' show='0' pos='1,-63.2'/>
+</SYMBOL>
+<BUS a='109,75' b='109,110.8'/>
+<BUS a='17,39' b='17,111'/>
+<BUS a='17,111' b='170,111'/>
+<SYMBOL id='4' pos='23,32' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='X1' show='1' pos='1,-3.6'/>
+<FIELD type='0' description='Name' value='4 Mhz' show='1' pos='1,-6'/>
+</SYMBOL>
+<SYMBOL id='5' pos='21,26' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C1' show='1' pos='-7,2'/>
+<FIELD type='0' description='Name' value='22 pF' show='1' pos='-7,-4'/>
+</SYMBOL>
+<SYMBOL id='5' pos='21,34' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C2' show='1' pos='-7,2'/>
+<FIELD type='0' description='Name' value='22 pF' show='1' pos='-7,-4'/>
+</SYMBOL>
+<JUNCTION pos='21,24'/>
+<WIRE a='21,24' b='35,24'/>
+<WIRE a='35,24' b='35,26'/>
+<JUNCTION pos='21,32'/>
+<WIRE a='21,32' b='35,32'/>
+<WIRE a='35,32' b='35,30'/>
+<SYMBOL id='6' pos='14,26' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='G1' show='1' pos='-8,2'/>
+<FIELD type='0' description='Name' value='GND' show='1' pos='-8,-5'/>
+</SYMBOL>
+<SYMBOL id='6' pos='14,34' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='G2' show='1' pos='-8,2'/>
+<FIELD type='0' description='Name' value='GND' show='1' pos='-8,-5'/>
+</SYMBOL>
+<BUSSLASH pos='21,45' direction='0'/>
+<BUSSLASH pos='21,49' direction='0'/>
+<BUSSLASH pos='21,53' direction='0'/>
+<WIRE a='35,57' b='31,57'/>
+<WIRE a='31,57' b='31,61'/>
+<WIRE a='31,61' b='35,61'/>
+<JUNCTION pos='31,61'/>
+<WIRE a='31,61' b='31,73'/>
+<WIRE a='31,73' b='35,73'/>
+<JUNCTION pos='31,73'/>
+<WIRE a='31,73' b='31,77'/>
+<WIRE a='31,77' b='35,77'/>
+<WIRE a='21,45' b='35,45'/>
+<WIRE a='21,49' b='35,49'/>
+<WIRE a='21,53' b='35,53'/>
+<BUSSLASH pos='21,65' direction='0'/>
+<BUSSLASH pos='21,69' direction='0'/>
+<WIRE a='21,65' b='35,65'/>
+<WIRE a='21,69' b='35,69'/>
+<LABEL pos='31,61' direction='0' font='3' color='208000' style='0'>VCC</LABEL>
+<BUSSLASH pos='109,78' direction='1'/>
+<BUSSLASH pos='109,81' direction='1'/>
+<BUSSLASH pos='109,84' direction='1'/>
+<BUSSLASH pos='109,87' direction='1'/>
+<BUSSLASH pos='109,90' direction='1'/>
+<BUSSLASH pos='109,93' direction='1'/>
+<BUSSLASH pos='109,96' direction='1'/>
+<BUSSLASH pos='109,99' direction='1'/>
+<WIRE a='92,74' b='105,74'/>
+<WIRE a='105,77' b='92,77'/>
+<WIRE a='92,80' b='105,80'/>
+<WIRE a='105,83' b='92,83'/>
+<WIRE a='92,89' b='105,89'/>
+<WIRE a='92,92' b='105,92'/>
+<WIRE a='92,95' b='105,95'/>
+<WIRE a='92,86' b='105,86'/>
+<LABEL pos='100,74' direction='3' font='3' color='208000' style='0'>D0</LABEL>
+<LABEL pos='100,77' direction='3' font='3' color='208000' style='0'>D1</LABEL>
+<LABEL pos='100,80' direction='3' font='3' color='208000' style='0'>D2</LABEL>
+<LABEL pos='100,83' direction='3' font='3' color='208000' style='0'>D3</LABEL>
+<LABEL pos='100,86' direction='3' font='3' color='208000' style='0'>D4</LABEL>
+<LABEL pos='100,89' direction='3' font='3' color='208000' style='0'>D5</LABEL>
+<LABEL pos='100,92' direction='3' font='3' color='208000' style='0'>D6</LABEL>
+<LABEL pos='100,95' direction='3' font='3' color='208000' style='0'>D7</LABEL>
+<LABEL pos='24,45' direction='3' font='3' color='208000' style='0'>R/*W</LABEL>
+<LABEL pos='24,49' direction='3' font='3' color='208000' style='0'>E</LABEL>
+<LABEL pos='24,53' direction='3' font='3' color='208000' style='0'>VMA</LABEL>
+<LABEL pos='24,65' direction='3' font='3' color='208000' style='0'>*RESET</LABEL>
+<LABEL pos='24,69' direction='3' font='3' color='208000' style='0'>*IRQ</LABEL>
+<BUSSLASH pos='113,70' direction='0'/>
+<BUSSLASH pos='113,30' direction='0'/>
+<WIRE a='135,30' b='113,30'/>
+<BUSSLASH pos='113,38' direction='0'/>
+<BUSSLASH pos='113,42' direction='0'/>
+<BUSSLASH pos='113,46' direction='0'/>
+<BUSSLASH pos='113,74' direction='0'/>
+<BUSSLASH pos='113,50' direction='0'/>
+<BUSSLASH pos='113,54' direction='0'/>
+<BUSSLASH pos='113,58' direction='0'/>
+<BUSSLASH pos='113,62' direction='0'/>
+<BUSSLASH pos='113,66' direction='0'/>
+<WIRE a='113,38' b='135,38'/>
+<WIRE a='135,42' b='113,42'/>
+<LABEL pos='116,42' direction='3' font='3' color='208000' style='0'>A0</LABEL>
+<LABEL pos='116,38' direction='3' font='3' color='208000' style='0'>A1</LABEL>
+<LABEL pos='117,30' direction='3' font='3' color='208000' style='0'>*IRQ</LABEL>
+<WIRE a='113,46' b='135,46'/>
+<LABEL pos='116,46' direction='3' font='3' color='208000' style='0'>*RESET</LABEL>
+<WIRE a='113,50' b='135,50'/>
+<WIRE a='113,54' b='135,54'/>
+<WIRE a='113,58' b='135,58'/>
+<WIRE a='113,62' b='135,62'/>
+<WIRE a='113,66' b='135,66'/>
+<WIRE a='113,70' b='135,70'/>
+<WIRE a='113,74' b='135,74'/>
+<JUNCTION pos='135,30'/>
+<WIRE a='135,30' b='135,34'/>
+<BUSSLASH pos='113,78' direction='0'/>
+<BUSSLASH pos='113,82' direction='0'/>
+<BUSSLASH pos='113,86' direction='0'/>
+<BUSSLASH pos='113,90' direction='0'/>
+<BUSSLASH pos='113,94' direction='0'/>
+<WIRE a='113,78' b='135,78'/>
+<WIRE a='113,82' b='135,82'/>
+<WIRE a='113,86' b='135,86'/>
+<WIRE a='113,90' b='135,90'/>
+<WIRE a='113,94' b='135,94'/>
+<LABEL pos='116,50' direction='3' font='3' color='208000' style='0'>D0</LABEL>
+<LABEL pos='116,54' direction='3' font='3' color='208000' style='0'>D1</LABEL>
+<LABEL pos='116,58' direction='3' font='3' color='208000' style='0'>D2</LABEL>
+<LABEL pos='116,62' direction='3' font='3' color='208000' style='0'>D3</LABEL>
+<LABEL pos='116,66' direction='3' font='3' color='208000' style='0'>D4</LABEL>
+<LABEL pos='116,70' direction='3' font='3' color='208000' style='0'>D5</LABEL>
+<LABEL pos='116,74' direction='3' font='3' color='208000' style='0'>D6</LABEL>
+<LABEL pos='116,78' direction='3' font='3' color='208000' style='0'>D7</LABEL>
+<LABEL pos='116,82' direction='3' font='3' color='208000' style='0'>E</LABEL>
+<LABEL pos='116,94' direction='3' font='3' color='208000' style='0'>A7</LABEL>
+<LABEL pos='116,90' direction='3' font='3' color='208000' style='0'>VMA</LABEL>
+<LABEL pos='116,86' direction='3' font='3' color='208000' style='0'>A15</LABEL>
+<BUS a='88,111' b='88,176'/>
+<BUS a='170,111' b='170,176'/>
+<BUSSLASH pos='92,142' direction='1'/>
+<BUSSLASH pos='92,145' direction='1'/>
+<BUSSLASH pos='92,148' direction='1'/>
+<BUSSLASH pos='92,151' direction='1'/>
+<BUSSLASH pos='92,154' direction='1'/>
+<BUSSLASH pos='92,157' direction='1'/>
+<BUSSLASH pos='92,160' direction='1'/>
+<BUSSLASH pos='92,163' direction='1'/>
+<WIRE a='92,142' b='108,142'/>
+<WIRE a='92,145' b='108,145'/>
+<WIRE a='92,148' b='108,148'/>
+<WIRE a='92,151' b='108,151'/>
+<WIRE a='92,154' b='108,154'/>
+<WIRE a='92,157' b='108,157'/>
+<WIRE a='92,160' b='108,160'/>
+<WIRE a='92,163' b='108,163'/>
+<LABEL pos='98,142' direction='3' font='3' color='208000' style='0'>D0</LABEL>
+<LABEL pos='98,145' direction='3' font='3' color='208000' style='0'>D1</LABEL>
+<LABEL pos='98,148' direction='3' font='3' color='208000' style='0'>D2</LABEL>
+<LABEL pos='98,151' direction='3' font='3' color='208000' style='0'>D3</LABEL>
+<LABEL pos='98,154' direction='3' font='3' color='208000' style='0'>D4</LABEL>
+<LABEL pos='98,157' direction='3' font='3' color='208000' style='0'>D5</LABEL>
+<LABEL pos='98,160' direction='3' font='3' color='208000' style='0'>D6</LABEL>
+<LABEL pos='98,163' direction='3' font='3' color='208000' style='0'>D7</LABEL>
+<BUSSLASH pos='92,174' direction='1'/>
+<LABEL pos='96,174' direction='3' font='3' color='208000' style='0'>A15</LABEL>
+<BUSSLASH pos='170,138' direction='0'/>
+<BUSSLASH pos='170,141' direction='0'/>
+<BUSSLASH pos='170,144' direction='0'/>
+<BUSSLASH pos='170,147' direction='0'/>
+<BUSSLASH pos='170,150' direction='0'/>
+<BUSSLASH pos='170,153' direction='0'/>
+<BUSSLASH pos='170,156' direction='0'/>
+<BUSSLASH pos='170,159' direction='0'/>
+<BUSSLASH pos='170,162' direction='0'/>
+<BUSSLASH pos='170,165' direction='0'/>
+<BUSSLASH pos='170,168' direction='0'/>
+<BUSSLASH pos='170,171' direction='0'/>
+<WIRE a='152,142' b='166,142'/>
+<WIRE a='152,145' b='166,145'/>
+<WIRE a='152,148' b='166,148'/>
+<WIRE a='152,151' b='166,151'/>
+<WIRE a='152,154' b='166,154'/>
+<WIRE a='166,157' b='152,157'/>
+<WIRE a='152,160' b='166,160'/>
+<WIRE a='152,163' b='166,163'/>
+<WIRE a='152,166' b='166,166'/>
+<WIRE a='152,169' b='166,169'/>
+<WIRE a='166,172' b='152,172'/>
+<WIRE a='152,175' b='166,175'/>
+<LABEL pos='155,142' direction='3' font='3' color='208000' style='0'>A0</LABEL>
+<LABEL pos='155,145' direction='3' font='3' color='208000' style='0'>A1</LABEL>
+<LABEL pos='155,148' direction='3' font='3' color='208000' style='0'>A2</LABEL>
+<LABEL pos='155,151' direction='3' font='3' color='208000' style='0'>A3</LABEL>
+<LABEL pos='155,154' direction='3' font='3' color='208000' style='0'>A4</LABEL>
+<LABEL pos='155,157' direction='3' font='3' color='208000' style='0'>A5</LABEL>
+<LABEL pos='155,160' direction='3' font='3' color='208000' style='0'>A6</LABEL>
+<LABEL pos='155,163' direction='3' font='3' color='208000' style='0'>A7</LABEL>
+<LABEL pos='155,166' direction='3' font='3' color='208000' style='0'>A8</LABEL>
+<LABEL pos='155,169' direction='3' font='3' color='208000' style='0'>A9</LABEL>
+<LABEL pos='155,172' direction='3' font='3' color='208000' style='0'>A10</LABEL>
+<LABEL pos='155,175' direction='3' font='3' color='208000' style='0'>A11</LABEL>
+<WIRE a='108,170' b='108,174'/>
+<SYMBOL id='7' pos='110,194' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='Q1' show='1' pos='-12,2'/>
+<FIELD type='0' description='Name' value='BS170' show='1' pos='0,0'/>
+</SYMBOL>
+<JUNCTION pos='108,174'/>
+<WIRE a='74,186' b='74,173'/>
+<SYMBOL id='6' pos='110,202' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='G3' show='1' pos='1,-3.6'/>
+<FIELD type='0' description='Name' value='GND' show='1' pos='1,-6'/>
+</SYMBOL>
+<SYMBOL id='8' pos='75,194' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='R1' show='0' pos='1,-3.6'/>
+<FIELD type='1' description='Name' value='3K3' show='1' pos='1,-6'/>
+</SYMBOL>
+<LABEL pos='74,175' direction='3' font='3' color='208000' style='0'>VCC</LABEL>
+<WIRE a='74,194' b='98,194'/>
+<WIRE a='92,174' b='98,174'/>
+<WIRE a='98,188' b='98,194'/>
+<JUNCTION pos='98,188'/>
+<WIRE a='98,174' b='98,188'/>
+</TinyCAD>
+</TinyCADSheets>

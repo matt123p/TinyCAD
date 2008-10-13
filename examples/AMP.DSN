@@ -1,0 +1,331 @@
+
+<!--This file was written by TinyCAD version 1.95.20
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<TinyCAD><DETAILS><Size width='1405' height='985'/>
+<TITLE>Transistor Amplifier</TITLE>
+<AUTHOR>(c) 1995 Matt Pyne</AUTHOR>
+<REVISION>1.0</REVISION>
+<DOCNUMBER></DOCNUMBER>
+<ORGANISATION></ORGANISATION>
+<SHEETS>1 of 1</SHEETS>
+<SHOWS>1</SHOWS>
+<DATE>17 April 1995</DATE>
+<GRID spacing='50' snap='1'/>
+</DETAILS>
+<FONT id='1'><HEIGHT>-10</HEIGHT>
+<WIDTH>0</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='0'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<SYMBOLDEF id='1'><NAME type='0'>CAP1</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION>Electrolitic Capacitor</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><POLYGON pos='-4,-10' style='0' fill='0'><POINT pos='4,0' arc='0'/>
+<POINT pos='0,2' arc='2'/>
+</POLYGON>
+<POLYGON pos='-8,-10' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='4,2' arc='2'/>
+</POLYGON>
+<POLYGON pos='-3,-3' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-2,-4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-8,-6' style='0' fill='0'><POINT pos='8,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<PIN pos='-4,0' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0'></PIN>
+<PIN pos='-4,-14' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='2'><NAME type='0'>PHONO</NAME>
+<REF type='0'>J?</REF>
+<DESCRIPTION>Phono connector</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><PIN pos='-4,0' which='5' elec='4' direction='1' part='0' number='2' show='3' length='30' number_pos='0'>LINE</PIN>
+<PIN pos='0,-4' which='5' elec='4' direction='3' part='0' number='1' show='3' length='30' number_pos='0'>SHIELD</PIN>
+<POLYGON pos='-2,-4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-3' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+</POLYGON>
+<ELLIPSE a='-6,-6' b='-2,-2' style='0' fill='0'/>
+<ELLIPSE a='-5,-5' b='-3,-3' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='3'><NAME type='0'>NPN</NAME>
+<REF type='0'>Q?</REF>
+<DESCRIPTION>Bipolar Transistor</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><PIN pos='0,-8' which='5' elec='4' direction='3' part='0' number='2' show='3' length='30' number_pos='0'>E</PIN>
+<PIN pos='-8,-8' which='5' elec='4' direction='2' part='0' number='3' show='3' length='30' number_pos='0'>C</PIN>
+<PIN pos='-4,0' which='5' elec='4' direction='1' part='0' number='1' show='3' length='30' number_pos='0'>B</PIN>
+<POLYGON pos='-1,-8' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,4' arc='0'/>
+</POLYGON>
+<POLYGON pos='0,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-8,-4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-8,-8' style='0' fill='0'><POINT pos='3,4' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-3,-8' style='0' fill='0'><POINT pos='0,4' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='0,-8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='4'><NAME type='0'>RESISTOR</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Resistor (USA Style)</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><POLYGON pos='-2,-14' style='0' fill='0'><POINT pos='0,0.6' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-2,-6.4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,0.4' arc='0'/>
+</POLYGON>
+<POLYGON pos='-2,-7.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-8.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-9.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-10.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-11.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-12.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-4,-13.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<PIN pos='-2,0' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0'></PIN>
+<PIN pos='-2,-20' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='5'><NAME type='0'>POTMTR</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Variable Resistor (USA Style)</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><POLYGON pos='-8,-10' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+<POLYGON pos='-8,-11' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-8,-10' style='0' fill='0'><POINT pos='2,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-14' style='0' fill='0'><POINT pos='0,0.6' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-6.4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,0.4' arc='0'/>
+</POLYGON>
+<POLYGON pos='-10,-7.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-8.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-9.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-10.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-11.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='4,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-12.4' style='0' fill='0'><POINT pos='4,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-12,-13.4' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<PIN pos='0,-10' which='0' elec='4' direction='2' part='0' number='3' show='0' length='30' number_pos='0'>adj</PIN>
+<PIN pos='-10,0' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0'></PIN>
+<PIN pos='-10,-20' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='6'><NAME type='0'>SPEAKER</NAME>
+<REF type='0'>T?</REF>
+<DESCRIPTION>Loud Speaker</DESCRIPTION>
+<PPP>1</PPP>
+<TinyCAD><POLYGON pos='-6,-12' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-7,-11' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-11' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,4' arc='0'/>
+</POLYGON>
+<POLYGON pos='-7,-7' style='0' fill='0'><POINT pos='2,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-7,-11' style='0' fill='0'><POINT pos='0,4' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-11' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-14' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='5,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='0,-14' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,8' arc='0'/>
+</POLYGON>
+<POLYGON pos='0,-6' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='-5,-7' style='0' fill='0'><POINT pos='5,3' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='-6,-7' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+</POLYGON>
+<PIN pos='-6,-18' which='0' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0'></PIN>
+<PIN pos='-6,0' which='0' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<OPTIONS><FONT>0</FONT>
+<STYLE>0</STYLE>
+<GRID>0</GRID>
+<UNITS>0</UNITS>
+<SCROLLBAR>20</SCROLLBAR>
+<COLOR_WIRE>FF0000</COLOR_WIRE>
+<COLOR_BUS>0000FF</COLOR_BUS>
+<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+<COLOR_LABEL>208000</COLOR_LABEL>
+<COLOR_POWER>000000</COLOR_POWER>
+<COLOR_PIN>4040C0</COLOR_PIN>
+</OPTIONS>
+<SYMBOL id='4' pos='90,76' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R5' show='1' pos='1,-13.6'/>
+<FIELD type='0' description='Name' value='220R' show='1' pos='1,-16'/>
+<FIELD type='1' description='Other' value='' show='0' pos='-1.6843e+008,-1.6843e+008'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='1,-11.2'/>
+</SYMBOL>
+<JUNCTION pos='32,76'/>
+<JUNCTION pos='46,76'/>
+<JUNCTION pos='66,20'/>
+<JUNCTION pos='88,20'/>
+<JUNCTION pos='116,76'/>
+<JUNCTION pos='66,76'/>
+<JUNCTION pos='88,42'/>
+<JUNCTION pos='66,44'/>
+<JUNCTION pos='66,48'/>
+<WIRE a='144,48' b='144,52'/>
+<WIRE a='144,70' b='144,76'/>
+<WIRE a='116,46' b='116,56'/>
+<WIRE a='138,48' b='144,48'/>
+<WIRE a='124,48' b='116,48'/>
+<WIRE a='66,20' b='116,20'/>
+<WIRE a='42,44' b='46,44'/>
+<WIRE a='20,34' b='32,34'/>
+<WIRE a='16,38' b='16,76'/>
+<WIRE a='32,54' b='32,76'/>
+<WIRE a='32,76' b='36,76'/>
+<WIRE a='16,76' b='32,76'/>
+<WIRE a='138,76' b='144,76'/>
+<WIRE a='44,76' b='36,76'/>
+<WIRE a='130,76' b='138,76'/>
+<WIRE a='130,76' b='44,76'/>
+<WIRE a='88,42' b='108,42'/>
+<WIRE a='60,44' b='66,44'/>
+<WIRE a='88,44' b='88,40'/>
+<WIRE a='88,52' b='88,56'/>
+<WIRE a='80,48' b='66,48'/>
+<WIRE a='66,40' b='66,56'/>
+<WIRE a='116,20' b='116,38'/>
+<SYMBOL id='6' pos='150,70' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='T1' show='1' pos='1,-12'/>
+<FIELD type='0' description='Name' value='8 Ohms' show='1' pos='1,-15.2'/>
+<FIELD type='1' description='Other' value='' show='0' pos='0,0.2'/>
+<FIELD type='3' description='Package' value='J3' show='0' pos='0,2.6'/>
+</SYMBOL>
+<SYMBOL id='5' pos='42,54' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R6' show='1' pos='-7,-13.2'/>
+<FIELD type='0' description='Name' value='10K' show='1' pos='-7,-18'/>
+<FIELD type='1' description='Other' value='Log' show='1' pos='-7,-15.6'/>
+<FIELD type='3' description='Package' value='PAD3' show='0' pos='-7,-10.8'/>
+</SYMBOL>
+<SYMBOL id='4' pos='68,76' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R4' show='1' pos='1,-13.6'/>
+<FIELD type='0' description='Name' value='10K' show='1' pos='1,-16'/>
+<FIELD type='1' description='Other' value='' show='0' pos='-1.6843e+008,-1.6843e+008'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='1,-11.2'/>
+</SYMBOL>
+<SYMBOL id='4' pos='68,40' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R3' show='1' pos='1,-13.6'/>
+<FIELD type='0' description='Name' value='100K' show='1' pos='1,-16'/>
+<FIELD type='1' description='Other' value='' show='0' pos='-1.6843e+008,-1.6843e+008'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='1,-11.2'/>
+</SYMBOL>
+<SYMBOL id='4' pos='90,40' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R2' show='1' pos='1,-13.6'/>
+<FIELD type='0' description='Name' value='1K' show='1' pos='1,-16'/>
+<FIELD type='1' description='Other' value='' show='0' pos='-1.6843e+008,-1.6843e+008'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='1,-11.2'/>
+</SYMBOL>
+<SYMBOL id='4' pos='118,76' part='0' rotate='0' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R1' show='1' pos='1,-11.2'/>
+<FIELD type='0' description='Name' value='470R' show='1' pos='1,-16'/>
+<FIELD type='1' description='Other' value='0.5Watt' show='1' pos='1,-13.6'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='1,-8.8'/>
+</SYMBOL>
+<SYMBOL id='3' pos='116,46' part='0' rotate='3' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='Q2' show='1' pos='-12,0.8'/>
+<FIELD type='0' description='Name' value='BC140' show='1' pos='-12,-6'/>
+<FIELD type='1' description='Other' value='' show='0' pos='0,0.2'/>
+<FIELD type='3' description='Package' value='T03' show='0' pos='-12,3.2'/>
+</SYMBOL>
+<SYMBOL id='3' pos='88,52' part='0' rotate='3' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='Q1' show='1' pos='-14,0.8'/>
+<FIELD type='0' description='Name' value='ZTX650' show='1' pos='-14,-6'/>
+<FIELD type='1' description='Other' value='' show='0' pos='1.4,2.6'/>
+<FIELD type='3' description='Package' value='T03' show='1' pos='1.4,5'/>
+</SYMBOL>
+<SYMBOL id='2' pos='20,38' part='0' rotate='2' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='J1' show='1' pos='-2,0.8'/>
+<FIELD type='0' description='Name' value='PHONO' show='1' pos='-2,-6'/>
+<FIELD type='1' description='Other' value='' show='0' pos='0,0.2'/>
+<FIELD type='3' description='Package' value='PHONO' show='0' pos='-2,3.2'/>
+</SYMBOL>
+<SYMBOL id='1' pos='138,52' part='0' rotate='3' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C2' show='1' pos='-14,4.4'/>
+<FIELD type='0' description='Name' value='470uF' show='1' pos='-14,-8'/>
+<FIELD type='1' description='Other' value='16v' show='1' pos='-14,2'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='-14,6.8'/>
+</SYMBOL>
+<SYMBOL id='1' pos='60,48' part='0' rotate='3' can_scale='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C1' show='1' pos='-14,4.4'/>
+<FIELD type='0' description='Name' value='100uF' show='1' pos='-14,-8'/>
+<FIELD type='1' description='Other' value='16v' show='1' pos='-14,2'/>
+<FIELD type='3' description='Package' value='PAD2' show='0' pos='-14,6.8'/>
+</SYMBOL>
+<POWER pos='46,76' which='1' direction='1'>0v</POWER>
+<POWER pos='66,20' which='0' direction='0'>12v</POWER>
+<JUNCTION pos='116,48'/>
+<JUNCTION pos='88,76'/>
+</TinyCAD>
