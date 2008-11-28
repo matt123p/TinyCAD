@@ -3057,10 +3057,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">
