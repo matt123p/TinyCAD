@@ -117,7 +117,7 @@ void CEditDlgMethodEdit::ReadFields()
   // Load in the field parameters
   m_list.DeleteAllItems();
   int index = 0;
-  for (int i = 0; i < pMethod->m_fields.size(); i ++)
+  for (unsigned int i = 0; i < pMethod->m_fields.size(); i ++)
   {
 	  // Don't display the reference
 	  if (i == CDrawMethod::Ref || pMethod->m_fields[i].m_type == always_hidden)
@@ -324,7 +324,8 @@ void CEditDlgMethodEdit::OnClickList(NMHDR* pNMHDR, LRESULT* pResult)
 	r = rect;
 	int x = rect.right - 2;
 	r.left = x;
-	for (int column=2;column>=0;column--)
+	int column;
+	for (column=2;column>=0;column--)
 	{
 		int w = m_list.GetColumnWidth(column);
 		x -= w;
@@ -578,7 +579,7 @@ void CEditDlgMethodEdit::OnAdd()
 
 	// Work out where to place this symbol...
 	CDPoint p = pMethod->m_fields[0].m_position;
-	for (int i = 0; i < pMethod->m_fields.size(); i++)
+	for (unsigned int i = 0; i < pMethod->m_fields.size(); i++)
 	{
 		if (pMethod->m_fields[i].m_position.y > p.y)
 		{

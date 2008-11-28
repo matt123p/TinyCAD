@@ -183,15 +183,20 @@ void CTinyCadView::OnSpecialBom()
 
 	// Get the file in which to save the network
 	TCHAR szFile[256];
-	_tcscpy(szFile,GetDocument()->GetPathName());
+	_tcscpy_s(szFile,GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile,'.');
 	if (!ext)
 	{
-		_tcscpy(szFile,_T("output.txt"));
+		_tcscpy_s(szFile,_T("output.txt"));
 	}
 	else
 	{
-		_tcscpy(ext, _T(".txt"));
+		#ifdef USE_VS2003
+			_tcscpy(ext, _T(".txt"));
+		#else
+			size_t remaining_space = &szFile[255] - ext + 1;
+			_tcscpy_s(ext, remaining_space, _T(".txt"));
+		#endif
 	}
 
 	// Get the file name for the parts list
@@ -203,9 +208,11 @@ void CTinyCadView::OnSpecialBom()
 	  return;
 	}
 
+  FILE *theFile;
+  errno_t err;
 
-  FILE *theFile = _tfopen(dlg.m_Filename,_T("w"));
-  if (theFile == NULL) 
+  err = _tfopen_s(&theFile, dlg.m_Filename,_T("w"));
+  if ((theFile == NULL) || (err != 0)) 
   {
 	Message(IDS_CANNOTOPEN);
 	return;

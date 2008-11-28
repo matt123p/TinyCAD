@@ -97,12 +97,12 @@ void CDlgStartUpWindow::OnPaint()
   dc.SetTextAlign(TA_LEFT);
   dc.SetTextColor(RGB(24,24,165));
   dc.SetBkMode( TRANSPARENT );
-  dc.TextOut( 340,120, CTinyCadApp::GetVersion() );
+  dc.TextOut( 265,120, CTinyCadApp::GetVersion() );
 
   dc.SelectObject( old_font );
 }
 
-// When this is called destory the window
+// When this is called destroy the window
 void CDlgStartUpWindow::OnTimer(UINT t)
 {
   // Get rid of the timer

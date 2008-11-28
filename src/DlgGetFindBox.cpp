@@ -197,7 +197,8 @@ void CDlgGetFindBox::BuildSearchList()
 	}
 
 	// Try and find the selected symbol in the list
-	for (int i = 0; i < theListBox->GetCount(); i++)
+	int i;
+	for (i = 0; i < theListBox->GetCount(); i++)
 	{
 		if (theListBox->GetItemDataPtr( i ) == m_Symbol)
 		{
@@ -615,7 +616,8 @@ void CDlgGetFindBox::BuildLibraryList()
 
 	// Before reseting the content get a list of not-selected items...
 	std::set<CString>	selected_libs;
-	for (int i = 0;i < m_Libraries.GetCount(); ++i)
+	int i;
+	for (i = 0;i < m_Libraries.GetCount(); ++i)
 	{
 		if (m_Libraries.GetSel( i ))
 		{

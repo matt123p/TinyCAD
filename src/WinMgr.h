@@ -156,7 +156,7 @@ public:
 };
 
 // Registered WinMgr message
-extern const WM_WINMGR;
+extern const UINT WM_WINMGR;
 
 // Notification struct, passed as LPARAM
 struct NMWINMGR : public NMHDR {

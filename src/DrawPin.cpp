@@ -677,17 +677,22 @@ void CDrawPin::LButtonDown(CDPoint p, CDPoint)
   // Only increment if old value was a m_number
   if (hold!=0) {
 	hold += m_pDesign->GetPinDir();
-	if (hold>999 || hold<1)
+	if (hold>999 || hold<1) {
 		hold=1;
-	_itot(hold++,m_number.GetBuffer(17),10);
-    m_number.ReleaseBuffer();
+	}
+	#ifdef USE_VS2003
+		_itot(hold++,m_number.GetBuffer(17),10);
+	#else	/* use the VS2008 "safe" version */
+		_itot_s(hold++,m_number.GetBuffer(17),17,10);
+	#endif
+	m_number.ReleaseBuffer();
   }
 
   hold=m_str.FindOneOf(_T("0123456789-"));
   // Only increment if old value was a m_number
   if (hold!=-1) {
 	TCHAR NewNum[17];
-	_itot(_tstoi(m_str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
+	_itot_s(_tstoi(m_str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
 	m_str = m_str.Left(hold)+NewNum;
   }
 

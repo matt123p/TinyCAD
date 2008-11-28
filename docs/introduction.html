@@ -155,7 +155,93 @@ than a single page then it can be either scaled to fit on a single page or
 printed across many pages.</p>
 
 <p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-2.50.00</span></b></p>
+2.60.01</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 2.70.00. This is primarily an internal upgrade to use Visual Studio 2008 for 
+    the development environment.&nbsp; Here is a quick summary of what has changed in this release:</span></p>
+
+
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>New features<span class=GramE>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>
+    <o:p>1. Added the complements of the 3 existing Spice conditional macros so that 
+    both the normal and the &quot;not&quot; versions are available now.
+    <br />
+    2. Improved the readability of the XML outputs by adding tabs in front of tags 
+    to indicate nesting level and also added additional newlines in between tags 
+    when nesting in or out. No functional changes, only changes in visual appearance 
+    of the Spice netlist file if opened in a text editor.
+    <br />
+    3. Extensive changes to macros that opened files and macros that manipulated 
+    zero terminated strings to convert to the new secure versions (i.e., the ones 
+    that now have &quot;_s&quot; appended to them).
+    <br />
+    4. Updated dao360.dll to a newer build that includes the version information 
+    (necessary for newer version of NSIS installer).&nbsp; Note that this is only a 
+    newer build, not a new version as this was already the most recent version.<br />
+    5. Extensive changes to &quot;for (int i=xxx&quot; type statements to comply with newer 
+    ANSI C++ standards that changed the scope of index variables declared within for 
+    loops.
+    <br />
+    6. Changed one iterator style for loop that no longer complied with the newer 
+    ANSI C++ standards.
+    <br />
+    7. Modified code that received warnings due to mixing signed and unsigned 
+    variables by adding casts where necessary and type changes where appropriate so 
+    that no warnings are now produced. </o:p>
+    </span></p>
+
+
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'><o:p>&nbsp;</o:p></span></b></p>
+
+
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>Bug fixesspan class=GramE>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>
+    <o:p>1. Fixed crash that resulted when you attempt to backspace over the line 
+    thickness field when editing a schematic line.
+    <br />
+    22. Fixed inconsistent line endings problem with the Spice netlist file. </o:p>
+    </span></p>
+
+
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'>&nbsp;</p>
+        <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b>
+            <span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>Known Bugs<span class=GramE>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>
+            <o:p>1. All known bugs are tracked at the TinyCAD Bug Tracker on 
+            SourceForge.net.</o:p></span></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+2.50.00n></b></p>
 
 <p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
 version 2.60.00. Here is a quick summary that has changed in this release:</span></p>

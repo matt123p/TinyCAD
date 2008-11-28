@@ -159,7 +159,7 @@ void CDlgLibraryBox::OnAdd()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy(szFile, _T("*.mdb;*.idx\0"));
+  	_tcscpy_s(szFile, _T("*.mdb;*.idx\0"));
 
 	CFileDialog dlg( TRUE, _T("*.mdb"), szFile, OFN_HIDEREADONLY,
 		_T("Library file (*.mdb, *idx)|*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
@@ -167,7 +167,7 @@ void CDlgLibraryBox::OnAdd()
 
   	if( dlg.DoModal() == IDOK )
 	{
-		_tcscpy( szFile, dlg.GetPathName() );
+		_tcscpy_s( szFile, dlg.GetPathName() );
 
   		// Remove the extension
 		TCHAR *brk = _tcsrchr( szFile, '.');
@@ -273,7 +273,7 @@ void CDlgLibraryBox::OnNew()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy(szFile, _T("*.mdb\0"));
+  	_tcscpy_s(szFile, _T("*.mdb\0"));
 
 	CFileDialog dlg( FALSE, _T("*.mdb"), szFile, OFN_HIDEREADONLY,
 		_T("Library database (*.mdb)|*.mdb|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
@@ -281,7 +281,7 @@ void CDlgLibraryBox::OnNew()
     if( dlg.DoModal() == IDOK )
   	{
 	  	// Remove the extension
-		_tcscpy( szFile, dlg.GetPathName() );
+		_tcscpy_s( szFile, dlg.GetPathName() );
 		TCHAR *brk = _tcsrchr( szFile, '.');
 		if (brk)
 		{

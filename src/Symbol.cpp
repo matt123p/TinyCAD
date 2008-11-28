@@ -115,7 +115,7 @@ void CSymbolRecord::SaveXML(CXMLWriter &xml)
 
 	xml.addTag( _T("DESCRIPTION"), description );
 	
-	for (int i = 0; i < fields.size(); i++)
+	for (unsigned int i = 0; i < fields.size(); i++)
 	{
 		fields[i].SaveXML( xml, true );
 	}
@@ -191,7 +191,7 @@ void CLibraryStoreNameSet::Save(CStream &theArchive)
 	DWORD number_of_fields = r.fields.size() | (flags << 16);
 	theArchive << r.name << r.description << r.reference << ppp << number_of_fields; 
 
-	for (int i = 0; i < r.fields.size(); i++)
+	for (unsigned int i = 0; i < r.fields.size(); i++)
 	{
 	  r.fields[i].Save( theArchive );
 	}
@@ -263,7 +263,7 @@ void CLibraryStoreNameSet::Load(CStream &theArchive)
 	theArchive >> r.name >> r.description >> r.reference >> ppp >> number_of_fields; 
 	DWORD flags = number_of_fields >> 16;
 	number_of_fields = number_of_fields & 0xffff;
-	for (int i = 0; i < number_of_fields; i++)
+	for (unsigned int i = 0; i < number_of_fields; i++)
 	{
 	  CSymbolField sf;
 	  sf.Load( theArchive );
@@ -488,7 +488,7 @@ void CDesignFileSymbol::SaveXML(CXMLWriter &xml)
 	xml.addTag( _T("PPP"), ppp );
 	
 	// Save the fields associated with this symbol
-	for (int i = 0; i < fields.size(); i++)
+	for (unsigned int i = 0; i < fields.size(); i++)
 	{
 		fields[i].SaveXML( xml, false );
 	}
@@ -626,7 +626,7 @@ void CDesignFileSymbol::Load(CTinyCadDoc *pDesign, CStream &theArchive)
     DWORD flags = number_of_fields >> 16;
     number_of_fields = number_of_fields & 0xffff;
 
-	for (int i = 0; i < number_of_fields; i++)
+	for (unsigned int i = 0; i < number_of_fields; i++)
 	{
 	  CSymbolField sf;
 	  sf.Load( theArchive );

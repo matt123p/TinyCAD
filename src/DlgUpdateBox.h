@@ -37,7 +37,7 @@ class CDlgUpdateBox : public CDialog
 	int m_column;
 
 	recordCollection	m_records;
-	int m_current_record;
+	unsigned int m_current_record;
 
 	CLibraryStoreSymbol& getCurrentRecord();
 

@@ -86,7 +86,11 @@ void CRegistry::Set( CString sKey, DWORD nVal )
 // Place a WORD item
 void CRegistry::Set( CString sKey, WORD nVal )
 {
-	Set( nVal, sKey );
+	//djl - this next line appears to be a real bug!  There is no overload to support those arguments.
+	//I think that this method is probably just never used and Visual Studio 2003 didn't flag it since it 
+	//wasn't used, but I am going to implement it anyway just in case...
+	//Set( nVal, sKey );
+	SetValueEx( sKey, REG_DWORD, &nVal, sizeof( nVal ) );
 }
 //-------------------------------------------------------------------------
 // Place a double item

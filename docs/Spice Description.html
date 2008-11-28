@@ -662,16 +662,40 @@ syntax for the conditional statements is:</p>
 defined( <span class=SpellE>attributename</span> ), true string, false string )
 <o:p></o:p></p>
 
-<p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span> <span
-class=SpellE>not_empty</span>( <span class=SpellE>attributename</span> ), true
+<p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span> not_defined( <span class=SpellE>attributename</span> ), true string, false string )
+
+<o:p></o:p></p>
+
+
+
+<p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span>
+    <span
+
+class=SpellE>empty</span>( <span class=SpellE>attributename</span> ), true
 string, false string )<o:p></o:p></p>
 
+<p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span> <span
+
+class=SpellE>not_empty</span>( <span class=SpellE>attributename</span> ), true
+
+string, false string )<o:p></o:p></p>
+
+
+
 <p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span>
 connected( <span class=SpellE>pinnumber</span> ), true string, false string )<o:p></o:p></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+<p class=MsoNormal style='margin-left:36.0pt'><span class=GramE>?(</span> not_connected( <span class=SpellE>pinnumber</span> ), true string, false string )<o:p></o:p></p>
+
+
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>If you wish to place a question mark <span class=GramE>( “</span>?”
 ) into your template, then you can escape it by placing the a “\” in front of

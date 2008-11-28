@@ -74,6 +74,10 @@ class CXMLWriter
 	size_t		m_conversion_buf_size;
 	iconv_t		m_charset_conv;
 
+	// Make the XML output pretty
+	int			m_nesting_level;
+	bool		m_needs_newline;
+	bool		m_needs_tabs;
 
 public:
 	void closeTag();

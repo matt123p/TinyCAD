@@ -34,7 +34,7 @@
 
 
 
-// Construction/destruction
+/// Construction/destruction
 
 CNetList::CNetList()
 {
@@ -49,11 +49,13 @@ CNetList::CNetList()
 
 CNetList::~CNetList()
 {
-	// Delete the imports...
+	/// Delete the imports...
 	clear();	
 }
 
-// Clear out the imports etc..
+/**
+ * Clear out the imports etc..
+ */
 void CNetList::clear()
 {
 	fileCollection::iterator fi = m_imports.begin();
@@ -72,7 +74,11 @@ void CNetList::clear()
 }
 
 
-// Write the to error file
+/**
+ * Write the to error file.
+ * 
+ * @param str
+ */
 void CNetList::writeError( const _TCHAR *str, ... )
 {
 	va_list argptr;
@@ -81,14 +87,18 @@ void CNetList::writeError( const _TCHAR *str, ... )
 	++ m_errors;
 
 	va_start( argptr, str );
-	_vsntprintf( buffer, sizeof( buffer), str, argptr ); 
+	_vsntprintf_s( buffer, sizeof( buffer), str, argptr ); 
 	_ftprintf( m_err_file, _T("%s"), buffer );
 }
 
-// Open the error file 
+/**
+ * Open the error file.
+ * 
+ * @param filename
+ */
 void CNetList::createErrorFile( const TCHAR *filename )
 {
-	// Open the filename for the results
+	/// Open the filename for the results
 	m_err_filename = filename;
 	int brk = m_err_filename.ReverseFind('\\');
 	if (brk)
@@ -96,7 +106,10 @@ void CNetList::createErrorFile( const TCHAR *filename )
 		m_err_filename = m_err_filename.Left( brk );
 	}
 	m_err_filename += _T(".txt");
-	m_err_file = _tfopen(m_err_filename,_T("w"));
+
+	errno_t err;
+
+	err = _tfopen_s(&m_err_file, m_err_filename,_T("w"));
 	m_errors = 0;
 	if (!m_err_file)
 	{
@@ -105,22 +118,31 @@ void CNetList::createErrorFile( const TCHAR *filename )
 	}
 }
 
-// Open the error file in a text view
+/**
+ * Open the error file in a text view.
+ * 
+ * @param force
+ */
 void CNetList::reopenErrorFile( bool force )
 {
 	_ftprintf( m_err_file, _T("\n%d %s found\n"), m_errors,
 		m_errors == 1 ? _T("error") : _T("errors") );
 	fclose( m_err_file );
 
-	if (force || m_errors > 0)
+	if (force || (m_errors > 0))
 	{
 		CTinyCadApp::EditTextFile( m_err_filename );
 	}
 }
 
-
-
-// Get the next available netlist number...
+/** This method assigns netlist numbers which may or may not get concatenated later with
+ * an alpha prefix to form a net name.  
+ * 
+ * Many users have requested that net number be preserved and never get reused or reassigned once
+ * assigned initially.  This method would be involved in fixing this problem.
+ * 
+ * @return the next available net number
+ */
 int CNetList::GetNewNet()
 {
 	return m_CurrentNet++;
@@ -128,16 +150,21 @@ int CNetList::GetNewNet()
 
 
 
-// Add a node to the tree (if necessary), return value of the netlist
+/**
+ * Add a node to the tree (if necessary), return value of the netlist.
+ * 
+ * @param ins
+ * @return
+ */ 
 int CNetList::Add(CNetListNode &ins)
 {
-	// Is this node already in the tree?
+	/// Is this node already in the tree?
 	int found = m_nodes[ ins.m_a ];
   
-	// Has this node already been assigned a net-list index?
+	/// Has this node already been assigned a net-list index?
 	if (ins.m_NetList == -1) 
 	{
-		// No, so we can add without checking for prior connections...
+		/// No, so we can add without checking for prior connections...
 		if (found != 0) 
 		{
 			ins.m_NetList = found;
@@ -154,18 +181,18 @@ int CNetList::Add(CNetListNode &ins)
 	} 
 	else 
 	{
-		// If this node was already found, but with a different netlist
-		// number, then first we must join the two netlists together
+		/// If this node was already found, but with a different netlist
+		/// number, then first we must join the two netlists together
 		if (found != 0 && found != ins.m_NetList) 
 		{
-			// The two nets must be joined
+			/// The two nets must be joined
 			int NewList = ins.m_NetList;
 			int OldList = found;
 
-			// Get the old list
+			/// Get the old list
 			nodeVector::iterator OldNetList = m_nets[OldList].begin();
 
-			// Make the old list's net-list index the same as the new list
+			/// Make the old list's net-list index the same as the new list
 			while (OldNetList != m_nets[OldList].end()) 
 			{
 				(*OldNetList).m_NetList = NewList;
@@ -174,17 +201,17 @@ int CNetList::Add(CNetListNode &ins)
 			}
 
 
-			// Now concatenate the old lists onto the new list
+			/// Now concatenate the old lists onto the new list
 			std::copy(m_nets[OldList].begin(), m_nets[OldList].end(), std::back_inserter(m_nets[NewList]));
 
-			// Delete the old list
+			/// Delete the old list
 			netCollection::iterator it = m_nets.find(OldList);
 			m_nets.erase( it );
 
 			ins.m_NetList = NewList;
 		}
 
-		// Add this node to the netlist
+		/// Add this node to the netlist
 		m_nets[ins.m_NetList].push_back( ins );
 		m_nodes[ins.m_a] = ins.m_NetList;
 
@@ -192,17 +219,19 @@ int CNetList::Add(CNetListNode &ins)
 	}
 }
 
-// Tell all of the wires what network they are associated with
+/** 
+ * Tell all of the wires what network they are associated with.
+ */
 void CNetList::WriteWires()
 {
-	// Scan each netlist
+	/// Scan each netlist
     netCollection::iterator ni = m_nets.begin();
 	while (ni != m_nets.end()) 
 	{
 		int net = (*ni).first;
 		nodeVector &v = (*ni).second;
 
-		// Update the nodes in the netlist
+		/// Update the nodes in the netlist
 		nodeVector::iterator vi = v.begin();
 		while (vi != v.end())
 		{
@@ -220,44 +249,45 @@ void CNetList::WriteWires()
 }
 
 
-// Link together several netlists
-//
-// This is done by linking together:
-//  nets that have nodes that have the same filename and same label name
-//
-// 
+/**
+ * Link together several netlists.
+ * This is done by linking together:
+ * nets that have nodes that have the same filename and same label name
+ * 
+ * @param nets
+ */
 void CNetList::Link( linkCollection& nets )
 {
-	// Get rid of any old data
+	/// Get rid of any old data
 	m_CurrentNet = 1;
 	m_nodes.erase( m_nodes.begin(), m_nodes.end() );
 	m_nets.erase( m_nets.begin(), m_nets.end() );
 
-	// Here is a list of known nodes and their netlist number
+	/// Here is a list of known nodes and their netlist number
 	typedef std::map<CString,int> stringCollection;
 	stringCollection	labels;
 
-	// Here is a list of known linking information
+	/// Here is a list of known linking information
 	typedef std::map<int,int> intCollection;
 	typedef std::vector< intCollection > linkMap;
 	linkMap	map;
 
-	// Here is a map of netlists that are linked together
+	/// Here is a map of netlists that are linked together
 	intCollection	linked_netlists;
 
-	// The linkmap will contain for each netlist a map
-	// of old net number to new net number...
+	/// The linkmap will contain for each netlist a map
+	/// of old net number to new net number...
 	map.resize( nets.size() );
 
-	// Now scan the nodes to generate the superset of
-	// labels and their linking information
+	/// Now scan the nodes to generate the superset of
+	/// labels and their linking information
 	int index = 0;
 	linkCollection::iterator i = nets.begin();
 	while ( i != nets.end() )
 	{
 		CNetList &n = *i;
 
-		// Scan each netlist
+		/// Scan each netlist
 		netCollection::iterator ni = n.m_nets.begin();
 		while (ni != n.m_nets.end())
 		{
@@ -265,7 +295,7 @@ void CNetList::Link( linkCollection& nets )
 			int old_netlist = (*ni).first;
 			int new_netlist = 0;
 
-			// Scan each node
+			/// Scan each node
 			nodeVector::iterator vi = v.begin();
 			while (vi != v.end())
 			{
@@ -273,10 +303,10 @@ void CNetList::Link( linkCollection& nets )
 
 				if (!node.getLabel().IsEmpty())
 				{
-					// We only link at label level...
+					/// We only link at label level...
 					CString label_name = node.getLabel();
 
-					// Do we already have an entry for this label?
+					/// Do we already have an entry for this label?
 					stringCollection::iterator s = labels.find( label_name );
 					if (s != labels.end())
 					{
@@ -287,7 +317,7 @@ void CNetList::Link( linkCollection& nets )
 							q = linked_netlists[ q ];
 						}
 
-						// Have we already assigned a netlist to this node?
+						/// Have we already assigned a netlist to this node?
 						if (new_netlist != 0)
 						{
 							int z = new_netlist;
@@ -300,13 +330,13 @@ void CNetList::Link( linkCollection& nets )
 								}
 								else
 								{
-									// No need to link a list to itself!
+									/// No need to link a list to itself!
 									linked_netlists.erase( q );
 								}
 								z = hold;
 							}
 
-							// We will have to link these two nodes together...
+							/// We will have to link these two nodes together...
 							if (new_netlist != q)
 							{
 								linked_netlists[ new_netlist ] = q;
@@ -314,13 +344,13 @@ void CNetList::Link( linkCollection& nets )
 						}
 						else
 						{
-							// Yes... so this node must become that netlist
+							/// Yes... so this node must become that netlist
 							new_netlist = q;
 						}
 					}
 					else
 					{
-						// No, so we must insert a new node..
+						/// No, so we must insert a new node..
 						if (new_netlist == 0)
 						{
 							new_netlist = m_CurrentNet ++;
@@ -334,13 +364,13 @@ void CNetList::Link( linkCollection& nets )
 				++ vi;
 			}
 
-			// Did we find a new netlist number for this node?
+			/// Did we find a new netlist number for this node?
 			if (new_netlist == 0)
 			{
 				new_netlist = m_CurrentNet ++;
 			}
 
-			// Now write it into the map
+			/// Now write it into the map
 			map[ index ][ old_netlist ] = new_netlist;
 
 			++ ni;
@@ -351,15 +381,15 @@ void CNetList::Link( linkCollection& nets )
 	}
 
 
-	// Now build a super net of all of the
-	// netlists linked together...
+	/// Now build a super net of all of the
+	/// netlists linked together...
 	index = 0;
 	i = nets.begin();
 	while ( i != nets.end() )
 	{
 		CNetList &n = *i;
 
-		// Scan each netlist
+		/// Scan each netlist
 		netCollection::iterator ni = n.m_nets.begin();
 		while (ni != n.m_nets.end())
 		{
@@ -367,13 +397,13 @@ void CNetList::Link( linkCollection& nets )
 			int old_netlist = (*ni).first;
 			int new_netlist = map[ index ][ old_netlist ];
 
-			// Check to see if these netlists are linked together...
+			/// Check to see if these netlists are linked together...
 			while (linked_netlists.find(new_netlist) != linked_netlists.end())
 			{
 				new_netlist = linked_netlists[ new_netlist ];
 			}
 
-			// Update the nodes in the netlist
+			/// Update the nodes in the netlist
 			nodeVector::iterator vi = v.begin();
 			while (vi != v.end())
 			{
@@ -382,7 +412,7 @@ void CNetList::Link( linkCollection& nets )
 				++ vi;
 			}
 
-			// Now concatenate the old lists onto the new list
+			/// Now concatenate the old lists onto the new list
 			std::copy(v.begin(), v.end(), std::back_inserter(m_nets[new_netlist]));
 
 			++ ni;
@@ -391,12 +421,13 @@ void CNetList::Link( linkCollection& nets )
 		++ index;
 		++ i;
 	}
-
-
 }
 
-
-// Perform the work of making a netlist from this design...
+/**
+ * Perform the work of making a netlist from this design... 
+ * 
+ * @param pDesign
+ */
 void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 {
 	linkCollection nets;
@@ -406,10 +437,10 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	f->m_file_name_index = file_name_index;
 	m_imports.push_back( f );
 
-	// Make the nets for our sheets
+	/// Make the nets for our sheets
 	nets.resize( pDesign->GetNumberOfSheets() );
 
-	// Generate a netlist for every sheet in this design
+	/// Generate a netlist for every sheet in this design
 	for (int i = 0; i < pDesign->GetNumberOfSheets(); i++)
 	{
 		nets[i].m_prefix_references = m_prefix_references;
@@ -417,16 +448,16 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 		nets[i].MakeNetForSheet( m_imports, 0, file_name_index, i+1, pDesign->GetSheet( i ) );
 	}
 
-	// Now include from our imports
+	/// Now include from our imports
 	if (m_follow_imports)
 	{
-		for ( int ip = 1; ip < m_imports.size(); ++ ip )
+		for ( unsigned int ip = 1; ip < m_imports.size(); ++ ip )
 		{
-			// Now create the nets for it
+			/// Now create the nets for it
 			int base = nets.size();
 			nets.resize( base + m_imports[ip]->m_pDesign->GetNumberOfSheets() );
 
-			// Generate a netlist for every sheet in this imported design
+			/// Generate a netlist for every sheet in this imported design
 			for (int i = 0; i < m_imports[ip]->m_pDesign->GetNumberOfSheets(); i++)
 			{
 				nets[i + base].m_prefix_references = m_prefix_references;
@@ -436,48 +467,55 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 		}
 	}
 
-	// Now link the nets together
+	/// Now link the nets together
 	Link( nets );
 
-	// ... and write the results into the design for ease of use...
+	/// ... and write the results into the design for ease of use...
 	WriteWires();
 }
 
 
+/**
+ * Connections between nets (the nodes) are at:
+ * .. the end of wires
+ * .. the point of pins
+ * .. the point of power
+ * .. the point of labels
+ * .. the point of no-connects
+ *
+ * To generate a netlist:
+ * 1. Search design for nodes.
+ * - Insert nodes into node tree and either assign net list to node or generate a new net list
+ * - If wire joins two different netlists, then join the two netlists together
+ * 2. Find Junctions
+ * - Find which wires junctions lie on and connect their netlists
+ * 3. Find Labels
+ * - Find which wire each label lies on and connect their netlists
+ * Perform the work of making a netlist from this design...
+ */
 
-
-
-// Connections between nets (the nodes) are at:
-// .. the end of wires
-// .. the point of pins
-// .. the point of power
-// .. the point of labels
-// .. the point of no-connects
-
-// To generate a netlist:
-// 1. Search design for nodes.
-//  - Insert nodes into node tree and either assign net list to node or gernerate a new net list
-//  - If wire joins two different netlists, then join the two netlists together
-// 2. Find Junctions
-//  - Find which wires junctions lie on and connect their netlists
-// 3. Find Labels
-//  - Find which wire each label lies on and connect their netlists
-// Perform the work of making a netlist from this design...
-
-// Perform the work of making a netlist from a single sheet in this design...
+/** 
+ * Perform the work of making a netlist from a single sheet in this design...
+ * 
+ * @param imports
+ * @param file_index_id
+ * @param file_name_index
+ * @param sheet
+ * @param pDesign
+ */
 void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int &file_name_index, int sheet, CTinyCadDoc *pDesign )
 {
-  // Get rid of any old data
+  /// Get rid of any old data
   m_CurrentNet = 1;
   m_nodes.erase( m_nodes.begin(), m_nodes.end() );
   m_nets.erase( m_nets.begin(), m_nets.end() );
 
-  // Here is some temporary data for this function
+  /// Here is some temporary data for this function
   typedef std::map<CString,int> stringCollection;
   stringCollection	Powers;
   stringCollection	Connected;
 
-  // Search for nodes, and build the node tree
+  /// Search for nodes, and build the node tree
   drawingIterator it = pDesign->GetDrawingBegin();
   for (;it != pDesign->GetDrawingEnd(); ++ it ) 
   {
@@ -492,14 +530,14 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 			{
 				CDrawHierarchicalSymbol *pSymbol = static_cast<CDrawHierarchicalSymbol*>(ObjPtr);
 
-				// Try and stop recursion by limiting the number of imports
+				/// Try and stop recursion by limiting the number of imports
 				if (imports.size() > 100)
 				{
 					AfxMessageBox( IDS_RECURSION );
 					continue;
 				}
 
-				// Push back this filename into the list of extra imports
+				/// Push back this filename into the list of extra imports
 				CImportFile *f = new CImportFile;
 				++ file_name_index;
 				f->m_file_name_index = file_name_index;
@@ -507,7 +545,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 				{
 					imports.push_back( f );
 
-					// Now search the symbol for pins to link the other symbols to
+					/// Now search the symbol for pins to link the other symbols to
 					drawingCollection method;
 					pSymbol->ExtractSymbol(tr,method);
 
@@ -520,7 +558,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 						{
 							CDrawPin *thePin = static_cast<CDrawPin*>(pointer);
 
-							// This in effect labels the node with the new node name...
+							/// This in effect labels the node with the new node name...
 							CNetListNode n( file_name_index, sheet, thePin, thePin->GetActivePoint(pSymbol) );
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet);
@@ -562,7 +600,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 					++ it;
 				}
 
-				// Has this symbol had it's power connected?
+				/// Has this symbol had it's power connected?
 				if (Connected.find(theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet)) == Connected.end()) 
 				{
 					Connected[ theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet) ] = TRUE;
@@ -582,7 +620,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 							n.m_pMethod = theMethod;
 
 
-							// Look up the netlist this power belongs to
+							/// Look up the netlist this power belongs to
 							found = Powers.find( thePin->GetPinName() );
 							if (found != Powers.end())
 								n.m_NetList = (*found).second;
@@ -607,7 +645,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 			CNetListNode n(file_index_id, sheet, ObjPtr,ObjPtr->m_point_a);
 			n.setLabel( ((CDrawPower *)ObjPtr)->GetValue() );
 
-			// Does this power item exist?
+			/// Does this power item exist?
 			found = Powers.find(((CDrawPower *)ObjPtr)->GetValue());
 			if (found != Powers.end())
 				n.m_NetList = (*found).second;
@@ -630,33 +668,31 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 	}
   }
 
- 
-
-  // Search for junctions and connect together
+  /// Search for junctions and connect together
   it = pDesign->GetDrawingBegin();
   while (it != pDesign->GetDrawingEnd()) 
   {
 	CDrawingObject *ObjPtr = *it;
 
-	// Search for junctions
+	/// Search for junctions
 	if (ObjPtr->GetType() == xJunction) 
 	{
-		// Find out which netlist was assigned to this point
+		/// Find out which netlist was assigned to this point
 		CDPoint a = ObjPtr->m_point_a;
 		int NetNumber = m_nodes[ a ];
 
-		// Look for wires which cross this junction
+		/// Look for wires which cross this junction
 		drawingIterator search_it = pDesign->GetDrawingBegin();
 		while (search_it != pDesign->GetDrawingEnd()) 
 		{
 			CDrawingObject *search = *search_it;
 
-			// Find the wires
-			// If the wire has an end at this junction then it is already connected
+			/// Find the wires
+			/// If the wire has an end at this junction then it is already connected
 			if (search->GetType()==xWire 
 			 && search->m_point_a!=a && search->m_point_b!=a)
 			{
-				// Is this point on this wire?
+				/// Is this point on this wire?
 				CLineUtils l( search->m_point_a, search->m_point_b );
 				double distance_along_a;
 
@@ -675,20 +711,20 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 	++ it;
   }
 
-  // Search for labels and connect to their respective lines
+  /// Search for labels and connect to their respective lines
   stringCollection labels;
   it = pDesign->GetDrawingBegin();
   while (it != pDesign->GetDrawingEnd()) 
   {
 	CDrawingObject *ObjPtr = *it;
 
-	// Search for junctions
+	/// Search for junctions
 	if (ObjPtr->GetType() == xLabelEx2) 
 	{
 		CDPoint a = static_cast<CDrawLabel*>(ObjPtr)->GetLabelPoint();
 
-		// Search for a wire this label is connect to
-		// Only atempt to connect to a single wire
+		/// Search for a wire this label is connect to
+		/// Only attempt to connect to a single wire
 		drawingIterator search_it = pDesign->GetDrawingBegin();
 		while (search_it != pDesign->GetDrawingEnd()) 
 		{
@@ -702,11 +738,11 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 			++ search_it;
 		}
 
-		// Look up this label
+		/// Look up this label
 		CNetListNode n(file_index_id, sheet, ObjPtr,a);
 		n.setLabel(  ((CDrawLabel *)ObjPtr)->GetValue() );
 
-		// Has this label already been assigned a netlist?
+		/// Has this label already been assigned a netlist?
 		stringCollection::iterator found = labels.find(((CDrawLabel *)ObjPtr)->GetValue());
 		if (found!=labels.end()) 
 		{
@@ -716,7 +752,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
 		int hold = Add(n);
 
-		// If there was no netlist write it back...
+		/// If there was no netlist write it back...
 		if (found == labels.end())
 			labels[ ((CDrawLabel *)ObjPtr)->GetValue()] = hold;
 	}
@@ -724,14 +760,19 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 	++ it;
   }  
 
-  // Our work with the nodes map is complete, so we can discard
-  // it now...
+  /// Our work with the nodes map is complete, so we can discard it now...
   m_nodes.erase( m_nodes.begin(), m_nodes.end() );
 
 }
 
 
-// Create netlist and output as a SPICE file
+/**
+ * Create netlist and output as a SPICE file.
+ * 
+ * @param type
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
 	switch (type)
@@ -751,26 +792,33 @@ void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHA
 	}
 }
 
-// Create netlist and output as a Potel PCB script
+/**
+ * Create netlist and output as a Protel PCB script.
+ * 
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
-  FILE *theFile = _tfopen(filename,_T("w"));
-  if (theFile == NULL) 
+  FILE *theFile;
+  errno_t err;
+  err = _tfopen_s(&theFile, filename,_T("w"));
+  if ((theFile == NULL) || (err != 0))
   {
 	Message(IDS_CANNOTOPEN);
 	return;
   }
 
-  // Set the Busy icon
+  /// Set the Busy icon
   SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
-	// Get the net list
+	/// Get the net list
 	MakeNet( pDesign );
 
-	// Keep track of the references we have outputted...
+	/// Keep track of the references that we have output...
 	std::set<CString>	referenced;
 
-	// Do this for all of the files in the imports list...
+	/// Do this for all of the files in the imports list...
 	fileCollection::iterator fi = m_imports.begin();
 	for (;fi != m_imports.end(); ++ fi)
 	{
@@ -781,7 +829,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 			dsn = (*fi)->m_pDesign;
 		}
 
-  		// Generate a component for every sheet in this design
+  		/// Generate a component for every sheet in this design
 		for (int i = 0; i < dsn->GetNumberOfSheets(); i++)
 		{
 			drawingIterator it = dsn->GetSheet(i)->GetDrawingBegin();
@@ -794,7 +842,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
 
-					// Do we need to output this part?
+					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
 					{
 						referenced.insert( Ref );
@@ -852,7 +900,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 					CString add;
 					if (!theNode.getLabel().IsEmpty())
 					{
-					// NOT FOR Protel:	add = theNode.getLabel();
+					/// NOT FOR Protel:	add = theNode.getLabel();
 					}
 					else if (!theNode.m_reference.IsEmpty())
 					{
@@ -907,20 +955,27 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 }
 
 
-// Create netlist and output as a PCB file (PADS-PCB)
+/**
+ * Create netlist and output as a PCB file (PADS-PCB).
+ * 
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
-  FILE *theFile = _tfopen(filename,_T("w"));
-  if (theFile == NULL) 
+  FILE *theFile;
+  errno_t err;
+  err = _tfopen_s(&theFile, filename,_T("w"));
+  if ((theFile == NULL) || (err != 0))
   {
 	Message(IDS_CANNOTOPEN);
 	return;
   }
 
-  // Set the Busy icon
+  /// Set the Busy icon
   SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
-  // Get the net list
+  /// Get the net list
   MakeNet( pDesign );
 
   _ftprintf(theFile,_T("*PADS-PCB*\n"));
@@ -929,10 +984,10 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
   _ftprintf(theFile,_T("*PART*\n"));
   
 
-  // Keep track of the references we have outputted...
+  /// Keep track of the references that we have output...
   std::set<CString>	referenced;
 
-	// Do this for all of the files in the imports list...
+	/// Do this for all of the files in the imports list...
 	fileCollection::iterator fi = m_imports.begin();
 	for (;fi != m_imports.end(); ++ fi)
 	{
@@ -943,7 +998,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 			dsn = (*fi)->m_pDesign;
 		}
 
-		// Generate a component for every sheet in this design
+		/// Generate a component for every sheet in this design
 		for (int i = 0; i < dsn->GetNumberOfSheets(); i++)
 		{
 
@@ -957,7 +1012,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
 
-					// Do we need to output this part?
+					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
 					{
 						referenced.insert( Ref );
@@ -972,7 +1027,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 						}
 
 
-						// Pad to correct length...
+						/// Pad to correct length...
 						do
 						{
 							Ref = Ref + _T(" ");
@@ -984,7 +1039,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				
 				++ it;
 			}
-	}
+		}
 	}
 
   _ftprintf(theFile,_T("\n*NET*\n"));
@@ -1020,7 +1075,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 					CString add;
 					if (!theNode.getLabel().IsEmpty())
 					{
-					// NOT FOR PADS:	add = theNode.getLabel();
+					/// NOT FOR PADS:	add = theNode.getLabel();
 					}
 					else if (!theNode.m_reference.IsEmpty())
 					{
@@ -1077,11 +1132,18 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 }
 
 
-// Create netlist and output as a PCB file
+/**
+ * Create netlist and output as a PCB file
+ * 
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
-  FILE *theFile = _tfopen(filename,_T("w"));
-  if (theFile == NULL) 
+  FILE *theFile;
+  errno_t err;
+  err = _tfopen_s(&theFile, filename,_T("w"));
+  if ((theFile == NULL) || (err != 0))
   {
 	Message(IDS_CANNOTOPEN);
 	return;
@@ -1098,10 +1160,10 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 
   _ftprintf(theFile,NetComment _T(" ======+ The component list\n\n"));
 
-  // Keep track of the references we have outputted...
+  // Keep track of the references that we have output...
   std::set<CString>	referenced;
 
-  	// Do this for all of the files in the imports list...
+  	/// Do this for all of the files in the imports list...
 	fileCollection::iterator fi = m_imports.begin();
 	for (;fi != m_imports.end(); ++ fi)
 	{
@@ -1112,7 +1174,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 			dsn = (*fi)->m_pDesign;
 		}
 
-		// Generate a component for every sheet in this design
+		/// Generate a component for every sheet in this design
 		for (int i = 0; i < dsn->GetNumberOfSheets(); i++)
 		{
 			drawingIterator it = dsn->GetSheet(i)->GetDrawingBegin();
@@ -1126,14 +1188,14 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 				CString Name = pMethod->GetField(CDrawMethod::Name);
 				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
 
-				// Do we need to output this part?
+				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
 				{
 					referenced.insert( Ref );
 
 					_ftprintf(theFile,_T("COMPONENT '%s' = %s\n"),Ref,Name);
 
-					// Now write it it's "other" references
+					/// Now write it it's "other" references
 					for (int i = 2; i < pMethod->GetFieldCount(); i++)
 					{
 						_ftprintf(theFile,_T("\tOPTION '%s' = %s\n"),pMethod->GetFieldName(i), pMethod->GetField(i) );
@@ -1218,29 +1280,36 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
   fclose(theFile);
 }
 
-// Create netlist and output as a Eagle PCB script
+/**
+ * Create netlist and output as a Eagle PCB script.
+ * 
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
-  FILE *theFile = _tfopen(filename,_T("w"));
-  if (theFile == NULL) 
+  FILE *theFile;
+  errno_t err;
+  err = _tfopen_s(&theFile, filename,_T("w"));
+  if ((theFile == NULL) || (err != 0))
   {
 	Message(IDS_CANNOTOPEN);
 	return;
   }
 
-  // Set the Busy icon
+  /// Set the Busy icon
   SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
-  // Get the net list
+  /// Get the net list
   MakeNet( pDesign );
 
   int y_pos = 1;
   int x_pos = 1;
 
-  // Keep track of the references we have outputted...
+  /// Keep track of the references that we have output...
   std::set<CString>	referenced;
 
-  	// Do this for all of the files in the imports list...
+  	/// Do this for all of the files in the imports list...
 	fileCollection::iterator fi = m_imports.begin();
 	for (;fi != m_imports.end(); ++ fi)
 	{
@@ -1251,7 +1320,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			dsn = (*fi)->m_pDesign;
 		}
 
-		// Generate a component for every sheet in this design
+		/// Generate a component for every sheet in this design
 		for (int i = 0; i < dsn->GetNumberOfSheets(); i++)
 		{
 			drawingIterator it = dsn->GetSheet(i)->GetDrawingBegin();
@@ -1264,7 +1333,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
 
-				// Do we need to output this part?
+				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
 				{
 					referenced.insert( Ref );
@@ -1361,16 +1430,26 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 }
 
 
-// Create netlist and output as a SPICE file
+/**
+ * Create netlist and output as a SPICE file.
+ * 
+ * @param pDesign
+ * @param filename
+ */
 void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
 {
-	// Open the filename for the spice file
-	FILE *theFile = _tfopen(filename,_T("w"));
-	if (theFile == NULL) 
+	/// Open the filename for the spice file
+	FILE *theFile;
+	errno_t err;
+	err = _tfopen_s(&theFile, filename,_T("w"));
+	if ((theFile == NULL) || (err != 0))
 	{
 		Message(IDS_CANNOTOPEN);
 		return;
 	}
+
+	/// Output the standard header comment - expected on line 1 by some Spice engines
+	_ftprintf(theFile,_T("* Schematics Netlist *\n"));
 
 	createErrorFile( filename );
 
@@ -1378,27 +1457,25 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		pDesign->GetPathName() );
 
 
-	// Set the Busy icon
+	/// Set the Busy icon
 	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
-	// Create the net list
+	/// Create the net list
 	m_prefix_import = TRUE;
 	m_prefix_references = TRUE;
 	MakeNet( pDesign );
 
-	
-	// Now we have the net list we must convert it into a file suitable for
-	// spice...
-	//
-	// The netlist represents a single vector per net, however, spice requires
-	// a vector per symbol.  We have to rotate the array, so that we have one
-	// entry in our vector for each of the symbols in our drawing....
-	//
-	
-	typedef std::map<CString,CNetListSymbol>	symbolCollection;
-	symbolCollection symbols;
-	labelCollection labels;
+    /**
+     * Now we have the net list we must convert it into a file suitable for spice...
+     * 
+     * The netlist represents a single vector per net, however, spice requires
+     * a vector per symbol.  We have to rotate the array, so that we have one
+     * entry in our vector for each of the symbols in our drawing....
+     */
 
+	typedef std::map<CString,CNetListSymbol>    symbolCollection;
+    symbolCollection symbols;
+    labelCollection labels;
 
 	netCollection::iterator nit = m_nets.begin();
 
@@ -1411,20 +1488,20 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 			CNetListNode& theNode = *nv_it;
 			++ nv_it;
 
-			// Is this node a symbol?
+			/// Is this node a symbol?
 			if (!theNode.m_reference.IsEmpty() && theNode.m_pMethod->GetType() == xMethodEx3 )
 			{
-				// Yes, so update the pin allocations in the symbol map...
+				/// Yes, so update the pin allocations in the symbol map...
 				CNetListSymbol &symbol = symbols[ theNode.m_reference ];
 
 				symbol.m_pins[ theNode.m_pin ] = theNode.m_NetList;
 				symbol.m_pMethod = theNode.m_pMethod;
 			}
 
-			// Is this node a label?
+			/// Is this node a label?
 			if (!theNode.getLabel().IsEmpty())
 			{
-				// Yes, so update the label collection
+				/// Yes, so update the label collection
 				labels[ theNode.m_NetList ] = theNode.getLabel();
 			}
 		}
@@ -1433,10 +1510,11 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	}
 
 
-	//
-	// We scan the symbols array and extact any file imports
-	// That we need from the fields of the symbols...
-	//
+	/**
+     * Now we scan the symbols array and extract any file imports
+     * That we need from the fields of the symbols... 
+     */
+
 	symbolCollection::iterator sit = symbols.begin();
 
 	typedef std::set<CString> strings;
@@ -1446,7 +1524,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	prolog_lines.resize( 10 );
 	epilog_lines.resize( 10 );
 
-	// Do this for all of the files in the imports list...
+	/// Do this for all of the files in the imports list...
 	fileCollection::iterator fi = m_imports.begin();
 	for (;fi != m_imports.end(); ++ fi)
 	{
@@ -1457,7 +1535,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 			dsn = (*fi)->m_pDesign;
 		}
 
-		// Generate a component for every sheet in this design
+		/// Generate a component for every sheet in this design
 		for (int sheet = 0; sheet < dsn->GetNumberOfSheets(); sheet++)
 		{
 			drawingIterator it = dsn->GetSheet(sheet)->GetDrawingBegin();
@@ -1469,8 +1547,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 
-					// Search this symbols fields and extract the SPICE_IMPORT field...
-					//
+					/// Search this symbols fields and extract the SPICE_IMPORT field...
 
 					CString spice_prolog;
 					CString spice_epilog;
@@ -1509,19 +1586,19 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 					}
 
 
-					// Prologue...
+					/// Prologue...
 					strings &prolog = prolog_lines[ spice_pro_priority ];
 					if (prolog.find( spice_prolog ) == prolog.end())
 					{
-						// Not included yet...
+						/// Not included yet...
 						prolog.insert( spice_prolog );
 					}
 
-					// Epilog..
+					/// Epilog..
 					strings &epilog = epilog_lines[ spice_pro_priority ];
 					if (epilog.find( spice_epilog ) == epilog.end())
 					{
-						// Not included yet...
+						/// Not included yet...
 						epilog.insert( spice_epilog );
 					}
 				}
@@ -1531,23 +1608,23 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		}
 	}
  
-	// We have extracted the prologue, so now output it in the
-    // order of priority (0 being first...)
-    for (int priority = 0; priority < 10; priority ++)
+	/// We have extracted the prologue, so now output it in the order of priority (0 being first...)
+	int priority;
+    for (priority = 0; priority < 10; priority ++)
 	{
 		strings &s = prolog_lines[ priority ];
 		strings::iterator i = s.begin();
 		while (i != s.end())
 		{
-			_ftprintf( theFile, _T("%s\r\n"), *i );
+			_ftprintf( theFile, _T("%s\n"), *i );
 			++ i;
 		}
 	}
 
 
-	// We now have the netlist in the form we require it, so
-	// let us now output the symbols in the correct SPICE format...
-	//
+	/// We now have the netlist in the form we require it, so
+	/// let us now output the symbols in the correct SPICE format...
+
 	sit = symbols.begin();
 	while (sit != symbols.end())
 	{
@@ -1557,13 +1634,14 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		int sheet = symbol.m_sheet;
 		int file_name_index = symbol.m_file_name_index;
 
-		// Here is the data we are going to extract from
-		// the symbol's fields...
+		/// Here is the data we are going to extract from the symbol's fields...
+		
 		CString spice = "";
 
-		// Search this symbols fields and extract the SPICE field...
-		//
-		for (int i = 0; i < pMethod->GetFieldCount(); i++)
+		/// Search this symbols fields and extract the SPICE field...
+
+		int i;
+		for (i = 0; i < pMethod->GetFieldCount(); i++)
 		{
 			if (pMethod->GetFieldName(i).CompareNoCase(AttrSpice) == 0)
 			{
@@ -1572,14 +1650,14 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		}
 
 		
-		// Now output the SPICE model line
+		/// Now output the SPICE model line
 		if (!spice.IsEmpty())
 		{
-			_ftprintf(theFile,_T("%s\r\n"), expand_spice( file_name_index, sheet, symbol, labels, spice ) );
+			_ftprintf(theFile,_T("%s\n"), expand_spice( file_name_index, sheet, symbol, labels, spice ) );
 		}
 		else
 		{
-			_ftprintf(theFile,_T("NO_MODEL\r\n") );
+			_ftprintf(theFile,_T("NO_MODEL\n") );
 			writeError(_T("%s: %s on sheet %d has no model\n"),
 				symbol.m_pMethod->GetRef(), symbol.m_pMethod->GetName(), sheet );
 		}
@@ -1587,14 +1665,14 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	}
 
 
-	// Now write out the epilog
+	/// Now write out the epilog
     for (priority = 9; priority >= 0; priority --)
 	{
 		strings &s = epilog_lines[ priority ];
 		strings::iterator i = s.begin();
 		while (i != s.end())
 		{
-			_ftprintf( theFile,_T("%s\r\n"), *i );
+			_ftprintf( theFile,_T("%s\n"), *i );
 			++ i;
 		}
 	}
@@ -1607,18 +1685,30 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	reopenErrorFile( true );
 }
 
-// Expand a spice line
+/**
+ * Expand a spice line.
+ * 
+ * @param file_name_index
+ * @param sheet
+ * @param symbol
+ * @param labels
+ * @param spice
+ * @return
+ */
 CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString spice )
 {
-	// NOTE: The spice parameter is expanded using parameter subsitution
+	// NOTE: The spice parameter is expanded using parameter substitution
 	//       to have some kind of parameters in it e.g. R $(1) $(2) %(NAME) etc....
 	//
 	//		 Each of the parameters refers to either a pin name or a field name.
 	//       We would then replace each of the parameters with the values from the
 	//       fields or the netlist number.
 	//
-	//		 $ means expand into a pin netlist
-	//		 % means epxand into a symbol attribute
+	//		 $ means expand an attribute name into its value
+	//		 % means expand a pin name or number into its associated net name
+	//		 @ means expand into a net
+	//		 ? means expand a conditional macro into either its true clause or its false clause (if both are present)
+	//		 \\ is an escape sequence - the next character is to be output literally
 	//
 	//       Also we haven't dealt with power connections here either.  To determine
 	//       If a connection is power connection, use the labels maps.
@@ -1672,9 +1762,20 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 				{
 					mode = awaiting_escape;
 				}
-				else
+				else if (c == '\r') 
 				{
-					spice_line += c;
+
+				    /** 
+                     * Each line of the spice template text is terminated with a standard \r\n.
+                     * Since every \n that is output to the netlist file is automatically expanded
+                     * to a \r\n, it is necessary to filter out the extra \r's here, or 
+                     * it will result in a \r\r\n sequence in the netlist file.
+                     * character c is effectively thrown away - wait for the \n to output a newline
+                     */
+				}
+				else 
+				{
+					spice_line += c;	//c may be a newline character (\n).  This will automatically be expanded to a \r\n by the C runtime
 				}
 			}
 			break;
@@ -1776,7 +1877,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 			}
 			else
 			{
-				// Insert the correct name from the attribute list
+				/// Insert the correct name from the attribute list
 				CString r;
 				if (get_attr( file_name_index, sheet, symbol, lookup,r ))
 				{
@@ -1829,13 +1930,13 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 				brackets --;
 				if (brackets == 0)
 				{
-					// We have our macro strings, so check what we need to do...
+					/// We have our macro strings, so check what we need to do...
 					macro_strings.push_back( lookup );
 
-					// Now evaluate the query
+					/// Now evaluate the query
 					bool r = eval_spice_macro( file_name_index, sheet, symbol, labels, spice_line, macro_strings[0] );
 
-					// ... and insert the appropriate text
+					/// ... and insert the appropriate text
 					CString insert;
 					if (r && macro_strings.size() > 1)
 					{
@@ -1846,12 +1947,12 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 						insert = macro_strings[2];
 					}
 
-					// Empty the macro strings array
+					/// Empty the macro strings array
 					macro_strings.clear();
 					lookup.Empty();
 					mode = normal;
 					
-					// We need to recursively evaluate the macro...
+					/// We need to recursively evaluate the macro...
 					spice_line += expand_spice( file_name_index, sheet, symbol, labels, insert );
 				}
 				else
@@ -1867,10 +1968,20 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 	return spice_line;
 }
 
-
+/**
+ * Evaluate the Spice macro expression.
+ * 
+ * @param file_name_index
+ * @param sheet
+ * @param symbol
+ * @param labels
+ * @param spice_line
+ * @param macro
+ * @return
+ */
 bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString &spice_line, CString macro )
 {
-	// What is this query?
+	/// What is this query?
 	int brk = macro.Find(_T("("));
 	if (brk == -1)
 	{
@@ -1892,6 +2003,17 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		CString r;
 		return get_attr( file_name_index, sheet, symbol, value, r );
 	}
+	else if (op == "not_defined")
+	{
+		CString r;
+		return !get_attr( file_name_index, sheet, symbol, value, r );
+	}
+	else if (op == "empty")
+	{
+		CString r;
+		get_attr( file_name_index, sheet, symbol, value, r );
+		return r.IsEmpty();
+	}
 	else if (op == "not_empty")
 	{
 		CString r;
@@ -1900,12 +2022,21 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 	}
 	else if (op == "connected")
 	{
-		// Determine if this pin exists and is connected..
+		/// Determine if this pin exists and is connected..
 		CString r;
 		int nodes,net;
 		get_pin( symbol, labels, value, nodes, r, net );
 
 		return nodes > 1;
+	}
+	else if (op == "not_connected")
+	{
+		/// Determine if this pin exists and is connected..
+		CString r;
+		int nodes,net;
+		get_pin( symbol, labels, value, nodes, r, net );
+
+		return nodes == 1;
 	}
 	else
 	{
@@ -1916,7 +2047,17 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 	return false;
 }
 
-// Get a netlist name from a pin number
+/**
+ * Get a netlist name from a pin number.
+ * 
+ * @param symbol
+ * @param labels
+ * @param pin
+ * @param nodes
+ * @param r
+ * @param net
+ * @return
+ */
 bool CNetList::get_pin( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
 {
 	nodes = 0;
@@ -1938,7 +2079,7 @@ bool CNetList::get_pin( CNetListSymbol &symbol, labelCollection &labels, CString
 			}
 			r = s;
 
-			// Count the number of connected nodes
+			/// Count the number of connected nodes
 			nodeVector &vn = m_nets[ net ];
 			nodeVector::iterator i = vn.begin();
 			while (i != vn.end())
@@ -1958,13 +2099,22 @@ bool CNetList::get_pin( CNetListSymbol &symbol, labelCollection &labels, CString
 	return false;
 }
 
-// Get a attribute value from an attribute name
+/**
+ * Get a attribute value from an attribute name.
+ * 
+ * @param file_name_index
+ * @param sheet
+ * @param symbol
+ * @param attr
+ * @param r
+ * @return
+ */
 bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r )
 {
 	CDrawMethod* pMethod = symbol.m_pMethod;
 	if (attr.CompareNoCase( _T("refnum") ) == 0)
 	{
-		// Use the reference number (minus the reference character)
+		/// Use the reference number (minus the reference character)
 		CString s = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_name_index,sheet+1);
 		int b = s.FindOneOf(_T("0123456789"));
 		if (b != 1)

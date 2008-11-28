@@ -110,7 +110,8 @@ BOOL CDlgUpdateBox::OnInitDialog()
 
 
   // Create some data 
-  for (int i=0; i < m_NewSymbol->GetNumRecords(); i++)
+  int i;
+  for (i=0; i < m_NewSymbol->GetNumRecords(); i++)
   {
 	  m_records.push_back( m_NewSymbol->GetRecord(i) );
   }
@@ -124,7 +125,7 @@ BOOL CDlgUpdateBox::OnInitDialog()
   // Update the names list box
   m_List_Names.ResetContent();
 
-  for (i = 0; i < m_records.size(); i ++)
+  for (unsigned int i = 0; i < m_records.size(); i ++)
   {
 	CSymbolRecord &r = m_records[i];
 	m_List_Names.AddString( r.name );
@@ -169,7 +170,7 @@ void CDlgUpdateBox::InitFromRecord()
   int pro_priority = 5;
   int epi_priority = 5;
 
-  for (int i = 0; i < r.fields.size(); i ++)
+  for (unsigned int i = 0; i < r.fields.size(); i ++)
   {
 	  CString field = r.fields[i].field_name;
   	  if (field.CompareNoCase(AttrSpice) == 0)
@@ -475,7 +476,8 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 	r = rect;
 	int x = rect.right - 2;
 	r.left = x;
-	for (int column=2;column>=0;column--)
+	int column;
+	for (column=2;column>=0;column--)
 	{
 		int w = m_list.GetColumnWidth(column);
 		x -= w;

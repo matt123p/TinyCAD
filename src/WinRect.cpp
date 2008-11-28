@@ -26,7 +26,8 @@ WINRECT::WINRECT(WORD f, UINT id, LONG p)
 //
 WINRECT* WINRECT::Parent()
 {
-	for (WINRECT* pEntry=this; pEntry->Prev(); pEntry=pEntry->Prev()) {
+	WINRECT* pEntry;
+	for (pEntry=this; pEntry->Prev(); pEntry=pEntry->Prev()) {
 		; // go backwards to the end
 	}
 	// the entry before the first child is the group

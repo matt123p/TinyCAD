@@ -165,8 +165,10 @@ CLibraryStoreNameSet &CLibraryDoc::getNameSet( const idCollection::iterator &it 
 
 CLibraryStore::symbolCollection::iterator CLibraryDoc::getSymbol( int which )
 {
+	idCollection::iterator i;
+
 	// Determine which symbol we are talking about
-	for ( idCollection::iterator i = m_SymbolMap.begin(); i != m_SymbolMap.end() && which > 0; i++ )
+	for (i = m_SymbolMap.begin(); i != m_SymbolMap.end() && which > 0; i++ )
 	{
 		which --;
 	}
@@ -268,8 +270,8 @@ void CLibraryDoc::OnFileExportlibrary()
   // Get the file name for the parts list
   TCHAR szFile[256];
 
-  _tcscpy(szFile,m_pLibrary->m_name);
-  _tcscat(szFile, _T(".xml"));
+  _tcscpy_s(szFile,m_pLibrary->m_name);
+  _tcscat_s(szFile, _T(".xml"));
 
   CFileDialog dlg( FALSE, _T("*.xml"), szFile, OFN_HIDEREADONLY,
 		_T("XML Library file (*.xml)|*.xml|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
@@ -306,8 +308,8 @@ void CLibraryDoc::OnContextExportsymbol()
 		// Get the file name for the symbol list
 		TCHAR szFile[256];
 
-		_tcscpy(szFile,r.name);
-		_tcscat(szFile, _T(".xml"));
+		_tcscpy_s(szFile,r.name);
+		_tcscat_s(szFile, _T(".xml"));
 
 		CFileDialog dlg( FALSE, _T("*.xml"), szFile, OFN_HIDEREADONLY,
 				_T("XML Library file (*.xml)|*.xml|All files (*.*)|*.*||"), AfxGetMainWnd() ); 

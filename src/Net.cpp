@@ -49,15 +49,20 @@ void CTinyCadView::OnSpecialNet()
 	// Get the file in which to save the network
 	TCHAR szFile[256];
 
-	_tcscpy(szFile,GetDocument()->GetPathName());
+	_tcscpy_s(szFile,GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile,'.');
 	if (!ext)
 	{
-		_tcscpy(szFile,_T("output.net"));
+		_tcscpy_s(szFile,_T("output.net"));
 	}
 	else
 	{
-		_tcscpy(ext, _T(".net"));
+		#ifdef USE_VS2003
+			_tcscpy_s(ext, _T(".net"));
+		#else
+			size_t remaining_space = &szFile[255] - ext + 1;
+			_tcscpy_s(ext, remaining_space, _T(".net"));
+		#endif
 	}
 
 	CDlgPCBExport dlg;
@@ -87,15 +92,20 @@ void CTinyCadView::OnSpecialCreatespicefile()
 	// Get the file in which to save the network
 	TCHAR szFile[256];
 
-	_tcscpy(szFile,GetDocument()->GetPathName());
+	_tcscpy_s(szFile,GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile,'.');
 	if (!ext)
 	{
-		_tcscpy(szFile,_T("output.net"));
+		_tcscpy_s(szFile,_T("output.net"));
 	}
 	else
 	{
-		_tcscpy(ext, _T(".net"));
+		#ifdef USE_VS2003
+			_tcscpy(ext, _T(".net"));
+		#else
+			size_t remaining_space = &szFile[255] - ext + 1;
+			_tcscpy_s(ext, remaining_space, _T(".net"));
+		#endif
 	}
 
 	CFileDialog dlg( FALSE, _T("*.net"), szFile, OFN_HIDEREADONLY,

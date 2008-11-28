@@ -203,7 +203,7 @@ CString CLibraryFile::MethodsFileName()
 		hold = m_name + ".m";
 		TCHAR buffer[10];
 
-		_itot(revision,buffer,10);
+		_itot_s(revision,buffer,10);
 
 		if (_tcslen(buffer)<2)
 		hold = hold + "0";

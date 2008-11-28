@@ -9,7 +9,7 @@
 #include <afxpriv.h> // for WM_INITIALUPDATE
 
 
-const MINSCROLLBARWIDTH = 8*GetSystemMetrics(SM_CXVSCROLL);
+const int MINSCROLLBARWIDTH = 8*GetSystemMetrics(SM_CXVSCROLL);
 
 BEGIN_WINDOW_MAP(MyFrameMap)
 BEGINROWS(WRCT_TOFIT,0,0)

@@ -570,9 +570,10 @@ void CImagePNG::Save( CDC &ref_dc, const TCHAR *file_name )
    FILE *fp;
 
    /* open the file */
-   fp = _tfopen(file_name, _T("wb"));
-   if (fp == NULL)
-   {
+   errno_t err;
+   err = _tfopen_s(&fp, file_name,_T("wb"));
+   if ((fp == NULL) || (err != 0))
+   {	//unable to open the file
       return;
    }
 
@@ -751,7 +752,8 @@ void CImagePNG::CreateOutputBitmap(CBitmap &output, CDC &dc)
 	q.bi.bmiHeader.biClrUsed = m_ColorMapSize; 
 	q.bi.bmiHeader.biClrImportant = 0; 
 
-	for (int i =0; i<m_ColorMapSize; i++)
+	int i;
+	for (i =0; i<m_ColorMapSize; i++)
 	{
 		q.bi.bmiColors[i].rgbRed = m_ColorMap[i].red;
 		q.bi.bmiColors[i].rgbGreen = m_ColorMap[i].green;

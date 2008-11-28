@@ -304,14 +304,14 @@ void CTinyCadMultiSymbolDoc::OnLibrarySetpartsperpackage()
 
 			if (m_heterogeneous)
 			{
-				for (int i = m_ppp; i < m_symbols.size(); ++i )
+				for (unsigned int i = m_ppp; i < m_symbols.size(); ++i )
 				{
 					delete m_symbols[i];
 				}
 
 				m_symbols.resize( m_ppp );
 
-				for (int i = 0; i < m_symbols.size(); ++i )
+				for (unsigned int i = 0; i < m_symbols.size(); ++i )
 				{
 					if (!m_symbols[i])
 					{	

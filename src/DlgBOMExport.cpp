@@ -97,7 +97,7 @@ void CDlgBOMExport::OnBrowse()
 
 	// Generate the filter string from the extension
 	TCHAR szFilter[256];
-	_stprintf(szFilter, _T("Parts List (*%s)|*%s|All files (*.*)|*.*||"),
+	_stprintf_s(szFilter, _T("Parts List (*%s)|*%s|All files (*.*)|*.*||"),
 		ext, ext );
 
 	CFileDialog dlg( FALSE, _T("*")+ext, m_Filename, OFN_HIDEREADONLY,

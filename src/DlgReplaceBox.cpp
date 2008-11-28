@@ -130,7 +130,8 @@ void CDlgReplaceBox::BuildSearchList()
 	CLibraryCollection::FillMatchingSymbols( theListBox, m_search_string, NULL );
 
 	// Try and find the selected symbol in the list
-	for (int i = 0; i < theListBox->GetCount(); i++)
+	int i;
+	for (i = 0; i < theListBox->GetCount(); i++)
 	{
 		if (theListBox->GetItemDataPtr( i ) == m_Symbol)
 		{

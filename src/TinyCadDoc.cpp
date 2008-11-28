@@ -1562,7 +1562,7 @@ void CTinyCadDoc::AddImage( CDrawMetaFile *pObject )
 // Format a filename for display
 CString CTinyCadDoc::formatFilename( const TCHAR *filename )
 {
-	TCHAR *brk = _tcsrchr( filename, '\\' );
+	TCHAR *brk = (TCHAR *) _tcsrchr( filename, '\\' );
 	if (brk)
 	{
 		return brk + 1;

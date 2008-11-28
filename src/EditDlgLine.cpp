@@ -204,8 +204,9 @@ void CEditDlgLine::OnChangeThickness()
 	{
 		CString s,s2;
 		m_Line_Thickness.GetWindowText( s );
-		m_lStyle.Thickness = _tstoi( s );
-		if (m_lStyle.Thickness < 1)
+
+		m_lStyle.Thickness = _tstoi( s );	//returns 0 if unable to convert such as if s is empty
+		if (m_lStyle.Thickness < 1)	//User tried to enter 0 or deleted the default - this will cause a crash if UpdateOptions() is called
 		{
 			m_lStyle.Thickness = 1;
 		}
@@ -213,7 +214,7 @@ void CEditDlgLine::OnChangeThickness()
 		s2.Format(_T("%d"),m_lStyle.Thickness);
 		if (s2 != s)
 		{
-			m_Line_Thickness.SetWindowText( s );
+			m_Line_Thickness.SetWindowText( s2 );	//djl - fixed crash on line thickness deletion here
 		}
 
 		UpdateOptions();

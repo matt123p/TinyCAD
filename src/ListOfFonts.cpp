@@ -95,7 +95,7 @@ LOGFONT	ListOfFonts::GetDefaultFont()
  	oReturn.lfItalic	 		= FALSE;
  	oReturn.lfUnderline 		= FALSE;
   	oReturn.lfStrikeOut 		= FALSE;
-  	_tcscpy( oReturn.lfFaceName, ListOfFonts::DEFAULT_FONT );
+  	_tcscpy_s( oReturn.lfFaceName, ListOfFonts::DEFAULT_FONT );
 
   	// default values will never change
   	oReturn.lfEscapement 		= 0;
@@ -191,7 +191,7 @@ void ListOfFonts::Read( CXMLReader& xml, hFONT& nID )
 		{
 			CString s;
 			xml.getChildData(s);
-			_tcscpy(m_oFont.lfFaceName, s );
+			_tcscpy_s(m_oFont.lfFaceName, s );
 		}
 	}
 

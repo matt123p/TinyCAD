@@ -72,7 +72,7 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
   m_fields[Ref].m_type = newSymbol->ref_type;
 
   // Now load in the other fields
-  for (int i = 0; i < newSymbol->fields.size(); i++)
+  for (unsigned int i = 0; i < newSymbol->fields.size(); i++)
   {
 	  CField f;
 	  f.m_description = newSymbol->fields[i].field_name;
@@ -169,7 +169,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
   
 
 	// Remove any hidden fields first
-	for (int j = 2; j < m_fields.size(); j++)
+	for (unsigned int j = 2; j < m_fields.size(); j++)
 	{
 		// Is this a hidden symbol?
 		if (m_fields[j].m_type == always_hidden)
@@ -184,7 +184,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 			{
 				// Remove any fields that are not in the new symbol...
 				bool found = false;
-				for (int i = 0; i < pSymbol->fields.size(); i++)
+				for (unsigned int i = 0; i < pSymbol->fields.size(); i++)
 				{
 					if (pSymbol->fields[i].field_name == m_fields[j].m_description)
 					{
@@ -211,7 +211,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 
 
 	// Add in any fields that are not already part of this symbol
-	for (int i = 0; i < pSymbol->fields.size(); i++)
+	for (unsigned int i = 0; i < pSymbol->fields.size(); i++)
 	{
 		CField f;
 		f.m_description = pSymbol->fields[i].field_name;
@@ -222,7 +222,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 
 		// Does this new field already exist?
 		bool found = false;
-		for (int j = 0; j < m_fields.size(); j++)
+		for (unsigned int j = 0; j < m_fields.size(); j++)
 		{
 			if (m_fields[j].m_description == f.m_description)
 			{
@@ -246,7 +246,7 @@ CString CDrawMethod::Find(const TCHAR *theSearchString)
 {
   CString HoldString;
 
-  for (int lp =0;lp<m_fields.size();lp++) 
+  for (unsigned int lp =0;lp<m_fields.size();lp++) 
   {
   	HoldString = m_fields[lp].m_value;
   	HoldString.MakeLower();
@@ -404,7 +404,7 @@ void CDrawMethod::SetRefVal(int value)
 {
   TCHAR Buffer[10];
 
-  _itot(value,Buffer,10);
+  _itot_s(value,Buffer,10);
   m_fields[Ref].m_value = GetSymbolData()->reference;
   m_fields[Ref].m_value 
 	  = m_fields[Ref].m_value.Left(m_fields[Ref].m_value.ReverseFind('?')) + Buffer;
@@ -576,7 +576,8 @@ void CDrawMethod::OldLoad3(CStream &archive)
   std::vector<CSymbolField> fields;
   WORD special_text_count;
   archive >> special_text_count;
-  for (int i = 0; i < special_text_count; i++)
+  int i;
+  for (i = 0; i < special_text_count; i++)
   {
 	  CSymbolField sf;
 	  sf.Load( archive );
@@ -634,7 +635,7 @@ void CDrawMethod::SaveXML( CXMLWriter &xml )
 
 	// Now read in the fields
 	int field_size = m_fields.size();;
-	for (int i = 0; i < m_fields.size(); i++)
+	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];
 
@@ -729,7 +730,7 @@ void CDrawMethod::Load(CStream &archive)
   int field_size;
   archive >> field_size;
   m_fields.resize( field_size );
-  for (int i = 0; i < m_fields.size(); i++)
+  for (unsigned int i = 0; i < m_fields.size(); i++)
   {
 	  CField &f = m_fields[i];
 	  CPoint p;
@@ -871,7 +872,7 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 		return TRUE;
   }
 
-  int lp;
+  unsigned int lp;
   for (lp=0;lp < m_fields.size();lp++) {
 	if (!m_fields[lp].m_show)
 	{
@@ -1014,7 +1015,7 @@ void CDrawMethod::MoveField(int w, CDPoint r)
 
 int CDrawMethod::IsInsideField(CDPoint p)
 {
-  int lp;
+  unsigned int lp;
   CDSize size;
 
 	if (can_scale)
@@ -1101,7 +1102,8 @@ void CDrawMethod::NewRotation()
 	}
 
 	// First place the shown fields
-	for (int i = 0; i < m_fields.size(); i++)
+	unsigned int i;
+	for (i = 0; i < m_fields.size(); i++)
 	{
 		// Don't do the name
 		if (i==Name)
@@ -1150,7 +1152,7 @@ void CDrawMethod::Display( BOOL erase )
 	m_pDesign->InvalidateRect( r, erase, 10 );
 
   // Now invalidate our text
-  for (int lp=0;lp < m_fields.size(); lp++)
+  for (unsigned int lp=0;lp < m_fields.size(); lp++)
   {
 	if (m_fields[lp].m_show)
 	{
@@ -1211,7 +1213,7 @@ void CDrawMethod::Paint(CContext &dc,paint_options options)
 	  dc.SetTextColor(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::PIN));
   }
 
-  for (int lp=0;lp < m_fields.size();lp++)
+  for (unsigned int lp=0;lp < m_fields.size();lp++)
   {
 	if (m_fields[lp].m_show)
 		dc.TextOut(GetField(lp),

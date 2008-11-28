@@ -98,7 +98,7 @@ void CDlgExportPNG::OnBrowse()
 
 	// Generate the filter string from the extension
 	TCHAR szFilter[256];
-	_stprintf(szFilter, _T("%s (*%s)|*%s|All files (*.*)|*.*||"),
+	_stprintf_s(szFilter, _T("%s (*%s)|*%s|All files (*.*)|*.*||"),
 		t, ext, ext );
 
 	CFileDialog dlg( FALSE, "*"+ext, m_Filename, OFN_HIDEREADONLY,

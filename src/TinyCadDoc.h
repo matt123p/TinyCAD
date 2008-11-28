@@ -113,7 +113,7 @@ protected:
 protected:
 	drawingCollection	m_drawing;
 	selectCollection	m_selected;
-	int					m_undo_level;
+	unsigned int		m_undo_level;
 	undoCollection		m_undo;
 	BOOL				m_change_set;
 	BOOL				m_InUndoAddAction;

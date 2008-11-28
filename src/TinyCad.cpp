@@ -258,9 +258,11 @@ CString CTinyCadApp::GetVersion()
 			GetFileVersionInfo(szModulePath, dwZero, dwSize, pBuffer);
 		VerQueryValue(pBuffer, _T("\\"), (void**) &pFixedInfo, (UINT*) &uVersionLen);
 
-			sReturn.Format( _T("version %u.%02u.%02u"), HIWORD(pFixedInfo->dwProductVersionMS),
+		sReturn.Format( _T("Version %u.%02u.%02u Build #%u"), 
+										HIWORD(pFixedInfo->dwProductVersionMS),
 										LOWORD(pFixedInfo->dwProductVersionMS),
-										HIWORD(pFixedInfo->dwProductVersionLS));
+										HIWORD(pFixedInfo->dwProductVersionLS),
+										LOWORD(pFixedInfo->dwProductVersionLS));
 
 		delete pBuffer;
 	}
@@ -335,15 +337,17 @@ void CTinyCadApp::ReadRegistry()
 		sLibName = colLibs->GetNext( pos );
 
 		// Is this a new file library or an old library type?
-		FILE* f = _tfopen( sLibName + _T(".idx"), _T("rb") );
+		FILE* f;
+		errno_t err;
+		err = _tfopen_s( &f, sLibName + _T(".idx"), _T("rb") );
 
-		if( f )
-		{
+		if( err == 0 )
+		{	//the .idx file was opened, so it must be an old library file (i.e., non-database format)
 			fclose(f);
 			oLib = new CLibraryFile;
 		}
 		else
-		{
+		{	//file was not successfully opened, so it must be a newer database library
 			oLib = new CLibraryDb;
 		}
 

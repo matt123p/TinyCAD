@@ -160,7 +160,7 @@ CTinyCadDoc* CTinyCadMultiDoc::GetSheet( int i )
 		return NULL;
 	}
 
-	if (i < m_sheets.size())
+	if (i < (int) m_sheets.size())
 	{
 		return m_sheets[ i ];
 	}
@@ -174,6 +174,8 @@ CTinyCadDoc* CTinyCadMultiDoc::GetSheet( int i )
 //-------------------------------------------------------------------------
 void CTinyCadMultiDoc::InsertSheet(int i , CTinyCadDoc *pDoc )
 {
+	sheetCollection::iterator it = m_sheets.begin();
+	it += i;
 	if (!pDoc)
 	{
 		pDoc = new CTinyCadDoc( this );
@@ -186,7 +188,7 @@ void CTinyCadMultiDoc::InsertSheet(int i , CTinyCadDoc *pDoc )
 
 	if (i != m_sheets.size())
 	{
-		m_sheets.insert(&m_sheets[i+1], pDoc );
+		m_sheets.insert(it+1, pDoc );
 	}
 	else
 	{

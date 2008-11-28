@@ -153,7 +153,7 @@ void CEditDlgPinEdit::OnChange()
   static_cast<CDrawPin*>(getObject())->m_dir   = GetCheckedRadioButton(PINBOX_UP,PINBOX_RIGHT)-PINBOX_UP;
 
   int length = max(5,GetDlgItemInt(PINBOX_LENGTH));
-  int number_pos = min(length, GetDlgItemInt(PINBOX_PIN_POS ) );
+  int number_pos = min(length, (int) GetDlgItemInt(PINBOX_PIN_POS ) );
 
   static_cast<CDrawPin*>(getObject())->m_length = length;
   static_cast<CDrawPin*>(getObject())->m_number_pos = number_pos;

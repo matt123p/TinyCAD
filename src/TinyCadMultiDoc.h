@@ -83,7 +83,7 @@ protected:
 	typedef std::vector<CTinyCadDoc*>		sheetCollection;
 	sheetCollection		m_sheets;
 	
-	int					m_active_doc;
+	unsigned int		m_active_doc;
 
 	// The filename during loading/saving
 	CString				m_xml_filename;

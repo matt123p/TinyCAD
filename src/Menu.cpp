@@ -101,9 +101,9 @@ void CTinyCadView::OnFindFind()
 			theFoundString = pointer->Find(FindString);
 			if (theFoundString!="") {
 				TCHAR buffer[STRLEN];
-				_tcscpy(buffer,pointer->GetName());
-				_tcscat(buffer,_T(": "));
-				_tcscat(buffer,theFoundString);
+				_tcscpy_s(buffer,pointer->GetName());
+				_tcscat_s(buffer,_T(": "));
+				_tcscat_s(buffer,theFoundString);
 				pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),pointer->m_point_a,CurrentError++));
 				theERCListBox.AddString(buffer);
 			}

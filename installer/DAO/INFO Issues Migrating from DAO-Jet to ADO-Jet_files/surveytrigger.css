@@ -1,0 +1,14 @@
+.surveyInvitationDiv {
+	Z-INDEX: 200; LEFT: 0px; VISIBILITY: hidden; MARGIN: 0px; WIDTH: 819px; POSITION: absolute; TOP: 0px; BACKGROUND-COLOR: transparent
+}
+.surveyInvitationDiv IFRAME {
+	BORDER-RIGHT: #10598a 1px solid; BORDER-TOP: #10598a 1px solid; FILTER: progid:DXImageTransform.Microsoft.BasicImage(enabled=false); BORDER-LEFT: #10598a 1px solid; WIDTH: 819px; BORDER-BOTTOM: #10598a 1px solid; HEIGHT: 450px
+}
+
+@media Print    
+{
+.surveyInvitationDiv {
+	DISPLAY: none! important
+}
+
+}

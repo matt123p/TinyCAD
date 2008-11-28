@@ -577,7 +577,8 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	// seperate the strings into the overbars and text
 	int len = text.GetLength();
 	int lpi = 0;
-	for (int lp=0;lp!=len;lp++) 
+	int lp;
+	for (lp=0;lp!=len;lp++) 
 	{
 		if (text[lp]=='`')
 		{
@@ -607,7 +608,8 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	double scale = m_Transform.doubleDeScale( static_cast<int>(m_datum_scaling) );
 
     SelectFontNow( true );
-	for (int i =0; i < len; ++i)
+	int i;
+	for (i =0; i < len; ++i)
 	{
 		// Determine the size of this character
 		ABC datum_abc;

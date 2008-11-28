@@ -1,0 +1,43 @@
+---------------------------------------------------------
+Microsoft Data Access Objects version 3.6 Readme File
+---------------------------------------------------------
+
+(c) 1998 Microsoft Corporation. All rights reserved.
+
+This document provides late-breaking or other information that supplements the Microsoft DAO documentation.
+
+--------
+CONTENTS
+--------
+
+1. PRODUCT DESCRIPTION
+   
+2. NEW FEATURES
+   
+3. TECHNICAL NOTES
+
+4. KNOWN BUGS, LIMITATIONS, AND WORKAROUNDS
+
+----------------------
+1. PRODUCT DESCRIPTION
+----------------------
+Data Access Objects (DAO) are a set of objects that enable OLE Automation clients to programmatically access data and modify datasources.  It is used by Access, Visual Basic and other Microsoft products to access data stored by the Jet database, and all the other formats that Jet provides (such as ODBC data sources including SQL Server, FoxPro, Paradox etc.).
+
+---------------
+2. NEW FEATURES
+---------------
+DAO 3.6 has been updated to use the Microsoft® Jet 4.0 database engine. This includes enabling all interfaces for Unicode. Data is now provided in unicode (internationally enabled) format rather than ANSI. No other new features were implemented. 
+
+--------------------
+3. TECHNICAL NOTES
+------------------
+* Jet property lengths have been changed to allow 65,500 rather than 4,096 bytes (or half those amounts in characters). Because of this change, the DAO Field.Properties valid length has increased to 32,750 characters. However, the TableDefs size remains at a smaller buffer of 16,383 characters, so property lengths are effectively limited to that.
+
+-----------------
+4. KNOWN BUGS, LIMITATIONS, AND WORKAROUNDS
+-----------------
+The following is a list of DAO 3.6 known issues.
+
+* Binding to an ActiveX control, such as a data bound grid, which expects ANSI data will incorrectly display the unicode data that DAO now provides.  If this is encountered, update to an ActiveX control which supports unicode data.
+
+* Databases made replicable in code which have never been opened in Microsoft Access will always have local projects (forms, reports, macros, modules) and they can never be changed to make the project replicable. This is because the system table which controls this functionality (mSysAccessObjects) does not exist if the database was never opened in Access prior to making the database replicable. Once the database is made replicable the user cannot change the replicability of the project.

@@ -228,7 +228,7 @@ bool CImageJpeg::Read( CDC &ref_dc, const unsigned char *buf, int size )
 
 		/* We must now re-order the colours as they come out in the wrong order
 		for windows ... */
-		for (int x = 0; x < cinfo.output_width; x++)
+		for (unsigned int x = 0; x < cinfo.output_width; x++)
 		{
 		   unsigned char *b = buffer;
 		   unsigned char *r = buffer+2;

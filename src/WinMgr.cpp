@@ -8,7 +8,7 @@
 #include "WinMgr.h"
 
 
-const WM_WINMGR = RegisterWindowMessage(_T("WM_WINMGR"));
+const UINT WM_WINMGR = RegisterWindowMessage(_T("WM_WINMGR"));
 
 CWinMgr::CWinMgr(WINRECT* pWinMap) : m_map(pWinMap)
 {

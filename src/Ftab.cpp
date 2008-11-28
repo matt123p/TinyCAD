@@ -36,11 +36,11 @@ public:
 	void  	SetText(LPCTSTR lpszText)	{ m_sText = lpszText; }
 };
 
-const CXOFFSET = 8;		// defined pitch of trapezoid slant
-const CXMARGIN = 2;		// left/right text margin
-const CYMARGIN = 1;		// top/bottom text margin
-const CYBORDER = 1;		// top border thickness
-const CXBUTTON = GetSystemMetrics(SM_CXVSCROLL);
+const int CXOFFSET = 8;		// defined pitch of trapezoid slant
+const int CXMARGIN = 2;		// left/right text margin
+const int CYMARGIN = 1;		// top/bottom text margin
+const int CYBORDER = 1;		// top border thickness
+const int CXBUTTON = GetSystemMetrics(SM_CXVSCROLL);
 
 //////////////////
 // Compute the the points, rect and region for a tab.
@@ -221,7 +221,7 @@ BOOL CFolderTabCtrl::Create(DWORD dwStyle, const RECT& rc,
 	lf.lfHeight = GetSystemMetrics(SM_CYHSCROLL)-CYMARGIN;
 	lf.lfWeight = FW_NORMAL;
 	lf.lfCharSet = DEFAULT_CHARSET;
-	_tcscpy(lf.lfFaceName, _T("Arial"));
+	_tcscpy_s(lf.lfFaceName, _T("Arial"));
 	m_fontNormal.CreateFontIndirect(&lf);
 	lf.lfHeight -= 2;
 	m_fontSelected.CreateFontIndirect(&lf);

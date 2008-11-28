@@ -92,16 +92,16 @@ BOOL CDrawHierarchicalSymbol::ExtractSymbol( CDPoint &tr, drawingCollection &met
 
 void CDrawHierarchicalSymbol::SetFilenameField()
 {
-	if (m_fields.size() < FieldPos::Name + 1)
+	if (m_fields.size() < CDrawMethod::Name + 1)
 	{
-		m_fields.resize( FieldPos::Name + 1 );
+		m_fields.resize( CDrawMethod::Name + 1 );
 	}
 
 	// Set the field for the user to see
-	m_fields[ FieldPos::Name ].m_description = "Design";
-	m_fields[ FieldPos::Name ].m_value = m_pDesign->formatFilename( m_Filename );
-	m_fields[ FieldPos::Name ].m_type = default_show;
-	m_fields[ FieldPos::Name ].m_show = TRUE;
+	m_fields[ CDrawMethod::Name ].m_description = "Design";
+	m_fields[ CDrawMethod::Name ].m_value = m_pDesign->formatFilename( m_Filename );
+	m_fields[ CDrawMethod::Name ].m_type = default_show;
+	m_fields[ CDrawMethod::Name ].m_show = TRUE;
 }
 
 void CDrawHierarchicalSymbol::clearSymbol()
@@ -354,7 +354,7 @@ void CDrawHierarchicalSymbol::SaveXML( CXMLWriter &xml )
 
 	// Now read in the fields
 	int field_size = m_fields.size();;
-	for (int i = 0; i < m_fields.size(); i++)
+	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];
 
@@ -364,7 +364,7 @@ void CDrawHierarchicalSymbol::SaveXML( CXMLWriter &xml )
 		xml.addAttribute( _T("type" ), t );
 		xml.addAttribute( _T("description"),  f.m_description );
 
-		if (i == FieldPos::Name)
+		if (i == CDrawMethod::Name)
 		{
 			// We save the filename elsewhere...
 			xml.addAttribute( _T("value"), _T("") );

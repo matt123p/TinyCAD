@@ -116,7 +116,8 @@ void CBOMGenerator::GenerateBomForDesign( int level, CMultiSheetDoc *pDesign )
 					std::vector<CString>	fields;
 					fields.resize( 1 );
 					fields[ 0 ] = thisMethod->GetSymbolData()->description;
-					for (int i = 2; i < thisMethod->GetFieldCount(); i++)
+					int i;
+					for (i = 2; i < thisMethod->GetFieldCount(); i++)
 					{
 						// Do we include this field?
 						if (thisMethod->GetFieldType(i) == always_hidden)
@@ -126,8 +127,9 @@ void CBOMGenerator::GenerateBomForDesign( int level, CMultiSheetDoc *pDesign )
 
 						// Get the field name - is it already in the headings?
 						CString field_name = thisMethod->GetFieldName(i);
+						unsigned int j;
 
-						for (int j=0;j<m_attrs.size();j++)
+						for (j=0;j<m_attrs.size();j++)
 						{
 							if (field_name.CompareNoCase( m_attrs[j] ) == 0)
 							{
@@ -148,7 +150,7 @@ void CBOMGenerator::GenerateBomForDesign( int level, CMultiSheetDoc *pDesign )
 					}
 
 					// Now generate the names
-					for (i = 0; i < fields.size();i++)
+					for (unsigned int i = 0; i < fields.size();i++)
 					{
 						name += ",";
 						name += fields[i];
@@ -173,7 +175,7 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
 	if (csv)
 	{
 		_ftprintf(fout,_T("Reference,Quantity,Name"));
-		for (int i = 0; i < m_attrs.size(); i++)
+		for (unsigned int i = 0; i < m_attrs.size(); i++)
 		{
 			_ftprintf(fout,_T(",%s"),m_attrs[i]);
 		}

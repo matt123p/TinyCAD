@@ -34,10 +34,12 @@ xml_parse_tag::xml_parse_tag()
 {
 	m_closing_tag = false;
 	m_self_closing_tag = true;
+	TRACE("xml_parse_tag::xml_parse_tab():  Constructor\n");
 }
 
 xml_parse_tag::~xml_parse_tag()
 {
+	TRACE("xml_parse_tag::~xml_parse_tab():  Destructor\n");
 
 }
 
@@ -49,6 +51,8 @@ xml_parse_tag::~xml_parse_tag()
 void xml_parse_tag::out_of_sequence()
 {
 	const xml_char_t *e;
+
+	TRACE("xml_parse_tag::out_of_sequence()\n");
 
 	switch (m_state)
 	{
@@ -82,23 +86,31 @@ void xml_parse_tag::out_of_sequence()
 
 void xml_parse_tag::finished_name( )
 {
+
+	TRACE("xml_parse_tag::finished_name()\n");
+
 	switch (m_state)
 	{
 	case reading_name:
-		// TRACE("got xml tag name = '%s'\n", m_working_string );
+		//TRACE("xml_parse_tag::finished_name( ):  m_state = reading_name, m_working_attr = \"%s\", new m_state = waitfor_attr_equals.\n",m_working_attr);
 		m_state = waitfor_attr_name;
 		m_tag_name = m_working_string;
 		break;
 	case reading_attribute_name:
 		m_working_attr = m_working_string;
 		m_state = waitfor_attr_equals;
+		//TRACE("xml_parse_tag::finished_name( ):  m_state = reading_attribute_name, m_working_attr = \"%s\", new m_state = waitfor_attr_equals.\n",m_working_attr);
 		break;
 	case reading_attribute_value:
 	case reading_attribute_value_q1:
 	case reading_attribute_value_q2:
-		// TRACE("%s = %s\n", m_working_attr, m_working_string );
+		//TRACE("xml_parse_tag::finished_name( ):  m_state = %d (reading_attribute_value or _q1 or _q2), m_working_attr = \"%s\", m_working_string = \"%s\", new m_state = waitfor_attr_equals.\n",m_state, m_working_attr, m_working_string);
+		//TRACE("\t\t%s = %s\n", m_working_attr, m_working_string );	//djl - debug only
 		m_attributes[ m_working_attr ] = m_working_string;
 		m_state = waitfor_attr_name;
+		break;
+	default:  
+		//TRACE("xml_parse_tag::finished_name( ):  no action required.\n");	//djl - debug only
 		break;
 	}
 }
@@ -113,6 +125,9 @@ bool xml_parse_tag::parse(CXMLReader *s)
 {
 	// We are in the tag so read in the tag name,
 	// it's attributes and find the closing >
+
+
+	TRACE("xml_parse_tag::parse():  Entering parse().  Read in tag name, its attributes, and find the closing >.\n");
 
 	m_state = waitfor_close_or_name;
 	m_closing_tag = false;
@@ -385,6 +400,9 @@ bool xml_parse_tag::parse(CXMLReader *s)
 	}
 
 
+	TRACE("xml_parse_tag::parse():  Tag completed - leaving parse().\n");
+
+
 	// That's it! we have completed the tag..
 	return m_self_closing_tag;
 }
@@ -402,6 +420,9 @@ CString xml_parse_tag::read_entity(CXMLReader *s)
 	const xml_char_t *r = _T("?");
 
 	// read until the end of the string and determine which entity it is...
+
+	TRACE("xml_parse_tag::read_entity():  read until end of string and determine which entity it is...\n");
+
 	CString q;
 	for (;;)
 	{
@@ -476,8 +497,3 @@ CString xml_parse_tag::read_entity(CXMLReader *s)
 
 	return r;
 }
-
-
-
-
-

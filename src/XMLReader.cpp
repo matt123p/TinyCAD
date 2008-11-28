@@ -35,6 +35,10 @@
 
 CXMLReader::CXMLReader(CStream* pInput)
 {
+	
+	TRACE("CXMLReader::CXMLReader():  Constructor.\n");
+
+
 	m_pInput = pInput;
 	m_uu_data = NULL;
 	m_uu_size = 0;
@@ -51,10 +55,16 @@ CXMLReader::CXMLReader(CStream* pInput)
 #endif
 
 	intoTag();
+	
+	TRACE("CXMLReader::CXMLReader(): Leaving CXMLReader() constructor.\n");
+
 }
 
 CXMLReader::~CXMLReader()
 {
+	
+	TRACE("CXMLReader::~CXMLReader():  Entering Destructor.\n");
+
 	while (m_tags.size() > 0)
 	{
 		delete m_tags.front();
@@ -67,11 +77,17 @@ CXMLReader::~CXMLReader()
 	}
 
 	delete m_decoded_buffer;
+	
+	TRACE("CXMLReader::~CXMLReader():  Leaving Destructor\n");
+
 }
 
-// Set up the charaset conversions
+// Set up the character set conversions
 void CXMLReader::SetCharset( const TCHAR* fromcode )
 {
+	
+	TRACE("CXMLReader::SetCharset(): Entering - doing iconv stuff.\n");
+
 
 	if (m_charset_conv != CHARSET_INVALID)
 	{
@@ -87,6 +103,9 @@ void CXMLReader::SetCharset( const TCHAR* fromcode )
 	m_charset_conv = iconv_open( "CHAR", fromcode );
 
 #endif
+
+	
+	TRACE("CXMLReader::SetCharset():  Leaving.\n");
 
 
 }
@@ -176,6 +195,9 @@ bool CXMLReader::internal_getAttribute( const xml_char_t *name, CString &data )
 
 void CXMLReader::child_data( const xml_char_t *in )
 {
+		
+	TRACE("CXMLReader::child_data():  uudecode stuff\n");
+
 	if (m_uu_data != NULL && m_uu_size > 0)
 	{
 		int l = _tcslen( in );
@@ -196,6 +218,9 @@ void CXMLReader::child_data( const xml_char_t *in )
 // Handle the current tag as a system tag
 void CXMLReader::handleSystemTag()
 {
+	
+	TRACE("CXMLReader::handleSystemTag()\n");
+
 	xml_parse_tag *tag = get_current_tag();
 
 	// Is this the xml header tag?
@@ -215,6 +240,9 @@ void CXMLReader::handleSystemTag()
 // Scan and find the next tag
 bool CXMLReader::getNextTag( CString &name )
 {
+	
+	TRACE("CXMLReader::getNextTag()\n");
+
 	if (m_current_self_closing)
 	{
 		return false;
@@ -306,6 +334,9 @@ bool CXMLReader::getNextTag( CString &name )
 //
 bool CXMLReader::closeTag()
 {
+	
+	TRACE("CXMLReader::closeTag()\n");
+
 	if (m_current_self_closing)
 	{
 		return true;
@@ -359,6 +390,9 @@ bool CXMLReader::closeTag()
 // level...
 bool CXMLReader::nextTag( CString &name )
 {
+	
+	TRACE("CXMLReader::nextTag()\n");
+
 	// First, we must find the closing of the 
 	// previous tag
 	if (!closeTag())
@@ -374,6 +408,9 @@ bool CXMLReader::nextTag( CString &name )
 // tags that are inside the current tag....
 void CXMLReader::intoTag()
 {
+	
+	TRACE("CXMLReader::intoTag():  Entering.\n");
+
 	// Is this tag self-closing?
 	if (m_tags.size() > 0 && get_current_tag()->m_self_closing_tag)
 	{
@@ -386,6 +423,9 @@ void CXMLReader::intoTag()
 	m_tags.push_front( tag );
 	}
 	
+	TRACE("CXMLReader::intoTag():  Leaving.\n");
+
+	
 }
 
 
@@ -396,6 +436,9 @@ void CXMLReader::intoTag()
 //
 void CXMLReader::outofTag()
 {
+	
+	TRACE("CXMLReader::outofTag()\n");
+
 	if (m_current_self_closing)
 	{
 		m_current_self_closing = false;
@@ -437,6 +480,9 @@ void CXMLReader::outofTag()
 // 
 CString CXMLReader::internal_getChildData()
 {
+	
+	TRACE("CXMLReader::internal_getChildData()\n");
+
 	m_child_data = "";
 
 	closeTag();
@@ -446,6 +492,9 @@ CString CXMLReader::internal_getChildData()
 
 void CXMLReader::getChildDataUUdecode( BYTE* &data, UINT &size )
 {
+	
+	TRACE("CXMLReader::getChildDataUUdecode()\n");
+
 	// Get the size of this data
 	CString name;
 
@@ -468,6 +517,9 @@ void CXMLReader::getChildDataUUdecode( BYTE* &data, UINT &size )
 // UUdecode
 void CXMLReader::uudecode( xml_char_t in )
 {
+	
+	TRACE("CXMLReader::uudecode()\n");
+
 	switch (m_uu_state)
 	{
 	case 0:	// We are awaiting the line count
@@ -540,7 +592,7 @@ void CXMLReader::unmakeString( CString str, int &data )
 
 void CXMLReader::unmakeString( CString str, UINT &data )
 {
-	_stscanf(str, _T("%u"), &data );
+	_stscanf_s(str, _T("%u"), &data );
 }
 
 
@@ -557,7 +609,7 @@ void CXMLReader::unmakeString( CString str, double &data )
 
 void CXMLReader::unmakeString( CString str, CDPoint &data )
 {
-	_stscanf( str, _T("%lg,%lg"), &data.x, &data.y );
+	_stscanf_s( str, _T("%lg,%lg"), &data.x, &data.y );
 	data.x = data.unmakeXMLUnits( data.x );
 	data.y = data.unmakeXMLUnits( data.y );
 }

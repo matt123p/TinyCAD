@@ -405,7 +405,7 @@ void CDrawText::LButtonDown(CDPoint p, CDPoint)
   // Only increment if old value was a number at end of string
   if (hold!=-1) {
 	TCHAR NewNum[17];
-	_itot(_tstoi(str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
+	_itot_s(_tstoi(str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
 	str = str.Left(hold)+NewNum;
   }
   g_EditToolBar.m_TextEdit.ReFocus();

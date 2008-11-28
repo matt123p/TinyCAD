@@ -38,6 +38,9 @@ CXMLWriter::CXMLWriter(CStream*	pOutput)
 	m_charset_conv = CHARSET_INVALID;
 	m_conversion_buf_size = 0;
 	m_conversion_buffer = NULL;
+	m_nesting_level = -1;
+	m_needs_newline = false;
+	m_needs_tabs = false;
 
 	// Setup the default encoding
 #ifdef UNICODE
@@ -77,6 +80,7 @@ void CXMLWriter::SetCharset( const char* tocode, const char* fromcode )
 
 void CXMLWriter::addComment( const TCHAR *comment )
 {
+
 	SendString(_T("\r\n<!--"));
 	SendString(comment);
 	SendString(_T("-->\r\n"));
@@ -98,6 +102,19 @@ void CXMLWriter::addTag(const TCHAR *tag_name)
 
 	// Start a new tag, and push it's name onto the tag stack...
 	m_tags.push_front( tag_name );
+
+	++m_nesting_level;	//track the level of nesting
+	if (m_needs_newline) {
+		SendString( _T("\r\n"));
+	}
+	m_needs_newline = true;		//if not needed, it will be cleared by closeTag().  If still needed the next time that this function is entered, it will output a newline
+	m_needs_tabs = false;	//flag will be set by closeTag() after outputting tabs, if needed
+
+	assert(m_nesting_level >= -1);	//make sure that we have the nesting level matched properly
+
+	for (int i=m_nesting_level; i > 0; --i) {
+		SendString(_T("\t"));
+	}
 
 	SendString(_T("<"));
 	SendString(tag_name);
@@ -170,6 +187,13 @@ void CXMLWriter::internal_addChildData(const TCHAR *data)
 
 void CXMLWriter::closeTag()
 {
+	//if the previous output contained a newline, then the tabs need to be output before the closing tag
+	if (m_needs_tabs) {
+		for (int i=m_nesting_level; i > 0; --i) {
+			SendString(_T("\t"));
+		}
+	}
+
 	// Did we have any child data?
 	if (m_child_data)
 	{
@@ -186,6 +210,13 @@ void CXMLWriter::closeTag()
 
 	m_tags.pop_front();
 	m_child_data = m_tags.size() != 0;
+
+	--m_nesting_level;	//track the level of nesting
+	assert(m_nesting_level >= -1);
+
+	//set the flags that help to output extra newlines and tabs when double pushing or double popping
+	m_needs_newline = false;	//this flag is set by addTag()
+	m_needs_tabs = true;	//this flag will be cleared by addTag() if it has already added tabs
 }
 
 

@@ -79,7 +79,7 @@ bool CDrawMetaFile::setImageFile( const TCHAR *filename )
 	CImage *i = NULL;
 
 	// Determine the image type
-	TCHAR* ext = _tcsrchr(filename,'.');
+	TCHAR* ext = (TCHAR *) _tcsrchr(filename,'.');
 	if (!ext)
 	{
 		AfxMessageBox( _T("Unknown image file type") );
@@ -102,8 +102,10 @@ bool CDrawMetaFile::setImageFile( const TCHAR *filename )
 
 
 	// First read in the file
-	FILE *fin = _tfopen(filename,_T("rb"));
-	if (!fin)
+	FILE *fin;
+	errno_t err;
+	err = _tfopen_s(&fin, filename,_T("rb"));
+	if (!fin || (err != 0))
 	{
 		AfxMessageBox(_T("Cannot open file"));
 		return false;

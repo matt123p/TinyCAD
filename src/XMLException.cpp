@@ -42,7 +42,11 @@ CXMLException::~CXMLException()
 
 BOOL CXMLException::GetErrorMessage( LPTSTR lpszError, UINT nMaxError, PUINT pnHelpContext )
 {
-	_tcsncpy( lpszError, m_error, nMaxError );
+	#ifdef USE_VS2003
+		_tcsncpy( lpszError, m_error, nMaxError );
+	#else
+		_tcsncpy_s( lpszError,nMaxError, m_error, nMaxError );
+	#endif
 	lpszError[ nMaxError -1 ] = 0;
 	return TRUE;
 }

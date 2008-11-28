@@ -615,7 +615,7 @@ int Message(int Resource,int Type,const TCHAR *NameString)
   else {
 	// Play the sound associated with this message
 	MessageBeep(Type & 0x70);
-	_stprintf(buffer,String,NameString);
+	_stprintf_s(buffer,String,NameString);
 	r = AfxMessageBox(buffer,Type);
   }
 
@@ -1361,15 +1361,20 @@ void CTinyCadView::OnFileSaveasbitmap()
 	// Get the file in which to save the network
 	TCHAR szFile[256];
 
-	_tcscpy(szFile,GetDocument()->GetPathName());
+	_tcscpy_s(szFile,GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile,'.');
 	if (!ext)
 	{
-		_tcscpy(szFile,_T("output.png"));
+		_tcscpy_s(szFile,_T("output.png"));
 	}
 	else
 	{
-		_tcscpy(ext, _T(".png"));
+		#ifdef USE_VS2003
+			_tcscpy(ext, _T(".png"));
+		#else
+			size_t remaining_space = &szFile[255] - ext + 1;
+			_tcscpy_s(ext, remaining_space,_T(".png"));
+		#endif
 	}
 
 	CDlgExportPNG dlg;
