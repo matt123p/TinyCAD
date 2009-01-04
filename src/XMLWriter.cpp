@@ -41,6 +41,7 @@ CXMLWriter::CXMLWriter(CStream*	pOutput)
 	m_nesting_level = -1;
 	m_needs_newline = false;
 	m_needs_tabs = false;
+    m_line_counter = 1;
 
 	// Setup the default encoding
 #ifdef UNICODE
@@ -139,13 +140,13 @@ void CXMLWriter::internal_addAttribute(const TCHAR *name, const TCHAR *value)
 	// Do we have child data?
 	if (m_child_data)
 	{
-		throw new CXMLException(ERR_XML_HAVE_CHILD_DATA, TRUE);
+		throw new CXMLException(ERR_XML_HAVE_CHILD_DATA, m_line_counter, TRUE);
 	}
 
 	// Is there an open tag?
 	if (m_tags.size() == 0)
 	{
-		throw new CXMLException(ERR_XML_NO_TAG, TRUE);
+		throw new CXMLException(ERR_XML_NO_TAG, m_line_counter, TRUE);
 	}
 
 	SendString(_T(" "));
@@ -167,7 +168,7 @@ void CXMLWriter::internal_addChildData(const TCHAR *data)
 	// Is there an open tag?
 	if (m_tags.size() == 0)
 	{
-		throw new CXMLException(ERR_XML_NO_TAG, TRUE);		
+		throw new CXMLException(ERR_XML_NO_TAG, m_line_counter, TRUE);		
 	}
 
 	if (!m_child_data)
@@ -336,6 +337,7 @@ void CXMLWriter::SendString( const TCHAR *str)
 	int	converted_bytes_to_write = out - m_conversion_buffer;
 
 	m_pOutput->Write( m_conversion_buffer, converted_bytes_to_write );
+    m_line_counter++;
 }
 
 
@@ -352,7 +354,7 @@ void CXMLWriter::addChildDataUUencode( BYTE *data, UINT size )
 	// Is there an open tag?
 	if (m_tags.size() == 0)
 	{
-		throw new CXMLException(ERR_XML_NO_TAG, TRUE);
+		throw new CXMLException(ERR_XML_NO_TAG, m_line_counter, TRUE);
 	}
 
 	if (!m_child_data)

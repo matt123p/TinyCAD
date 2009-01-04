@@ -34,7 +34,8 @@ protected:
 	CString		m_error;
 
 public:
-	CXMLException( const TCHAR *name, BOOL b_AutoDelete = FALSE );
+	//CXMLException( const TCHAR *name, BOOL b_AutoDelete = FALSE );
+	CXMLException( const TCHAR *name, int line_counter, BOOL b_AutoDelete = FALSE );
 	virtual ~CXMLException();
 
 	virtual BOOL GetErrorMessage( LPTSTR lpszError, UINT nMaxError, PUINT pnHelpContext = NULL );

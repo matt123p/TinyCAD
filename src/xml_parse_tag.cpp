@@ -34,12 +34,12 @@ xml_parse_tag::xml_parse_tag()
 {
 	m_closing_tag = false;
 	m_self_closing_tag = true;
-	TRACE("xml_parse_tag::xml_parse_tab():  Constructor\n");
+	//TRACE("xml_parse_tag::xml_parse_tab():  Constructor\n");
 }
 
 xml_parse_tag::~xml_parse_tag()
 {
-	TRACE("xml_parse_tag::~xml_parse_tab():  Destructor\n");
+	//TRACE("xml_parse_tag::~xml_parse_tab():  Destructor\n");
 
 }
 
@@ -81,13 +81,13 @@ void xml_parse_tag::out_of_sequence()
 	}
 
 	// Raise the exception
-	throw new CXMLException(e, TRUE);
+	throw new CXMLException(e, -1, TRUE);
 }
 
 void xml_parse_tag::finished_name( )
 {
 
-	TRACE("xml_parse_tag::finished_name()\n");
+	//TRACE("xml_parse_tag::finished_name()\n");
 
 	switch (m_state)
 	{
@@ -127,7 +127,7 @@ bool xml_parse_tag::parse(CXMLReader *s)
 	// it's attributes and find the closing >
 
 
-	TRACE("xml_parse_tag::parse():  Entering parse().  Read in tag name, its attributes, and find the closing >.\n");
+	//TRACE("xml_parse_tag::parse():  Entering parse().  Read in tag name, its attributes, and find the closing >.\n");
 
 	m_state = waitfor_close_or_name;
 	m_closing_tag = false;
@@ -400,7 +400,7 @@ bool xml_parse_tag::parse(CXMLReader *s)
 	}
 
 
-	TRACE("xml_parse_tag::parse():  Tag completed - leaving parse().\n");
+	//TRACE("xml_parse_tag::parse():  Tag completed - leaving parse().\n");
 
 
 	// That's it! we have completed the tag..
@@ -421,7 +421,7 @@ CString xml_parse_tag::read_entity(CXMLReader *s)
 
 	// read until the end of the string and determine which entity it is...
 
-	TRACE("xml_parse_tag::read_entity():  read until end of string and determine which entity it is...\n");
+	//TRACE("xml_parse_tag::read_entity():  read until end of string and determine which entity it is...\n");
 
 	CString q;
 	for (;;)
@@ -493,6 +493,10 @@ CString xml_parse_tag::read_entity(CXMLReader *s)
 		{
 			return _T("\"");
 		}
+        else if (q == _T("apos"))
+        {
+            return _T("\'");
+        }
 	}
 
 	return r;

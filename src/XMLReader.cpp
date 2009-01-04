@@ -36,7 +36,7 @@
 CXMLReader::CXMLReader(CStream* pInput)
 {
 	
-	TRACE("CXMLReader::CXMLReader():  Constructor.\n");
+	//TRACE("CXMLReader::CXMLReader():  Constructor.\n");
 
 
 	m_pInput = pInput;
@@ -49,6 +49,7 @@ CXMLReader::CXMLReader(CStream* pInput)
 	m_decoded_buf_size = 0;
 	m_output_pos = 0;
 	m_decoded_chars = 0;
+    m_line_counter = 0;
 
 #ifdef UNICODE
 	SetCharset( _T("UTF-8") );
@@ -56,14 +57,14 @@ CXMLReader::CXMLReader(CStream* pInput)
 
 	intoTag();
 	
-	TRACE("CXMLReader::CXMLReader(): Leaving CXMLReader() constructor.\n");
+	//TRACE("CXMLReader::CXMLReader(): Leaving CXMLReader() constructor.\n");
 
 }
 
 CXMLReader::~CXMLReader()
 {
 	
-	TRACE("CXMLReader::~CXMLReader():  Entering Destructor.\n");
+	//TRACE("CXMLReader::~CXMLReader():  Entering Destructor.\n");
 
 	while (m_tags.size() > 0)
 	{
@@ -78,7 +79,7 @@ CXMLReader::~CXMLReader()
 
 	delete m_decoded_buffer;
 	
-	TRACE("CXMLReader::~CXMLReader():  Leaving Destructor\n");
+	//TRACE("CXMLReader::~CXMLReader():  Leaving Destructor\n");
 
 }
 
@@ -86,7 +87,7 @@ CXMLReader::~CXMLReader()
 void CXMLReader::SetCharset( const TCHAR* fromcode )
 {
 	
-	TRACE("CXMLReader::SetCharset(): Entering - doing iconv stuff.\n");
+	//TRACE("CXMLReader::SetCharset(): Entering - doing iconv stuff.\n");
 
 
 	if (m_charset_conv != CHARSET_INVALID)
@@ -105,9 +106,7 @@ void CXMLReader::SetCharset( const TCHAR* fromcode )
 #endif
 
 	
-	TRACE("CXMLReader::SetCharset():  Leaving.\n");
-
-
+	//TRACE("CXMLReader::SetCharset():  Leaving.\n");
 }
 
 // Get the next character from the input stream
@@ -132,7 +131,13 @@ bool CXMLReader::getNextChar( xml_char_t &c )
 					break;
 				}
 				input += in_c;
-			}
+
+                if (in_c == '\n') {
+                    //track the line number of the input XML file so that it can be used in error messages.
+                    m_line_counter++;
+                }
+
+            }
 			while (in_c != '\r' && in_c != '\n');
 
 			if (m_decoded_buf_size < input.size() * 4)
@@ -196,7 +201,7 @@ bool CXMLReader::internal_getAttribute( const xml_char_t *name, CString &data )
 void CXMLReader::child_data( const xml_char_t *in )
 {
 		
-	TRACE("CXMLReader::child_data():  uudecode stuff\n");
+	//TRACE("CXMLReader::child_data():  uudecode stuff\n");
 
 	if (m_uu_data != NULL && m_uu_size > 0)
 	{
@@ -219,7 +224,7 @@ void CXMLReader::child_data( const xml_char_t *in )
 void CXMLReader::handleSystemTag()
 {
 	
-	TRACE("CXMLReader::handleSystemTag()\n");
+	//TRACE("CXMLReader::handleSystemTag()\n");
 
 	xml_parse_tag *tag = get_current_tag();
 
@@ -241,7 +246,7 @@ void CXMLReader::handleSystemTag()
 bool CXMLReader::getNextTag( CString &name )
 {
 	
-	TRACE("CXMLReader::getNextTag()\n");
+	//TRACE("CXMLReader::getNextTag()\n");
 
 	if (m_current_self_closing)
 	{
@@ -335,7 +340,7 @@ bool CXMLReader::getNextTag( CString &name )
 bool CXMLReader::closeTag()
 {
 	
-	TRACE("CXMLReader::closeTag()\n");
+	//TRACE("CXMLReader::closeTag()\n");
 
 	if (m_current_self_closing)
 	{
@@ -369,7 +374,13 @@ bool CXMLReader::closeTag()
 			}
 			else
 			{
-				throw new CXMLException(ERR_XML_WRONG_CLOSE, TRUE);
+                CString diagnosticMessage;
+                diagnosticMessage.Format(_T("Error:  XMLReader line #378:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"),
+                    name,
+                    close_name,
+                    m_line_counter);
+                TRACE(diagnosticMessage);
+				throw new CXMLException(ERR_XML_WRONG_CLOSE, m_line_counter, TRUE);
 			}
 		}
 		else
@@ -391,7 +402,7 @@ bool CXMLReader::closeTag()
 bool CXMLReader::nextTag( CString &name )
 {
 	
-	TRACE("CXMLReader::nextTag()\n");
+	//TRACE("CXMLReader::nextTag()\n");
 
 	// First, we must find the closing of the 
 	// previous tag
@@ -409,7 +420,7 @@ bool CXMLReader::nextTag( CString &name )
 void CXMLReader::intoTag()
 {
 	
-	TRACE("CXMLReader::intoTag():  Entering.\n");
+	//TRACE("CXMLReader::intoTag():  Entering.\n");
 
 	// Is this tag self-closing?
 	if (m_tags.size() > 0 && get_current_tag()->m_self_closing_tag)
@@ -423,12 +434,10 @@ void CXMLReader::intoTag()
 	m_tags.push_front( tag );
 	}
 	
-	TRACE("CXMLReader::intoTag():  Leaving.\n");
+	//TRACE("CXMLReader::intoTag():  Leaving.\n");
 
 	
 }
-
-
 
 
 // Move up one level.  nextTag will then return tags
@@ -437,7 +446,7 @@ void CXMLReader::intoTag()
 void CXMLReader::outofTag()
 {
 	
-	TRACE("CXMLReader::outofTag()\n");
+	//TRACE("CXMLReader::outofTag()\n");
 
 	if (m_current_self_closing)
 	{
@@ -462,7 +471,14 @@ void CXMLReader::outofTag()
 
 		if (get_current_tag()->m_tag_name != check_name)
 		{
-			throw new CXMLException(ERR_XML_WRONG_CLOSE, TRUE);
+            CString diagnosticMessage;
+            diagnosticMessage.Format(_T("Error:  XMLReader line #475:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"),
+                check_name,
+                get_current_tag()->m_tag_name,
+                m_line_counter);
+            TRACE(diagnosticMessage);
+
+			throw new CXMLException(ERR_XML_WRONG_CLOSE, m_line_counter, TRUE);
 		}
 	}
 	else
@@ -481,7 +497,7 @@ void CXMLReader::outofTag()
 CString CXMLReader::internal_getChildData()
 {
 	
-	TRACE("CXMLReader::internal_getChildData()\n");
+	//TRACE("CXMLReader::internal_getChildData()\n");
 
 	m_child_data = "";
 
@@ -493,7 +509,7 @@ CString CXMLReader::internal_getChildData()
 void CXMLReader::getChildDataUUdecode( BYTE* &data, UINT &size )
 {
 	
-	TRACE("CXMLReader::getChildDataUUdecode()\n");
+	//TRACE("CXMLReader::getChildDataUUdecode()\n");
 
 	// Get the size of this data
 	CString name;
@@ -518,7 +534,7 @@ void CXMLReader::getChildDataUUdecode( BYTE* &data, UINT &size )
 void CXMLReader::uudecode( xml_char_t in )
 {
 	
-	TRACE("CXMLReader::uudecode()\n");
+	//TRACE("CXMLReader::uudecode()\n");
 
 	switch (m_uu_state)
 	{
@@ -573,10 +589,6 @@ void CXMLReader::uudecode( xml_char_t in )
 
 
 }
-
-
-
-
 
 
 // Type conversions....
@@ -648,4 +660,9 @@ void CXMLReader::unmakeString( CString str, bool &data )
 	int d;
 	unmakeString( str, d );
 	data = d != 0;
+}
+
+int CXMLReader::get_line_counter()
+{
+	return m_line_counter;
 }

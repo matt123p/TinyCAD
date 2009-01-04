@@ -62,6 +62,9 @@ private:
 	size_t		m_decoded_chars;
 	size_t		m_output_pos;
 
+    // Keep an input line counter to help with error messages
+    int m_line_counter;
+
 	// Type conversions....
 	void unmakeString( CString str, CString &data );
 	void unmakeString( CString str, int &data );
@@ -119,6 +122,8 @@ public:
 	// Get the next character from the input stream
 	bool getNextChar(xml_char_t &c);
 
+    // Get the line counter
+    int get_line_counter();
 
 	// Get the attribute information associated with the current
 	// tag...

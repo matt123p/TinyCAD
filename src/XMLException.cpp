@@ -30,10 +30,17 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CXMLException::CXMLException(const TCHAR *name, BOOL b_AutoDelete )
+//CXMLException::CXMLException(const TCHAR *name, BOOL b_AutoDelete )
+//: CException( b_AutoDelete  )
+//{
+//	m_error = name;
+//}
+
+CXMLException::CXMLException(const TCHAR *name, int line_counter, BOOL b_AutoDelete )
 : CException( b_AutoDelete  )
 {
-	m_error = name;
+
+    m_error.Format(_T("%s.\nError first detected on line #%d.\n"), name, line_counter);
 }
 
 CXMLException::~CXMLException()

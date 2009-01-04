@@ -49,7 +49,7 @@ class CXMLWriter
 	void internal_addAttribute( const xml_char_t *name, const xml_char_t *value );
 	void internal_addTag( const xml_char_t *tag_name, const xml_char_t *data );
 
-	// Set up the charaset conversions
+	// Set up the character set conversions
 	void SetCharset( const char* tocode, const char* fromcode );
 
 	// Close an open tag but not completely..
@@ -79,6 +79,9 @@ class CXMLWriter
 	bool		m_needs_newline;
 	bool		m_needs_tabs;
 
+    // Keep an output line counter to help with error messages
+    int         m_line_counter;
+
 public:
 	void closeTag();
 	void addTag( const xml_char_t *tag_name );
@@ -86,6 +89,8 @@ public:
 
 	void addChildDataUUencode( BYTE *data, UINT size );
 	
+    int get_line_counter();
+
 	template<class T> void addTag( const xml_char_t *tag_name, T t )
 	{
 		internal_addTag( tag_name, makeString( t ) );
