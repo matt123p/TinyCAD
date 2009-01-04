@@ -44,6 +44,12 @@
 #define IDR_RT_MANIFEST1                147
 #define IDI_UNSELECTED_BOX              148
 #define IDR_HIERARCHICAL_EDIT           149
+#define IDI_ALIGN_LEFT                  150
+#define IDI_ALIGN_CENTRE                151
+#define IDI_ALIGN_RIGHT                 152
+#define IDI_ALIGN_TOP                   153
+#define IDI_ALIGN_MIDDLE                154
+#define IDI_ALIGN_BOTTOM                155
 #define IDM_EDITREDO                    160
 #define IDM_EDITMOVE                    162
 #define IDM_EDITDRAG                    163
@@ -529,9 +535,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        150
+#define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32878
-#define _APS_NEXT_CONTROL_VALUE         1557
+#define _APS_NEXT_CONTROL_VALUE         1564
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

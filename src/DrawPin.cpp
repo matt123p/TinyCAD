@@ -51,7 +51,7 @@ void CDrawPin::OldLoad(CStream &archive)
   DetermineSize();
   m_segment=0;
 
-  // Sneekly hide the smallpin parameter in the m_which parameter....
+  // Sneakily hide the smallpin parameter in the m_which parameter....
   BOOL smallpin = m_which & 128;
   m_which &= ~128;
   m_number_pos = 0;
@@ -66,8 +66,12 @@ void CDrawPin::Load(CStream &archive)
   DetermineSize();
   m_segment=0;
 
-  if (m_length < 5)
+    //Now that there is a "hotspot" graphical indicator, it  is possible to use zero length pins
+  if ((m_length < 5) && (m_length != 0))
   {
+      //Now that there is a "hotspot" graphical indicator, it may no longer be required to force a minimum pin length,
+      //but since this was originally forced, I do not know whether this might be to handle some earlier symbol format conversion,
+      //so I am leaving it in place, slightly less intact.
 	  m_length = 20;
   }
   m_number_pos = 0;
@@ -123,8 +127,12 @@ void CDrawPin::LoadXML( CXMLReader &xml )
 
 	m_segment=0;
 
-	if (m_length < 5)
+    //Now that there is a "hotspot" graphical indicator, it  is possible to use zero length pins
+	if ((m_length < 5) && (m_length != 0))
 	{
+        //Now that there is a "hotspot" graphical indicator, it may no longer be required to force a minimum pin length,
+        //but since this was originally forced, I do not know whether this might be to handle some earlier symbol format conversion,
+        //so I am leaving it in place, slightly less intact.
 		m_length = 20;
 	}
 
@@ -135,10 +143,10 @@ void CDrawPin::LoadXML( CXMLReader &xml )
 
 void CDrawPin::DetermineSize()
 {
-	// Is this pin visible?
-	if (m_which == 4 || m_which == 5)
+	// Is this pin hidden, or does it have a zero length?
+	if (m_which == 4 || m_which == 5 || m_length == 0)
 	{
-		// Nope, so it has no size!
+		// Yes, so it has no size!
 		m_point_b = m_point_a;
 		return;
 	}
@@ -147,7 +155,7 @@ void CDrawPin::DetermineSize()
 	int dr;
 	DetermineLayout( pa,pb,pc,pd,pta,ptb,dr, 0 );
 
-	m_point_b = pta; 
+	m_point_b = pta;
 
 	if ((m_show&1)!=0)
 	{
@@ -318,7 +326,7 @@ void CDrawPin::ConvertPowerToNormal()
 {
 	// Convert this pin to a normal one
 	m_which = 0;
-    
+
 	// Re-calculate our size
 	DetermineSize();
 }
@@ -438,7 +446,7 @@ void CDrawPin::DetermineLayout( CDPoint &pa,CDPoint &pb,CDPoint &pc,CDPoint &pd,
 
 
 
-  // Make corrections for bizzar rotations
+  // Make corrections for bizarre rotations
   switch (m_dir)
   {
   case 2:
@@ -492,14 +500,14 @@ void CDrawPin::Display( BOOL erase )
   	  CDSize sz = m_pDesign->GetTextExtent( m_number, fPIN );
 	  if (dr < 2)
 	  {
-		  r = CDRect( ptb.x - sz.cy, ptb.y - sz.cy, ptb.x + sz.cy, ptb.y + sz.cx);		  
+		  r = CDRect( ptb.x - sz.cy, ptb.y - sz.cy, ptb.x + sz.cy, ptb.y + sz.cx);
 	  }
 	  else
 	  {
 		  r = CDRect( ptb.x, ptb.y - sz.cy, ptb.x + sz.cx, ptb.y + sz.cy );
 	  }
-	  
-	  m_pDesign->InvalidateRect( r, erase, 10 );	
+
+	  m_pDesign->InvalidateRect( r, erase, 10 );
   }
 
 }
@@ -508,7 +516,7 @@ void CDrawPin::Display( BOOL erase )
 // Display the pin item on the screen!
 void CDrawPin::Paint(CContext &dc,paint_options options)
 {
-  // Only display the pin if the it is in the current part
+  // Only display the pin if it is in the current part
   if (IsInvisible() || (m_which == 5 && !(m_pDesign->IsEditLibrary())) )
 	return;
 
@@ -557,12 +565,14 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	  draw_cross = true;
 	  break;
   default: // Normal
-	  draw_line = true;
+      if (m_length != 0) {
+    	  draw_line = true;
+      }
+      else {    //zero length pins don't draw a line, just the "hotspot"
+          draw_line = false;
+      }
 	  break;
   }
-
-
-
 
   switch (options)
   {
@@ -584,11 +594,11 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
   }
 
 
-  if ( draw_dot ) 
+  if ( draw_dot )
   {
 	// Draw the dot
 	dc.Ellipse(CDRect(pb.x+(pa.x-pd.x),pb.y+(pa.y-pd.y),pc.x,pc.y));
-  } 
+  }
   else if (draw_line)
   {
 	dc.MoveTo(pa);
@@ -596,7 +606,7 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
   }
 
   // Draw the clock (triangle)
-  if (draw_triangle) 
+  if (draw_triangle)
   {
 	dc.MoveTo(pb);
   	dc.LineTo(pc);
@@ -605,9 +615,7 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	dc.LineTo(pc);
   }
 
-
-
-  // Draw the bits that all pins have in comman
+  // Draw the bits that all pins have in common
   if (draw_line)
   {
 	  dc.MoveTo(m_point_a);
@@ -619,8 +627,18 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	dc.TextOut(m_str,pta,options,dr);
   }
 
-  if ((m_show&2)!=0 && !IsHierarchicalPin())
+  if ((m_show&2)!=0 && !IsHierarchicalPin()) {
 	dc.TextOut(m_number,ptb,options,dr);
+  }
+
+  // Draw the "Hot Spot" - this helps users get the pin rotation correct and not build symbols with backwards pins
+  // The "Hot Spot" (HS) is a small X on the connection end of the pin
+  //Draw one of the diagonal lines
+  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
+  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
+  //Draw the other diagonal line
+  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
+  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
 
   // If this pin is a cross then draw it!
   if (draw_cross)
@@ -705,7 +723,7 @@ void CDrawPin::LButtonDown(CDPoint p, CDPoint)
 
 int CDrawPin::DoRotate(int olddir,int newdir)
 {
-  //     New rotation=> 2  3  4  
+  //     New rotation=> 2  3  4
   //				    Current dir ..\/..
   int table[] = {	2, 3, 0, 		// 0 (Up)
 			3, 2, 1,		// 1 (Down)
@@ -725,12 +743,12 @@ void CDrawPin::Rotate(CDPoint p,int ndir)
   m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
   m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
 
-  // Perfrom the rotation
+  // Perform the rotation
   switch (ndir) {
 	case 2: // Left
 		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
 		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
-		break;		
+		break;
 	case 3: // Right
 		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
 		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
@@ -760,7 +778,7 @@ CDrawingObject* CDrawPin::Store()
 
   if (IsHierarchicalPin())
   {
-	  // Never display pin names for hierachical symbols
+	  // Never display pin names for hierarchical symbols
 	  NewObject->m_show &= 1;
   }
 

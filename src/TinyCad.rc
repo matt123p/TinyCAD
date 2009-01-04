@@ -30,6 +30,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "CAD.ICO"
 IDR_TCADTYPE            ICON                    "res\\idr_main.ico"
+IDI_ALIGN_LEFT          ICON                    "res\\alignLft.ico"
+IDI_ALIGN_CENTRE        ICON                    "res\\alignCtr.ico"
+IDI_ALIGN_RIGHT         ICON                    "res\\alignRt.ico"
+IDI_ALIGN_TOP           ICON                    "res\\alignTop.ico"
+IDI_ALIGN_MIDDLE        ICON                    "res\\alignMid.ico"
+IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -332,9 +338,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION |
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCad ",IDC_VERSION,39,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1994-2008 Matt Pyne",IDC_STATIC,39,30,181,
+    LTEXT           "Copyright (C) 1994-2009 Matt Pyne",IDC_STATIC,39,30,181,
                     8
     DEFPUSHBUTTON   "OK",IDOK,194,7,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,40,107,8
@@ -1004,8 +1010,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,70,0,124
- PRODUCTVERSION 2,70,0,124
+ FILEVERSION 2,70,0,126
+ PRODUCTVERSION 2,70,0,126
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -1022,12 +1028,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "tinycad.sourceforge.net"
             VALUE "FileDescription", "TinyCad"
-            VALUE "FileVersion", "2, 70, 0, 124"
+            VALUE "FileVersion", "2, 70, 0, 126"
             VALUE "InternalName", "TinyCad"
-            VALUE "LegalCopyright", "Copyright (C) 2003 - 2008 Matt Pyne"
+            VALUE "LegalCopyright", "Copyright (C) 2003 - 2009 Matt Pyne"
             VALUE "OriginalFilename", "TinyCad.EXE"
             VALUE "ProductName", "TinyCad for Windows"
-            VALUE "ProductVersion", "2, 70, 0, 124"
+            VALUE "ProductVersion", "2, 70, 0, 126"
         END
     END
     BLOCK "VarFileInfo"
