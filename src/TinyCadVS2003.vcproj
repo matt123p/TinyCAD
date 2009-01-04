@@ -16,7 +16,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="1">
 			<Tool
@@ -45,6 +45,7 @@
 				OutputFile=".\Debug/TinyCad.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames="LIBC"
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="0"
 				ProgramDatabaseFile=".\Debug/TinyCad.pdb"
@@ -95,9 +96,11 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				StringPooling="TRUE"
+				StringPooling="FALSE"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="TRUE"
+				EnableFunctionLevelLinking="FALSE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\Release/TinyCad.pch"
@@ -3015,6 +3018,24 @@
 				RelativePath="res\afx_idc_.cur">
 			</File>
 			<File
+				RelativePath=".\res\alignBot.ico">
+			</File>
+			<File
+				RelativePath=".\res\alignCtr.ico">
+			</File>
+			<File
+				RelativePath=".\res\alignLft.ico">
+			</File>
+			<File
+				RelativePath=".\res\alignMid.ico">
+			</File>
+			<File
+				RelativePath=".\res\alignRt.ico">
+			</File>
+			<File
+				RelativePath=".\res\alignTop.ico">
+			</File>
+			<File
 				RelativePath="CAD.ICO">
 			</File>
 			<File
@@ -3034,6 +3055,21 @@
 			</File>
 			<File
 				RelativePath="res\drawgrou.bmp">
+			</File>
+			<File
+				RelativePath=".\res\ico00001.ico">
+			</File>
+			<File
+				RelativePath=".\res\ico00002.ico">
+			</File>
+			<File
+				RelativePath=".\res\ico00003.ico">
+			</File>
+			<File
+				RelativePath=".\res\ico00004.ico">
+			</File>
+			<File
+				RelativePath=".\res\ico00005.ico">
 			</File>
 			<File
 				RelativePath="res\icon1.ico">
@@ -3057,10 +3093,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">
