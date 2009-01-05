@@ -116,14 +116,17 @@ const TCHAR* CDrawText::GetXMLTag(ObjType t)
 // Load and save to an XML file
 void CDrawText::SaveXML( CXMLWriter &xml )
 {
-	xml.addTag(GetXMLTag(xtype));
+	if (!str.IsEmpty()) 
+	{
+		xml.addTag(GetXMLTag(xtype));
 
-	xml.addAttribute( _T("pos"), CDPoint( m_point_a ) );
-	xml.addAttribute( _T("direction"), dir );
-	xml.addAttribute( _T("font"), FontStyle );
-	xml.addAttribute( _T("color"), FontColour );
-	xml.addChildData( str );
-	xml.closeTag();
+		xml.addAttribute( _T("pos"), CDPoint( m_point_a ) );
+		xml.addAttribute( _T("direction"), dir );
+		xml.addAttribute( _T("font"), FontStyle );
+		xml.addAttribute( _T("color"), FontColour );
+		xml.addChildData( str );
+		xml.closeTag();
+	}
 }
 
 void CDrawText::LoadXML( CXMLReader &xml )
