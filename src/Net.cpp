@@ -298,7 +298,6 @@ void CTinyCadView::OnSpecialCheck()
 						{
 							theNetType = ERR_POWER;
 							node_type = nUnknown;
-							break;
 						}
 					}
 					connections ++;
