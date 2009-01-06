@@ -71,11 +71,14 @@ void CDrawEditItem::EndEdit()
 	(m_pDesign->GetSingleSelectedItem())->EndEdit();
   }
 
+  if (InMove)
+  {
+	UndoMove();
+	InMove = FALSE;
+  }
+
   m_drag_utils.End( false );
-
   m_pDesign->UnSelect();
-//  m_pDesign->Invalidate();
-
   m_segment=1;
 }
 
@@ -156,7 +159,7 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
 	  if (r != CDPoint(0,0))
 	  {
 		  // Is the control key down?
-		  BOOL do_move = GetAsyncKeyState(VK_CONTROL) < 0;
+		  bool do_move = GetAsyncKeyState(VK_CONTROL) < 0;
 		  if (!m_pDesign->GetOptions()->GetAutoDrag())
 		  {
 			  do_move = !do_move;
@@ -165,10 +168,12 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
 		  if (do_move)
 		  {
 	  		  m_drag_utils.Move(r);
+			  OffsetMove += r;
 		  }
 		  else
 		  {
 			  m_drag_utils.Drag(r);
+			  OffsetDrag += r;
 		  }
 	  }
   }
@@ -401,6 +406,8 @@ void CDrawEditItem::LButtonUp(CDPoint p)
 		EditMethodText = -1;
 	}
 
+	// Reset the UndoMove offsets because we cannot undo anymore
+	OffsetDrag = OffsetMove = CDPoint(0,0);
 
 	// Are we in a move?
 	if (InMove) 
@@ -545,15 +552,7 @@ BOOL CDrawEditItem::RButtonDown(CDPoint p, CDPoint s)
 
 void CDrawEditItem::EndSelection()
 {
-
-  // If in the middle of a move then end it!
-  if (InMove)
-  {
-    m_drag_utils.Drag(CDPoint(m_point_a.x - LastPos.x, m_point_a.y - LastPos.y));
-	InMove = FALSE;
-  }
   m_drag_utils.End( false );
-
 
   // If necessary end the selected item
   if (!m_segment) 
@@ -568,14 +567,17 @@ void CDrawEditItem::EndSelection()
 		(m_pDesign->GetSingleSelectedItem())->Display();
 	  }
   }
-	
-
 
   // Unselect the last object
   m_pDesign->UnSelect();
-
   m_segment=1;
-
 }
 
+
+void CDrawEditItem::UndoMove()
+{
+	//Undo the move and drag actions
+	m_drag_utils.Move(CDPoint( -OffsetMove.x, -OffsetMove.y));
+	m_drag_utils.Drag(CDPoint( -OffsetDrag.x, -OffsetDrag.y));
+}
 

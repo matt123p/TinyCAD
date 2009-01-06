@@ -35,26 +35,25 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 	m_pDesign = pDesign;
 	m_pObject = pObject;
 
-  if (++opens==1) 
-  {
-	  g_EditToolBar.setDlg( this );
-  }
+	if (++opens == 1) 
+	{
+		g_EditToolBar.setDlg( this );
+	}
 
 }
 
 void CEditDlg::Close()
 {
-  if (--opens==0)
-  {
-	  g_EditToolBar.unsetDlg();
-	  ShowWindow( SW_HIDE );
-  }
+	if (opens == 0 || --opens == 0)
+	{
+		g_EditToolBar.unsetDlg();
+		ShowWindow( SW_HIDE );
+	}
 }
 
 
 CDrawingObject *CEditDlg::getObject()
-{
-	
+{	
 	return m_pObject;
 }
 
@@ -94,37 +93,36 @@ END_MESSAGE_MAP()
 // Create this window
 void CEditDlgPowerEdit::Create()
 {
-	  CDialog::Create( IDD_POWER, &g_EditToolBar );
+	CDialog::Create( IDD_POWER, &g_EditToolBar );
 }
 
 void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
-  stop=TRUE;
+	stop=TRUE;
   
 	Show( pDesign, pObject );
-  SetDlgItemText(POWERBOX_TEXT,static_cast<CDrawPower*>(getObject())->str);
-  CheckRadioButton(POWERBOX_TOP,POWERBOX_RIGHT,(static_cast<CDrawPower*>(getObject())->dir)+POWERBOX_TOP);
-  CheckRadioButton(POWERBOX_BAR,POWERBOX_EARTH,(static_cast<CDrawPower*>(getObject())->which)+POWERBOX_BAR);
+	SetDlgItemText(POWERBOX_TEXT,static_cast<CDrawPower*>(getObject())->str);
+	CheckRadioButton(POWERBOX_TOP,POWERBOX_RIGHT,(static_cast<CDrawPower*>(getObject())->dir)+POWERBOX_TOP);
+	CheckRadioButton(POWERBOX_BAR,POWERBOX_EARTH,(static_cast<CDrawPower*>(getObject())->which)+POWERBOX_BAR);
 
-  stop=FALSE;
+	stop=FALSE;
 }
-
 
 void CEditDlgPowerEdit::OnChange()
 {
-  TCHAR str[SIZESTRING];
-  if (stop)
-	return;
+	TCHAR str[SIZESTRING];
+	if (stop)
+		return;
 
-  getObject()->Display();
+	getObject()->Display();
 
-  GetDlgItemText(POWERBOX_TEXT, str, sizeof(str) );
-  static_cast<CDrawPower*>(getObject())->str = str;
+	GetDlgItemText(POWERBOX_TEXT, str, sizeof(str) );
+	static_cast<CDrawPower*>(getObject())->str = str;
 
-  static_cast<CDrawPower*>(getObject())->dir=GetCheckedRadioButton(POWERBOX_TOP,POWERBOX_RIGHT)-POWERBOX_TOP;
-  static_cast<CDrawPower*>(getObject())->which=GetCheckedRadioButton(POWERBOX_BAR,POWERBOX_EARTH)-POWERBOX_BAR;
+	static_cast<CDrawPower*>(getObject())->dir=GetCheckedRadioButton(POWERBOX_TOP,POWERBOX_RIGHT)-POWERBOX_TOP;
+	static_cast<CDrawPower*>(getObject())->which=GetCheckedRadioButton(POWERBOX_BAR,POWERBOX_EARTH)-POWERBOX_BAR;
 
-  getObject()->Display();
+	getObject()->Display();
 }
 
 
@@ -144,36 +142,33 @@ END_MESSAGE_MAP()
 // Create this window
 void CEditDlgRotateBox::Create()
 {
-	  CDialog::Create( IDD_ROTATE, &g_EditToolBar );
+	CDialog::Create( IDD_ROTATE, &g_EditToolBar );
 }
 
 void CEditDlgRotateBox::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
-
 	Show( pDesign, pObject );
 }
 
-
-
 void CEditDlgRotateBox::OnLeft()
 {
-  getObject()->Display();
-  static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(3);
-  getObject()->Display();
+	getObject()->Display();
+	static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(3);
+	getObject()->Display();
 }
 
 void CEditDlgRotateBox::OnRight()
 {
-  getObject()->Display();
-  static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(2);
-  getObject()->Display();
+	getObject()->Display();
+	static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(2);
+	getObject()->Display();
 }
 
 void CEditDlgRotateBox::OnMirror()
 {
-  getObject()->Display();
-  static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(4);
-  getObject()->Display();
+	getObject()->Display();
+	static_cast<CDrawBlockRotate*>(getObject())->ChangeDir(4);
+	getObject()->Display();
 }
 
 

@@ -863,6 +863,8 @@ class CDrawEditItem : public CDrawingObject {
 	BOOL	InSelectByDrag;
 	int		EditMethodText;
 	CDPoint  LastPos;
+	CDPoint  OffsetMove;
+	CDPoint  OffsetDrag;
 
 	CDragUtils	m_drag_utils;
 
@@ -881,6 +883,7 @@ public:
 	virtual void Paint(CContext &,paint_options);
 	virtual void ReleaseSelection();
 	virtual void EndSelection();
+	virtual void UndoMove();
 	virtual void RButtonUp(CDPoint,CDPoint);
 	virtual ObjType GetType() { return xEditItem; }
 	virtual int SetCursor( CDPoint p );
