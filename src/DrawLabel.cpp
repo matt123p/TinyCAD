@@ -81,15 +81,18 @@ const TCHAR* CDrawLabel::GetXMLTag()
 // Load and save to an XML file
 void CDrawLabel::SaveXML( CXMLWriter &xml )
 {
-	xml.addTag(GetXMLTag());
+	if (m_Style != label_normal || !str.IsEmpty())
+	{
+		xml.addTag(GetXMLTag());
 
-	xml.addAttribute( _T("pos"), CDPoint( m_active_point ) );
-	xml.addAttribute( _T("direction"), dir );
-	xml.addAttribute( _T("font"), FontStyle );
-	xml.addAttribute( _T("color"), FontColour );
-	xml.addAttribute( _T("style"), m_Style );
-	xml.addChildData( str );
-	xml.closeTag();
+		xml.addAttribute( _T("pos"), CDPoint( m_active_point ) );
+		xml.addAttribute( _T("direction"), dir );
+		xml.addAttribute( _T("font"), FontStyle );
+		xml.addAttribute( _T("color"), FontColour );
+		xml.addAttribute( _T("style"), m_Style );
+		xml.addChildData( str );
+		xml.closeTag();
+	}
 }
 
 void CDrawLabel::LoadXML( CXMLReader &xml )
