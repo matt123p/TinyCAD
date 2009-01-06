@@ -910,7 +910,7 @@ BOOL CDrawPolygon::IsInsidePolygon( CDPoint p )
 		}
 
 		// Is the line vertical?
-		int x_intersect;
+		double x_intersect;
 		if (l1.x == l2.x)
 		{
 			// Perform quick calculation
@@ -919,7 +919,7 @@ BOOL CDrawPolygon::IsInsidePolygon( CDPoint p )
 			{
 				continue;
 			}
-			x_intersect = static_cast<int>(l1.x);
+			x_intersect = l1.x;
 		}
 		else
 		{
@@ -934,7 +934,7 @@ BOOL CDrawPolygon::IsInsidePolygon( CDPoint p )
 			// directly on a vertex.  To compensate we add 0.5 to the
 			// test position.  As all vertex's y position are all ways
 			// integer we can never lie on a vertex.
-			x_intersect = static_cast<int>(g * (static_cast<double>(p.y) + 0.5) + h);
+			x_intersect = g * (p.y + 0.5) + h;
 		}
 
 		// Is this inside the line?
