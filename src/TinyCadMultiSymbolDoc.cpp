@@ -345,8 +345,10 @@ void CTinyCadMultiSymbolDoc::OnLibraryHeterogeneous()
 	{
 		AfxMessageBox( IDS_BAD_PPP );
 	}
-
-	m_heterogeneous = true;
+	else
+	{
+		m_heterogeneous = true;
+	}
 }
 
 void CTinyCadMultiSymbolDoc::OnUpdateLibraryHeterogeneous(CCmdUI *pCmdUI)
@@ -368,8 +370,10 @@ void CTinyCadMultiSymbolDoc::OnLibraryHomogeneous()
 	{
 		AfxMessageBox( IDS_BAD_PPP );
 	}
-
-	m_heterogeneous = false;
+	else
+	{
+		m_heterogeneous = false;
+	}
 }
 
 void CTinyCadMultiSymbolDoc::OnUpdateLibraryHomogeneous(CCmdUI *pCmdUI)
