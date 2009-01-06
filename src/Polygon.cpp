@@ -1041,58 +1041,62 @@ void CDrawPolygon::FlatternPath()
 // Display the line on the screen!
 void CDrawPolygon::Paint(CContext&dc,paint_options options)
 {
-  dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
- 
-  dc.SetROP2(R2_COPYPEN);
+	dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
+	dc.SetROP2(R2_COPYPEN);
 
-
-  if (Fill == fsNONE || !m_segment || options == draw_selectable)
-  {
-	 dc.Polyline( m_points, m_point_a, NULL );
-
-	 pointCollection cp;
-	  if (!m_segment) 
-	  {
-		CArcPoint p1;
-		if (m_points.size() > 0)
-		{
-			CDPoint bq = m_points.back();
-			p1 = CArcPoint( bq.x, bq.y );
+	if (Fill == fsNONE || !m_segment || options == draw_selectable)
+	{
+		//Add last line segment to selectable outline.
+		//It is missing if the polygon is not closed.
+		if (Fill != fsNONE && options == draw_selectable && m_points.size() > 0) {
+			pointCollection outline( m_points );
+			outline.push_back( m_points.front() );
+			dc.Polyline( outline, m_point_a, NULL );
 		}
-			
-		switch (g_EditToolBar.m_DrawPolyEdit.mode) 
-		  {
-			case 1: 
-				cp.push_back( CDPoint( p1.x, p1.y ) );
-				p1 = CArcPoint(m_point_b.x - m_point_a.x,p1.y);
-				break;
-			case 2:	
-				cp.push_back( CDPoint( p1.x, p1.y ) );
-				p1 = CArcPoint(p1.x,m_point_b.y - m_point_a.y);
-				break;
-		  }
+		else {
+			dc.Polyline( m_points, m_point_a, NULL );
+		}
 
-		  CArcPoint p2(m_point_b.x - m_point_a.x, m_point_b.y - m_point_a.y,g_EditToolBar.m_DrawPolyEdit.GetArcType());
-		  if (p2.arc != CArcPoint::Arc_none)
-		  {
-			  AddPolyBezier( cp, p1, p2 );
-		  }
-		  else
-		  {
-			  cp.push_back(CDPoint(p1.x,p1.y));
-			  cp.push_back(CDPoint(p2.x,p2.y));
-		  }
+		pointCollection cp;
+		if (!m_segment) 
+		{
+			CArcPoint p1;
+			if (m_points.size() > 0)
+			{
+				CDPoint bq = m_points.back();
+				p1 = CArcPoint( bq.x, bq.y );
+			}
 
+			switch (g_EditToolBar.m_DrawPolyEdit.mode) 
+			{
+				case 1: 
+					cp.push_back( CDPoint( p1.x, p1.y ) );
+					p1 = CArcPoint(m_point_b.x - m_point_a.x,p1.y);
+					break;
+				case 2:	
+					cp.push_back( CDPoint( p1.x, p1.y ) );
+					p1 = CArcPoint(p1.x,m_point_b.y - m_point_a.y);
+					break;
+			}
 
-	  	 dc.Polyline( cp, m_point_a, NULL );
+			CArcPoint p2(m_point_b.x - m_point_a.x, m_point_b.y - m_point_a.y,g_EditToolBar.m_DrawPolyEdit.GetArcType());
+			if (p2.arc != CArcPoint::Arc_none)
+			{
+				AddPolyBezier( cp, p1, p2 );
+			}
+			else
+			{
+				cp.push_back(CDPoint(p1.x,p1.y));
+				cp.push_back(CDPoint(p2.x,p2.y));
+			}
+			dc.Polyline( cp, m_point_a, NULL );
+		}
 
-	  }
-
-  }
-  else
-  {
-	  dc.Polyline( m_points, m_point_a, m_pDesign->GetOptions()->GetFillStyle(Fill) );
-  }
+	}
+	else
+	{
+		dc.Polyline( m_points, m_point_a, m_pDesign->GetOptions()->GetFillStyle(Fill) );
+	}
 }
 
 
