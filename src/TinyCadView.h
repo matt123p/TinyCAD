@@ -187,6 +187,8 @@ protected:
 	afx_msg void OnUpdateToolwire(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewcentre(CCmdUI* pCmdUI);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnSysKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnUpdateEditdrag(CCmdUI* pCmdUI);

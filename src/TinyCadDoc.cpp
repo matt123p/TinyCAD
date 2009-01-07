@@ -773,12 +773,12 @@ void CTinyCadDoc::MarkSelectChangeForUndo()
 // (We don't select construction objects)
 void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 {
-  double left=min(p1.x,p2.x);
-  double right=max(p1.x,p2.x);
-  double top=min(p1.y,p2.y);
-  double bottom=max(p1.y,p2.y);
-
-  UnSelect();
+	double left=min(p1.x,p2.x);
+	double right=max(p1.x,p2.x);
+	double top=min(p1.y,p2.y);
+	double bottom=max(p1.y,p2.y);
+	//ML??
+	UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
 	while (it != GetDrawingEnd()) 

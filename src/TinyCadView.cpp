@@ -126,6 +126,9 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_WM_MBUTTONUP()
 	ON_WM_MOUSEMOVE()
 
+	ON_WM_SYSKEYDOWN()
+	ON_WM_SYSKEYUP()
+	
 	ON_WM_CLOSE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
@@ -719,6 +722,23 @@ void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint point)
 	CView::OnLButtonUp(nFlags, point);
 }
 
+
+
+void CTinyCadView::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	// Change cursor to 'block select' cursor
+	OnSetCursor(this, HTCLIENT, WM_SYSKEYDOWN);
+}
+
+
+void CTinyCadView::OnSysKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	if (!OnSetCursor(this, HTCLIENT, WM_SYSKEYUP))
+	{
+		// Change cursor back to normal
+		SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
+	}
+}
 
 
 BOOL CTinyCadView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
