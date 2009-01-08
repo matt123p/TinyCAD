@@ -262,6 +262,7 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 
 	if (closest_object != NULL) 
 	{
+		BOOL changeSetStarted = false;
 
 		// If necessary remove the line from the screen
 		if (!m_segment && m_pDesign->IsSingleItemSelected()) 
@@ -290,6 +291,7 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 			m_pDesign->BeginNewChangeSet();
 			m_pDesign->Select(closest_object);
 			m_pDesign->MarkChangeForUndo( closest_object );
+			changeSetStarted = TRUE;
 		}
 
   		closest_object->Display();
@@ -304,7 +306,9 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 			if ((m_pDesign->GetSingleSelectedItem())->CanEdit()) 
 			{
 				// Begin Editing this Item
-				m_pDesign->BeginNewChangeSet();
+				if (!changeSetStarted) {
+					m_pDesign->BeginNewChangeSet();
+				}
 				(m_pDesign->GetSingleSelectedItem())->BeginEdit(TRUE);
 			  	m_segment=0;
 			}
