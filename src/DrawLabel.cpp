@@ -81,7 +81,7 @@ const TCHAR* CDrawLabel::GetXMLTag()
 // Load and save to an XML file
 void CDrawLabel::SaveXML( CXMLWriter &xml )
 {
-	if (m_Style != label_normal || !str.IsEmpty())
+	if (!IsEmpty())
 	{
 		xml.addTag(GetXMLTag());
 
@@ -826,3 +826,12 @@ int CDrawLabel::IsInsideField(CDPoint p)
 	return r;
 }
 
+BOOL CDrawLabel::IsEmpty()
+{
+	if (m_Style == label_normal && str.IsEmpty())
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}

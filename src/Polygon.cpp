@@ -74,9 +74,8 @@ const TCHAR* CDrawPolygon::GetXMLTag()
 // Load and save to an XML file
 void CDrawPolygon::SaveXML( CXMLWriter &xml )
 {
-	DWORD handles = m_handles.size();
-
-	if (handles > 1) {
+	if (!IsEmpty())
+	{
 		xml.addTag(GetXMLTag());
 
 		xml.addAttribute( _T("pos"), m_point_a );
@@ -1240,3 +1239,12 @@ BOOL CDrawPolygon::IsInside(double left,double right,double top,double bottom)
 
 
 
+BOOL CDrawPolygon::IsEmpty()
+{
+	if (m_handles.size() > 1)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}

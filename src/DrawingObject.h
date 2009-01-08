@@ -170,6 +170,7 @@ public:
 	virtual void Rotate(CDPoint,int);		// Rotate this item about a point
 
 	virtual BOOL IsConstruction();
+	virtual BOOL IsEmpty();
 
 	virtual int getMenuID() { return -1; }
 };

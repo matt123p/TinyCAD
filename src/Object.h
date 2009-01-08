@@ -179,7 +179,7 @@ public:
 	virtual void SaveXML( CXMLWriter &xml );
 	virtual void LoadXML( CXMLReader &xml );
 	static const TCHAR* GetXMLTag();
-
+	virtual BOOL IsEmpty();
 
 	virtual BOOL IsInside(double left,double right,double top,double bottom);
 	virtual ObjType GetType();
@@ -342,6 +342,7 @@ public:
 	virtual void SaveXML( CXMLWriter &xml );
 	virtual void LoadXML( CXMLReader &xml );
 	static const TCHAR* GetXMLTag(ObjType t);
+	virtual BOOL IsEmpty();
 
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual void LButtonDown(CDPoint,CDPoint);
@@ -425,6 +426,7 @@ public:
 	virtual void SaveXML( CXMLWriter &xml );
 	virtual void LoadXML( CXMLReader &xml );
 	static const TCHAR* GetXMLTag();
+	virtual BOOL IsEmpty();
 
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual void LButtonDown(CDPoint,CDPoint);
