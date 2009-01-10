@@ -172,6 +172,9 @@ public:
 	virtual BOOL IsConstruction();
 
 	virtual int getMenuID() { return -1; }
+
+	virtual bool operator==( const CDrawingObject &obj ) const; // Compare two objects for equality
+	virtual bool operator!=( const CDrawingObject &obj ) const; // Compare two objects for unequality
 };
 
 

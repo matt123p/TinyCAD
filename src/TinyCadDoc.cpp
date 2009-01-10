@@ -598,9 +598,15 @@ void CTinyCadDoc::Undo()
 
 					copy->Display();
 					*it = act.m_object;
+
+					// Action taken when object contents differs
+					if (*act.m_object != *copy)
+					{
+						action_taken = TRUE;
+					}
+
 					act.m_object = copy;
 				}
-				action_taken = TRUE;
 				break;
 			}
 
@@ -673,9 +679,15 @@ void CTinyCadDoc::Redo()
 
 					copy->Display();
 					*it = act.m_object;
+
+					// Action taken when object contents differs
+					if (*act.m_object != *copy)
+					{
+						action_taken = TRUE;
+					}
+
 					act.m_object = copy;
 				}
-				action_taken = TRUE;
 				break;
 			}
 
@@ -773,12 +785,12 @@ void CTinyCadDoc::MarkSelectChangeForUndo()
 // (We don't select construction objects)
 void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 {
-  double left=min(p1.x,p2.x);
-  double right=max(p1.x,p2.x);
-  double top=min(p1.y,p2.y);
-  double bottom=max(p1.y,p2.y);
+	double left=min(p1.x,p2.x);
+	double right=max(p1.x,p2.x);
+	double top=min(p1.y,p2.y);
+	double bottom=max(p1.y,p2.y);
 
-  UnSelect();
+	UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
 	while (it != GetDrawingEnd()) 
