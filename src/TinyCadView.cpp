@@ -1102,16 +1102,51 @@ void CTinyCadView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 	
-  // Set the offsets
-  SetScroll(0,0, true);
+	// Set the offsets
+	SetScroll(0,0, true);
 
-  SetTabsFromDocument();
+	SetTabsFromDocument();
 
 
  	if( CTinyCadRegistry::GetMDIMaximize() )
 	{
 		((CMDIChildWnd *)GetParentFrame())->MDIMaximize();
 	}
+
+	// Center Symbol inside view
+	if (GetCurrentDocument()->IsEditLibrary())
+	{
+		// Center drawing inside view
+   		drawingIterator it = GetCurrentDocument()->GetDrawingBegin();
+		if (it != GetCurrentDocument()->GetDrawingEnd()) {
+			CDrawingObject *obj = *it;
+			CDRect ext(obj->m_point_a.x,obj->m_point_a.y,obj->m_point_b.x,obj->m_point_b.y);
+			ext.NormalizeRect();
+			while (it != GetCurrentDocument()->GetDrawingEnd()) 
+			{
+				obj = (CDrawingObject *)*it;
+				CDRect box(obj->m_point_a.x,obj->m_point_a.y,obj->m_point_b.x,obj->m_point_b.y);
+				box.NormalizeRect();
+
+				if (ext.left > box.left)
+					ext.left = box.left;
+
+				if (ext.top > box.top)
+					ext.top = box.top;
+
+				if (ext.right < box.right)
+					ext.right = box.right;
+
+				if (ext.bottom < box.bottom)
+					ext.bottom = box.bottom;
+
+				++ it;
+			}
+
+			SetScrollCentre(CDPoint((ext.left + ext.right)/2, (ext.top + ext.bottom)/2));
+		}
+	}
+
 }
 
 void CTinyCadView::SetTabsFromDocument()
