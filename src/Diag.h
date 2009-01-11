@@ -165,6 +165,7 @@ public:
 	CEditDlgPowerEdit(){ opens = 0; }
 	void Open(CTinyCadDoc *pDesign, CDrawingObject *pObject);
 	void Create();
+	void ReFocus();
 
 	// Stop Enter closing this dialog
 	void OnOK() { }

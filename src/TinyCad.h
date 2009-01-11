@@ -54,6 +54,9 @@ class CTinyCadApp : public CWinApp
 	// The list of colours used in the colour selection dialogue
 	private: static	COLORREF			m_colours[16];
 
+	// Handle to accelerator table
+	private: static HACCEL				m_hAccelTable;
+
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
@@ -93,7 +96,9 @@ public:
 	//=====================================================================
 	//== Message handler                                                 ==
 	//=====================================================================
-	virtual BOOL OnIdle(LONG lCount);
+	virtual BOOL OnIdle(LONG lCount); 
+	virtual BOOL ProcessMessageFilter(int code, LPMSG lpMsg);
+
 	//{{AFX_MSG(CTinyCadApp)
 	afx_msg void OnAppAbout();
 	afx_msg void				OnLibLib();

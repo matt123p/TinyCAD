@@ -83,7 +83,7 @@ void CEditDlgTextEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
   else
 	CheckRadioButton(TEXTBOX_LEFT,TEXTBOX_UP,TEXTBOX_UP);	
 
-  GetDlgItem( TEXTBOX_TEXT )->SetFocus();
+  ReFocus();
   stop=FALSE;  
 }
 
@@ -109,9 +109,10 @@ void CEditDlgTextEdit::OnChange()
 
 void CEditDlgTextEdit::ReFocus()
 {
-  SetDlgItemText(TEXTBOX_TEXT,static_cast<CDrawText*>(getObject())->str);
-
-  SetFocus();
+	SetDlgItemText(TEXTBOX_TEXT,static_cast<CDrawText*>(getObject())->str);
+	CEdit *ctrl = (CEdit *)GetDlgItem( TEXTBOX_TEXT );
+	ctrl->SetSel(0, -1);
+	ctrl->SetFocus();
 }
 
 
