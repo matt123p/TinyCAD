@@ -105,10 +105,15 @@ protected:
 		{
 			return m_Object < b.m_Object;
 		}
+
+		bool operator==( const dragWire &b ) const
+		{
+			return m_Object == b.m_Object;
+		}
 	};
 
-	typedef std::set<dragWire> wireCollection;
-	wireCollection	m_draggedWires;
+	typedef std::vector<dragWire> wireCollection;
+	wireCollection  m_draggedWires;
 
 	typedef std::set<CDrawingObject *> discardCollection;
 	discardCollection	m_discards;
