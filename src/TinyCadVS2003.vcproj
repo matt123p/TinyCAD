@@ -2350,6 +2350,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\StreamMemory.cpp">
+			</File>
+			<File
 				RelativePath="Symbol.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -2957,6 +2960,9 @@
 				RelativePath="StreamDb.h">
 			</File>
 			<File
+				RelativePath=".\StreamMemory.h">
+			</File>
+			<File
 				RelativePath="Symbol.h">
 			</File>
 			<File
@@ -3093,10 +3099,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">

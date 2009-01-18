@@ -2939,6 +2939,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\StreamMemory.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Symbol.cpp"
 				>
 				<FileConfiguration
@@ -3709,6 +3713,10 @@
 			</File>
 			<File
 				RelativePath="StreamDb.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StreamMemory.h"
 				>
 			</File>
 			<File
