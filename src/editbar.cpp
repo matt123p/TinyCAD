@@ -43,8 +43,13 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 }
 
 void CEditDlg::Close()
-{
-	if (opens == 0 || --opens == 0)
+{                           
+	if (opens > 0)
+	{
+		--opens;
+	}             
+	
+	if (opens == 0)
 	{
 		g_EditToolBar.unsetDlg();
 		ShowWindow( SW_HIDE );
