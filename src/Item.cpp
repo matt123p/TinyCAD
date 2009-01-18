@@ -66,17 +66,21 @@ void CDrawEditItem::Display( BOOL erase )
 
 void CDrawEditItem::EndEdit()
 {
-  if (!m_segment)
-  {
-	(m_pDesign->GetSingleSelectedItem())->EndEdit();
-  }
+	if (!m_segment)
+	{
+		(m_pDesign->GetSingleSelectedItem())->EndEdit();
+	}
 
-  m_drag_utils.End( false );
+	m_drag_utils.End( false );
+	m_pDesign->UnSelect();
+	m_segment=1;
 
-  m_pDesign->UnSelect();
-//  m_pDesign->Invalidate();
-
-  m_segment=1;
+	// Undo move action if we're still moving
+	if (InMove)
+	{
+		m_pDesign->Undo();
+		InMove = FALSE;
+	}
 }
 
 
@@ -156,7 +160,7 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
 	  if (r != CDPoint(0,0))
 	  {
 		  // Is the control key down?
-		  BOOL do_move = GetAsyncKeyState(VK_CONTROL) < 0;
+		  bool do_move = GetAsyncKeyState(VK_CONTROL) < 0;
 		  if (!m_pDesign->GetOptions()->GetAutoDrag())
 		  {
 			  do_move = !do_move;
@@ -197,9 +201,15 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
 
 int CDrawEditItem::SetCursor( CDPoint p )
 {
-	if (m_pDesign->IsSelected()) 
+	if (InSelectByDrag) 
 	{
+		// ::SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
+		return -1;
+	}
 
+	//ALT key won't edit or move item, so don't change cursor
+	if (m_pDesign->IsSelected() && !(GetAsyncKeyState(VK_MENU) < 0)) 
+	{
 	   	// Is this object currently being edited a method object?
 	  	if (m_pDesign->IsSingleItemSelected()) 
 		{
@@ -219,6 +229,12 @@ int CDrawEditItem::SetCursor( CDPoint p )
 		}
 	}
 
+	if (EditMethodText == -1 && GetAsyncKeyState(VK_MENU) < 0) 
+	{
+		//change cursor to 'block select' cursor
+		return 12;
+	}
+
 	return -1;
 }
 
@@ -226,6 +242,12 @@ int CDrawEditItem::SetCursor( CDPoint p )
 void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 {
 	LastPos = p;
+
+	//Don't select closest object when ALT is down.
+	if (GetAsyncKeyState(VK_MENU) < 0) 
+	{
+		return;
+	}
 
 	// Has the user clicked in a field to be moved/edited?
   	if (m_pDesign->IsSingleItemSelected()) 
@@ -328,7 +350,8 @@ void CDrawEditItem::LButtonDown(CDPoint p, CDPoint no_snap_p)
 	ClickSelection( p, no_snap_p );
 
 	// Was a selection found?
-	if (!m_pDesign->IsSelected())
+	// Or force selection of grabbox by holding down ALT?
+	if (!m_pDesign->IsSelected() || GetAsyncKeyState(VK_MENU) < 0)
 	{
 		// No, so start the select box...
 		m_point_a = p;
@@ -341,14 +364,18 @@ void CDrawEditItem::LButtonDown(CDPoint p, CDPoint no_snap_p)
 	}
 	else
 	{
-	   	// Is this object currently being edited a method object?
-	  	if (m_pDesign->IsSingleItemSelected()) 
+		//Don't select closest object when ALT is down.
+		if (GetAsyncKeyState(VK_MENU) >= 0) 
 		{
-			// Has the user clicked on one of the method fields?
-			EditMethodText = m_pDesign->GetSingleSelectedItem()->IsInsideField(no_snap_p);
-  		}
+	   		// Is this object currently being edited a method object?
+	  		if (m_pDesign->IsSingleItemSelected()) 
+			{
+				// Has the user clicked on one of the method fields?
+				EditMethodText = m_pDesign->GetSingleSelectedItem()->IsInsideField(no_snap_p);
+  			}
 
-		InMove = TRUE;
+			InMove = TRUE;
+		}
 	}
 
 	m_pDesign->ForceSetCursor();
@@ -402,7 +429,6 @@ void CDrawEditItem::LButtonUp(CDPoint p)
 	{
 		EditMethodText = -1;
 	}
-
 
 	// Are we in a move?
 	if (InMove) 
@@ -547,15 +573,7 @@ BOOL CDrawEditItem::RButtonDown(CDPoint p, CDPoint s)
 
 void CDrawEditItem::EndSelection()
 {
-
-  // If in the middle of a move then end it!
-  if (InMove)
-  {
-    m_drag_utils.Drag(CDPoint(m_point_a.x - LastPos.x, m_point_a.y - LastPos.y));
-	InMove = FALSE;
-  }
   m_drag_utils.End( false );
-
 
   // If necessary end the selected item
   if (!m_segment) 
@@ -570,14 +588,9 @@ void CDrawEditItem::EndSelection()
 		(m_pDesign->GetSingleSelectedItem())->Display();
 	  }
   }
-	
-
 
   // Unselect the last object
   m_pDesign->UnSelect();
-
   m_segment=1;
-
 }
-
 

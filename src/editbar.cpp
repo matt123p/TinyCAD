@@ -44,17 +44,21 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 
 void CEditDlg::Close()
 {
-  if (--opens==0)
-  {
-	  g_EditToolBar.unsetDlg();
-	  ShowWindow( SW_HIDE );
-  }
+	if (opens > 0)
+	{
+		--opens;
+	}             
+	
+	if (opens == 0)
+	{
+		g_EditToolBar.unsetDlg();
+		ShowWindow( SW_HIDE );
+	}
 }
 
 
 CDrawingObject *CEditDlg::getObject()
 {
-	
 	return m_pObject;
 }
 
@@ -111,7 +115,6 @@ void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	stop=FALSE;
 }
 
-
 void CEditDlgPowerEdit::OnChange()
 {
   TCHAR str[SIZESTRING];
@@ -159,11 +162,8 @@ void CEditDlgRotateBox::Create()
 
 void CEditDlgRotateBox::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
-
 	Show( pDesign, pObject );
 }
-
-
 
 void CEditDlgRotateBox::OnLeft()
 {
