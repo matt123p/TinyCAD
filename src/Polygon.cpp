@@ -74,26 +74,27 @@ const TCHAR* CDrawPolygon::GetXMLTag()
 // Load and save to an XML file
 void CDrawPolygon::SaveXML( CXMLWriter &xml )
 {
-	xml.addTag(GetXMLTag());
-
-	xml.addAttribute( _T("pos"), m_point_a );
-	xml.addAttribute( _T("style"), Style );
-	xml.addAttribute( _T("fill"), Fill );
-
-	DWORD lines = m_handles.size();
-
-	arcpointCollection::iterator it = m_handles.begin();
-	while (it != m_handles.end())
+	if (!IsEmpty())
 	{
-		xml.addTag(_T("POINT"));
-		xml.addAttribute( _T("pos"), 
-			CDPoint( (*it).x, (*it).y ) );
-		xml.addAttribute( _T("arc"), (*it).arc );
-		xml.closeTag();
-		++ it;
-	}
+		xml.addTag(GetXMLTag());
 
-	xml.closeTag();
+		xml.addAttribute( _T("pos"), m_point_a );
+		xml.addAttribute( _T("style"), Style );
+		xml.addAttribute( _T("fill"), Fill );
+
+		arcpointCollection::iterator it = m_handles.begin();
+		while (it != m_handles.end())
+		{
+			xml.addTag(_T("POINT"));
+			xml.addAttribute( _T("pos"), 
+				CDPoint( (*it).x, (*it).y ) );
+			xml.addAttribute( _T("arc"), (*it).arc );
+			xml.closeTag();
+			++ it;
+		}
+
+		xml.closeTag();
+	}
 }
 
 void CDrawPolygon::LoadXML( CXMLReader &xml )
@@ -1238,3 +1239,12 @@ BOOL CDrawPolygon::IsInside(double left,double right,double top,double bottom)
 
 
 
+BOOL CDrawPolygon::IsEmpty()
+{
+	if (m_handles.size() > 1)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}

@@ -116,14 +116,17 @@ const TCHAR* CDrawText::GetXMLTag(ObjType t)
 // Load and save to an XML file
 void CDrawText::SaveXML( CXMLWriter &xml )
 {
-	xml.addTag(GetXMLTag(xtype));
+	if (!IsEmpty()) 
+	{
+		xml.addTag(GetXMLTag(xtype));
 
-	xml.addAttribute( _T("pos"), CDPoint( m_point_a ) );
-	xml.addAttribute( _T("direction"), dir );
-	xml.addAttribute( _T("font"), FontStyle );
-	xml.addAttribute( _T("color"), FontColour );
-	xml.addChildData( str );
-	xml.closeTag();
+		xml.addAttribute( _T("pos"), CDPoint( m_point_a ) );
+		xml.addAttribute( _T("direction"), dir );
+		xml.addAttribute( _T("font"), FontStyle );
+		xml.addAttribute( _T("color"), FontColour );
+		xml.addChildData( str );
+		xml.closeTag();
+	}
 }
 
 void CDrawText::LoadXML( CXMLReader &xml )
@@ -598,3 +601,13 @@ void CDrawText::Rotate(CDPoint p,int ndir)
 	m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
   }
 }
+
+BOOL CDrawText::IsEmpty()
+{
+	if (str.IsEmpty()) 
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}	

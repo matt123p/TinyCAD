@@ -399,7 +399,10 @@ BOOL CTinyCadDoc::ReadFile(CStream &theArchive, BOOL Details, drawingCollection 
 			}
 
 			// Now add object to linked list
-			drawing.insert( drawing.end(), obj );
+			if (!obj->IsEmpty())
+			{
+				drawing.insert( drawing.end(), obj );
+			}
 		}
   	}
 
@@ -616,7 +619,10 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 			obj->LoadXML( xml );
 
 			// Now add object to linked list
-			drawing.insert( drawing.end(), obj );
+			if (!obj->IsEmpty())
+			{
+				drawing.insert( drawing.end(), obj );
+			}
 		}
 	}
 

@@ -49,6 +49,11 @@ BOOL CDrawingObject::IsConstruction()
 	return FALSE;
 }
 
+BOOL CDrawingObject::IsEmpty()
+{
+	return FALSE;
+}
+
 
 // If the user holds down ctrl, can should we fix the aspect ratio?
 BOOL CDrawingObject::CanControlAspect()
