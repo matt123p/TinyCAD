@@ -334,36 +334,36 @@ void CDrawLabel::MoveField(int w, CDPoint r)
 
 void CDrawLabel::LButtonDown(CDPoint p, CDPoint)
 {
-
 	// We can only store, if we have some text!
 	if (str.IsEmpty())
 	{
+		g_EditToolBar.m_LabelEdit.ReFocus();
 		return;
 	}
 
-  // New undo level for each placement...
-  m_pDesign->BeginNewChangeSet();
+	// New undo level for each placement...
+	m_pDesign->BeginNewChangeSet();
 
-  Display();
-  p = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
-  if (m_Style == label_normal)
-  {
-	  is_junction = FALSE;
-  }
-  m_point_a=p;
-  Store();
-  Display();	// Write to screen
+	Display();
+	p = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
+	if (m_Style == label_normal)
+	{
+		is_junction = FALSE;
+	}
+	m_point_a=p;
+	Store();
+	Display();	// Write to screen
 
-  // Now increment the number as necessary
-  int hold=str.FindOneOf(_T("0123456789-"));
-  // Only increment if old value was a number at end of string
-  if (hold!=-1) {
-	TCHAR NewNum[17];
-	_itot_s(_tstoi(str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
-	str = str.Left(hold)+NewNum;
-  }
-  g_EditToolBar.m_LabelEdit.ReFocus();
-  Display();
+	// Now increment the number as necessary
+	int hold=str.FindOneOf(_T("0123456789-"));
+	// Only increment if old value was a number at end of string
+	if (hold!=-1) {
+		TCHAR NewNum[17];
+		_itot_s(_tstoi(str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
+		str = str.Left(hold)+NewNum;
+	}
+	g_EditToolBar.m_LabelEdit.ReFocus();
+	Display();
 }
 
 

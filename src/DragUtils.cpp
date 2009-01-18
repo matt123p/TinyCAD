@@ -28,6 +28,7 @@
 #include "DragUtils.h"
 #include "LineUtils.h"
 #include "JunctionUtils.h"
+#include <algorithm> // for the find function
 
 
 //////////////////////////////////////////////////////////////////////
@@ -275,11 +276,12 @@ void CDragUtils::End( bool no_clean )
 void CDragUtils::AddWireToCollection( dragWire n )
 {
 	// Now update this entry in the system...
-	wireCollection::iterator it = m_draggedWires.find(n);
+	wireCollection::iterator it = find(m_draggedWires.begin(), m_draggedWires.end(), n);
+
 	if (it == m_draggedWires.end())
 	{
 		// New
-		m_draggedWires.insert( n );
+		m_draggedWires.push_back( n );
 	
 /*		TRACE("Adding %X Move_A(%d) = %X, Move_B(%d) = %X\n",
 			n.m_Object,
@@ -436,22 +438,24 @@ void CDragUtils::MoveAttachedObjects( CDrawingObject *wire )
 		{
 			Updated = TRUE;
 			CDPoint r = l.GetPointOnLine( (*it_wires).m_Distance_AlongA, &m_pDesign->m_snap );
-			move_by = (*it_wires).m_Object->m_point_a - r;
+//			move_by = (*it_wires).m_Object->m_point_a - r;
+//			TRACE("A move_by = %lg,%lg\n", move_by.x,move_by.y);
 			(*it_wires).m_Object->m_point_a = r;
 			(*it_wires).m_Done_A = TRUE; 
 
-//			TRACE("Moving %X on A at %lg by %lg,%lg from %X\n", (*it_wires).m_Object,(*it_wires).m_Distance_AlongA,r.x,r.y, wire );
+//			TRACE("Moving %X on A at %lg to %lg,%lg from %X\n", (*it_wires).m_Object,(*it_wires).m_Distance_AlongA,r.x,r.y, wire );
 		}
 
 		if (!(*it_wires).m_Done_B && (*it_wires).m_MoveB && (*it_wires).m_Attached_LineB == wire) 
 		{
 			Updated = TRUE;
 			CDPoint r = l.GetPointOnLine( (*it_wires).m_Distance_AlongB, &m_pDesign->m_snap );
-			move_by = (*it_wires).m_Object->m_point_b - r;
+//			move_by = (*it_wires).m_Object->m_point_b - r;
+//			TRACE("B move_by = %lg,%lg\n", move_by.x,move_by.y);
 			(*it_wires).m_Object->m_point_b = r;
 			(*it_wires).m_Done_B = TRUE; 
 
-//			TRACE("Moving %X on B at %lg by %lg,%lg from %X\n", (*it_wires).m_Object,(*it_wires).m_Distance_AlongB,r.x,r.y, wire );
+//			TRACE("Moving %X on B at %lg to %lg,%lg from %X\n", (*it_wires).m_Object,(*it_wires).m_Distance_AlongB,r.x,r.y, wire );
 		}
 
 
@@ -553,13 +557,15 @@ void CDragUtils::DisplayDraggedWires()
 void CDragUtils::MergeLinePoint( CDrawingObject *p )
 {
 	Clear();
-	m_draggedWires.insert( dragWire(p, true, true) );
+	m_draggedWires.push_back( dragWire(p, true, true) );
 	End( false );
 }
 
 
 void CDragUtils::Drag( CDPoint r )
 {
+//	TRACE("Drag by %lg,%lg\n", r.x,r.y);
+
 	// Have we already started?
 	if (!m_started)
 	{
@@ -579,7 +585,7 @@ void CDragUtils::Drag( CDPoint r )
 	{
 		CDrawingObject *obj=*it;
 
-		bool defer = m_draggedWires.find(dragWire(obj)) != m_draggedWires.end();
+		bool defer = find(m_draggedWires.begin(), m_draggedWires.end(), dragWire(obj)) != m_draggedWires.end();
 		if (!defer)
 		{
 			obj->Display();
@@ -598,6 +604,7 @@ void CDragUtils::Drag( CDPoint r )
 	}
 
 	DisplayDraggedWires();
+//	TRACE("m_draggedWires.size = %i\n",m_draggedWires.size());
 
 	wireCollection::iterator it_wires = m_draggedWires.begin();
 	while (it_wires != m_draggedWires.end())

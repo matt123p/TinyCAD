@@ -99,14 +99,16 @@ void CEditDlgPowerEdit::Create()
 
 void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
-  stop=TRUE;
-  
-	Show( pDesign, pObject );
-  SetDlgItemText(POWERBOX_TEXT,static_cast<CDrawPower*>(getObject())->str);
-  CheckRadioButton(POWERBOX_TOP,POWERBOX_RIGHT,(static_cast<CDrawPower*>(getObject())->dir)+POWERBOX_TOP);
-  CheckRadioButton(POWERBOX_BAR,POWERBOX_EARTH,(static_cast<CDrawPower*>(getObject())->which)+POWERBOX_BAR);
+	stop=TRUE;
 
-  stop=FALSE;
+	Show( pDesign, pObject );
+	SetDlgItemText(POWERBOX_TEXT,static_cast<CDrawPower*>(getObject())->str);
+	CheckRadioButton(POWERBOX_TOP,POWERBOX_RIGHT,(static_cast<CDrawPower*>(getObject())->dir)+POWERBOX_TOP);
+	CheckRadioButton(POWERBOX_BAR,POWERBOX_EARTH,(static_cast<CDrawPower*>(getObject())->which)+POWERBOX_BAR);
+
+	ReFocus();
+
+	stop=FALSE;
 }
 
 
@@ -125,6 +127,14 @@ void CEditDlgPowerEdit::OnChange()
   static_cast<CDrawPower*>(getObject())->which=GetCheckedRadioButton(POWERBOX_BAR,POWERBOX_EARTH)-POWERBOX_BAR;
 
   getObject()->Display();
+}
+
+
+void CEditDlgPowerEdit::ReFocus()
+{
+	CEdit *ctrl = (CEdit *)GetDlgItem( POWERBOX_TEXT );
+	ctrl->SetSel(0, -1);
+	ctrl->SetFocus();
 }
 
 

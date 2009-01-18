@@ -125,6 +125,8 @@ void CEditDlgPinEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	CheckDlgButton(PINBOX_NUMBERON,((static_cast<CDrawPin*>(getObject())->m_show)&2)!=0 && !IsHierarchicalPin);
 	CheckDlgButton(IDC_CENTRE_NAME, static_cast<CDrawPin*>(getObject())->m_centre_name );
 
+	ReFocus();
+
 	stop=FALSE;
 }
 
@@ -174,10 +176,12 @@ void CEditDlgPinEdit::ReFocus()
 {
   stop = TRUE;
 
-  SetFocus();
-
   SetDlgItemText(PINBOX_NAME,static_cast<CDrawPin*>(getObject())->m_str);
   SetDlgItemText(PINBOX_NUMBER,static_cast<CDrawPin*>(getObject())->m_number);
+
+  CEdit *ctrl = (CEdit *)GetDlgItem( PINBOX_NAME );
+  ctrl->SetSel(0, -1);
+  ctrl->SetFocus();
 
   stop = FALSE;
 }

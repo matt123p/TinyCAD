@@ -234,6 +234,9 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 		EditMethodText = m_pDesign->GetSingleSelectedItem()->IsInsideField(no_snap_p);
 		if (EditMethodText != -1)
 		{
+			// Begin Editing of a method field
+			m_pDesign->BeginNewChangeSet();
+			m_pDesign->MarkChangeForUndo( m_pDesign->GetSingleSelectedItem() );
 			InMove = TRUE;
 			return;
 		}
@@ -262,7 +265,6 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 
 	if (closest_object != NULL) 
 	{
-
 		// If necessary remove the line from the screen
 		if (!m_segment && m_pDesign->IsSingleItemSelected()) 
 		{

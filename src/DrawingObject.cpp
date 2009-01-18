@@ -27,6 +27,7 @@
 #include "diag.h"
 #include "colour.h"
 #include "option.h"
+#include "StreamMemory.h"
 #include "net.h"
 
 
@@ -311,4 +312,31 @@ void CDrawingObject::Shift( CDPoint r )
 {
 	m_point_a += r;
 	m_point_b += r;
+}
+
+// Compare two objects for equality
+bool CDrawingObject::operator==( const CDrawingObject &obj ) const
+{
+	// Cheap test for unequality
+	if (m_point_a != obj.m_point_a || m_point_b != obj.m_point_b)
+	{
+		return false;
+	}
+
+	// Compare object contents
+	CStreamMemory stream1;
+	CStreamMemory stream2;
+    CXMLWriter xml1( &stream1 );
+    CXMLWriter xml2( &stream2 );
+	// ('->' will call the virtual SaveXML function, '.' would always call the CDrawingObject::SaveXML)
+	((CDrawingObject*)this)->SaveXML(xml1);
+	((CDrawingObject &)obj).SaveXML(xml2);
+	
+	// Are stored contents are equal?
+	return (stream1 == stream2);
+}
+
+bool CDrawingObject::operator!=( const CDrawingObject &obj ) const
+{
+	return !(*this == obj);
 }

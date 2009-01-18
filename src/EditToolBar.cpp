@@ -99,6 +99,14 @@ void CEditToolbar::setDlg(CEditDlg *pWnd)
 	// Now make sure the dlg is show and in the correct position
 	if (pWnd)
 	{
+		if (pWnd->getObject()) 
+		{
+			pWnd->GetParent()->SetWindowText(pWnd->getObject()->GetName() + " Tool Options");
+		}
+		else
+		{
+			pWnd->GetParent()->SetWindowText(_T("Tool"));
+		}
 		pWnd->ShowWindow( SW_SHOWNA );
 		pWnd->SetWindowPos( &wndTop, 0,0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE );
 	}

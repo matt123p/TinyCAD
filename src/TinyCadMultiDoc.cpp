@@ -175,7 +175,7 @@ CTinyCadDoc* CTinyCadMultiDoc::GetSheet( int i )
 void CTinyCadMultiDoc::InsertSheet(int i , CTinyCadDoc *pDoc )
 {
 	sheetCollection::iterator it = m_sheets.begin();
-	it += i;
+
 	if (!pDoc)
 	{
 		pDoc = new CTinyCadDoc( this );
@@ -186,9 +186,12 @@ void CTinyCadMultiDoc::InsertSheet(int i , CTinyCadDoc *pDoc )
 		pDoc->GetDetails().m_sSheets.Format( _T("%d"), m_sheets.size() + 1 );
 	}
 
-	if (i != m_sheets.size())
+	if (i == -1) {
+		m_sheets.insert(it, pDoc );
+	}
+	else if (i != m_sheets.size())
 	{
-		m_sheets.insert(it+1, pDoc );
+		m_sheets.insert(it+i+1, pDoc );
 	}
 	else
 	{

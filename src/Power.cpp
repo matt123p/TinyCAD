@@ -235,14 +235,15 @@ void CDrawPower::Move(CDPoint p, CDPoint no_snap_p)
 
 void CDrawPower::LButtonDown(CDPoint p, CDPoint)
 {
-  // New undo level for each placement...
-  m_pDesign->BeginNewChangeSet();
+	// New undo level for each placement...
+	m_pDesign->BeginNewChangeSet();
 
-  Display();
-  p = m_pDesign->GetStickyPoint(p, TRUE, TRUE, is_stuck, is_junction);
-  m_point_a=p;
-  Store();
-  Display();	// Write to screen
+	Display();
+	p = m_pDesign->GetStickyPoint(p, TRUE, TRUE, is_stuck, is_junction);
+	m_point_a=p;
+	Store();
+	g_EditToolBar.m_PowerEdit.ReFocus();
+	Display();	// Write to screen
 }
 
 

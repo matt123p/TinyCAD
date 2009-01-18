@@ -88,6 +88,7 @@ CMultiDocTemplate*	CTinyCadApp::m_pLibTemplate	= NULL;
 CMultiDocTemplate*	CTinyCadApp::m_pTxtTemplate	= NULL;
 bool				CTinyCadApp::m_LockOutSymbolRedraw = false;
 COLORREF			CTinyCadApp::m_colours[16];
+HACCEL				CTinyCadApp::m_hAccelTable;
 
 
 //=========================================================================
@@ -115,6 +116,10 @@ BOOL CTinyCadApp::InitInstance()
 		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
 		return FALSE;
 	}
+
+	// Load the accelerator table for the ProcessMessageFilter function
+	m_hAccelTable = LoadAccelerators(AfxGetInstanceHandle(),
+	                                 MAKEINTRESOURCE(IDR_MAINFRAME));
 
 	// Change the registry key under which our settings are stored.
 	SetRegistryKey( CTinyCadApp::GetName() );
@@ -479,6 +484,27 @@ BOOL CTinyCadApp::OnIdle( LONG nCount )
 
   	return FALSE;
 }
+
+//-------------------------------------------------------------------------
+// Process the main window accelerator keys when a MFC dialog has the focus.
+// This is an implementation suggested by Microsoft KB100770.
+BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg) 
+{
+    if(code >= 0)
+	{
+		if(m_hAccelTable)
+		{
+			// Not for popup windows like message boxes or modal dialogs
+			if ( !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP) )
+			{
+				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
+					return TRUE;
+			}
+		}
+	}	
+    return CWinApp::ProcessMessageFilter(code, lpMsg);
+}
+
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnLibLib()
 {

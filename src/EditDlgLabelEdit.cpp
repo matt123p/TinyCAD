@@ -78,7 +78,7 @@ void CEditDlgLabelEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
   CheckRadioButton(IDC_LABEL_DIR1,IDC_LABEL_DIR4,IDC_LABEL_DIR1 + static_cast<CDrawLabel*>(getObject())->dir);
   CheckRadioButton(IDC_STYLE1,IDC_STYLE4,IDC_STYLE1 + static_cast<CDrawLabel*>(getObject())->m_Style);	
 
-  GetDlgItem( TEXTBOX_TEXT )->SetFocus();
+  ReFocus();
 
   stop=FALSE;  
 }
@@ -109,9 +109,10 @@ void CEditDlgLabelEdit::OnChange()
 
 void CEditDlgLabelEdit::ReFocus()
 {
-  SetDlgItemText(TEXTBOX_TEXT,static_cast<CDrawLabel*>(getObject())->str);
-
-  SetFocus();
+	SetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawLabel*>(getObject())->str);
+	CEdit *ctrl = (CEdit *)GetDlgItem( TEXTBOX_TEXT );
+	ctrl->SetSel(0, -1);
+	ctrl->SetFocus();
 }
 
 
