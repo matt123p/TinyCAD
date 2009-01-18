@@ -615,6 +615,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 						if (pointer->GetType()==xPinEx && thePin->IsPower()) 
 						{
 							CNetListNode n(file_index_id, sheet, thePin,thePin->GetActivePoint(theMethod) );
+							// Set netlist label name to invisible symbol power pin name
+							n.setLabel( thePin->GetPinName() );
 							n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = theMethod;
