@@ -254,7 +254,7 @@ void CDragUtils::End( bool no_clean )
 			wireCollection::iterator prev_it_wires = it_wires ++;
 			if (!m_pDesign->IsInDrawing( pointer ))
 			{
-				m_draggedWires.erase( prev_it_wires );
+				it_wires = m_draggedWires.erase( prev_it_wires );
 			}
 		}
 
