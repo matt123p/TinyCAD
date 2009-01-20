@@ -415,6 +415,7 @@ private:
 
 	void SetScalingWidths();
 	void CalcLayout();
+	int DoRotate(int olddir,int newdir);
 
 public:
 	virtual void TagResources();
@@ -803,6 +804,7 @@ public:
 
 	virtual int SetCursor( CDPoint p );
 	virtual int getMenuID() { return IDM_EDITROTATE; }
+	virtual CString GetName() const;
 };
 
 
@@ -885,7 +887,6 @@ public:
 	virtual void Paint(CContext &,paint_options);
 	virtual void ReleaseSelection();
 	virtual void EndSelection();
-	virtual void UndoMove();
 	virtual void RButtonUp(CDPoint,CDPoint);
 	virtual ObjType GetType() { return xEditItem; }
 	virtual int SetCursor( CDPoint p );

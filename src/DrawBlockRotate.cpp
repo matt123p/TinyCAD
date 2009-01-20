@@ -50,6 +50,11 @@ CDrawBlockRotate::CDrawBlockRotate(CTinyCadDoc *pDesign)
   m_point_a=m_point_b=CDPoint(0,0);
 }
 
+CString CDrawBlockRotate::GetName() const
+{
+	return "Block Rotate";
+}
+
 
 void CDrawBlockRotate::BeginEdit(BOOL re_edit)
 {
