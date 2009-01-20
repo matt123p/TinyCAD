@@ -1250,26 +1250,32 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 
 					if (!add.IsEmpty())
 					{
-						if (first)
+						if (theNode.getLabel() != add)
 						{
-							first = FALSE;
+							if (first)
+							{
+								first = FALSE;
+							}
+							else
+							{
+								theLine += _T(",");
+							}
+							theLine += add;
+							PrintLine=TRUE;
 						}
-						else
-						{
-							theLine += _T(",");
-						}
-
-						theLine += add;
-						PrintLine=TRUE;
 					}
 				}
 			}
 			if (PrintLine) {
 				_ftprintf(theFile,_T("NET  "));
 				if (Labeled)
+				{
 					_ftprintf(theFile,_T("'%s'"),theLabel);
+				}
 				else
+				{
 					_ftprintf(theFile,_T("'N%06d'"),Label++);
+				}
 				_ftprintf(theFile,_T(" =  %s\n"),theLine);
 			}
 		}
