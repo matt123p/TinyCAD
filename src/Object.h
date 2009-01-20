@@ -885,7 +885,6 @@ public:
 	virtual void Paint(CContext &,paint_options);
 	virtual void ReleaseSelection();
 	virtual void EndSelection();
-	virtual void UndoMove();
 	virtual void RButtonUp(CDPoint,CDPoint);
 	virtual ObjType GetType() { return xEditItem; }
 	virtual int SetCursor( CDPoint p );

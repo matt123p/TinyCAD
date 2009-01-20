@@ -2935,6 +2935,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\StreamMemory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StreamMemory.h"
+				>
+			</File>
+			<File
 				RelativePath="Symbol.cpp"
 				>
 				<FileConfiguration
@@ -3849,11 +3857,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp"
+				RelativePath="TOOLBAR.BMP"
 				>
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP"
+				RelativePath="res\Toolbar.bmp"
 				>
 			</File>
 			<File
