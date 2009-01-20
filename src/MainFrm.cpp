@@ -87,6 +87,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 	
+
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_MAINFRAME) ||
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
@@ -94,6 +95,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
+	m_wndToolBar.AttachToolbarImages(16, IDR_MAINFRAME, 0, 0);
+
+
 	if (!m_wndToolBarDraw.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWING) ||
 		!m_wndToolBarDraw.LoadToolBar(IDR_DRAWING))
@@ -101,6 +105,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar for drawing\n");
 		return -1;      // fail to create
 	}
+	m_wndToolBarDraw.AttachToolbarImages(16, IDR_DRAWING, 0, 0);
+
+
 	if (!m_wndToolBarDrawBus.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWBUS) ||
 		!m_wndToolBarDrawBus.LoadToolBar(IDR_DRAWBUS))
@@ -108,6 +115,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar for buses\n");
 		return -1;      // fail to create
 	}
+	m_wndToolBarDrawBus.AttachToolbarImages(16, IDR_DRAWBUS, 0, 0);
+
+
 	if (!m_wndToolBarDrawGroup.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWGROUP) ||
 		!m_wndToolBarDrawGroup.LoadToolBar(IDR_DRAWGROUP))
@@ -115,6 +125,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar for group operations\n");
 		return -1;      // fail to create
 	}
+	m_wndToolBarDrawGroup.AttachToolbarImages(16, IDR_DRAWGROUP, 0, 0);
+
 
 	if (!m_wndToolBarAnnotate.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_ANNOTATE) ||
@@ -123,6 +135,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar for annotations\n");
 		return -1;      // fail to create
 	}
+	m_wndToolBarAnnotate.AttachToolbarImages(16, IDR_ANNOTATE, 0, 0);
 
 
 	if (!m_wndPositionBox.Create(this,  CDlgPositionBox::IDD, WS_CHILD | WS_VISIBLE | CBRS_TOP
