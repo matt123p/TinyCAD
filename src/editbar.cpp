@@ -35,11 +35,15 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 	m_pDesign = pDesign;
 	m_pObject = pObject;
 
-  if (++opens==1) 
-  {
-	  g_EditToolBar.setDlg( this );
-  }
+	if (opens == 0)
+	{
+		++opens;
+	}
 
+	if (opens > 0) 
+	{
+		g_EditToolBar.setDlg( this );
+	}
 }
 
 void CEditDlg::Close()
