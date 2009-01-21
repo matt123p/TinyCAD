@@ -68,7 +68,10 @@ void CDrawEditItem::EndEdit()
 {
 	if (!m_segment)
 	{
-		(m_pDesign->GetSingleSelectedItem())->EndEdit();
+		if (m_pDesign->GetSingleSelectedItem())
+		{
+			(m_pDesign->GetSingleSelectedItem())->EndEdit();
+		}
 	}
 
 	m_drag_utils.End( false );

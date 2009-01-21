@@ -415,6 +415,7 @@ private:
 
 	void SetScalingWidths();
 	void CalcLayout();
+	int DoRotate(int olddir,int newdir);
 
 public:
 	virtual void TagResources();
@@ -803,6 +804,7 @@ public:
 
 	virtual int SetCursor( CDPoint p );
 	virtual int getMenuID() { return IDM_EDITROTATE; }
+	virtual CString GetName() const;
 };
 
 

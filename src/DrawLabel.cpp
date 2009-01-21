@@ -752,50 +752,45 @@ CDrawingObject* CDrawLabel::Store()
 }
 
 
+int CDrawLabel::DoRotate(int olddir,int newdir)
+{
+	//New rotation=>2  3  4
+	//           Current dir ..\/..
+	int table[] = { 2, 3, 0, // 0 (Up)
+	                3, 2, 1, // 1 (Down)
+	                1, 0, 3, // 2 (Left)
+	                0, 1, 2, // 3 (Right)
+	              };
+
+	return table[(newdir-2) + olddir*3];
+}
+
+
 // Rotate this object about a point
 void CDrawLabel::Rotate(CDPoint p,int ndir)
 {
   // Translate this point so the rotational point is the origin
-  m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
-  m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
-
-  if (ndir!=4) {
-	if (dir>=2)
-		dir = 0;
-	else
-		dir = 3;
-  }
+  m_active_point = CDPoint(m_active_point.x-p.x,m_active_point.y-p.y);
 
   // Perfrom the rotation
   switch (ndir) {
 	case 2: // Left
-		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
-		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+		m_active_point = CDPoint(m_active_point.y,-m_active_point.x);
 		break;		
 	case 3: // Right
-		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
-		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+		m_active_point = CDPoint(-m_active_point.y,m_active_point.x);
 		break;
 	case 4: // Mirror
-		m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
-		m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+		m_active_point = CDPoint(-m_active_point.x,m_active_point.y);
 		break;
   }
 
   // Re-translate the points back to the original location
-  m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
-  m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+  m_active_point = CDPoint(m_active_point.x+p.x,m_active_point.y+p.y);
 
-  CDPoint la = m_point_a;
+  dir = DoRotate(dir,ndir);
 
-  // Adjust for the rotation
-  if (dir>=2) {
-	m_point_a = CDPoint(min(la.x,m_point_b.x),max(la.y,m_point_b.y));
-	m_point_b = CDPoint(max(la.x,m_point_b.x),min(la.y,m_point_b.y));
-  } else {
-	m_point_a = CDPoint(max(la.x,m_point_b.x),max(la.y,m_point_b.y));
-	m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
-  }
+  CalcLayout();
 }
 
 // Extract the netlist/active points from this object
