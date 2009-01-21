@@ -494,23 +494,23 @@ void CTinyCadDoc::Add( drawingCollection& drawing )
 // Add a new object to this drawing
 void CTinyCadDoc::Add(CDrawingObject *NewObject)
 {
-  // Is this a valid object?
-  if (NewObject == NULL)
-	return;
+	// Is this a valid object?
+	if (NewObject == NULL)
+		return;
 
-  // Store the object in the linked list
-  m_drawing.insert( m_drawing.end(), NewObject );
+	// Store the object in the linked list
+	m_drawing.insert( m_drawing.end(), NewObject );
 
-  if (!m_InUndoAddAction)
-  {
-	MarkAdditionForUndo( NewObject );
-  }
+	// Store object and set the dirty flag
+	if (NewObject->GetType()!=xError)
+	{
+		if (!m_InUndoAddAction)
+		{
+			MarkAdditionForUndo( NewObject );
+		}
 
-  // Set the dirty flag
-  if (NewObject->GetType()!=xError)
-  {
-	SetModifiedFlag( TRUE );
-  }
+		SetModifiedFlag( TRUE );
+	}
 }
 
 
@@ -710,6 +710,35 @@ CDrawingObject*	CTinyCadDoc::Dup( CDrawingObject *p )
 
 void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *index_object )
 {
+	// Don't store Error objects
+	if (index_object->GetType() == xError)
+	{
+		return;
+	}
+
+	// Look up this index...
+	int index = 0;
+	drawingIterator it = GetDrawingBegin();
+	while (it != GetDrawingEnd()) 
+	{
+		// No undo action possible for indexes higher than any Error object.
+		// This is because error objects will be deleted from the drawing
+		// which would cause higher index numbers in the UndoSet to become invalid.
+		if ((*it)->GetType() == xError)
+		{
+			return;
+		}
+
+		if (*it == index_object)
+		{
+			break;
+		}
+
+		++ it;
+		++ index;
+	}
+
+
 	// Do we need to increment the undo level?
 	if (m_change_set)
 	{
@@ -726,20 +755,6 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 	}
 	CDocUndoSet &s = m_undo[ m_undo_level ];
     SetModifiedFlag( TRUE );
-
-
-	// Look up this index...
-	int index = 0;
-	drawingIterator it = GetDrawingBegin();
-	while (it != GetDrawingEnd()) 
-	{
-		if (*it == index_object)
-		{
-			break;
-		}
-		++ index;
-		++ it;
-	}
 
 
 
@@ -789,7 +804,7 @@ void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 	double right=max(p1.x,p2.x);
 	double top=min(p1.y,p2.y);
 	double bottom=max(p1.y,p2.y);
-	//ML??
+
 	UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
