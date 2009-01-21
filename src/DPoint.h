@@ -123,13 +123,14 @@ public:
 
 	bool operator<( const CDPoint &a ) const
 	{
-		if (x == a.x)
+		const double close_distance = 0.001;
+		if (fabs( a.x - x ) < close_distance)
 		{
-			return y < a.y;
+			return y < a.y - close_distance;
 		}
 		else
 		{
-			return x < a.x;
+			return x < a.x - close_distance;
 		}
 	}
 };
