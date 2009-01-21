@@ -24,14 +24,17 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="1"
-				UsePrecompiledHeader="3"
+				BufferSecurityCheck="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				TreatWChar_tAsBuiltInType="TRUE"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\Debug/TinyCad.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				AssemblerOutput="2"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -96,19 +99,23 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				StringPooling="FALSE"
+				StringPooling="TRUE"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="FALSE"
+				BufferSecurityCheck="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				TreatWChar_tAsBuiltInType="TRUE"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\Release/TinyCad.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				AssemblerOutput="2"
+				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="0"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -116,6 +123,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib"
 				OutputFile=".\Release/TinyCad.exe"
+				Version="2.70.00"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="LIBC"
@@ -3099,10 +3107,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">
