@@ -125,7 +125,7 @@ void CTinyCadView::OnFindFind()
 void CTinyCadView::OnViewZoomIn()
 {
   CMenu *pMenu = GetMenu();
-  double NewZoom=GetTransform().doubleScale(1.0)*2;
+  double NewZoom=GetTransform().doubleScale(1.0)*1.3;
 
   if (NewZoom>5)
   {
@@ -142,7 +142,7 @@ void CTinyCadView::OnViewZoomOut()
 {
   double NewZoom;
 
-  NewZoom=GetTransform().doubleScale(1.0)/2.0;
+  NewZoom=GetTransform().doubleScale(1.0)/1.3;
   if (NewZoom<0.25)
 	NewZoom=0.25;
   SetZoomFactor(NewZoom);
