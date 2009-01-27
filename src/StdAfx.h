@@ -23,32 +23,54 @@
 #if _MSC_VER > 1000
     #pragma once
 #endif // _MSC_VER > 1000
-
+// Visual C++ 6.x:		_MSC_VER = 1100 through 1199
+// Visual Studio 2002:	_MSC_VER = 1200 through 1299
 // Visual Studio 2003:  _MSC_VER = 1300 through 1399
 // Visual Studio 2005:  _MSC_VER = 1400 through 1499
 // Visual Studio 2008:  _MSC_VER = 1500 through 1599
 // Visual Studio ????:  _MSC_VER > 1600
+
+/** The following code determines which compiler is being used for compilation.  
+  * When compiling StdAfx.cpp, in conjunction with other code in StdAfx.cpp, it
+  * will generate a single announcement of the version of compiler being used for all
+  * supported compilers.  For unsupported compilers, it will generate a warning message
+  * announcing the compiler version and the fact that it is not supported for every
+  * file that is compiled.  This method reduces the verbosity when using an approved
+  * compiler, and increases the safety when using a non-approved compiler.
+  */
 #ifndef _MSC_VER
 	#pragma message("Error:  TinyCAD is not supported or tested with non-Microsoft compilers")
-#elif _MSC_VER < 1300
+#elif _MSC_VER < 1100
 	#define USE_VS2003
 	#pragma message("Warning:  Microsoft Visual C++ compilers older than Visual Studio 2003 are not supported.")
+	#pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
+#elif _MSC_VER < 1200
+	//Visual C++ 6.0
+	#define USE_2003
+	#pragma message("Compiling TinyCAD with Visual C++ 6.0 (unsupported)")
+	#pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
+#elif _MSC_VER < 1300
+	//Visual Studio 2002 - Don't know if this works
+	#define USE_VS2003
+	#pragma message("Compiling TinyCAD with Visual Studio 2002 (unsupported)")
+	#pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
 #elif _MSC_VER < 1400
 	//This source can be compiled with VS2003 with this setting
 	#define USE_VS2003
-	#pragma message("Compiling TinyCAD with Visual Studio 2003")
+	//#pragma message("Compiling TinyCAD with Visual Studio 2003")
 #elif _MSC_VER < 1500
 	//This source can be compiled with VS2005 with this setting
 	#define USE_VS2005
-	#pragma message("Compiling TinyCAD with Visual Studio 2005")
+	//#pragma message("Compiling TinyCAD with Visual Studio 2005")
 #elif _MSC_VER < 1600
-	//This source can be compiled with either VS2005 or VS2008 with this setting
+	//This source can be compiled with VS2008 with this setting
 	#define USE_VS2008
-	#pragma message("Compiling TinyCAD with Visual Studio 2008")
+	//#pragma message("Compiling TinyCAD with Visual Studio 2008")
 #else
 	//This source has not been tested with a Visual Studio C++ compiler newer than 2008
 	#define USE_VS2008
 	#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2008")
+	#pragma message("\tUnsupported compiler - Setting Visual Studio 2008 options - Don't expect too much!")
 #endif
 
 #ifdef USE_VS2003
@@ -79,13 +101,16 @@
 	//Tell the Visual Studio 2008 compiler to compile for Windows XP.  95, 98, no longer supported by VS2008
 	#define WINVER 0x0501
 	#define _WIN32_WINNT 0x0501
+	//#define _CONVERSION_DONT_USE_THREAD_LOCALE	//Questionable workaround for locale limitations in ATL/MFC
+	//For details of alternate workaround, see http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=100887
+	//For original post of the thread locale string problem, see http://alax.info/blog/218
 #endif
 
 //I am not sure why Visual Studio 2008 deprecated the CDaoDatabase class, but it
 //may have to do with the fact that there is no 64 bit processor support for it.
 //This will disable the warnings, for now
 #define _AFX_DISABLE_DEPRECATED 1
-
+//#define _AFX_NO_DEBUG_CRT	// Turn off debugging for AFX - AFX will run as if in Release mode
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <afxwin.h>         // MFC core and standard components
