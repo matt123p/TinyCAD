@@ -647,9 +647,9 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	  CDPoint LineTo2=CDPoint(m_point_a.x+CONNECT_SIZE/2,m_point_a.y-CONNECT_SIZE/2);
 
 	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/2,m_point_a.y-CONNECT_SIZE/2));
-	  dc.LineTo(CDPoint(LineTo1.x+1,LineTo1.y));
+	  dc.LineTo(CDPoint(LineTo1.x,LineTo1.y));
 	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/2,m_point_a.y+CONNECT_SIZE/2));
-	  dc.LineTo(CDPoint(LineTo2.x+1,LineTo2.y));
+	  dc.LineTo(CDPoint(LineTo2.x,LineTo2.y));
   }
 
   // If this pin is a "not connected" then we must draw the NC cross on
@@ -660,7 +660,7 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	  CDPoint LineTo2=CDPoint(m_point_a.x+CONNECT_SIZE,m_point_a.y-CONNECT_SIZE);
 
 	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE,m_point_a.y-CONNECT_SIZE));
-	  dc.LineTo(CDPoint(LineTo1.x+1,LineTo1.y));
+	  dc.LineTo(CDPoint(LineTo1.x,LineTo1.y));
 	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE,m_point_a.y+CONNECT_SIZE));
 	  dc.LineTo(CDPoint(LineTo2.x+1,LineTo2.y));
   }
