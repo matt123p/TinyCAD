@@ -125,34 +125,22 @@ void CTinyCadView::OnFindFind()
 void CTinyCadView::OnViewZoomIn()
 {
   CMenu *pMenu = GetMenu();
-  double NewZoom=GetTransform().doubleScale(1.0)*2;
+  double NewZoom = GetTransform().doubleScale(1.0)*1.3;
 
-  if (NewZoom>5)
+  if (NewZoom < 20)
   {
-	NewZoom=5;
+	SetZoomFactor(NewZoom);
+	// Centre at the mouse position
+    SetScrollCentre(MousePosition);
   }
-
-  SetZoomFactor(NewZoom);
-
-  // Centre at the mouse position
-  SetScrollCentre(MousePosition);
 }
 
 void CTinyCadView::OnViewZoomOut()
 {
-  double NewZoom;
-
-  NewZoom=GetTransform().doubleScale(1.0)/2.0;
-  if (NewZoom<0.25)
-	NewZoom=0.25;
-  SetZoomFactor(NewZoom);
+  double NewZoom = GetTransform().doubleScale(1.0)/1.3;
+  if (NewZoom > 0.25)
+    SetZoomFactor(NewZoom);
 }
-
-
-
-
-
-
 
 //////// The TOOLS menu /////////
 
