@@ -270,11 +270,11 @@ CDPoint CDrawPin::GetActivePoint(CDrawMethod *parent)
   CDPoint pos = m_point_a;
 
 
-  // We use point b if we are have a centred name
-  if (m_centre_name)
-  {
-	  pos = m_point_b;
-  }
+//  // We use point b if we are have a centred name
+//  if (m_centre_name)
+//  {
+//	  pos = m_point_b;
+//  }
 
   // Has this object been mirrored?
   if ((parent->GetRotate()&4)!=0)
