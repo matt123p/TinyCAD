@@ -133,10 +133,9 @@ void CDrawJunction::Display( BOOL erase )
 
 void CDrawJunction::Paint(CContext &dc,paint_options options)
 {
-  int js=JUNCTION_SIZE;
   CDPoint br,tl;
-  br=CDPoint(m_point_a.x+js+1,m_point_a.y+js+1);
-  tl=CDPoint(m_point_a.x-js,m_point_a.y-js);
+  br=CDPoint(m_point_a.x+JUNCTION_SIZE,m_point_a.y+JUNCTION_SIZE);
+  tl=CDPoint(m_point_a.x-JUNCTION_SIZE,m_point_a.y-JUNCTION_SIZE);
 
 	dc.SetROP2(R2_COPYPEN);
 
