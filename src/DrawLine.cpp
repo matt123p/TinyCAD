@@ -838,8 +838,8 @@ void CDrawLine::EndEdit()
   if (!m_re_edit)
   {
 	  g_EditToolBar.m_DrawLineEdit.Close();
-	  // Remove any placed junctions
-	  RButtonDown(CDPoint(), CDPoint());
+  }
+  else
   {
 	  g_EditToolBar.m_LineEdit.Close();
 
