@@ -47,7 +47,7 @@ public:
 	void SetGridSnap(BOOL NewSnap) { GridSnap = NewSnap; }
 
 	// Get the current settings
-	double GetAccurateGrid() { return grid; }	
+	double GetAccurateGrid() { return grid * 10.0; }	
 	double GetGrid() { return grid; }	
 	BOOL GetGridSnap() { return GridSnap; }
 
