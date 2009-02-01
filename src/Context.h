@@ -61,7 +61,7 @@ public:
 	void SaveXML( CXMLWriter &xml )
 	{
 		xml.addTag( _T("GRID") );
-		xml.addAttribute( _T("spacing"), grid );
+		xml.addAttribute( _T("spacing"), grid * 10.0 );
 		xml.addAttribute( _T("snap"), GridSnap );
 		xml.closeTag();
 	}
@@ -70,6 +70,7 @@ public:
 	{
 		xml.getAttribute( _T("spacing"), grid );
 		xml.getAttribute( _T("snap"), GridSnap );
+		grid /= 10.0;
 	}
 
 
