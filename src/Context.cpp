@@ -205,7 +205,7 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 
 			switch (Style)
 			{
-			case PS_ALTERNATE:	// Pen sets every other pixel.
+			case PS_ALTERNATE:	// Marquee pen.
 				{
 					pCustStyle[0] = dot;
 					pCustStyle[1] = dot;
@@ -249,10 +249,14 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 			}
 			new_style = PS_USERSTYLE | PS_GEOMETRIC;
 
-			// Now scale with the transform
-			for (int i = 0; i < style_count; i ++)
+			// Don't scale the marquee pen
+			if (Style != PS_ALTERNATE)
 			{
-				pCustStyle[i] = static_cast<int>(m_Transform.doubleScale( pCustStyle[i] ));
+				// Now scale with the transform
+				for (int i = 0; i < style_count; i ++)
+				{
+					pCustStyle[i] = static_cast<int>(m_Transform.doubleScale( pCustStyle[i] ));
+				}
 			}
 		}
 		else
