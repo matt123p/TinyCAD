@@ -439,6 +439,16 @@ void CTinyCadView::SetScrollCentre(CDPoint c)
   SetScroll(GetTransform().GetOrigin().x+c.x-p.x,GetTransform().GetOrigin().y+c.y-p.y);  
 }
 
+void CTinyCadView::SetScrollPoint(CDPoint c, CPoint p)
+{
+  CRect rect;
+  CDPoint p2;
+
+  GetClientRect(rect);
+  //p2=GetTransform().DeScale(GetCurrentDocument()->m_snap,p - GetTransform().GetPixelOffset());
+  p2=GetTransform().DeScale(p - GetTransform().GetPixelOffset());
+  SetScroll(GetTransform().GetOrigin().x+c.x-p2.x,GetTransform().GetOrigin().y+c.y-p2.y);  
+}
 
 
 // The message handlers for the VScroll and HScroll messages

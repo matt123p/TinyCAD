@@ -141,7 +141,7 @@ public:
 protected:
 
 	void SetScrollCentre(CDPoint);
-
+	void SetScrollPoint(CDPoint, CPoint);
 
 
 	// Read and write the	// Create a bitmap for off-screen drawing...

@@ -660,7 +660,7 @@ void CTinyCadView::OnMouseMove(UINT nFlags, CPoint p)
 		double x = GetTransform().GetOrigin().x;
 		double y = GetTransform().GetOrigin().y;
 		CDPoint old_mouse = MousePosition;
-		SetScroll(x - snap_p.x + old_mouse.x, y - snap_p.y + old_mouse.y);
+		SetScroll(x - no_snap_p.x + old_mouse.x, y - no_snap_p.y + old_mouse.y);
 
 		MousePosition=GetTransform().DeScale(p);
 	}
