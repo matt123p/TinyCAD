@@ -656,12 +656,12 @@ void CTinyCadView::OnMouseMove(UINT nFlags, CPoint p)
 		CDPoint old_mouse = MousePosition;
 		SetScroll(x - snap_p.x + old_mouse.x, y - snap_p.y + old_mouse.y);
 
-		MousePosition=GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
+		MousePosition=GetTransform().DeScale(p);
 	}
 	else
 	{
 
-		MousePosition=snap_p;
+		MousePosition=no_snap_p;
 	
 		// Now display the position
 		CString pos = GetCurrentDocument()->GetOptions()->PointToUnit(snap_p);
@@ -682,7 +682,7 @@ void CTinyCadView::OnLButtonDown(UINT nFlags, CPoint p)
   CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
   CDPoint no_snap_p = GetTransform().DeScale(p);
 
-  MousePosition=snapped_p;
+  MousePosition=no_snap_p;
 
   GetCurrentDocument()->GetEdit()->LButtonDown(snapped_p,no_snap_p);
 
@@ -697,14 +697,14 @@ void CTinyCadView::OnLButtonDblClk(UINT nFlags, CPoint p)
   CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
   CDPoint no_snap_p = GetTransform().DeScale(p);
 
-  MousePosition=snapped_p;
+  MousePosition=no_snap_p;
 
   GetCurrentDocument()->GetEdit()->DblLButtonDown(snapped_p,no_snap_p);
 	
   CView::OnLButtonDblClk(nFlags, p);
 }
 
-void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint point) 
+void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint p) 
 {
 	if (m_captured)
 	{
@@ -712,14 +712,15 @@ void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint point)
 
 		CContext theContext(this,GetTransform());
 
-		CDPoint p=GetTransform().DeScale(GetCurrentDocument()->m_snap,point);
+		CDPoint snapped_p=GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
+		CDPoint no_snap_p = GetTransform().DeScale(p);
 
-		MousePosition=p;
+		MousePosition=no_snap_p;
 
-		GetCurrentDocument()->GetEdit()->LButtonUp(p);
+		GetCurrentDocument()->GetEdit()->LButtonUp(snapped_p,no_snap_p);
 	}
 	
-	CView::OnLButtonUp(nFlags, point);
+	CView::OnLButtonUp(nFlags, p);
 }
 
 
@@ -778,7 +779,7 @@ void CTinyCadView::OnRButtonDown(UINT nFlags, CPoint p)
   CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
   CDPoint no_snap_p = GetTransform().DeScale(p);
 
-  MousePosition=snapped_p;
+  MousePosition=no_snap_p;
 
   // Call the end function, if it returns false then delete
   // this object
@@ -794,7 +795,7 @@ void CTinyCadView::OnRButtonUp(UINT nFlags, CPoint p)
   CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
   CDPoint no_snap_p = GetTransform().DeScale(p);
 
-  MousePosition=snapped_p;
+  MousePosition=no_snap_p;
 
   GetCurrentDocument()->GetEdit()->RButtonUp(snapped_p, no_snap_p );
 }

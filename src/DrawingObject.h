@@ -146,7 +146,7 @@ public:
 	virtual void LButtonDown(CDPoint,CDPoint);		// The user has clicked with the left hand button
 	virtual void DblLButtonDown(CDPoint,CDPoint);		// The user has double clicked with the left hand button
 	virtual BOOL RButtonDown(CDPoint,CDPoint);		// The user has clicked with the right hand button
-	virtual void LButtonUp(CDPoint);					// The user has released the left hand button
+	virtual void LButtonUp(CDPoint,CDPoint);			// The user has released the left hand button
 	virtual void RButtonUp(CDPoint,CDPoint);			// The user has released the right hand button
 
 	virtual BOOL CanControlAspect();				// If the user holds down ctrl, can should we fix the aspect ratio?

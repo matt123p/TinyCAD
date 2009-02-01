@@ -62,7 +62,7 @@ BOOL CDrawingObject::CanControlAspect()
 	return TRUE;
 }
 
-void CDrawingObject::LButtonUp(CDPoint)
+void CDrawingObject::LButtonUp(CDPoint, CDPoint)
 {
 
 }

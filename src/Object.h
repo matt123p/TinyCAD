@@ -74,7 +74,7 @@ protected:
 	BOOL m_re_edit;
 
 	void ToAngle();
-	CDPoint GetStickyPoint( CDPoint q );
+	CDPoint GetStickyPoint( CDPoint no_snap_q );
 
 	CDragUtils	m_drag_utils_a;
 	CDragUtils	m_drag_utils_b;
@@ -129,7 +129,7 @@ public:
 	virtual void TagResources();
 	virtual int getMenuID();
 
-	virtual void LButtonUp(CDPoint);// The user has released the left hand button
+	virtual void LButtonUp(CDPoint,CDPoint);		// The user has released the left hand button
 	virtual BOOL CanControlAspect();				// If the user holds down ctrl, can should we fix the aspect ratio?
 
 	// Move fields of this object about
@@ -187,6 +187,7 @@ public:
 	virtual void Display( BOOL erase = TRUE );
 	virtual void LButtonDown(CDPoint,CDPoint);
 	virtual void DblLButtonDown(CDPoint,CDPoint);
+	virtual void LButtonUp(CDPoint,CDPoint);
 	virtual void Rotate(CDPoint p,int dir);
 
 	virtual BOOL RButtonDown(CDPoint,CDPoint);
@@ -200,7 +201,6 @@ public:
 	virtual int getMenuID();
 	virtual BOOL CanEdit() { return TRUE; }
 
-	virtual void LButtonUp(CDPoint);// The user has released the left hand button
 
 	// Move fields of this object about
 	virtual int IsInsideField(CDPoint p);
@@ -657,7 +657,7 @@ public:
 	virtual void BeginEdit(BOOL re_edit);
 	virtual void EndEdit();
 	virtual BOOL CanEdit() { return TRUE; }
-	virtual void LButtonUp(CDPoint p);
+	virtual void LButtonUp(CDPoint,CDPoint);		// The user has released the left hand button
 	virtual void LButtonDown(CDPoint,CDPoint);
 	bool IsSquare() { return m_type == xSquareEx3; }
 
@@ -882,7 +882,7 @@ public:
 	virtual void EndEdit();
 	virtual void LButtonDown(CDPoint,CDPoint);
 	virtual BOOL RButtonDown(CDPoint,CDPoint);
-	virtual void LButtonUp(CDPoint);
+	virtual void LButtonUp(CDPoint,CDPoint);
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual void Paint(CContext &,paint_options);
 	virtual void ReleaseSelection();

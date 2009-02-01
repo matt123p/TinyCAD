@@ -105,7 +105,7 @@ void CDrawSquare::LButtonDown(CDPoint p, CDPoint s)
 }
 
 
-void CDrawSquare::LButtonUp(CDPoint p)
+void CDrawSquare::LButtonUp(CDPoint p, CDPoint)
 {
 	// If the user has made a significant movement,
 	// then consider this a placement....
