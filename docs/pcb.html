@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>Exporting to PCB programs</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.1.1  (Win32)">
+	<META NAME="CREATED" CONTENT="20020806;18492927">
+	<META NAME="CHANGED" CONTENT="20040925;10333789">
+	<STYLE>
+	<!--
+		P { color: #000000 }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" DIR="LTR">
+<P ALIGN=LEFT><FONT FACE="Arial"><FONT SIZE=5><B>Exporting to PCB
+programs</B></FONT></FONT></P>
+<P ALIGN=LEFT>TinyCAD has the ability to create a netlist for import
+into a PCB layout program. However, for this to work to it's best
+potential you have to use TinyCAD in the correct way:</P>
+<OL>
+	<LI><P ALIGN=LEFT>Use wires and symbols correctly</P>
+	<LI><P ALIGN=LEFT>Add the &ldquo;Package&rdquo; attribute to symbols</P>
+	<LI><P ALIGN=LEFT>Export the netlist in a format compatible with
+	your PCB layout program</P>
+</OL>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P STYLE="margin-top: 0.42cm; page-break-after: avoid"><FONT FACE="Albany, sans-serif"><FONT SIZE=4>Use
+wires and symbols correctly</FONT></FONT></P>
+<P ALIGN=LEFT>For TinyCAD to understand the circuit diagram, you must
+use the &ldquo;wires&rdquo; tool to wire up your circuits.  If you
+were to use the polygon lines, then TinyCAD does not know this is a
+connection and will not export the connection to the netlist.  To
+check that your circuit is wired correctly use the &ldquo;Check
+Design Rules&rdquo; option in the Special menu, before exporting the
+PCB netlist.</P>
+<P ALIGN=LEFT>You must connect a wire to a symbol pin at the tip of
+the pin.  This is normally done automatically for you.  As you move a
+wire close to the symbol a red-circle is show indicating that the
+wire will be connected to an active point on the symbol.  If you do
+not connect at this point, the wire will not be recognised as
+connected in the PCB netlist export.</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P STYLE="margin-top: 0.42cm; page-break-after: avoid"><FONT FACE="Albany, sans-serif"><FONT SIZE=4>Add
+the &ldquo;Package&rdquo; attribute to all symbols</FONT></FONT></P>
+<P ALIGN=LEFT>When the netlist is exported this attribute is written
+out with the netlist so that the PCB program will know which
+footprint to use with the symbol.  Remember the footprint can often
+be different for the same symbol in different places.  For example a
+capacitor symbol in one part of your circuit may have a different
+footprint to a capacitor in a different part of the circuit.  
+</P>
+<P ALIGN=LEFT><IMG SRC="./bm attribute.bmp" NAME="Graphic2" ALIGN=LEFT WIDTH=415 HEIGHT=281 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT>You can edit the symbol libraries so that each symbol
+has a default &ldquo;Package&rdquo; attribute.</P>
+<P ALIGN=LEFT>The example design &ldquo;amp.dsn&rdquo; it has the
+&ldquo;Package&rdquo; attribute for each of the symbols that are
+used.  
+</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P STYLE="margin-top: 0.42cm; page-break-after: avoid"><FONT FACE="Albany, sans-serif"><FONT SIZE=4>Export
+the netlist in a format compatible with your PCB layout program</FONT></FONT></P>
+<P ALIGN=LEFT>From the Special menu select the &ldquo;Create netlist
+for PCB program&rdquo; option.</P>
+<P ALIGN=LEFT><IMG SRC="./bm pcb.bmp" NAME="Graphic1" ALIGN=LEFT WIDTH=536 HEIGHT=247 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT>Use this dialogue to select the netlist output type and
+the filename you wish to use for the export.  Currently TinyCAD has a
+limited select of file formats, however, you may well find that this
+format is recognised by your PCB program.</P>
+<P ALIGN=LEFT>All of the output file formats are text based, so if
+you wish to see the result of the export, try loading the exported
+file into notepad or another text editor.</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+</BODY>
+</HTML>

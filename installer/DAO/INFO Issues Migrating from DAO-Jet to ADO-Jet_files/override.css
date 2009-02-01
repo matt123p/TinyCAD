@@ -1,0 +1,38 @@
+.kb SPAN.ll {
+	WORD-BREAK: break-all; WORD-WRAP: break-word
+}
+.kb .indent B {
+	WORD-BREAK: break-all; WORD-WRAP: break-word
+}
+.kb .indent STRONG {
+	WORD-BREAK: break-all; WORD-WRAP: break-word
+}
+.kb .indent .userInput {
+	WORD-BREAK: break-all; WORD-WRAP: break-word
+}
+.kb SPAN.pLink {
+	WORD-BREAK: break-all; WORD-WRAP: break-word
+}
+.kb .toc A {
+	WORD-BREAK: normal; WORD-WRAP: normal
+}
+.kb .toc .tallTable .text {
+	WIDTH: 100%
+}
+.kb DIV PRE {
+	OVERFLOW: scroll; WIDTH: 100%; WHITE-SPACE: normal
+}
+#mainColumn .wp {
+	WIDTH: 100%
+}
+#mainColumn .wp .wp {
+	WIDTH: 100%
+}
+
+@media Print    
+{
+PRE {
+	WHITE-SPACE: normal! important; WORD-WRAP: break-word! important
+}
+
+}

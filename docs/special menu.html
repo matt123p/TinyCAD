@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>Special menu reference</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.1.1  (Win32)">
+	<META NAME="CREATED" CONTENT="20020806;18540483">
+	<META NAME="CHANGED" CONTENT="20040526;21373332">
+	<STYLE>
+	<!--
+		P { color: #000000 }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" DIR="LTR">
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=5><B>Special
+Menu</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>Create
+Net List for PCB Programs</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>A net list is
+a file which contains a list of all the connections made in a circuit
+diagram. All objects which are connected together are in a single
+list, called a net. For symbols each objects pin is considered a
+different object. Each net is given a different name.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>Net lists are
+useful for programs such a PCB layout tools which can check you
+layout to see if it matches the layout of the circuit diagram, or
+even suggest a PCB layout from the net list. These more advanced
+features will be better supported by this program in future releases.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="font-weight: medium"><FONT FACE="Times New Roman">As
+of version 1.95.15, there are multiple netlist formats supported. 
+The original TinyCAD format is still there, along with PADS-PCB,
+Protel and Eagle SCR output format.</FONT></P>
+<P ALIGN=LEFT STYLE="font-weight: medium"><FONT FACE="Times New Roman">PCB
+programs require the footprint to be specified.  Do this by adding an
+attribute to the symbol that has a name &ldquo;Package&rdquo;, and
+the value is the value name of the footprint in the PCB program.</FONT></P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>Check
+Design Rules</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This option
+will cause the current design to be checked against a list of rules
+it must obey.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>The rules
+test for gross errors in the design. For example, they will tell you
+if two outputs are connected together. They do not tell you if the
+design will work or not. However, if the design has errors in it
+picked up by this tool, then it is properly incorrectly drawn.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>Once selected
+a dialogue box will appear. Each rule that is checked can be turned
+on or off before the test is done in this dialogue box.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>Once the OK
+is selected the design is checked. Any errors are circled by a red
+ring. A list of errors is displayed at the side of the design.
+Clicking on any item in the list will cause that error to be moved to
+the centre of the design window.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>Selecting
+Edit Item in the Edit menu, then clicking on an error will cause it
+to be highlighted and also cause the error name in the error list to
+be highlighted.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>If the Done
+button in the list is selected all the errors will be removed from
+the design.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>If no errors
+are found then a list will appear stating so. This list can be
+removed by selecting the Done button.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="font-weight: medium"><FONT FACE="Times New Roman">Error
+circles can edited, moved or deleted. Error circles will not be saved
+with the design.</FONT></P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>Generate
+Symbol References</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This option
+changes the symbol references in your design. It relieves you of the
+task of ensuring each symbol has its own unique reference.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>One this
+option has been selected a dialogue box will allow several options to
+be changed. You can either add or remove the current references.
+Removing references can be useful if you wish to integrate this
+design into another.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>You can apply
+the changes to all references, that is the entire design will have
+potentially all of it references changed. Use this option if you do
+have not yet built the design, or have not issued any copies of the
+design to others.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>You can apply
+the changes to only un-numbered references. This will ensure only new
+symbols with references with a ? in them will be changed. Use this
+option if you are modifying an existing design, and wish to leave
+existing components with their original references.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>You can apply
+the changes to only references matching a give reference. This will
+apply to all references matching the one entered, even if the symbol
+has already been assigned a reference. Use this option, for example,
+to renumber all the capacitors without renumbering any other symbol.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>If you wish
+you can allow this tool to determine what the correct symbol
+reference for the symbols is. Alternatively you can enter your own.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>When you
+select the OK button the options will be applied to the design. Each
+symbol specified will be given a new reference. If you select remove
+references then each symbol will have its references changed back to
+one with a ? instead of a value.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="font-weight: medium"><FONT FACE="Times New Roman">You
+may select Cancel to not apply the reference generator.</FONT></P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>Create
+Parts List</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This option
+creates a list of all the parts used in the design. This list is
+sorted by symbol reference, and all parts of the same type are listed
+together.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>Essentially
+this is a list of parts that need to be purchased to make the design.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="font-weight: medium"><FONT FACE="Times New Roman">The
+parts list is store in a simple text file, which can be edited and
+printed using notepad.</FONT></P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+<P ALIGN=LEFT><FONT FACE="Arial, sans-serif"><FONT SIZE=4><B>Tidy
+Design</B></FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This option
+improves the way the design is stored without effecting the way it
+looks.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>In this
+release it does this by removing unseen object from the design.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This
+includes:</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>- Wires,
+buses, arcs and lines with zero length.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>- Labels and
+text with no text in them.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>- Rectangles
+and ellipses with no area.</FONT></FONT></P>
+<P ALIGN=LEFT><FONT FACE="Times New Roman"><FONT SIZE=3>This option
+removes errors than can creep in during editing which are difficult
+to remove yourself because they are unseen.</FONT></FONT></P>
+<P ALIGN=LEFT><BR><BR>
+</P>
+</BODY>
+</HTML>
