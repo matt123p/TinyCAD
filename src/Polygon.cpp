@@ -471,6 +471,8 @@ void CDrawPolygon::FindNearestSegment( CDPoint p, int &line, int &handle )
 // For the context menu
 void CDrawPolygon::ContextMenu( CDPoint p, UINT id )
 {
+	CDPoint snap_p = m_pDesign->m_snap.Snap(p);
+
 	if (!m_segment)
 	{
 		switch (id)
@@ -523,7 +525,7 @@ void CDrawPolygon::ContextMenu( CDPoint p, UINT id )
 			}
 			break;
 		case ID_CONTEXT_ADDHANDLE:
-			m_handles.insert( m_handles.begin() + line, CArcPoint( p - m_point_a ) );
+			m_handles.insert( m_handles.begin() + line, CArcPoint( snap_p - m_point_a ) );
 			break;
 		}
 
@@ -540,16 +542,18 @@ int  CDrawPolygon::GetContextMenu()
 
 
 // For the context menu
-void CDrawPolygon::FinishDrawing( CDPoint p )
+void CDrawPolygon::FinishDrawing( CDPoint no_snap_p )
 {
+	CDPoint p = m_pDesign->m_snap.Snap(no_snap_p);
+
 	// Ok, we can place
 	if (!m_segment)
 	{
 		// First line
-		LButtonDown(p,p);
+		LButtonDown(p,no_snap_p);
 	}
 	// Second line..
-	LButtonDown(p,p);
+	LButtonDown(p,no_snap_p);
 
 	// Now Store...
 	CDrawingObject *obj = Store();
@@ -573,7 +577,7 @@ void CDrawPolygon::DblLButtonDown(CDPoint p,CDPoint)
 }
 
 
-void CDrawPolygon::LButtonUp(CDPoint p)
+void CDrawPolygon::LButtonUp(CDPoint p, CDPoint)
 {
 	// Can't drag out a polygon!
 }

@@ -249,7 +249,7 @@ void CDrawLine::DblLButtonDown(CDPoint p,CDPoint s)
 }
 
 
-void CDrawLine::LButtonUp(CDPoint p)
+void CDrawLine::LButtonUp(CDPoint p, CDPoint)
 {
 	// Only do this if this is the first
 	// m_segment we have placed...
@@ -416,7 +416,7 @@ int CDrawLine::getMenuID()
 }
 
 
-void CDrawLine::LButtonDown(CDPoint p, CDPoint s)
+void CDrawLine::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
   // New undo level for each placement...
   m_pDesign->BeginNewChangeSet();
@@ -506,7 +506,7 @@ void CDrawLine::LButtonDown(CDPoint p, CDPoint s)
 	}
 	else
 	{
-		RButtonDown(p,s);
+		RButtonDown(p,no_snap_p);
 	}
   }
   Display();
@@ -830,7 +830,7 @@ void CDrawLine::BeginEdit(BOOL re_editi)
 		g_EditToolBar.m_DrawLineEdit.Open(m_pDesign,this);
 		g_EditToolBar.m_DrawLineEdit.mode=0;
 	}
- }
+}
 
 void CDrawLine::EndEdit()
 {
@@ -838,8 +838,8 @@ void CDrawLine::EndEdit()
   if (!m_re_edit)
   {
 	  g_EditToolBar.m_DrawLineEdit.Close();
-  }
-  else
+	  // Remove any placed junctions
+	  RButtonDown(CDPoint(), CDPoint());
   {
 	  g_EditToolBar.m_LineEdit.Close();
 

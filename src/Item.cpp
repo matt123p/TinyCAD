@@ -148,10 +148,10 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
   else if (InSelectByDrag) 
   {
 	  m_pDesign->SetSelectable( NULL );
-	  if (m_point_b != p)
+	  if (m_point_b != no_snap_p)
 	  {
   		Display();
-  		m_point_b = p;
+  		m_point_b = no_snap_p;
   		Display(FALSE);
 
 	  } 
@@ -357,8 +357,8 @@ void CDrawEditItem::LButtonDown(CDPoint p, CDPoint no_snap_p)
 	if (!m_pDesign->IsSelected() || GetAsyncKeyState(VK_MENU) < 0)
 	{
 		// No, so start the select box...
-		m_point_a = p;
-		m_point_b = p;
+		m_point_a = no_snap_p;
+		m_point_b = no_snap_p;
 
 		InMove = FALSE;
  		InSelectByDrag = TRUE;
@@ -422,7 +422,7 @@ CDrawingObject* CDrawEditItem::GetClosestObject( CDPoint p )
 }
 
 
-void CDrawEditItem::LButtonUp(CDPoint p)
+void CDrawEditItem::LButtonUp(CDPoint p, CDPoint no_snap_p)
 {
     // Keep a copy of this position
 	LastPos = p;
