@@ -162,3 +162,21 @@ void CMultiSheetDoc::SelectSheetView( int i )
 		}
     }
 }
+
+BOOL CMultiSheetDoc::IsModified()
+{
+	if (CDocument::IsModified())
+	{
+		return TRUE;
+	}
+
+	for (int i=0; i < GetNumberOfSheets(); i++)
+	{
+		if (GetSheet(i)->IsModified())
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}

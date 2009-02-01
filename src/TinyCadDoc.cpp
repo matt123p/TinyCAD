@@ -552,6 +552,18 @@ void CTinyCadDoc::Undo()
 		// Re-apply all of the changes we have done at this level
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 
+		if (s.m_dirty == 2)
+		{
+			m_pParent->CDocument::SetModifiedFlag( FALSE );
+			m_undo_level --;
+			continue;
+		}
+
+		// Copy dirty flag to Document modified flag
+		BOOL dirty = m_pParent->CDocument::IsModified();
+		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
+		s.m_dirty = dirty;
+
 		// Go through the list of action and undo each one in the reverse
 		// order that they were applied
 		CDocUndoSet::actionCollection::reverse_iterator act_it = s.m_actions.rbegin();
@@ -624,15 +636,32 @@ void CTinyCadDoc::Redo()
 	BOOL action_taken = FALSE;
 
 	// Is this possible?
-	while (CanRedo() && !action_taken)
+	while (CanRedo())
 	{
-
-
 		m_undo_level ++;
 
 		// Re-apply all of the changes we have done at this level
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 
+		if (s.m_dirty == 2)
+		{
+			m_pParent->CDocument::SetModifiedFlag( FALSE );
+			if (!action_taken)
+			{
+				continue;
+			}
+		}
+
+		if (action_taken)
+		{
+			m_undo_level --;
+			break;
+		}
+
+		// Copy dirty flag to Document modified flag
+		BOOL dirty = m_pParent->CDocument::IsModified();
+		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
+		s.m_dirty = dirty;
 
 		// Go through the list of action and redo each one 
 		//
@@ -711,7 +740,7 @@ CDrawingObject*	CTinyCadDoc::Dup( CDrawingObject *p )
 void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *index_object )
 {
 	// Don't store Error objects
-	if (index_object->GetType() == xError)
+	if (index_object && index_object->GetType() == xError)
 	{
 		return;
 	}
@@ -719,44 +748,63 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 	// Look up this index...
 	int index = 0;
 	drawingIterator it = GetDrawingBegin();
-	while (it != GetDrawingEnd()) 
+	if (index_object)
 	{
-		// No undo action possible for indexes higher than any Error object.
-		// This is because error objects will be deleted from the drawing
-		// which would cause higher index numbers in the UndoSet to become invalid.
-		if ((*it)->GetType() == xError)
+		while (it != GetDrawingEnd()) 
 		{
-			return;
-		}
+			// No undo action possible for indexes higher than any Error object.
+			// This is because error objects will be deleted from the drawing
+			// which would cause higher index numbers in the UndoSet to become invalid.
+			if ((*it)->GetType() == xError)
+			{
+				return;
+			}
 
-		if (*it == index_object)
-		{
-			break;
-		}
+			if (*it == index_object)
+			{
+				break;
+			}
 
-		++ it;
-		++ index;
+			++ it;
+			++ index;
+		}
 	}
 
 
 	// Do we need to increment the undo level?
-	if (m_change_set)
+	if (m_change_set || index_object == NULL)
 	{
+		m_change_set = FALSE;
 		// Increment the Undo position...
 		m_undo_level ++;
 		FlushRedo();
-		m_change_set = FALSE;
+
+		if (m_undo_level >= m_undo.size())
+		{
+			m_undo.resize( m_undo_level + 1 );
+		}
+
+		CDocUndoSet &s = m_undo[ m_undo_level ];
+		BOOL dirty = m_pParent->CDocument::IsModified();
+		s.m_dirty = dirty;
+		if (action ==  CDocUndoSet::Addition || action ==  CDocUndoSet::Deletion)
+		{
+			m_pParent->CDocument::SetModifiedFlag( TRUE );
+		}
+		else
+		{
+			if (index_object == NULL)
+			{
+				s.m_dirty = 2;
+				m_change_set = TRUE;
+				return;
+			}
+
+			m_pParent->CDocument::SetModifiedFlag( IsModified() );
+		}
 	}
 
-
-	if (m_undo_level >= m_undo.size())
-	{
-		m_undo.resize( m_undo_level + 1 );
-	}
 	CDocUndoSet &s = m_undo[ m_undo_level ];
-    SetModifiedFlag( TRUE );
-
-
 
 	// Now add this to the back of the undo action list
 	CDocUndoSet::CDocUndoAction act;
@@ -793,6 +841,89 @@ void CTinyCadDoc::MarkSelectChangeForUndo()
 	}
 
 }
+
+
+// Real Undo action available
+BOOL CTinyCadDoc::IsModified()
+{
+	if (m_pParent->CDocument::IsModified())
+	{
+		return TRUE;
+	}
+
+//	BOOL previousDirty = TRUE;
+	BOOL action_taken = FALSE;
+	unsigned int undo_level = m_undo_level;
+
+	// Is this possible?
+	while (undo_level > 0 && !action_taken)
+	{
+		// Re-apply all of the changes we have done at this level
+		CDocUndoSet &s = m_undo[ undo_level ];
+		if (s.m_dirty == 2) 
+			return FALSE;
+
+		if (s.m_dirty ) 
+		{
+//			if (previousDirty == FALSE)
+//			{
+//				action_taken = FALSE;
+//				break;
+//			}
+			action_taken = TRUE;
+			break;
+		}
+//		previousDirty = s.m_dirty;
+
+		// Go through the list of action and undo each one in the reverse
+		// order that they were applied
+		CDocUndoSet::actionCollection::reverse_iterator act_it = s.m_actions.rbegin();
+
+		while (act_it != s.m_actions.rend())
+		{
+			CDocUndoSet::CDocUndoAction &act = *act_it;
+
+
+			// Look up this item from the index...
+			drawingCollection::iterator it = m_drawing.begin();
+			int index = act.m_index;
+			while (index > 0 && it != m_drawing.end())
+			{
+				++ it;
+				-- index;
+			}
+
+			switch (act.m_action)
+			{
+			case CDocUndoSet::Deletion:
+				action_taken = TRUE;
+				break;
+
+			case CDocUndoSet::Addition:
+				action_taken = TRUE;
+				break;
+
+			case CDocUndoSet::Change:
+				{
+					// Action taken when object contents differs
+					//CDrawingObject *copy = *it;
+					if (*act.m_object != **it)
+					{
+						action_taken = TRUE;
+					}
+				}
+				break;
+			}
+
+			++ act_it;
+		}
+
+		undo_level --;
+	}
+
+	return action_taken;
+}
+
 
 
 // The object selection functions
@@ -1555,7 +1686,11 @@ void CTinyCadDoc::SetModifiedFlag(BOOL Changed )
 {
 	if (m_pParent)
 	{
-		m_pParent->SetModifiedFlag( Changed );
+		if (Changed == FALSE)
+		{
+			m_pParent->SetModifiedFlag( Changed );
+			MarkChangeForUndo(NULL);
+		}
 	}
 }
 

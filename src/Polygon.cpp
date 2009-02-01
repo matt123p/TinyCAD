@@ -129,6 +129,14 @@ void CDrawPolygon::LoadXML( CXMLReader &xml )
 	xml.outofTag();
 
 	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
+
+	// Calculate the Style nr here
+	// This allows IsModified to correctly detect changes
+	LineStyle lStyle = *m_pDesign->GetOptions()->GetStyle( Style );
+	WORD line = m_pDesign->GetOptions()->AddStyle(&lStyle);
+	m_pDesign->GetOptions()->SetCurrentStyle( GetType(), line );
+	Style = line;
+
 	Fill = m_pDesign->GetOptions()->GetNewFillStyleNumber(Fill);
 
 	xtype = xArcEx2;
@@ -227,7 +235,14 @@ void CDrawPolygon::Load(CStream& archive )
 			xtype = xArcEx2;
 			break;
 	}
-	
+
+	// Calculate the Style nr here
+	// This allows IsModified to correctly detect changes
+	LineStyle lStyle = *m_pDesign->GetOptions()->GetStyle( Style );
+	WORD line = m_pDesign->GetOptions()->AddStyle(&lStyle);
+	m_pDesign->GetOptions()->SetCurrentStyle( GetType(), line );
+	Style = line;
+
 	CalcBoundingRect();
 }
 

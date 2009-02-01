@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="TinyCadVS2005"
 	ProjectGUID="{6863E1AC-68C2-4F3D-B8DE-82F6F3F3A928}"
+	RootNamespace="TinyCadVS2005"
 	Keyword="MFCProj"
 	>
 	<Platforms>
