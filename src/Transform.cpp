@@ -43,12 +43,11 @@ double TransformSnap::Snap(double d)
 	if (!GridSnap || grid == 0)
 		return d; 
 
-	// Perform operations at 10 times point, to enable higher accuracy
-	double a = floor( d * 10.0 / grid ) * grid;
+	double a = floor( d / grid ) * grid;
 	if ((d - a) * 2  > grid)
 		a += grid;
 
-	return a/10.0;
+	return a;
 }
 
 

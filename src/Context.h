@@ -43,12 +43,12 @@ protected:
 	BOOL	GridSnap;			// Should we snap to grid?
 public:
 	// Set the current grid settings
-	void SetAccurateGrid(double NewGrid) { grid = NewGrid; }
+	void SetAccurateGrid(double NewGrid) { grid = NewGrid / 10.0; }
 	void SetGridSnap(BOOL NewSnap) { GridSnap = NewSnap; }
 
 	// Get the current settings
 	double GetAccurateGrid() { return grid; }	
-	double GetGrid() { return grid / 10.0; }	
+	double GetGrid() { return grid; }	
 	BOOL GetGridSnap() { return GridSnap; }
 
 	// Snap co-ords to the grid
@@ -79,7 +79,7 @@ public:
 		{
 			LONG igrid;
 			theArchive >> igrid >> GridSnap;
-			grid = igrid;
+			SetAccurateGrid((double)igrid);
 		}
 		else
 		{
