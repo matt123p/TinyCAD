@@ -893,6 +893,7 @@ public:
 	virtual void BeginEdit( BOOL re_edit );
 	virtual void Display( BOOL erase = TRUE );
 	virtual void ContextMenu( CDPoint p, UINT id );
+	virtual void ChangeDir(int NewDir);
 
 	virtual int getMenuID() { return IDM_EDITEDIT; }
 };
