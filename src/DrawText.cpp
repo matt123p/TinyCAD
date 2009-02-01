@@ -280,7 +280,7 @@ void CDrawText::Move(CDPoint p, CDPoint no_snap_p)
   if (xtype == xLabelEx2)
   {
     BOOL is_junction;
-	p = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
+	p = m_pDesign->GetStickyPoint(no_snap_p,FALSE,TRUE,is_stuck,is_junction );
   }
   m_point_a=p;
   m_segment=0;
@@ -381,7 +381,7 @@ void CDrawText::MoveField(int w, CDPoint r)
 	}
 }
 
-void CDrawText::LButtonDown(CDPoint p, CDPoint)
+void CDrawText::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
 	// We can only store, if we have some text!
 	if (str.IsEmpty())
@@ -397,7 +397,7 @@ void CDrawText::LButtonDown(CDPoint p, CDPoint)
 	if (xtype == xLabelEx2)
 	{
 		BOOL is_junction;
-		p = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
+		p = m_pDesign->GetStickyPoint(no_snap_p,FALSE,TRUE,is_stuck,is_junction );
 	}
 	m_point_a=p;
 	Store();

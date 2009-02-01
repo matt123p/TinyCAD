@@ -226,20 +226,20 @@ void CDrawPower::BeginEdit(BOOL re_edit)
 void CDrawPower::Move(CDPoint p, CDPoint no_snap_p)
 {
   Display();
-  p = m_pDesign->GetStickyPoint(p, TRUE, TRUE, is_stuck, is_junction);
+  p = m_pDesign->GetStickyPoint(no_snap_p, TRUE, TRUE, is_stuck, is_junction);
   m_point_a=p;
   m_point_b=m_point_a;
   m_segment=0;
   Display();
 }
 
-void CDrawPower::LButtonDown(CDPoint p, CDPoint)
+void CDrawPower::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
 	// New undo level for each placement...
 	m_pDesign->BeginNewChangeSet();
 
 	Display();
-	p = m_pDesign->GetStickyPoint(p, TRUE, TRUE, is_stuck, is_junction);
+	p = m_pDesign->GetStickyPoint(no_snap_p, TRUE, TRUE, is_stuck, is_junction);
 	m_point_a=p;
 	Store();
 	g_EditToolBar.m_PowerEdit.ReFocus();

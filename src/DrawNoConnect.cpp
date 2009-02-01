@@ -98,21 +98,21 @@ void CDrawNoConnect::Move(CDPoint p, CDPoint no_snap_p)
 {
   Display();
   BOOL is_junction;
-  p = m_pDesign->GetStickyPoint(p,TRUE,FALSE,is_stuck,is_junction);
+  p = m_pDesign->GetStickyPoint(no_snap_p,TRUE,FALSE,is_stuck,is_junction);
   m_point_a=p;
   m_point_b=p;
   m_segment=0;
   Display();
 }
 
-void CDrawNoConnect::LButtonDown(CDPoint p, CDPoint)
+void CDrawNoConnect::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
   // New undo level for each placement...
   m_pDesign->BeginNewChangeSet();
 
   Display();
   BOOL is_junction;
-  p = m_pDesign->GetStickyPoint(p,TRUE,FALSE,is_stuck,is_junction);
+  p = m_pDesign->GetStickyPoint(no_snap_p,TRUE,FALSE,is_stuck,is_junction);
   m_point_a=p;
   m_point_b=p;
   Store();

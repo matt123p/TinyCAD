@@ -116,7 +116,7 @@ double CLineUtils::DistanceFromPoint( CDPoint p, CDPoint &d) const
 		}
 	}
 
-	if (X > max(a.x,b.x))
+	else if (X > max(a.x,b.x))
 	{
 		if (a.x > b.x)
 		{
@@ -143,7 +143,217 @@ double CLineUtils::DistanceFromPoint( CDPoint p, CDPoint &d) const
 			Y = b.y;
 		}
 	}
-	if (Y > max(a.y,b.y))
+	else if (Y > max(a.y,b.y))
+	{
+		if (a.y > b.y)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+
+
+	d = CDPoint( X, Y );
+	double dx = p.x - X;
+	double dy = p.y - Y;
+	
+	return sqrt(dx*dx + dy*dy);
+}
+
+// How far is the line from a point along the X axis?
+double CLineUtils::DistanceFromPointX( CDPoint p, CDPoint &d) const
+{
+	double X,Y;
+
+	// Is the line horizontal, vertical or other?
+	if (a.y == b.y)
+	{
+		// Horizontal
+		X = p.x;
+		Y = a.y;
+	}
+	else if (a.x == b.x)
+	{
+		// Vertical
+		X = a.x;
+		Y = p.y;
+	}
+	else
+	{
+		// Other....
+
+		// Determine the nearest point on the line
+		// to this point.  
+		//
+		// The line is defined as:
+		// x = g * y + h
+		//
+		//
+
+		// Convert to a parametric equation
+		double g = static_cast<double>(b.x - a.x) / static_cast<double>(b.y - a.y);
+		double h = b.x - g * b.y;
+
+		// Now find the X position
+		Y = p.y;
+		X = g * Y + h;
+	}
+
+	// We have calculated to an infinite line, if we
+	// are past the end-points, bring on to the line...
+	if (X < min(a.x,b.x))
+	{
+		if (a.x < b.x)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+	else if (X > max(a.x,b.x))
+	{
+		if (a.x > b.x)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+	if (Y < min(a.y,b.y))
+	{
+		if (a.y < b.y)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+	else if (Y > max(a.y,b.y))
+	{
+		if (a.y > b.y)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+
+
+	d = CDPoint( X, Y );
+	double dx = p.x - X;
+	double dy = p.y - Y;
+	
+	return sqrt(dx*dx + dy*dy);
+}
+
+// How far is the line from a point along the Y axis?
+double CLineUtils::DistanceFromPointY( CDPoint p, CDPoint &d) const
+{
+	double X,Y;
+
+	// Is the line horizontal, vertical or other?
+	if (a.y == b.y)
+	{
+		// Horizontal
+		X = p.x;
+		Y = a.y;
+	}
+	else if (a.x == b.x)
+	{
+		// Vertical
+		X = a.x;
+		Y = p.y;
+	}
+	else
+	{
+		// Other....
+
+		// Determine the nearest point on the line
+		// to this point.  
+		//
+		// The line is defined as:
+		// y = g * x + h
+		//
+		//
+
+		// Convert to a parametric equation
+		double g = static_cast<double>(b.y - a.y) / static_cast<double>(b.x - a.x);
+		double h = b.y - g * b.x;
+
+		// Now find the Y position
+		X = p.x;
+		Y = g * X + h;
+	}
+
+	// We have calculated to an infinite line, if we
+	// are past the end-points, bring on to the line...
+	if (X < min(a.x,b.x))
+	{
+		if (a.x < b.x)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+	else if (X > max(a.x,b.x))
+	{
+		if (a.x > b.x)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+
+	if (Y < min(a.y,b.y))
+	{
+		if (a.y < b.y)
+		{
+			X = a.x;
+			Y = a.y;
+		}
+		else
+		{
+			X = b.x;
+			Y = b.y;
+		}
+	}
+	else if (Y > max(a.y,b.y))
 	{
 		if (a.y > b.y)
 		{
@@ -307,5 +517,15 @@ void CLineUtils::SplitForDisplay( CTinyCadDoc *pDesign, BOOL erase, int grow )
 		pDesign->InvalidateRect( r, erase, grow );
 		p1 = p2;
 	}
+}
+
+BOOL CLineUtils::IsDiagonal() const
+{
+	if (a.x != b.x && a.y != b.y)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 

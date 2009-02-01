@@ -51,6 +51,12 @@ public:
 
 	// Determine how far a point lies from this line
 	double DistanceFromPoint( CDPoint p, CDPoint &d ) const;
+  
+	// Determine how far a point lies from this line along the X axis
+	double DistanceFromPointX( CDPoint p, CDPoint &d ) const;
+
+	// Determine how far a point lies from this line along the Y axis
+	double DistanceFromPointY( CDPoint p, CDPoint &d ) const;
 
 	// Determine if a point lies on the line
 	BOOL IsPointOnLine( CDPoint p, double &distance_along ) const;
@@ -62,6 +68,9 @@ public:
 	// Split this line up into rectangles for
 	// display, without redrawing too large an area...
 	void SplitForDisplay( CTinyCadDoc *pDesign, BOOL erase, int grow );
+
+	// Determine if the line is diagonal
+	BOOL IsDiagonal() const;
 
 	// Get the length of the line
 	double GetLength();

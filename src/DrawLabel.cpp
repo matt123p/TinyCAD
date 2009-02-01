@@ -224,7 +224,7 @@ void CDrawLabel::Move(CDPoint p, CDPoint no_snap_p)
   Display();			
 
   // Now stick it...
-  m_active_point = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
+  m_active_point = m_pDesign->GetStickyPoint(no_snap_p,FALSE,TRUE,is_stuck,is_junction );
   if (m_Style == label_normal)
   {
 	  is_junction = FALSE;
@@ -332,7 +332,7 @@ void CDrawLabel::MoveField(int w, CDPoint r)
 	}
 }
 
-void CDrawLabel::LButtonDown(CDPoint p, CDPoint)
+void CDrawLabel::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
 	// We can only store, if we have some text!
 	if (str.IsEmpty())
@@ -345,7 +345,7 @@ void CDrawLabel::LButtonDown(CDPoint p, CDPoint)
 	m_pDesign->BeginNewChangeSet();
 
 	Display();
-	p = m_pDesign->GetStickyPoint(p,FALSE,TRUE,is_stuck,is_junction );
+	p = m_pDesign->GetStickyPoint(no_snap_p,FALSE,TRUE,is_stuck,is_junction );
 	if (m_Style == label_normal)
 	{
 		is_junction = FALSE;

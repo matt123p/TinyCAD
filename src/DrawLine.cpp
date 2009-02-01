@@ -422,7 +422,7 @@ void CDrawLine::LButtonDown(CDPoint p, CDPoint no_snap_p)
   m_pDesign->BeginNewChangeSet();
 
 
-  p = GetStickyPoint( p );
+  p = GetStickyPoint( no_snap_p );
 
   if (m_segment) 
   {
@@ -523,7 +523,7 @@ void CDrawLine::Move(CDPoint p, CDPoint no_snap_p)
 	  // Are we a line to be snapped to pins?
 	  if (xtype == xWire)
 	  {
-		  p = m_pDesign->GetStickyPoint(p, TRUE,TRUE,new_is_stuck,new_is_junction);
+		  p = m_pDesign->GetStickyPoint(no_snap_p, TRUE,TRUE,new_is_stuck,new_is_junction);
 	  }
 
 
@@ -540,7 +540,7 @@ void CDrawLine::Move(CDPoint p, CDPoint no_snap_p)
   else
   {
 	  Display();
-	  m_point_b = GetStickyPoint( p );
+	  m_point_b = GetStickyPoint( no_snap_p );
 	  m_point_a = m_point_b;
 	  Display();
   }
@@ -549,15 +549,15 @@ void CDrawLine::Move(CDPoint p, CDPoint no_snap_p)
 
 // Snap to a pin if we are drawing a wire...
 //
-CDPoint CDrawLine::GetStickyPoint( CDPoint q )
+CDPoint CDrawLine::GetStickyPoint( CDPoint no_snap_q )
 {
   // Are we a line to be snapped to pins?
   if (xtype != xWire)
   {
-	  return q;
+	  return m_pDesign->m_snap.Snap(no_snap_q);
   }
 
-  return m_pDesign->GetStickyPoint(q, TRUE,TRUE,is_stuck,is_junction);
+  return m_pDesign->GetStickyPoint(no_snap_q, TRUE,TRUE,is_stuck,is_junction);
 }
 
 

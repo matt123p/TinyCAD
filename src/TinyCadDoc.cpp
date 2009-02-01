@@ -1439,14 +1439,32 @@ void CTinyCadDoc::UngroupSymbols()
 	}
 }
 
-CDPoint CTinyCadDoc::GetStickyPoint( CDPoint q, BOOL pins, BOOL wires, BOOL &is_stuck, BOOL &is_junction )
+CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, BOOL &is_stuck, BOOL &is_junction )
 {
   CDPoint r(0,0);
   bool first = true;
-  double min_distance = 0;
   int items = 0;
+  double min_distance = 0;
+  double range = GetOption().GetAutoSnapRange();
 
-  int range = GetOption().GetAutoSnapRange();
+  CDPoint q = m_snap.Snap(no_snap_q);
+  CDPoint q_snap_x = CDPoint(q.x, no_snap_q.y);
+  CDPoint q_snap_y = CDPoint(no_snap_q.x, q.y);
+	
+/*
+  if (GetTransform().GetZoomFactor() > 1.0)
+  {
+	range /= GetTransform().GetZoomFactor();
+
+	// Range can not be smaller than 0.5*SQRT(1^2+1^2)*Grid = 0.7071*Grid
+	// Which is the maximum distance from a snap point.
+	// Otherwise it can snap to the correct point but still outside the range.
+	if (range < m_snap.GetGrid() * 0.71)
+	{
+		range = m_snap.GetGrid() * 0.71;
+	}
+  }
+*/
 
   if (!GetOption().GetAutoSnap())
   {
@@ -1469,8 +1487,35 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint q, BOOL pins, BOOL wires, BOOL &is_
 				if (wires)
 				{
 					CDPoint d;
+					CDPoint d2;
+					double distance;
+					double distance2;
+
 					CLineUtils l( theLine->m_point_a, theLine->m_point_b );
-					double distance = l.DistanceFromPoint( q, d );
+
+					// Diagonal lines
+					if (l.IsDiagonal())
+					{
+						// Snap on X or Y position
+						// whichever is closest to the line
+						distance  = l.DistanceFromPointY( q_snap_x, d );
+						distance2 = l.DistanceFromPointX( q_snap_y, d2 );
+
+						if (distance2 < distance) 
+						{
+							distance = distance2;
+							d = d2;
+						}
+					}
+					else
+					{
+						distance = l.DistanceFromPoint( q, d );
+					}
+
+					// Calculate real distance from sticky point to mouse position
+					double dx = d.x - no_snap_q.x;
+					double dy = d.y - no_snap_q.y;
+					distance = sqrt(dx*dx + dy*dy);
 
 					if (d == r)
 					{
@@ -1502,12 +1547,12 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint q, BOOL pins, BOOL wires, BOOL &is_
 				{
 					CDRect s( ObjPtr->m_point_a.x, ObjPtr->m_point_a.y, ObjPtr->m_point_b.x, ObjPtr->m_point_b.y );
 					s.NormalizeRect();
-					s.left -= range * 2;
-					s.right += range * 2;
-					s.bottom += range * 2;
-					s.top -= range * 2;
+					s.left -= range;
+					s.right += range;
+					s.bottom += range;
+					s.top -= range;
 
-					if (s.PtInRect(q))
+					if (s.PtInRect(no_snap_q))
 					{
 						CActiveNode a;
 						ObjPtr->GetActiveListFirst( a );
@@ -1515,8 +1560,8 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint q, BOOL pins, BOOL wires, BOOL &is_
 						{
 							// This is a valid pin...
 							CDPoint d = a.m_a;
-							double dx = d.x - q.x;
-							double dy = d.y - q.y;
+							double dx = d.x - no_snap_q.x;
+							double dy = d.y - no_snap_q.y;
 							double distance = sqrt(dx*dx + dy*dy);
 
 							if (r == d)
@@ -1546,7 +1591,7 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint q, BOOL pins, BOOL wires, BOOL &is_
 
 
 
-  if (!first && min_distance < GetOption().GetAutoSnapRange())
+  if (!first && min_distance <= range)
   {
 	  is_stuck = TRUE;
 	  is_junction = GetOption().GetAutoJunc() ? items > 1 : FALSE;
