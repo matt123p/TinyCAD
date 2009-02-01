@@ -128,6 +128,10 @@ BEGIN
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Copy to...\tCtrl+E",          ID_EDIT_COPYTO
         MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
         MENUITEM "&Find...",                    ID_FIND_FIND
         MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
@@ -305,6 +309,9 @@ BEGIN
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
     "U",            IDM_EDITDUPLICATE,      VIRTKEY, CONTROL, NOINVERT
     "V",            IDM_EDITPASTE,          VIRTKEY, CONTROL, NOINVERT
+    "L",            IDM_EDITROTATELEFT,     VIRTKEY, CONTROL, NOINVERT
+    "R",            IDM_EDITROTATERIGHT,    VIRTKEY, CONTROL, NOINVERT
+    "F",            IDM_EDITFLIP,           VIRTKEY, CONTROL, NOINVERT
     VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY, NOINVERT
     VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT, NOINVERT
@@ -1247,6 +1254,10 @@ BEGIN
     BUTTON      IDM_VIEWCENTRE
     BUTTON      IDM_EDITDELITEM
     BUTTON      IDM_EDITEDIT
+    SEPARATOR
+    BUTTON      IDM_EDITROTATELEFT              
+    BUTTON      IDM_EDITROTATERIGHT             
+    BUTTON      IDM_EDITFLIP                    
 END
 
 IDR_ANNOTATE TOOLBAR  16, 15
@@ -1316,6 +1327,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
     END
@@ -1349,6 +1364,10 @@ BEGIN
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
@@ -1410,6 +1429,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
     END
@@ -1466,6 +1489,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
     END
@@ -1496,6 +1523,10 @@ BEGIN
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
@@ -1982,6 +2013,13 @@ BEGIN
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
     IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITROTATELEFT      "Rotate selection left\nLeft"
+    IDM_EDITROTATERIGHT     "Rotate selection right\nRight"
+	IDM_EDITFLIP            "Flip selection horizontally\nFlip"
 END
 
 STRINGTABLE 

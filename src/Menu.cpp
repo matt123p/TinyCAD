@@ -310,6 +310,23 @@ void CTinyCadView::OnEditCopyto()
 	}
 }
 
+void CTinyCadView::OnEditRotateLeft() 
+{
+	ChangeDir(2);
+}
+
+
+void CTinyCadView::OnEditRotateRight() 
+{
+	ChangeDir(3);
+}
+
+
+void CTinyCadView::OnEditFlip() 
+{
+	ChangeDir(4);
+}
+
 
 
 void CTinyCadView::OnSelectArc() 

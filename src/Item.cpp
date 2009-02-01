@@ -597,3 +597,123 @@ void CDrawEditItem::EndSelection()
   m_segment=1;
 }
 
+
+void CDrawEditItem::ChangeDir(int NewDir)
+{
+	if (!m_pDesign->IsSelected())
+		return;
+
+	BOOL storeUndo = m_pDesign->GetEdit()->GetType() == GetType();
+
+	if (storeUndo)
+	{
+		m_pDesign->BeginNewChangeSet();
+	}
+
+	// Center drawing inside view
+	selectIterator it = m_pDesign->GetSelectBegin();
+	CDrawingObject *obj = *it;
+	CDRect ext;//(obj->m_point_a.x,obj->m_point_a.y,obj->m_point_b.x,obj->m_point_b.y);
+	BOOL found = FALSE;
+	ext.NormalizeRect();
+	while (it != m_pDesign->GetSelectEnd()) 
+	{
+		obj = (CDrawingObject *)*it;
+		if (!obj->IsConstruction())
+		{
+			if (storeUndo)
+			{
+				m_pDesign->MarkChangeForUndo( obj );
+			}
+
+			CDRect box(obj->m_point_a.x,obj->m_point_a.y,obj->m_point_b.x,obj->m_point_b.y);
+			box.NormalizeRect();
+
+			if (!found)
+			{
+				ext = box;
+				found = TRUE;
+			}
+			else
+			{
+				if (ext.left > box.left)
+					ext.left = box.left;
+
+				if (ext.top > box.top)
+					ext.top = box.top;
+
+				if (ext.right < box.right)
+					ext.right = box.right;
+
+				if (ext.bottom < box.bottom)
+					ext.bottom = box.bottom;
+			}
+		}
+		++ it;
+	}
+
+	if (found)
+	{
+		// Find the centre of rotation
+		CDPoint centre = m_pDesign->m_snap.Snap(CDPoint((ext.left + ext.right)/2, (ext.top + ext.bottom)/2));
+
+		//
+		// Compensate rotation centre when centre was snapped to grid.
+		// This does not work correctly in all situation,
+		// but better than no correction at all.
+		//
+
+		double grid = m_pDesign->m_snap.GetGrid();
+		if (grid != 0)
+		{
+			CDPoint topleft = m_pDesign->m_snap.Snap(CDPoint(ext.left, ext.top));
+			CDPoint rightbottom = m_pDesign->m_snap.Snap(CDPoint(ext.right, ext.bottom));
+
+			// Snapped horizontally to grid?
+			if (centre.x != (topleft.x + rightbottom.x)/2)
+			{
+				if (centre.y == (topleft.y + rightbottom.y)/2)
+					centre += CDPoint(grid, 0);
+			}
+			// Snapped vertically to grid?
+			else if (centre.y != (topleft.y + rightbottom.y)/2)
+			{
+				if (centre.x == (topleft.x + rightbottom.x)/2)
+					centre += CDPoint(0, grid);
+			}
+		}
+
+		//if (m_pDesign->IsSingleItemSelected())
+		//{
+		//	selectIterator it = m_pDesign->GetSelectBegin();
+		//	if ((*it)->GetType() == xMethodEx3)
+		//	{
+		//		centre = CDPoint(0, 0);
+		//	}
+		//}
+
+		CJunctionUtils j( m_pDesign );
+
+		it = m_pDesign->GetSelectBegin();
+		while ( it != m_pDesign->GetSelectEnd() ) 
+		{
+			CDrawingObject *obj=*it;
+			if (!obj->IsConstruction())
+			{
+				j.AddObjectToTodo( obj );
+				obj->Rotate(centre,NewDir);
+				j.AddObjectToTodo( obj );
+			}
+			++ it;
+		}
+
+		j.CheckTodoList( false );
+
+		Rotate(centre,NewDir);
+
+		Display();
+
+		m_pDesign->Invalidate();
+	}
+}
+

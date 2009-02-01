@@ -78,6 +78,9 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_EDITPASTE, OnUpdateEditpaste)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCUT, OnUpdateEditcut)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCOPY, OnUpdateEditcopy)
+	ON_UPDATE_COMMAND_UI(IDM_EDITROTATELEFT, OnUpdateEditRotateLeft)
+	ON_UPDATE_COMMAND_UI(IDM_EDITROTATERIGHT, OnUpdateEditRotateRight)
+	ON_UPDATE_COMMAND_UI(IDM_EDITFLIP, OnUpdateEditFlip)
 	ON_WM_DESTROY()
 	ON_WM_MOUSEWHEEL()
 	ON_COMMAND(ID_RULER_VERT, OnRulerVert)
@@ -154,6 +157,9 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_EDITCUT, OnEditCut )
 	ON_COMMAND( IDM_EDITPASTE, OnEditPaste )
 	ON_COMMAND( IDM_EDITDUPLICATE, OnEditDuplicate )
+	ON_COMMAND( IDM_EDITROTATELEFT, OnEditRotateLeft )
+	ON_COMMAND( IDM_EDITROTATERIGHT, OnEditRotateRight )
+	ON_COMMAND( IDM_EDITFLIP, OnEditFlip )
 
 
 	// The Keyboard options
@@ -1263,6 +1269,36 @@ void CTinyCadView::OnUpdateEditcopy(CCmdUI* pCmdUI)
 	pCmdUI->Enable( TRUE );
 }
 
+//=======
+
+
+void CTinyCadView::OnUpdateEditRotateLeft(CCmdUI* pCmdUI) 
+{
+	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+ 	pCmdUI->Enable( r );	
+}
+
+void CTinyCadView::OnUpdateEditRotateRight(CCmdUI* pCmdUI) 
+{
+	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+ 	pCmdUI->Enable( r );	
+}
+
+void CTinyCadView::OnUpdateEditFlip(CCmdUI* pCmdUI) 
+{
+	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+ 	pCmdUI->Enable( r );	
+}
+
+
+
+//======
+
+
+
 void CTinyCadView::OnUpdateEditduplicate(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable( GetCurrentDocument()->IsSelected() );	
@@ -1523,3 +1559,45 @@ void CTinyCadView::SelectSheet(int sheet)
 	GetDocument()->SetActiveSheetIndex( sheet );
 	ftc.SelectItem( GetDocument()->GetActiveSheetIndex() );
 }
+
+
+void CTinyCadView::ChangeDir(int dir) 
+{
+	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
+	// Rotate selection
+	if (type == xEditItem)
+	{
+		static_cast<CDrawEditItem*>(GetCurrentDocument()->GetEdit())->ChangeDir(dir);
+
+		if (GetCurrentDocument()->IsSingleItemSelected() 
+		&& (GetCurrentDocument()->GetSingleSelectedItem())->CanEdit()) 
+		{
+			// reflect updates in tool window
+			(GetCurrentDocument()->GetSingleSelectedItem())->BeginEdit(TRUE);
+		}
+	}
+
+	// Rotate annotation (E.g. import symbol into other symbol)
+	else if (type == xAnotation)
+	{
+		// Use the ChangeDir function in CDrawEditItem
+		CDrawEditItem* edit = new CDrawEditItem(GetCurrentDocument());
+		edit->ChangeDir(dir);
+		delete edit;
+	}
+
+	// Rotate symbol while placing it
+	else if (type == xMethodEx3)
+	{
+		CDrawMethod* edit = static_cast<CDrawMethod*>(GetCurrentDocument()->GetEdit());
+		edit->Rotate(CDPoint(0,0), dir);
+
+		// reflect updates in tool window
+		edit->BeginEdit(TRUE);
+
+		// Update screen
+		edit->Display(TRUE);
+		GetCurrentDocument()->Invalidate();
+	}
+}
+

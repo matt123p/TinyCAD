@@ -264,55 +264,62 @@ CString CDrawMethod::Find(const TCHAR *theSearchString)
 // Rotate this object about a point
 void CDrawMethod::Rotate(CDPoint p,int ndir)
 {
-  // Translate this point so the rotational point is the origin
-  m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
-  m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
+		m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
 
-  // Perfrom the rotation
-  switch (ndir) {
-	case 2: // Left
-		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
-		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
-		break;		
-	case 3: // Right
-		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
-		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
-		break;
-	case 4: // Mirror
-		m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
-		m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
-		rotate ^= 4;
-		break;
-  }
+		// Perfrom the rotation
+		switch (ndir) {
+			case 2: // Left
+				m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
+				m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+				break;		
+			case 3: // Right
+				m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
+				m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+				break;
+			case 4: // Mirror
+				m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
+				m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+				break;
+		}
 
-  // Re-translate the points back to the original location
-  m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
-  m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+		// Re-translate the points back to the original location
+		m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
+		m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
 
-  // Set the a and b co-ords to their correct arrangements
-  CDPoint la = m_point_a;
+		// Set the a and b co-ords to their correct arrangements
+		CDPoint la = m_point_a;
 
-  m_point_a = CDPoint(max(la.x,m_point_b.x),max(la.y,m_point_b.y));
-  m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
+		m_point_a = CDPoint(max(la.x,m_point_b.x),max(la.y,m_point_b.y));
+		m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
 
+	}
 
-  rotate = DoRotate(rotate&3,ndir) | (rotate&4);
+	rotate = DoRotate(rotate,ndir);
 
-  NewRotation();
+	NewRotation();
 }
 
 
 int CDrawMethod::DoRotate(int olddir,int newdir)
 {
-  //     New rotation=> 2  3  4  
-  //				    Current dir ..\/..
-  int table[] = {	2, 3, 0, 		// 0 (Up)
-			3, 2, 1,		// 1 (Down)
-			1, 0, 3,		// 2 (Left)
-			0, 1, 2,		// 3 (Right)
-		};
+	//New rotation=>2  3  4  
+	//                  Old dir ..\/..
+	int table[] = { 6, 3, 4,	// 0 (Up)
+	                7, 2, 5,	// 1 (Down)
+	                1, 4, 3,	// 2 (Left)
+	                0, 5, 2,	// 3 (Right)
+	                2, 7, 0,	// 4 (Up + mirror)
+	                3, 6, 1,	// 5 (Down + mirror)
+	                5, 0, 7,	// 6 (Left + mirror)
+	                4, 1, 6,	// 7 (Right + mirror)
+	};
 
-  return table[(newdir-2) + olddir*3];
+	return table[(newdir-2) + olddir*3];
 }
 
 

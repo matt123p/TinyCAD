@@ -247,6 +247,10 @@
 #define IDD_DRAW_LINE                   549
 #define IDD_POSITIONBOX                 550
 #define IDD_POLYGON                     551
+#define IDM_EDITROTATELEFT              552
+#define IDM_EDITROTATERIGHT             553
+#define IDM_EDITFLIP                    554
+
 #define IDM_LIBCOPY                     600
 #define IDS_NODEFAULT                   1000
 #define LINETHICKBOX_THICKNESS          1000

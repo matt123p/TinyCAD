@@ -264,9 +264,25 @@ void CDrawPolygon::Rotate(CDPoint p,int dir)
 		switch (dir) {
 		case 2: // Left
 			qp = CDPoint(qp.y,-qp.x);
+			if (it->arc == CArcPoint::Arc_in)
+			{
+				it->arc = CArcPoint::Arc_out;
+			}
+			else if (it->arc == CArcPoint::Arc_out)
+			{
+				it->arc = CArcPoint::Arc_in;
+			}
 			break;		
 		case 3: // Right
 			qp = CDPoint(-qp.y,qp.x);
+			if (it->arc == CArcPoint::Arc_in)
+			{
+				it->arc = CArcPoint::Arc_out;
+			}
+			else if (it->arc == CArcPoint::Arc_out)
+			{
+				it->arc = CArcPoint::Arc_in;
+			}
 			break;
 		case 4: // Mirror
 			qp = CDPoint(-qp.x,qp.y);

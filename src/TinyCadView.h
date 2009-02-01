@@ -204,6 +204,9 @@ protected:
 	afx_msg void OnUpdateEditpaste(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcut(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcopy(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditRotateLeft(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditRotateRight(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditFlip(CCmdUI* pCmdUI);
 	afx_msg void OnDestroy();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	afx_msg void OnRulerVert();
@@ -261,6 +264,9 @@ protected:
 	afx_msg void OnEditCut();
 	afx_msg void OnEditPaste();
 	afx_msg void OnEditDuplicate();
+	afx_msg void OnEditRotateLeft();
+	afx_msg void OnEditRotateRight();
+	afx_msg void OnEditFlip();
 
 
 	// The Keyboard operations
@@ -318,6 +324,7 @@ public:
 	afx_msg void OnContextOpendesign();
 	afx_msg void OnContextReloadsymbolfromdesign();
 	void SelectSheet(int sheet);
+	void ChangeDir(int dir);
 };
 
 inline CMultiSheetDoc* CTinyCadView::GetDocument()
