@@ -68,6 +68,7 @@ public:
 
 	typedef std::list<CDocUndoAction> actionCollection;
 	actionCollection	m_actions;
+	BYTE				m_dirty;
 
 };
 
@@ -210,6 +211,8 @@ public:
 	void Initalize(CTinyCadView *window);
 
 	void SetModifiedFlag(BOOL Changed = TRUE);
+	BOOL IsModified();
+
 	CDetails&	GetDetails();
 
 public:

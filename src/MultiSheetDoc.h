@@ -64,6 +64,7 @@ public:
 	// Get the file path name during loading or saving
 	virtual CString GetXMLPathName();
 
+	virtual BOOL IsModified();
 
 // Attributes
 public:

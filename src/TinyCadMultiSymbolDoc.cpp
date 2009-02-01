@@ -274,16 +274,19 @@ void CTinyCadMultiSymbolDoc::OnFileSaveAs()
 
 BOOL CTinyCadMultiSymbolDoc::CanCloseFrame(CFrameWnd* pFrameArg)
 {
-	CString prompt;
-	AfxFormatString1(prompt, AFX_IDP_ASK_TO_SAVE, m_symboledit.GetRecord(0).name);
-	switch (AfxMessageBox(prompt, MB_YESNOCANCEL, AFX_IDP_ASK_TO_SAVE))
+	if (IsModified())
 	{
-	case IDCANCEL:
-		return FALSE;
-	case IDYES:
-		return Store();
-	case IDNO:
-		break;
+		CString prompt;
+		AfxFormatString1(prompt, AFX_IDP_ASK_TO_SAVE, m_symboledit.GetRecord(0).name);
+		switch (AfxMessageBox(prompt, MB_YESNOCANCEL, AFX_IDP_ASK_TO_SAVE))
+		{
+		case IDCANCEL:
+			return FALSE;
+		case IDYES:
+			return Store();
+		case IDNO:
+			break;
+		}
 	}
 
 	return TRUE;
@@ -412,6 +415,7 @@ void CTinyCadMultiSymbolDoc::SaveXML( CXMLWriter &xml )
 		while (i != m_symbols.end())
 		{
 			(*i)->SaveXML(xml,FALSE,FALSE);
+			(*i)->MarkChangeForUndo(NULL);
 			++ i;
 		}
 		xml.closeTag();		
@@ -419,6 +423,7 @@ void CTinyCadMultiSymbolDoc::SaveXML( CXMLWriter &xml )
 	else
 	{
 		m_symbols[0]->SaveXML(xml,FALSE,FALSE);
+		m_symbols[0]->MarkChangeForUndo(NULL);
 	}
 }
 

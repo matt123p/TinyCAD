@@ -104,6 +104,13 @@ void CTinyCadMultiDoc::Serialize(CArchive& ar)
 		CStreamFile stream( &ar );
 	    CXMLWriter xml( &stream );
 		SaveXML( xml );
+		sheetCollection::iterator i = m_sheets.begin();
+		while (i != m_sheets.end())
+		{
+			(*i)->MarkChangeForUndo(FALSE);
+			i++;
+		}
+
 	}
 	else
 	{
