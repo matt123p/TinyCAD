@@ -838,6 +838,8 @@ void CDrawLine::EndEdit()
   if (!m_re_edit)
   {
 	  g_EditToolBar.m_DrawLineEdit.Close();
+	  // Cancel line editing
+	  RButtonDown(CDPoint(0,0),CDPoint(0,0));
   }
   else
   {
