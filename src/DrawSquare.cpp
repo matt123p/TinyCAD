@@ -327,7 +327,6 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 BOOL CDrawSquare::IsInside(double left,double right,double top,double bottom)
 {
 	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
-	int width = max(2,theStyle->Thickness);
 
 	if (IsSquare())
 	{

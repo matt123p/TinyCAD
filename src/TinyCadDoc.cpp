@@ -936,15 +936,18 @@ void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 	double top=min(p1.y,p2.y);
 	double bottom=max(p1.y,p2.y);
 
-	UnSelect();
+	// Right-to-Left selects only completely surrounded objects
+	BOOL lefttoright = (p1.x < p2.x);
+
+	//UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
 	while (it != GetDrawingEnd()) 
 	{
 		CDrawingObject *obj = *it;
 
-		if (    obj->IsInside(left,right,top,bottom) 
-			&& !obj->IsConstruction()
+		if ( (lefttoright ? obj->IsInside(left,right,top,bottom) :
+		                    obj->IsCompletelyInside(left,right,top,bottom)) 
 			&& 
 			(obj->GetType() != xJunction || !GetOption().GetAutoJunc() ) )
 		{

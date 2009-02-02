@@ -34,6 +34,10 @@
 #define MAX_PENS	20
 #define MAX_BRUSHES	4
 
+// CUSTOM PEN NUMBERS MUST BE 9 OR HIGHER
+#define PS_MARQUEE  9
+#define PS_MARQUEE2 10
+
 
 // The class that performs the snap to grid, when necessary
 class TransformSnap

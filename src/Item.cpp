@@ -389,7 +389,16 @@ void CDrawEditItem::Paint(CContext &dc,paint_options options)
 {
   // Draw marquee
   dc.SelectBrush();
-  dc.SelectPen(PS_ALTERNATE,1,cBLOCK);
+  if (m_point_a.x < m_point_b.x)
+  {
+    dc.SelectPen(PS_MARQUEE,1,cBLOCK);
+  }
+  else
+  {
+    // Other marquee pen for right to left selection
+    dc.SelectPen(PS_MARQUEE2,1,cBLOCK);
+  }
+
   dc.SetROP2(R2_COPYPEN);
 
   dc.Rectangle(CDRect(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y));

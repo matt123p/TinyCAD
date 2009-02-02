@@ -126,6 +126,8 @@ public:
 
 	virtual double DistanceFromPoint( CDPoint p );
 	virtual BOOL IsInside(double left,double right,double top,double bottom);	// Is this object inside this rectangle?
+	virtual BOOL IsCompletelyInside(double left,double right,double top,double bottom);	// Is this object completely inside this rectangle?
+
 	virtual BOOL CanEdit();					// Is this object editable after placed?
 	virtual CString GetName() const;		// Get the string name of this object
 	virtual ObjType GetType();				// Get this object's type
