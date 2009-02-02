@@ -492,8 +492,14 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 {
     if(code >= 0)
 	{
-		if(m_hAccelTable)
+		if(m_hAccelTable && m_pMainWnd)
 		{
+			// If a library has been deleted since the last time that TinyCAD 
+			// was started, m_pMainWnd will be null when bringing up a dialog 
+			// box that will tell you that the library is missing.  For some reason,
+			// the other tests below did not catch this condition and caused a
+			// null pointer exception.
+			//
 			// Not for popup windows like message boxes or modal dialogs
 			if ( !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP) )
 			{
