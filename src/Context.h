@@ -112,10 +112,10 @@ class Transform {
 	int		BoundY;				// The Y bound - used when y is up
 
 	// Internal scaling functions
-	int ScaleX(int a) const;
-	int ScaleY(int a) const;
-	double ScaleX(double a) const;
-	double ScaleY(double a) const;
+	int ScaleX(double a) const;
+	int ScaleY(double a) const;
+
+	int Round(double d) const;
 
 public:
 
