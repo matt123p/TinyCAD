@@ -66,6 +66,8 @@ void CDrawEditItem::Display( BOOL erase )
 
 void CDrawEditItem::EndEdit()
 {
+	Display();
+
 	if (!m_segment)
 	{
 		if (m_pDesign->GetSingleSelectedItem())
