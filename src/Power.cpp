@@ -161,31 +161,35 @@ CString CDrawPower::Find(const TCHAR *theSearchString)
 // Rotate this object about a point
 void CDrawPower::Rotate(CDPoint p,int ndir)
 {			 
-  // Translate this point so the rotational point is the origin
-  m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
-  m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
+		m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
 
-  // Perfrom the rotation
-  switch (ndir) {
-	case 2: // Left
-		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
-		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
-		break;		
-	case 3: // Right
-		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
-		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
-		break;
-	case 4: // Mirror
-		m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
-		m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
-		break;
-  }
+		// Perfrom the rotation
+		switch (ndir) {
+		case 2: // Left
+			m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
+			m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+			break;		
+		case 3: // Right
+			m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
+			m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+			break;
+		case 4: // Mirror
+			m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
+			m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+			break;
+		}
 
-  // Re-translate the points back to the original location
-  m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
-  m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
-
-  dir = DoRotate(dir,ndir);
+		// Re-translate the points back to the original location
+		m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
+		m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+	}
+	
+	dir = DoRotate(dir,ndir);
 }
 
 

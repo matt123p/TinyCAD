@@ -1274,21 +1274,21 @@ void CTinyCadView::OnUpdateEditcopy(CCmdUI* pCmdUI)
 void CTinyCadView::OnUpdateEditRotateLeft(CCmdUI* pCmdUI) 
 {
 	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
  	pCmdUI->Enable( r );	
 }
 
 void CTinyCadView::OnUpdateEditRotateRight(CCmdUI* pCmdUI) 
 {
 	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
  	pCmdUI->Enable( r );	
 }
 
 void CTinyCadView::OnUpdateEditFlip(CCmdUI* pCmdUI) 
 {
 	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation;
+	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
  	pCmdUI->Enable( r );	
 }
 
@@ -1585,18 +1585,18 @@ void CTinyCadView::ChangeDir(int dir)
 		delete edit;
 	}
 
-	// Rotate symbol while placing it
-	else if (type == xMethodEx3)
+	// Rotate object while placing it
+	else if (type == xMethodEx3 || type == xPower || type == xLabelEx2)
 	{
 		CDrawMethod* edit = static_cast<CDrawMethod*>(GetCurrentDocument()->GetEdit());
+		// Update screen
+		edit->Display(TRUE);
+
 		edit->Rotate(CDPoint(0,0), dir);
+		edit->Display(TRUE);
 
 		// reflect updates in tool window
 		edit->BeginEdit(TRUE);
-
-		// Update screen
-		edit->Display(TRUE);
-		GetCurrentDocument()->Invalidate();
 	}
 }
 
