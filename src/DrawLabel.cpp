@@ -769,28 +769,32 @@ int CDrawLabel::DoRotate(int olddir,int newdir)
 // Rotate this object about a point
 void CDrawLabel::Rotate(CDPoint p,int ndir)
 {
-  // Translate this point so the rotational point is the origin
-  m_active_point = CDPoint(m_active_point.x-p.x,m_active_point.y-p.y);
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_active_point = CDPoint(m_active_point.x-p.x,m_active_point.y-p.y);
 
-  // Perfrom the rotation
-  switch (ndir) {
-	case 2: // Left
-		m_active_point = CDPoint(m_active_point.y,-m_active_point.x);
-		break;		
-	case 3: // Right
-		m_active_point = CDPoint(-m_active_point.y,m_active_point.x);
-		break;
-	case 4: // Mirror
-		m_active_point = CDPoint(-m_active_point.x,m_active_point.y);
-		break;
-  }
+		// Perfrom the rotation
+		switch (ndir) {
+		case 2: // Left
+			m_active_point = CDPoint(m_active_point.y,-m_active_point.x);
+			break;		
+		case 3: // Right
+			m_active_point = CDPoint(-m_active_point.y,m_active_point.x);
+			break;
+		case 4: // Mirror
+			m_active_point = CDPoint(-m_active_point.x,m_active_point.y);
+			break;
+		}
 
-  // Re-translate the points back to the original location
-  m_active_point = CDPoint(m_active_point.x+p.x,m_active_point.y+p.y);
+		// Re-translate the points back to the original location
+		m_active_point = CDPoint(m_active_point.x+p.x,m_active_point.y+p.y);
+	}
 
-  dir = DoRotate(dir,ndir);
+	dir = DoRotate(dir,ndir);
 
-  CalcLayout();
+	CalcLayout();
 }
 
 // Extract the netlist/active points from this object

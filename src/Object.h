@@ -254,6 +254,7 @@ public:
 	virtual BOOL IsInside(double left,double right,double top,double bottom);
 	virtual void Paint(CContext &,paint_options);
 	virtual CDrawingObject* Store();
+	virtual void Rotate(CDPoint,int);
 
 	virtual void Load(CStream &);
 
@@ -480,6 +481,7 @@ class CDrawPower : public CDrawingObject {
 	BYTE dir;	// Direction this item is facing (0=up,1=down,2=left,3=right)
 	BYTE which;	// Which type of power item it is
 
+	void CalcLayout();
 	int DoRotate(int olddir,int newdir);
 
 public:

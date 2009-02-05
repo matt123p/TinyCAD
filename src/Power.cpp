@@ -161,31 +161,37 @@ CString CDrawPower::Find(const TCHAR *theSearchString)
 // Rotate this object about a point
 void CDrawPower::Rotate(CDPoint p,int ndir)
 {			 
-  // Translate this point so the rotational point is the origin
-  m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
-  m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
+		m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
 
-  // Perfrom the rotation
-  switch (ndir) {
-	case 2: // Left
-		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
-		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
-		break;		
-	case 3: // Right
-		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
-		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
-		break;
-	case 4: // Mirror
-		m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
-		m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
-		break;
-  }
+		// Perfrom the rotation
+		switch (ndir) {
+		case 2: // Left
+			m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
+			m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+			break;		
+		case 3: // Right
+			m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
+			m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+			break;
+		case 4: // Mirror
+			m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
+			m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+			break;
+		}
 
-  // Re-translate the points back to the original location
-  m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
-  m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+		// Re-translate the points back to the original location
+		m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
+		m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+	}
+	
+	dir = DoRotate(dir,ndir);
 
-  dir = DoRotate(dir,ndir);
+	CalcLayout();
 }
 
 
@@ -270,19 +276,57 @@ void CDrawPower::Display( BOOL erase )
 
 }
 
+void CDrawPower::CalcLayout()
+{
+	int spacing;
+	CDSize size;
+	CDPoint pos=m_point_a;
+
+	size = m_pDesign->GetTextExtent(str, fPIN);
+	if (which!=0)
+	{
+		spacing = POWER_SIZE * 2 + POWER_SIZE / 4;
+	}
+	else
+	{
+		spacing = POWER_SIZE + POWER_SIZE / 4;
+	}
+
+	// Find out which way round the power object goes
+	switch (dir) {
+	case 0:		// Top
+		TextPos = CDPoint(pos.x-size.cx/2,pos.y-spacing);
+		break;
+	case 1:		// Bottom
+		TextPos = CDPoint(pos.x-size.cx/2,pos.y+spacing+size.cy);
+		break;
+	case 2:		// Left
+		TextPos=CDPoint(pos.x-size.cx-spacing,pos.y+size.cy/2);
+		break;
+	case 3:		// Right
+		TextPos=CDPoint(pos.x+spacing,pos.y+size.cy/2);
+		break;
+	}
+
+	TextEnd = CDPoint(TextPos.x + size.cx,TextPos.y - size.cy);
+
+}
+
+
+
 
 // Display the power item on the screen!
 void CDrawPower::Paint(CContext &dc,paint_options options)
 {
   int spacing;
-  CDSize size;
   CDPoint pa,pb,pc,pd,pos=m_point_a;
+
+  CalcLayout();
 
   dc.SelectFont(*m_pDesign->GetOptions()->GetFont(fPIN),2);
   dc.SetROP2(R2_COPYPEN);
   dc.SetTextColor(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::POWER));
 
-  size=dc.GetTextExtent(str);
   if (which!=0)
 	spacing=POWER_SIZE*2+POWER_SIZE/4;
   else
@@ -295,33 +339,28 @@ void CDrawPower::Paint(CContext &dc,paint_options options)
 		pb=CDPoint(pos.x-POWER_SIZE/2,pos.y-POWER_SIZE);
 		pc=CDPoint(pos.x+POWER_SIZE/2+1,pos.y-POWER_SIZE);
 		pd=CDPoint(pos.x,pos.y-POWER_SIZE*2);
-		TextPos = CDPoint(pos.x-size.cx/2,pos.y-spacing);
 		break;
 	case 1:		// Bottom
 		pa=CDPoint(pos.x,pos.y+POWER_SIZE);
 		pb=CDPoint(pos.x-POWER_SIZE/2,pos.y+POWER_SIZE);
 		pc=CDPoint(pos.x+POWER_SIZE/2+1,pos.y+POWER_SIZE);
 		pd=CDPoint(pos.x,pos.y+POWER_SIZE*2);
-		TextPos = CDPoint(pos.x-size.cx/2,pos.y+spacing+size.cy);
 		break;
 	case 2:		// Left
 		pa=CDPoint(pos.x-POWER_SIZE,pos.y);
 		pb=CDPoint(pos.x-POWER_SIZE,pos.y-POWER_SIZE/2);
 		pc=CDPoint(pos.x-POWER_SIZE,pos.y+POWER_SIZE/2+1);
 		pd=CDPoint(pos.x-POWER_SIZE*2,pos.y);
-		TextPos=CDPoint(pos.x-size.cx-spacing,pos.y+size.cy/2);
 		break;
 	case 3:		// Right
 		pa=CDPoint(pos.x+POWER_SIZE,pos.y);
 		pb=CDPoint(pos.x+POWER_SIZE,pos.y-POWER_SIZE/2);
 		pc=CDPoint(pos.x+POWER_SIZE,pos.y+POWER_SIZE/2+1);
 		pd=CDPoint(pos.x+POWER_SIZE*2,pos.y);
-		TextPos=CDPoint(pos.x+spacing,pos.y+size.cy/2);
 		break;
   }
 
   dc.TextOut(str,TextPos,options);
-  TextEnd = CDPoint(TextPos.x + size.cx,TextPos.y - size.cy);
 
   switch (options)
   {

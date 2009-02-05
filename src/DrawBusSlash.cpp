@@ -170,6 +170,68 @@ void CDrawBusSlash::Paint(CContext &dc,paint_options options)
 }
 
 
+// Rotate this object about a point
+void CDrawBusSlash::Rotate(CDPoint p,int ndir)
+{
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_point_a -= p;
+		m_point_b -= p;
+
+		// Perform the rotation
+		switch (ndir) {
+		case 2: // Left
+			m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
+			m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+			if (theDir == 0)
+			{
+				m_point_a += CDPoint(SLASH_SIZE,SLASH_SIZE);
+			}
+			break;
+		case 3: // Right
+			m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
+			m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+			if (theDir != 0)
+			{
+				m_point_a += CDPoint(SLASH_SIZE,-SLASH_SIZE);
+			}
+			break;
+		case 4: // Mirror
+			m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
+			m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+			if (theDir == 0)
+			{
+				m_point_a += CDPoint(SLASH_SIZE,SLASH_SIZE);
+			}
+			else
+			{
+				m_point_a += CDPoint(SLASH_SIZE,-SLASH_SIZE);
+			}
+			break;
+		}
+
+		// Re-translate the points back to the original location
+		m_point_a += p;
+		m_point_b += p;
+	}
+
+	theDir = theDir ? 0 : 1;
+
+
+	// CalculateLayout
+	if (theDir == 0)
+	{
+		m_point_b=CDPoint(m_point_a.x-SLASH_SIZE,m_point_a.y+SLASH_SIZE);
+	}
+	else
+	{
+		m_point_b=CDPoint(m_point_a.x-SLASH_SIZE,m_point_a.y-SLASH_SIZE);
+	}
+}
+
+
 // Store the slash in the drawing
 CDrawingObject* CDrawBusSlash::Store()
 {

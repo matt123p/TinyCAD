@@ -494,14 +494,40 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 	{
 		if(m_hAccelTable && m_pMainWnd)
 		{
-			// If a library has been deleted since the last time that TinyCAD 
-			// was started, m_pMainWnd will be null when bringing up a dialog 
-			// box that will tell you that the library is missing.  For some reason,
-			// the other tests below did not catch this condition and caused a
-			// null pointer exception.
+			// If a library has been deleted since the last time that TinyCAD 			
+			// was started, m_pMainWnd will be null when bringing up a dialog 			
+			// box that will tell you that the library is missing.  For some reason,			
+			// the other tests below did not catch this condition and caused a			
+			// null pointer exception.			
 			//
+			BOOL translate = TRUE;
+
+			// Allow simple text editing in dialogs.
+			if(WM_KEYDOWN == lpMsg->message)
+			{
+				if(::GetKeyState(VK_CONTROL) < 0)
+				{
+					switch(lpMsg->wParam)
+					{
+					case 'Z':	// Undo
+					case 'X':	// Cut
+					case 'C':	// Copy
+					case 'V':	// Paste
+						translate = FALSE;
+					}
+				}
+				else 
+				{
+					switch(lpMsg->wParam)
+					{
+					case VK_DELETE:	// Delete
+						translate = FALSE;
+					}
+				}
+			}
+
 			// Not for popup windows like message boxes or modal dialogs
-			if ( !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP) )
+			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP))
 			{
 				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
 					return TRUE;
