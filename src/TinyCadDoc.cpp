@@ -603,6 +603,7 @@ void CTinyCadDoc::Undo()
 				break;
 			case CDocUndoSet::Change:
 				// We convert the old objects into the new objects...
+				if (it != m_drawing.end())
 				{
 					// Keep a copy for the redo...
 					CDrawingObject *copy = Dup(*it);
@@ -690,8 +691,11 @@ void CTinyCadDoc::Redo()
 			{
 			case CDocUndoSet::Deletion:
 				// We must re-delete the deleted objects
-				delete *it;
-				m_drawing.erase( it );
+				if (it != m_drawing.end())
+				{
+					delete *it;
+					m_drawing.erase( it );
+				}
 				action_taken = TRUE;
 				break;
 			case CDocUndoSet::Addition:
@@ -701,6 +705,7 @@ void CTinyCadDoc::Redo()
 				break;
 			case CDocUndoSet::Change:
 				// We convert the old objects into the new objects...
+				if (it != m_drawing.end())
 				{
 					// Keep a copy for the redo...
 					CDrawingObject *copy = Dup(*it);
@@ -851,7 +856,6 @@ BOOL CTinyCadDoc::IsModified()
 		return TRUE;
 	}
 
-//	BOOL previousDirty = TRUE;
 	BOOL action_taken = FALSE;
 	unsigned int undo_level = m_undo_level;
 
@@ -865,15 +869,9 @@ BOOL CTinyCadDoc::IsModified()
 
 		if (s.m_dirty ) 
 		{
-//			if (previousDirty == FALSE)
-//			{
-//				action_taken = FALSE;
-//				break;
-//			}
 			action_taken = TRUE;
 			break;
 		}
-//		previousDirty = s.m_dirty;
 
 		// Go through the list of action and undo each one in the reverse
 		// order that they were applied
@@ -882,7 +880,6 @@ BOOL CTinyCadDoc::IsModified()
 		while (act_it != s.m_actions.rend())
 		{
 			CDocUndoSet::CDocUndoAction &act = *act_it;
-
 
 			// Look up this item from the index...
 			drawingCollection::iterator it = m_drawing.begin();
@@ -904,6 +901,8 @@ BOOL CTinyCadDoc::IsModified()
 				break;
 
 			case CDocUndoSet::Change:
+
+				if (it != m_drawing.end())
 				{
 					// Action taken when object contents differs
 					//CDrawingObject *copy = *it;

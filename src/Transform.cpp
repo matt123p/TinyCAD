@@ -72,23 +72,39 @@ Transform::Transform()
 
 }
 
-
-double Transform::ScaleX(double a) const 
-{ 
-	return doubleScale(a * scaling_x -m_x) + pixel_offset.x; 
+// Efficient round double to nearest integer.
+// static_cast<int> rounds to the nearest integer towards zero.
+inline int Transform::Round(double d) const
+{
+	if (d > -0.5)
+	{
+		return static_cast<int>(d + 0.5);
+	}
+	else
+	{
+		return static_cast<int>(d - 0.5);
+	}
 }
 
-double Transform::ScaleY(double a) const 
+inline int Transform::ScaleX(double a) const 
 { 
-	return (IsYUp ? -BoundY-doubleScale(a * scaling_y - m_y) : doubleScale(a * scaling_y - m_y)) + pixel_offset.y; 
+	return Round(doubleScale(a * scaling_x - m_x)) + pixel_offset.x; 
 }
 
-double Transform::doubleScale(double a) const
+inline int Transform::ScaleY(double a) const 
+{ 
+	return (IsYUp ? 
+			Round(-doubleScale(a * scaling_y - m_y)) - BoundY : 
+			Round(doubleScale(a * scaling_y - m_y)))
+		+ pixel_offset.y; 
+}
+
+inline double Transform::doubleScale(double a) const
 {
 	return a*m_zoom;
 }
 
-double Transform::GetZoomPixelScale() const
+inline double Transform::GetZoomPixelScale() const
 {
 	return 1;
 }
@@ -172,31 +188,6 @@ void Transform::EndTRM(CDPoint os)
   m_y=os.y;
 }
 
-#if 0
-// Scale with rotation and mirroring
-CPoint Transform::Scale(CPoint p) const
-{
-
-  // Do we mirror?
-  if ((rotmir &4)!=0) {
-	p=CPoint(-p.x,p.y);
-  }
-
-  switch (rotmir & 3) {
-	case 1: 	// Down
-		p=CPoint(p.x,-p.y);
-		break;
-	case 2:		// Left
-		p=CPoint(p.y,p.x);
-		break;
-	case 3:		// Right
-		p=CPoint(-p.y,p.x);
-		break;
-  }
-    
-  return CPoint(ScaleX(p.x),ScaleY(p.y));
-}
-#endif
 
 // Scale with rotation and mirroring
 CPoint Transform::Scale(CDPoint p) const
@@ -220,7 +211,7 @@ CPoint Transform::Scale(CDPoint p) const
 		break;
   }
     
-  return CPoint(static_cast<int>(ScaleX(p.x)+0.5),static_cast<int>(ScaleY(p.y)+0.5));
+  return CPoint(ScaleX(p.x),ScaleY(p.y));
 }
 
 
