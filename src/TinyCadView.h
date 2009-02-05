@@ -204,9 +204,7 @@ protected:
 	afx_msg void OnUpdateEditpaste(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcut(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcopy(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateEditRotateLeft(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateEditRotateRight(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateEditFlip(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditRotateLRF(CCmdUI* pCmdUI);
 	afx_msg void OnDestroy();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	afx_msg void OnRulerVert();

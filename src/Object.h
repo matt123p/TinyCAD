@@ -254,6 +254,7 @@ public:
 	virtual BOOL IsInside(double left,double right,double top,double bottom);
 	virtual void Paint(CContext &,paint_options);
 	virtual CDrawingObject* Store();
+	virtual void Rotate(CDPoint,int);
 
 	virtual void Load(CStream &);
 

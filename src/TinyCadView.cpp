@@ -78,9 +78,9 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_EDITPASTE, OnUpdateEditpaste)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCUT, OnUpdateEditcut)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCOPY, OnUpdateEditcopy)
-	ON_UPDATE_COMMAND_UI(IDM_EDITROTATELEFT, OnUpdateEditRotateLeft)
-	ON_UPDATE_COMMAND_UI(IDM_EDITROTATERIGHT, OnUpdateEditRotateRight)
-	ON_UPDATE_COMMAND_UI(IDM_EDITFLIP, OnUpdateEditFlip)
+	ON_UPDATE_COMMAND_UI(IDM_EDITROTATELEFT, OnUpdateEditRotateLRF)
+	ON_UPDATE_COMMAND_UI(IDM_EDITROTATERIGHT, OnUpdateEditRotateLRF)
+	ON_UPDATE_COMMAND_UI(IDM_EDITFLIP, OnUpdateEditRotateLRF)
 	ON_WM_DESTROY()
 	ON_WM_MOUSEWHEEL()
 	ON_COMMAND(ID_RULER_VERT, OnRulerVert)
@@ -1268,35 +1268,21 @@ void CTinyCadView::OnUpdateEditcopy(CCmdUI* pCmdUI)
 	pCmdUI->Enable( TRUE );
 }
 
-//=======
-
-
-void CTinyCadView::OnUpdateEditRotateLeft(CCmdUI* pCmdUI) 
+void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI) 
 {
 	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
+	BOOL r = ( type == xEditItem && GetCurrentDocument()->IsSelected())
+			|| type == xMethod || type == xMethodEx || type == xMethodEx2 || type == xMethodEx3
+			|| type == xAnotation 
+			|| type == xLabel || type == xLabelEx || type == xLabelEx2 
+			|| type == xPower
+			|| type == xText || type == xTextEx || type == xTextEx2
+			|| type == xBusName || type == xBusNameEx
+			|| type == xBusSlash
+			;
+
  	pCmdUI->Enable( r );	
 }
-
-void CTinyCadView::OnUpdateEditRotateRight(CCmdUI* pCmdUI) 
-{
-	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
- 	pCmdUI->Enable( r );	
-}
-
-void CTinyCadView::OnUpdateEditFlip(CCmdUI* pCmdUI) 
-{
-	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
-	BOOL r = (GetCurrentDocument()->IsSelected() && type == xEditItem) || type == xMethodEx3 || type == xAnotation || type == xLabelEx2 || type == xPower;
- 	pCmdUI->Enable( r );	
-}
-
-
-
-//======
-
-
 
 void CTinyCadView::OnUpdateEditduplicate(CCmdUI* pCmdUI) 
 {
@@ -1586,7 +1572,13 @@ void CTinyCadView::ChangeDir(int dir)
 	}
 
 	// Rotate object while placing it
-	else if (type == xMethodEx3 || type == xPower || type == xLabelEx2)
+	else if (type == xMethod || type == xMethodEx || type == xMethodEx2 || type == xMethodEx3  
+	      || type == xLabel || type == xLabelEx || type == xLabelEx2 
+	      || type == xPower
+	      || type == xText || type == xTextEx || type == xTextEx2
+	      || type == xBusName || type == xBusNameEx
+	      || type == xBusSlash
+		  )
 	{
 		CDrawMethod* edit = static_cast<CDrawMethod*>(GetCurrentDocument()->GetEdit());
 		// Update screen

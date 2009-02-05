@@ -472,34 +472,29 @@ void CDrawText::Display( BOOL erase )
 // Display the text on the screen!
 void CDrawText::Paint(CContext &dc,paint_options options)
 {
-  dc.SelectFont(*m_pDesign->GetOptions()->GetFont(FontStyle),dir);
+	CalcLayout();
 
-  CDSize size=dc.GetTextExtent(str);
-  if (dir>=2)
-	m_point_b=CDPoint(m_point_a.x+size.cx,m_point_a.y-size.cy);
-  else
-	m_point_b=CDPoint(m_point_a.x-size.cy,m_point_a.y-size.cx);
+	if (original_width == 0)
+	{
+		SetScalingWidths();
+	}
 
-  if (original_width == 0)
-  {
-    SetScalingWidths();
-  }
+	dc.SelectFont(*m_pDesign->GetOptions()->GetFont(FontStyle),dir);
+	dc.SetTextColor(FontColour);
+	dc.TextOut(str,m_point_a,options,dir);
 
-  dc.SetTextColor(FontColour);
-  dc.TextOut(str,m_point_a,options,dir);
+	// Draw a little blob, so the user knows where it
+	// is stuck to
+	if (xtype == xLabelEx2)
+	{
+		dc.SelectBrush();
+		dc.SelectPen( PS_SOLID,1,cBOLD );
+		dc.Rectangle(CDRect(m_point_a.x-2,m_point_a.y-2,m_point_a.x+2,m_point_a.y+2));
+	}
 
-  // Draw a little blob, so the user knows where it
-  // is stuck to
-  if (xtype == xLabelEx2)
-  {
-	  dc.SelectBrush();
-	  dc.SelectPen( PS_SOLID,1,cBOLD );
-	  dc.Rectangle(CDRect(m_point_a.x-2,m_point_a.y-2,m_point_a.x+2,m_point_a.y+2));
-  }
-
-  // Is this a bus name?
-  if (xtype == xBusNameEx)
-  {
+	// Is this a bus name?
+	if (xtype == xBusNameEx)
+	{
 		switch (options)
 		{
 		case draw_selected:
@@ -524,17 +519,16 @@ void CDrawText::Paint(CContext &dc,paint_options options)
 			dc.MoveTo(CDPoint(m_point_a.x-10,m_point_b.y-10));
 			dc.LineTo(CDPoint(m_point_a.x+10,m_point_b.y+10));
 		}  
-  }
+	}
 
-  if (is_stuck)
-  {
-	  // Draw a small circle to show the stickness...
-	  dc.SelectBrush();
-	  dc.SelectPen(PS_SOLID,1,cBOLD);
-	  dc.SetROP2(R2_COPYPEN);
-	  dc.Ellipse(CDRect(m_point_a.x+HIGHLIGHT_SIZE/2,m_point_a.y+HIGHLIGHT_SIZE/2,m_point_a.x-HIGHLIGHT_SIZE/2,m_point_a.y-HIGHLIGHT_SIZE/2));
-  }
-
+	if (is_stuck)
+	{
+		// Draw a small circle to show the stickness...
+		dc.SelectBrush();
+		dc.SelectPen(PS_SOLID,1,cBOLD);
+		dc.SetROP2(R2_COPYPEN);
+		dc.Ellipse(CDRect(m_point_a.x+HIGHLIGHT_SIZE/2,m_point_a.y+HIGHLIGHT_SIZE/2,m_point_a.x-HIGHLIGHT_SIZE/2,m_point_a.y-HIGHLIGHT_SIZE/2));
+	}
 }
 
 
@@ -556,50 +550,53 @@ CDrawingObject* CDrawText::Store()
 // Rotate this object about a point
 void CDrawText::Rotate(CDPoint p,int ndir)
 {
-  // Translate this point so the rotational point is the origin
-  m_point_a = CDPoint(m_point_a.x-p.x,m_point_a.y-p.y);
-  m_point_b = CDPoint(m_point_b.x-p.x,m_point_b.y-p.y);
+	if (ndir!=4) {
+		dir = (dir>=2) ? 0 : 3;
+	}
 
-  if (ndir!=4) {
-	if (dir>=2)
-		dir = 0;
-	else
-		dir = 3;
-  }
+	// Rotate bounding box only if we have a centre point
+	if (p != CDPoint(0, 0))
+	{
+		// Translate this point so the rotational point is the origin
+		m_point_a -= p;
+		m_point_b -= p;
 
-  // Perfrom the rotation
-  switch (ndir) {
-	case 2: // Left
-		m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
-		m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
-		break;		
-	case 3: // Right
-		m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
-		m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
-		break;
-	case 4: // Mirror
-		m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
-		m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
-		break;
-  }
+		// Perfrom the rotation
+		switch (ndir) {
+		case 2: // Left
+			m_point_a = CDPoint(m_point_a.y,-m_point_a.x);
+			m_point_b = CDPoint(m_point_b.y,-m_point_b.x);
+			break;		
+		case 3: // Right
+			m_point_a = CDPoint(-m_point_a.y,m_point_a.x);
+			m_point_b = CDPoint(-m_point_b.y,m_point_b.x);
+			break;
+		case 4: // Mirror
+			m_point_a = CDPoint(-m_point_a.x,m_point_a.y);
+			m_point_b = CDPoint(-m_point_b.x,m_point_b.y);
+			break;
+		}
 
-  // Re-translate the points back to the original location
-  m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
-  m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
+		// Re-translate the points back to the original location
+		m_point_a += p;
+		m_point_b += p;
 
-  CDPoint la = m_point_a;
+		CDPoint la = m_point_a;
 
-  // Adjust for the rotation
-  if (dir>=2) 
-  {
-	m_point_a = CDPoint(min(la.x,m_point_b.x),max(la.y,m_point_b.y));
-	m_point_b = CDPoint(max(la.x,m_point_b.x),min(la.y,m_point_b.y));
-  } 
-  else 
-  {
-	m_point_a = CDPoint(max(la.x,m_point_b.x),max(la.y,m_point_b.y));
-	m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
-  }
+		// Adjust for the rotation
+		if (dir>=2) 
+		{
+			m_point_a = CDPoint(min(la.x,m_point_b.x),max(la.y,m_point_b.y));
+			m_point_b = CDPoint(max(la.x,m_point_b.x),min(la.y,m_point_b.y));
+		} 
+		else 
+		{
+			m_point_a = CDPoint(max(la.x,m_point_b.x),max(la.y,m_point_b.y));
+			m_point_b = CDPoint(min(la.x,m_point_b.x),min(la.y,m_point_b.y));
+		}
+	}
+
+	CalcLayout();
 }
 
 BOOL CDrawText::IsEmpty()
