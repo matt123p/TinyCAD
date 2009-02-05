@@ -494,8 +494,34 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 	{
 		if(m_hAccelTable)
 		{
+			BOOL translate = TRUE;
+
+			// Allow simple text editing in dialogs.
+			if(WM_KEYDOWN == lpMsg->message)
+			{
+				if(::GetKeyState(VK_CONTROL) < 0)
+				{
+					switch(lpMsg->wParam)
+					{
+					case 'Z':	// Undo
+					case 'X':	// Cut
+					case 'C':	// Copy
+					case 'V':	// Paste
+						translate = FALSE;
+					}
+				}
+				else 
+				{
+					switch(lpMsg->wParam)
+					{
+					case VK_DELETE:	// Delete
+						translate = FALSE;
+					}
+				}
+			}
+
 			// Not for popup windows like message boxes or modal dialogs
-			if ( !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP) )
+			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP))
 			{
 				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
 					return TRUE;
