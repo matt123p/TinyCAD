@@ -541,7 +541,7 @@ void CTinyCadDoc::FlushRedo()
 }
 
 // Undo the last action
-void CTinyCadDoc::Undo()
+void CTinyCadDoc::Undo(BOOL SingleLevel)
 {
 	SetSelectable( NULL );
 	BOOL action_taken = FALSE;
@@ -549,6 +549,10 @@ void CTinyCadDoc::Undo()
 	// Is this possible?
 	while (CanUndo() && !action_taken)
 	{
+		if (SingleLevel)
+		{
+			action_taken = TRUE;
+		}
 		// Re-apply all of the changes we have done at this level
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 

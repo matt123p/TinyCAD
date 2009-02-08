@@ -81,7 +81,8 @@ void CDrawEditItem::EndEdit()
 	// Undo move action if we're still moving
 	if (InMove)
 	{
-		m_pDesign->Undo();
+		// Undo latest initiated movement
+		m_pDesign->Undo(TRUE);
 		InMove = FALSE;
 	}
 }
