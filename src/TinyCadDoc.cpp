@@ -1457,7 +1457,7 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, B
   CDPoint q_snap_x = CDPoint(q.x, no_snap_q.y);
   CDPoint q_snap_y = CDPoint(no_snap_q.x, q.y);
 	
-/*
+
   if (GetTransform().GetZoomFactor() > 1.0)
   {
 	range /= GetTransform().GetZoomFactor();
@@ -1470,7 +1470,7 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, B
 		range = m_snap.GetGrid() * 0.71;
 	}
   }
-*/
+
 
   if (!GetOption().GetAutoSnap())
   {

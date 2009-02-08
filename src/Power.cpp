@@ -95,6 +95,11 @@ double CDrawPower::DistanceFromPoint( CDPoint p )
 {
 	CDPoint pa;
 
+	if (p.x > TextPos.x && p.x < TextEnd.x && p.y > TextEnd.y && p.y < TextPos.y)
+	{
+		return 0.0;
+	}
+
   // Find out which way round the power object goes
   switch (dir) {
 	case 0:		// Top
@@ -121,6 +126,14 @@ double CDrawPower::DistanceFromPoint( CDPoint p )
 BOOL CDrawPower::IsInside(double left,double right,double top,double bottom)
 {
 	CDPoint pa;
+
+  // IsInside for point
+  if (left==right && top==bottom)
+  {
+	  double d = DistanceFromPoint(CDPoint(left, top));
+	  double range = (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+	  return (d < range) ? TRUE : FALSE;
+  }
 
   // Find out which way round the power object goes
   switch (dir) {

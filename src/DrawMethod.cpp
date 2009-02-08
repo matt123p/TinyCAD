@@ -773,42 +773,97 @@ inline void swap(double &a,double &b) { double sp; sp=a; a=b; b=sp; }
 
 double CDrawMethod::DistanceFromPoint( CDPoint p )
 {
-	// If definately inside this item then return 0
-	if (IsInside( p.x,p.x, p.y,p.y ))
+	// Use fast cut-off to see if the bounding box is inside the intersection box
+	// Use somewhat enlarged bounding box to allow DistanceFromPoint from just outside the bounding box
+	if ( !((m_point_a.x<p.x-10 && m_point_b.x<p.x-10) || (m_point_a.x>p.x+10 && m_point_b.x>p.x+10)
+	    || (m_point_a.y<p.y-10 && m_point_b.y<p.y-10) || (m_point_a.y>p.y+10 && m_point_b.y>p.y+10))) 
 	{
-		return 0.0;
+		// If definately inside this item then return 0
+		if (IsInside( p.x-0.0001,p.x+0.0001, p.y-0.0001,p.y+0.0001 ))
+		{
+			return 0.0;
+		}
+
+		// Calculate the distance
+		CDPoint tr;
+		drawingCollection method;
+		ExtractSymbol( tr, method );
+
+		double nl,nt;
+
+		// Translate the intersection box
+		double sx = scaling_x;
+		double sy = scaling_y;
+		if ((rotate&3) >= 2)
+		{
+			sy = scaling_x;
+			sx = scaling_y;
+		}
+
+		nl = (p.x-m_point_a.x) / sx;
+		nt = (p.y-m_point_a.y) / sy;
+
+		// Rotate the intersection box
+		switch (rotate&3) {
+			case 1:		// Down
+				nt=-(nt-tr.y/sy);	
+				break;
+			case 2:		// Left
+				swap(nt,nl);
+				break;
+			case 3:		// Right
+				swap(nt,nl);
+				nt=-(nt-tr.y/sx);
+				break;
+		}
+
+		// Mirror the intersection box
+		if ((rotate&4)!=0) {
+			if ((rotate&3) >= 2)
+			{
+				nl=-nl+tr.x/sy;
+			}
+			else
+			{
+				nl=-nl+tr.x/sx;
+			}
+		}
+
+
+		double closest_distance = 100.0;
+		// Search each element until one is inside
+		drawingIterator it = method.begin();
+		while (it != method.end() && closest_distance!=0)
+		{
+			CDrawingObject *obj = *it;
+			double distance = obj->DistanceFromPoint(CDPoint(nl, nt));
+			if (distance < closest_distance)
+			{
+				closest_distance = distance;
+			}
+			++ it;
+		}
+
+		return closest_distance;
 	}
 
-	// Ok, try a looser fit (and return 20 if we do fit...)
-   CDPoint tr;
-   drawingCollection method;
-   ExtractSymbol( tr, method );
 
-  // Use fast cut-off to see if the bounding box is inside
-  // the intersection box
-  if ( !((m_point_a.x<p.x && m_point_b.x<=p.x) || (m_point_a.x>p.x && m_point_b.x>p.x)
-    || (m_point_a.y<p.y && m_point_b.y<=p.y) || (m_point_a.y>p.y && m_point_b.y>p.y))) 
-  {
-	return 15.0;
-  }
-
-
-  return 100.0;
+	return 100.0;
 }
 
 
 
 BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 {
-   CDPoint tr;
-   drawingCollection method;
-   ExtractSymbol( tr, method );
-
-
   // Use fast cut-off to see if the bounding box is inside
   // the intersection box
-  if ( !((m_point_a.x<left && m_point_b.x<=left) || (m_point_a.x>right && m_point_b.x>right)
-    || (m_point_a.y<top && m_point_b.y<=top) || (m_point_a.y>bottom && m_point_b.y>bottom))) {
+  if ( !((m_point_a.x<left && m_point_b.x<=left) || (m_point_a.x>right  && m_point_b.x>=right)
+      || (m_point_a.y<top  && m_point_b.y<=top)  || (m_point_a.y>bottom && m_point_b.y>=bottom))) {
+
+	CDPoint tr;
+	drawingCollection method;
+	ExtractSymbol( tr, method );
+
 	double nl,nr,nt,nb;
 
 	// Translate the intersection box
@@ -856,9 +911,9 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 		}
 		else
 		{
-			nt=-nt+tr.y/sy;
-			nb=-nb+tr.y/sy;
-			swap(nb,nt);
+			nl=-nl+tr.x/sx;
+			nr=-nr+tr.x/sx;
+			swap(nl,nr);
 		}
 	}
 
@@ -879,6 +934,7 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 		return TRUE;
   }
 
+  // Search each field until one is inside
   unsigned int lp;
   for (lp=0;lp < m_fields.size();lp++) {
 	if (!m_fields[lp].m_show)
@@ -1271,8 +1327,15 @@ int CDrawMethod::SetCursorEdit( CDPoint p )
 
 	if (q == 8 || !can_scale)
 	{
-		q = DistanceFromPoint( p ) <= 20;
-		return q ? 11 : -1;
+		double hot_distance = 10.0 / (m_pDesign->GetTransform().GetZoomFactor());
+		if (IsInside(p.x,p.x,p.y,p.y) || DistanceFromPoint( p ) <= hot_distance)
+		{
+			return 11;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 	return q;

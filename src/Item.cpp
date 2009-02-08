@@ -222,12 +222,21 @@ int CDrawEditItem::SetCursor( CDPoint p )
   		}
 		else
 		{
+			// Use the same selection criteria as in GetClosestObject
+			double closest_distance = 10.0 / (m_pDesign->GetTransform().GetZoomFactor());
 			selectIterator it = m_pDesign->GetSelectBegin();
 			while ( it != m_pDesign->GetSelectEnd() ) 
 			{
 				CDrawingObject *obj=*it;
-				if (obj->DistanceFromPoint( p ) <= 15)
+				if (obj->GetType()==xMethodEx3 && obj->IsInside( p.x,p.x,p.y,p.y ))
+				{
 					return 11;
+				}
+				if (obj->DistanceFromPoint( p ) <= closest_distance)
+				{
+					return 11;
+				}
+
 				++ it;
 			}
 		}
@@ -410,7 +419,8 @@ CDrawingObject* CDrawEditItem::GetClosestObject( CDPoint p )
 {
   	// Search each object in turn
 	CDrawingObject* closest_object = NULL;
-	double closest_distance = 15.0;
+	CDrawingObject* inside_object = NULL;
+	double closest_distance = 100;
 
 	drawingIterator it = m_pDesign->GetDrawingBegin();
 	while (it != m_pDesign->GetDrawingEnd()) 
@@ -424,9 +434,25 @@ CDrawingObject* CDrawEditItem::GetClosestObject( CDPoint p )
 			closest_distance = distance;
 		}
 
+		// Are we inside a symbol?
+		if (distance == 0 || (pointer->GetType() == xMethodEx3 && pointer->IsInside(p.x,p.x, p.y,p.y)))
+		{
+			inside_object = pointer;
+		}
+
 		// Move pointer on
 		++ it;
   	}
+
+	if (closest_object)
+	{
+		// If nothing is within range or inside object (closest_distance=0)
+		// then use the symbol which we are inside
+		if (closest_distance == 0 || closest_distance > 10.0 / (m_pDesign->GetTransform().GetZoomFactor()))
+		{
+			closest_object = inside_object;
+		}
+	}
 
 	return closest_object;
 }

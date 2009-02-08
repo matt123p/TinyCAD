@@ -55,11 +55,9 @@ void CDrawRectOutline::PaintHandles( CContext &dc )
 // Move fields of this object about
 int CDrawRectOutline::IsInsideField(CDPoint p)
 {
-	CPoint q( static_cast<int>(p.x), static_cast<int>(p.y) );
-	CRect rect(static_cast<int>(m_point_a.x),
-		static_cast<int>(m_point_a.y),
-		static_cast<int>(m_point_b.x),
-		static_cast<int>(m_point_b.y) );
+	CPoint q(m_pDesign->GetTransform().Scale(p));
+	CRect rect(m_pDesign->GetTransform().Scale( CDRect(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y) ));
+
 	rect.NormalizeRect();
 	CRectTracker	tracker( rect, CRectTracker::dottedLine | CRectTracker::resizeOutside  );
 	int r = tracker.HitTest( q );

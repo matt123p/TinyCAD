@@ -205,6 +205,13 @@ BOOL CDrawPin::IsInside(double left,double right,double top,double bottom)
 	  return FALSE;
   }
 
+  // IsInside for point
+  if (left==right && top==bottom)
+  {
+	  double d = DistanceFromPoint(CDPoint(left, top));
+	  double range = (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+	  return (d < range) ? TRUE : FALSE;
+  }
   // Now get the line part and determine if the user has clicked
   // on it...
   CDPoint pa,pb,pc,pd,pta,ptb;

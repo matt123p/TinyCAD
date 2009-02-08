@@ -439,6 +439,7 @@ public:
   
 	// The drawing primitives
 	void Ellipse(CDRect r) { m_pDC->Ellipse(m_Transform.Scale(r)); }
+	void Ellipse1(CDRect r) { CRect q = m_Transform.Scale(r); m_pDC->Ellipse(q.left,q.top,q.right+1,q.bottom+1); }
 	void Rectangle(CDRect r) { m_pDC->Rectangle(m_Transform.Scale(r)); }
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p) { m_pDC->LineTo(m_Transform.Scale(p)); }

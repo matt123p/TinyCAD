@@ -104,6 +104,11 @@ public:
 		return r;
 	}
 
+	double Distance( CDPoint a ) const
+	{
+		return sqrt((a.x - x)*(a.x - x)+(a.y - y)*(a.y - y));
+	}
+
 	bool is_close_to( const CDPoint &a ) const
 	{
 		const double close_distance = 0.001;
