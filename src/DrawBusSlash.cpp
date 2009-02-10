@@ -190,7 +190,7 @@ void CDrawBusSlash::GetActiveListFirst( CActiveNode &a )
 {
 }
 
-bool CDrawBusSlash::GetActive( CActiveNode &a )
+bool CDrawBusSlash::GetActive( CActiveNode &a, bool )
 {
 	switch (a.m_sent)
 	{

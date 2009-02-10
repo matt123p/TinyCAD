@@ -1450,23 +1450,9 @@ void CDrawMethod::GetActiveListFirst( CActiveNode &a )
 	
 	// Search the symbol for pins
 	a.m_iterator = a.m_method.begin();
-	while (a.m_iterator != a.m_method.end()) 
-	{
-		CDrawingObject *MethodPtr = (*a.m_iterator);
-		CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
-
-		// If it is a pin try and use it!
-		if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible()) 
-		{
-			break;
-		}
-
-		++ a.m_iterator;
-	}
-
 }
 
-bool CDrawMethod::GetActive( CActiveNode &a )
+bool CDrawMethod::GetActive( CActiveNode &a, bool nonPowerOnly )
 {
 	// Search the symbol for pins
 	while (a.m_iterator != a.m_method.end()) 
@@ -1475,10 +1461,9 @@ bool CDrawMethod::GetActive( CActiveNode &a )
 		CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
 
 		// If it is a pin then use it
-		if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible()) 
+		if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible() && (!nonPowerOnly || (!thePin->IsPower() && !thePin->IsConvertedPower()))) 
 		{
 			a.m_a = thePin->GetActivePoint( this );
-			a.m_label = "";
 
 			++ a.m_iterator;
 			return true;

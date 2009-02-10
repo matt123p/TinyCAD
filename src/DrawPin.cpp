@@ -257,6 +257,7 @@ CDrawPin::CDrawPin(CTinyCadDoc *pDesign)
 {
   m_segment=1;
   m_which=0;
+  m_converted_power=0;
   m_dir=0;
   m_number="1";
   m_elec=0;
@@ -332,7 +333,9 @@ void CDrawPin::Move(CDPoint p, CDPoint no_snap_p)
 void CDrawPin::ConvertPowerToNormal()
 {
 	// Convert this pin to a normal one
+	// and set the 'pin is converted' indicater
 	m_which = 0;
+	m_converted_power = 1; 
 
 	// Re-calculate our size
 	DetermineSize();
@@ -373,7 +376,7 @@ void CDrawPin::DetermineLayout( CDPoint &pa,CDPoint &pb,CDPoint &pc,CDPoint &pd,
   else
 	spacing=m_length+(DOT_SIZE*2)+TEXT_SPACE;
 
-  // Find out m_which way round the pin object goes
+  // Find out which way round the pin object goes
   switch (m_dir) {
 	case 0:		// Up
 		pa=CDPoint(pos.x,pos.y-LINE_SIZE);

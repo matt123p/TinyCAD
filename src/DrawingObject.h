@@ -121,7 +121,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 
 	virtual double DistanceFromPoint( CDPoint p );
@@ -190,9 +190,7 @@ class CActiveNode
 {
 public:
 	// For public use..
-	CString	m_label;
 	CDPoint	m_a;
-
 
 	// Only for use by the iterator functions
 	drawingIterator		m_iterator;

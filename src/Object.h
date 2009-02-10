@@ -270,7 +270,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 	// These are used for the construction of this object
 	CDrawBusSlash(CTinyCadDoc *pDesign,int NewDir = 0);
@@ -443,7 +443,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 	virtual CDPoint GetLabelPoint() { return m_active_point; }
 
@@ -511,7 +511,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 
 	// These are used for the construction of this object
@@ -534,8 +534,9 @@ class CDrawPin : public CDrawingObject {
 	BYTE m_which;				// Which type of power item it is
 	BYTE m_elec;				// Which electrical properties this pin has
 	BYTE m_part;				// Which subpart the item is in
-	int	 m_number_pos;			// The relative position of the pin's number
+	BYTE m_converted_power;		// This pin is a power pin converted to normal
 	WORD m_length;				// The overall length of the pin
+	int	 m_number_pos;			// The relative position of the pin's number
 	BOOL m_centre_name;			// Place the name on the pin's shaft rather than the end
 
 	void DetermineLayout( CDPoint &pa,CDPoint &pb,CDPoint &pc,CDPoint &pd,CDPoint &pta,CDPoint &ptb, int &dr, int rotmir );
@@ -544,8 +545,9 @@ class CDrawPin : public CDrawingObject {
 
 public:
 	BOOL IsInvisible();// Is this pin currently visible?
-			   		// Is this pin a power pin?
-	int IsPower() { return m_which == 4; }
+			   		
+	BOOL IsPower() { return m_which == 4; }				// Is this pin a power pin?
+	BOOL IsConvertedPower() { return m_converted_power != 0; }	// Is this pin a power pin converted to normal?
 	void ConvertPowerToNormal();
 
 	virtual double DistanceFromPoint( CDPoint p );
@@ -958,7 +960,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 	void Display( BOOL erase = TRUE );
 	virtual void Paint(CContext &,paint_options);
