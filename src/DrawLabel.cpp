@@ -718,14 +718,14 @@ void CDrawLabel::Paint(CContext &dc,paint_options options)
 	  {
 	    int js=JUNCTION_SIZE;
 		CDPoint br,tl;
-		br=CDPoint(m_active_point.x+js+1,m_active_point.y+js+1);
+		br=CDPoint(m_active_point.x+js,m_active_point.y+js);
 		tl=CDPoint(m_active_point.x-js,m_active_point.y-js);
 
 		dc.SetROP2(R2_COPYPEN);
 
 		dc.SelectPen(PS_SOLID,1,m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
 		dc.SelectBrush(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
-  	    dc.Ellipse(CDRect(tl.x,tl.y,br.x,br.y));
+  	    dc.Ellipse1(CDRect(tl.x,tl.y,br.x,br.y));
 	  }
   }
 

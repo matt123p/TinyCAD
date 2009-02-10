@@ -86,7 +86,7 @@ void CDrawError::Paint(CContext &dc,paint_options options)
 
   dc.SetROP2(R2_COPYPEN);
 
-  dc.Ellipse(CDRect(m_point_a.x+ERRORSIZE,m_point_a.y+ERRORSIZE,m_point_a.x-ERRORSIZE,m_point_a.y-ERRORSIZE));
+  dc.Ellipse1(CDRect(m_point_a.x+ERRORSIZE,m_point_a.y+ERRORSIZE,m_point_a.x-ERRORSIZE,m_point_a.y-ERRORSIZE));
 }
 
 

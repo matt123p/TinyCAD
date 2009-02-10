@@ -405,14 +405,14 @@ void CDrawPower::Paint(CContext &dc,paint_options options)
 	  {
 	    int js=JUNCTION_SIZE;
 		CDPoint br,tl;
-		br=CDPoint(m_point_b.x+js+1,m_point_b.y+js+1);
+		br=CDPoint(m_point_b.x+js,m_point_b.y+js);
 		tl=CDPoint(m_point_b.x-js,m_point_b.y-js);
 
 		dc.SetROP2(R2_COPYPEN);
 
 		dc.SelectPen(PS_SOLID,1,m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
 		dc.SelectBrush(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
-  	    dc.Ellipse(CDRect(tl.x,tl.y,br.x,br.y));
+  	    dc.Ellipse1(CDRect(tl.x,tl.y,br.x,br.y));
 	  }
   }
 
