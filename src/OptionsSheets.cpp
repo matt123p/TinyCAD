@@ -245,18 +245,8 @@ BOOL COptionsAutosnap::OnInitDialog()
 	m_Autosnap_Enable = GetDocument()->GetOptions()->GetAutoSnap();
 	m_Autojunc_Enable = GetDocument()->GetOptions()->GetAutoJunc();
 
-	if( Units == 0 )
-	{
-		m_Autosnap_Range = GetDocument()->GetOptions()->GetAutoSnapRange() * 10 / PIXELSPERMM;
-		m_Units = ".1mm";
-	}
-	else
-	{
-		m_Autosnap_Range = (10000*GetDocument()->GetOptions()->GetAutoSnapRange()) / (254 * PIXELSPERMM);
-		m_Units = ".001\"";
-	}
-
-	m_Units = (Units == 0) ? ".1mm" : ".001\"";
+	m_Autosnap_Range = GetDocument()->GetOptions()->GetAutoSnapRange();
+	m_Units = "pixels";
 
 	// Now create the document
 	CPropertyPage::OnInitDialog();
@@ -277,29 +267,18 @@ void COptionsAutosnap::OnAutosnapEnable()
 //-------------------------------------------------------------------------
 BOOL COptionsAutosnap::OnApply() 
 {
-	int nRange	= -1;
-
 	UpdateData( true );
-
-	if (Units == 0)
-	{
-		nRange = (m_Autosnap_Range * PIXELSPERMM) / 10;
-	}
-	else
-	{
-		nRange = (m_Autosnap_Range * 254 * PIXELSPERMM) / 10000;
-	}
 
 	GetDocument()->GetOptions()->SetAutoDrag( m_Autodrag_Enable == TRUE );
 	GetDocument()->GetOptions()->SetAutoSnap( m_Autosnap_Enable == TRUE );
 	GetDocument()->GetOptions()->SetAutoJunc( m_Autojunc_Enable == TRUE );
-	GetDocument()->GetOptions()->SetAutoSnapRange( nRange );
+	GetDocument()->GetOptions()->SetAutoSnapRange( m_Autosnap_Range );
 
 	// Write the settings to the registry
 	CRegistry::Set( "AutoDrag",			m_Autodrag_Enable );
 	CRegistry::Set( "AutoSnap",			m_Autosnap_Enable );
 	CRegistry::Set( "AutoJunc",			m_Autojunc_Enable );
-	CRegistry::Set( "AutoDragRange", nRange );
+	CRegistry::Set( "AutoDragRange",	m_Autosnap_Range );
 
 	return CPropertyPage::OnApply();
 }
@@ -308,27 +287,18 @@ BOOL COptionsAutosnap::OnSetActive()
 {
 	// Read the active state from the other dialogue
 	// Create the setup
-	int new_Units = static_cast<COptionsPropertySheet*>(GetParent())->m_Page1.Units;
+	//int new_Units = static_cast<COptionsPropertySheet*>(GetParent())->m_Page1.Units;
 
-	if (new_Units != Units)
-	{
-		// Get the old scaling
-		UpdateData( TRUE );
-		int range;
-		if (Units == 0)
-			range = (m_Autosnap_Range * PIXELSPERMM) / 10;
-		else
-			range = (m_Autosnap_Range * 254 * PIXELSPERMM) / 10000;
+	//if (new_Units != Units)
+	//{
+	//	// Get the old scaling
+	//	UpdateData( TRUE );
 
-		Units = new_Units;
+	//	Units = new_Units;
+	//	m_Units = "pixels";
 
-		m_Autosnap_Range = Units == 0 ? 
-			range * 10 / PIXELSPERMM : 
-			(10000*range) / (254 * PIXELSPERMM);
-
-		m_Units = (Units == 0) ? ".1mm" : ".001\"";
-		UpdateData( FALSE );
-	}
+	//	UpdateData( FALSE );
+	//}
 
 	return CPropertyPage::OnSetActive();
 }
