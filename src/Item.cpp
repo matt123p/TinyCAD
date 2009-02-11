@@ -85,6 +85,13 @@ void CDrawEditItem::EndEdit()
 		m_pDesign->Undo(TRUE);
 		InMove = FALSE;
 	}
+
+	// Turn off the drag box (if there is one...)
+	if (InSelectByDrag) 
+	{
+		Display();
+		InSelectByDrag = FALSE;
+	}
 }
 
 
@@ -587,8 +594,14 @@ BOOL CDrawEditItem::RButtonDown(CDPoint p, CDPoint s)
 	ClickSelection( p, s );
 	EditMethodText = -1;
 	InMove = FALSE;
-	InSelectByDrag = FALSE;
 
+	// Turn off the drag box (if there is one...)
+	if (InSelectByDrag) 
+	{
+		Display();
+		InSelectByDrag = FALSE;
+		m_point_a = m_point_b = CDPoint(0,0);
+	}
 
 	// Get the current location of the mouse
 	CPoint mp;

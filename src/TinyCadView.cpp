@@ -211,8 +211,8 @@ CTinyCadView::CTinyCadView()
 	hRuler = NULL;
 
 	// We have not captured the mouse
-	m_captured = FALSE;
-	m_panning = FALSE;
+	m_captured = 0;
+	m_panning = 0;
 
 	// Turn on off-screen bitmap drawing
 	m_use_offscreen_drawing = TRUE;
@@ -652,31 +652,57 @@ void CTinyCadView::OnMouseMove(UINT nFlags, CPoint p)
 	CDPoint snap_p=GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
     CDPoint no_snap_p = GetTransform().DeScale(p);
 
-
-	// If we are panning, then don't track this movement...
-	if (m_panning)
+	// Wait for threshold before panning gets active?
+	if (m_panning == 2)
 	{
-		// Pan the screen with the mouse
-		double x = GetTransform().GetOrigin().x;
-		double y = GetTransform().GetOrigin().y;
-		CDPoint old_mouse = MousePosition;
-		SetScroll(x - no_snap_p.x + old_mouse.x, y - no_snap_p.y + old_mouse.y);
+		// Is threshold reached?
+		if (abs(StartPosition.x-p.x) > 3 || abs(StartPosition.y-p.y) > 3)
+		{
+			// Panning is active now
+			m_panning = 1;
+		}
+	}
 
+	// Wait for threshold before mouse move gets active?
+	if (m_captured == 2)
+	{
+		// Is threshold reached?
+		if (abs(StartPosition.x-p.x) > 1 || abs(StartPosition.y-p.y) > 1)
+		{
+			// Mouse move is active now
+			m_captured = 1;
+		}
+	}
+
+
+	// If we try to pan, then don't track this movement...
+	if (m_panning != 0)
+	{
+		// panning active?
+		if (m_panning == 1)
+		{
+			// Pan the screen with the mouse
+			CDPoint d = GetTransform().GetOrigin() - no_snap_p + MousePosition;
+			SetScroll(d.x, d.y);
+		}
 		MousePosition=GetTransform().DeScale(p);
 	}
 	else
 	{
-
 		MousePosition=no_snap_p;
 	
 		// Now display the position
 		CString pos = GetCurrentDocument()->GetOptions()->PointToUnit(snap_p);
 		static_cast<CMainFrame*>(AfxGetMainWnd())->setPositionText( pos );
 
-		// Send this to the editable device
-		if (GetCurrentDocument()->GetEdit())
+		// Not when threshold not reached
+		if (m_captured != 2)
 		{
-			GetCurrentDocument()->GetEdit()->Move(snap_p, no_snap_p);
+			// Send this to the editable device
+			if (GetCurrentDocument()->GetEdit())
+			{
+				GetCurrentDocument()->GetEdit()->Move(snap_p, no_snap_p);
+			}
 		}
 	}
 }
@@ -692,8 +718,10 @@ void CTinyCadView::OnLButtonDown(UINT nFlags, CPoint p)
 
   GetCurrentDocument()->GetEdit()->LButtonDown(snapped_p,no_snap_p);
 
+  // wait for threshold before mouse move gets active
+  m_captured = 2;
+  StartPosition = p;
   SetCapture();
-  m_captured = TRUE;
 }
 
 void CTinyCadView::OnLButtonDblClk(UINT nFlags, CPoint p) 
@@ -712,7 +740,7 @@ void CTinyCadView::OnLButtonDblClk(UINT nFlags, CPoint p)
 
 void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint p) 
 {
-	if (m_captured)
+	if (m_captured!=0)
 	{
 		ReleaseCapture();
 
@@ -725,7 +753,9 @@ void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint p)
 
 		GetCurrentDocument()->GetEdit()->LButtonUp(snapped_p,no_snap_p);
 	}
-	
+	m_captured = 0;
+	m_panning = 0;
+
 	CView::OnLButtonUp(nFlags, p);
 }
 
@@ -787,35 +817,58 @@ void CTinyCadView::OnRButtonDown(UINT nFlags, CPoint p)
 
   MousePosition=no_snap_p;
 
-  // Call the end function, if it returns false then delete
-  // this object
-  if (!GetCurrentDocument()->GetEdit()->RButtonDown(snapped_p,no_snap_p))
-  {
-	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
-  }
+  // wait for threshold before panning gets active
+  m_panning = 2;
+  StartPosition = p;
+  SetCapture();
+
+  // The actual RButtonDown process will be done in the OnRButtonUp event.
+  // This is because the right-mouse button is also used for panning.
 }
 
 void CTinyCadView::OnRButtonUp(UINT nFlags, CPoint p)
 {
-  CContext theContext(this,GetTransform());
-  CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
-  CDPoint no_snap_p = GetTransform().DeScale(p);
+	CContext theContext(this,GetTransform());
+	CDPoint snapped_p = GetTransform().DeScale(GetCurrentDocument()->m_snap,p);
+	CDPoint no_snap_p = GetTransform().DeScale(p);
 
-  MousePosition=no_snap_p;
+	MousePosition=no_snap_p;
+	ReleaseCapture();
 
-  GetCurrentDocument()->GetEdit()->RButtonUp(snapped_p, no_snap_p );
+	// not panning and not moving?
+	if (m_panning != 1 && m_captured != 1) 
+	{
+		// Call the end function, if it returns false then delete
+		// this object
+		if (!GetCurrentDocument()->GetEdit()->RButtonDown(snapped_p,no_snap_p))
+		{
+			GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+		}
+		else
+		{
+			// Always call RButtonUp after succesful RButtonDown
+			GetCurrentDocument()->GetEdit()->RButtonUp(snapped_p, no_snap_p );
+		}
+	}
+
+	// Clear panning
+	m_panning = 0;
+	//m_captured = 0;
 }
 
 
 void CTinyCadView::OnMButtonDown( UINT nFlags, CPoint point )
 {
-	m_panning = TRUE;
+	// Panning is active instantly
+	m_panning = 1;
 	SetCapture();
 }
 
 void CTinyCadView::OnMButtonUp( UINT nFlags, CPoint point )
 {
-	m_panning = FALSE;
+	// Panning is not active
+	m_panning = 0;
+	//m_captured = 0;
 	ReleaseCapture();
 }
 

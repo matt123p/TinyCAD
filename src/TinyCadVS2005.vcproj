@@ -3802,6 +3802,30 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\alignBot.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\alignCtr.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\alignLft.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\alignMid.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\alignRt.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\alignTop.ico"
+				>
+			</File>
+			<File
 				RelativePath="CAD.ICO"
 				>
 			</File>
@@ -3858,11 +3882,11 @@
 				>
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP"
+				RelativePath="res\Toolbar.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp"
+				RelativePath="TOOLBAR.BMP"
 				>
 			</File>
 			<File
