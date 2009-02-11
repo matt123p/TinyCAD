@@ -34,6 +34,10 @@
 #define MAX_PENS	20
 #define MAX_BRUSHES	4
 
+// CUSTOM PEN NUMBERS MUST BE 9 OR HIGHER
+#define PS_MARQUEE  9
+#define PS_MARQUEE2 10
+
 
 // The class that performs the snap to grid, when necessary
 class TransformSnap
@@ -61,7 +65,7 @@ public:
 	void SaveXML( CXMLWriter &xml )
 	{
 		xml.addTag( _T("GRID") );
-		xml.addAttribute( _T("spacing"), grid );
+		xml.addAttribute( _T("spacing"), grid * 10.0 );
 		xml.addAttribute( _T("snap"), GridSnap );
 		xml.closeTag();
 	}
@@ -70,6 +74,7 @@ public:
 	{
 		xml.getAttribute( _T("spacing"), grid );
 		xml.getAttribute( _T("snap"), GridSnap );
+		grid /= 10.0;
 	}
 
 
@@ -434,6 +439,7 @@ public:
   
 	// The drawing primitives
 	void Ellipse(CDRect r) { m_pDC->Ellipse(m_Transform.Scale(r)); }
+	void Ellipse1(CDRect r) { CRect q = m_Transform.Scale(r); m_pDC->Ellipse(q.left,q.top,q.right+1,q.bottom+1); }
 	void Rectangle(CDRect r) { m_pDC->Rectangle(m_Transform.Scale(r)); }
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p) { m_pDC->LineTo(m_Transform.Scale(p)); }

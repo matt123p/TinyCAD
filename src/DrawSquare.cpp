@@ -180,6 +180,14 @@ void CDrawSquare::LoadXML( CXMLReader &xml )
 	xml.getAttribute( _T("fill"), Fill );
 
     Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
+
+	// Calculate the Style nr here
+	// This allows IsModified to correctly detect changes
+	LineStyle lStyle = *m_pDesign->GetOptions()->GetStyle( Style );
+	WORD line = m_pDesign->GetOptions()->AddStyle(&lStyle);
+	m_pDesign->GetOptions()->SetCurrentStyle( GetType(), line );
+	Style = line;
+
     Fill = m_pDesign->GetOptions()->GetNewFillStyleNumber(Fill);
 }
 
@@ -248,7 +256,7 @@ BOOL CDrawSquare::PointInEllipse( CDPoint p )
 double CDrawSquare::EllipseDistanceFromPoint( CDPoint p, BOOL &IsInside )
 {
 
-	// Determine the distance of this point from the
+	// Determine the distance of this point to the
 	// edge of the ellipse...
 
 	// Determine the centre point and the two diameters
@@ -256,68 +264,80 @@ double CDrawSquare::EllipseDistanceFromPoint( CDPoint p, BOOL &IsInside )
 	double da = abs(m_point_a.x - m_point_b.x)/2;
 	double db = abs(m_point_a.y - m_point_b.y)/2;
 
-	// Now determine the angle of our point to
-	// the centre
-	double u = atan2( static_cast<double>(p.x - c.x), static_cast<double>(p.y - c.y) );
+	// Transform ellipse to circle with radius 1 and centre at (0,0)
+	c -= p;
+	c.x /= da;
+	c.y /= db;
 
-	// ... and determine the location of the point
-	// on the ellipse at this location
-	CDPoint pe = CDPoint(c.x + da * sin(u), c.y + db * cos(u) );
+	// Distance from origin (0,0)
+	double d = sqrt(c.x*c.x + c.y*c.y);
 
-	// confirm the distance from this point...
-	double d1 = sqrt(static_cast<double>((pe.x - p.x)*(pe.x - p.x)
-		+ (pe.y - p.y)*(pe.y - p.y)));
+	IsInside = (d <= 1.0);
 
-	double d2 = sqrt(static_cast<double>((c.x - p.x)*(c.x - p.x)
-		+ (c.y - p.y)*(c.y - p.y)));
-
-	double d3 = sqrt(static_cast<double>((c.x - pe.x)*(c.x - pe.x)
-		+ (c.y - pe.y)*(c.y - pe.y)));
-
-	IsInside = d2 < d3;
-
-	return d1 * 2;
+	// return real distance from edge of ellipse
+	return abs(d - 1.0) * sqrt(da*da + db*db);	
 }
 
 double CDrawSquare::DistanceFromPoint( CDPoint p )
 {
-	// Are we filled?
+
 	if (IsSquare())
 	{
-		if (Fill == fsNONE)
+		// Are we filled?
+		if (Fill != fsNONE)
 		{
-			// Ok, so check for distance from one of our lines...
-			double closest_distance = 100.0;
-
-			CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
-			CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
-			CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
-			CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
-
-			CDPoint d;
-			closest_distance = min( closest_distance, l1.DistanceFromPoint( p, d ) );
-			closest_distance = min( closest_distance, l2.DistanceFromPoint( p, d ) );
-			closest_distance = min( closest_distance, l3.DistanceFromPoint( p, d ) );
-			closest_distance = min( closest_distance, l4.DistanceFromPoint( p, d ) );
-
-			return closest_distance;
+			if (IsInside(p.x,p.x,p.y,p.y))
+			{
+				return 0.0;
+			}
 		}
-		else
+
+		// Ok, so check for distance from one of our lines...
+		double distance = 100.0;
+
+		CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
+		CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
+		CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
+		CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
+
+		CDPoint d;
+		distance = min( distance, l1.DistanceFromPoint( p, d ) );
+		distance = min( distance, l2.DistanceFromPoint( p, d ) );
+		distance = min( distance, l3.DistanceFromPoint( p, d ) );
+		distance = min( distance, l4.DistanceFromPoint( p, d ) );
+
+		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+		return distance - width;
+
+		if (distance <= width)
 		{
-			return IsInside(p.x,p.x,p.y,p.y) ? 0 : 100.0;
+			return distance - width;
 		}
-	}
-	else if (Fill == fsNONE && !IsSquare())
-	{
-		BOOL r;
-		return EllipseDistanceFromPoint( p, r );
+
+		return distance;
 	}
 	else
 	{
-		// There is a fill, so just use the normal isinside routine...
 		BOOL r;
-		EllipseDistanceFromPoint( p, r );
-		return r ? 0 : 100.0;
+		double distance = EllipseDistanceFromPoint( p, r );
+		// Inside filled ellipse?
+		if (r && Fill != fsNONE)
+		{
+			return 0.0;
+		}
+
+		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+		return distance - width;
+
+		// On the ellipse?
+		if (distance <= width)
+		{
+			return distance - width;
+		}
+
+		return distance;
 	}
 
 	return 100.0;
@@ -326,15 +346,19 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 
 BOOL CDrawSquare::IsInside(double left,double right,double top,double bottom)
 {
-	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
-	int width = max(2,theStyle->Thickness);
+	// Use fast cut-off to see if the bounding box is inside the intersection box
+	if ( (m_point_a.x<left && m_point_b.x<=left) || (m_point_a.x>right && m_point_b.x>=right)
+      || (m_point_a.y<top && m_point_b.y<=top) || (m_point_a.y>bottom && m_point_b.y>=bottom) )
+	{
+		return FALSE;
+	}
 
 	if (IsSquare())
 	{
-		if (Fill != fsNONE)
+		if (Fill != fsNONE || (left==right && top==bottom))
 		{
-			// Filled rectangle, use the normal is inside..
-			return CDrawRectOutline::IsInside(left,right,top,bottom);
+			// Filled rectangle
+			return TRUE;
 		}
 		else
 		{
@@ -354,16 +378,10 @@ BOOL CDrawSquare::IsInside(double left,double right,double top,double bottom)
 		// rectangle...
 		CDRect r(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y);
 		r.NormalizeRect();
-		if (r.left >= left && r.right <= right 
-		    && r.top >= top && r.bottom <= bottom)
+		if (r.left >= left && r.right <= right && 
+		    r.top >= top && r.bottom <= bottom)
 		{
 			return TRUE;
-		}
-
-		// Or is the rectangle entirely outside the ellipse?
-		if (!CDrawRectOutline::IsInside(left,right,top,bottom))
-		{
-			return FALSE;
 		}
 
 		// Ok does one of the lines cut the ellipse?

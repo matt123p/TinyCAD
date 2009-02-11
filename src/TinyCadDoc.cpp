@@ -541,7 +541,7 @@ void CTinyCadDoc::FlushRedo()
 }
 
 // Undo the last action
-void CTinyCadDoc::Undo()
+void CTinyCadDoc::Undo(BOOL SingleLevel)
 {
 	SetSelectable( NULL );
 	BOOL action_taken = FALSE;
@@ -549,6 +549,10 @@ void CTinyCadDoc::Undo()
 	// Is this possible?
 	while (CanUndo() && !action_taken)
 	{
+		if (SingleLevel)
+		{
+			action_taken = TRUE;
+		}
 		// Re-apply all of the changes we have done at this level
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 
@@ -935,15 +939,18 @@ void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 	double top=min(p1.y,p2.y);
 	double bottom=max(p1.y,p2.y);
 
-	UnSelect();
+	// Right-to-Left selects only completely surrounded objects
+	BOOL lefttoright = (p1.x < p2.x);
+
+	//UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
 	while (it != GetDrawingEnd()) 
 	{
 		CDrawingObject *obj = *it;
 
-		if (    obj->IsInside(left,right,top,bottom) 
-			&& !obj->IsConstruction()
+		if ( (lefttoright ? obj->IsInside(left,right,top,bottom) :
+		                    obj->IsCompletelyInside(left,right,top,bottom)) 
 			&& 
 			(obj->GetType() != xJunction || !GetOption().GetAutoJunc() ) )
 		{
@@ -1450,7 +1457,7 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, B
   CDPoint q_snap_x = CDPoint(q.x, no_snap_q.y);
   CDPoint q_snap_y = CDPoint(no_snap_q.x, q.y);
 	
-/*
+
   if (GetTransform().GetZoomFactor() > 1.0)
   {
 	range /= GetTransform().GetZoomFactor();
@@ -1463,7 +1470,7 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, B
 		range = m_snap.GetGrid() * 0.71;
 	}
   }
-*/
+
 
   if (!GetOption().GetAutoSnap())
   {

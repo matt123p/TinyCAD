@@ -784,6 +784,13 @@ int CDrawPolygon::IsInsideField(CDPoint p)
 	CRectTracker tracker( r, CRectTracker::dottedLine | CRectTracker::resizeOutside  );
 	s = tracker.HitTest( CPoint( static_cast<int>(p.x), static_cast<int>(p.y)) );
 
+//	CPoint q(m_pDesign->GetTransform().Scale(p));
+//	CRect rect(m_pDesign->GetTransform().Scale( CDRect(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y) ));
+//	rect.NormalizeRect();
+//	CRectTracker	tracker( rect, CRectTracker::dottedLine | CRectTracker::resizeOutside  );
+//	s = tracker.HitTest( q );
+
+
 	if (s == 8)
 	{
 		s = 11;
@@ -1084,7 +1091,7 @@ void CDrawPolygon::Paint(CContext&dc,paint_options options)
 	{
 		//Add last line segment to selectable outline.
 		//It is missing if the polygon is not closed.
-		if (Fill != fsNONE && options == draw_selectable && m_points.size() > 0) {
+		if (Fill != fsNONE && options == draw_selectable && m_points.size() > 2) {
 			pointCollection outline( m_points );
 			outline.push_back( m_points.front() );
 			dc.Polyline( outline, m_point_a, NULL );
@@ -1190,7 +1197,7 @@ void CDrawPolygon::EndEdit()
 
 int CDrawPolygon::IsInsideLine(double left,double right,double top,double bottom)
 {
-	double s = 0;
+	int s = 0;
 	CDPoint la;
 	pointCollection::iterator it = m_points.begin();
 	while (it != m_points.end())
@@ -1218,45 +1225,95 @@ int CDrawPolygon::IsInsideLine(double left,double right,double top,double bottom
 
 double CDrawPolygon::DistanceFromPoint( CDPoint p )
 {
-	// Are we filled?
-	if (Fill == fsNONE)
+	// Use fast cut-off to see if the bounding box is inside the intersection box
+	// Use somewhat enlarged bounding box to allow DistanceFromPoint from just outside the bounding box
+	if ( ((m_point_a.x<p.x-10 && m_point_b.x<p.x-10) || (m_point_a.x>p.x+10 && m_point_b.x>p.x+10)
+	   || (m_point_a.y<p.y-10 && m_point_b.y<p.y-10) || (m_point_a.y>p.y+10 && m_point_b.y>p.y+10))) 
 	{
-		// Ok, so check for distance from one of our lines...
-		double closest_distance = 100.0;
-		int s = 0;
-		CDPoint la;
-		pointCollection::iterator it = m_points.begin();
-		while (it != m_points.end())
-		{
-			CDPoint a_np = *it + m_point_a;
-			CDPoint np(a_np.x, a_np.y);
-			if (s != 0)
-			{
-				CLineUtils l( la, np);
-				CDPoint d;
-				closest_distance = min( closest_distance, l.DistanceFromPoint( p, d ) );
-			}
+		return 100.0;
+	}
 
-			la = np;
-			++ s;
-			++ it;
+	// There is a fill, so just use the IsInsidePolygon routine...
+	if (Fill != fsNONE)
+	{
+		if (IsInsidePolygon(p))
+		{
+			return 0.0;
+		}
+	}
+
+	// Ok, so check for distance from one of our lines...
+	double closest_distance = 100.0;
+	int s = 0;
+	CDPoint la;
+	pointCollection::iterator it = m_points.begin();
+	while (it != m_points.end())
+	{
+		CDPoint a_np = *it + m_point_a;
+		CDPoint np(a_np.x, a_np.y);
+		if (s != 0)
+		{
+			CLineUtils l( la, np);
+			CDPoint d;
+			closest_distance = min( closest_distance, l.DistanceFromPoint( p, d ) );
 		}
 
-		return closest_distance;
-	}
-	else
-	{
-		// There is a fill, so just use the normal isinside routine...
-		return IsInside( p.x,p.x,p.y,p.y ) ? 0 : 100.0;
+		la = np;
+		++ s;
+		++ it;
 	}
 
-	return 100.0;
+	//For filled polygons also check for distance to closing line segment
+	if (Fill != fsNONE && m_points.size() > 2) {
+		CDPoint np(m_points.front() + m_point_a);
+		CLineUtils l( la, np);
+		CDPoint d;
+		closest_distance = min( closest_distance, l.DistanceFromPoint( p, d ) );
+	}
+
+	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+	double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+	return closest_distance - width;
+
+	// On the polygon?
+	if (closest_distance <= width)
+	{
+		return closest_distance - width;
+	}
+
+	return closest_distance;
 }
 
 
 
 BOOL CDrawPolygon::IsInside(double left,double right,double top,double bottom)
 {
+	// Use fast cut-off to see if the bounding box is inside the intersection box
+	if ( (m_point_a.x<left && m_point_b.x<=left) || (m_point_a.x>right && m_point_b.x>=right)
+      || (m_point_a.y<top && m_point_b.y<=top) || (m_point_a.y>bottom && m_point_b.y>=bottom) )
+	{
+		return FALSE;
+	}
+
+	// IsInside for point
+	if (Fill == fsNONE && left==right && top==bottom)
+	{
+		// Inside a filled polygon?
+		if (m_points.size() > 2 && m_points.front().Distance(m_points.back()) < 0.5 && 
+			IsInsidePolygon(CDPoint(left,top)))
+		{
+			return TRUE;
+		}
+
+		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+		double width = min(0, theStyle->Thickness) + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+		if (DistanceFromPoint(CDPoint(left, top)) < width)
+		{
+			return TRUE;
+		}
+		return FALSE;
+	}
+
 	// We are definately inside if we intersect a line...
 	if (IsInsideLine( left,right,top,bottom ))
 	{
@@ -1265,7 +1322,7 @@ BOOL CDrawPolygon::IsInside(double left,double right,double top,double bottom)
 
 	// If we are filled or editing then check to see 
 	// if any of the four points are inside our polygon
-	if (Fill != fsNONE || m_re_edit)
+	if (Fill != fsNONE || m_re_edit || (left==right && top==bottom))
 	{
 		return IsInsidePolygon( CDPoint(left,top) )
 		|| IsInsidePolygon( CDPoint(right,top) )

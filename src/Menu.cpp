@@ -126,20 +126,40 @@ void CTinyCadView::OnViewZoomIn()
 {
   CMenu *pMenu = GetMenu();
   double NewZoom = GetTransform().doubleScale(1.0)*1.3;
+  CPoint p = GetTransform().Scale(MousePosition);
 
+  // Don't reinitalize NewZoom
+  // because this will prevent the zoom to ever be 1.0 
+  // due to 'odd' zoom increments (1.3)
   if (NewZoom < 20)
   {
 	SetZoomFactor(NewZoom);
+#if 1
+	// Keep zoom position at the mouse position
+	SetScrollPoint(MousePosition, p);
+#else
 	// Centre at the mouse position
     SetScrollCentre(MousePosition);
+#endif
   }
 }
 
 void CTinyCadView::OnViewZoomOut()
 {
   double NewZoom = GetTransform().doubleScale(1.0)/1.3;
+  CPoint p = GetTransform().Scale(MousePosition);
+
+  // Don't reinitalize NewZoom 
+  // because this will prevent the zoom to ever be 1.0 
+  // due to 'odd' zoom increments (1.3)
   if (NewZoom > 0.25)
+  {
     SetZoomFactor(NewZoom);
+
+	// Always zoom out around the mouse position
+	// to make the scroll position more predictable
+	SetScrollPoint(MousePosition, p);
+  }
 }
 
 //////// The TOOLS menu /////////

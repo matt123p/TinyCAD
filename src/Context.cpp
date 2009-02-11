@@ -205,7 +205,7 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 
 			switch (Style)
 			{
-			case PS_ALTERNATE:	// Marquee pen.
+			case PS_ALTERNATE:	// Pen is dotted.
 				{
 					pCustStyle[0] = dot;
 					pCustStyle[1] = dot;
@@ -246,11 +246,27 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 					style_count = 6;
 				}
 				break;
+			case PS_MARQUEE:	// Marquee pen.
+				{
+					pCustStyle[0] = dot;
+					pCustStyle[1] = dot;
+					style_count = 2;
+				}
+				break;
+			case PS_MARQUEE2:	// marquee pen variant 2.
+				{
+					pCustStyle[0] = dash;
+					pCustStyle[1] = dot;
+					pCustStyle[2] = dot-1;
+					pCustStyle[3] = dot;
+					style_count = 4;
+				}
+				break;
 			}
 			new_style = PS_USERSTYLE | PS_GEOMETRIC;
 
 			// Don't scale the marquee pen
-			if (Style != PS_ALTERNATE)
+			if (Style != PS_MARQUEE && Style != PS_MARQUEE2)
 			{
 				// Now scale with the transform
 				for (int i = 0; i < style_count; i ++)

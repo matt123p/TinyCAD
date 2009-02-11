@@ -52,10 +52,10 @@ protected: // create from serialization only
 	DECLARE_DYNCREATE(CTinyCadView)
 
 	// Have we captured the mouse control?
-	BOOL	m_captured;
+	int		m_captured;
 
 	// Are we panning with the middle mouse button
-	BOOL	m_panning;
+	int		m_panning;
 	
 	// The previous zoom
 	double	m_old_zoom_factor;
@@ -69,6 +69,7 @@ protected: // create from serialization only
 	CStatusBar m_wndStatusBar;	// The status bar associated with this window
 
 	CDPoint 	MousePosition;		// The last known mouse position
+	CPoint		StartPosition;		// The start position of a mouse capture
 
 	// Change the current offset co-ords
 	void SetScroll(double,double,bool first = false);
@@ -141,7 +142,7 @@ public:
 protected:
 
 	void SetScrollCentre(CDPoint);
-
+	void SetScrollPoint(CDPoint, CPoint);
 
 
 	// Read and write the	// Create a bitmap for off-screen drawing...

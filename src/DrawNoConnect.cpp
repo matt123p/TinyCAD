@@ -73,7 +73,12 @@ void CDrawNoConnect::Load(CStream &archive)
 
 double CDrawNoConnect::DistanceFromPoint( CDPoint p )
 {
-	return sqrt( static_cast<double>((m_point_a.x-p.x)*(m_point_a.x-p.x) + (m_point_a.y-p.y)*(m_point_a.y-p.y)) );
+	double distance = p.Distance(m_point_a);
+	if (distance < CONNECT_SIZE)
+	{
+		return 0.0;
+	}
+	return distance;
 }
 
 

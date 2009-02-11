@@ -122,6 +122,7 @@ void CEditToolbar::setDlg(CEditDlg *pWnd)
 void CEditToolbar::unsetDlg()
 {
 	setDlg( &m_NoTool );
+	m_NoTool.GetParentFrame()->SetFocus();
 }
 
 void CEditToolbar::OnSetFocus(CWnd* pOldWnd) 

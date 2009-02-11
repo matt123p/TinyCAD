@@ -95,6 +95,11 @@ double CDrawPower::DistanceFromPoint( CDPoint p )
 {
 	CDPoint pa;
 
+	if (p.x > TextPos.x && p.x < TextEnd.x && p.y > TextEnd.y && p.y < TextPos.y)
+	{
+		return 0.0;
+	}
+
   // Find out which way round the power object goes
   switch (dir) {
 	case 0:		// Top
@@ -121,6 +126,14 @@ double CDrawPower::DistanceFromPoint( CDPoint p )
 BOOL CDrawPower::IsInside(double left,double right,double top,double bottom)
 {
 	CDPoint pa;
+
+  // IsInside for point
+  if (left==right && top==bottom)
+  {
+	  double d = DistanceFromPoint(CDPoint(left, top));
+	  double range = (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+	  return (d < range) ? TRUE : FALSE;
+  }
 
   // Find out which way round the power object goes
   switch (dir) {
@@ -431,14 +444,14 @@ void CDrawPower::Paint(CContext &dc,paint_options options)
 	  {
 	    int js=JUNCTION_SIZE;
 		CDPoint br,tl;
-		br=CDPoint(m_point_b.x+js+1,m_point_b.y+js+1);
+		br=CDPoint(m_point_b.x+js,m_point_b.y+js);
 		tl=CDPoint(m_point_b.x-js,m_point_b.y-js);
 
 		dc.SetROP2(R2_COPYPEN);
 
 		dc.SelectPen(PS_SOLID,1,m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
 		dc.SelectBrush(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
-  	    dc.Ellipse(CDRect(tl.x,tl.y,br.x,br.y));
+  	    dc.Ellipse1(CDRect(tl.x,tl.y,br.x,br.y));
 	  }
   }
 
@@ -477,7 +490,7 @@ void CDrawPower::GetActiveListFirst( CActiveNode &a )
 	// Do nothing...
 }
 
-bool CDrawPower::GetActive( CActiveNode &a )
+bool CDrawPower::GetActive( CActiveNode &a, bool )
 {
 	if (a.m_sent > 0)
 	{

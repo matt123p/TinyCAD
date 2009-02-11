@@ -155,7 +155,7 @@ void CDrawJunction::Paint(CContext &dc,paint_options options)
 		dc.SelectBrush(m_pDesign->GetOptions()->GetUserColor().Get( CUserColor::JUNCTION));
   }
 
-  dc.Ellipse(CDRect(tl.x,tl.y,br.x,br.y));
+  dc.Ellipse1(CDRect(tl.x,tl.y,br.x,br.y));
 
   if (is_stuck)
   {
@@ -185,9 +185,17 @@ double CDrawJunction::DistanceFromPoint( CDPoint p )
 	double dy = (m_point_a.y - p.y);
 	double d = sqrt(dx*dx + dy*dy);
 
-	if (d < JUNCTION_SIZE)
+	if (d < JUNCTION_SIZE*1.5)
 	{
-		d = 0.0;
+		// Give very nearby objects (like wire ends) a chance to be selected
+		if (d < JUNCTION_SIZE/2)
+		{
+			d = 0.0;
+		}
+		else
+		{
+			d = JUNCTION_SIZE/2;
+		}
 	}
 
 	return d;

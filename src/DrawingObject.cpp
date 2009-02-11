@@ -220,6 +220,11 @@ BOOL CDrawingObject::IsInside(double left,double right,double top,double bottom)
         || (m_point_a.y<top && m_point_b.y<=top) || (m_point_a.y>bottom && m_point_b.y>=bottom));
 }
 
+BOOL CDrawingObject::IsCompletelyInside(double left,double right,double top,double bottom)
+{
+  return (left <= min(m_point_a.x, m_point_b.x) && right >= max(m_point_b.x, m_point_a.x)
+		&& top <= min(m_point_a.y, m_point_b.y) && bottom >= max(m_point_b.y, m_point_a.y));
+}
 
 // Load the object to a file
 void CDrawingObject::Load(CStream& archive )
@@ -301,7 +306,7 @@ void CDrawingObject::GetActiveListFirst( CActiveNode &a )
 {
 }
 
-bool CDrawingObject::GetActive( CActiveNode &a )
+bool CDrawingObject::GetActive( CActiveNode &a, bool )
 {
 	return false;
 }

@@ -121,11 +121,13 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a );
+	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
 
 
 	virtual double DistanceFromPoint( CDPoint p );
 	virtual BOOL IsInside(double left,double right,double top,double bottom);	// Is this object inside this rectangle?
+	virtual BOOL IsCompletelyInside(double left,double right,double top,double bottom);	// Is this object completely inside this rectangle?
+
 	virtual BOOL CanEdit();					// Is this object editable after placed?
 	virtual CString GetName() const;		// Get the string name of this object
 	virtual ObjType GetType();				// Get this object's type
@@ -188,9 +190,7 @@ class CActiveNode
 {
 public:
 	// For public use..
-	CString	m_label;
 	CDPoint	m_a;
-
 
 	// Only for use by the iterator functions
 	drawingIterator		m_iterator;

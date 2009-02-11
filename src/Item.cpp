@@ -83,8 +83,16 @@ void CDrawEditItem::EndEdit()
 	// Undo move action if we're still moving
 	if (InMove)
 	{
-		m_pDesign->Undo();
+		// Undo latest initiated movement
+		m_pDesign->Undo(TRUE);
 		InMove = FALSE;
+	}
+
+	// Turn off the drag box (if there is one...)
+	if (InSelectByDrag) 
+	{
+		Display();
+		InSelectByDrag = FALSE;
 	}
 }
 
@@ -223,12 +231,21 @@ int CDrawEditItem::SetCursor( CDPoint p )
   		}
 		else
 		{
+			// Use the same selection criteria as in GetClosestObject
+			double closest_distance = 10.0 / (m_pDesign->GetTransform().GetZoomFactor());
 			selectIterator it = m_pDesign->GetSelectBegin();
 			while ( it != m_pDesign->GetSelectEnd() ) 
 			{
 				CDrawingObject *obj=*it;
-				if (obj->DistanceFromPoint( p ) <= 15)
+				if (obj->GetType()==xMethodEx3 && obj->IsInside( p.x,p.x,p.y,p.y ))
+				{
 					return 11;
+				}
+				if (obj->DistanceFromPoint( p ) <= closest_distance)
+				{
+					return 11;
+				}
+
 				++ it;
 			}
 		}
@@ -391,7 +408,16 @@ void CDrawEditItem::Paint(CContext &dc,paint_options options)
 {
   // Draw marquee
   dc.SelectBrush();
-  dc.SelectPen(PS_ALTERNATE,1,cBLOCK);
+  if (m_point_a.x < m_point_b.x)
+  {
+    dc.SelectPen(PS_MARQUEE,1,cBLOCK);
+  }
+  else
+  {
+    // Other marquee pen for right to left selection
+    dc.SelectPen(PS_MARQUEE2,1,cBLOCK);
+  }
+
   dc.SetROP2(R2_COPYPEN);
 
   dc.Rectangle(CDRect(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y));
@@ -402,7 +428,8 @@ CDrawingObject* CDrawEditItem::GetClosestObject( CDPoint p )
 {
   	// Search each object in turn
 	CDrawingObject* closest_object = NULL;
-	double closest_distance = 15.0;
+	CDrawingObject* inside_object = NULL;
+	double closest_distance = 100;
 
 	drawingIterator it = m_pDesign->GetDrawingBegin();
 	while (it != m_pDesign->GetDrawingEnd()) 
@@ -416,9 +443,25 @@ CDrawingObject* CDrawEditItem::GetClosestObject( CDPoint p )
 			closest_distance = distance;
 		}
 
+		// Are we inside a symbol?
+		if (distance == 0 || (pointer->GetType() == xMethodEx3 && pointer->IsInside(p.x,p.x, p.y,p.y)))
+		{
+			inside_object = pointer;
+		}
+
 		// Move pointer on
 		++ it;
   	}
+
+	if (closest_object)
+	{
+		// If nothing is within range or inside object (closest_distance=0)
+		// then use the symbol which we are inside
+		if (closest_distance == 0 || closest_distance > 10.0 / (m_pDesign->GetTransform().GetZoomFactor()))
+		{
+			closest_object = inside_object;
+		}
+	}
 
 	return closest_object;
 }
@@ -553,8 +596,14 @@ BOOL CDrawEditItem::RButtonDown(CDPoint p, CDPoint s)
 	ClickSelection( p, s );
 	EditMethodText = -1;
 	InMove = FALSE;
-	InSelectByDrag = FALSE;
 
+	// Turn off the drag box (if there is one...)
+	if (InSelectByDrag) 
+	{
+		Display();
+		InSelectByDrag = FALSE;
+		m_point_a = m_point_b = CDPoint(0,0);
+	}
 
 	// Get the current location of the mouse
 	CPoint mp;

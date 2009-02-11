@@ -241,7 +241,7 @@ public:
 	void MarkAdditionForUndo( CDrawingObject *pObject );
 	void MarkSelectChangeForUndo();
 
-	void Undo();
+	void Undo(BOOL SingleLevel = FALSE);
 	void Redo();
 
 	void FlushRedo();						// Remove the Redo Buffer
