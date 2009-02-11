@@ -161,30 +161,35 @@ printed across many pages.</p>
 
 <p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
 
-version 2.70.00. This is primarily an internal upgrade to use Visual Studio 2008 for 
-    the development environment.&nbsp; Here is a quick summary of what has changed in this release:</span></p>
+version 2.70.00. This release contains an internal upgrade to make TinyCAD 
+    compatible with the Visual Studio 2003/2005/2008 development environment.&nbsp; 
+    Previously, it was only compatible with VS2003.&nbsp; The major improvements 
+    changes to the user interface to improve productivity and a large number of bug 
+    fixes.&nbsp; Here is a quick summary of what has changed in this release:</span></p>
 
 
 
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
 
 style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
 
-Times'>New features<span class=GramE>:</span><br>
-
-</span></b><span style='font-size:10.0pt;font-family:Times'>
-    <o:p>1. Added the complements of the 3 existing Spice conditional macros so that 
-    both the normal and the &quot;not&quot; versions are available now.
-    <br />
+Times'>New features<span class='GramE'>:</span></span></b><o:p></o:p></p>
+    <p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'>
+        <span style='font-size:10.0pt;font-family:Times'>
+        <o:p>1.  Modified the TinyCAD source to support Visual Studio 2003, 2005, or 2008 to 
+        be more convenient to developers who have newer or older versions of Visual Studio.<br />
     2. Improved the readability of the XML outputs by adding tabs in front of tags 
     to indicate nesting level and also added additional newlines in between tags 
-    when nesting in or out. No functional changes, only changes in visual appearance 
-    of the Spice netlist file if opened in a text editor.
-    <br />
+    when nesting in or out. No functional changes, only changes in the visual appearance 
+    of any of the XML output files when opened in a text editor.&nbsp;&nbsp; If you 
+    have reason to edit the XML files from time to time, you will find that the open 
+    source program Notepad++ available from SourceForge.net is an excellent light 
+    weight XML editor.<br />
     3. Extensive changes to macros that opened files and macros that manipulated 
     zero terminated strings to convert to the new secure versions (i.e., the ones 
-    that now have &quot;_s&quot; appended to them).
-    <br />
+    that now have &quot;_s&quot; appended to them).&nbsp;&nbsp; This change does not 
+    affect the behavior of TinyCAD, it only enhances the safety of the program 
+    against buffer overruns.<br />
     4. Updated dao360.dll to a newer build that includes the version information 
     (necessary for newer version of NSIS installer).&nbsp; Note that this is only a 
     newer build, not a new version as this was already the most recent version.<br />
@@ -195,14 +200,19 @@ Times'>New features<span class=GramE>:</span><br>
     6. Changed one iterator style for loop that no longer complied with the newer 
     ANSI C++ standards.
     <br />
-    7. Modified code that received warnings due to mixing signed and unsigned 
-    variables by adding casts where necessary and type changes where appropriate so 
-    that no warnings are now produced. </o:p>
+        7. Modified code that received warnings due to mixing signed and unsigned 
+        variables by adding casts where necessary and type changes where appropriate so 
+        that no warnings are now produced when compiling with warnings level #3.<br />
+    8. Added the complements of the 3 existing Spice conditional macros so that 
+    both the normal and the &quot;not&quot; versions are available now.<br />
+    9. 
+    <br />
+ </o:p>
     </span></p>
 
 
 
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
 
 style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
 
@@ -210,28 +220,28 @@ Times'><o:p>&nbsp;</o:p></span></b></p>
 
 
 
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
 
 style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
 
-Times'>Bug fixesspan class=GramE>:</span><br>
+Times'>Bug fixes<span class='GramE'>:</span><br>
 
 </span></b><span style='font-size:10.0pt;font-family:Times'>
     <o:p>1. Fixed crash that resulted when you attempt to backspace over the line 
     thickness field when editing a schematic line.
     <br />
-    22. Fixed inconsistent line endings problem with the Spice netlist file. </o:p>
-    </span></p>
+    2. Fixed inconsistent line endings problem with the Spice netlist file and the 
+    XML file outputs.</o:p></span></p>
 
 
 
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'>&nbsp;</p>
-        <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b>
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'>&nbsp;</p>
+        <p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b>
             <span
 
 style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
 
-Times'>Known Bugs<span class=GramE>:</span><br>
+Times'>Known Bugs<span class='GramE'>:</span><br>
 
 </span></b><span style='font-size:10.0pt;font-family:Times'>
             <o:p>1. All known bugs are tracked at the TinyCAD Bug Tracker on 
@@ -241,294 +251,585 @@ Times'>Known Bugs<span class=GramE>:</span><br>
 
 <p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
 
-2.50.00n></b></p>
+2.50.00n></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 2.60.00. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>New features<span class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Homogeneous and
+
+Heterogeneous symbol support<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Show power pins on a symbol<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>New pin shape with the name above
+
+instead of at the end of the line<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'><o:p>&nbsp;</o:p></span></b></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>Bug fixes<span class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Improved handling
+
+of delete so it should crash less!<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Internally switched to a Unicode
+
+application for better handling of international character sets<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Better placement of symbols so that
+
+they should remain in the same place after saving and reloading<o:p></o:p></span></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'><o:p>&nbsp;</o:p></span></b></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+2.10.00</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 2.50.00. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>New features<span class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Hierarchical
+
+drawing support<br>
+
+Conditional statements in SPICE files and a new error listing file<br>
+
+Improved drawing system with higher resolution to remove rounding errors in
+
+drawing<br>
+
+Three new labels shapes<br>
+
+Text display for exported files<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Improved UI look and feel on Windows
+
+XP<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'><o:p>&nbsp;</o:p></span></b></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><b><span
+
+style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
+
+Times'>Bug fixes<span class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Better XML
+
+compliance now includes the <span class=SpellE>charset</span> that the file is
+
+written in and it now defaults to UTF-8.<br>
+
+Improved thumbnail printing of libraries<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Improved multi-sheet support of
+
+design rules checker<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Fixed bugs with Spice generation and
+
+multiple-sheets<o:p></o:p></span></p>
+
+
+
+<p class='MsoNormal' style='mso-layout-grid-align:none;text-autospace:none'><span
+
+style='font-size:10.0pt;font-family:Times'>Improved font rendering for
+
+different scaling factors<o:p></o:p></span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'><o:p>&nbsp;</o:p></span></b></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+2.00.00</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 2.10.00. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features:<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>SPICE file
+
+generation (but no SPICE libraries at the moment)<br>
+
+New library selection in the symbol fetch dialogue<br>
+
+Insert bitmaps, (from BMP, EMF, PNG or JPEG files)<br>
+
+Save as an EMF file as well as <span class=SpellE>PNGs</span><br>
+
+Create Parts Lists as CSV files and include all symbol information in the parts
+
+list<br>
+
+“Reload symbols” has been replaced by a new “Replace symbol” option on the
+
+symbol’s right-click menu<br>
+
+<br>
+
+</span><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>Bug fixes:<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Sheet to sheet
+
+copying has been tidied up<br>
+
+Selecting junctions is much easier<br>
+
+Copy &amp; paste to word now includes junctions<br>
+
+Import now works better with auto-junction placement<br>
+
+Block rotate and flip has been tidied up<br>
+
+Snap to pins now works with re-sized symbols<br style='mso-special-character:
+
+line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]><o:p></o:p></span></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+1.95.20</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 2.00.00. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features<span
+
+class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Each single drawing
+
+file can now be made up of multiple sheets (just like Excel). <br>
+
+Screen re-drawing has been improved to reduce flicker<br>
+
+Save as a black &amp; white bitmap and select the scaling factor <br>
+
+<span class=SpellE>Autosave</span> every “n” minutes<br style='mso-special-character:
+
+line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>New library editing features<span
+
+class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Library Symbols can
+
+now have multiple names<br>
+
+Export and import single library symbols or the entire library into an XML file<br>
+
+Right click on a symbol in the thumbnail view to get direct access to the
+
+symbol's properties<br>
+
+Multi-sheet tabs make multiple part per package symbols easier to draw<br>
+
+<br>
+
+<br style='mso-special-character:line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+1.90.00</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 1.95.20. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features<span
+
+class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Change the <span
+
+class=SpellE>colours</span> of the drawing items such as pins and wires<br>
+
+A new “Windows” menu option to navigate between your open windows<br>
+
+“Make horizontal” &amp; “Make vertical” menu options for wires<br>
+
+Increased zoom on drawings<br style='mso-special-character:line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>Integrate more easily with
+
+other programs<br>
+
+</span></b><span class=SpellE><span style='font-size:10.0pt;font-family:Times'>TinyCAD</span></span><span
+
+style='font-size:10.0pt;font-family:Times'> now loads and saves <span
+
+class='GramE'>it's</span> files in an XML file format<br>
+
+Save as a PNG file for sharing your designs with others<br>
+
+Output a <span class=SpellE>netlist</span> for common PCB programs, including <span
+
+class=SpellE>PADs</span> and <span class=SpellE>Protel</span><br
+
+style='mso-special-character:line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>Improved symbol &amp; library editing<span
+
+class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Copy symbols from
+
+one library to another<br>
+
+New context (right-click) menu on library thumbnails for faster library editing<br>
+
+Pins have even more options to make them look better</span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>Improved features<span class='GramE'>:</span><br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>The Undo/Redo has
+
+been completely re-written to make it more robust<br>
+
+The dragging of wires and symbols has been re-worked at length to improved ease
+
+of use</span></p>
+
+
+
+<p><span style='font-size:10.0pt;font-family:Times'>.. <span class='GramE'>and</span>
+
+numerous bug fixes to improve stability and make <span class=SpellE>TinyCAD</span>
+
+easier to use!</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
+
+1.80.00</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 1.90.00. Here is a quick summary that has changed in this release:</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>New symbol picker tool<br>
+
+</span></b><span class='GramE'><span style='font-size:10.0pt;font-family:Times'>The</span></span><span
+
+style='font-size:10.0pt;font-family:Times'> most obvious change to <span
+
+class=SpellE>TinyCAD</span> when you fire it up is the new symbol picker that
+
+sits on the left hand side of the screen. This replaces the old way of fetching
+
+symbols from the libraries.<br style='mso-special-character:line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>New library format<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>The Libraries are
+
+now stored in Microsoft Access database format. This means all new libraries
+
+will have an extension of .<span class=SpellE>mdb</span> and can be opened by a
+
+copy of Access. This change to a more standard format for storing libraries will
+
+make it much easier to add new features to the libraries in future, and will
+
+enable 3<sup>rd</sup> parties to write their own tools to read/modify the
+
+symbols.</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><span style='font-size:10.0pt;font-family:Times'>The
+
+first new feature with the new library <span class='GramE'>format,</span> is that
+
+you are able to select the default orientation of symbols when they are picked.
+
+This fixes a long running bug in <span class=SpellE>TinyCAD</span> that symbols
+
+were drawn one way round, but always extracted from the libraries rotated.<br>
+
+<br>
+
+To convert your libraries to the new format, use the new “Upgrade” button in
+
+the library dialogue box. <br style='mso-special-character:line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
+
+"Bitstream Vera Serif";mso-bidi-font-family:Times'>Lots of bug fixes<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>In line with all
+
+new releases I have been busy fixing bugs. There are a few crashes fixed and
+
+some tidying up of the way editing drawings work.<br style='mso-special-character:
+
+line-break'>
+
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+
+<![endif]></span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+
+
+<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since versionn
+
+1.60.10</span></b></p>
+
+
+
+<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
+
+version 1.80.00. So much has changed since the last release that this is just a
+
+summary of what has changed.</span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>New wiring tools<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Automatic snap to
+
+symbols and other wires<br>
+
+Automatic junction placement</span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>New symbol components<br>
+
+</span></b><span class='GramE'><span style='font-size:10.0pt;font-family:Times'>Unlimited</span></span><span
+
+style='font-size:10.0pt;font-family:Times'> number of <span class=SpellE>attibutes</span>
+
+associated with a symbol<br>
+
+Make attributes hidden by default in the library</span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>New editing tools<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Re-size symbols<br>
+
+Drag wires out<br>
+
+Bring to front/send to back<br>
+
+Select multiple objects using the Ctrl key<br>
+
+Right-mouse button context menus</span></p>
+
+
+
+<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
+
+mso-bidi-font-family:Times'>New annotations<br>
+
+</span></b><span style='font-size:10.0pt;font-family:Times'>Filled polygons,
+
+rectangles and ellipses<br>
+
+Resize text in any direction</span></p>
+
+
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+
+
+<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
+
+
+
+</div>
+
+
+
+</body>
+
+
+
+</html>
 
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 2.60.00. Here is a quick summary that has changed in this release:</span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'>New features<span class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Homogeneous and
-Heterogeneous symbol support<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Show power pins on a symbol<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>New pin shape with the name above
-instead of at the end of the line<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'><o:p>&nbsp;</o:p></span></b></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'>Bug fixes<span class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Improved handling
-of delete so it should crash less!<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Internally switched to a Unicode
-application for better handling of international character sets<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Better placement of symbols so that
-they should remain in the same place after saving and reloading<o:p></o:p></span></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'><o:p>&nbsp;</o:p></span></b></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-2.10.00</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 2.50.00. Here is a quick summary that has changed in this release:</span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'>New features<span class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Hierarchical
-drawing support<br>
-Conditional statements in SPICE files and a new error listing file<br>
-Improved drawing system with higher resolution to remove rounding errors in
-drawing<br>
-Three new labels shapes<br>
-Text display for exported files<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Improved UI look and feel on Windows
-XP<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'><o:p>&nbsp;</o:p></span></b></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><b><span
-style='font-size:10.0pt;font-family:"Bitstream Vera Serif";mso-bidi-font-family:
-Times'>Bug fixes<span class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Better XML
-compliance now includes the <span class=SpellE>charset</span> that the file is
-written in and it now defaults to UTF-8.<br>
-Improved thumbnail printing of libraries<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Improved multi-sheet support of
-design rules checker<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Fixed bugs with Spice generation and
-multiple-sheets<o:p></o:p></span></p>
-
-<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Times'>Improved font rendering for
-different scaling factors<o:p></o:p></span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'><o:p>&nbsp;</o:p></span></b></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-2.00.00</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 2.10.00. Here is a quick summary that has changed in this release:</span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features:<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>SPICE file
-generation (but no SPICE libraries at the moment)<br>
-New library selection in the symbol fetch dialogue<br>
-Insert bitmaps, (from BMP, EMF, PNG or JPEG files)<br>
-Save as an EMF file as well as <span class=SpellE>PNGs</span><br>
-Create Parts Lists as CSV files and include all symbol information in the parts
-list<br>
-“Reload symbols” has been replaced by a new “Replace symbol” option on the
-symbol’s right-click menu<br>
-<br>
-</span><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>Bug fixes:<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Sheet to sheet
-copying has been tidied up<br>
-Selecting junctions is much easier<br>
-Copy &amp; paste to word now includes junctions<br>
-Import now works better with auto-junction placement<br>
-Block rotate and flip has been tidied up<br>
-Snap to pins now works with re-sized symbols<br style='mso-special-character:
-line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]><o:p></o:p></span></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-1.95.20</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 2.00.00. Here is a quick summary that has changed in this release:</span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features<span
-class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Each single drawing
-file can now be made up of multiple sheets (just like Excel). <br>
-Screen re-drawing has been improved to reduce flicker<br>
-Save as a black &amp; white bitmap and select the scaling factor <br>
-<span class=SpellE>Autosave</span> every “n” minutes<br style='mso-special-character:
-line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>New library editing features<span
-class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Library Symbols can
-now have multiple names<br>
-Export and import single library symbols or the entire library into an XML file<br>
-Right click on a symbol in the thumbnail view to get direct access to the
-symbol's properties<br>
-Multi-sheet tabs make multiple part per package symbols easier to draw<br>
-<br>
-<br style='mso-special-character:line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-1.90.00</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 1.95.20. Here is a quick summary that has changed in this release:</span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>New features<span
-class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Change the <span
-class=SpellE>colours</span> of the drawing items such as pins and wires<br>
-A new “Windows” menu option to navigate between your open windows<br>
-“Make horizontal” &amp; “Make vertical” menu options for wires<br>
-Increased zoom on drawings<br style='mso-special-character:line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>Integrate more easily with
-other programs<br>
-</span></b><span class=SpellE><span style='font-size:10.0pt;font-family:Times'>TinyCAD</span></span><span
-style='font-size:10.0pt;font-family:Times'> now loads and saves <span
-class=GramE>it's</span> files in an XML file format<br>
-Save as a PNG file for sharing your designs with others<br>
-Output a <span class=SpellE>netlist</span> for common PCB programs, including <span
-class=SpellE>PADs</span> and <span class=SpellE>Protel</span><br
-style='mso-special-character:line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>Improved symbol &amp; library editing<span
-class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Copy symbols from
-one library to another<br>
-New context (right-click) menu on library thumbnails for faster library editing<br>
-Pins have even more options to make them look better</span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>Improved features<span class=GramE>:</span><br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>The Undo/Redo has
-been completely re-written to make it more robust<br>
-The dragging of wires and symbols has been re-worked at length to improved ease
-of use</span></p>
-
-<p><span style='font-size:10.0pt;font-family:Times'>.. <span class=GramE>and</span>
-numerous bug fixes to improve stability and make <span class=SpellE>TinyCAD</span>
-easier to use!</span></p>
-
-<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-1.80.00</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 1.90.00. Here is a quick summary that has changed in this release:</span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>New symbol picker tool<br>
-</span></b><span class=GramE><span style='font-size:10.0pt;font-family:Times'>The</span></span><span
-style='font-size:10.0pt;font-family:Times'> most obvious change to <span
-class=SpellE>TinyCAD</span> when you fire it up is the new symbol picker that
-sits on the left hand side of the screen. This replaces the old way of fetching
-symbols from the libraries.<br style='mso-special-character:line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>New library format<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>The Libraries are
-now stored in Microsoft Access database format. This means all new libraries
-will have an extension of .<span class=SpellE>mdb</span> and can be opened by a
-copy of Access. This change to a more standard format for storing libraries will
-make it much easier to add new features to the libraries in future, and will
-enable 3<sup>rd</sup> parties to write their own tools to read/modify the
-symbols.</span></p>
-
-<p style='margin-bottom:12.0pt'><span style='font-size:10.0pt;font-family:Times'>The
-first new feature with the new library <span class=GramE>format,</span> is that
-you are able to select the default orientation of symbols when they are picked.
-This fixes a long running bug in <span class=SpellE>TinyCAD</span> that symbols
-were drawn one way round, but always extracted from the libraries rotated.<br>
-<br>
-To convert your libraries to the new format, use the new “Upgrade” button in
-the library dialogue box. <br style='mso-special-character:line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p style='margin-bottom:12.0pt'><b><span style='font-size:10.0pt;font-family:
-"Bitstream Vera Serif";mso-bidi-font-family:Times'>Lots of bug fixes<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>In line with all
-new releases I have been busy fixing bugs. There are a few crashes fixed and
-some tiding up of the way editing drawings work.<br style='mso-special-character:
-line-break'>
-<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-<![endif]></span></p>
-
-<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
-
-<p><b><span style='font-family:"Bitstream Vera Serif"'>Changes since version
-1.60.10</span></b></p>
-
-<p><span style='font-family:Times'>Welcome to <span class=SpellE>TinyCAD</span>
-version 1.80.00. So much has changed since the last release that this is just a
-summary of what has changed.</span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>New wiring tools<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Automatic snap to
-symbols and other wires<br>
-Automatic junction placement</span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>New symbol components<br>
-</span></b><span class=GramE><span style='font-size:10.0pt;font-family:Times'>Unlimited</span></span><span
-style='font-size:10.0pt;font-family:Times'> number of <span class=SpellE>attibutes</span>
-associated with a symbol<br>
-Make attributes hidden by default in the library</span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>New editing tools<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Re-size symbols<br>
-Drag wires out<br>
-Bring to front/send to back<br>
-Select multiple objects using the Ctrl key<br>
-Right-mouse button context menus</span></p>
-
-<p><b><span style='font-size:10.0pt;font-family:"Bitstream Vera Serif";
-mso-bidi-font-family:Times'>New annotations<br>
-</span></b><span style='font-size:10.0pt;font-family:Times'>Filled polygons,
-rectangles and ellipses<br>
-Resize text in any direction</span></p>
-
-<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
-
-<p style='margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p>
-
-</div>
-
-</body>
-
-</html>
