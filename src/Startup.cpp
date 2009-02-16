@@ -98,6 +98,7 @@ void CDlgStartUpWindow::OnPaint()
   dc.SetTextColor(RGB(24,24,165));
   dc.SetBkMode( TRANSPARENT );
   dc.TextOut( 265,120, CTinyCadApp::GetVersion() );
+  dc.TextOut( 265,150, CTinyCadApp::GetReleaseType());
 
   dc.SelectObject( old_font );
 }

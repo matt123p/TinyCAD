@@ -268,11 +268,18 @@ CString CTinyCadApp::GetVersion()
 										LOWORD(pFixedInfo->dwProductVersionMS),
 										HIWORD(pFixedInfo->dwProductVersionLS),
 										LOWORD(pFixedInfo->dwProductVersionLS));
-
 		delete pBuffer;
 	}
 
 	return sReturn;
+}
+//-------------------------------------------------------------------------
+CString CTinyCadApp::GetReleaseType()
+{
+//	return "Debug/Test Release (uncontrolled)";
+	return "Alpha Release";
+//	return "Beta Release";
+//	return "Production Release";
 }
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetName()

@@ -71,6 +71,7 @@ public:
 	//=====================================================================
 	public: static bool IsWinNT();
 	public: static CString				GetVersion();
+	public: static CString				GetReleaseType();
 	public: static CString				GetName();
 	public: static CString 				GetMainDir();
 
@@ -101,7 +102,7 @@ public:
 
 	//{{AFX_MSG(CTinyCadApp)
 	afx_msg void OnAppAbout();
-	afx_msg void				OnLibLib();
+	afx_msg void OnLibLib();
 	afx_msg void OnHelpGototinycadwebsite();
 	afx_msg void OnHelpHelp();
 	afx_msg void OnHelpEmailforsupport();

@@ -1,7 +1,7 @@
 /*
  * Project:		TinyCAD program for schematic capture
  *				http://tinycad.sourceforge.net
- * Copyright:	© 1994-2005 Matt Pyne
+ * Copyright:	© 1994-2009 Matt Pyne
  * License:		Lesser GNU Public License 2.1 (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -31,9 +31,13 @@ BOOL CDlgAbout::OnInitDialog()
 {
 	super::OnInitDialog();
 
-	CString sVersion = CTinyCadApp::GetName() + " " + CTinyCadApp::GetVersion();
+	CString sVersion;
+	sVersion.Format(_T("%s %s %s"), 
+		CTinyCadApp::GetName(), 
+		CTinyCadApp::GetVersion(),
+		CTinyCadApp::GetReleaseType());
 
-	GetDlgItem( IDC_VERSION )->SetWindowText( sVersion );
+	GetDlgItem(IDC_VERSION)->SetWindowText(sVersion);
 
 	return TRUE;
 }
