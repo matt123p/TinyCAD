@@ -21,8 +21,11 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			UseOfMFC="0"
+			UseOfMFC="1"
+			UseOfATL="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -48,12 +51,17 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				InlineFunctionExpansion="0"
+				FavorSizeOrSpeed="0"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				MinimalRebuild="false"
+				MinimalRebuild="true"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="0"
+				SmallerTypeCheck="false"
 				RuntimeLibrary="1"
+				EnableFunctionLevelLinking="true"
+				FloatingPointExceptions="true"
 				ForceConformanceInForLoopScope="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -63,7 +71,9 @@
 				ProgramDataBaseFileName=".\Debug/"
 				BrowseInformation="1"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				UseFullPaths="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -122,8 +132,11 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			UseOfMFC="1"
+			UseOfATL="1"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
+			WholeProgramOptimization="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -142,27 +155,35 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="0"
-				EnableIntrinsicFunctions="false"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				FloatingPointModel="0"
 				FloatingPointExceptions="true"
 				TreatWChar_tAsBuiltInType="true"
 				ForceConformanceInForLoopScope="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				ExpandAttributedSource="true"
+				AssemblerOutput="4"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
+				GenerateXMLDocumentationFiles="true"
 				BrowseInformation="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				UseFullPaths="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +191,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
+				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -178,8 +199,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib odbccp32.lib"
-				OutputFile=".\Release/TinyCad.exe"
-				LinkIncremental="1"
+				ShowProgress="2"
+				OutputFile=".\Release\TinyCad.exe"
+				Version="2.70.00"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC"
@@ -188,9 +211,11 @@
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				SubSystem="2"
-				OptimizeReferences="1"
-				EnableCOMDATFolding="2"
+				LargeAddressAware="0"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
 				OptimizeForWindows98="0"
+				LinkTimeCodeGeneration="0"
 				EntryPointSymbol="wWinMainCRTStartup"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -3910,6 +3935,98 @@
 			</File>
 			<File
 				RelativePath="res\zoomcurs.cur"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Help Files"
+			>
+			<File
+				RelativePath="..\docs\Advanced drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Block toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Bus toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\credits.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Drawing toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\edit menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\index.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\introduction.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\libraries.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\library menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\multisheet.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\options menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\pcb.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\printing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\special menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Spice Description.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Symbol menu.html"
 				>
 			</File>
 		</Filter>
