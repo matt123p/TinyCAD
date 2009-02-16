@@ -641,14 +641,21 @@ void CDrawPin::Paint(CContext &dc,paint_options options)
 	dc.TextOut(m_number,ptb,options,dr);
   }
 
-  // Draw the "Hot Spot" - this helps users get the pin rotation correct and not build symbols with backwards pins
-  // The "Hot Spot" (HS) is a small X on the connection end of the pin
-  //Draw one of the diagonal lines
-  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
-  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
-  //Draw the other diagonal line
-  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
-  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
+  // Draw the "Hot Spot" on the screen, but not on a printout 
+  if (!dc.GetDC()->IsPrinting()) 
+  {
+	  // The "Hot Spot" is a graphical aid to help users get the pin rotation correct and 
+	  // not build symbols with backwards pins.  When printing a schematic (as opposed to
+	  // viewing or editing a schematic on screen), the Hot Spot is omitted.
+	  // The "Hot Spot" (HS) is a small X on the connection end of the pin.
+
+	  //Draw one of the diagonal lines
+	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
+	  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
+	  //Draw the other diagonal line
+	  dc.MoveTo(CDPoint(m_point_a.x-CONNECT_SIZE/4,m_point_a.y+CONNECT_SIZE/4));
+	  dc.LineTo(CDPoint(m_point_a.x+CONNECT_SIZE/4,m_point_a.y-CONNECT_SIZE/4));
+  }
 
   // If this pin is a cross then draw it!
   if (draw_cross)
