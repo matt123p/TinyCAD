@@ -1843,7 +1843,7 @@ BEGIN
     ID_HELP_HELP            "Get help on TinyCAD\nHelp"
     ID_RULER_HORIZ          "Horizontal drawing ruler\nHorizontal ruler"
     ID_RULER_VERT           "Vertical drawing ruler\nVertical ruler"
-    IDM_TOOLPOLYGON         "Draw a polygon or lines\nLines && Polygon"
+    IDM_TOOLPOLYGON         "Draw a polygon or lines\nLines &&Polygon"
     ID_CONTEXT_FINISHPOLYGON "Finish drawing this polygon"
     ID_CONTEXT_CANCELDRAWING "Cancel drawing this polygon"
 END
