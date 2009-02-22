@@ -219,7 +219,7 @@ void CTinyCadView::OnDraw(CDC* pDC)
 
 // Here is the bitmap for off-screen drawing...
 //
-// We share one bitmap with all views, we can get anyway with static members
+// We share one bitmap with all views, we can get away with static members
 // because we are not multi-thread
 CBitmap		CTinyCadView::m_bitmap;
 int			CTinyCadView::m_bitmap_width = 0;
