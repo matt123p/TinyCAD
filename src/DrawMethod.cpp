@@ -507,7 +507,7 @@ BOOL CDrawMethod::IsFieldVisible(SymbolFieldType field_type, CString field_value
   BOOL visible;
 
   assert(field_type >= 0);
-  assert(field_type < extra_field);
+  assert(field_type < extra_parameter);
 
   switch (field_type) 
   {
