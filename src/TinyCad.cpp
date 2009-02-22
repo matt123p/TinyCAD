@@ -561,7 +561,7 @@ void CTinyCadApp::OnHelpGototinycadwebsite()
 void CTinyCadApp::OnHelpEmailforsupport() 
 {
 	// Open a browser for our web site
-	// ??ShellExecute( AfxGetMainWnd()->m_hWnd, "open", "emailto:mattpyne@sourceforge.net", NULL, NULL, SW_SHOWNORMAL );	
+	// ??ShellExecute( AfxGetMainWnd()->m_hWnd, "open", "emailto:don_lucas@sourceforge.net", NULL, NULL, SW_SHOWNORMAL );	
 }
 
 
