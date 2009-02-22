@@ -61,15 +61,15 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
 
   m_fields[Name].m_value=newSymbol->name;
   m_fields[Name].m_description="Name";
-  m_fields[Name].m_show= newSymbol->name_type == default_show;
   m_fields[Name].m_position = CDPoint(0,0);
   m_fields[Name].m_type = newSymbol->name_type;
+  m_fields[Name].m_show= IsFieldVisible(newSymbol->name_type, newSymbol->reference);
 
   m_fields[Ref].m_value=newSymbol->reference;
   m_fields[Ref].m_description="Ref";
-  m_fields[Ref].m_show=newSymbol->ref_type == default_show;
   m_fields[Ref].m_position = CDPoint(0,0);
   m_fields[Ref].m_type = newSymbol->ref_type;
+  m_fields[Ref].m_show= IsFieldVisible(newSymbol->name_type, newSymbol->reference);
 
   // Now load in the other fields
   for (unsigned int i = 0; i < newSymbol->fields.size(); i++)
@@ -79,7 +79,7 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
 	  f.m_value = newSymbol->fields[i].field_default;
 	  f.m_type = newSymbol->fields[i].field_type;
 	  f.m_position = CDPoint(0,0);
-	  f.m_show = f.m_type == default_show;
+	  f.m_show = IsFieldVisible(f.m_type, f.m_value);
 
 	  m_fields.push_back( f );
   }
@@ -218,7 +218,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 		f.m_value = pSymbol->fields[i].field_default;
 		f.m_type = pSymbol->fields[i].field_type;
 		f.m_position = CDPoint(0,0);
-		f.m_show = f.m_type == default_show;
+		f.m_show = IsFieldVisible(f.m_type, f.m_value);
 
 		// Does this new field already exist?
 		bool found = false;
@@ -446,15 +446,15 @@ CString	CDrawMethod::GetFieldName(int which)
 {
 	return m_fields[which].m_description;
 }
-
-
+//-------------------------------------------------------------------------
 CString CDrawMethod::GetField(int which)
 {
-  CString r = m_fields[which].m_value;
+  CString r;
+  r = m_fields[which].m_value;
 
-  if (which == Ref && GetSymbolData()->ppp!=1) {
+  if (which == (Ref && (GetSymbolData()->ppp != 1))) {
 	TCHAR Apart[2];
-	if (GetSymbolData()->ppp>1) {
+	if (GetSymbolData()->ppp > 1) {
 		Apart[0]=part + 'A';
 		Apart[1]=0;
 	} else
@@ -463,6 +463,70 @@ CString CDrawMethod::GetField(int which)
   }
 
   return r;
+}
+//-------------------------------------------------------------------------
+CString CDrawMethod::GetDecoratedField(int which)
+{	//Get the value of the field with the field name and other decoration optionally prepended onto it
+  CString r;
+
+  if (!m_fields[which].m_show) {	//Whether to show this field overrides conditional controls over how to show the field
+	  r = _T("");
+  }
+  else 
+  {
+	  switch (m_fields[which].m_type) 
+	  {
+		  default:
+			  r = _T("");		//value is hidden - either optionally, or always
+			  break;
+		  case default_hidden:	//default is hidden, but user has overridden the hidden flag - show parameter's value only
+		  case default_show:	//show the parameter's value only
+			  r = GetField(which);
+			  break;
+		  case default_show_name_and_value:	//show the parameter's name and value
+			  r = m_fields[which].m_description + _T(": ") + GetField(which);
+			  break;
+		  case default_show_name_and_value_only_if_value_not_empty:	
+			  //show the parameter's name and value only if the value is non-empty
+			  if (m_fields[which].m_value == _T("")) 
+			  {		//field is empty
+				  r = _T("");
+			  }
+			  else
+			  {		//field has a value and thus is not empty
+				  r = m_fields[which].m_description + _T(": ") + GetField(which);
+			  }
+			  break;
+	  }
+  }
+  return r;
+}
+//-------------------------------------------------------------------------
+BOOL CDrawMethod::IsFieldVisible(SymbolFieldType field_type, CString field_value) 
+{
+  BOOL visible;
+
+  assert(field_type >= 0);
+  assert(field_type < extra_field);
+
+  switch (field_type) 
+  {
+	  case default_show:	//show the parameter's value only
+		  visible = TRUE;
+		  break;
+	  case default_hidden:
+	  case always_hidden:
+		  visible = FALSE;
+		  break;
+	  case default_show_name_and_value:	//show the parameter's name and value
+		  visible = TRUE;
+		  break;
+	  case default_show_name_and_value_only_if_value_not_empty:	
+		  //show the parameter's name and value only if the value is non-empty
+		  visible = (field_value != _T(""));
+		  break;
+  }
+  return visible;
 }
 //-------------------------------------------------------------------------
 void CDrawMethod::GetSymbolByName( const TCHAR *SymName )
@@ -944,7 +1008,7 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 
 	CDPoint p1,p2;
 
-	CDSize size=m_pDesign->GetTextExtent(GetField(lp),fPIN);
+	CDSize size=m_pDesign->GetTextExtent(GetDecoratedField(lp),fPIN);
 
 	p1 = CDPoint(m_fields[lp].m_position.x+m_point_a.x,m_fields[lp].m_position.y+m_point_a.y);
 	p2 = CDPoint(m_fields[lp].m_position.x+m_point_a.x+size.cx,m_fields[lp].m_position.y+m_point_a.y-size.cy);
@@ -1107,7 +1171,7 @@ int CDrawMethod::IsInsideField(CDPoint p)
 		continue;
 	}
 
-	size=m_pDesign->GetTextExtent(GetField(lp),fPIN);
+	size=m_pDesign->GetTextExtent(GetDecoratedField(lp),fPIN);
 
 	if (p.x>=m_fields[lp].m_position.x && p.x<=m_fields[lp].m_position.x+size.cx
 	 && p.y<=m_fields[lp].m_position.y && p.y>=m_fields[lp].m_position.y-size.cy)
@@ -1219,7 +1283,7 @@ void CDrawMethod::Display( BOOL erase )
   {
 	if (m_fields[lp].m_show)
 	{
-		CDSize sz = m_pDesign->GetTextExtent( GetField(lp), fPIN );
+		CDSize sz = m_pDesign->GetTextExtent( GetDecoratedField(lp), fPIN );
 		r.left = m_fields[lp].m_position.x+m_point_a.x;
 		r.top = m_fields[lp].m_position.y+m_point_a.y;
 		r.right = r.left + sz.cx;
@@ -1279,7 +1343,7 @@ void CDrawMethod::Paint(CContext &dc,paint_options options)
   for (unsigned int lp=0;lp < m_fields.size();lp++)
   {
 	if (m_fields[lp].m_show)
-		dc.TextOut(GetField(lp),
+		dc.TextOut(GetDecoratedField(lp),
 			CDPoint(m_fields[lp].m_position.x+m_point_a.x,
 				m_fields[lp].m_position.y+m_point_a.y),options);
   }

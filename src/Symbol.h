@@ -29,14 +29,23 @@ class CLibraryStore;
 class CTinyCadSymbolDoc;
 class CTinyCadMultiSymbolDoc;
 
+//enum SymbolFieldType
+//{
+//	default_show,
+//	default_hidden,
+//	always_hidden,
+//	extra_parameter
+//};
+
 enum SymbolFieldType
 {
-	default_show,
-	default_hidden,
-	always_hidden,
-	extra_parameter
+    default_show,
+    default_hidden,
+    always_hidden,
+    default_show_name_and_value,
+    default_show_name_and_value_only_if_value_not_empty,
+    extra_parameter
 };
-
 
 class CSymbolField
 {

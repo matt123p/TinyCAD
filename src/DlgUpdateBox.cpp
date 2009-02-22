@@ -118,8 +118,8 @@ BOOL CDlgUpdateBox::OnInitDialog()
 
   // Create the treeview control
   m_list.InsertColumn(0,_T("Parameter"), LVCFMT_LEFT, 100);
-  m_list.InsertColumn(1,_T("Show?"), LVCFMT_LEFT, 90);
-  m_list.InsertColumn(2,_T("Default value"), LVCFMT_LEFT, 140);
+  m_list.InsertColumn(1,_T("Display Method"), LVCFMT_LEFT, 170);
+  m_list.InsertColumn(2,_T("Default Value"), LVCFMT_LEFT, 150);
 
 
   // Update the names list box
@@ -347,9 +347,11 @@ CLibraryStoreSymbol& CDlgUpdateBox::getCurrentRecord()
 
 static const TCHAR *field_types[] = 
 {
-	_T("Default to show"),
-	_T("Default to hidden"),
-	_T("Never show")
+	_T("Show Value"),
+	_T("Hide Value"),
+	_T("Never show"),
+	_T("Show Name: Value"),
+	_T("Show Name: Value when present")
 };
 
 void CDlgUpdateBox::AddSymbolField( CSymbolField &f )

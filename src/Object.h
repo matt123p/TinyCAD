@@ -1016,6 +1016,8 @@ public:
 		}
 	}
 	CString GetField(int);		// Get the string value of a field
+	CString GetDecoratedField(int);	// Get the string value of a field possibly prepended with the field name and a colon, space
+	BOOL IsFieldVisible(SymbolFieldType field_type, CString field_value);		// true if field is currently visible, false if not
 	int		GetFieldCount() { return static_cast<int>(m_fields.size()); }
 	SymbolFieldType GetFieldType(int i) { return m_fields[i].m_type; }
 	CString	GetFieldName(int);
