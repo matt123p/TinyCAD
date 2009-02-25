@@ -121,7 +121,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
+	virtual bool GetActive( CActiveNode &a );
 
 
 	virtual double DistanceFromPoint( CDPoint p );
@@ -184,6 +184,8 @@ public:
 typedef std::list<CDrawingObject*> drawingCollection;
 typedef drawingCollection::iterator drawingIterator;
 
+typedef std::vector<CDPoint>	activePointsCollection;
+typedef activePointsCollection::iterator activePointsIterator;
 
 // The active node for an object
 class CActiveNode
@@ -193,8 +195,9 @@ public:
 	CDPoint	m_a;
 
 	// Only for use by the iterator functions
-	drawingIterator		m_iterator;
-	drawingCollection	m_method;
+	activePointsIterator	m_iterator;
+	activePointsIterator	m_iteratorEnd;
+
 	int					m_sent;
 
 	CActiveNode()

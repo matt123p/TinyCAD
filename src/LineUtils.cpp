@@ -490,7 +490,9 @@ void CLineUtils::SplitForDisplay( CTinyCadDoc *pDesign, BOOL erase, int grow )
 		pDesign->InvalidateRect( r, erase, grow );
 	}
 
-	int rect_size = 20;
+	// Increase box size for faster redraw performance of large number of diagonal lines.
+	// This is especially the case while dragging a symbol with many wires attached.
+	const int rect_size = 100; //was 20
 
 	double split_x = fabs(a.x - b.x) / rect_size;
 	double split_y = fabs(a.y - b.y) / rect_size;
@@ -500,7 +502,7 @@ void CLineUtils::SplitForDisplay( CTinyCadDoc *pDesign, BOOL erase, int grow )
 	double x = 0;
 	double y = 0;
 
-	// Move along the x axis...
+	// Move along the line...
 	CDPoint p1,p2;
 	p1 = a;
 	for (int i= 1; i <= split; i++)

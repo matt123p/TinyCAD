@@ -271,7 +271,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
+	virtual bool GetActive( CActiveNode &a );
 
 	// These are used for the construction of this object
 	CDrawBusSlash(CTinyCadDoc *pDesign,int NewDir = 0);
@@ -444,7 +444,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
+	virtual bool GetActive( CActiveNode &a );
 
 	virtual CDPoint GetLabelPoint() { return m_active_point; }
 
@@ -513,7 +513,7 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
+	virtual bool GetActive( CActiveNode &a );
 
 
 	// These are used for the construction of this object
@@ -939,6 +939,10 @@ protected:
 	double scaling_x;			// The scaling of this symbol
 	double scaling_y;
 
+	typedef std::vector<CDPoint>	activePointsCollection;
+	activePointsCollection	m_activePoints; 	//Cached Active Points list
+
+
 	void NewRotation();		// Calculate new co-ords after a rotation
 
 	void GetSymbolByName(const TCHAR *SymName );
@@ -962,7 +966,8 @@ public:
 
 	// Extract the netlist/active points from this object
 	virtual void GetActiveListFirst( CActiveNode &a );
-	virtual bool GetActive( CActiveNode &a, bool nonPowerOnly = false );
+	virtual bool GetActive( CActiveNode &a );
+	virtual CDPoint GetFirstStaticPoint();
 
 	void Display( BOOL erase = TRUE );
 	virtual void Paint(CContext &,paint_options);
@@ -979,6 +984,7 @@ public:
 	static const TCHAR* GetXMLTag();
 
 	virtual void Move(CDPoint, CDPoint no_snap_p);
+	virtual void Shift( CDPoint r );
 	virtual void LButtonDown(CDPoint,CDPoint);
 	virtual void BeginEdit(BOOL re_edit);
 	virtual void EndEdit();

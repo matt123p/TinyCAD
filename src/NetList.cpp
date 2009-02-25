@@ -515,9 +515,13 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
   stringCollection	Powers;
   stringCollection	Connected;
 
+  //Prefetch iterator begin and end to speed things up
+  drawingIterator itBegin = pDesign->GetDrawingBegin();
+  drawingIterator itEnd = pDesign->GetDrawingEnd();
+
   /// Search for nodes, and build the node tree
-  drawingIterator it = pDesign->GetDrawingBegin();
-  for (;it != pDesign->GetDrawingEnd(); ++ it ) 
+  drawingIterator it = itBegin;
+  for (;it != itEnd; ++ it ) 
   {
 	CDrawingObject *ObjPtr = *it;
 	stringCollection::iterator found;
@@ -550,7 +554,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 					pSymbol->ExtractSymbol(tr,method);
 
 					drawingIterator it = method.begin();
-					while ( it != method.end() ) 
+					drawingIterator itEnd = method.end();
+					while ( it != itEnd ) 
 					{
 						CDrawingObject *pointer = *it;
 
@@ -584,7 +589,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 				((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
 
 				drawingIterator it = method.begin();
-				while ( it != method.end() ) 
+				drawingIterator itEnd = method.end();
+				while ( it != itEnd ) 
 				{
 					CDrawingObject *pointer = *it;
 
@@ -608,7 +614,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 					drawingCollection method;
 					((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
 					drawingIterator it = method.begin();
-					while (it!=method.end()) 
+					drawingIterator itEnd = method.end();
+					while (it!=itEnd) 
 					{
 						CDrawingObject *pointer = *it;
 
@@ -671,8 +678,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
   }
 
   /// Search for junctions and connect together
-  it = pDesign->GetDrawingBegin();
-  while (it != pDesign->GetDrawingEnd()) 
+  it = itBegin;
+  while (it != itEnd) 
   {
 	CDrawingObject *ObjPtr = *it;
 
@@ -684,8 +691,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 		int NetNumber = m_nodes[ a ];
 
 		/// Look for wires which cross this junction
-		drawingIterator search_it = pDesign->GetDrawingBegin();
-		while (search_it != pDesign->GetDrawingEnd()) 
+		drawingIterator search_it = itBegin;
+		while (search_it != itEnd) 
 		{
 			CDrawingObject *search = *search_it;
 
@@ -715,8 +722,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
   /// Search for labels and connect to their respective lines
   stringCollection labels;
-  it = pDesign->GetDrawingBegin();
-  while (it != pDesign->GetDrawingEnd()) 
+  it = itBegin;
+  while (it != itEnd) 
   {
 	CDrawingObject *ObjPtr = *it;
 
@@ -727,8 +734,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
 		/// Search for a wire this label is connect to
 		/// Only attempt to connect to a single wire
-		drawingIterator search_it = pDesign->GetDrawingBegin();
-		while (search_it != pDesign->GetDrawingEnd()) 
+		drawingIterator search_it = itBegin;
+		while (search_it != itEnd) 
 		{
 			CDrawingObject *search = *search_it;
 			if (search->GetType()==xWire && search->IsInside(a.x,a.x,a.y,a.y)) 

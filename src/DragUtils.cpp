@@ -69,7 +69,8 @@ void CDragUtils::Merge()
 {
 	// Look for any wires that are at a particular point...
 	wireCollection::iterator it_wires = m_draggedWires.begin();
-	while (it_wires != m_draggedWires.end())
+	wireCollection::iterator it_wiresEnd = m_draggedWires.end();
+	while (it_wires != it_wiresEnd)
 	{
 		CDrawingObject *pointer = (*it_wires).m_Object;
 	
@@ -209,7 +210,8 @@ void CDragUtils::Clean()
 	// this drag...
 	// Find any wires attached to this pin and add them to the list
 	wireCollection::iterator it_wires = m_draggedWires.begin();
-	while (it_wires != m_draggedWires.end())
+	wireCollection::iterator it_wiresEnd = m_draggedWires.end();
+	while (it_wires != it_wiresEnd)
 	{
 		CDrawingObject *pointer = (*it_wires).m_Object;
 	
@@ -229,7 +231,8 @@ void CDragUtils::Clean()
 
 	// Now scan the discard list...
 	discardCollection::iterator it_disc = m_discards.begin();
-	while (it_disc != m_discards.end())
+	discardCollection::iterator it_discEnd = m_discards.end();
+	while (it_disc != it_discEnd)
 	{
 		m_j.AddObjectToTodo( *it_disc );
 		m_pDesign->Delete( *it_disc );
@@ -429,7 +432,8 @@ void CDragUtils::MoveAttachedObjects( CDrawingObject *wire )
 	CLineUtils l( wire->m_point_a, wire->m_point_b );
 
 	wireCollection::iterator it_wires = m_draggedWires.begin();
-	while (it_wires != m_draggedWires.end())
+	wireCollection::iterator it_wiresEnd = m_draggedWires.end();
+	while (it_wires != it_wiresEnd)
 	{
 		BOOL Updated = FALSE;
 		CDPoint move_by;
@@ -544,7 +548,8 @@ void CDragUtils::Begin()
 void CDragUtils::DisplayDraggedWires()
 {
 	wireCollection::iterator it_wires = m_draggedWires.begin();
-	while (it_wires != m_draggedWires.end())
+	wireCollection::iterator it_wiresEnd = m_draggedWires.end();
+	while (it_wires != it_wiresEnd)
 	{
 		m_j.AddObjectToTodo( (*it_wires).m_Object );
 		(*it_wires).m_Object->Display();
@@ -607,7 +612,8 @@ void CDragUtils::Drag( CDPoint r )
 //	TRACE("m_draggedWires.size = %i\n",m_draggedWires.size());
 
 	wireCollection::iterator it_wires = m_draggedWires.begin();
-	while (it_wires != m_draggedWires.end())
+	wireCollection::iterator it_wiresEnd = m_draggedWires.end();
+	while (it_wires != it_wiresEnd)
 	{
 		BOOL moved = FALSE;
 

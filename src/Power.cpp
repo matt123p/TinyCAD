@@ -490,7 +490,7 @@ void CDrawPower::GetActiveListFirst( CActiveNode &a )
 	// Do nothing...
 }
 
-bool CDrawPower::GetActive( CActiveNode &a, bool )
+bool CDrawPower::GetActive( CActiveNode &a )
 {
 	if (a.m_sent > 0)
 	{

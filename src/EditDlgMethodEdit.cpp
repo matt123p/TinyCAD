@@ -635,22 +635,17 @@ void CEditDlgMethodEdit::OnBnClickedShowpower()
 	pMethod->Display();
 
 	// Get the position of the first visible non-power pin
-	CActiveNode a1;
-	pMethod->GetActiveListFirst( a1 );
-	pMethod->GetActive( a1, true );
+	CDPoint refOld = pMethod->GetFirstStaticPoint( );
 
 	// Apply new setting
     pMethod->show_power=IsDlgButtonChecked(METHODBOX_SHOWPOWER)!=0;
     pMethod->NewRotation();
 
 	// Get the position again of that same first visible non-power pin
-	CActiveNode a2;
-	pMethod->GetActiveListFirst( a2 );
-	if (pMethod->GetActive( a2, true ))
-	{
-		// move symbol so that the pins stay stationary
-		pMethod->m_point_a -= (a2.m_a - a1.m_a);
-	}
+	CDPoint refNew = pMethod->GetFirstStaticPoint( );
+
+	// move symbol in such a way that the pins stay stationary
+	pMethod->m_point_a += (refOld - refNew);
 
 	// Show symbol 
 	pMethod->Display();
