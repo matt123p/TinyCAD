@@ -162,10 +162,20 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 	case draw_selectable:
 		{
 			COLORREF col = Colour;
-			int red = min(255, GetRValue( col ) + 128 );
-			int green = min(255, GetGValue( col ) + 128 );
-			int blue =  min(255, GetBValue( col ) + 128 );
-			Colour = RGB(red,green,blue);
+
+			// Calculate a rough appearent luminosity of the color.
+			// The human eye is not very sensitive to the color blue, 
+			// that's why its contribution in the calculation is halved.
+			if (GetRValue(col) + GetGValue(col) + (GetBValue(col)>>1) < (3 * 128))
+			{
+				// Dark colors will become light gray.
+				Colour = RGB(192, 192, 192);
+			}
+			else
+			{
+				// Light colors will become black.
+				Colour = RGB(0, 0, 0);
+			}
 		}
 		break;
 	}	
