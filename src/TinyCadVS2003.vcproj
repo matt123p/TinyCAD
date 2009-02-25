@@ -67,7 +67,9 @@
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -143,7 +145,9 @@
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -191,6 +195,12 @@
 			</File>
 			<File
 				RelativePath=".\BOMGenerator.cpp">
+			</File>
+			<File
+				RelativePath=".\BuildID.h">
+			</File>
+			<File
+				RelativePath=".\BuildIDTemplate.h">
 			</File>
 			<File
 				RelativePath="ChildFrm.cpp">
@@ -3107,10 +3117,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">
