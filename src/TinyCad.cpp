@@ -35,7 +35,7 @@
 #include "AutoSave.h"
 #include "TextEditDoc.h"
 #include "TextEditView.h"
-
+#include "BuildID.h"
 
 // NOTE: This is never compiled in.  It is used to 
 // make VS.NET recognise that this is an MFC project.
@@ -263,11 +263,13 @@ CString CTinyCadApp::GetVersion()
 			GetFileVersionInfo(szModulePath, dwZero, dwSize, pBuffer);
 		VerQueryValue(pBuffer, _T("\\"), (void**) &pFixedInfo, (UINT*) &uVersionLen);
 
-		sReturn.Format( _T("Version %u.%02u.%02u Build #%u"), 
+		sReturn.Format( _T("Version %u.%02u.%02u Build #%s%s"), 
 										HIWORD(pFixedInfo->dwProductVersionMS),
 										LOWORD(pFixedInfo->dwProductVersionMS),
 										HIWORD(pFixedInfo->dwProductVersionLS),
-										LOWORD(pFixedInfo->dwProductVersionLS));
+										SVN_WCRANGE,
+										SVN_MODIFICATIONS_POSTFIX);
+//										LOWORD(pFixedInfo->dwProductVersionLS));
 		delete pBuffer;
 	}
 

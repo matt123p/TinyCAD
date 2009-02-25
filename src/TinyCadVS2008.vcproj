@@ -29,6 +29,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -140,6 +142,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -3418,6 +3422,14 @@
 			</File>
 			<File
 				RelativePath=".\BOMGenerator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BuildID.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BuildIDTemplate.h"
 				>
 			</File>
 			<File
