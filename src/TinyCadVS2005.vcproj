@@ -21,12 +21,14 @@
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -71,7 +73,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="2057"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -122,12 +124,14 @@
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Construct the build version information from the SVN working copy and repository"
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -172,7 +176,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="2057"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -3397,6 +3401,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BuildID.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BuildIDTemplate.h"
+				>
+			</File>
+			<File
 				RelativePath="ChildFrm.h"
 				>
 			</File>
@@ -3882,11 +3894,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp"
+				RelativePath="TOOLBAR.BMP"
 				>
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP"
+				RelativePath="res\Toolbar.bmp"
 				>
 			</File>
 			<File
