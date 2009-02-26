@@ -46,6 +46,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib odbccp32.lib"
 				OutputFile=".\Debug/TinyCad.exe"
+				Version="2.70.00"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="LIBC"
@@ -69,7 +70,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Construct the build version information from the SVN working copy and repository"
-				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"/>
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -147,7 +148,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Construct the build version information from the SVN working copy and repository"
-				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h"/>
+				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -3117,10 +3118,10 @@
 				RelativePath="res\TinyCadDoc.ico">
 			</File>
 			<File
-				RelativePath="res\Toolbar.bmp">
+				RelativePath="TOOLBAR.BMP">
 			</File>
 			<File
-				RelativePath="TOOLBAR.BMP">
+				RelativePath="res\Toolbar.bmp">
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp">
