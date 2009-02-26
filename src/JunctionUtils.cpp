@@ -59,7 +59,11 @@ void CJunctionUtils::CheckJunctionRequirement( CDPoint a, CDPoint b, bool perfor
 
     // Search for methods, and look at their pins
 	drawingIterator it = m_pDesign->GetDrawingBegin();
-	while (it != m_pDesign->GetDrawingEnd()) 
+	// The GetDrawingEnd() function happens to be a relatively costly operation.
+	// Especially noticable when dragging symbols with many connected pins.
+	// Solution: store the iterator end as precalculated value.
+	drawingIterator itEnd = m_pDesign->GetDrawingEnd();
+	while (it != itEnd) 
 	{
 		CDrawingObject *ObjPtr = *it;
 
@@ -143,10 +147,15 @@ void CJunctionUtils::CheckJunctionRequirement( CDPoint q, bool perform_split )
 
     // Search for methods, and look at their pins
 	CDrawingObject *split_line = NULL;
-	drawingIterator it = m_pDesign->GetDrawingBegin();
 	drawingIterator junc;
 	bool have_junc = false;
-	while (it != m_pDesign->GetDrawingEnd()) 
+
+	drawingIterator it = m_pDesign->GetDrawingBegin();
+	// The GetDrawingEnd() function happens to be a relatively costly operation.
+	// Especially noticable when dragging symbols with many connected pins.
+	// Solution: store the iterator end as precalculated value.
+	drawingIterator itEnd = m_pDesign->GetDrawingEnd();
+	while (it != itEnd) 
 	{
 		CDrawingObject *ObjPtr = *it;
 
@@ -155,7 +164,7 @@ void CJunctionUtils::CheckJunctionRequirement( CDPoint q, bool perform_split )
 			case xWire:
 				// If this wire is on the discard pile, or is of zero length
 				// then treat it as if it doesn't exist...
-				if (m_discards.find(ObjPtr) == m_discards.end()
+				if ((m_discards.size()==0 || m_discards.find(ObjPtr) == m_discards.end())
 					&& ObjPtr->m_point_a != ObjPtr->m_point_b)
 				{
 

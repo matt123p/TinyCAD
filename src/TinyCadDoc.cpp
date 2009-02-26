@@ -421,6 +421,7 @@ void CTinyCadDoc::DeleteErrors()
   SelectObject(new CDrawEditItem(this));
 
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -579,8 +580,9 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 
 			// Look up this item from the index...
 			drawingCollection::iterator it = m_drawing.begin();
+			drawingCollection::iterator itEnd = m_drawing.end();
 			int index = act.m_index;
-			while (index > 0 && it != m_drawing.end())
+			while (index > 0 && it != itEnd)
 			{
 				++ it;
 				-- index;
@@ -598,7 +600,7 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 				break;
 			case CDocUndoSet::Addition:
 				// We must remove the additions
-				if (it != m_drawing.end())
+				if (it != itEnd)
 				{
 					delete *it;
 					m_drawing.erase( it );
@@ -607,7 +609,7 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 				break;
 			case CDocUndoSet::Change:
 				// We convert the old objects into the new objects...
-				if (it != m_drawing.end())
+				if (it != itEnd)
 				{
 					// Keep a copy for the redo...
 					CDrawingObject *copy = Dup(*it);
@@ -678,14 +680,15 @@ void CTinyCadDoc::Redo()
 
 			// Look up this item from the index...
 			drawingCollection::iterator it = m_drawing.begin();
+			drawingCollection::iterator itEnd = m_drawing.end();
 			int index = act.m_index;
-			while (index > 0 && it != m_drawing.end())
+			while (index > 0 && it != itEnd)
 			{
 				++ it;
 				-- index;
 			}
 
-			if (it != m_drawing.end())
+			if (it != itEnd)
 			{
 				(*it)->Display();
 			}
@@ -695,7 +698,7 @@ void CTinyCadDoc::Redo()
 			{
 			case CDocUndoSet::Deletion:
 				// We must re-delete the deleted objects
-				if (it != m_drawing.end())
+				if (it != itEnd)
 				{
 					delete *it;
 					m_drawing.erase( it );
@@ -709,7 +712,7 @@ void CTinyCadDoc::Redo()
 				break;
 			case CDocUndoSet::Change:
 				// We convert the old objects into the new objects...
-				if (it != m_drawing.end())
+				if (it != itEnd)
 				{
 					// Keep a copy for the redo...
 					CDrawingObject *copy = Dup(*it);
@@ -756,10 +759,11 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 
 	// Look up this index...
 	int index = 0;
-	drawingIterator it = GetDrawingBegin();
 	if (index_object)
 	{
-		while (it != GetDrawingEnd()) 
+		drawingIterator it = GetDrawingBegin();
+		drawingIterator itEnd = GetDrawingEnd();
+		while (it != itEnd) 
 		{
 			// No undo action possible for indexes higher than any Error object.
 			// This is because error objects will be deleted from the drawing
@@ -887,8 +891,9 @@ BOOL CTinyCadDoc::IsModified()
 
 			// Look up this item from the index...
 			drawingCollection::iterator it = m_drawing.begin();
+			drawingCollection::iterator itEnd = m_drawing.end();
 			int index = act.m_index;
-			while (index > 0 && it != m_drawing.end())
+			while (index > 0 && it != itEnd)
 			{
 				++ it;
 				-- index;
@@ -906,7 +911,7 @@ BOOL CTinyCadDoc::IsModified()
 
 			case CDocUndoSet::Change:
 
-				if (it != m_drawing.end())
+				if (it != itEnd)
 				{
 					// Action taken when object contents differs
 					//CDrawingObject *copy = *it;
@@ -945,7 +950,8 @@ void CTinyCadDoc::Select(CDPoint p1,CDPoint p2)
 	//UnSelect();
 
 	drawingIterator it = GetDrawingBegin();
-	while (it != GetDrawingEnd()) 
+	drawingIterator itEnd = GetDrawingEnd();
+	while (it != itEnd) 
 	{
 		CDrawingObject *obj = *it;
 
@@ -1008,6 +1014,7 @@ void CTinyCadDoc::BringToFront()
 
 	drawingCollection selectedObjects;
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -1039,7 +1046,8 @@ void CTinyCadDoc::BringToFront()
 BOOL CTinyCadDoc::IsInDrawing( CDrawingObject *obj )
 {
 	drawingIterator it = GetDrawingBegin();
-	while (it != GetDrawingEnd()) 
+	drawingIterator itEnd = GetDrawingEnd();
+	while (it != itEnd) 
 	{
 		if (obj == *it)
 		{
@@ -1060,6 +1068,7 @@ void CTinyCadDoc::SendToBack()
 
 	drawingCollection selectedObjects;
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -1110,6 +1119,7 @@ void CTinyCadDoc::Delete( drawingIterator it)
 void CTinyCadDoc::Delete( CDrawingObject *p )
 {
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -1135,6 +1145,7 @@ void CTinyCadDoc::SelectDelete()
     CJunctionUtils j( this );
 
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -1403,6 +1414,7 @@ void CTinyCadDoc::UngroupSymbols()
 	// Scan and convert any imported symbols
 	// into their component parts
 	drawingIterator it = GetDrawingBegin();
+	//(Don't prefetch GetDrawingEnd here)
 	while (it != GetDrawingEnd()) 
 	{
 		drawingIterator current = it;
@@ -1482,7 +1494,8 @@ CDPoint CTinyCadDoc::GetStickyPoint( CDPoint no_snap_q, BOOL pins, BOOL wires, B
 
   // Search for methods, and look at their pins
 	drawingIterator it = GetDrawingBegin();
-	while (it != GetDrawingEnd()) 
+	drawingIterator itEnd = GetDrawingEnd();
+	while (it != itEnd) 
 	{
 		CDrawingObject *ObjPtr = *it;
 

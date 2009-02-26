@@ -306,7 +306,7 @@ void CDrawingObject::GetActiveListFirst( CActiveNode &a )
 {
 }
 
-bool CDrawingObject::GetActive( CActiveNode &a, bool )
+bool CDrawingObject::GetActive( CActiveNode &a )
 {
 	return false;
 }

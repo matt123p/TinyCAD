@@ -302,6 +302,9 @@ void CDrawMethod::Rotate(CDPoint p,int ndir)
 	rotate = DoRotate(rotate,ndir);
 
 	NewRotation();
+
+	// The active points are no longer valid
+	m_activePoints.clear();
 }
 
 
@@ -383,6 +386,9 @@ BOOL CDrawMethod::ExtractSymbol( CDPoint &tr, drawingCollection &method )
 	{
 		m_point_b=CDPoint(tr.y+m_point_a.x,tr.x+m_point_a.y);
 	}
+
+	// The active points are no longer valid
+	m_activePoints.clear();
 
 	return TRUE;
 }
@@ -843,6 +849,8 @@ double CDrawMethod::DistanceFromPoint( CDPoint p )
 	    || (m_point_a.y<p.y-10 && m_point_b.y<p.y-10) || (m_point_a.y>p.y+10 && m_point_b.y>p.y+10))) 
 	{
 		// If definately inside this item then return 0
+		// Add a slight offset (0.0001) so the point becomes a tiny rectangle.
+		// Ultimately IsInside() should have an overloaded function for this.
 		if (IsInside( p.x-0.0001,p.x+0.0001, p.y-0.0001,p.y+0.0001 ))
 		{
 			return 0.0;
@@ -983,7 +991,8 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 
 	// Search each element until one is inside
 	drawingIterator it = method.begin();
-	while (it != method.end())
+	drawingIterator itEnd = method.end();
+	while (it != itEnd)
 	{
 		CDrawingObject *p = *it;
 		if (p->IsInside(nl,nr,nt,nb))
@@ -994,7 +1003,7 @@ BOOL CDrawMethod::IsInside(double left,double right,double top,double bottom)
 		++ it;
 	}
 
-	if (it != method.end())
+	if (it != itEnd)
 		return TRUE;
   }
 
@@ -1046,6 +1055,18 @@ void CDrawMethod::Move(CDPoint p, CDPoint no_snap_p)
 	m_segment=0;
 	Display();
   }
+
+  // The active points are no longer valid
+  m_activePoints.clear();
+}
+
+
+void CDrawMethod::Shift( CDPoint r )
+{
+	CDrawingObject::Shift( r );
+
+	// The active points are no longer valid
+	m_activePoints.clear();
 }
 
 
@@ -1266,10 +1287,11 @@ void CDrawMethod::NewRotation()
 
 CDPoint CDrawMethod::GetTr()
 { 
-  CDPoint tr;
-  drawingCollection method;
-  ExtractSymbol( tr, method );
-  return tr; 
+	// Don't call ExtractSymbol, just call GetSymbolData()->GetTr()
+	// (Code is copied from ExtractSymbol)
+	// Possible Issue: m_point_b does not get set, but it seems always correct here.
+	CDPoint tr = GetSymbolData()->GetTr( part, show_power != 0 );
+	return CDPoint(tr.x * scaling_x, tr.y * scaling_y );
 }
 
 void CDrawMethod::Display( BOOL erase )
@@ -1317,7 +1339,8 @@ void CDrawMethod::Paint(CContext &dc,paint_options options)
 
 
   drawingIterator it = method.begin();
-  while (it != method.end()) 
+  drawingIterator itEnd = method.end();
+  while (it != itEnd) 
   {
 	(*it)->Paint(dc,options);
 	++ it;
@@ -1505,36 +1528,80 @@ void CDrawMethod::RemoveReference()
 }
 
 
-// Extract the netlist/active points from this object
-void CDrawMethod::GetActiveListFirst( CActiveNode &a )
+// Get the first pin that is always visible
+CDPoint CDrawMethod::GetFirstStaticPoint()
 {
-	CDPoint tr;
+	if (m_activePoints.size() == 0)
+	{
+		drawingCollection method;
+		CDPoint tr;
+		ExtractSymbol( tr, method );
+		
+		// Search the symbol for pins
+		drawingIterator it = method.begin();
+		drawingIterator itEnd = method.end();
+		
+		while (it != itEnd) 
+		{
+			CDrawingObject *MethodPtr = (*it);
+			CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
 
-	ExtractSymbol( tr, a.m_method );
-	
-	// Search the symbol for pins
-	a.m_iterator = a.m_method.begin();
+			// If it is a pin then use it
+			if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible() && !(thePin->IsPower() || thePin->IsConvertedPower())) 
+			{
+				return thePin->GetActivePoint( this );
+			}
+
+			++ it;
+		}
+	}
+
+	return CDPoint(0,0);
 }
 
-bool CDrawMethod::GetActive( CActiveNode &a, bool nonPowerOnly )
+
+// Extract the active points from this object
+void CDrawMethod::GetActiveListFirst( CActiveNode &a )
+{
+	if (m_activePoints.size() == 0)
+	{
+		drawingCollection method;
+		CDPoint tr;
+		ExtractSymbol( tr, method );
+		
+		// Search the symbol for pins
+		drawingIterator it = method.begin();
+		drawingIterator itEnd = method.end();
+		
+		while (it != itEnd) 
+		{
+			CDrawingObject *MethodPtr = (*it);
+			CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
+
+			// If it is a pin then use it
+			if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible()) 
+			{
+				m_activePoints.push_back(thePin->GetActivePoint( this ));
+			}
+
+			++ it;
+		}
+	}
+
+	// Initalize the iterator
+	a.m_iterator = m_activePoints.begin();
+	a.m_iteratorEnd = m_activePoints.end();
+}
+
+// Get the next axtive point
+bool CDrawMethod::GetActive( CActiveNode &a )
 {
 	// Search the symbol for pins
-	while (a.m_iterator != a.m_method.end()) 
+	if (a.m_iterator != a.m_iteratorEnd) 
 	{
-		CDrawingObject *MethodPtr = (*a.m_iterator);
-		CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
-
-		// If it is a pin then use it
-		if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible() && (!nonPowerOnly || (!thePin->IsPower() && !thePin->IsConvertedPower()))) 
-		{
-			a.m_a = thePin->GetActivePoint( this );
-
-			++ a.m_iterator;
-			return true;
-		}
-
+		a.m_a = *a.m_iterator;
 		++ a.m_iterator;
-
+		return true;
 	}
 
 	return false;

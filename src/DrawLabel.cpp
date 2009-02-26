@@ -802,7 +802,7 @@ void CDrawLabel::GetActiveListFirst( CActiveNode &a )
 {
 }
 
-bool CDrawLabel::GetActive( CActiveNode &a, bool )
+bool CDrawLabel::GetActive( CActiveNode &a )
 {
 	if (a.m_sent > 0 || m_Style == label_normal)
 	{
