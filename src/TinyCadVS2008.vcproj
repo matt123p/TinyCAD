@@ -203,7 +203,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib odbccp32.lib"
-				ShowProgress="2"
+				ShowProgress="0"
 				OutputFile=".\Release\TinyCad.exe"
 				Version="2.70.00"
 				LinkIncremental="2"
