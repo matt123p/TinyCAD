@@ -856,7 +856,7 @@ BOOL CDesignFileSymbol::GetMethod( int part, bool include_power_pins, drawingCol
 	}
 	else
 	{
-		CreateSymbol( m_methods[0].front()->m_pDesign, drawing, f );
+		CreateSymbol( m_pDesign, drawing, f );
 	}
 
 	return TRUE;
@@ -883,13 +883,16 @@ CDPoint CDesignFileSymbol::GetTr( int part, bool include_power_pins )
 	{
 		// Drawing not created yet - so create it
 		drawingCollection drawing;
-		CreateSymbol( m_methods[0].front()->m_pDesign, drawing, f );
-
-		// .. and get the top-right point from the cache
-		it = m_filter_cache.find( f );
-		if (it != m_filter_cache.end())
+		if (m_methods[0].size() > 0)
 		{
-			return it->first.m_top_right;
+			CreateSymbol( m_methods[0].front()->m_pDesign, drawing, f );
+
+			// .. and get the top-right point from the cache
+			it = m_filter_cache.find( f );
+			if (it != m_filter_cache.end())
+			{
+				return it->first.m_top_right;
+			}
 		}
 	}
 
@@ -901,7 +904,12 @@ CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawin
 {
 	// Find the co-ords of the bounding box of this symbol
 	CDPoint a=CDPoint(0,0);
-	CDPoint b=drawing.front()->m_point_a;
+	CDPoint b=CDPoint(0,0);
+	
+	if (drawing.size()>0)
+	{
+		b = drawing.front()->m_point_a;
+	}
 
 	CDPoint pin = CDPoint(0,0);
 

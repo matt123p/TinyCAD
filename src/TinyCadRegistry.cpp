@@ -49,7 +49,7 @@ void CTinyCadRegistry::CreateDefaultEntries()
 	SetMaximize( false );
 
 		// Search the default library directory for libraries
-		for (int l=0;l<2;l++)
+		for (int l=0;l<3;l++)
 		{
 			CString sSearch = CTinyCadApp::GetMainDir() + "library\\";
 
@@ -57,9 +57,13 @@ void CTinyCadRegistry::CreateDefaultEntries()
 			{
 				sSearch += "*.idx";
 			}
-			else
+			else if( l == 1 )
 			{
 				sSearch += "*.mdb";
+			}
+			else
+			{
+				sSearch += "*.tclib";
 			}
 
 			FindFile theFind( sSearch );

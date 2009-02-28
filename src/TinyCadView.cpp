@@ -1203,6 +1203,21 @@ void CTinyCadView::OnInitialUpdate()
 				++ it;
 			}
 
+			// Is any part of the symbol outside the page?
+			if (ext.left < 0 || ext.top < 0)
+			{
+				// Move symbol to postion 100,100 so it can be edited
+				CDPoint shift(max(0, -ext.left + 100), max(0, -ext.top + 100));
+   				it = GetCurrentDocument()->GetDrawingBegin();
+				while (it != GetCurrentDocument()->GetDrawingEnd()) 
+				{
+					(*it)->Shift(shift);
+					++it;
+				}
+				// Also shift the extends
+				ext += shift;
+			}
+
 			SetScrollCentre(CDPoint((ext.left + ext.right)/2, (ext.top + ext.bottom)/2));
 		}
 	}

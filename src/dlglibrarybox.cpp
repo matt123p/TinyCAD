@@ -23,6 +23,7 @@
 #include "registry.h"
 #include "TinyCad.h"
 #include "LibraryDb.h"
+#include "LibrarySQLite.h"
 #include "DlgLibraryBox.h"
 #include "LibraryCollection.h"
 #include ".\dlglibrarybox.h"
@@ -159,10 +160,10 @@ void CDlgLibraryBox::OnAdd()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy_s(szFile, _T("*.mdb;*.idx\0"));
+  	_tcscpy_s(szFile, _T("*.tclib;*.mdb;*.idx\0"));
 
-	CFileDialog dlg( TRUE, _T("*.mdb"), szFile, OFN_HIDEREADONLY,
-		_T("Library file (*.mdb, *idx)|*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
+	CFileDialog dlg( TRUE, _T("*.tclib"), szFile, OFN_HIDEREADONLY,
+		_T("Library file (*.tclib, *.mdb, *idx)|*.tclib;*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
 
 
   	if( dlg.DoModal() == IDOK )
@@ -187,9 +188,13 @@ void CDlgLibraryBox::OnAdd()
   		{
 			NewLib = new CLibraryFile;
   		}
-  		else
+  		else if (_tcsicmp(brk+1,_T("mdb")) == 0)
   		{
 			NewLib = new CLibraryDb;
+  		}
+  		else
+  		{
+			NewLib = new CLibrarySQLite;
   		}
 
   		NewLib->Attach( szFile );
@@ -273,10 +278,10 @@ void CDlgLibraryBox::OnNew()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy_s(szFile, _T("*.mdb\0"));
+  	_tcscpy_s(szFile, _T("*.tclib\0"));
 
-	CFileDialog dlg( FALSE, _T("*.mdb"), szFile, OFN_HIDEREADONLY,
-		_T("Library database (*.mdb)|*.mdb|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
+	CFileDialog dlg( FALSE, _T("*.tclib"), szFile, OFN_HIDEREADONLY,
+		_T("Library database (*.tclib)|*.tclib|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
 
     if( dlg.DoModal() == IDOK )
   	{
@@ -292,8 +297,17 @@ void CDlgLibraryBox::OnNew()
 			brk = szFile;
 		}
 
-	  	// Create the library object
-	  	CLibraryDb* NewLib = new CLibraryDb;
+  		// Create the library object
+  		CLibraryStore* NewLib;
+  		if (_tcsicmp(brk+1,_T("mdb")) == 0)
+  		{
+			// When you explicitly ask for an MDB, you get an MDB!
+  			NewLib = new CLibraryDb;
+  		}
+		else
+		{
+	  		NewLib = new CLibrarySQLite;
+		}
 
 	  	// .. and create the file
 	  	if( NewLib->Create(szFile) )

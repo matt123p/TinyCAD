@@ -21,7 +21,7 @@
 #include "LibraryCollection.h"
 #include "registry.h"
 #include "TinyCad.h"
-#include "LibraryDb.h"
+#include "LibrarySQLite.h"
 #include <assert.h>
 
 typedef std::list<CLibraryStore*>::iterator		TIterator;
@@ -282,7 +282,7 @@ CLibraryStore* CLibraryCollection::Upgrade( CLibraryStore* pOldLib )
 	}
 	else
 	{
-		CLibraryStore* pNewLib = new CLibraryDb;
+		CLibraryStore* pNewLib = new CLibrarySQLite;
 
 		if( pOldLib->Upgrade( pNewLib ) )
 		{

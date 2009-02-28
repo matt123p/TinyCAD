@@ -29,6 +29,7 @@
 #include "TinyCadMultiSymbolDoc.h"
 #include "TinyCadMultiDoc.h"
 #include "LibraryDb.h"
+#include "LibrarySQLite.h"
 #include "LibraryCollection.h"
 #include "DlgLibraryBox.h"
 #include "DlgAbout.h"
@@ -338,35 +339,53 @@ void CTinyCadApp::ReadRegistry()
 	// create singleton registry
 	new CTinyCadRegistry();
 
-	// One single library
-	CString			sLibName;
-	CLibraryStore*	oLib	= NULL;
-
 	// Is there a list of libraries in the registry?
 	CStringList*	colLibs = CTinyCadRegistry::GetLibraryNames();
 
 	// Iterate through the list in head-to-tail order.
 	for( POSITION pos = colLibs->GetHeadPosition(); pos != NULL; )
 	{
-		sLibName = colLibs->GetNext( pos );
+		// One single library
+		CString			sLibName = colLibs->GetNext( pos );
+		CLibraryStore*	oLib	= NULL;
 
 		// Is this a new file library or an old library type?
-		FILE* f;
-		errno_t err;
-		err = _tfopen_s( &f, sLibName + _T(".idx"), _T("rb") );
-
-		if( err == 0 )
-		{	//the .idx file was opened, so it must be an old library file (i.e., non-database format)
-			fclose(f);
+		CString sSearch = sLibName + _T(".idx");
+		FindFile theFind( sSearch );
+		if (theFind.Success())
+		{	//the .idx file was found, so it must be an old library file (i.e., non-database format)
 			oLib = new CLibraryFile;
 		}
 		else
-		{	//file was not successfully opened, so it must be a newer database library
-			oLib = new CLibraryDb;
+		{
+			CString sSearch = sLibName + _T(".mdb");
+			FindFile theFind( sSearch );
+			if (theFind.Success())
+			{	//the .mdb file was found, so it must be a jet library file
+				oLib = new CLibraryDb;
+			}
+			else
+			{
+				CString sSearch = sLibName + _T(".tclib");
+				FindFile theFind( sSearch );
+				if (theFind.Success())
+				{	//the .tclib file was found, so it must be a new SQLIte library file
+					oLib = new CLibrarySQLite;
+				}
+				else
+				{	//no known library format was found
+					CString s;
+					s.Format(_T("Library not found:\r\n%s"), sLibName);
+					AfxMessageBox( s );
+				}
+			}
 		}
 
-		oLib->Attach( sLibName );
-		CLibraryCollection::Add( oLib );
+		if (oLib)
+		{
+			oLib->Attach( sLibName );
+			CLibraryCollection::Add( oLib );
+		}
 	}
 
 	delete colLibs;

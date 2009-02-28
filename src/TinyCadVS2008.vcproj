@@ -338,6 +338,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SQLite\CppSQLite3U.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DbAttributeSet.cpp"
 				>
 				<FileConfiguration
@@ -2186,6 +2190,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\LibrarySQLite.cpp"
+				>
+			</File>
+			<File
 				RelativePath="LibraryStore.cpp"
 				>
 				<FileConfiguration
@@ -3445,6 +3453,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SQLite\CppSQLite3U.h"
+				>
+			</File>
+			<File
 				RelativePath="DbAttributeSet.h"
 				>
 			</File>
@@ -3638,6 +3650,10 @@
 			</File>
 			<File
 				RelativePath="LibraryDoc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LibrarySQLite.h"
 				>
 			</File>
 			<File
@@ -4052,6 +4068,10 @@
 		</File>
 		<File
 			RelativePath="png\libpng13.lib"
+			>
+		</File>
+		<File
+			RelativePath=".\SQLite\sqlite3.lib"
 			>
 		</File>
 		<File

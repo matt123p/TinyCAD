@@ -550,9 +550,49 @@ BOOL CLibraryDb::MustUpgrade()
 
 
 // Upgrade to the latest version of the library system
-BOOL CLibraryDb::Upgrade(CLibraryStore *)
+BOOL CLibraryDb::Upgrade(CLibraryStore *NewLib)
 {
-	AfxMessageBox( IDS_NOUPGRADENEED );
-	return FALSE;
+	// Create the new library
+	if (!NewLib->Create( m_name ))
+	{
+		return FALSE;
+	}
+
+	CTinyCadApp::SetLockOutSymbolRedraw( true );
+
+	// Now copy our symbols into the new library
+	for( symbolCollection::iterator i = m_Symbols.begin(); i != m_Symbols.end(); i++ ) 
+	{
+		CLibraryStoreNameSet thisSymbol = i->second;
+		// Read the methods file into this design
+		CTinyCadMultiSymbolDoc tmp_design(this, thisSymbol);
+
+		// Write this symbol into the new library
+		NewLib->Store( &thisSymbol, tmp_design );
+
+		// Now remove this design from memory
+		tmp_design.GetActiveSheet()->SelectDelete();
+	}  
+
+	CTinyCadApp::SetLockOutSymbolRedraw( false );
+
+	// Now rename the old library file out of the way of
+	try
+	{
+		if (m_database.IsOpen())
+		{
+			m_database.Close();
+		}
+
+		CFile::Remove( m_name + ".mdb.old" );
+	}
+	catch (...)
+	{
+	}
+
+	CFile::Rename( m_name + ".mdb", m_name + ".mdb.old" );
+
+
+	return TRUE;
 }
 

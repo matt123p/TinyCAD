@@ -785,7 +785,7 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 
 
 	// Do we need to increment the undo level?
-	if (m_change_set || index_object == NULL)
+	if (m_change_set || index_object == NULL || m_undo.size()==0)
 	{
 		m_change_set = FALSE;
 		// Increment the Undo position...

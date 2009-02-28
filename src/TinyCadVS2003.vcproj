@@ -267,6 +267,27 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SQLite\CppSQLite3U.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="DbLibNameSet.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1737,6 +1758,27 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\LibrarySQLite.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="LibraryStore.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -2745,7 +2787,7 @@
 				RelativePath="Context.h">
 			</File>
 			<File
-				RelativePath="DbAttributeSet.h">
+				RelativePath=".\SQLite\CppSQLite3U.h">
 			</File>
 			<File
 				RelativePath="DbLibNameSet.h">
@@ -2890,6 +2932,9 @@
 			</File>
 			<File
 				RelativePath="LibraryDoc.h">
+			</File>
+			<File
+				RelativePath=".\LibrarySQLite.h">
 			</File>
 			<File
 				RelativePath="LibraryStore.h">
@@ -3151,6 +3196,98 @@
 				RelativePath="res\zoomcurs.cur">
 			</File>
 		</Filter>
+		<Filter
+			Name="Help Files"
+			>
+			<File
+				RelativePath="..\docs\Advanced drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Block toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Bus toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\credits.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Drawing toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\edit menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\index.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\introduction.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\libraries.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\library menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\multisheet.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\options menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\pcb.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\printing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\special menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Spice Description.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Symbol menu.html"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\libiconv\iconv.lib">
 		</File>
@@ -3161,13 +3298,16 @@
 			RelativePath="png\libpng13.lib">
 		</File>
 		<File
+			RelativePath=".\SQLite\sqlite3.lib">
+		</File>
+		<File
+			RelativePath=".\License.TXT">
+		</File>
+		<File
 			RelativePath="ReadMe.txt">
 		</File>
 		<File
 			RelativePath=".\TinyCAD.manifest">
-		</File>
-		<File
-			RelativePath="TinyCad.reg">
 		</File>
 		<File
 			RelativePath="png\zdll.lib">
