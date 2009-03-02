@@ -152,9 +152,11 @@ skip_mdac_download:
 
   File "..\src\libiconv\iconv.dll"
 
+  File "..\src\SQLite\sqlite3.dll"
+
   File "..\docs\TinyCAD.chm"
 
-  
+
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
 

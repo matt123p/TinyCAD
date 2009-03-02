@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="TinyCadVS2005"
 	ProjectGUID="{6863E1AC-68C2-4F3D-B8DE-82F6F3F3A928}"
 	RootNamespace="TinyCadVS2005"
@@ -66,6 +66,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				UseFullPaths="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -73,7 +74,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
+				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -82,6 +83,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib odbccp32.lib"
 				OutputFile=".\Debug/TinyCad.exe"
+				Version="2.70.00"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="LIBC"
@@ -155,11 +157,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				StringPooling="true"
+				StringPooling="false"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				FloatingPointExceptions="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\Release/TinyCad.pch"
@@ -169,6 +173,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				UseFullPaths="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -185,6 +190,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib"
 				OutputFile=".\Release/TinyCad.exe"
+				Version="2.70.00"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="LIBC"
@@ -308,6 +314,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\SQLite\CppSQLite3U.cpp"
+				>
 			</File>
 			<File
 				RelativePath="DbAttributeSet.cpp"
@@ -2158,6 +2168,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\LibrarySQLite.cpp"
+				>
+			</File>
+			<File
 				RelativePath="LibraryStore.cpp"
 				>
 				<FileConfiguration
@@ -2944,10 +2958,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StreamMemory.h"
-				>
-			</File>
-			<File
 				RelativePath="Symbol.cpp"
 				>
 				<FileConfiguration
@@ -3421,6 +3431,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SQLite\CppSQLite3U.h"
+				>
+			</File>
+			<File
 				RelativePath="DbAttributeSet.h"
 				>
 			</File>
@@ -3458,10 +3472,6 @@
 			</File>
 			<File
 				RelativePath="DlgColours.h"
-				>
-			</File>
-			<File
-				RelativePath="DlgDetails.h"
 				>
 			</File>
 			<File
@@ -3525,6 +3535,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EditDlgDrawLineEdit.h"
+				>
+			</File>
+			<File
 				RelativePath=".\EditDlgDrawPolyEdit.h"
 				>
 			</File>
@@ -3533,11 +3547,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\EditDlgLine.h"
+				RelativePath=".\EditDlgLabelEdit.h"
 				>
 			</File>
 			<File
-				RelativePath="EditDlgLineEdit.h"
+				RelativePath=".\EditDlgLine.h"
 				>
 			</File>
 			<File
@@ -3617,6 +3631,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LibrarySQLite.h"
+				>
+			</File>
+			<File
 				RelativePath="LibraryStore.h"
 				>
 			</File>
@@ -3681,10 +3699,6 @@
 				>
 			</File>
 			<File
-				RelativePath="PngOutput.h"
-				>
-			</File>
-			<File
 				RelativePath="Registry.h"
 				>
 			</File>
@@ -3730,6 +3744,10 @@
 			</File>
 			<File
 				RelativePath="StreamDb.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StreamMemory.h"
 				>
 			</File>
 			<File
@@ -3842,10 +3860,6 @@
 				>
 			</File>
 			<File
-				RelativePath="COLOUR.BMP"
-				>
-			</File>
-			<File
 				RelativePath="res\cur00001.cur"
 				>
 			</File>
@@ -3863,10 +3877,6 @@
 			</File>
 			<File
 				RelativePath="res\drawgrou.bmp"
-				>
-			</File>
-			<File
-				RelativePath="res\icon1.ico"
 				>
 			</File>
 			<File
@@ -3891,10 +3901,6 @@
 			</File>
 			<File
 				RelativePath="res\TinyCadDoc.ico"
-				>
-			</File>
-			<File
-				RelativePath="TOOLBAR.BMP"
 				>
 			</File>
 			<File
@@ -3938,6 +3944,98 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Help Files"
+			>
+			<File
+				RelativePath="..\docs\Advanced drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Annotation toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Block toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Bus toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\credits.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Drawing toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\drawing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\edit menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\file toolbar.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\index.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\introduction.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\libraries.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\library menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\multisheet.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\options menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\pcb.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\printing.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\special menu.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Spice Description.html"
+				>
+			</File>
+			<File
+				RelativePath="..\docs\Symbol menu.html"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\libiconv\iconv.lib"
 			>
@@ -3951,31 +4049,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\License.TXT"
+			>
+		</File>
+		<File
 			RelativePath="ReadMe.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\TinyCAD.manifest"
+			RelativePath=".\SQLite\sqlite3.lib"
 			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="TinyCad.reg"
+			RelativePath=".\TinyCAD.manifest"
 			>
 		</File>
 		<File
