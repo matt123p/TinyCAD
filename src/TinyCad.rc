@@ -42,27 +42,7 @@ IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
 // Bitmap
 //
 
-IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
 START_BITMAP            BITMAP                  "STARTUP.BMP"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Toolbar
-//
-
-IDR_MAINFRAME TOOLBAR  16, 15
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    SEPARATOR
-    BUTTON      IDM_EDITCUT
-    BUTTON      IDM_EDITCOPY
-    BUTTON      IDM_EDITPASTE
-    SEPARATOR
-    BUTTON      ID_FILE_PRINT
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -864,8 +844,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,70,0,174
- PRODUCTVERSION 2,70,0,174
+ FILEVERSION 2,70,0,0
+ PRODUCTVERSION 2,70,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -883,12 +863,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 70, 0, 174"
+            VALUE "FileVersion", "2, 70, 0, 0"
             VALUE "InternalName", "TinyCAD"
             VALUE "LegalCopyright", "Copyright (C) 2003 - 2009 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 70, 0, 174"
+            VALUE "ProductVersion", "2, 70, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1074,6 +1054,7 @@ IDI_UNSELECTED_BOX      ICON                    "res\\selected.ico"
 // Bitmap
 //
 
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
 IDR_DRAWING             BITMAP                  "res\\toolbar1.bmp"
 IDR_ANNOTATE            BITMAP                  "res\\toolbar2.bmp"
 IDR_DRAWBUS             BITMAP                  "res\\drawbus.bmp"
@@ -1083,6 +1064,19 @@ IDR_DRAWGROUP           BITMAP                  "res\\drawgrou.bmp"
 //
 // Toolbar
 //
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      IDM_EDITCUT
+    BUTTON      IDM_EDITCOPY
+    BUTTON      IDM_EDITPASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+END
 
 IDR_DRAWING TOOLBAR  16, 15
 BEGIN
