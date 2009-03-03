@@ -23,8 +23,9 @@
 			ConfigurationType="1"
 			UseOfMFC="1"
 			UseOfATL="1"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
@@ -53,19 +54,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				InlineFunctionExpansion="0"
-				FavorSizeOrSpeed="0"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				MinimalRebuild="true"
-				ExceptionHandling="1"
-				BasicRuntimeChecks="0"
-				SmallerTypeCheck="false"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				EnableFunctionLevelLinking="true"
 				FloatingPointExceptions="true"
 				ForceConformanceInForLoopScope="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\Debug/TinyCad.pch"
 				AssemblerListingLocation=".\Debug/"
@@ -73,8 +68,10 @@
 				ProgramDataBaseFileName=".\Debug/"
 				BrowseInformation="1"
 				WarningLevel="3"
+				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				CompileAs="0"
 				UseFullPaths="true"
 			/>
 			<Tool
@@ -83,7 +80,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
+				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -92,14 +89,16 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="version.lib odbccp32.lib"
 				OutputFile=".\Debug/TinyCad.exe"
+				Version="2.70.00"
 				LinkIncremental="1"
+				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="LIBC"
 				GenerateDebugInformation="true"
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
 				OptimizeForWindows98="0"
 				EntryPointSymbol="wWinMainCRTStartup"
 				RandomizedBaseAddress="1"
@@ -111,7 +110,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -136,8 +135,9 @@
 			ConfigurationType="1"
 			UseOfMFC="1"
 			UseOfATL="1"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
@@ -159,14 +159,15 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				InlineFunctionExpansion="0"
+				Optimization="2"
+				InlineFunctionExpansion="1"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="c:\Program Files\HTML Help Workshop\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				MinimalRebuild="true"
+				StringPooling="false"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -182,11 +183,12 @@
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				GenerateXMLDocumentationFiles="true"
+				GenerateXMLDocumentationFiles="false"
 				BrowseInformation="0"
 				WarningLevel="3"
+				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
+				CompileAs="0"
 				UseFullPaths="true"
 			/>
 			<Tool
@@ -206,11 +208,11 @@
 				ShowProgress="0"
 				OutputFile=".\Release\TinyCad.exe"
 				Version="2.70.00"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
@@ -230,6 +232,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				EmbedManifest="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -4071,15 +4074,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\SQLite\sqlite3.lib"
-			>
-		</File>
-		<File
 			RelativePath=".\License.TXT"
 			>
 		</File>
 		<File
 			RelativePath="ReadMe.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\SQLite\sqlite3.lib"
 			>
 		</File>
 		<File
