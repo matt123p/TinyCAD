@@ -250,14 +250,14 @@ CString	CXMLWriter::makeString( COLORREF data )
 CString	CXMLWriter::makeString( double data )
 {
 	CString r;
-	r.Format( _T("%15lg"), data );
+	r.Format( _T("%.5f"), data );
 	return r;
 }
 
 CString	CXMLWriter::makeString( CDPoint data )
 {
 	CString r;
-	r.Format( _T("%15lg,%15lg"), data.makeXMLUnits( data.x ), data.makeXMLUnits( data.y ) );
+	r.Format( _T("%.5f,%.5f"), data.makeXMLUnits( data.x ), data.makeXMLUnits( data.y ) );
 	return r;
 }
 
