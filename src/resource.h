@@ -250,7 +250,6 @@
 #define IDM_EDITROTATELEFT              552
 #define IDM_EDITROTATERIGHT             553
 #define IDM_EDITFLIP                    554
-
 #define IDM_LIBCOPY                     600
 #define IDS_NODEFAULT                   1000
 #define LINETHICKBOX_THICKNESS          1000
@@ -476,7 +475,6 @@
 #define ID_LIBRARY_ADDPIN               32798
 #define ID_LIBRARY_SELECTPARTINPACKAGE  32799
 #define IDS_NODELETE                    32800
-#define IDM_SNAPTOGRIDS                 32808
 #define IDM_SNAPTOGRID                  32809
 #define ID_VIEW_FILETOOLBAR             32810
 #define ID_VIEW_EDITTOOLBAR             32811
@@ -531,6 +529,10 @@
 #define ID_CONTEXT_RELOADSYMBOLFROMDESIGN 32873
 #define ID_LIBRARY_HOMOGENEOUS          32876
 #define ID_LIBRARY_HETEROGENEOUS        32877
+#define ID_OPTIONS_                     32883
+#define ID_OPTIONS_TOGGLE_UNITS         32884
+#define IDM_OPTIONS_TOGGLE_UNITS        32886
+#define IDM_TOGGLE_GRIDSIZE             32888
 #define IDC_SCALING                     40000
 #define ID_CONTEXT_COPY_TO              65535
 
@@ -540,7 +542,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        158
-#define _APS_NEXT_COMMAND_VALUE         32878
+#define _APS_NEXT_COMMAND_VALUE         32891
 #define _APS_NEXT_CONTROL_VALUE         1564
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
