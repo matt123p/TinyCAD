@@ -131,7 +131,7 @@ void CTinyCadView::OnViewZoomIn()
   // Don't reinitalize NewZoom
   // because this will prevent the zoom to ever be 1.0 
   // due to 'odd' zoom increments (1.3)
-  if (NewZoom < 20)
+  if (NewZoom < 40)
   {
 	SetZoomFactor(NewZoom);
 #if 1
