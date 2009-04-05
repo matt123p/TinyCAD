@@ -339,8 +339,11 @@ CDesignFileSymbol *CLibraryStoreNameSet::GetDesignSymbol( CTinyCadDoc *pDesign, 
 		return NULL;
 	}
 
-	// Get the default orientation
-	orientation = stream->GetOrientation();
+	// Get the default orientation if not already set
+	if (orientation == 0)
+	{
+		orientation = stream->GetOrientation();
+	}
 	delete stream;
 
 	return psymbol;
