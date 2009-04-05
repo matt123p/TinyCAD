@@ -160,10 +160,10 @@ void CDlgLibraryBox::OnAdd()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy_s(szFile, _T("*.tclib;*.mdb;*.idx\0"));
+  	_tcscpy_s(szFile, _T("*.TCLib;*.mdb;*.idx\0"));
 
-	CFileDialog dlg( TRUE, _T("*.tclib"), szFile, OFN_HIDEREADONLY,
-		_T("Library file (*.tclib, *.mdb, *idx)|*.tclib;*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
+	CFileDialog dlg( TRUE, _T("*.TCLib"), szFile, OFN_HIDEREADONLY,
+		_T("Library file (*.TCLib, *.mdb, *idx)|*.TCLib;*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
 
 
   	if( dlg.DoModal() == IDOK )
@@ -278,10 +278,10 @@ void CDlgLibraryBox::OnNew()
 {
   	TCHAR szFile[256];
 
-  	_tcscpy_s(szFile, _T("*.tclib\0"));
+  	_tcscpy_s(szFile, _T("*.TCLib\0"));
 
-	CFileDialog dlg( FALSE, _T("*.tclib"), szFile, OFN_HIDEREADONLY,
-		_T("Library database (*.tclib)|*.tclib|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
+	CFileDialog dlg( FALSE, _T("*.TCLib"), szFile, OFN_HIDEREADONLY,
+		_T("Library database (*.TCLib)|*.TCLib|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
 
     if( dlg.DoModal() == IDOK )
   	{

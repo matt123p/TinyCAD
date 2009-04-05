@@ -53,7 +53,7 @@ void CLibrarySQLite::Attach(const TCHAR *filename)
 	{
 		if (!m_database.mpDB)
 		{
-			m_database.open( m_name + ".tclib" );
+			m_database.open( m_name + ".TCLib" );
 		}
 
 		CString sql("SELECT * FROM [Name] WHERE [Type]=0");
@@ -363,7 +363,7 @@ bool CLibrarySQLite::Create( const TCHAR *filename )
 	// Now create the database
 	try
 	{
-		m_database.open( m_name + ".tclib");
+		m_database.open( m_name + ".TCLib");
 	}
 	catch( CppSQLite3Exception& e)
 	{

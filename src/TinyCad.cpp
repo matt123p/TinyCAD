@@ -366,10 +366,10 @@ void CTinyCadApp::ReadRegistry()
 			}
 			else
 			{
-				CString sSearch = sLibName + _T(".tclib");
+				CString sSearch = sLibName + _T(".TCLib");
 				FindFile theFind( sSearch );
 				if (theFind.Success())
-				{	//the .tclib file was found, so it must be a new SQLIte library file
+				{	//the .TCLib file was found, so it must be a new SQLIte library file
 					oLib = new CLibrarySQLite;
 				}
 				else

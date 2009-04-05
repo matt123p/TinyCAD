@@ -63,7 +63,7 @@ void CTinyCadRegistry::CreateDefaultEntries()
 			}
 			else
 			{
-				sSearch += "*.tclib";
+				sSearch += "*.TCLib";
 			}
 
 			FindFile theFind( sSearch );
