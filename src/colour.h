@@ -50,7 +50,7 @@
 #define cPIN_CLK		RGB(192,128,128)
 #define cNOCONNECT_CLK	RGB(32,32,32)
 #define cRULER_CLK		RGB(128,128,128)
-
+#define cHOT_SPOT		RGB(208,208,208)	//Very light grey
 #define	fTEXT		0
 #define	fPIN		1
 #define fRULE		2

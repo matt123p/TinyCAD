@@ -441,6 +441,7 @@ public:
 	void Ellipse(CDRect r) { m_pDC->Ellipse(m_Transform.Scale(r)); }
 	void Ellipse1(CDRect r) { CRect q = m_Transform.Scale(r); m_pDC->Ellipse(q.left,q.top,q.right+1,q.bottom+1); }
 	void Rectangle(CDRect r) { m_pDC->Rectangle(m_Transform.Scale(r)); }
+	void Rectangle1(CDRect r) { CRect q = m_Transform.Scale(r); m_pDC->Rectangle(q.left,q.top,q.right+1,q.bottom+1); }
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p) { m_pDC->LineTo(m_Transform.Scale(p)); }
 	void MoveTo(CDPoint p) { m_pDC->MoveTo(m_Transform.Scale(p)); }
