@@ -108,8 +108,16 @@ inline bool operator<( const CPoint &a, const CPoint &b )
 	}
 }
 
+struct CStringLessThanNoCase
+{
+  bool operator()(const CString& s1, const CString& s2) const
+  {
+    return s1.CompareNoCase(s2) < 0;
+  }
+};
 
-typedef std::map<CString,int>	pinCollection;
+typedef std::map<CString,int,CStringLessThanNoCase>	pinCollection;
+typedef std::map<CString, CString, CStringLessThanNoCase> pinNameToNumberMap;
 
 // This class is used for spice file generation
 class CNetListSymbol
@@ -127,6 +135,9 @@ public:
 
 	// The map of pins to their netlist (or power line)
 	pinCollection	m_pins;
+
+	// The map of pin names to their number - used by PSpice and Gandalf Speak netlist macros
+	pinNameToNumberMap m_pin_name_map;
 
 	CNetListSymbol( int file_name_index = 0, int sheet = 0, CDrawMethod *pMethod = NULL)
 	{
@@ -215,7 +226,8 @@ protected:
 	bool eval_spice_macro( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString &spice_line, CString macro );
 
 	// Get a netlist name from a pin number
-	bool get_pin( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
+	bool get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
+	bool get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
 
 	// Get a attribute value from an attribute name
 	bool get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r );

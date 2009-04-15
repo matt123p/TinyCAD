@@ -1509,6 +1509,13 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 				/// Yes, so update the pin allocations in the symbol map...
 				CNetListSymbol &symbol = symbols[ theNode.m_reference ];
 
+				// store pin name to pin number mapping as well for use with advanced Spice netlists
+				if (theNode.m_parent->GetType() == xPinEx)
+				{
+					CDrawPin *pPin = static_cast<CDrawPin *>(theNode.m_parent);
+					symbol.m_pin_name_map [ pPin->GetPinName() ] = pPin->GetNumber();
+				}
+
 				symbol.m_pins[ theNode.m_pin ] = theNode.m_NetList;
 				symbol.m_pMethod = theNode.m_pMethod;
 			}
@@ -1863,7 +1870,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 				CString r;
 				int nodes;
 				int net;
-				if (get_pin( symbol, labels, lookup, nodes, r, net ))
+				if (get_pin_by_number_or_name( symbol, labels, lookup, nodes, r, net ))
 				{
 					if (mode == reading_pin)
 					{
@@ -2040,7 +2047,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		/// Determine if this pin exists and is connected..
 		CString r;
 		int nodes,net;
-		get_pin( symbol, labels, value, nodes, r, net );
+		get_pin_by_number( symbol, labels, value, nodes, r, net );
 
 		return nodes > 1;
 	}
@@ -2049,7 +2056,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		/// Determine if this pin exists and is connected..
 		CString r;
 		int nodes,net;
-		get_pin( symbol, labels, value, nodes, r, net );
+		get_pin_by_number( symbol, labels, value, nodes, r, net );
 
 		return nodes == 1;
 	}
@@ -2073,42 +2080,60 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
  * @param net
  * @return
  */
-bool CNetList::get_pin( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
-{
-	nodes = 0;
-	pinCollection::iterator pin_it = symbol.m_pins.begin();
-	while (pin_it != symbol.m_pins.end())
-	{
-		CString pin_name = (*pin_it).first;
-		if (pin_name.CompareNoCase(pin) == 0)
-		{
-			CString s;
-			net = (*pin_it).second;
-			if (labels.find( net ) != labels.end())
-			{
-				s = labels[ net ];
-			}
-			else
-			{
-				s.Format(_T("_N_%d"), net );
-			}
-			r = s;
 
-			/// Count the number of connected nodes
-			nodeVector &vn = m_nets[ net ];
-			nodeVector::iterator i = vn.begin();
-			while (i != vn.end())
-			{
-				if ((*i).m_pMethod)
-				{
-					++ nodes;
-				}
-				++ i;
-			}
-			return true;
+bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
+{
+	// Look up the pin number first, then if not found, see if it can be found as a pin name instead.
+	// This maintains strict compatibility with a PSpice extended feature that allows macros to reference
+	// either the pin number (very common) or the pin name (a little less common)
+	if (get_pin_by_number(symbol, labels, pin, nodes, r, net))
+	{
+		return true;
+	}
+	
+	pinNameToNumberMap::iterator it = symbol.m_pin_name_map.find(pin);
+	
+	if (it != symbol.m_pin_name_map.end()) // found!
+	{
+		CString target_pin_number = it->second;
+		return get_pin_by_number(symbol, labels, target_pin_number, nodes, r, net);
+	}
+
+	return false;
+}
+
+bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
+{
+	// don't iterate through the m_pins map! We can just use find.
+	nodes = 0;
+	pinCollection::iterator pin_it = symbol.m_pins.find(pin);
+	if (pin_it != symbol.m_pins.end())
+	{
+		CString pin_number = pin_it->first;
+		CString s;
+		net = pin_it->second;
+		if (labels.find( net ) != labels.end())
+		{
+			s = labels[ net ];
 		}
-		
-		++ pin_it;
+		else
+		{
+			s.Format(_T("_N_%d"), net );
+		}
+		r = s;
+
+		/// Count the number of connected nodes
+		nodeVector &vn = m_nets[ net ];
+		nodeVector::iterator i = vn.begin();
+		while (i != vn.end())
+		{
+			if ((*i).m_pMethod)
+			{
+				++ nodes;
+			}
+			++ i;
+		}
+		return true;
 	}
 
 	return false;
