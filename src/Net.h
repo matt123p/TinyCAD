@@ -63,7 +63,14 @@ public:
 		if (m_file_name_index != 0)
 		{
 			CString s;
-			s.Format(_T("%d_%s"),
+			/** This forms a unique net name for this node.  Only a hierarchical symbol will have a file name index that
+			 *	is non-zero.  The unique net name presently consists of the net name prefix (hard-coded to "_HN_" for hierarchical net)
+			 *	concatenated with the net node number concatenated with the pin name.  In the case of hierarchical symbols, the net
+			 *	node number is the hierarchical design instance number (i.e., the first instance is 0, the second instance of the 
+			 *	same design is 1, etc.).  This may be a bit problematic because this sequence may not guarantee uniqueness in all
+			 *	situations. Only further testing will reveal if this is a problem or not.
+			 */
+			s.Format(_T("_HN_%d_%s"),
 				m_file_name_index, m_label );
 			return s;
 		}
