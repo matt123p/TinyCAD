@@ -93,3 +93,7 @@ void CTinyCadHierarchicalDoc::SelectSymbol( CLibraryStoreSymbol *theSymbol )
 	pImport->Import();
 }
 
+CString CTinyCadHierarchicalDoc::getDefaultReferenceString() const
+{
+	return CTinyCadDoc::getDefaultReferenceString();
+}

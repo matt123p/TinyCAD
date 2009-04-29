@@ -324,6 +324,9 @@ public:
 	// document to sort out the imported block when
 	// necessary
 	virtual void PostPaste();
+
+	// Unassigned reference designator for this document as a whole
+	virtual CString getDefaultReferenceString() const;
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -130,12 +130,12 @@ BEGIN
     END
     POPUP "&Special"
     BEGIN
-        MENUITEM "Create &Net List for PCB program", IDM_SPECIALNET
+        MENUITEM "Create PCB &Net List",        IDM_SPECIALNET
         MENUITEM "&Check Design Rules",         IDM_SPECIALCHECK
         MENUITEM "&Generate Symbol References", IDM_SPECIALANOTATE
         MENUITEM "Create &Parts List",          IDM_SPECIALBOM
         MENUITEM SEPARATOR
-        MENUITEM "Create spice file",           ID_SPECIAL_CREATESPICEFILE
+        MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
         MENUITEM SEPARATOR
         MENUITEM "Insert another design as symbol", IDM_TOOLHIERACHICAL
         MENUITEM "Add hierachical symbol",      32867
@@ -325,7 +325,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,223,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 1994-2009 Matt Pyne",IDC_STATIC,39,30,159,8
     DEFPUSHBUTTON   "OK",IDOK,212,199,50,14,WS_GROUP
@@ -338,11 +338,12 @@ BEGIN
     LTEXT           "Magnus Beischer",IDC_STATIC,59,97,89,8
     LTEXT           "Matt Pyne",IDC_STATIC,60,55,89,8
     LTEXT           "Stephen Friederichs",IDC_STATIC,59,107,89,8
-    LTEXT           "Other included open source products:",IDC_STATIC,39,121,218,8
-    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,59,132,189,8
-    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,59,142,189,8
-    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,59,152,189,8
-    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,59,162,189,8
+    LTEXT           "Other included open source products:",IDC_STATIC,39,130,218,8
+    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,57,141,189,8
+    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,57,151,189,8
+    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,57,161,189,8
+    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,57,170,189,8
+    LTEXT           "Jason Sachs",IDC_STATIC,59,117,89,8
 END
 
 IDD_ANOTATE DIALOGEX 0, 0, 196, 212

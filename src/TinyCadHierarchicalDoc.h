@@ -47,5 +47,8 @@ public:
 	// Select/add a new symbol for editing
 	virtual void SelectSymbol( CLibraryStoreSymbol *theSymbol );
 
+	// Unassigned reference designator:
+	virtual CString getDefaultReferenceString() const;
+
 protected:
 };

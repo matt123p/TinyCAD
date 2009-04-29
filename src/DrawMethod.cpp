@@ -458,7 +458,7 @@ CString CDrawMethod::GetField(int which)
   CString r;
   r = m_fields[which].m_value;
 
-  if (which == (Ref && (GetSymbolData()->ppp != 1))) {
+  if ((which == Ref) && (GetSymbolData()->ppp != 1)) {
 	TCHAR Apart[2];
 	if (GetSymbolData()->ppp > 1) {
 		Apart[0]=part + 'A';
@@ -490,7 +490,7 @@ CString CDrawMethod::GetDecoratedField(int which)
 			  r = GetField(which);
 			  break;
 		  case default_show_name_and_value:	//show the parameter's name and value
-			  r = m_fields[which].m_description + _T(": ") + GetField(which);
+			  r = m_fields[which].m_description + _T("=") + GetField(which);
 			  break;
 		  case default_show_name_and_value_only_if_value_not_empty:	
 			  //show the parameter's name and value only if the value is non-empty
@@ -500,7 +500,7 @@ CString CDrawMethod::GetDecoratedField(int which)
 			  }
 			  else
 			  {		//field has a value and thus is not empty
-				  r = m_fields[which].m_description + _T(": ") + GetField(which);
+				  r = m_fields[which].m_description + _T("=") + GetField(which);
 			  }
 			  break;
 	  }
@@ -1454,7 +1454,8 @@ void CDrawMethod::AddReference( int min_ref, bool all_sheets )
 			CDrawingObject *pointer = *it;
 			CDrawMethod *pMethod = static_cast<CDrawMethod*>( pointer );
 
-			if (   pointer->GetType() == xMethodEx3 
+			ObjType objType = pointer->GetType();
+			if (   (objType == xMethodEx3 || objType == xHierarchicalSymbol)
 				&& pointer != this
 				&& pMethod->HasRef()) 
 			{
@@ -1518,9 +1519,10 @@ void CDrawMethod::AddReference( int min_ref, bool all_sheets )
 
 void CDrawMethod::RemoveReference()
 {
-	bool alter_subpart = !GetSymbolData()->IsHeterogeneous();
+	CDesignFileSymbol *psym = GetSymbolData();
+	bool alter_subpart = !psym->IsHeterogeneous();
 
-	SetRef(GetSymbolData()->reference);
+	SetRef(psym->reference);
 	if (alter_subpart)
 	{
 		SetPart(0);

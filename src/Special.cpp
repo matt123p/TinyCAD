@@ -65,8 +65,7 @@ void CTinyCadView::OnSpecialAnotate()
   int part=0;
   BOOL IsSet,IsMatch,MissingSymbols=FALSE;
   
-
-	for (int i = 0; i < 2; i++)
+	for (int whichPass = 0; whichPass < 2; whichPass++)
 	{
 		int sheet = theASetup.all_sheets ? 0 : GetDocument()->GetActiveSheetIndex();
 
@@ -77,9 +76,10 @@ void CTinyCadView::OnSpecialAnotate()
 			{
 				CDrawingObject *pointer = *it;
 				// Look for method objects
-				if (pointer->GetType() == xMethodEx3) 
+				ObjType objType = pointer->GetType();
+				if (objType == xMethodEx3 || objType == xHierarchicalSymbol) 
 				{
-					thisMethod = (CDrawMethod *)pointer;
+					thisMethod = static_cast<CDrawMethod *>(pointer);
 					thisSymbol = thisMethod->GetSymbolData();
 
 					// If there is no symbol then cannot modify this symbol!
@@ -112,7 +112,7 @@ void CTinyCadView::OnSpecialAnotate()
 						// First pass  - we remove references if necessary,
 						// Second pass - we add refences back in...
 						//
-						if (i == 0)
+						if (whichPass == 0)
 						{
 							// Remove any matching references (if necessary)
 							if (IsSet && (theASetup.value!=1 || thisMethod->GetRefVal()>=theASetup.startval) ) 

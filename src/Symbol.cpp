@@ -468,7 +468,7 @@ void CDesignFileSymbol::CreateNoSymbol( CTinyCadDoc *pDesign )
 	m_methods[0].push_back( Sq );
 	m_pDesign = pDesign;
 	name = "No Symbol Defined";
-	reference="?";
+	reference = pDesign->getDefaultReferenceString();
 	ppp = 1;  
 	m_heterogeneous = false;
 }

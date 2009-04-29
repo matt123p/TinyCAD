@@ -1839,3 +1839,10 @@ CString CTinyCadDoc::unformatXMLFilename( const TCHAR *filename )
 	}
 }
 //-------------------------------------------------------------------------
+
+CString CTinyCadDoc::getDefaultReferenceString() const
+{
+	// this is important for documents which are
+	// used as embedded hierarchical designs
+	return "H?";
+}
