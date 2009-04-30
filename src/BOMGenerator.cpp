@@ -63,13 +63,19 @@ void CBOMGenerator::GenerateBomForDesign( bool all_sheets, bool all_attr, bool p
 
 	m_attrs.push_back( "Description" );
 	m_filename = pDesign->GetPathName();
-	m_file_name_index = 0;
+	m_file_counter.reset();
 
-	GenerateBomForDesign( 0, pDesign );
+	GenerateBomForDesign( 0, -1, pDesign );
 }
 
-void CBOMGenerator::GenerateBomForDesign( int level, CMultiSheetDoc *pDesign )
+void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, CMultiSheetDoc *pDesign )
 {
+	CollectionMemberReference<CImportFile*> cmrDefaultParent(m_imports, parentPos);
+	CollectionMemberReference<CImportFile*> cmrParent;
+	
+	if (parentPos >= 0)
+		cmrParent = cmrDefaultParent;
+
    	// Generate a component for every sheet in this design
 	bool do_all_sheets = m_all_sheets || (level != 0);
     int sheet = do_all_sheets ? 0 : pDesign->GetActiveSheetIndex();	
@@ -92,13 +98,13 @@ void CBOMGenerator::GenerateBomForDesign( int level, CMultiSheetDoc *pDesign )
 				}
 
 				// Push back this filename into the list of extra imports
-				CImportFile *f = new CImportFile;
-				++ m_file_name_index;
-				f->m_file_name_index = m_file_name_index;
+				CImportFile *f = new CImportFile(cmrParent, "");
+				f->setFileNameIndex(m_file_counter.next());
 				if (f->Load( pSymbol->GetFilename() ) )
 				{
 					m_imports.push_back( f );
-					GenerateBomForDesign( level+1, f->m_pDesign );
+					int where = m_imports.size()-1;
+					GenerateBomForDesign( level+1, where, f->getDesign() );
 				}
 				else
 				{

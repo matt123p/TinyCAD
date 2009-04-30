@@ -34,6 +34,17 @@ class CDrawMethod;
 #define AttrSpiceEpilogPri	_T("$$SPICE_EPILOG_PRIORITY")
 #define AttrSpice			_T("$$SPICE")
 
+class Counter
+{
+	int i;
+public:
+	Counter() : i(0) {}
+
+	int next() { return i++; }
+	int value() { return i; }
+	void reset() { i=0; }
+};
+
 // This structure is for a balanced tree of nodes
 class CNetListNode
 {
@@ -95,6 +106,8 @@ public:
 		m_pMethod = NULL;
 		m_sheet = sheet;
 	}
+	
+	inline int getFileNameIndex() const { return m_file_name_index; }
 
 	// The destructor for this node
 	~CNetListNode()
@@ -129,6 +142,9 @@ typedef std::map<CString, CString, CStringLessThanNoCase> pinNameToNumberMap;
 // This class is used for spice file generation
 class CNetListSymbol
 {
+	// The file this method came from
+	int				m_file_name_index;
+
 public:
 	
 	// The pointer to the symbol and it's data
@@ -137,8 +153,6 @@ public:
 	// The sheet that this method came from
 	int				m_sheet;
 
-	// The file this method came from
-	int				m_file_name_index;
 
 	// The map of pins to their netlist (or power line)
 	pinCollection	m_pins;
@@ -153,24 +167,97 @@ public:
 		m_pMethod = pMethod;
 
 	}
+	inline int getFileNameIndex() const { return m_file_name_index; }
+	inline void setFileNameIndex(int i) { m_file_name_index = i; }
 };
 
+// WARNING: this is nastily implementation dependent 
+// These are used in the context of hierarchical designs
+// The index refers to the entry in the m_imports
+// vector. References/pointers cannot be used since this
+// vector resizes during important stages of its construction.
+// The alternative is to store a link to the m_imports
+// vector itself, as long as that stays put...
+// Using this template requires recursive class stuff.
+//
+// There is a BIG assumption here, namely that once an item
+// is added to a vector, it does not move around elsewhere.
+template <class T>
+class CollectionMemberReference
+{
+	const std::vector<T>* collection;
+	int index;
+
+public:
+	inline boolean operator !() const { return collection == NULL; }
+	inline boolean isNull() const { return collection == NULL; }
+	inline boolean isNotNull() const { return collection != NULL; }
+	T* getObject() const { 
+		if (collection == NULL)
+		{
+			return NULL;
+		}
+		else
+			return (*collection)[index];
+	}
+	const T& getObjectWithDefault(const T& defaultValue) const {
+		if (collection == NULL)
+			return defaultValue;
+		return (*collection)[index];
+	}
+
+	CollectionMemberReference() : collection(NULL) {}
+	CollectionMemberReference(const std::vector<T>& coll, int i) 
+		: collection(&coll), index(i)	{}
+
+	// usual copy constructor and "=" operator semantics
+	CollectionMemberReference(const CollectionMemberReference& other)
+		: collection(other.collection), index(other.index) {}	
+
+	CollectionMemberReference& operator= (const CollectionMemberReference& other)
+	{
+		collection = other.collection;
+		index = other.index;
+		return *this;
+	}
+
+};
 
 // The collection of additional files that were imported by this netlist
 class CImportFile
 {
-public:
 	int					m_file_name_index;
 	CTinyCadMultiDoc*	m_pDesign;
 
+	typedef CollectionMemberReference<CImportFile *> ParentFile_t;
+	ParentFile_t m_parent;
+	CString             m_RefContext; 
+	// Reference context is a path to this instance of the hierarchical symbol.
+	// e.g. "/H1/H3/H2" is hierarchical symbol H2 within hierarchical symbol H3
+	// within hierarchical symbol H1 within the root.
 
-	CImportFile()
+private:
+	void assignContext(const CollectionMemberReference<CImportFile *> parent, 
+		CString myReference);
+
+public:
+	// use this constructor for root designs
+	CImportFile(CTinyCadMultiDoc* pRootDesign) : m_pDesign(pRootDesign)
 	{
-		m_pDesign = NULL;
+	}
+	// use this constructor for imported files with a parent
+	CImportFile(const CollectionMemberReference<CImportFile *> parent, 
+		CString myReference) : m_pDesign(NULL)
+	{		
+		assignContext(parent, myReference);
 	}
 	~CImportFile();
 
 	BOOL Load( const TCHAR *filename );
+	inline void setFileNameIndex(int i) { m_file_name_index = i; }
+	inline int getFileNameIndex() const { return m_file_name_index; }
+	inline CTinyCadMultiDoc* getDesign() const { return m_pDesign; }
+	CString getReferenceContext() const { return m_RefContext; }
 };
 
 
@@ -225,7 +312,7 @@ protected:
 	void WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
 
 	// Perform the work of making a netlist from a single sheet in this design...
-	void MakeNetForSheet( fileCollection &imports, int file_index_id, int &file_name_index, int sheet, CTinyCadDoc *pDesign );
+	void MakeNetForSheet( fileCollection &imports, int import_index, int sheet, Counter& file_counter);
 
 	// Expand a spice line
 	typedef std::map<int,CString> labelCollection;

@@ -471,6 +471,47 @@ CString CDrawMethod::GetField(int which)
   return r;
 }
 //-------------------------------------------------------------------------
+int CDrawMethod::GetFieldIndexByName(CString name, bool caseSensitive)
+{
+	// For now, this is a loop. If speed is an issue, maybe there should be 
+	// a field name map index.
+	int i;
+	fieldCollection::iterator it;
+	for (i = 0, it = m_fields.begin();
+		it != m_fields.end();
+		++it, ++i)
+	{
+		CField& field = *it;
+		if ((caseSensitive && field.m_description.CompareNoCase(name))
+		  || !caseSensitive && field.m_description.Compare(name))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+//-------------------------------------------------------------------------
+CString CDrawMethod::GetFieldByName(CString name, bool caseSensitive)
+{
+	// Caveat: this does not do the translation step in GetField()
+	CString output;
+	
+	for (fieldCollection::iterator it = m_fields.begin();
+		it != m_fields.end();
+		++it)
+	{
+		CField& field = *it;
+		if ((caseSensitive && (field.m_description.CompareNoCase(name) == 0))
+		  || (!caseSensitive && (field.m_description.Compare(name) == 0)))
+		{
+			output = field.m_value;
+			break;
+		}
+	}
+	return output;
+}
+
+//-------------------------------------------------------------------------
 CString CDrawMethod::GetDecoratedField(int which)
 {	//Get the value of the field with the field name and other decoration optionally prepended onto it
   CString r;

@@ -95,13 +95,13 @@ void CTinyCadView::OnSpecialAnotate()
 
 					switch (theASetup.reference)
 					{
-					case 0:		// All references
+					case AnotateSetup::ALL:		// All references
 						IsMatch = TRUE;
 						break;
-					case 1:		// Un-numbered references
+					case AnotateSetup::UNNUMBERED:		// Un-numbered references
 						IsMatch = !thisMethod->HasRef();
 						break;
-					case 2:		// References that match...
+					case AnotateSetup::MATCHING:		// References that match...
 						IsMatch = theASetup.matchval == thisSymbol->reference;
 						break;
 					}
@@ -115,7 +115,8 @@ void CTinyCadView::OnSpecialAnotate()
 						if (whichPass == 0)
 						{
 							// Remove any matching references (if necessary)
-							if (IsSet && (theASetup.value!=1 || thisMethod->GetRefVal()>=theASetup.startval) ) 
+							if (IsSet && (theASetup.value!=AnotateSetup::SPECIFIED 
+								|| thisMethod->GetRefVal()>=theASetup.startval) ) 
 							{
 								thisMethod->RemoveReference();
 							}
@@ -123,12 +124,16 @@ void CTinyCadView::OnSpecialAnotate()
 						else
 						{
 							// Now add back any references
-							if (theASetup.action == 0) 
+							if (theASetup.action == AnotateSetup::ADD) 
 							{
+								/* OK, why the special case? 
 								if (theASetup.reference != 1)
 								{
 									value = (theASetup.value == 0) ? 1 : theASetup.startval;
 								}
+								*/
+								value = (theASetup.value == AnotateSetup::SPECIFIED) 
+									? theASetup.startval : 1;
 								thisMethod->AddReference( value, theASetup.all_sheets );
 							}
 						}
@@ -160,9 +165,9 @@ void CTinyCadView::OnSpecialAnotate()
 // The Anotate Setup values class
 AnotateSetup::AnotateSetup()
 {
-  action=0;
-  reference=0;
-  value=0;
+  action=ADD;
+  reference=ALL;
+  value=DEFAULT;
   matchval="U?";
   startval=1;
   all_sheets=false;

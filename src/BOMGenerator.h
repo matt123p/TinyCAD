@@ -65,7 +65,7 @@ private:
 	// The files we imported (for hierarchical designs)
 	typedef std::vector<CImportFile*>	fileCollection;
 	fileCollection	m_imports;
-	int			    m_file_name_index;
+	Counter	    m_file_counter;
 
 	// The root filename
 	CString		m_filename;
@@ -80,8 +80,7 @@ private:
 	bool		m_hierarchical;
 	bool		m_prefix_import;
 
-
-	void GenerateBomForDesign( int level, CMultiSheetDoc *pDesign );
+	void GenerateBomForDesign( int level, int parentPos, CMultiSheetDoc *pDesign );
 	void XInc(FILE *theFile,int &Xpos,int amount);
 
 public:

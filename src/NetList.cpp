@@ -33,6 +33,21 @@
 #include "TinyCadMultiDoc.h"
 
 
+void CImportFile::assignContext(const CollectionMemberReference<CImportFile *> parent, CString myReference)
+{
+	m_parent = parent;
+	CImportFile *pparent = parent.getObjectWithDefault(NULL);
+	if (pparent == NULL)
+	{
+		m_RefContext = myReference;
+	}
+	else
+	{
+		m_RefContext = pparent->m_RefContext;
+		m_RefContext += "/";
+		m_RefContext += myReference;
+	}
+}
 
 /// Construction/destruction
 
@@ -431,12 +446,16 @@ void CNetList::Link( linkCollection& nets )
 void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 {
 	linkCollection nets;
-	int file_name_index = 0;
+	Counter file_counter;
 
-	CImportFile *f = new CImportFile;
-	f->m_file_name_index = file_name_index;
+	CTinyCadMultiDoc*	aDesign = pDesign;
+	CollectionMemberReference<CImportFile *> impref;
+
+	CImportFile *f = new CImportFile(pDesign);
+	f->setFileNameIndex(file_counter.next());
 	m_imports.push_back( f );
 
+	/*
 	/// Make the nets for our sheets
 	nets.resize( pDesign->GetNumberOfSheets() );
 
@@ -451,20 +470,31 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	/// Now include from our imports
 	if (m_follow_imports)
 	{
-		for ( unsigned int ip = 1; ip < m_imports.size(); ++ ip )
-		{
-			/// Now create the nets for it
-			int base = nets.size();
-			nets.resize( base + m_imports[ip]->m_pDesign->GetNumberOfSheets() );
+	*/
 
-			/// Generate a netlist for every sheet in this imported design
-			for (int i = 0; i < m_imports[ip]->m_pDesign->GetNumberOfSheets(); i++)
-			{
-				nets[i + base].m_prefix_references = m_prefix_references;
-				nets[i + base].m_prefix_import = m_prefix_import;
-				nets[i + base].MakeNetForSheet( m_imports, m_imports[ip]->m_file_name_index, file_name_index, i+1, m_imports[ip]->m_pDesign->GetSheet( i ) );
-			}
+	// For each member of m_imports, we generate a netlist for all of its sheet.
+	// This includes the root design. Recursion happens here because
+	// new members may be added to m_imports as a result of the
+	// MakeNetForSheet call. So we can't cache size() or any of its
+	// members.
+	for ( unsigned int ip = 0; ip < m_imports.size(); ++ ip )
+	{
+		/// Now create the nets for it
+		int base = nets.size();
+		int newSheets = m_imports[ip]->getDesign()->GetNumberOfSheets();
+		nets.resize( base +  newSheets);
+
+		/// Generate a netlist for every sheet in this imported design
+		for (int i = 0; i < newSheets; i++)
+		{
+			nets[i + base].m_prefix_references = m_prefix_references;
+			nets[i + base].m_prefix_import = m_prefix_import;
+			nets[i + base].MakeNetForSheet( m_imports, ip, i, file_counter);
 		}
+
+		// don't repeat this process if we're not following imports
+		if (!m_follow_imports)
+			break;
 	}
 
 	/// Now link the nets together
@@ -498,13 +528,22 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
  * Perform the work of making a netlist from a single sheet in this design...
  * 
  * @param imports
- * @param file_index_id
- * @param file_name_index
- * @param sheet
- * @param pDesign
+ * @param import_index -- the current item within the imports vector
+ * @param sheetZeroIndex -- the zero-based index of the sheet within the design file
+ * @param file_counter -- a counter used to set the file index of any new design files
  */
-void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int &file_name_index, int sheet, CTinyCadDoc *pDesign )
+void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int sheetZeroIndexed, Counter& file_counter)
+//( fileCollection &imports, int file_index_id, int &file_name_index, int sheet, CTinyCadDoc *pDesign )
+//  m_imports[ip]->m_file_name_index, file_name_index, i+1, m_imports[ip]->m_pDesign->GetSheet( i ) );
 {
+  int sheetOneIndexed = sheetZeroIndexed+1;
+
+  // lookup these values from the imports list
+  int file_index_id = imports[import_index]->getFileNameIndex();
+  CTinyCadDoc *pDesign = imports[import_index]->getDesign()->GetSheet(sheetZeroIndexed);
+  // sheet is 1-indexed
+  CollectionMemberReference<CImportFile *> referenceToMe(imports, import_index);
+
   /// Get rid of any old data
   m_CurrentNet = 1;
   m_nodes.erase( m_nodes.begin(), m_nodes.end() );
@@ -542,9 +581,10 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 				}
 
 				/// Push back this filename into the list of extra imports
-				CImportFile *f = new CImportFile;
-				++ file_name_index;
-				f->m_file_name_index = file_name_index;
+
+				CString partReferenceString = pSymbol->GetFieldByName("Ref");
+				CImportFile *f = new CImportFile(referenceToMe, partReferenceString);
+				f->setFileNameIndex(file_counter.next());
 				if (f->Load( pSymbol->GetFilename() ) )
 				{
 					imports.push_back( f );
@@ -564,9 +604,9 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 							CDrawPin *thePin = static_cast<CDrawPin*>(pointer);
 
 							/// This in effect labels the node with the new node name...
-							CNetListNode n( file_name_index, sheet, thePin, thePin->GetActivePoint(pSymbol) );
+							CNetListNode n( f->getFileNameIndex(), sheetOneIndexed, thePin, thePin->GetActivePoint(pSymbol) );
 							n.setLabel( thePin->GetPinName() );
-							n.m_reference = pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet);
+							n.m_reference = pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = pSymbol;
 							Add(n);
@@ -596,8 +636,8 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
 					if (pointer->GetType()==xPinEx && !(thePin->IsPower()) ) 
 					{
-						CNetListNode n( file_index_id, sheet, thePin,thePin->GetActivePoint(theMethod));
-						n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet);
+						CNetListNode n( file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod));
+						n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
 						n.m_pin = thePin->GetNumber();
 						n.m_pMethod = theMethod;
 						Add(n);
@@ -607,9 +647,9 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 				}
 
 				/// Has this symbol had it's power connected?
-				if (Connected.find(theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet)) == Connected.end()) 
+				if (Connected.find(theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed)) == Connected.end()) 
 				{
-					Connected[ theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet) ] = TRUE;
+					Connected[ theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed) ] = TRUE;
 
 					drawingCollection method;
 					((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
@@ -621,10 +661,10 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
 						if (pointer->GetType()==xPinEx && thePin->IsPower()) 
 						{
-							CNetListNode n(file_index_id, sheet, thePin,thePin->GetActivePoint(theMethod) );
+							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
 							// Set netlist label name to invisible symbol power pin name
 							n.setLabel( thePin->GetPinName() );
-							n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheet);
+							n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = theMethod;
 
@@ -644,14 +684,14 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 			}			
 			break;
 		case xNoConnect:
-			Add(CNetListNode(file_index_id, sheet, ObjPtr,ObjPtr->m_point_a));			
+			Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a));			
 			break;
 		case xJunction:
-			Add(CNetListNode(file_index_id, sheet, ObjPtr,ObjPtr->m_point_a));
+			Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a));
 			break;			
 		case xPower:
 			{
-			CNetListNode n(file_index_id, sheet, ObjPtr,ObjPtr->m_point_a);
+			CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a);
 			n.setLabel( ((CDrawPower *)ObjPtr)->GetValue() );
 
 			/// Does this power item exist?
@@ -665,11 +705,11 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 			break;
 		case xWire:
 			{
-				CNetListNode n(file_index_id, sheet, ObjPtr,ObjPtr->m_point_a);
+				CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a);
 				hold = Add(n);
 			}
 			{
-				CNetListNode n(file_index_id, sheet, ObjPtr,ObjPtr->m_point_b);
+				CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_b);
 				n.m_NetList = hold;
 				Add(n);
 			}
@@ -707,7 +747,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 
 				if (l.IsPointOnLine( a, distance_along_a ))
 				{
-					CNetListNode n(file_index_id, sheet, NULL,search->m_point_a);
+					CNetListNode n(file_index_id, sheetOneIndexed, NULL,search->m_point_a);
 					n.m_NetList = NetNumber;
 					NetNumber = Add(n);
 				}
@@ -748,7 +788,7 @@ void CNetList::MakeNetForSheet( fileCollection &imports, int file_index_id, int 
 		}
 
 		/// Look up this label
-		CNetListNode n(file_index_id, sheet, ObjPtr,a);
+		CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,a);
 		n.setLabel(  ((CDrawLabel *)ObjPtr)->GetValue() );
 
 		/// Has this label already been assigned a netlist?
@@ -833,9 +873,9 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 	{
 		CTinyCadMultiDoc *dsn = pDesign;
 
-		if ((*fi)->m_file_name_index != 0)
+		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->m_pDesign;
+			dsn = (*fi)->getDesign();
 		}
 
   		/// Generate a component for every sheet in this design
@@ -849,7 +889,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
+					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1002,9 +1042,9 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 	{
 		CTinyCadMultiDoc *dsn = pDesign;
 
-		if ((*fi)->m_file_name_index != 0)
+		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->m_pDesign;
+			dsn = (*fi)->getDesign();
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1019,7 +1059,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
+					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1178,9 +1218,9 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 	{
 		CTinyCadMultiDoc *dsn = pDesign;
 
-		if ((*fi)->m_file_name_index != 0)
+		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->m_pDesign;
+			dsn = (*fi)->getDesign();
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1195,7 +1235,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
-				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
+				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
@@ -1330,9 +1370,9 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 	{
 		CTinyCadMultiDoc *dsn = pDesign;
 
-		if ((*fi)->m_file_name_index != 0)
+		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->m_pDesign;
+			dsn = (*fi)->getDesign();
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1346,7 +1386,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (pointer->GetType() == xMethodEx3) 
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->m_file_name_index,i+1);
+				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
@@ -1518,6 +1558,8 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 
 				symbol.m_pins[ theNode.m_pin ] = theNode.m_NetList;
 				symbol.m_pMethod = theNode.m_pMethod;
+				symbol.setFileNameIndex(theNode.getFileNameIndex());
+				// this was missing in prior versions!
 			}
 
 			/// Is this node a label?
@@ -1552,9 +1594,9 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	{
 		CTinyCadMultiDoc *dsn = pDesign;
 
-		if ((*fi)->m_file_name_index != 0)
+		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->m_pDesign;
+			dsn = (*fi)->getDesign();
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1571,6 +1613,8 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 
 					/// Search this symbols fields and extract the SPICE_IMPORT field...
 
+					// !!!! JMS -- why does it get the prolog and epilog but not the actual spice contents?
+
 					CString spice_prolog;
 					CString spice_epilog;
 					int spice_pro_priority = 5;
@@ -1581,13 +1625,13 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 						CString field = pMethod->GetFieldName(j);
 						if (field.CompareNoCase(AttrSpiceProlog) == 0)
 						{
-							CNetListSymbol symbol( (*fi)->m_file_name_index, sheet, pMethod );
-							spice_prolog = expand_spice( (*fi)->m_file_name_index, sheet, symbol, labels, pMethod->GetField(j) );
+							CNetListSymbol symbol( (*fi)->getFileNameIndex(), sheet, pMethod );
+							spice_prolog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, pMethod->GetField(j) );
 						}
 						else if (field.CompareNoCase(AttrSpiceEpilog) == 0)
 						{
-							CNetListSymbol symbol( (*fi)->m_file_name_index, sheet, pMethod );
-							spice_epilog = expand_spice( (*fi)->m_file_name_index, sheet, symbol, labels, pMethod->GetField(j) );
+							CNetListSymbol symbol( (*fi)->getFileNameIndex(), sheet, pMethod );
+							spice_epilog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, pMethod->GetField(j) );
 						}
 						else if (field.CompareNoCase(AttrSpicePrologPri) == 0)
 						{
@@ -1654,23 +1698,11 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		CNetListSymbol &symbol = (*sit).second;
 		CDrawMethod* pMethod = symbol.m_pMethod;
 		int sheet = symbol.m_sheet;
-		int file_name_index = symbol.m_file_name_index;
+		int file_name_index = symbol.getFileNameIndex();
 
 		/// Here is the data we are going to extract from the symbol's fields...
 		
-		CString spice = "";
-
-		/// Search this symbols fields and extract the SPICE field...
-
-		int i;
-		for (i = 0; i < pMethod->GetFieldCount(); i++)
-		{
-			if (pMethod->GetFieldName(i).CompareNoCase(AttrSpice) == 0)
-			{
-				spice = pMethod->GetField(i);
-			}
-		}
-
+		CString spice = pMethod->GetFieldByName(AttrSpice);
 		
 		/// Now output the SPICE model line
 		if (!spice.IsEmpty())
@@ -2168,6 +2200,30 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 			return true;
 		}
 	}
+	else if (attr.CompareNoCase( _T("ref") ) == 0)
+	{
+		CString ref = m_imports[file_name_index]->getReferenceContext();
+
+		CString s;
+		if (ref.GetLength() > 0)
+		{
+			int curpos = 0;
+			_TCHAR * separator = _T("/");
+			CString tok = ref.Tokenize(separator, curpos);
+			while (tok != "")
+			{
+				s = "_" + tok + s;
+				tok = ref.Tokenize(separator, curpos);
+			}
+			s = pMethod->GetRef() + s;
+		}
+		else
+			s = pMethod->GetRef();
+
+//			->GetRefSheet(m_prefix_references,m_prefix_import,file_name_index,sheet+1);
+		r = s;
+		return true;
+	}
 	else
 	{
 		for (int j = 0; j < pMethod->GetFieldCount(); j++)
@@ -2186,7 +2242,13 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 
 CImportFile::~CImportFile()
 {
-	delete m_pDesign;
+	if (m_parent.isNotNull())
+	{
+		delete m_pDesign;
+	}
+
+	// we don't delete the design if there's no parent
+	// (in which case this is a root design)
 }
 
 BOOL CImportFile::Load(const TCHAR *filename)

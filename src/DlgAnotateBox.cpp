@@ -38,9 +38,53 @@ BOOL CDlgAnotateBox::OnInitDialog()
 {
   SetDlgItemText(ANNOTATEBOX_MATCHVAL,v.matchval);
   SetDlgItemInt(ANNOTATEBOX_STARTVAL,v.startval);
-  CheckRadioButton(ANNOTATEBOX_ADD,ANNOTATEBOX_REMOVE,ANNOTATEBOX_ADD+v.action);
-  CheckRadioButton(ANNOTATEBOX_ALL,ANNOTATEBOX_MATCH,ANNOTATEBOX_ALL+v.reference);
-  CheckRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START,ANNOTATEBOX_DEF+v.value);
+  int id = -1;
+  switch (v.action)
+  {
+  case AnotateSetup::ADD:
+	  id = ANNOTATEBOX_ADD;
+	  break;
+  case AnotateSetup::REMOVE:
+	  id = ANNOTATEBOX_REMOVE;
+	  break;
+  }
+  if (id >= 0)
+  {
+	CheckRadioButton(ANNOTATEBOX_ADD,ANNOTATEBOX_REMOVE,id);
+  }
+
+  id = -1;
+  switch (v.reference)
+  {
+  case AnotateSetup::ALL:
+	  id = ANNOTATEBOX_ALL;
+	  break;
+  case AnotateSetup::MATCHING:
+	  id = ANNOTATEBOX_MATCH;
+	  break;
+  case AnotateSetup::UNNUMBERED:
+	  id = ANNOTATEBOX_UNNUM;
+	  break;
+  }
+  if (id >= 0)
+  {
+	CheckRadioButton(ANNOTATEBOX_ALL,ANNOTATEBOX_MATCH,id);
+  }
+
+  id = -1;
+  switch (v.value)
+  {
+  case AnotateSetup::DEFAULT:
+	  id = ANNOTATEBOX_DEF;
+	  break;
+  case AnotateSetup::SPECIFIED:
+	  id = ANNOTATEBOX_START;
+	  break;
+  }
+  if (id >= 0)
+  {
+	CheckRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START,id);
+  }
   static_cast<CButton*>(GetDlgItem( IDC_ALL_SHEETS ))->SetCheck( v.all_sheets ? 1 : 0 );
   return TRUE;
 }
@@ -48,9 +92,47 @@ BOOL CDlgAnotateBox::OnInitDialog()
 
 void CDlgAnotateBox::ReadData()
 {
-  v.action = GetCheckedRadioButton(ANNOTATEBOX_ADD,ANNOTATEBOX_REMOVE)-ANNOTATEBOX_ADD;
-  v.reference = GetCheckedRadioButton(ANNOTATEBOX_ALL,ANNOTATEBOX_MATCH)-ANNOTATEBOX_ALL;
-  v.value = GetCheckedRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START)-ANNOTATEBOX_DEF;
+	switch (GetCheckedRadioButton(ANNOTATEBOX_ADD,ANNOTATEBOX_REMOVE))
+	{
+	case ANNOTATEBOX_ADD:
+		v.action = AnotateSetup::ADD;
+		break;
+	case ANNOTATEBOX_REMOVE:
+		v.action = AnotateSetup::REMOVE;
+		break;
+	default:
+		// what do we do here?
+		;
+	}
+
+	switch (GetCheckedRadioButton(ANNOTATEBOX_ALL,ANNOTATEBOX_MATCH))
+	{
+	case ANNOTATEBOX_ALL:
+		v.reference = AnotateSetup::ALL;
+		break;
+	case ANNOTATEBOX_UNNUM:
+		v.reference = AnotateSetup::UNNUMBERED;
+		break;
+	case ANNOTATEBOX_MATCH:
+		v.reference = AnotateSetup::MATCHING;
+		break;
+	default:
+		// what do we do here?
+		;
+	}
+
+	switch (GetCheckedRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START))
+	{
+	case ANNOTATEBOX_DEF:
+		v.value = AnotateSetup::DEFAULT;
+		break;
+	case ANNOTATEBOX_START:
+		v.value = AnotateSetup::SPECIFIED;
+		break;
+	default:
+		// what do we do here?
+		;
+	}
   v.all_sheets = static_cast<CButton*>(GetDlgItem( IDC_ALL_SHEETS ))->GetCheck() != 0;
   TCHAR hold[256];
   GetDlgItemText(ANNOTATEBOX_MATCHVAL,hold,sizeof(hold));
