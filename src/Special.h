@@ -21,9 +21,14 @@
 class AnotateSetup 
 {
 public:
-	int action;
-	int reference;
-	int value;
+	enum AddOrRemove { ADD, REMOVE };
+	enum WhichReferences { ALL, UNNUMBERED, MATCHING };
+	enum StartValue { DEFAULT, SPECIFIED };
+
+	enum AddOrRemove action;
+	enum WhichReferences reference;
+	enum StartValue value;
+
 	CString matchval;
 	int startval;
 	bool all_sheets;
