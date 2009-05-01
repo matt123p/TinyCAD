@@ -606,7 +606,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							/// This in effect labels the node with the new node name...
 							CNetListNode n( f->getFileNameIndex(), sheetOneIndexed, thePin, thePin->GetActivePoint(pSymbol) );
 							n.setLabel( thePin->GetPinName() );
-							n.m_reference = pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
+							n.m_reference = 
+								// pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
+								get_reference_path(pSymbol, imports[file_index_id], false);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = pSymbol;
 							Add(n);
@@ -628,6 +630,8 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 				drawingCollection method;
 				((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
 
+				CString myRefDes = get_reference_path(theMethod, imports[file_index_id], false);
+
 				drawingIterator it = method.begin();
 				drawingIterator itEnd = method.end();
 				while ( it != itEnd ) 
@@ -637,7 +641,8 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 					if (pointer->GetType()==xPinEx && !(thePin->IsPower()) ) 
 					{
 						CNetListNode n( file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod));
-						n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
+						n.m_reference = myRefDes;
+
 						n.m_pin = thePin->GetNumber();
 						n.m_pMethod = theMethod;
 						Add(n);
@@ -647,9 +652,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 				}
 
 				/// Has this symbol had it's power connected?
-				if (Connected.find(theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed)) == Connected.end()) 
+				if (Connected.find(myRefDes) == Connected.end()) 
 				{
-					Connected[ theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed) ] = TRUE;
+					Connected[ myRefDes ] = TRUE;
 
 					drawingCollection method;
 					((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
@@ -664,7 +669,10 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
 							// Set netlist label name to invisible symbol power pin name
 							n.setLabel( thePin->GetPinName() );
-							n.m_reference = theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
+							n.m_reference = 
+								// theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
+								get_reference_path(theMethod, imports[file_index_id], false);
+
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = theMethod;
 
@@ -889,7 +897,9 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+					CString Ref  = 
+						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+						get_reference_path(pMethod, *fi, false);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1059,7 +1069,8 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+					CString Ref = get_reference_path(pMethod, *fi, false);
+						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1235,7 +1246,9 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
-				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+				CString Ref  = 
+					get_reference_path(pMethod, (*fi), false);
+					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
@@ -1386,7 +1399,8 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (pointer->GetType() == xMethodEx3) 
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-				CString Ref  = pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+				CString Ref  = get_reference_path(pMethod, *fi, false);
+					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
 				if (referenced.find( Ref ) == referenced.end())
@@ -2171,6 +2185,71 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 	return false;
 }
 
+	// Get a hierarchical reference path from a symbol.
+	//
+	// Note that file_name_index in all of these functions is misleading.
+	// It should really be called "context_instance_index" or something.
+	// It is a unique incremental identifier representing the context of a circuit or
+	// subcircuit. 0 represents the root (main) circuit. Each instance of a hierarchical
+	// design gets a new ID. (so if the root circuit has 2 instances of a hierarchical
+	// design, and that design has 2 instances of another hierarchical design,
+	// there will be 7 IDs total: 1 for the main circuit, 2 for the 2nd level design,
+	// and 4 for the 4 instances of the 3rd level design.
+	// 
+	// As to the format of this function's output:
+	// Suppose the symbol in question is U4 inside a hierarchical circuit H1 
+	// which in turn is inside another hierarchical circuit H22 in the root circuit.
+	// If forward=true and separator="_", this will return "H22_H1_U1".
+    // If forward=false and separator=":", this will return "U1:H1:H22".
+    // The default separator is an underscore.
+
+CString CNetList::get_reference_path( 
+			const CDrawMethod* psymbol, 
+			const CImportFile* pcontext,
+			bool forward, 
+			TCHAR separator)
+{
+	CString ref = pcontext->getReferenceContext();
+	// The canonical reference for the constant index is forward,
+	// with a separator of "/" and an additional "/" at the beginning.
+
+	_TCHAR * canonical_separator = _T("/");
+	CString s;
+	if (ref.GetLength() > 0)
+	{
+		int curpos = 0;
+		CString tok = ref.Tokenize(canonical_separator, curpos);
+		while (tok != "")
+		{
+			if (forward)
+			{
+				s += tok;
+				s += separator;
+			}
+			else
+			{
+				s = separator + tok + s;
+			}
+			tok = ref.Tokenize(canonical_separator, curpos);
+		}
+
+		if (forward)
+		{
+			s += psymbol->GetRef();
+		}
+		else
+		{
+			s = psymbol->GetRef() + s;
+		}
+	}
+	else
+	{
+		s = psymbol->GetRef();
+	}
+	return s;
+}
+
+
 /**
  * Get a attribute value from an attribute name.
  * 
@@ -2191,7 +2270,7 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 		int b = s.FindOneOf(_T("0123456789"));
 		if (b != 1)
 		{
-			r = s;
+			r = get_reference_path(pMethod, m_imports[file_name_index], false);
 			return true;
 		}
 		else
