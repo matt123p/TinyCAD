@@ -281,7 +281,7 @@ void CDlgLibraryBox::OnNew()
   	_tcscpy_s(szFile, _T("*.TCLib\0"));
 
 	CFileDialog dlg( FALSE, _T("*.TCLib"), szFile, OFN_HIDEREADONLY,
-		_T("Library database (*.TCLib)|*.TCLib|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
+		_T("Library database in SQLite3 format (*.TCLib)|*.TCLib|Library database in MSJet format (*.mdb)|*.mdb|All files (*.*)|*.*||"), AfxGetMainWnd() ); 
 
     if( dlg.DoModal() == IDOK )
   	{
