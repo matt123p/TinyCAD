@@ -34,14 +34,19 @@ private:
 		struct BomObject
 		{
 			CDrawMethod *m_pMethod;
+			CString m_RefDes;
 			int			m_sheet;
 			CString		m_name;
 
-			BomObject( CDrawMethod *pMethod, int sheet, CString name )
+			CString getRefDes() const { return m_RefDes; }
+
+			BomObject( CDrawMethod *pMethod, const CImportFile& ImportContext,
+				int sheet, CString name )
 			{
 				m_pMethod = pMethod;
 				m_sheet = sheet;
 				m_name = name;
+				m_RefDes = CNetList::get_reference_path(pMethod, &ImportContext, false);
 			}
 		};
 
@@ -49,7 +54,8 @@ private:
 		{
 			if (a.m_name == b.m_name)
 			{
-				return a.m_pMethod->GetRef() < b.m_pMethod->GetRef();
+				return a.getRefDes() < b.getRefDes();
+					// a.m_pMethod->GetRef() < b.m_pMethod->GetRef();
 			}
 
 			return a.m_name < b.m_name;
@@ -80,7 +86,7 @@ private:
 	bool		m_hierarchical;
 	bool		m_prefix_import;
 
-	void GenerateBomForDesign( int level, int parentPos, CMultiSheetDoc *pDesign );
+	void GenerateBomForDesign( int level, int parentPos, const CImportFile& pDesign );
 	void XInc(FILE *theFile,int &Xpos,int amount);
 
 public:
