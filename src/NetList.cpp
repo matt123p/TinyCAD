@@ -883,7 +883,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 
 		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->getDesign();
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
 		}
 
   		/// Generate a component for every sheet in this design
@@ -1054,7 +1054,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 
 		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->getDesign();
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1231,7 +1231,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 
 		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->getDesign();
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1385,7 +1385,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 
 		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->getDesign();
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
 		}
 
 		/// Generate a component for every sheet in this design
@@ -1610,7 +1610,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 
 		if ((*fi)->getFileNameIndex() != 0)
 		{
-			dsn = (*fi)->getDesign();
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
 		}
 
 		/// Generate a component for every sheet in this design

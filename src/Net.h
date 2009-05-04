@@ -25,6 +25,7 @@
 
 #include "resource.h"
 
+class CMultiSheetDoc;
 class CTinyCadMultiDoc;
 class CDrawMethod;
 
@@ -227,7 +228,7 @@ public:
 class CImportFile
 {
 	int					m_file_name_index;
-	CTinyCadMultiDoc*	m_pDesign;
+	CMultiSheetDoc*		m_pDesign;
 
 	typedef CollectionMemberReference<CImportFile *> ParentFile_t;
 	ParentFile_t m_parent;
@@ -242,7 +243,7 @@ private:
 
 public:
 	// use this constructor for root designs
-	CImportFile(CTinyCadMultiDoc* pRootDesign) : m_pDesign(pRootDesign)
+	CImportFile(CMultiSheetDoc* pRootDesign) : m_pDesign(pRootDesign)
 	{
 	}
 	// use this constructor for imported files with a parent
@@ -256,7 +257,7 @@ public:
 	BOOL Load( const TCHAR *filename );
 	inline void setFileNameIndex(int i) { m_file_name_index = i; }
 	inline int getFileNameIndex() const { return m_file_name_index; }
-	inline CTinyCadMultiDoc* getDesign() const { return m_pDesign; }
+	inline CMultiSheetDoc* getDesign() const { return m_pDesign; }
 	CString getReferenceContext() const { return m_RefContext; }
 };
 
@@ -326,13 +327,13 @@ protected:
 	// Get a attribute value from an attribute name
 	bool get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r );
 
-	// Get a hierarchical reference path from a symbol.
-	CString get_reference_path( const CDrawMethod* psymbol, const CImportFile *pcontext, bool forward, TCHAR separator=_T('_'));
-
 	// Clear out the imports etc..
 	void clear();
 
 public:
+	// Get a hierarchical reference path from a symbol.
+	static CString get_reference_path( const CDrawMethod* psymbol, const CImportFile *pcontext, bool forward, TCHAR separator=_T('_'));
+
 
 	netCollection		m_nets;
 	BOOL				m_prefix_references;

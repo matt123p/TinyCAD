@@ -65,13 +65,15 @@ void CBOMGenerator::GenerateBomForDesign( bool all_sheets, bool all_attr, bool p
 	m_filename = pDesign->GetPathName();
 	m_file_counter.reset();
 
-	GenerateBomForDesign( 0, -1, pDesign );
+	CImportFile rootfile(pDesign);
+	GenerateBomForDesign( 0, -1, rootfile );
 }
 
-void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, CMultiSheetDoc *pDesign )
+void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImportFile& impfile)
 {
 	CollectionMemberReference<CImportFile*> cmrDefaultParent(m_imports, parentPos);
 	CollectionMemberReference<CImportFile*> cmrParent;
+	CTinyCadMultiDoc* pDesign = static_cast<CTinyCadMultiDoc*>(impfile.getDesign());
 	
 	if (parentPos >= 0)
 		cmrParent = cmrDefaultParent;
@@ -98,13 +100,14 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, CMultiSheetD
 				}
 
 				// Push back this filename into the list of extra imports
-				CImportFile *f = new CImportFile(cmrParent, "");
+				CString partReferenceString = pSymbol->GetFieldByName("Ref");
+				CImportFile *f = new CImportFile(cmrParent, partReferenceString);
 				f->setFileNameIndex(m_file_counter.next());
 				if (f->Load( pSymbol->GetFilename() ) )
 				{
 					m_imports.push_back( f );
 					int where = m_imports.size()-1;
-					GenerateBomForDesign( level+1, where, f->getDesign() );
+					GenerateBomForDesign( level+1, where, *f );
 				}
 				else
 				{
@@ -164,7 +167,7 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, CMultiSheetD
 
 				}
 
-				m_methods.insert( BomSort::BomObject( thisMethod, sheet+1, name ) );
+				m_methods.insert( BomSort::BomObject( thisMethod, impfile, sheet+1, name ) );
 			}
 
 			++ it;
@@ -196,18 +199,19 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
   bomCollection::iterator itx = m_methods.begin();
   CString LastRef = "";
   CString LastName = "";
-  int Xpos = 0, peices=0;
+  int Xpos = 0, pieces=0;
   while (itx != m_methods.end()) 
   {
-	CDrawMethod *thisMethod = (*itx).m_pMethod;
-	int sheet = (*itx).m_sheet;
-	CString name = (*itx).m_name;
+    BomSort::BomObject *pBomObject = &(*itx);
+	CDrawMethod *thisMethod = pBomObject->m_pMethod;
+	int sheet = pBomObject->m_sheet;
+	CString name = pBomObject->m_name;
 
 	if (name != LastName && LastName != "")
 	{
 		if (csv)
 		{
-			_ftprintf(fout,_T("\",%3d,%s\n"),peices,LastName);
+			_ftprintf(fout,_T("\",%3d,%s\n"),pieces,LastName);
 		}
 		else
 		{
@@ -219,20 +223,21 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
 			}
 
 			// Write the name
-			_ftprintf(fout,_T("   %3d   %s\n"),peices,LastName);
+			_ftprintf(fout,_T("   %3d   %s\n"),pieces,LastName);
 			Xpos = 0;
 		}
 
-		peices = 0;
+		pieces = 0;
 	}
 
 	// Do not write out references more than once
-	CString ref = thisMethod->GetRefSheet(m_prefix_sheet,m_prefix_import, 0, sheet);
+	
+	CString ref = pBomObject->getRefDes();
 	if (ref != LastRef) 
 	{
 		if (csv)
 		{
-			if (peices == 0)
+			if (pieces == 0)
 			{
 				_ftprintf(fout,_T("\""));
 			}
@@ -251,7 +256,7 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
 			XInc(fout,Xpos,(ref).GetLength());
 		}
 		_ftprintf(fout,_T("%s"),ref);
-		peices ++;
+		pieces ++;
 	}
 
 	if (ref==(thisMethod->GetSymbolData())->reference)
@@ -263,11 +268,11 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
 	++ itx;
   }
 
-  if (peices > 0)
+  if (pieces > 0)
   {
 		if (csv)
 		{
-			_ftprintf(fout,_T("\",%3d,%s\n"),peices,LastName);
+			_ftprintf(fout,_T("\",%3d,%s\n"),pieces,LastName);
 		}
 		else
 		{
@@ -279,7 +284,7 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
 			}
 
 			// Write the name
-			_ftprintf(fout,_T("   %3d   %s\n"),peices,LastName);
+			_ftprintf(fout,_T("   %3d   %s\n"),pieces,LastName);
 			Xpos = 0;
 		}
   }
