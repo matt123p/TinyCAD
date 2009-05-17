@@ -250,8 +250,16 @@ void CDlgLibraryBox::OnEdit()
 {
 	CLibraryStore* pLib = GetSelectedLibrary();
 
+	// If no library was selected, simply return without starting the editor.
+	// This condition is caused by double clicking somewhere in the library list that doesn't 
+	// have the name of a library.  Formerly, there was an assert here for (pLib != NULL), but
+	// it was causing a program break if the user simply double clicked within the library list box,
+	// but missed one of the list items.
+	//
 	// Should be impossible to edit a non-selected library
-	assert( pLib != NULL );
+	// assert( pLib != NULL );
+
+	if (pLib == NULL) return;
 
 	// First can this library be upgraded?
 	if (pLib->MustUpgrade())
