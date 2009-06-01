@@ -2447,6 +2447,22 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\MonitorDC.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Monitors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Multimon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="MultiSheetDoc.cpp"
 				>
 				<FileConfiguration
@@ -3683,6 +3699,18 @@
 			</File>
 			<File
 				RelativePath="MainFrm.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MonitorDC.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Monitors.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor.h"
 				>
 			</File>
 			<File
