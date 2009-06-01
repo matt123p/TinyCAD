@@ -300,7 +300,8 @@ void CTinyCadView::OnSpecialCheck()
 							node_type = nUnknown;
 						}
 					}
-					connections ++;
+					// power symbols should not inc the number of connections
+					//connections ++;
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
 					break;
