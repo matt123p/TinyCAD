@@ -30,8 +30,8 @@
 
 
 const	int	CLibraryView::m_symbols_per_print_page = 10;
-const	int CLibraryView::m_symbols_per_screen_page = 8;
-
+const	int CLibraryView::m_default_symbols_per_screen_page = 8;
+int			CLibraryView::m_optimal_symbols_per_screen_page = 0;	//calculated dynamically
 
 /////////////////////////////////////////////////////////////////////////////
 // CLibraryView
@@ -108,6 +108,9 @@ void CLibraryView::OnDraw(CDC* pDC)
 	{
 		view_transform.SetZoomFactor( 5.0 );
 	}
+	else {
+		view_transform.SetZoomFactor( 1.0 );
+	}
 
 	// The font for naming with
 	CFont theFont;
@@ -139,27 +142,22 @@ void CLibraryView::OnDraw(CDC* pDC)
 	int start_y = 0;
 	
 	double height = view_transform.doubleDeScale( pDC->GetDeviceCaps( VERTRES ) );
+	//TRACE("CLibraryView::OnDraw(): Default monitor device height = %g transformed pixels.\n", height);
+
 	int advance = 0;
 
 	double max_height;
 	double max_width;
+	int block_height = 0;
+	int min_range_y=0, max_range_y=0;
+	double dPercentY, dMax_range_y;
+	SIZE page_size, line_size;
 
-	if (!pDC->IsPrinting())
-	{
-		CRect r;
-		GetClientRect( r );
-		max_width = r.Width();
-		max_height = height / m_symbols_per_screen_page;
-
-		// Establish where to start drawing from...
-		advance = static_cast<int>(GetScrollPosition().y / max_height);
-		current_y = static_cast<int>(advance * max_height);
-		start_y = current_y;
-	}
-	else
+	if (pDC->IsPrinting())
 	{
 		max_width = view_transform.doubleDeScale( pDC->GetDeviceCaps( HORZRES ) );
 		max_height = (height - text_spacing*4) / m_symbols_per_print_page;
+		block_height = static_cast<int>(max_height);
 
 		CString s = GetDocument()->m_pLibrary->m_name;
 		CContext q( pDC, view_transform );
@@ -172,13 +170,45 @@ void CLibraryView::OnDraw(CDC* pDC)
 		current_y = text_spacing * 2;
 		advance = (m_printing_page * m_symbols_per_print_page);
 	}
+	else
+	{	//Normal display on screen
+		CRect r;
+		GetClientRect( r );
+		max_width = r.Width();
+		max_height = GetSymbolBlockHeight();
+		height = max_height * m_optimal_symbols_per_screen_page;
+		block_height = static_cast<int>(max_height);
+		//TRACE("CLibraryView::OnDraw(): New height = %g, max_height = %g, block_height = %ld.\n", height, max_height, block_height);
 
-	while ( advance > 0 && it != pDoc->m_SymbolMap.end() )
-	{
-		++ it;
-		++ current_index;
-		-- advance;
+		// Establish which symbol to start drawing from based on the vertical scroll indicator
+		GetScrollRange(SB_VERT, &min_range_y, &max_range_y);
+		dMax_range_y = max_range_y-min_range_y+1;
+		dPercentY = GetDeviceScrollPosition().y;
+		dPercentY = dPercentY/dMax_range_y;
+		advance = static_cast<int> (floor((dPercentY * pDoc->m_SymbolMap.size())+0.5));	//result is in units of number of symbols to scroll
+		current_y = static_cast<int>(advance * block_height);
+		start_y = current_y;
+
+		//TRACE("CLibraryView::OnDraw(): Scroll Range Y min/max = %d/%d, Number of symbols (size) = %d, dPercentY = %g, advance = %d\n", min_range_y, max_range_y, pDoc->m_SymbolMap.size(), dPercentY, advance);
+		//TRACE("CLibraryView::OnDraw(): GetScrollPosition().y = %ld, current_index = %d, start_y = %d.\n", GetScrollPosition().y, current_index, start_y);
 	}
+
+	current_index = advance;
+	advance = 0;
+
+	// No operator seems to exist to increment it advance times in one operation, so do it iteratively
+	for (int i=0; i < current_index; i++ )
+	{
+		if (it != pDoc->m_SymbolMap.end()) ++it;
+		else break;
+	}
+
+	//TRACE("CLibraryView::OnDraw(): After adjustment:  current_index = %d, advance = %d\n",current_index, advance);
+	int text_pos_y;
+	int text_pos_x;
+	int text_col_width;
+	CDPoint p;
+	CDPoint qq;
 
 	for (;it != pDoc->m_SymbolMap.end(); ++it )
 	{
@@ -188,7 +218,6 @@ void CLibraryView::OnDraw(CDC* pDC)
 		pDC->SelectObject( &theFont );
 			
 		// Now access the symbol and draw it next to the name
-		CDPoint p;
 		CLibraryStoreNameSet &s = GetDocument()->getNameSet(it);
 		CDesignFileSymbol *pSymbol = s.GetDesignSymbol( &doc, 0 );
 
@@ -207,65 +236,81 @@ void CLibraryView::OnDraw(CDC* pDC)
 			p = CDPoint(-75,-15);
 		}
 
-		if (orientation >= 2)
-		{
-			CDPoint q = p;
-			p.x = q.y;
-			p.y = q.x;
-		}
+		//TRACE("Symbol orientation = %d, raw symbol origin = %g/%g\n",orientation, p.x, p.y);
 
-		int block_height = 0;
-		double zoom = min( (max_width*75) / fabs(p.x), (max_height*75)/fabs(p.y) );
+		if (orientation >= 2)
+		{	//swap x and y coordinates
+			qq = p;
+			p.x = qq.y;
+			p.y = qq.x;
+		}
+		//TRACE("Symbol orientation = %d, rotated symbol origin = %g/%g\n",orientation, p.x, p.y);
+
+		double zoom = min( (max_width*75) / fabs(p.x), (block_height*75)/fabs(p.y) );	//djl - shouldn't max_height really be block_height here?!!
 		zoom = min( 100, zoom );
 		zoom = max( 2, zoom );
-		block_height = static_cast<int>(max_height);
 
 		// Fill in the background rectangle
-		q.SetOrigin( CDPoint( 0, -current_y) );
-		if (!pDC->IsPrinting())
-		{
-			if (current_index == pDoc->getSelected())
-			{
-				q.SelectBrush( cOFFPAGE );
-			}
-			else
-			{
-				q.SelectBrush( cWHITE );
-			}
-			q.SelectPen( cBLACK,0,0);
-			q.Rectangle( CDRect(0,0,max_width, block_height ));
-		}
-		else
-		{
+		//TRACE("current_index = %d:  Setting origin to %d/%d",current_index, 0, -current_y);
+		q.SetOrigin( CDPoint( 0, -current_y) );	//This is the origin that will be used to draw the symbol's enclosing rectangle.
+
+		if (pDC->IsPrinting())
+		{	//printing the library contents
 			q.SelectPen( cOFFPAGE,0,0 );
 			q.MoveTo( CDPoint(0,0) );
 			q.LineTo( CDPoint(max_width, 0) );
+		}
+		else
+		{	//normal screen display
+			if (current_index == pDoc->getSelected())
+			{	//Draw selected items with a different background color than non-selected items
+				//TRACE(" - current_index is selected, so brush = cOFFPAGE\n");
+				q.SelectBrush( cOFFPAGE );	//Selected symbols are drawn with a background color the same as the color used for offpage items
+			}
+			else
+			{	//Non-selected items use a white background
+				//TRACE(" - current_index is not selected, so brush = cWHITE\n");
+				q.SelectBrush( cWHITE );
+			}
+			q.SelectPen( cBLACK,0,0);
+			q.Rectangle( CDRect(0,0,max_width, block_height ));	//This is the decorative rectangle that delineates each symbol in the library list
 		}
 
 		// Draw the name
 		q.SetTextAlign(TA_LEFT | TA_BOTTOM | TA_NOUPDATECP);
 		q.SetBkMode( TRANSPARENT );
-		q.SetTextColor( RGB(0,0,0) );
+		q.SetTextColor( RGB(0,0,0) );	//Symbol set names are drawn in black
 
-		// Do this for each of the names in the symbol set
-		int text_pos_y = 20;
-		int text_pos_x = 5;
-		int text_col_width = 0;
+		// Draw the name for each of the names in the symbol set
+		text_pos_y = 20;
+		text_pos_x = 5;
+		text_col_width = 0;
+
+		if (s.GetNumRecords() > 1) {
+			//TRACE("CLibraryView::OnDraw(): ********* This symbol has %d variant names.   ****************\n",s.GetNumRecords());
+		}
+
 		for (int i =0; i < s.GetNumRecords(); i++)
 		{
 			CSymbolRecord &r = s.GetRecord( i );
 
-			pDC->SelectObject( &theFont );
-			q.TextOut( text_pos_x, text_pos_y, r.name );
+			// Draw the name
+			q.SetTextAlign(TA_LEFT | TA_BOTTOM | TA_NOUPDATECP);
+			q.SetBkMode( TRANSPARENT );
+			q.SetTextColor( RGB(0,0,0) );	//Symbol set names are drawn in black
 
+			pDC->SelectObject( &theFont );
+			q.TextOut( text_pos_x, text_pos_y, r.name.GetString() );
+			//TRACE("Drawing at location (%d,%d) length = %d, name = [%s]\n", text_pos_x, text_pos_y, r.name.GetLength(), r.name.GetString());
 			pDC->SelectObject( &theFont2 );
-			q.TextOut( text_pos_x, text_pos_y + 16, r.description );
+			q.TextOut( text_pos_x, text_pos_y + 16, r.description.GetString() );
+			//TRACE("                     (%d,%d) length = %d, description = [%s]\n", text_pos_x, text_pos_y+16, r.name.GetLength(), r.description.GetString());
 			text_pos_y += 35;
 
 			text_col_width = max( text_col_width, static_cast<int>(view_transform.DeScale( pDC->GetTextExtent( r.description ).cx )) );
 			text_col_width = max( text_col_width, static_cast<int>(view_transform.DeScale( pDC->GetTextExtent( r.name ).cx ) ) );
 
-			if (text_pos_y > max_height - 40)
+			if (text_pos_y > block_height - 40)
 			{
 				// Move across to the other side...
 				text_pos_x += text_col_width + 30;
@@ -279,11 +324,17 @@ void CLibraryView::OnDraw(CDC* pDC)
 
 		// Now display the symbol
 		CDPoint old;
+		double symbol_specific_zoom_factor = (zoom/100.0) *  q.GetTransform().GetZoomFactor();
 
-		q.SetZoomFactor( zoom/100.0 *  q.GetTransform().GetZoomFactor() );
-		int centering_height = static_cast<int>((max_height * 100) / zoom);
+		q.SetZoomFactor(symbol_specific_zoom_factor=( zoom/100.0 *  q.GetTransform().GetZoomFactor() ));
+		int centering_height = static_cast<int>((block_height * 100) / zoom);
 		int centering_width = static_cast<int>((width_to_fill * 100) / zoom);
-		q.SetOrigin( CDPoint( -(width_offset*100)/zoom, ((-current_y)*100)/zoom) );
+		//TRACE("Symbol specific zoom factor = %g, local zoom factor = %g",symbol_specific_zoom_factor, zoom);
+
+		CDPoint symbol_specific_origin = CDPoint( -(width_offset*100)/zoom, ((-current_y)*100)/zoom);
+		q.SetOrigin( symbol_specific_origin);
+		//TRACE(", Symbol specific origin = %g/%g\n",symbol_specific_origin.x, symbol_specific_origin.y);
+
 		switch (orientation)
 		{
 		case 2:
@@ -297,7 +348,6 @@ void CLibraryView::OnDraw(CDC* pDC)
 			break;
 		}
 
-		 
 		if (pSymbol)
 		{
 			drawingIterator paint_it = method.begin();
@@ -315,15 +365,27 @@ void CLibraryView::OnDraw(CDC* pDC)
 		current_index ++;
 		current_y += block_height;
 
-		if (current_y - start_y + block_height > height)
-		{
+		//TRACE("CLibraryView::OnDraw(): current_y now = %d.\n\n\n",current_y);
+		int units_to_draw = current_y - start_y - 2*block_height;	//subtracting 2*block_height makes it paint two more symbols than otherwise necessary.  This is needed because the visible portion of the canvas may contain two extra fractional portions of a symbol, one at the top of the screen and one at the bottom of the screen.
+		if (units_to_draw > height)
+		{	//if we have drawn enough symbols to completely fill the visible portion of the screen, then quit drawing
+			//TRACE("Symbol drawing loop complete.  current_y = %d, start_y = %d, block_height = %d, height = %g, formula result %d is greater than height.\n\n", current_y, start_y, block_height, height, units_to_draw);
 			break;
 		}
 	}
 
 	pDC->SelectObject( oldFont );
 
-	SetScrollSizes( MM_TEXT, GetDocSize() );
+	//Make an intelligent selection of the amount to scroll when scrolling in any direction by a line or a page
+	//Performing this logic inside the loop permits dynamic symbol additions or deletions to be taken into consideration
+	page_size.cx = text_col_width;
+	page_size.cy = static_cast<LONG>(height);	//size of the visible portion of the window for scrolling purposes
+	if (page_size.cy > block_height) page_size.cy -= block_height;	//set to one symbol less than a full page of symbols
+
+	line_size.cx = text_col_width;
+	line_size.cy = 2*block_height;	//when vertical scroll bar is pressed, scroll up or down 2 symbols provide that this is less than one page of symbols
+	if (line_size.cy >= page_size.cy) line_size.cy = block_height;	//If less than one symbol can be displayed at a time, then scroll by one whole symbol.  Alternative could be to scroll by the fraction of a symbol that is displayed.
+	SetScrollSizes( MM_TEXT, GetDocSize(), page_size, line_size );
 }
 
 
@@ -451,14 +513,60 @@ void CLibraryView::OnEndPrinting(CDC* pDC, CPrintInfo* pInfo)
 
 
 CSize CLibraryView::GetDocSize()
-{
-	CClientDC dc( this );
-	Transform	view_transform;
-	double height = view_transform.doubleDeScale( dc.GetDeviceCaps( VERTRES ) );
-	int total_size = static_cast<int>(GetDocument()->m_SymbolMap.size() * (height / m_symbols_per_screen_page));
+{	//returns the number of pixels required to display the entire document in the vertical dimension.  
+	//the document consists of "blocks" of graphical symbols.  The height of a single block in pixels is based on
+	//fitting a constant number of these blocks onto the current visible and usable window height.  Truncation will
+	//possibly result in a fractional block being displayed.
 
+	int block_height = GetSymbolBlockHeight();
+	int total_size = block_height * GetDocument()->m_SymbolMap.size();
+
+	//TRACE("CLibraryView::GetDocSize():  block_height = %d, total_size = %d\n", block_height, total_size);
 	return CSize(0,total_size);
 }
+
+int CLibraryView::GetSymbolBlockHeight()
+{	//returns the number of pixel units required to display a single symbol in the vertical dimension.
+
+	CClientDC dc( this );
+	Transform	view_transform;
+
+	CRect r;
+	GetClientRect( r );
+//	double height = view_transform.doubleDeScale( dc.GetDeviceCaps( VERTRES ) );	//djl - the number of pixels in height MUST match the assumptions made by the library editing program regarding the height of the drawing area - this statement does NOT meet that requirement.
+	double height = view_transform.doubleDeScale(r.Height());
+
+	int block_height;
+	m_optimal_symbols_per_screen_page = m_default_symbols_per_screen_page;
+
+	if (dc.IsPrinting()) {	//printing the library contents
+		block_height = static_cast<int>(height)/m_symbols_per_print_page;
+	}
+	else {	//normal screen display
+		block_height = static_cast<int>(height)/m_optimal_symbols_per_screen_page;
+		//When drawing symbols on the screen, try to achieve a more optimal number of symbols per screen than the fixed constant.
+		//Assumption:  symbols larger than 125 pixel units are wasting space, while symbols < 50 pixel units are hard to read.
+		//             When in-between these 2 limits, select the default number of symbols per page.
+		//			   Note that this only applies to on-screen display, not to printer displays.
+		if (block_height > 125) {
+			m_optimal_symbols_per_screen_page = static_cast<int>(height) / 125;
+			block_height = static_cast<int>(height)/m_optimal_symbols_per_screen_page;
+		}
+		else if (block_height < 50) {
+			m_optimal_symbols_per_screen_page = static_cast<int>(height) / 50;
+			if (m_optimal_symbols_per_screen_page < 1) {
+				m_optimal_symbols_per_screen_page = 1;
+				block_height = 50;
+			}
+			else {
+				block_height = static_cast<int>(height)/m_optimal_symbols_per_screen_page;
+			}
+		}
+	}
+	//TRACE("Optimal symbols per page = %d, block_height = %d\n",m_optimal_symbols_per_screen_page, block_height);
+	return block_height;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // The user is selecting a new object
@@ -466,11 +574,11 @@ CSize CLibraryView::GetDocSize()
 void CLibraryView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	// Determine the current scroll limits
-	CClientDC dc( this );
-	Transform	view_transform;
-	double height = view_transform.doubleDeScale( dc.GetDeviceCaps( VERTRES ) );
-	double max_height = height / m_symbols_per_screen_page;
-
+//	CClientDC dc( this );
+//	Transform	view_transform;
+//	double height = view_transform.doubleDeScale( dc.GetDeviceCaps( VERTRES ) );
+//	double max_height = height / m_default_symbols_per_screen_page;
+	double max_height = GetSymbolBlockHeight();
 	int y_hit = GetScrollPosition().y + point.y;
 	GetDocument()->setSelected( static_cast<int>(y_hit / max_height) );
 	Invalidate();

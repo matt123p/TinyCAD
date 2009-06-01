@@ -341,6 +341,9 @@ void CDlgUpdateBox::OnOK()
 
 CLibraryStoreSymbol& CDlgUpdateBox::getCurrentRecord()
 {
+	if (m_current_record >= m_records.size()) {	//is the current record out of range?  This can happen during certain editing operations.
+		return m_records[ m_records.size() - 1 ];	//return the last record
+	}
 	return m_records[ m_current_record ];
 }
 

@@ -37,9 +37,10 @@ class CLibraryView : public CScrollView
 protected:
 	CLibraryView();           // protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(CLibraryView)
-
+	int GetSymbolBlockHeight();	//protected method to obtain the height of a library symbol block in pixels
 	static const int	m_symbols_per_print_page;
-	static const int	m_symbols_per_screen_page;
+	static const int	m_default_symbols_per_screen_page;
+	static int			m_optimal_symbols_per_screen_page;
 
 // Attributes
 public:

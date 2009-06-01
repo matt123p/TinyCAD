@@ -865,6 +865,7 @@ BOOL CDesignFileSymbol::GetMethod( int part, bool include_power_pins, drawingCol
 	return TRUE;
 }
 
+/** Get Top Right point of the specified symbol.  This represents the width and height of the symbol. */
 CDPoint CDesignFileSymbol::GetTr( int part, bool include_power_pins )
 {
 	// Only use the part number if we are a heterogeneous symbol
@@ -880,6 +881,7 @@ CDPoint CDesignFileSymbol::GetTr( int part, bool include_power_pins )
 	if (it != m_filter_cache.end() && it->second.size() > 0)
 	{
 		// Top-right point already in the cache so use it!
+		//TRACE("Symbol found in symbol cache.  Top right = %g/%g\n",it->first.m_top_right.x, it->first.m_top_right.y);
 		return it->first.m_top_right;
 	}
 	else
@@ -894,21 +896,35 @@ CDPoint CDesignFileSymbol::GetTr( int part, bool include_power_pins )
 			it = m_filter_cache.find( f );
 			if (it != m_filter_cache.end())
 			{
+				//TRACE("Symbol found in symbol cache after drawing the symbol.  Top right = %g/%g\n",it->first.m_top_right.x, it->first.m_top_right.y);
 				return it->first.m_top_right;
+			}
+			else {
+				//TRACE("Warning:  After drawing symbol that was not originally found in the symbol cache, it was still not found in the symbol cache!\n");
 			}
 		}
 	}
 
+	//TRACE("Warning:  No symbol found when attempting to retrieve the top right point!  Returning point (0,0)\n");
 	return CDPoint( 0,0 );
 }
 
-
+/** Return the top right coordinate of this symbol.  Consider only pin coordinates, 
+ *  and do not include invisible pins.  Adjust the coordinates of each pin by snapping 
+ *  them to the current grid before determining the overall bounding rectangle.  When returning
+ *  the top right point, relocate the origin so that it is located at the top left point.
+ *  This is accomplished by actually returning the width and height of the symbol's pins.
+ *  Note that this is not necessarily the true bounding rectangle for the symbol because it does not 
+ *  consider the location of any non-pin graphical objects such as text or polygons.
+ */
 CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawing )
 {
 	// Find the co-ords of the bounding box of this symbol
-	CDPoint a=CDPoint(0,0);
-	CDPoint b=CDPoint(0,0);
+
+	CDPoint a=CDPoint(0,0);	//Initialized in case no pins are found!
+	CDPoint b=CDPoint(0,0);	//Initialized in case no pins are found!
 	
+	//TRACE("CDesignFileSymbol::GetTr():  Evaluating primitives in symbol in order to determine the bounding rectangle\n");
 	if (drawing.size()>0)
 	{
 		b = drawing.front()->m_point_a;
@@ -916,8 +932,7 @@ CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawin
 
 	CDPoint pin = CDPoint(0,0);
 
-	drawingIterator it = drawing.begin();
-	while (it != drawing.end()) 
+	for (drawingIterator it = drawing.begin(); it != drawing.end(); ++it) 
 	{
 		CDrawingObject *pointer = *it;
 		CDrawPin *thePin = static_cast<CDrawPin*>(pointer);
@@ -930,30 +945,24 @@ CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawin
 			b.x=min(b.x,min(pointer->m_point_a.x,pointer->m_point_b.x));
 			b.y=min(b.y,min(pointer->m_point_a.y,pointer->m_point_b.y));
 		}
-
-		++ it;
 	}
 
 
-	  // If this symbol has pins, then snap the pin to the grid,
-  // rather than the bounding rect
-  CDPoint snapa, snapb;
+	// If this symbol has pins, then snap the pin to the grid,
+	// rather than the bounding rect
+	CDPoint snapa, snapb;
 
-  // Snap the co-ords of the bounding box to the grid
-  snapa = pDesign->m_snap.Snap(a);
-  snapb = pDesign->m_snap.Snap(b);
-  
-  // Make sure snapping is always positive
-  if (snapa.x<a.x)
-	snapa.x+=pDesign->m_snap.GetGrid();
-  if (snapa.y<a.y)
-	snapa.y+=pDesign->m_snap.GetGrid();
-  if (snapb.x>b.x)
-	snapb.x-=pDesign->m_snap.GetGrid();
-  if (snapb.y>b.y)
-	snapb.y-=pDesign->m_snap.GetGrid();
+	// Snap the co-ords of the bounding box to the grid
+	snapa = pDesign->m_snap.Snap(a);
+	snapb = pDesign->m_snap.Snap(b);
 
-	// Return top right hand corner
+	// Make sure snapping is always positive
+	if (snapa.x < a.x) snapa.x += pDesign->m_snap.GetGrid();
+	if (snapa.y < a.y) snapa.y += pDesign->m_snap.GetGrid();
+	if (snapb.x > b.x) snapb.x -= pDesign->m_snap.GetGrid();
+	if (snapb.y > b.y) snapb.y -= pDesign->m_snap.GetGrid();
+
+	// Return top right hand corner relative to 0,0.  This is actually accomplished by returning the length and height of the bounding rectangle.
 	return CDPoint(snapb.x - snapa.x ,snapb.y - snapa.y );
 }
 
