@@ -466,6 +466,7 @@ class CEditDlgPowerEdit;
 class CDrawPower : public CDrawingObject {
 
 	friend CEditDlgPowerEdit;
+	friend CNetList;
 
 	CDPoint	TextPos; // The position of the text item
 	CDPoint	TextEnd;
