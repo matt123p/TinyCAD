@@ -266,6 +266,7 @@ typedef std::map<CDPoint,int>		nodeCollection;
 typedef std::vector<CNetListNode>	nodeVector;
 typedef std::map<int,nodeVector>	netCollection;
 
+class CDrawPower;
 
 // Here is the class that holds it all together...
 class CNetList
@@ -326,6 +327,9 @@ protected:
 
 	// Get a attribute value from an attribute name
 	bool get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r );
+
+	// Get a netlist label name for this power symbol
+	CString get_power_label( CDrawPower *power );
 
 	// Clear out the imports etc..
 	void clear();

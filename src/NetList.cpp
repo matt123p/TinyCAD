@@ -700,15 +700,17 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		case xPower:
 			{
 			CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a);
-			n.setLabel( ((CDrawPower *)ObjPtr)->GetValue() );
+
+			CString powerLabel = get_power_label((CDrawPower *)ObjPtr);
+			n.setLabel( powerLabel );
 
 			/// Does this power item exist?
-			found = Powers.find(((CDrawPower *)ObjPtr)->GetValue());
+			found = Powers.find( powerLabel );
 			if (found != Powers.end())
 				n.m_NetList = (*found).second;
 			hold = Add(n);
 			if (found == Powers.end())
-				Powers[((CDrawPower *)ObjPtr)->GetValue()] = hold;
+				Powers[ powerLabel ] = hold;
 			}
 			break;
 		case xWire:
@@ -775,7 +777,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
   {
 	CDrawingObject *ObjPtr = *it;
 
-	/// Search for junctions
+	/// Search for labels
 	if (ObjPtr->GetType() == xLabelEx2) 
 	{
 		CDPoint a = static_cast<CDrawLabel*>(ObjPtr)->GetLabelPoint();
@@ -949,25 +951,16 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 				CNetListNode& theNode = *nv_it;
 				++ nv_it;
 
-				if (theNode.getLabel() != "" && !Labeled) 
+				if (!theNode.getLabel().IsEmpty() && !Labeled) 
 				{
 					theLabel = theNode.getLabel();
 					Labeled = TRUE;
 				}
-				else
+
+				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					if (!theNode.getLabel().IsEmpty())
-					{
-					/// NOT FOR Protel:	add = theNode.getLabel();
-					}
-					else if (!theNode.m_reference.IsEmpty())
-					{
 						add.Format(_T("%s-%s"), theNode.m_reference, theNode.m_pin );
-					}
-
-					if (!add.IsEmpty())
-					{
 						len += add.GetLength();
 						if (len > 127)
 						{
@@ -992,7 +985,6 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 						
 					}
 				}
-			}
 
 			if (count > 1) 
 			{
@@ -1125,25 +1117,16 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				CNetListNode& theNode = *nv_it;
 				++ nv_it;
 
-				if (theNode.getLabel() != _T("") && !Labeled) 
+				if (!theNode.getLabel().IsEmpty() && !Labeled) 
 				{
 					theLabel = theNode.getLabel();
 					Labeled = TRUE;
 				}
-				else
+
+				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					if (!theNode.getLabel().IsEmpty())
-					{
-					/// NOT FOR PADS:	add = theNode.getLabel();
-					}
-					else if (!theNode.m_reference.IsEmpty())
-					{
 						add.Format(_T("%s.%s"), theNode.m_reference, theNode.m_pin );
-					}
-
-					if (!add.IsEmpty())
-					{
 						len += add.GetLength();
 						if (len > 127)
 						{
@@ -1168,7 +1151,6 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 						
 					}
 				}
-			}
 
 			if (count > 1) 
 			{
@@ -1291,25 +1273,16 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 				CNetListNode& theNode = *nv_it;
 				++ nv_it;
 
-				if (theNode.getLabel() != "" && !Labeled) 
+				if (!theNode.getLabel().IsEmpty() && !Labeled) 
 				{
 					theLabel = theNode.getLabel();
 					Labeled = TRUE;
 				}
-				else
+
+				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					if (!theNode.getLabel().IsEmpty())
-					{
-						add = theNode.getLabel();
-					}
-					else if (!theNode.m_reference.IsEmpty())
-					{
 						add.Format(_T("(%s,%s)"), theNode.m_reference, theNode.m_pin );
-					}
-
-					if (!add.IsEmpty())
-					{
 						if (theNode.getLabel() != add)
 						{
 							if (first)
@@ -1320,6 +1293,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 							{
 								theLine += _T(",");
 							}
+
 							theLine += add;
 							PrintLine=TRUE;
 						}
@@ -1455,29 +1429,20 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 				CNetListNode& theNode = *nv_it;
 				++ nv_it;
 
-				if (theNode.getLabel() != _T("") && !Labeled) 
+				if (!theNode.getLabel().IsEmpty() && !Labeled) 
 				{
 					theLabel = theNode.getLabel();
 					Labeled = TRUE;
 				}
-				else
+
+				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					if (!theNode.getLabel().IsEmpty())
-					{
-					}
-					else if (!theNode.m_reference.IsEmpty())
-					{
 						add.Format(_T("   %s %s\n"), theNode.m_reference, theNode.m_pin );
-					}
-
-					if (!add.IsEmpty())
-					{
 						theLine += add;
 						PrintLine=TRUE;
 					}
 				}
-			}
 			if (PrintLine) {
 				_ftprintf(theFile,_T("SIGNAL "));
 				if (Labeled)
@@ -2316,6 +2281,36 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 	}
 
 	return false;
+}
+
+
+// Get a netlist label name for this power symbol
+CString CNetList::get_power_label( CDrawPower *power )
+{
+	// Use the power value as netlist name where it is available
+	if (!power->GetValue().IsEmpty())
+	{
+	   return power->GetValue();
+	}
+
+	// Differentiate between the different power symbol shapes
+	// and use fixed/default netlist names.
+	switch (power->which)
+	{
+	case 0: // Bar
+		return _T("TCPOWERBAR");
+	case 1: // Circle
+		return _T("TCPOWERCIRCLE");
+	case 2: // Wave
+		return _T("TCPOWERWAVE");
+	case 3: // Arrow
+		return _T("TCPOWERARROW");
+	case 4: // Earth
+		return _T("TCPOWEREARTH");
+	}
+
+	// Just in case... (or rather not a case ;-)
+	return _T("TCPOWER");
 }
 
 
