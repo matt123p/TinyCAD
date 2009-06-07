@@ -72,6 +72,8 @@ BOOL CDlgPCBExport::OnInitDialog()
 	m_Filetype.AddString( _T("PADS-PCB") );
 	m_Filetype.AddString( _T("Eagle SCR") );
 	m_Filetype.AddString( _T("Protel") );
+	m_Filetype.AddString( _T("PCB (Unix)") );
+	m_Filetype.AddString( _T("PCB (Dos)") );
 
 	m_Filetype.SetCurSel( m_type );
 
@@ -144,6 +146,10 @@ CString CDlgPCBExport::GetExtension()
 	case 2: // Eagle
 		return ".scr";
 	case 3: // Protel
+		return ".net";
+	case 4: // PCB
+		return ".net";
+	case 5: // PCB
 		return ".net";
 	}
 

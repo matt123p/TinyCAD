@@ -845,6 +845,12 @@ void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHA
 	case 3:
 		WriteNetListFileProtel( pDesign, filename );
 		break;
+	case 4:
+		WriteNetListFilePCB( pDesign, filename, true );
+		break;
+	case 5:
+		WriteNetListFilePCB( pDesign, filename, false );
+		break;
 	default:
 		WriteNetListFileTinyCAD( pDesign, filename );
 		break;
@@ -960,31 +966,31 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-						add.Format(_T("%s-%s"), theNode.m_reference, theNode.m_pin );
-						len += add.GetLength();
-						if (len > 127)
-						{
-							theLine += _T("\n");
-							len = add.GetLength();
-							first = TRUE;
-						}
-
-						if (first)
-						{
-							first = FALSE;
-						}
-						else
-						{
-							theLine += _T("\n");
-							len ++;
-						}
-
-
-						theLine += add;
-						++ count;
-						
+					add.Format(_T("%s-%s"), theNode.m_reference, theNode.m_pin );
+					len += add.GetLength();
+					if (len > 127)
+					{
+						theLine += _T("\n");
+						len = add.GetLength();
+						first = TRUE;
 					}
+
+					if (first)
+					{
+						first = FALSE;
+					}
+					else
+					{
+						theLine += _T("\n");
+						len ++;
+					}
+
+
+					theLine += add;
+					++ count;
+						
 				}
+			}
 
 			if (count > 1) 
 			{
@@ -1126,31 +1132,31 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-						add.Format(_T("%s.%s"), theNode.m_reference, theNode.m_pin );
-						len += add.GetLength();
-						if (len > 127)
-						{
-							theLine += _T("\n");
-							len = add.GetLength();
-							first = TRUE;
-						}
-
-						if (first)
-						{
-							first = FALSE;
-						}
-						else
-						{
-							theLine += " ";
-							len ++;
-						}
-
-
-						theLine += add;
-						++ count;
-						
+					add.Format(_T("%s.%s"), theNode.m_reference, theNode.m_pin );
+					len += add.GetLength();
+					if (len > 127)
+					{
+						theLine += _T("\n");
+						len = add.GetLength();
+						first = TRUE;
 					}
+
+					if (first)
+					{
+						first = FALSE;
+					}
+					else
+					{
+						theLine += " ";
+						len ++;
+					}
+
+
+					theLine += add;
+					++ count;
+					
 				}
+			}
 
 			if (count > 1) 
 			{
@@ -1282,21 +1288,20 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-						add.Format(_T("(%s,%s)"), theNode.m_reference, theNode.m_pin );
-						if (theNode.getLabel() != add)
+					add.Format(_T("(%s,%s)"), theNode.m_reference, theNode.m_pin );
+					if (theNode.getLabel() != add)
+					{
+						if (first)
 						{
-							if (first)
-							{
-								first = FALSE;
-							}
-							else
-							{
-								theLine += _T(",");
-							}
-
-							theLine += add;
-							PrintLine=TRUE;
+							first = FALSE;
 						}
+						else
+						{
+							theLine += _T(",");
+						}
+
+						theLine += add;
+						PrintLine=TRUE;
 					}
 				}
 			}
@@ -1438,11 +1443,11 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-						add.Format(_T("   %s %s\n"), theNode.m_reference, theNode.m_pin );
-						theLine += add;
-						PrintLine=TRUE;
-					}
+					add.Format(_T("   %s %s\n"), theNode.m_reference, theNode.m_pin );
+					theLine += add;
+					PrintLine=TRUE;
 				}
+			}
 			if (PrintLine) {
 				_ftprintf(theFile,_T("SIGNAL "));
 				if (Labeled)
@@ -1457,6 +1462,135 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 	}
 
 
+
+
+  SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
+  fclose(theFile);
+}
+
+/**
+ * Create netlist and output as a PCB file
+ * 
+ * @param pDesign
+ * @param filename
+ * @param unixOutputFile - a flag indicating whether this file should be written using wide byte characters (for Unix systems) or wide characters (for Windows/DOS systems)
+ */
+void CNetList::WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename, bool unixOutputFile)
+{
+  #define TMP_SIZE 5000
+  char tmp [TMP_SIZE];
+  size_t convertedCount;
+  FILE *theFile;
+  errno_t err;
+
+  if (unixOutputFile)
+  {
+    wcstombs_s(&convertedCount, tmp, TMP_SIZE, filename, _tcslen(filename));	//convert Unicode string to single byte character string
+	err = fopen_s(&theFile, tmp, "wb");	//open in binary mode with ASCII character set
+  }
+  else
+  {
+	err = _tfopen_s(&theFile, filename, _T("w"));	//open in translated text mode in Unicode format
+  }
+
+  if ((theFile == NULL) || (err != 0))
+  {
+	Message(IDS_CANNOTOPEN);
+	return;
+  }
+
+  // Set the Busy icon
+  SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
+
+  // Get the net list
+  MakeNet( pDesign );
+
+  // Keep track of the references that we have output...
+  std::set<CString>	referenced;
+  int count = 0, Label = 0;
+  netCollection::iterator nit = m_nets.begin();
+
+	while (nit != m_nets.end()) 
+	{
+		nodeVector::iterator nv_it = (*nit).second.begin();
+
+		CString theLine,theLabel;
+
+		if (nv_it != (*nit).second.end()) 
+		{
+			theLine = _T("");
+			BOOL first = TRUE,PrintLine=FALSE, Labeled = FALSE;
+
+			while (nv_it != (*nit).second.end()) 
+			{
+				CNetListNode& theNode = *nv_it;
+				++ nv_it;
+
+				if (!theNode.getLabel().IsEmpty() && !Labeled) 
+				{
+					theLabel = theNode.getLabel();
+					Labeled = TRUE;
+				}
+
+				if (!theNode.m_reference.IsEmpty())
+				{
+					CString add;
+					add.Format(_T("%s-%s "), theNode.m_reference, theNode.m_pin );
+					if (theNode.getLabel() != add)
+					{
+						if (first)
+						{
+							first = FALSE;
+						}
+						else
+						{
+							// theLine += _T(",");
+						}
+						theLine += add;
+						if ( ++ count > 40 )
+						{
+							count = 0;
+							add.Format(_T(" \\\n " ));
+							theLine += add;
+						}							
+						PrintLine=TRUE;
+					}
+				}
+			}
+			
+			if (PrintLine) {
+				count = 0;
+				CString aLabel;
+
+				if (Labeled)
+				{
+					aLabel.Format(_T("%s "),theLabel);
+				}
+				else
+				{
+					aLabel.Format(_T("N%06d "), Label++);
+				}
+
+				if (unixOutputFile)
+				{	//Unix output files are encoded as single byte character strings
+					//with no translation of cr/lf characters.  Line endings will be a 
+					//single lf character.
+
+					wcstombs_s(&convertedCount, tmp, TMP_SIZE, aLabel, aLabel.GetLength());	//convert Unicode string to single byte character string
+					fprintf(theFile," %s ", tmp);	//print the net name label as single byte characters
+					
+					wcstombs_s(&convertedCount, tmp, TMP_SIZE, theLine, theLine.GetLength());	//convert Unicode string to single byte character string
+					fprintf(theFile," %s\n", tmp);	//print the list of net connections as single byte characters
+				}
+				else
+				{	//Output Unicode file for Windows/DOS
+					_ftprintf(theFile,_T(" %s  %s\n"), aLabel, theLine);	//print the net label and net connections as Unicode characters
+				}
+			}
+		}
+
+		++ nit;
+	}
 
 
   SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );

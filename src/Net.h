@@ -313,6 +313,9 @@ protected:
 	// Create netlist and output as a Protel PCB script
 	void WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
 
+	// Create netlist and output as a PCB GPLEDA PCB script
+	void WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename,  bool unixOutputFile );
+
 	// Perform the work of making a netlist from a single sheet in this design...
 	void MakeNetForSheet( fileCollection &imports, int import_index, int sheet, Counter& file_counter);
 
