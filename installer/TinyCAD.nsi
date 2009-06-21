@@ -190,6 +190,34 @@ skip_mdac_download:
 
   File "..\libs\valve.mdb"
 
+  File "..\libs\74TTL.TCLib"
+
+  File "..\libs\AC connectors.TCLib"
+
+  File "..\libs\Analog.TCLib"
+
+  File "..\libs\Connectors.TCLib"
+
+  File "..\libs\DISCRETE.TCLib"
+
+  File "..\libs\IC-CMOS4000.TCLib"
+
+  File "..\libs\IC-OPAMP.TCLib"
+
+  File "..\libs\IC-VREG.TCLib"
+
+  File "..\libs\Microcontroller.TCLib"
+
+  File "..\libs\passive2.TCLib"
+
+  File "..\libs\passive.TCLib"
+
+  File "..\libs\semi.TCLib"
+
+  File "..\libs\switches.TCLib"
+
+  File "..\libs\valve.TCLib"
+
   SetOutPath "$DOCUMENTS\TinyCAD Examples"
 
   File "..\examples\AMP.DSN"
