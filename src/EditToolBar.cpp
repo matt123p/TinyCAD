@@ -96,7 +96,7 @@ void CEditToolbar::setDlg(CEditDlg *pWnd)
 	CalcWindowRect( rect, 0 );
 	SetWindowPos( NULL, 0,0, rect.Width(), rect.Height(), SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER );
 
-	// Now make sure the dlg is show and in the correct position
+	// Now make sure the dlg is shown and in the correct position
 	if (pWnd)
 	{
 		if (pWnd->getObject()) 

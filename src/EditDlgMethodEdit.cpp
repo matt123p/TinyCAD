@@ -111,6 +111,7 @@ void CEditDlgMethodEdit::OnOK()
 
 void CEditDlgMethodEdit::ReadFields()
 {
+
   CDrawMethod *pMethod = static_cast<CDrawMethod*>(getObject());
 
 
@@ -125,25 +126,30 @@ void CEditDlgMethodEdit::ReadFields()
 		  continue;
 	  }
 
+		//set the base controls for all columns
 		LVITEM item;
 		item.mask = LVIF_TEXT|LVIF_PARAM; 
 		item.iItem = index; 
-		item.iSubItem = 0; 
 		item.state = 0; 
 		item.stateMask = 0; 
 		item.iImage = 0; 
 		item.iIndent = 0;
 		item.lParam = i;
+
+		//set the controls for the "Parameter" column for the current parameter and insert the column
+		item.mask = LVIF_TEXT|LVIF_PARAM; 
+		item.iSubItem = 0; 
 		item.pszText = pMethod->m_fields[i].m_description.GetBuffer(256); 
 		m_list.InsertItem( &item );
 		pMethod->m_fields[i].m_description.ReleaseBuffer(); 
 
-
+		//set the controls for the "Display Method" column for the current parameter and make it effective
 		item.mask = LVIF_TEXT;
 		item.iSubItem = 1; 
 		item.pszText = pMethod->m_fields[i].m_show ? _T("Yes") : _T("No");
 		m_list.SetItem( &item );
 
+		//set the controls for the "Current Value" column for the current parameter and make it effective
 		item.mask = LVIF_TEXT;
 		item.iSubItem = 2; 
 		item.pszText = pMethod->m_fields[i].m_value.GetBuffer(256); 
@@ -341,7 +347,7 @@ void CEditDlgMethodEdit::OnClickList(NMHDR* pNMHDR, LRESULT* pResult)
 	// look up index to enable/disable delete button
 	m_index = index;
 	CDrawMethod::CField &f = GetField( index );
-	m_Delete.EnableWindow( f.m_type == extra_parameter );
+	m_Delete.EnableWindow( f.m_type == extra_parameter );	//Only allow parameters added in the schematic editor to be deleted from the schematic editor
 
 	if (m_capture)
 	{
@@ -353,16 +359,16 @@ void CEditDlgMethodEdit::OnClickList(NMHDR* pNMHDR, LRESULT* pResult)
 	// Now perform the appropriate action
 	switch (column)
 	{
-	case 1:
+	case 1:	//Hide/Show
 		HideShow( index );
 		break;
-	case 0:
+	case 0:	//Parameter name - allow renames only to extra parameters!
 		if (f.m_type == extra_parameter)
 		{
 			BeginEdit( index, r );
 		}
 		break;
-	case 2:
+	case 2:	//Parameter value - allow edits to all parameters, extra or not
 		BeginEdit( index, r );
 		break;
 	}
@@ -592,7 +598,7 @@ void CEditDlgMethodEdit::OnAdd()
 	f.m_description = "Other";
 	f.m_position = p;
 	f.m_show = TRUE;
-	f.m_type = extra_parameter;
+	f.m_type = extra_parameter;	//This differentiates parameters that are defined in the library from parameters that are added at the schematic level
 	f.m_value = "..";
 	pMethod->m_fields.push_back(f);
 

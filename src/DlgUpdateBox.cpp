@@ -349,12 +349,14 @@ CLibraryStoreSymbol& CDlgUpdateBox::getCurrentRecord()
 
 
 static const TCHAR *field_types[] = 
-{
-	_T("Show Value"),
-	_T("Hide Value"),
-	_T("Never show"),
-	_T("Show Name: Value"),
-	_T("Show Name: Value when present")
+{	//Note:  These values MUST be kept in sync with enum SymbolFieldType defined in Symbol.h
+	_T("Show Value Only"),					//SymbolFieldType = 0
+	_T("Hide Value"),						//SymbolFieldType = 1
+	_T("Never Show"),						//SymbolFieldType = 2
+	_T("Show Value (Extra Only)"),			//SymbolFieldType = 3 (extra_parameter)
+	_T("Show Name=Value when present"),		//SymbolFieldType = 4
+	_T("Show Name=Value"),					//SymbolFieldType = 5
+	_T("Show Value when present")			//SymbolFieldType = 6
 };
 
 void CDlgUpdateBox::AddSymbolField( CSymbolField &f )
@@ -374,8 +376,7 @@ void CDlgUpdateBox::AddSymbolField( CSymbolField &f )
 	m_list.InsertItem( &item );
 	f.field_name.ReleaseBuffer();; 
 
-	if (f.field_type >= 0 && f.field_type <= 
-		sizeof(field_types) / sizeof(const TCHAR *))
+	if (f.field_type >= 0 && f.field_type <= last_symbol_field_type)
 	{
 		item.mask = LVIF_TEXT;
 		item.iSubItem = 1; 
@@ -514,8 +515,8 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 	// Now perform the appropriate action
 	switch (column)
 	{
-	case 0:
-	case 2:
+	case 0:	//parameter name
+	case 2:	//parameter value
 		// Now create the edit control
 		if (m_index >= 2 || m_column > 0)
 		{
@@ -529,7 +530,7 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_edit_control.SetFocus();
 		}
 		break;
-	case 1:
+	case 1:	//parameter display control (whether to show parameter or not)
 		{
 			int sel = -1;
 			m_capture = TRUE;
@@ -538,7 +539,7 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 				r, this, 102 );
 			m_list_control.SetFont( GetFont() );
 			
-			for (int i = 0; i < sizeof(field_types) / sizeof(const TCHAR *); i++)
+			for (int i = 0; i < last_symbol_field_type; i++)
 			{
 				m_list_control.AddString( field_types[i] );
 				if (v == field_types[i])
@@ -703,7 +704,7 @@ CSymbolField CDlgUpdateBox::GetSymbolField(int index)
 	ft.ReleaseBuffer();
 
 	// Perform conversion...
-	for (int i = 0; i <	sizeof(field_types) / sizeof(const TCHAR *); i++)
+	for (int i = 0; i <	last_symbol_field_type; i++)
 	{
 		if (ft == field_types[i])
 		{

@@ -74,6 +74,7 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
   // Now load in the other fields
   for (unsigned int i = 0; i < newSymbol->fields.size(); i++)
   {
+	  //Note that parameters added by the user at the schematic level will not pass through this loop
 	  CField f;
 	  f.m_description = newSymbol->fields[i].field_name;
 	  f.m_value = newSymbol->fields[i].field_default;
@@ -218,6 +219,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 		f.m_value = pSymbol->fields[i].field_default;
 		f.m_type = pSymbol->fields[i].field_type;
 		f.m_position = CDPoint(0,0);
+		assert((f.m_show >= 0) && (f.m_show < last_symbol_field_type));
 		f.m_show = IsFieldVisible(f.m_type, f.m_value);
 
 		// Does this new field already exist?
@@ -528,6 +530,7 @@ CString CDrawMethod::GetDecoratedField(int which)
 			  break;
 		  case default_hidden:	//default is hidden, but user has overridden the hidden flag - show parameter's value only
 		  case default_show:	//show the parameter's value only
+		  case extra_parameter:	//this particular enum value is present for all extra parameters added by the user.  This is not optimal, but ok.  It prevents the extra parameters from being displayed with all of the variations possible for library created parameters, but will have to do for now.
 			  r = GetField(which);
 			  break;
 		  case default_show_name_and_value:	//show the parameter's name and value
@@ -535,6 +538,17 @@ CString CDrawMethod::GetDecoratedField(int which)
 			  break;
 		  case default_show_name_and_value_only_if_value_not_empty:	
 			  //show the parameter's name and value only if the value is non-empty
+			  if (m_fields[which].m_value == _T("")) 
+			  {		//field is empty
+				  r = _T("");
+			  }
+			  else
+			  {		//field has a value and thus is not empty
+				  r = m_fields[which].m_description + _T("=") + GetField(which);
+			  }
+			  break;
+		  case default_show_value_only_if_value_not_empty:
+			  //show the parameter's value only if it is non-empty
 			  if (m_fields[which].m_value == _T("")) 
 			  {		//field is empty
 				  r = _T("");
@@ -554,11 +568,13 @@ BOOL CDrawMethod::IsFieldVisible(SymbolFieldType field_type, CString field_value
   BOOL visible;
 
   assert(field_type >= 0);
-  assert(field_type < extra_parameter);
+  assert(field_type < last_symbol_field_type);
 
   switch (field_type) 
   {
+	  default:
 	  case default_show:	//show the parameter's value only
+	  case extra_parameter:	//extra parameters are always shown unless flagged otherwise elsewhere
 		  visible = TRUE;
 		  break;
 	  case default_hidden:
@@ -568,7 +584,8 @@ BOOL CDrawMethod::IsFieldVisible(SymbolFieldType field_type, CString field_value
 	  case default_show_name_and_value:	//show the parameter's name and value
 		  visible = TRUE;
 		  break;
-	  case default_show_name_and_value_only_if_value_not_empty:	
+	  case default_show_name_and_value_only_if_value_not_empty:
+	  case default_show_value_only_if_value_not_empty:
 		  //show the parameter's name and value only if the value is non-empty
 		  visible = (field_value != _T(""));
 		  break;

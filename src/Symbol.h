@@ -29,7 +29,7 @@ class CLibraryStore;
 class CTinyCadSymbolDoc;
 class CTinyCadMultiSymbolDoc;
 
-//enum SymbolFieldType
+//enum SymbolFieldType	//Values used for 2.60.00 and earlier
 //{
 //	default_show,
 //	default_hidden,
@@ -37,14 +37,30 @@ class CTinyCadMultiSymbolDoc;
 //	extra_parameter
 //};
 
-enum SymbolFieldType
+//enum SymbolFieldType	//Values used for 2.70.00 Alpha and Beta 1
+//{
+//    default_show,
+//    default_hidden,
+//    always_hidden,
+//    default_show_name_and_value,
+//    default_show_name_and_value_only_if_value_not_empty,
+//    extra_parameter,
+//};
+
+enum SymbolFieldType	//Values used for 2.70.00 Beta 2 and later
+/** Note:  The values assigned to this enum are written into the schematic and symbol design files.
+ *  These values must NOT be changed, or a database revision will have to be implemented!
+ */
 {
-    default_show,
-    default_hidden,
-    always_hidden,
-    default_show_name_and_value,
-    default_show_name_and_value_only_if_value_not_empty,
-    extra_parameter
+    default_show = 0,
+    default_hidden = 1,
+    always_hidden = 2,
+    extra_parameter = 3,	//Used to indicate a parameter that was added by the user to the schematic, not in the symbol editor
+    default_show_name_and_value_only_if_value_not_empty = 4,
+    default_show_name_and_value = 5,
+	default_show_value_only_if_value_not_empty = 6,
+	last_symbol_field_type	//This value is always last, and is never written to a design file so that its value may safely change from release to release
+							//It is used to determine how many enums have been defined (sequential values assumed).
 };
 
 class CSymbolField
