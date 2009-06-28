@@ -326,11 +326,11 @@ CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,223,8,SS_NOPREFIX
+    LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 1994-2009 Matt Pyne",IDC_STATIC,39,30,159,8
     DEFPUSHBUTTON   "OK",IDOK,212,199,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,205,107,8
-    LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,41,20,221,8
+    LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
     LTEXT           "Founding Author:",IDC_STATIC,39,44,89,8
     LTEXT           "Development Team for Current Release:",IDC_STATIC,39,66,218,8
     LTEXT           "Don Lucas",IDC_STATIC,59,77,89,8
@@ -340,9 +340,9 @@ BEGIN
     LTEXT           "Stephen Friederichs",IDC_STATIC,59,107,89,8
     LTEXT           "Other included open source products:",IDC_STATIC,39,130,218,8
     LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,57,141,189,8
-    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,57,151,189,8
-    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,57,161,189,8
-    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,57,170,189,8
+    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,57,152,189,8
+    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,57,163,189,8
+    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,57,174,189,8
     LTEXT           "Jason Sachs",IDC_STATIC,59,117,89,8
 END
 

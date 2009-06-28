@@ -281,8 +281,8 @@ CString CTinyCadApp::GetReleaseType()
 {
 //	return "Debug/Test Release (uncontrolled)";
 //	return "Alpha Release";
-	return "Beta Release";
-//	return "Production Release";
+//	return "Beta Release";
+	return "Production Release";
 }
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetName()
