@@ -32,6 +32,11 @@
 #include "LineUtils.h"
 #include "TinyCadMultiDoc.h"
 
+#include <iostream>
+#include <fstream>
+#include "rapidxml-1.13/rapidxml.hpp"
+#include "rapidxml-1.13/rapidxml_print.hpp"
+
 
 void CImportFile::assignContext(const CollectionMemberReference<CImportFile *> parent, CString myReference)
 {
@@ -851,6 +856,9 @@ void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHA
 	case 5:
 		WriteNetListFilePCB( pDesign, filename, false );
 		break;
+	case 6:
+		WriteNetListFileXML( pDesign, filename );
+		break;
 	default:
 		WriteNetListFileTinyCAD( pDesign, filename );
 		break;
@@ -1467,6 +1475,202 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
   SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
   fclose(theFile);
 }
+
+/**
+ * Create netlist and output as an XML file
+ * 
+ * @param pDesign
+ * @param filename
+ */
+namespace RXML
+{
+	typedef rapidxml::xml_node<TCHAR> node;
+	typedef rapidxml::xml_attribute<TCHAR> attribute;
+	typedef rapidxml::xml_document<TCHAR> document;
+}
+void CNetList::WriteNetListFileXML( CTinyCadMultiDoc *pDesign, const TCHAR *filename)
+{
+	std::basic_ofstream<TCHAR> outfile;
+	outfile.open (filename);
+	/// !!! jms -- TODO -- needs to handle file open error
+
+    /// Set the Busy icon
+    SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
+
+	rawWriteNetListFileXML(pDesign, outfile);
+
+    SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
+	outfile.close();
+}
+
+void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile)
+{
+	RXML::document doc;
+
+	// xml declaration
+	RXML::node *decl = doc.allocate_node(rapidxml::node_declaration);
+	decl->append_attribute(doc.allocate_attribute(_T("version"), _T("1.0")));
+	decl->append_attribute(doc.allocate_attribute(_T("encoding"), _T("utf-8")));
+	doc.append_node(decl);
+
+	RXML::node *root = doc.allocate_node(rapidxml::node_element, _T("netlist"));
+	doc.append_node(root);
+	RXML::node *x_components = doc.allocate_node(rapidxml::node_element, _T("parts"));
+	RXML::node *x_nets = doc.allocate_node(rapidxml::node_element, _T("nets"));
+	root->append_node(x_components);
+	root->append_node(x_nets);
+
+	// Get the net list
+	MakeNet( pDesign );
+
+	RXML::attribute *attr = doc.allocate_attribute(_T("design"), doc.allocate_string(pDesign->GetPathName()));
+	root->append_attribute(attr);
+
+	// Keep track of the references that we have output...
+	std::set<CString>	referenced;
+
+  	/// Do this for all of the files in the imports list...
+	fileCollection::iterator fi = m_imports.begin();
+	for (;fi != m_imports.end(); ++ fi)
+	{
+		CTinyCadMultiDoc *dsn = pDesign;
+
+		if ((*fi)->getFileNameIndex() != 0)
+		{
+			dsn = static_cast<CTinyCadMultiDoc *>((*fi)->getDesign());
+		}
+
+		/// Generate a component for every sheet in this design
+		for (int i = 0; i < dsn->GetNumberOfSheets(); i++)
+		{
+			drawingIterator it = dsn->GetSheet(i)->GetDrawingBegin();
+			while (it != dsn->GetSheet(i)->GetDrawingEnd()) 
+			{
+			CDrawingObject *pointer = *it;
+
+			if (pointer->GetType() == xMethodEx3 || pointer->GetType() == xHierarchicalSymbol) 
+			{
+				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
+				CString Name = pMethod->GetField(CDrawMethod::Name);
+				CString Ref  = 
+					get_reference_path(pMethod, (*fi), false);
+					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
+				
+				/*
+				TinyCAD does not have a reference back to the library for which this symbol came from?!?!?
+				CDesignFileSymbol *pSymbol = pMethod->GetSymbolData();				
+				*/
+
+				// Do we need to output this part?
+/*				if (referenced.find( Ref ) == referenced.end())
+				{
+					referenced.insert( Ref );
+					*/
+					RXML::node *x_component;
+
+					if (pointer->GetType() == xHierarchicalSymbol)
+					{
+						CDrawHierarchicalSymbol *pSymbol = static_cast<CDrawHierarchicalSymbol*>(pointer);
+				
+						CString Name = pSymbol->GetFilename();
+						x_component = doc.allocate_node(rapidxml::node_element, _T("hierarchical-part"));
+						x_component->append_attribute(
+							doc.allocate_attribute(_T("filename"), doc.allocate_string(Name)));
+					}
+					else
+					{
+						x_component = doc.allocate_node(rapidxml::node_element, _T("part"));
+					}
+					x_components->append_node(x_component);
+
+					x_component->append_attribute(doc.allocate_attribute(_T("ref"), doc.allocate_string(Ref)));
+					x_component->append_attribute(doc.allocate_attribute(_T("name"), doc.allocate_string(Name)));
+
+					/// Now write attributes other than Ref and Name (which are always 1st and 2nd)
+					int n = pMethod->GetFieldCount();
+					for (int i = 2; i < n; i++)
+					{
+						RXML::node *x_component_attribute = 
+							doc.allocate_node(rapidxml::node_element, _T("attribute"), doc.allocate_string(pMethod->GetField(i)));
+						x_component_attribute->append_attribute(doc.allocate_attribute(_T("name"), 
+							doc.allocate_string(pMethod->GetFieldName(i))));
+						x_component->append_node(x_component_attribute);
+					}
+				// }
+			}
+			
+			++ it;
+			}
+		}
+	}
+
+  int Label = 0;
+
+  netCollection::iterator nit = m_nets.begin();
+
+	while (nit != m_nets.end()) 
+	{
+		nodeVector::iterator nv_it = (*nit).second.begin();
+
+
+		RXML::node *x_net = doc.allocate_node(rapidxml::node_element, _T("net"));
+		x_nets->append_node(x_net);
+
+		TCHAR *netname = NULL;
+
+		while (nv_it != (*nit).second.end()) 
+		{
+			CNetListNode& theNode = *nv_it;
+			++ nv_it;
+
+			if (netname == NULL && !theNode.getLabel().IsEmpty())
+			{
+				netname = doc.allocate_string(theNode.getLabel());
+			}
+
+			if (theNode.m_parent != NULL && theNode.m_parent->GetType() == xPinEx)
+			{
+				CDrawPin *pPin = static_cast<CDrawPin *>(theNode.m_parent);
+
+				bool isHierarchicalPin = (theNode.m_pMethod != NULL && theNode.m_pMethod->GetType() == xHierarchicalSymbol);
+				RXML::node *x_pin = doc.allocate_node(rapidxml::node_element, 
+					isHierarchicalPin ? _T("hierarchical-pin") : _T("pin"));
+				x_net->append_node(x_pin);
+				if (!theNode.m_reference.IsEmpty())
+				{
+					x_pin->append_attribute(
+						doc.allocate_attribute(_T("part"), doc.allocate_string(theNode.m_reference)));
+				}
+				x_pin->append_attribute(
+					doc.allocate_attribute(_T("name"), doc.allocate_string(pPin->GetPinName())));
+				x_pin->append_attribute(
+					doc.allocate_attribute(_T("number"), doc.allocate_string(pPin->GetNumber())));
+				const TCHAR *etype = CDrawPin::GetElectricalTypeName(pPin->GetElec());
+				if (etype != NULL)
+				{
+					x_pin->append_attribute(doc.allocate_attribute(_T("type"), etype));
+					// don't need to allocate_string since these types are fixed in memory
+				}
+			}
+		}
+
+		if (netname != NULL)
+		{
+			x_net->append_attribute(doc.allocate_attribute(_T("name"), netname));
+		}
+
+		TCHAR buf[12];
+		_stprintf(buf,_T("%d"), Label++);
+		x_net->append_attribute(doc.allocate_attribute(_T("number"), 
+				doc.allocate_string(buf)));
+
+		++ nit;
+	}
+
+	// 3. output the XML document.
+	outfile << doc;
+}
+
 
 /**
  * Create netlist and output as a PCB file

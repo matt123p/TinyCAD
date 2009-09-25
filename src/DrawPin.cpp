@@ -778,6 +778,26 @@ void CDrawPin::Rotate(CDPoint p,int ndir)
 }
 
 
+const TCHAR* CDrawPin::GetElectricalTypeName(int i)
+{
+	static TCHAR* ElectricalTypes[] = {
+	  _T("Input"),
+	  _T("Output"),
+	  _T("Tristate"),
+	  _T("Open Collector"),
+	  _T("Passive"),
+	  _T("Input/Output"), 
+	  _T("Not Connected")
+	  };
+
+	if (i < 0 || i >= sizeof(ElectricalTypes)/sizeof(TCHAR*))
+	{
+		return NULL;
+	}
+	
+	return ElectricalTypes[i];
+}
+
 
 // Store the line in the drawing
 CDrawingObject* CDrawPin::Store()

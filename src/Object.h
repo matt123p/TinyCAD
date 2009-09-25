@@ -580,6 +580,7 @@ public:
 	CString Find(const TCHAR *);
 	int     GetPart()    { return m_part; }
 	int		GetElec()    { return m_elec; }
+	static const TCHAR *GetElectricalTypeName(int etype);
 
 	virtual int getMenuID() { return IDM_LIBPIN; }
 

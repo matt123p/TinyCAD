@@ -316,6 +316,9 @@ protected:
 	// Create netlist and output as a PCB GPLEDA PCB script
 	void WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename,  bool unixOutputFile );
 
+	// Create netlist and output as an XML file)
+	void WriteNetListFileXML( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
+
 	// Perform the work of making a netlist from a single sheet in this design...
 	void MakeNetForSheet( fileCollection &imports, int import_index, int sheet, Counter& file_counter);
 
@@ -336,6 +339,11 @@ protected:
 
 	// Clear out the imports etc..
 	void clear();
+
+private:
+    void rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile);
+	// worker function for low-level stuff (NO GUI elements)
+
 
 public:
 	// Get a hierarchical reference path from a symbol.

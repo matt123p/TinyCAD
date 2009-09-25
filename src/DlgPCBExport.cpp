@@ -74,6 +74,7 @@ BOOL CDlgPCBExport::OnInitDialog()
 	m_Filetype.AddString( _T("Protel") );
 	m_Filetype.AddString( _T("PCB (Unix)") );
 	m_Filetype.AddString( _T("PCB (Dos)") );
+	m_Filetype.AddString( _T("XML") );
 
 	m_Filetype.SetCurSel( m_type );
 
@@ -151,6 +152,8 @@ CString CDlgPCBExport::GetExtension()
 		return ".net";
 	case 5: // PCB
 		return ".net";
+	case 6: // XML
+		return ".net.xml";
 	}
 
 	return ".net";
