@@ -127,7 +127,18 @@ void CLibrarySQLite::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolD
 		CppSQLite3Query q;
 		CString sql;
 
-		// First clear out all of the old names...
+		// Write the symbol data into the methods file
+		CStreamMemory stream;
+		CXMLWriter xml( &stream );
+		document.SaveXML(xml);
+
+		CppSQLite3Statement stmt = m_database.compileStatement(_T(
+			"INSERT INTO [Symbol] ( [Data] ) VALUES (?)"));
+		stmt.bind(1, stream.GetByteArray().GetData(), stream.GetByteArray().GetSize());
+		stmt.execDML();
+
+		// Clear out all of the old names...
+		// This is done after the INSERT to guarantee a new SymbolID.
 		if (nwSymbol->FilePos != -1)
 		{
 			sql.Format( _T("SELECT NameID FROM [Name] WHERE [SymbolID]=%d"), nwSymbol->FilePos);
@@ -144,34 +155,8 @@ void CLibrarySQLite::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolD
 			m_database.execQuery(sql);
 		}
 
-		// Write the symbol data into the methods file
-		CStreamMemory stream;
-		CXMLWriter xml( &stream );
-		document.SaveXML(xml);
-
-		sql.Format( _T("SELECT [SymbolID] FROM [Symbol] WHERE [SymbolID]=%d"), nwSymbol->FilePos );
-		q = m_database.execQuery( sql );
-
-		// New symbolID
-		if (q.eof())
-		{
-			CppSQLite3Statement stmt = m_database.compileStatement(_T(
-				"INSERT INTO [Symbol] ( [Data] ) VALUES (?)"));
-			stmt.bind(1, stream.GetByteArray().GetData(), stream.GetByteArray().GetSize());
-			stmt.execDML();
-
-			// Recover the new symbol id
-			nwSymbol->FilePos = static_cast<DWORD>(m_database.lastRowId());
-		}
-		else
-		{
-			CppSQLite3Statement stmt = m_database.compileStatement(_T(
-				"UPDATE [Symbol] SET [Data]=? WHERE [SymbolID]=?"));
-			stmt.bind(1, stream.GetByteArray().GetData(), stream.GetByteArray().GetSize() );
-			stmt.bind(2, static_cast<int>(nwSymbol->FilePos) );
-			stmt.execDML();
-		}
-
+		// Recover the new symbol id (from the last INSERT statement)
+		nwSymbol->FilePos = static_cast<DWORD>(m_database.lastRowId());
 
 		// Do this for each of the names in the symbol set
 		for (int i =0; i < nwSymbol->GetNumRecords(); i++)
