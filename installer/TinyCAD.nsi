@@ -6,7 +6,7 @@
 
 !define PRODUCT_NAME "TinyCAD"
 
-!define PRODUCT_VERSION "2.70.00"
+!define PRODUCT_VERSION "2.70.01"
 
 !define PRODUCT_PUBLISHER "TinyCAD"
 
