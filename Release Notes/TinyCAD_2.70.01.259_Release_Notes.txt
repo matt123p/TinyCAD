@@ -1,0 +1,16 @@
+Changes from TinyCAD 2.70.00.248 Beta Release:
+
+Added .TCLib (SQLite3) format libraries to the installer.
+Added XML format netlist capability
+Fixed problem in .TCLib library editor that caused updates to the library 
+	to not always refresh in the schematic editor without closing and 
+	then reopening the schematic file.  Thanks Mark Langezaal!
+Added improved pin name and number auto-increment capability to provide 
+	better support for alpha-numeric pin names and numbers.  
+	Thanks Thomas Peterson!
+Added improved reference designator assignment so that designators are 
+	labeled according to the order of their XY coordinates.  When 
+	auto-assigning reference designators, designators are now assigned
+	to the sorted XY coordinates so that symbols located to the upper 
+	left of the schematic are assigned lower numbers than symbols located
+	to the lower right of the schematic.  Thanks Oleg Skydan!
