@@ -31,7 +31,7 @@
 #include "DSize.h"
 
 #include "TinyCadSymbolDoc.h"
-
+#define TP_EDIT 1	//Feature contributed by Thomas Petersson.  This turns on auto-pin numbering.  The old code is left intact only in case there is an unforeseen problem.
 
 
 ////// The Pin Class //////
@@ -690,6 +690,34 @@ void CDrawPin::EndEdit()
 }
 
 
+#ifdef TP_EDIT
+void IncrementNumber(CString &number, int increment) {
+  int intpos = number.FindOneOf(_T("0123456789"));
+  if (intpos >= 0) {
+	CString nums = number.Mid(intpos).SpanIncluding(_T("0123456789"));
+	int numi = _tstoi(nums) + increment;
+	if (numi > 999) numi = 999;
+	if (numi < 1) numi = 1;
+	TCHAR newNum[4];
+	#ifdef USE_VS2003
+		_itot(numi, newNum, 10);
+	#else	/* use the VS2008 "safe" version */
+		_itot_s(numi, newNum, 3, 10);
+	#endif
+	number = number.Left(intpos) + newNum + number.Mid(intpos + nums.GetLength());
+  } else {
+	int lastpos = number.GetLength() - 1;
+	if (lastpos >= 0) {
+		TCHAR ch = number.GetAt(lastpos);
+		ch += increment;
+		if (ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z') {
+			number.SetAt(lastpos, ch);
+		}
+	}
+  }
+}
+#endif
+
 void CDrawPin::LButtonDown(CDPoint p, CDPoint)
 {
   // New undo level for each placement...
@@ -701,6 +729,10 @@ void CDrawPin::LButtonDown(CDPoint p, CDPoint)
   Store();
   Display();	// Write to screen
 
+#ifdef TP_EDIT
+  IncrementNumber(m_number, m_pDesign->GetPinDir());
+  IncrementNumber(m_str, m_pDesign->GetNameDir());
+#else
   // Add 1 to the pin m_number (if possible)
   int hold=_tstoi(m_number);
   // Only increment if old value was a m_number
@@ -724,6 +756,7 @@ void CDrawPin::LButtonDown(CDPoint p, CDPoint)
 	_itot_s(_tstoi(m_str.Mid(hold))+m_pDesign->GetNameDir(),NewNum,10);
 	m_str = m_str.Left(hold)+NewNum;
   }
+#endif
 
 
   g_EditToolBar.m_PinEdit.ReFocus();
@@ -777,7 +810,6 @@ void CDrawPin::Rotate(CDPoint p,int ndir)
   m_dir = DoRotate(m_dir,ndir);
 }
 
-
 const TCHAR* CDrawPin::GetElectricalTypeName(int i)
 {
 	static TCHAR* ElectricalTypes[] = {
@@ -797,7 +829,6 @@ const TCHAR* CDrawPin::GetElectricalTypeName(int i)
 	
 	return ElectricalTypes[i];
 }
-
 
 // Store the line in the drawing
 CDrawingObject* CDrawPin::Store()
