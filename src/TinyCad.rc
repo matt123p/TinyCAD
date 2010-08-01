@@ -327,7 +327,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1994-2009 Matt Pyne",IDC_STATIC,39,30,159,8
+    LTEXT           "Copyright (C) 1994-2010 Matt Pyne",IDC_STATIC,39,30,159,8
     DEFPUSHBUTTON   "OK",IDOK,212,199,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,205,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
