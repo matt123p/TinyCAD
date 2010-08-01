@@ -137,6 +137,7 @@
 #include <set>
 #include <list>
 #include <deque>
+#include <algorithm>
 
 // Other useful stuff
 #include <math.h>

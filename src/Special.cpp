@@ -30,6 +30,20 @@
 
 AnotateSetup theASetup;
 
+//Compare positions of two objects
+static bool DORefComp(CDrawingObject* o1,CDrawingObject* o2)
+{
+   CDPoint c1,c2;
+   c1.x=(o1->m_point_a.x+o1->m_point_b.x)/2;
+   c1.y=(o1->m_point_a.y+o1->m_point_b.y)/2;
+   c2.x=(o2->m_point_a.x+o2->m_point_b.x)/2;
+   c2.y=(o2->m_point_a.y+o2->m_point_b.y)/2;
+   if(c1.y<c2.y)return true;
+   if(c1.y>c2.y)return false;
+   if(c1.x<c2.x)return true;
+   return false;   
+}
+
 // Auto anotate the design
 void CTinyCadView::OnSpecialAnotate()
 {
@@ -68,11 +82,16 @@ void CTinyCadView::OnSpecialAnotate()
 	for (int whichPass = 0; whichPass < 2; whichPass++)
 	{
 		int sheet = theASetup.all_sheets ? 0 : GetDocument()->GetActiveSheetIndex();
-
+      //copy all objects to new vector
+      std::vector<CDrawingObject*> objs;
+      objs.assign(GetDocument()->GetSheet(sheet)->GetDrawingBegin(), GetDocument()->GetSheet(sheet)->GetDrawingEnd());
+      //sort it according to the objects positions
+      std::sort(objs.begin(),objs.end(),DORefComp);
 		do
 		{
-			drawingIterator it = GetDocument()->GetSheet(sheet)->GetDrawingBegin();
-			while (it != GetDocument()->GetSheet(sheet)->GetDrawingEnd()) 
+			//drawingIterator 
+         std::vector<CDrawingObject*>::iterator it = objs.begin();
+			while (it != objs.end()) 
 			{
 				CDrawingObject *pointer = *it;
 				// Look for method objects
