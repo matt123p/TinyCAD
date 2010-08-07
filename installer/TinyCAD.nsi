@@ -218,6 +218,60 @@ skip_mdac_download:
 
   File "..\libs\valve.TCLib"
 
+  File "..\libs\gen_semiconductor.TCLib"
+
+  File "..\libs\gen_passive.TCLib"
+
+  File "..\libs\gen_Mechanical.TCLib"
+
+  File "..\libs\gen_Logic.TCLib"
+
+  File "..\libs\Mechanical.TCLib"
+
+  File "..\libs\gen_Electromechanical_switches.TCLib"
+
+  File "..\libs\gen_Electromechanical_Relays.TCLib"
+
+  File "..\libs\gen_Electromechanical.TCLib"
+
+  File "..\libs\pm_Connectors.TCLib"
+
+  File "..\libs\pm_Electromechanical.TCLib"
+
+  File "..\libs\pm_Indicators.TCLib"
+
+  File "..\libs\Power.TCLib"
+
+  File "..\libs\cm_Connectors.TCLib"
+
+  File "..\libs\sm_IC_Transceivers.TCLib"
+
+  File "..\libs\Assemblies.TCLib"
+
+  File "..\libs\symbols.TCLib"
+
+  File "..\libs\th_Comparators.TCLib"
+
+  File "..\libs\th_Connectors.TCLib"
+
+  File "..\libs\th_Electromechanical.TCLib"
+
+  File "..\libs\th_Headers.TCLib"
+
+  File "..\libs\th_OpAmps.TCLib"
+
+  File "..\libs\th_Passive.TCLib"
+
+  File "..\libs\th_Semiconductors.TCLib"
+
+  File "..\libs\th_Transceivers.TCLib"
+
+  File "..\libs\th_uC.TCLib"
+
+  File "..\libs\th_Vreg.TCLib"
+
+  File "..\libs\gen_Power.TCLib"
+
   SetOutPath "$DOCUMENTS\TinyCAD Examples"
 
   File "..\examples\AMP.DSN"
