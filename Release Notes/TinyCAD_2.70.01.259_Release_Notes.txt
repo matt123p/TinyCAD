@@ -14,3 +14,4 @@ Added improved reference designator assignment so that designators are
 	to the sorted XY coordinates so that symbols located to the upper 
 	left of the schematic are assigned lower numbers than symbols located
 	to the lower right of the schematic.  Thanks Oleg Skydan!
+Added new PDF user's manual.  Thanks Greg Endler!

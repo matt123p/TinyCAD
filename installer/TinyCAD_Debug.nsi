@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TinyCAD"
-!define PRODUCT_VERSION "2.70.01"
+!define PRODUCT_VERSION "2.70.02"
 !define PRODUCT_PUBLISHER "TinyCAD"
 !define PRODUCT_WEB_SITE "http://tinycad.sourceforge.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\TinyCad.exe"
