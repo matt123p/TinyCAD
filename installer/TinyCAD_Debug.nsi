@@ -76,7 +76,7 @@ skip_mdac_download:
   File "..\src\png\zlib1.dll"
   File "..\src\libiconv\iconv.dll"
   File "..\docs\TinyCAD.chm"
-  
+  File "..\docs\PDF Outputs\TinyCAD_Manual.pdf"
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
   SetOutPath "$INSTDIR\library"
   File "..\libs\74TTL.mdb"
@@ -137,7 +137,7 @@ SectionEnd
 Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  CreateShortCut "$SMPROGRAMS\TinyCAD\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Manual.lnk" "$INSTDIR\TinyCAD_Manual.pdf"  CreateShortCut "$SMPROGRAMS\TinyCAD\Uninstall.lnk" "$INSTDIR\uninst.exe"
 SectionEnd
 
 Section -Post

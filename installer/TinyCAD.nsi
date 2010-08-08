@@ -156,7 +156,7 @@ skip_mdac_download:
 
   File "..\docs\TinyCAD.chm"
 
-
+  File "..\docs\PDF Outputs\TinyCAD_Manual.pdf"
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
 
@@ -344,12 +344,6 @@ copy_dao36_common:
 
   !insertmacro UpgradeDLL "dao\dao350.dll" "$R9\dao350.dll" "$R9"
 
-
-
-
-
-
-
 SectionEnd
 
 
@@ -359,6 +353,8 @@ Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  
+  CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Manual.lnk" "$INSTDIR\TinyCAD_Manual.pdf"
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\Uninstall.lnk" "$INSTDIR\uninst.exe"
 
