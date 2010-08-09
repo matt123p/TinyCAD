@@ -1,0 +1,6 @@
+Changes from TinyCAD 2.70.01.259 Production Release:
+
+Many small changes to the new User Manual.
+Many small changes to the Help file including fixing all of the corrupted image files.
+Added new Help menu command to open the User Manual.
+Added new Start Menu shortcut to open the User Manual.
