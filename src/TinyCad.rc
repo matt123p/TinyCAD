@@ -225,8 +225,8 @@ BEGIN
     POPUP "&Help"
     BEGIN
         MENUITEM "Help...",                     ID_HELP_HELP
-        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
         MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
         MENUITEM "Email for support...",        ID_HELP_EMAILFORSUPPORT
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCad...",           ID_APP_ABOUT
