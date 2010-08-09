@@ -1660,7 +1660,7 @@ void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofs
 		}
 
 		TCHAR buf[12];
-		_stprintf(buf,_T("%d"), Label++);
+		_stprintf_s(buf,12,_T("%d"), Label++);
 		x_net->append_attribute(doc.allocate_attribute(_T("number"), 
 				doc.allocate_string(buf)));
 

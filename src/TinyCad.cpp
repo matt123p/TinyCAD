@@ -574,9 +574,17 @@ void CTinyCadApp::OnLibLib()
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpOpenTinyCADUserManual() 
 {
+	// Open the default path folder - debug only
+//	ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T(".\\"), NULL, NULL, SW_SHOWNORMAL );
+
 	// Open the TinyCAD User's Manual
-	TRACE("Opening the TinyCAD User Manual using ./TinyCAD_Manual.pdf\n");
-	ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T(".\TinyCAD_Manual.pdf"), NULL, NULL, SW_SHOWNORMAL );	
+	// For now, this will only work at the default installation 
+	// directory on the c drive.  When I figure out how, I will 
+	// upgrade this to use the directory that TinyCAD was started from.
+	TRACE("Opening the TinyCAD User Manual using \"c:\\Program Files\\TinyCAD\\TinyCAD_Manual.pdf\"\n");
+	int ret_code = 0;
+	ret_code = (int) ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T("c:\\Program Files\\TinyCAD\\TinyCAD_Manual.pdf"), NULL, NULL, SW_SHOWNORMAL );	
+	TRACE("ShellExecute returned code %d\n", ret_code);
 }
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpGototinycadwebsite() 
