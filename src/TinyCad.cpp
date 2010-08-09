@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
 	//{{AFX_MSG_MAP(CTinyCadApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(IDM_LIBLIB, OnLibLib)
+	ON_COMMAND(ID_HELP_OPENTINYCADUSERMANUAL, OnHelpOpenTinyCADUserManual)
 	ON_COMMAND(ID_HELP_GOTOTINYCADWEBSITE, OnHelpGototinycadwebsite)
 	ON_COMMAND(ID_HELP_HELP, OnHelpHelp)
 	ON_COMMAND(ID_HELP_EMAILFORSUPPORT, OnHelpEmailforsupport)
@@ -569,6 +570,13 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 void CTinyCadApp::OnLibLib()
 {
 	CDlgLibraryBox( AfxGetMainWnd() ).DoModal();
+}
+//-------------------------------------------------------------------------
+void CTinyCadApp::OnHelpOpenTinyCADUserManual() 
+{
+	// Open the TinyCAD User's Manual
+	TRACE("Opening the TinyCAD User Manual using ./TinyCAD_Manual.pdf\n");
+	ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T(".\TinyCAD_Manual.pdf"), NULL, NULL, SW_SHOWNORMAL );	
 }
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpGototinycadwebsite() 
