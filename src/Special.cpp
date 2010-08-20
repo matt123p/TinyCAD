@@ -82,15 +82,16 @@ void CTinyCadView::OnSpecialAnotate()
 	for (int whichPass = 0; whichPass < 2; whichPass++)
 	{
 		int sheet = theASetup.all_sheets ? 0 : GetDocument()->GetActiveSheetIndex();
-      //copy all objects to new vector
-      std::vector<CDrawingObject*> objs;
-      objs.assign(GetDocument()->GetSheet(sheet)->GetDrawingBegin(), GetDocument()->GetSheet(sheet)->GetDrawingEnd());
-      //sort it according to the objects positions
-      std::sort(objs.begin(),objs.end(),DORefComp);
 		do
 		{
+			//copy all objects in the current sheet to a new vector so that it can be sorted
+			std::vector<CDrawingObject*> objs;
+			objs.assign(GetDocument()->GetSheet(sheet)->GetDrawingBegin(), GetDocument()->GetSheet(sheet)->GetDrawingEnd());
+			//sort it according to the objects positions
+			std::sort(objs.begin(),objs.end(),DORefComp);
+
 			//drawingIterator 
-         std::vector<CDrawingObject*>::iterator it = objs.begin();
+			std::vector<CDrawingObject*>::iterator it = objs.begin();
 			while (it != objs.end()) 
 			{
 				CDrawingObject *pointer = *it;
