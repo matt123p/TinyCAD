@@ -855,8 +855,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,70,2,0
- PRODUCTVERSION 2,70,2,0
+ FILEVERSION 2,70,3,0
+ PRODUCTVERSION 2,70,3,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -874,12 +874,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 70, 2, 0"
+            VALUE "FileVersion", "2, 70, 3, 0"
             VALUE "InternalName", "TinyCAD"
             VALUE "LegalCopyright", "Copyright (C) 2003 - 2010 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 70, 2, 0"
+            VALUE "ProductVersion", "2, 70, 3, 0"
         END
     END
     BLOCK "VarFileInfo"
