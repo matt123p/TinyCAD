@@ -1,36 +1,38 @@
-[OPTIONS]
-Compatibility=1.1 or later
-Compiled file=TinyCAD.chm
-Contents file=Table of Contents.hhc
-Default topic=index.html
-Display compile progress=No
-Index file=Index.hhk
-Language=0x809 English (United Kingdom)
-Title=TinyCAD for Windows
-
-
-[FILES]
-Symbol menu.html
-Block toolbar.html
-Drawing toolbar.html
-drawing.html
-edit menu.html
-file menu.html
-file toolbar.html
-index.html
-introduction.html
-libraries.html
-library menu.html
-options menu.html
-printing.html
-special menu.html
-Annotation toolbar.html
-Bus toolbar.html
-Advanced drawing.html
-Annotation drawing.html
-pcb.html
-multisheet.html
-Spice Description.html
-
-[INFOTYPES]
-
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=TinyCAD.chm
+Contents file=Table of Contents.hhc
+Default topic=index.html
+Display compile progress=No
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x809 English (United Kingdom)
+Title=TinyCAD for Windows
+
+
+[FILES]
+Symbol menu.html
+Block toolbar.html
+Drawing toolbar.html
+drawing.html
+edit menu.html
+file menu.html
+file toolbar.html
+index.html
+introduction.html
+libraries.html
+library menu.html
+options menu.html
+printing.html
+special menu.html
+Annotation toolbar.html
+Bus toolbar.html
+Advanced drawing.html
+Annotation drawing.html
+pcb.html
+multisheet.html
+Spice Description.html
+
+[INFOTYPES]
+
