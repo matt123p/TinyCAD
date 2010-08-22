@@ -1,0 +1,6 @@
+Changes from TinyCAD 2.70.02.286 Production Release:
+
+A few small changes to the new User Manual and Help file.
+Fixed the Help file's text search capability.
+Fixed the problem where reference designator annotation only worked for the first page.
+Fixed the following keyboard accelerators:  Ctrl-X, Ctrl-Insert, Shift-Insert and Alt-Back
