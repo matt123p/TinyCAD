@@ -74,6 +74,10 @@ int CRegistry::SetValueEx(CString sKey, DWORD Type, const void *data, unsigned l
 // Place a CString item
 void CRegistry::Set( CString sKey, CString sVal )
 {
+	TRACE("CRegistry::Set():  sKey=[%S], sVal.length()=%d, sVal=[%S]\n",
+		sKey,
+		sVal.GetLength()*sizeof(TCHAR),
+		sVal);
 	SetValueEx( sKey, REG_SZ, sVal, sVal.GetLength() * sizeof( TCHAR ) );
 }
 //-------------------------------------------------------------------------
@@ -144,25 +148,37 @@ bool CRegistry::GetRaw( CString sKey,char *data,unsigned int length)
 // Get a String subkey
 CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 {
+	DWORD nSize = 1024;	//default size
+	return CRegistry::GetString(sKey, sDefaultVal, nSize);	//If no length specified, use a relatively short length for reading from registry
+}
+	
+	//-------------------------------------------------------------------------
+// Get a String subkey
+CString	CRegistry::GetString( CString sKey, CString sDefaultVal, DWORD m_nSize )
+{
 	CString sReturn = sDefaultVal;
-	DWORD	nSize	= 2048;
 	DWORD	nType   = 0;
+	DWORD	nSize = m_nSize;
 	TCHAR*	pTest	= sReturn.GetBuffer( nSize );
 
 	QueryValueEx( sKey, &nType, pTest, &nSize );
+
+	TRACE("CRegistry::GetString(\"%S\"):  Querying registry key [%S] using max buffer size of %d, returned key length=%d\n", sKey, sKey, m_nSize, nSize);
+
 	sReturn.ReleaseBuffer();
 
 	return sReturn;
 }
 //-------------------------------------------------------------------------
 // Get a String array
-// Splits a comma separated string into its substrings
-CStringList* CRegistry::GetStringList( CString sKey )
+// Splits a comma separated string into its substrings.
+// nSize is the max buffer length that will be allocated when working with this string
+CStringList* CRegistry::GetStringList( CString sKey, DWORD nSize )
 {
 	CStringList* colReturn	= new CStringList();
 
 	// Is there a list of items in the registry?
-	CString		sItems		= CRegistry::GetString( sKey, "" );
+	CString		sItems		= CRegistry::GetString( sKey, "", nSize );
 
 	// single item
 	CString		sItem		= "";
@@ -311,7 +327,9 @@ bool CRegistry::keyExists( CString sKey )
 	DWORD	nSize	= sizeof( Buffer );
 	DWORD	nType = 0;
 
-	return QueryValueEx( sKey, &nType, Buffer, &nSize ) == ERROR_SUCCESS;;
+	TRACE("CRegistry::keyExists(\"%S\"):  Using max buffer size=1024\n", sKey);
+
+	return QueryValueEx( sKey, &nType, Buffer, &nSize ) == ERROR_SUCCESS;
 }
 //-------------------------------------------------------------------------
 void CRegistry::DeleteValue( CString sKey )

@@ -571,7 +571,7 @@ void CDlgGetFindBox::StoreLibraryList(void)
 
 void CDlgGetFindBox::RestoreLibraryList(void)
 {
-	CString list_of_libraries = CTinyCadRegistry::GetString("SymbolLibrarySelection", "" );
+	CString list_of_libraries = CTinyCadRegistry::GetString("SymbolLibrarySelection", "",  CTinyCadRegistry::M_SLIBRARIES_MAX_LENGTH);
 	std::set<CString>	selected_libs;
 
 	// Split the list up into a a set
