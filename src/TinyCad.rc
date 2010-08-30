@@ -719,19 +719,20 @@ BEGIN
     CONTROL         "Auto-place junctions",IDC_AUTOJUNC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,57,80,10
 END
 
-IDD_LIBRARY DIALOGEX 0, 0, 414, 209
+IDD_LIBRARY DIALOGEX 0, 0, 414, 225
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Library Setup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LISTBOX         LIBRARYBOX_AVAILABLE,5,22,345,180,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LISTBOX         LIBRARYBOX_AVAILABLE,5,21,345,180,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,358,19,50,14
-    CTEXT           "Libraries in Use",IDC_STATIC,5,10,201,8
+    CTEXT           "Libraries in Use",IDC_STATIC,5,10,345,8
     PUSHBUTTON      "Add",LIBRARYBOX_ADD,358,43,50,14
     PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,358,61,50,14
     PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,358,106,50,14
     PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,358,130,50,14
     PUSHBUTTON      "New",LIBRARYBOX_NEW,358,78,50,14
+    CTEXT           "Note:  The maximum number of characters allowed in all library paths and names is 4096.",IDC_STATIC,5,199,345,19,SS_CENTERIMAGE
 END
 
 IDD_AUTOSAVE DIALOG  0, 0, 204, 86
@@ -976,7 +977,7 @@ BEGIN
         LEFTMARGIN, 5
         RIGHTMARGIN, 408
         TOPMARGIN, 3
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 218
     END
 
     IDD_AUTOSAVE, DIALOG
@@ -1013,7 +1014,7 @@ STRINGTABLE
 BEGIN
     IDM_EDITDUPLICATE       "Duplicate the selected block\nDuplicate"
     ID_SPECIAL_CREATESPICEFILE 
-                            "Output design a file suitable for SPICE simulation"
+                            "Output a netlist file suitable for SPICE simulation"
     ID_EDIT_COPYTO          "Export selection to a file\nCopy to"
 END
 
@@ -1631,10 +1632,10 @@ BEGIN
     IDS_PROPSHT_CAPTION     "Settings"
     IDS_RECURSION           "The number of included hierarchical drawings is too large - this is probably due to recursive includes"
     IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
-    IDP_OLE_INIT_FAILED     "Initialisation of OLE failed"
+    IDP_OLE_INIT_FAILED     "Initialization of OLE failed"
     IDM_FILEPAGESET         "Setup the page layout for this design\nPage Setup"
     IDM_FILEIMPORT          "Import another TinyCAD design\nImport"
-    IDM_FILEEXPORT          "Export the select part of the design\nExport"
+    IDM_FILEEXPORT          "Export the selected part of this design\nExport"
     IDM_FILEDESIGN          "Edit the details of this design\nDesign Details"
     IDS_PROPSHT_CAPTION1    "Design details"
 END
@@ -1768,13 +1769,13 @@ BEGIN
     IDS_BADDEVICE           "Please enter a single letter for the part in the package."
     IDS_COPYPINS            "Do you want the pins from the current part to be copied into the new part?"
     IDS_BADPART             "The part letter is too big."
-    IDS_MISSMETH            "Some symbols where missing from the libraries, and so could not be altered."
+    IDS_MISSMETH            "Some symbols were missing from the libraries, and so could not be altered."
     IDS_MISSREF             "Some symbols do not have correct references, the parts list will be inaccurate.  Use Generate Symbol references."
-    IDS_CANNOTOPEN          "The cannot write the parts list file.  Please try again with a different filename."
+    IDS_CANNOTOPEN          "Cannot write the parts list file.  Please try again with a different filename."
     IDS_DESTIDIED           "The design has been tidied."
     IDS_TOOMANYFILES        "You may only drag one file at a time into TinyCAD."
     IDS_IAMICON             "You may only import files when the design is shown in a window."
-    IDS_BADLIB              "The library %s is faultly! Some or all of the symbols from it may be unavailable."
+    IDS_BADLIB              "The library %s is faulty! Some or all of the symbols from it may be unavailable."
     IDS_MISSLIB             "The library %s is not available.  No symbols will be available from it."
     IDS_NORES               "Could not find specified resource!  There is a fault in the file TinyCAD.EXE, please re-install it."
     IDS_NOFIND              "No string could be found."
@@ -1786,7 +1787,7 @@ BEGIN
     IDS_ABORTLOAD           "The design selected could not be loaded.  Please check the filename and pathname and then try again."
     IDS_ABORTNOTMINE        "The design selected was not drawn using TinyCAD.  Please check the filename and pathname, and try again."
     IDS_ABORTSAVE           "The design could not be saved.  Please check filename and pathname, and try again."
-    IDS_ABORTVERSION        "The design selected was drawn by a later version of TinyCAD than this.  You must use the latest version of TinyCAD to load this design."
+    IDS_ABORTVERSION        "The design selected was drawn by a later version of TinyCAD than this or is not a TinyCAD design file.  You must use the latest version of TinyCAD to load this design if it is indeed a TinyCAD design."
     IDS_ABORTAUTOSAVE       "This design could not be automatically saved."
     IDS_BADPRINT            "Printing could not begin.  Check the printer settings using the Printer Setup button, and try again."
     IDS_NOSYMBOL            "Symbol %s not found."
@@ -1797,23 +1798,23 @@ BEGIN
     ERR_DUPREF              "This reference is also used with another symbol"
     ERR_OUTPUT              "This output is connected to another output"
     ERR_OUTPUTTOPWR         "This output is connected to power"
-    ERR_UNCONNECTED         "This network is not connect to anything"
-    ERR_OUTPUTBIDIR         "This TriState/Open Collector output is connected to an output"
-    ERR_POWERBIDIR          "This TriState/Open Collector output is connect to power"
-    ERR_NOERROR             "No errors in this design were found."
+    ERR_UNCONNECTED         "This network is not connected to anything"
+    ERR_OUTPUTBIDIR         "This TriState/Open Collector output is connected to another output pin"
+    ERR_POWERBIDIR          "This TriState/Open Collector output is connected to a power pin"
+    ERR_NOERROR             "No errors were found in this design."
     IDS_ABORTINDEXSAVE      "The changes could not be saved!  Please check you have the correct access and try again."
-    ERR_UNRECOP             "Unreconised operator in text file"
-    ERR_UNRECOBJ            "Unreconised object in text file"
-    IDS_NO_SYM_DELETE       "You cannot delete symbols from old library .idx files.  Close this window, and upgrade the library from the Library dialogue."
+    ERR_UNRECOP             "Unrecognized operator in text file"
+    ERR_UNRECOBJ            "Unrecognized object in text file"
+    IDS_NO_SYM_DELETE       "You cannot delete symbols from old library .idx files.  Close this window, and upgrade the library using the Library dialogue."
     IDS_DELETE_SHEET        "Are you sure you wish to delete this sheet?\nWARNING: This cannot be reversed with ""undo""."
-    IDS_MUSTUPGRADE         "You must upgrade this library before it you can edit it.  Do you wish to do this now?"
+    IDS_MUSTUPGRADE         "You must upgrade this library before you can edit it.  Do you wish to do this now?"
 END
 
 STRINGTABLE 
 BEGIN
     ERR_UNCONNECT           "This item is not connected to anything else"
     ERR_POWER               "This power is connected to a different value power"
-    ERR_NOCONNECT           "More than one item connected to a no-connect"
+    ERR_NOCONNECT           "More than one item is connected to a no-connect"
     ERR_NOUTPUT             "This network has no output driving it"
 END
 
@@ -1869,7 +1870,7 @@ BEGIN
     IDM_EDITUNDO            "Undo the last action\nUndo"
     IDM_LIBLIB              "Go to the set-up libraries dialog\nSetup libraries"
     IDS_NOHIERACHICAL_SYMBOL 
-                            "This file does not have a hierachical symbol associated with it"
+                            "This file does not have a hierarchical symbol associated with it"
 END
 
 STRINGTABLE 
@@ -1883,19 +1884,19 @@ BEGIN
     IDM_VIEWZOOMOUT         "Zoom out\nZoom out"
     ID_SYMBOL_DELETESYMBOL  "Delete the selected symbol from the library\nDelete symbol"
     ID_SYMBOL_RENAMESYMBOL  "Rename the symbol within the library\nRename symbol"
-    IDS_NOUPGRADE           "Cannot upgrade a library whilst it is being edited or whilst you are creating a new symbol for it.  Close the editing windows and try again"
+    IDS_NOUPGRADE           "Cannot upgrade a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
     IDS_NOJUNCTION          "You cannot place junctions manually because junctions are currently configured for automatic placement.\nTo change this go to Options->Setting->Auto Wire settings."
     IDS_NOUPGRADENEED       "This library is already in the latest file format.  There is no need to upgrade it."
     ID_SYMBOL_EDITSYMBOL    "Edit the selected symbol\nEdit symbol"
     ID_SYMBOL_NEWSYMBOL     "Create a new symbol in this library\nNew symbol"
     ID_LIBRARY_ADDPIN       "Add a pin to the current edited symbol (for editing library symbols only)\nAdd Symbol Pin"
     ID_LIBRARY_SELECTPARTINPACKAGE 
-                            "Select which part in the package current being edited\nPPP"
+                            "Select which part in the package is currently being edited\nPPP"
 END
 
 STRINGTABLE 
 BEGIN
-    ID_FIND_FIND            "Find a text in the design"
+    ID_FIND_FIND            "Find a text string in the design"
 END
 
 STRINGTABLE 
