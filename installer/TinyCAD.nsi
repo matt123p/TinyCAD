@@ -272,7 +272,7 @@ skip_mdac_download:
 
   File "..\libs\gen_Power.TCLib"
 
-  SetOutPath "$DOCUMENTS\TinyCAD Examples"
+  SetOutPath "$INSTDIR\examples"
 
   File "..\examples\AMP.DSN"
 
@@ -409,84 +409,91 @@ FunctionEnd
 Section Uninstall
 
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
-
   Delete "$INSTDIR\uninst.exe"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\VREG.DSN"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\VCA.DSN"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\nanocomp6802.dsn"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\KEYSW.DSN"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\INVERTER.DSN"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\face.dsn"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\AtTiny LED Flasher.dsn"
-
-  Delete "$DOCUMENTS\TinyCAD Examples\AMP.DSN"
-
+  Delete "$INSTDIR\examples\VREG.DSN"
+  Delete "$INSTDIR\examples\VCA.DSN"
+  Delete "$INSTDIR\examples\nanocomp6802.dsn"
+  Delete "$INSTDIR\examples\KEYSW.DSN"
+  Delete "$INSTDIR\examples\INVERTER.DSN"
+  Delete "$INSTDIR\examples\face.dsn"
+  Delete "$INSTDIR\examples\AtTiny LED Flasher.dsn"
+  Delete "$INSTDIR\examples\AMP.DSN"
   Delete "$INSTDIR\library\valve.mdb"
-
   Delete "$INSTDIR\library\switches.mdb"
-
   Delete "$INSTDIR\library\semi.mdb"
-
   Delete "$INSTDIR\library\passive.mdb"
-
   Delete "$INSTDIR\library\passive2.mdb"
-
   Delete "$INSTDIR\library\Microcontroller.mdb"
-
   Delete "$INSTDIR\library\IC-VREG.mdb"
-
   Delete "$INSTDIR\library\IC-OPAMP.mdb"
-
   Delete "$INSTDIR\library\IC-CMOS4000.mdb"
-
   Delete "$INSTDIR\library\DISCRETE.mdb"
-
   Delete "$INSTDIR\library\Connectors.mdb"
-
   Delete "$INSTDIR\library\Analog.mdb"
-
   Delete "$INSTDIR\library\AC connectors.mdb"
-
   Delete "$INSTDIR\library\74TTL.mdb"
+  Delete "$INSTDIR\library\74TTL.TCLib"
+  Delete "$INSTDIR\library\AC connectors.TCLib"
+  Delete "$INSTDIR\library\Analog.TCLib"
+  Delete "$INSTDIR\library\Assemblies.TCLib"
+  Delete "$INSTDIR\library\cm_Connectors.TCLib"
+  Delete "$INSTDIR\library\Connectors.TCLib"
+  Delete "$INSTDIR\library\DISCRETE.TCLib"
+  Delete "$INSTDIR\library\gen_Electromechanical.TCLib"
+  Delete "$INSTDIR\library\gen_Electromechanical_Relays.TCLib"
+  Delete "$INSTDIR\library\gen_Electromechanical_switches.TCLib"
+  Delete "$INSTDIR\library\gen_Logic.TCLib"
+  Delete "$INSTDIR\library\gen_Mechanical.TCLib"
+  Delete "$INSTDIR\library\gen_passive.TCLib"
+  Delete "$INSTDIR\library\gen_Power.TCLib"
+  Delete "$INSTDIR\library\gen_semiconductor.TCLib"
+  Delete "$INSTDIR\library\IC-CMOS4000.TCLib"
+  Delete "$INSTDIR\library\IC-OPAMP.TCLib"
+  Delete "$INSTDIR\library\IC-VREG.TCLib"
+  Delete "$INSTDIR\library\Mechanical.TCLib"
+  Delete "$INSTDIR\library\Microcontroller.TCLib"
+  Delete "$INSTDIR\library\passive.TCLib"
+  Delete "$INSTDIR\library\passive2.TCLib"
+  Delete "$INSTDIR\library\pm_Connectors.TCLib"
+  Delete "$INSTDIR\library\pm_Electromechanical.TCLib"
+  Delete "$INSTDIR\library\pm_Indicators.TCLib"
+  Delete "$INSTDIR\library\Power.TCLib"
+  Delete "$INSTDIR\library\semi.TCLib"
+  Delete "$INSTDIR\library\sm_IC_Transceivers.TCLib"
+  Delete "$INSTDIR\library\switches.TCLib"
+  Delete "$INSTDIR\library\symbols.TCLib"
+  Delete "$INSTDIR\library\th_Comparators.TCLib"
+  Delete "$INSTDIR\library\th_Connectors.TCLib"
+  Delete "$INSTDIR\library\th_Electromechanical.TCLib"
+  Delete "$INSTDIR\library\th_Headers.TCLib"
+  Delete "$INSTDIR\library\th_OpAmps.TCLib"
+  Delete "$INSTDIR\library\th_Passive.TCLib"
+  Delete "$INSTDIR\library\th_Semiconductors.TCLib"
+  Delete "$INSTDIR\library\th_Transceivers.TCLib"
+  Delete "$INSTDIR\library\th_uC.TCLib"
+  Delete "$INSTDIR\library\th_Vreg.TCLib"
+  Delete "$INSTDIR\library\valve.TCLib"
 
   Delete "$INSTDIR\TinyCAD.chm"
 
   Delete "$INSTDIR\zlib1.dll"
-
   Delete "$INSTDIR\libpng13.dll"
-
   Delete "$INSTDIR\iconv.dll"
+  Delete "$INSTDIR\sqlite3.dll"
 
+  Delete "$INSTDIR\TinyCAD_Manual.pdf"
   Delete "$INSTDIR\TinyCad.exe"
 
-
-
   Delete "$SMPROGRAMS\TinyCAD\Uninstall.lnk"
-
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk"
-
   Delete "$SMPROGRAMS\TinyCAD\Help.lnk"
-
   Delete "$DESKTOP\TinyCAD.lnk"
-
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD.lnk"
 
-
-
   RMDir "$SMPROGRAMS\TinyCAD"
-
   RMDir "$INSTDIR\library"
-
+  RMDir "$INSTDIR\examples"
   RMDir "$INSTDIR"
-
-  RMDir "$DOCUMENTS\TinyCAD Examples"
 
 
 
