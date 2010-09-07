@@ -385,6 +385,7 @@ public:
 
 private:
 	friend CEditDlgLabelEdit;
+	friend CNetList;	//Used to assist debugging the netlists
 
 	// The font style
 	hFONT		FontStyle;
@@ -629,7 +630,7 @@ public:
 
 
 
-////// These are the anotation objects //////
+////// These are the annotation objects //////
 
 class CDrawSquare : public CDrawRectOutline
 {

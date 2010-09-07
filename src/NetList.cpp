@@ -240,25 +240,85 @@ int CNetList::Add(CNetListNode &ins)
 }
 
 /** 
- * Tell all of the wires what network they are associated with.
+ * Used only during debugging the netlister.  This method formats
+ * the netlist objects and outputs them to the debugger output.
  */
-void CNetList::WriteWires()
+void CNetList::dumpNetListObjects()
 {
 	/// Scan each netlist
+	TRACE("\nEntering CNetList::DumpNetListObjects():\n");
     netCollection::iterator ni = m_nets.begin();
-	while (ni != m_nets.end()) 
+	while (ni != m_nets.end())
 	{
 		int net = (*ni).first;
+		TRACE("  ==>Dumping objects for net=%d\n", net);
+
 		nodeVector &v = (*ni).second;
 
 		/// Update the nodes in the netlist
 		nodeVector::iterator vi = v.begin();
 		while (vi != v.end())
 		{
+			enum ObjType objectType;
+			CString objectNameString;
+
+
 			CNetListNode &node = *vi;
-			if (node.m_parent && node.m_parent->GetType() == xWire)
-			{
-				static_cast<CDrawLine*>(node.m_parent)->setNetwork( net );
+
+			if (node.m_parent) {
+				objectType = node.m_parent->GetType();
+				switch(objectType) {
+				case xAnnotation: objectNameString = _T("xAnnotation");
+					break;
+				case xSymbol: objectNameString = _T("xSymbol");
+					break;
+				case xSymbolEx: objectNameString = _T("xSymbolEx");
+					break;
+				case xSymbolEx2: objectNameString = _T("xSymbolEx2");
+					break;
+				case xBusName: objectNameString = _T("xBusName");
+					break;
+				case xNoConnect: objectNameString = _T("xNoConnect");
+					break;
+				case xJunction: objectNameString = _T("xJunction");
+					break;
+				case xLabel: objectNameString = _T("xLabel");
+					break;
+				case xWire: objectNameString = _T("xWire");
+					break;
+				case xBus: objectNameString = _T("xBus");
+					break;
+				case xPower: objectNameString = _T("xPower");
+					break;
+				case xPin: objectNameString = _T("xPin");
+					break;
+				case xLabelEx: objectNameString = _T("xLabelEx");
+					break;
+				case xLabelEx2: objectNameString = _T("xLabelEx2");
+					break;
+				case xPinEx: objectNameString = _T("xPinEx");
+					break;
+				case xLine: objectNameString = _T("xLine");
+					break;
+				case xHierarchicalSymbol: objectNameString = _T("xHierarchicalSymbol");
+					break;
+				default: objectNameString = _T("Unknown");
+					break;
+				}
+			}
+			if (node.m_parent && node.m_parent->GetType() == xWire) {
+				TRACE("    ==>Object:  xWire node\n");
+			}
+			else if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
+				TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+			}
+			else if (node.m_parent && node.m_parent->GetType() == xPower) {
+				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
+				TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d\n",powerLabel,node.m_NetList);
+			}
+			else {
+				TRACE("    ==>Object:  %S (obj type=%d) on m_net=%d, net label=\"%S\", refdes=\"%S\", pin number=\"%S\"\n",
+					objectNameString, node.m_parent->GetType(),node.m_NetList, node.getLabel(), node.m_reference, node.m_pin);
 			}
 
 			++ vi;
@@ -266,8 +326,101 @@ void CNetList::WriteWires()
 
 		++ ni;
 	}
+	TRACE("Exiting CNetList::DumpNetListObjects()\n\n");
 }
 
+/** 
+ * Tell all of the wires what network they are associated with.
+ */
+void CNetList::WriteWires()
+{
+	/// Scan each netlist
+	TRACE("\nEntering CNetList::WriteWires():  Updating the wires in this design\n");
+    netCollection::iterator ni = m_nets.begin();
+	while (ni != m_nets.end()) 
+	{
+		int net = (*ni).first;
+		TRACE("  ==>Updating wires for net=%d\n",net);
+
+		nodeVector &v = (*ni).second;
+
+		/// Update the nodes in the netlist
+		nodeVector::iterator vi = v.begin();
+		while (vi != v.end())
+		{
+			enum ObjType objectType;
+			CString objectNameString;
+
+
+			CNetListNode &node = *vi;
+
+			if (node.m_parent) {
+				objectType = node.m_parent->GetType();
+				switch(objectType) {
+				case xAnnotation: objectNameString = _T("xAnnotation");
+					break;
+				case xSymbol: objectNameString = _T("xSymbol");
+					break;
+				case xSymbolEx: objectNameString = _T("xSymbolEx");
+					break;
+				case xSymbolEx2: objectNameString = _T("xSymbolEx2");
+					break;
+				case xBusName: objectNameString = _T("xBusName");
+					break;
+				case xNoConnect: objectNameString = _T("xNoConnect");
+					break;
+				case xJunction: objectNameString = _T("xJunction");
+					break;
+				case xLabel: objectNameString = _T("xLabel");
+					break;
+				case xWire: objectNameString = _T("xWire");
+					break;
+				case xBus: objectNameString = _T("xBus");
+					break;
+				case xPower: objectNameString = _T("xPower");
+					break;
+				case xPin: objectNameString = _T("xPin");
+					break;
+				case xLabelEx: objectNameString = _T("xLabelEx");
+					break;
+				case xLabelEx2: objectNameString = _T("xLabelEx2");
+					break;
+				case xPinEx: objectNameString = _T("xPinEx");
+					break;
+				case xLine: objectNameString = _T("xLine");
+					break;
+				case xHierarchicalSymbol: objectNameString = _T("xHierarchicalSymbol");
+					break;
+				default: objectNameString = _T("Unknown");
+					break;
+				}
+			}
+			if (node.m_parent && node.m_parent->GetType() == xWire) {
+
+				//This is the only statement in this function that actually does work
+				static_cast<CDrawLine*>(node.m_parent)->setNetwork( net );
+
+				TRACE("    ==>Updating xWire node\n");
+			}
+			else if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
+				TRACE("    ==>Skipping xLabelEx2=\"%S\" on net=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+			}
+			else if (node.m_parent && node.m_parent->GetType() == xPower) {
+				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
+				TRACE("    ==>Skipping xPower=\"%S\" on m_net=%d\n",powerLabel,node.m_NetList);
+			}
+			else {
+				TRACE("    ==>Skipping %S node (type=%d) on m_net=%d, refdes=\"%S\", pin number=\"%S\"\n",
+					objectNameString, node.m_parent->GetType(),node.m_NetList, node.m_reference, node.m_pin);
+			}
+
+			++ vi;
+		}
+
+		++ ni;
+	}
+	TRACE("Exiting CNetList::WriteWires()\n\n");
+}
 
 /**
  * Link together several netlists.
@@ -278,6 +431,7 @@ void CNetList::WriteWires()
  */
 void CNetList::Link( linkCollection& nets )
 {
+	TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
 	/// Get rid of any old data
 	m_CurrentNet = 1;
 	m_nodes.erase( m_nodes.begin(), m_nodes.end() );
@@ -288,21 +442,107 @@ void CNetList::Link( linkCollection& nets )
 	stringCollection	labels;
 
 	/// Here is a list of known linking information
-	typedef std::map<int,int> intCollection;
-	typedef std::vector< intCollection > linkMap;
 	linkMap	map;
-
-	/// Here is a map of netlists that are linked together
-	intCollection	linked_netlists;
 
 	/// The linkmap will contain for each netlist a map
 	/// of old net number to new net number...
-	map.resize( nets.size() );
+	map.resize( nets.size() );	//size the map to be 1 map entry for each net in the specified netlist
 
 	/// Now scan the nodes to generate the superset of
-	/// labels and their linking information
-	int index = 0;
+	/// labels and their netlists
+
+	TRACE("\n\n\n  ==>Pass 1:  Scanning all netlist nodes to generate the superset of labels and their linking information.\n");
 	linkCollection::iterator i = nets.begin();
+	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
+	{
+		CNetList &n = *i;
+		// Dump the current net
+		TRACE("\n  ==>Pass 1:  Traversing linkCollection:  m_CurrentNet = %d, n.m_CurrentNet = %d, follow imports = %S\n",
+				m_CurrentNet,
+				n.m_CurrentNet,
+				(n.m_follow_imports) ? _T("True"):_T("False"));
+		/// Scan each netlist
+		netCollection::iterator ni = n.m_nets.begin();
+		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet
+		{
+			nodeVector &v = (*ni).second;
+			int old_netlist = (*ni).first;
+			int new_netlist = 0;
+
+			TRACE("\n    ==>Pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
+			/// Scan each node
+			nodeVector::iterator vi = v.begin();
+			while (vi != v.end())	//this loop traverses a collection of schematic objects associated with a single net originally from a single sheet
+			{
+				CNetListNode &node = *vi;
+				TRACE("      ==>Pass 1:  Traversing node vector:  Netlist %d Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
+					old_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
+
+				/// Look for nodes with labels
+				if (!node.getLabel().IsEmpty())
+				{
+					CString label_name = node.getLabel();
+
+					/// Do we already have an entry for this label?
+					stringCollection::iterator s = labels.find( label_name );
+					//TRACE("        ==>Associated label=\"%S\"\n", label_name);
+					if (s != labels.end())
+					{
+						/// Get netlist of label
+						int q = (*s).second;
+						TRACE("        ==>Found an entry for label \"%S\" in labels table associated with netlist %d\n",
+							label_name,
+							(*s).second);
+
+						/// Have we already assigned a netlist to this node?
+						if (new_netlist == 0)
+						{
+							/// Yes... so this node must become that netlist
+							new_netlist = q;
+						}
+
+						// Update netlist of label
+						if (new_netlist != q)
+						{
+							// Update all labels of old netlist with new netlist
+							stringCollection::iterator li = labels.begin();
+							while (li != labels.end())
+							{							
+								if ( (*li).second == q ) 
+								{
+									labels[ (*li).first ] = new_netlist;
+								}
+								li++;
+							}
+						}
+					}
+					else
+					{
+						/// No, so we must insert a new label node..
+						if (new_netlist == 0)
+						{
+							new_netlist = m_CurrentNet ++;
+						}
+						
+						labels[ label_name ] = new_netlist;
+					}
+
+				}
+
+				++ vi;
+			}
+
+			++ ni;
+		}
+
+		++ i;
+	}
+
+
+	/// Now scan the nets and generate a
+	/// mapping to the super net
+	int index = 0;
+	i = nets.begin();
 	while ( i != nets.end() )
 	{
 		CNetList &n = *i;
@@ -326,59 +566,19 @@ void CNetList::Link( linkCollection& nets )
 					/// We only link at label level...
 					CString label_name = node.getLabel();
 
-					/// Do we already have an entry for this label?
+					/// Get netlist of label (sould always be found)
 					stringCollection::iterator s = labels.find( label_name );
 					if (s != labels.end())
 					{
 						int q = (*s).second;
 
-						while (linked_netlists.find(q) != linked_netlists.end())
-						{
-							q = linked_netlists[ q ];
-						}
-
 						/// Have we already assigned a netlist to this node?
-						if (new_netlist != 0)
-						{
-							int z = new_netlist;
-							while (linked_netlists.find(z) != linked_netlists.end())
-							{
-								int hold = linked_netlists[ z ];
-								if (z != q)
-								{
-									linked_netlists[ z ] = q;
-								}
-								else
-								{
-									/// No need to link a list to itself!
-									linked_netlists.erase( q );
-								}
-								z = hold;
-							}
-
-							/// We will have to link these two nodes together...
-							if (new_netlist != q)
-							{
-								linked_netlists[ new_netlist ] = q;
-							}
-						}
-						else
+						if (new_netlist == 0)
 						{
 							/// Yes... so this node must become that netlist
 							new_netlist = q;
 						}
 					}
-					else
-					{
-						/// No, so we must insert a new node..
-						if (new_netlist == 0)
-						{
-							new_netlist = m_CurrentNet ++;
-						}
-						
-						labels[ label_name ] = new_netlist;
-					}
-
 				}
 
 				++ vi;
@@ -388,52 +588,91 @@ void CNetList::Link( linkCollection& nets )
 			if (new_netlist == 0)
 			{
 				new_netlist = m_CurrentNet ++;
+				TRACE("    ==>Added new_netlist=%d for this node.\n", new_netlist);
 			}
 
 			/// Now write it into the map
 			map[ index ][ old_netlist ] = new_netlist;
+			TRACE("    ==>Mapping new_netlist=%d onto map[index=%d][old_netlist=%d]\n", new_netlist, index, old_netlist);
 
 			++ ni;
 		}
 
-		++ index;
-		++ i;
+		++ index;	//prepare to process the collection of nets from the next schematic sheet
+		++ i;	//prepare to process the collection of nets from the next schematic sheet
 	}
+
+//	Uncomment for debugging the netlist
+//	TRACE("\n\n\nDump of netlist objects after pass 1 (nets.size() = %d):\n", nets.size());
+//	CNetList::dumpNetListObjects();
+//	TRACE("Dump complete.\n\n\n");
 
 
 	/// Now build a super net of all of the
 	/// netlists linked together...
 	index = 0;
 	i = nets.begin();
-	while ( i != nets.end() )
+	int sheetIndex = 0;
+	TRACE("\n\n\n  ==>Pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
+	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
 	{
+		++sheetIndex;	//used for debugging only
 		CNetList &n = *i;
+		TRACE("\n  ==>Pass 2:  Traversing linkCollection, sheetIndex = %d, net count = %d, node count = %d:  Current net = %d, follow imports = %S\n",
+				sheetIndex,
+				nets.size(),
+				n.m_nets.size(),
+				n.m_CurrentNet,
+				(n.m_follow_imports) ? _T("True"):_T("False"));
 
-		/// Scan each netlist
+//Uncomment for debugging the netlist
+//		TRACE("\n\n\nDump of netlist objects in the middle of pass 2 (sheetIndex = %d, net count = %d, node count = %d) just prior to processing current net=%d:\n",
+//				sheetIndex,
+//				nets.size(),
+//				n.m_nets.size(),
+//				n.m_CurrentNet);
+//		CNetList::dumpNetListObjects();
+//		TRACE("Dump complete.\n\n\n");
+
+
+		/// Scan each netlist in the collection of nets from a specific schematic sheet
 		netCollection::iterator ni = n.m_nets.begin();
-		while (ni != n.m_nets.end())
+		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet.  Note that these nets may actually be net fragments at this point.
 		{
-			nodeVector &v = (*ni).second;
-			int old_netlist = (*ni).first;
+			nodeVector &v = (*ni).second;	//get the list of schematic objects for this net
+			int old_netlist = (*ni).first;	//get the net number for this net
 			int new_netlist = map[ index ][ old_netlist ];
-
-			/// Check to see if these netlists are linked together...
-			while (linked_netlists.find(new_netlist) != linked_netlists.end())
-			{
-				new_netlist = linked_netlists[ new_netlist ];
-			}
+			TRACE("\n    ==>Pass 2 (sheetIndex = %d):  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d, m_CurrentNet = %d\n", sheetIndex, old_netlist, new_netlist, n.m_CurrentNet);
 
 			/// Update the nodes in the netlist
 			nodeVector::iterator vi = v.begin();
+			TRACE("      ==>Pass 2 (sheetIndex = %d):  Updating the nodes in new_netlist=%d\n", sheetIndex, new_netlist);
 			while (vi != v.end())
 			{
 				CNetListNode &node = *vi;
+				TRACE("      ==>Pass 2:  Traversing node vector:  old_netlist=%d, new_netlist=%d, Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
+					old_netlist, new_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
 				vi->m_NetList = new_netlist;
 				++ vi;
 			}
 
 			/// Now concatenate the old lists onto the new list
+			TRACE("    ==>Pass 2 (sheetIndex=%d, net count=%d, node count=%d):  Now concatenating all of the nodes in this netlist together.  n.m_CurrentNet = %d\n",
+					sheetIndex,
+					nets.size(),
+					n.m_nets.size(),
+					n.m_CurrentNet);
+
 			std::copy(v.begin(), v.end(), std::back_inserter(m_nets[new_netlist]));
+
+//Uncomment to debug the netlist
+//			TRACE("\n\n\nDump of netlist objects in the middle of pass 2 (sheetIndex=%d, net count=%d, node count=%d) just after the concatenation of all of the nodes. n.m_CurrentNet=%d:\n",
+//					sheetIndex,
+//					nets.size(),
+//					n.m_nets.size(),
+//					n.m_CurrentNet);
+//			CNetList::dumpNetListObjects();
+//			TRACE("Dump complete.\n\n\n");
 
 			++ ni;
 		}
@@ -441,6 +680,12 @@ void CNetList::Link( linkCollection& nets )
 		++ index;
 		++ i;
 	}
+	TRACE("  ==>Pass 2:  Finished building the super netlist.  Total net count = %d\n\n\n", nets.size());
+
+//Uncomment to debug the netlist
+//	TRACE("\n\n\nDump of netlist objects after pass 2:\n");
+//	CNetList::dumpNetListObjects();
+//	TRACE("Dump complete.\n\n\n");
 }
 
 /**
@@ -477,17 +722,22 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	{
 	*/
 
-	// For each member of m_imports, we generate a netlist for all of its sheet.
+	// For each member of m_imports, we generate a netlist for all of its sheets.
 	// This includes the root design. Recursion happens here because
 	// new members may be added to m_imports as a result of the
 	// MakeNetForSheet call. So we can't cache size() or any of its
 	// members.
+	TRACE("\n\nEntering CNetList::MakeNet():  Making nets for every sheet in this design\n");
 	for ( unsigned int ip = 0; ip < m_imports.size(); ++ ip )
 	{
 		/// Now create the nets for it
 		int base = nets.size();
 		int newSheets = m_imports[ip]->getDesign()->GetNumberOfSheets();
 		nets.resize( base +  newSheets);
+		TRACE("Started with %d sheets, then added %d new sheets resulting in %d sheets total\n",
+			base,
+			newSheets,
+			nets.size());
 
 		/// Generate a netlist for every sheet in this imported design
 		for (int i = 0; i < newSheets; i++)
@@ -503,10 +753,12 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	}
 
 	/// Now link the nets together
+	TRACE("\nLinking nets from all sheets together\n\n");
 	Link( nets );
 
 	/// ... and write the results into the design for ease of use...
 	WriteWires();
+	TRACE("Leaving CNetList::MakeNet():  Finished making nets for every sheet in this design\n");
 }
 
 
@@ -542,6 +794,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 //  m_imports[ip]->m_file_name_index, file_name_index, i+1, m_imports[ip]->m_pDesign->GetSheet( i ) );
 {
   int sheetOneIndexed = sheetZeroIndexed+1;
+  TRACE("\n\nEntering CNetList::MakeNetForSheet() for page %d\n",sheetOneIndexed);
 
   // lookup these values from the imports list
   int file_index_id = imports[import_index]->getFileNameIndex();
@@ -577,7 +830,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		case xHierarchicalSymbol:
 			{
 				CDrawHierarchicalSymbol *pSymbol = static_cast<CDrawHierarchicalSymbol*>(ObjPtr);
-
+				TRACE("Found xHierarchicalSymbol with name=[%S], value=[%S], ref=[%S]\n\n",pSymbol->GetName(),pSymbol->GetRef());
 				/// Try and stop recursion by limiting the number of imports
 				if (imports.size() > 100)
 				{
@@ -631,6 +884,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		case xMethodEx3:
 			#define thePin ((CDrawPin*)pointer)
 			#define theMethod ((CDrawMethod*)ObjPtr)
+			TRACE("Found xMethodEx3 (Symbol) at (%g,%g).  Symbol name=[%S], Symbol ref=[%S].\n",
+				theMethod->m_point_a.x, theMethod->m_point_a.y,
+				theMethod->GetName(), theMethod->GetRef());
 			{
 				drawingCollection method;
 				((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
@@ -645,6 +901,11 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 					if (pointer->GetType()==xPinEx && !(thePin->IsPower()) ) 
 					{
+						//Only process pins that are NOT power pins here.  Power pins are handled later.
+						TRACE("  ==>Symbol name=[%S], ref=[%S]:  This pin is NOT a power pin.  PinName=[%S], Name=[%S], Pin number=[%S].\n",
+							theMethod->GetName(), theMethod->GetRef(),
+							thePin->GetPinName(), thePin->GetName(), thePin->GetNumber());
+
 						CNetListNode n( file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod));
 						n.m_reference = myRefDes;
 
@@ -659,6 +920,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 				/// Has this symbol had it's power connected?
 				if (Connected.find(myRefDes) == Connected.end()) 
 				{
+					TRACE("  ==>Seeing if reference designator [%S] has any pins of type=power defined\n",myRefDes);
 					Connected[ myRefDes ] = TRUE;
 
 					drawingCollection method;
@@ -673,6 +935,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 						{
 							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
 							// Set netlist label name to invisible symbol power pin name
+							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
+								n.m_NetList,
+								thePin->GetPinName());
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = 
 								// theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
@@ -682,7 +947,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							n.m_pMethod = theMethod;
 
 
-							/// Look up the netlist this power belongs to
+							/// Look up the netlist this power pin belongs to
 							found = Powers.find( thePin->GetPinName() );
 							if (found != Powers.end())
 								n.m_NetList = (*found).second;
@@ -693,20 +958,24 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 						++ it;
 					}
+					TRACE("  ==>Finished checking this symbol for power pins\n");
 				}
 			}			
 			break;
 		case xNoConnect:
-			Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a));			
+			Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a));
+			TRACE("Found xNoConnect at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
 			break;
 		case xJunction:
 			Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a));
+			TRACE("Found xJunction at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
 			break;			
 		case xPower:
 			{
 			CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a);
 
 			CString powerLabel = get_power_label((CDrawPower *)ObjPtr);
+			TRACE("Found xPower=[%S] at (%g,%g)\n",powerLabel,ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
 			n.setLabel( powerLabel );
 
 			/// Does this power item exist?
@@ -719,6 +988,10 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 			}
 			break;
 		case xWire:
+			TRACE("Found xWire at (%g,%g) (%g,%g)\n",
+				ObjPtr->m_point_a.x, ObjPtr->m_point_a.y,
+				ObjPtr->m_point_b.x, ObjPtr->m_point_b.y);
+
 			{
 				CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,ObjPtr->m_point_a);
 				hold = Add(n);
@@ -733,6 +1006,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
   }
 
   /// Search for junctions and connect together
+  TRACE("Searching for junctions to connect together\n");
   it = itBegin;
   while (it != itEnd) 
   {
@@ -744,6 +1018,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		/// Find out which netlist was assigned to this point
 		CDPoint a = ObjPtr->m_point_a;
 		int NetNumber = m_nodes[ a ];
+		TRACE("  ==>Found a junction at (%g,%g).  Will now look for wires that cross this junction\n",a.x, a.y);
 
 		/// Look for wires which cross this junction
 		drawingIterator search_it = itBegin;
@@ -753,8 +1028,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 			/// Find the wires
 			/// If the wire has an end at this junction then it is already connected
-			if (search->GetType()==xWire 
-			 && search->m_point_a!=a && search->m_point_b!=a)
+			if ((search->GetType()==xWire) 
+			  &&(search->m_point_a!=a)
+			  &&(search->m_point_b!=a))
 			{
 				/// Is this point on this wire?
 				CLineUtils l( search->m_point_a, search->m_point_b );
@@ -765,6 +1041,11 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 					CNetListNode n(file_index_id, sheetOneIndexed, NULL,search->m_point_a);
 					n.m_NetList = NetNumber;
 					NetNumber = Add(n);
+					TRACE("  ==>Found line segment with coordinates (%g,%g : %g,%g) that intersects junction at (%g,%g).  Adding this node to net number=[%d]\n",
+						search->m_point_a.x, search->m_point_a.y,
+						search->m_point_b.x, search->m_point_b.y,
+						a.x, a.y,
+						NetNumber);
 				}
 			}
 
@@ -777,6 +1058,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
   /// Search for labels and connect to their respective lines
   stringCollection labels;
+  TRACE("Searching for labels to match with wires\n");
   it = itBegin;
   while (it != itEnd) 
   {
@@ -786,6 +1068,11 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 	if (ObjPtr->GetType() == xLabelEx2) 
 	{
 		CDPoint a = static_cast<CDrawLabel*>(ObjPtr)->GetLabelPoint();
+		TRACE("Found label.  Value=[%S], Name=[%S], ObjType=[%d/0x%x] (enum value).  Looking for wires that connect to it\n",
+			static_cast<CDrawLabel*>(ObjPtr)->GetValue(),
+			static_cast<CDrawLabel*>(ObjPtr)->GetName(),
+			(int) (static_cast<CDrawLabel*>(ObjPtr)->GetType()),
+			(int) (static_cast<CDrawLabel*>(ObjPtr)->GetType()));
 
 		/// Search for a wire this label is connect to
 		/// Only attempt to connect to a single wire
@@ -795,7 +1082,11 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 			CDrawingObject *search = *search_it;
 			if (search->GetType()==xWire && search->IsInside(a.x,a.x,a.y,a.y)) 
 			{
-				a = search->m_point_a;
+				a = search->m_point_a;	//Overwrite label point "a" with first point on newly found wire
+				TRACE("  ==>Found a wire with coordinates (%g,%g : %g,%g) that connects to label=[%S].  Stopping search after first find!\n",
+					search->m_point_a.x, search->m_point_a.y,
+					search->m_point_b.x, search->m_point_b.y,
+					static_cast<CDrawLabel*>(ObjPtr)->GetValue());
 				break;
 			}
 			
@@ -803,13 +1094,20 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		}
 
 		/// Look up this label
-		CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,a);
+		CNetListNode n(file_index_id, sheetOneIndexed, ObjPtr,a);	//Find the net list node that this wire is a member of
+		TRACE("Assigning label [%S] to netlist name=[%S], number=%d\n",((CDrawLabel *)ObjPtr)->GetValue(),n.getLabel(),n.m_NetList);
+
 		n.setLabel(  ((CDrawLabel *)ObjPtr)->GetValue() );
 
 		/// Has this label already been assigned a netlist?
 		stringCollection::iterator found = labels.find(((CDrawLabel *)ObjPtr)->GetValue());
 		if (found!=labels.end()) 
 		{
+			TRACE("Label [%S] has already been assigned to netlist %d via net name=[%S], net number=[%d].\n",
+				((CDrawLabel *)ObjPtr)->GetValue(),
+				(*found).second,
+				n.getLabel(),
+				n.m_NetList);
 			n.m_NetList = (*found).second;
 			n.setLabel( _T("") );
 		}
@@ -817,8 +1115,17 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		int hold = Add(n);
 
 		/// If there was no netlist write it back...
-		if (found == labels.end())
+		if (found == labels.end()) {
+
+			assert(labels[ ((CDrawLabel *)ObjPtr)->GetValue()] == 0);
+
 			labels[ ((CDrawLabel *)ObjPtr)->GetValue()] = hold;
+			TRACE("Label=[%S] has not yet had a netlist assigned to it.  Holding netlist=%d in labels[%S] until later.  After assignment, netlist=%d\n",
+				((CDrawLabel *)ObjPtr)->GetValue(),
+				hold,
+				((CDrawLabel *)ObjPtr)->GetValue(),
+				labels[ ((CDrawLabel *)ObjPtr)->GetValue()]);
+		}
 	}
 	
 	++ it;
@@ -827,6 +1134,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
   /// Our work with the nodes map is complete, so we can discard it now...
   m_nodes.erase( m_nodes.begin(), m_nodes.end() );
 
+  TRACE("Leaving CNetList::MakeNetForSheet() for page %d\n\n",sheetOneIndexed);
 }
 
 

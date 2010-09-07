@@ -341,8 +341,14 @@ protected:
 	void clear();
 
 private:
-    void rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile);
+	typedef std::map<int,int> intCollection;	//Used to keep track of nets after they are linked
+	typedef std::vector< intCollection > linkMap;
+
 	// worker function for low-level stuff (NO GUI elements)
+    void rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile);
+
+    // Worker function used to debug the netlist linker
+	void dumpNetListObjects();
 
 
 public:
@@ -402,8 +408,6 @@ enum NetType
 		nPower,				// The net contains a power item and some inputs/passives	5
 		nNoConnect,			// The net contains a no-connect and one other item			6
 };
-
-
 
 // The dialog for the electrical rules check box
 class CDlgERCBox : public CDialog {
