@@ -414,7 +414,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DlgAnotateBox.cpp">
+				RelativePath="DlgannotateBox.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
