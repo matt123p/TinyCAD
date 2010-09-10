@@ -147,15 +147,12 @@ skip_mdac_download:
   CreateShortCut "$DESKTOP\TinyCAD.lnk" "$INSTDIR\TinyCad.exe"
 
   File "..\src\png\libpng13.dll"
-
   File "..\src\png\zlib1.dll"
-
   File "..\src\libiconv\iconv.dll"
-
   File "..\src\SQLite\sqlite3.dll"
-
+  File "..\src\msvc\redist\x86\msvcr71.dll"
+  File "..\src\msvc\redist\x86\msvcr90.dll"
   File "..\docs\TinyCAD.chm"
-
   File "..\docs\PDF Outputs\TinyCAD_Manual.pdf"
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
@@ -480,7 +477,9 @@ Section Uninstall
   Delete "$INSTDIR\libpng13.dll"
   Delete "$INSTDIR\iconv.dll"
   Delete "$INSTDIR\sqlite3.dll"
-
+  Delete "$INSTDIR\msvcr71.dll"
+  Delete "$INSTDIR\msvcr90.dll"
+  
   Delete "$INSTDIR\TinyCAD_Manual.pdf"
   Delete "$INSTDIR\TinyCad.exe"
 
