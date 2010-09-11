@@ -143,6 +143,9 @@ BOOL CDlgERCBox::OnInitDialog()
   CheckDlgButton(ERC_OUTPUT,theErrorTest.Output);
   CheckDlgButton(ERC_NOUTPUT,theErrorTest.NoOutput);
   CheckDlgButton(ERC_UNCONNECTED,theErrorTest.UnConnected);
+  CheckDlgButton(ERC_MULTIPLENETNAMES,theErrorTest.MultipleNetNames);
+  CheckDlgButton(ERC_NONCASEDISTINCT,theErrorTest.NonCaseDistinctNetNames);
+  CheckDlgButton(ERC_UNASSIGNEDREFDES,theErrorTest.UnAssignedRefDes);
 
   return TRUE;
 }
@@ -152,15 +155,18 @@ void CDlgERCBox::OnOK()
 {
 
   // Copy the dialog into the errortest
-  theErrorTest.DupRef		=IsDlgButtonChecked(ERC_DUPREF)!=0;
-  theErrorTest.UnConnect	=IsDlgButtonChecked(ERC_UNCONNECT)!=0;
-  theErrorTest.NoConnect	=IsDlgButtonChecked(ERC_NOCONNECT)!=0;
+  theErrorTest.DupRef		            =IsDlgButtonChecked(ERC_DUPREF)!=0;
+  theErrorTest.UnConnect	            =IsDlgButtonChecked(ERC_UNCONNECT)!=0;
+  theErrorTest.NoConnect	            =IsDlgButtonChecked(ERC_NOCONNECT)!=0;
 
-  theErrorTest.Power		=IsDlgButtonChecked(ERC_POWER)!=0;
-  theErrorTest.OutputPwr	=IsDlgButtonChecked(ERC_OUTPUTTOPWR)!=0;
-  theErrorTest.Output		=IsDlgButtonChecked(ERC_OUTPUT)!=0;
-  theErrorTest.NoOutput		=IsDlgButtonChecked(ERC_NOUTPUT)!=0;
-  theErrorTest.UnConnected	=IsDlgButtonChecked(ERC_UNCONNECTED)!=0;
+  theErrorTest.Power		            =IsDlgButtonChecked(ERC_POWER)!=0;
+  theErrorTest.OutputPwr	            =IsDlgButtonChecked(ERC_OUTPUTTOPWR)!=0;
+  theErrorTest.Output		            =IsDlgButtonChecked(ERC_OUTPUT)!=0;
+  theErrorTest.NoOutput		            =IsDlgButtonChecked(ERC_NOUTPUT)!=0;
+  theErrorTest.UnConnected	            =IsDlgButtonChecked(ERC_UNCONNECTED)!=0;
+  theErrorTest.MultipleNetNames         =IsDlgButtonChecked(ERC_MULTIPLENETNAMES) != 0;
+  theErrorTest.NonCaseDistinctNetNames  =IsDlgButtonChecked(ERC_NONCASEDISTINCT) != 0;
+  theErrorTest.UnAssignedRefDes         =IsDlgButtonChecked(ERC_UNASSIGNEDREFDES) != 0;
 
   EndDialog( IDOK );
 }
@@ -221,6 +227,24 @@ void CTinyCadView::OnSpecialCheck()
 	// GetCurrentDocument()->DeleteErrors();
 	theERCListBox.Open( pDoc );
 	int CurrentError = 0;
+
+	// Scan the design for unassigned references
+	if ((theErrorTest.e).UnAssignedRefDes)
+	{
+	   TRACE("Scanning for unassigned reference designators\n");
+	}
+
+	// Scan the design for non-case distinct net names
+	if ((theErrorTest.e).NonCaseDistinctNetNames)
+	{
+	    TRACE("Scanning for net names that are not case distinct\n");
+	}
+
+	// Scan the design for multiple net names on the same net
+	if ((theErrorTest.e).MultipleNetNames)
+	{
+	    TRACE("Scanning for multiple net names on the same net\n");
+	}
 
 	// Scan the design for duplicated references
 	if ((theErrorTest.e).DupRef)

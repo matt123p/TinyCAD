@@ -18,7 +18,7 @@
 */
 
 
-class AnotateSetup 
+class AnnotateSetup 
 {
 public:
 	enum AddOrRemove { ADD, REMOVE };
@@ -33,11 +33,11 @@ public:
 	int startval;
 	bool all_sheets;
 
-	AnotateSetup();
+	AnnotateSetup();
 };
 
-// The dialog for the auto anotate function
-class CDlgAnotateBox : public CDialog 
+// The dialog for the auto annotate function
+class CDlgAnnotateBox : public CDialog 
 {
 
 protected:
@@ -48,9 +48,9 @@ protected:
 	virtual BOOL OnInitDialog();
 
 public:
-	AnotateSetup	v;
+	AnnotateSetup	v;
 
-	CDlgAnotateBox(CWnd *pParentWnd,AnotateSetup NewV) : CDialog( IDD_ANOTATE, pParentWnd ) { v = NewV; }
+	CDlgAnnotateBox(CWnd *pParentWnd,AnnotateSetup NewV) : CDialog( IDD_ANNOTATE, pParentWnd ) { v = NewV; }
 
 	DECLARE_MESSAGE_MAP()
 };

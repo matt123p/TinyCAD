@@ -66,7 +66,7 @@
 #define IDM_LIBDEVICE                   174
 #define IDM_LIBEND                      175
 #define IDM_SPECIALBOM                  180
-#define IDM_SPECIALANOTATE              181
+#define IDM_SPECIALANNOTATE             181
 #define IDM_SPECIALNET                  183
 #define IDM_SPECIALCHECK                184
 #define IDM_REPEATUP                    190
@@ -208,7 +208,7 @@
 #define ID_FIND_FIND                    510
 #define ID_FIND_SETTAG                  512
 #define IDD_ABOUTBOX1                   518
-#define IDD_ANOTATE                     519
+#define IDD_ANNOTATE                    519
 #define ID_OPTION_FONT                  520
 #define IDD_ATTRIBUTES                  520
 #define IDD_DELETE                      521
@@ -441,6 +441,7 @@
 #define IDC_CENTRE_NAME                 1556
 #define ERC_MULTIPLENETNAMES            1564
 #define ERC_NONCASEDISTINCT             1565
+#define ERC_UNASSIGNEDREFDES            1566
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -547,7 +548,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32895
-#define _APS_NEXT_CONTROL_VALUE         1566
+#define _APS_NEXT_CONTROL_VALUE         1567
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

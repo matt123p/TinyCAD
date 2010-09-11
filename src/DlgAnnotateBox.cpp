@@ -25,26 +25,26 @@
 #include "TinyCad.h"
 
 
-// The anotate box dialog
+// The annotate box dialog
 
 
-BEGIN_MESSAGE_MAP( CDlgAnotateBox, CDialog )
+BEGIN_MESSAGE_MAP( CDlgAnnotateBox, CDialog )
 	ON_EN_CHANGE(ANNOTATEBOX_STARTVAL, OnChangeStart)
 	ON_BN_CLICKED( IDC_REF_PAINTER, OnRefPainter )
 END_MESSAGE_MAP()
 
 
-BOOL CDlgAnotateBox::OnInitDialog()
+BOOL CDlgAnnotateBox::OnInitDialog()
 {
   SetDlgItemText(ANNOTATEBOX_MATCHVAL,v.matchval);
   SetDlgItemInt(ANNOTATEBOX_STARTVAL,v.startval);
   int id = -1;
   switch (v.action)
   {
-  case AnotateSetup::ADD:
+  case AnnotateSetup::ADD:
 	  id = ANNOTATEBOX_ADD;
 	  break;
-  case AnotateSetup::REMOVE:
+  case AnnotateSetup::REMOVE:
 	  id = ANNOTATEBOX_REMOVE;
 	  break;
   }
@@ -56,13 +56,13 @@ BOOL CDlgAnotateBox::OnInitDialog()
   id = -1;
   switch (v.reference)
   {
-  case AnotateSetup::ALL:
+  case AnnotateSetup::ALL:
 	  id = ANNOTATEBOX_ALL;
 	  break;
-  case AnotateSetup::MATCHING:
+  case AnnotateSetup::MATCHING:
 	  id = ANNOTATEBOX_MATCH;
 	  break;
-  case AnotateSetup::UNNUMBERED:
+  case AnnotateSetup::UNNUMBERED:
 	  id = ANNOTATEBOX_UNNUM;
 	  break;
   }
@@ -74,10 +74,10 @@ BOOL CDlgAnotateBox::OnInitDialog()
   id = -1;
   switch (v.value)
   {
-  case AnotateSetup::DEFAULT:
+  case AnnotateSetup::DEFAULT:
 	  id = ANNOTATEBOX_DEF;
 	  break;
-  case AnotateSetup::SPECIFIED:
+  case AnnotateSetup::SPECIFIED:
 	  id = ANNOTATEBOX_START;
 	  break;
   }
@@ -90,15 +90,15 @@ BOOL CDlgAnotateBox::OnInitDialog()
 }
 
 
-void CDlgAnotateBox::ReadData()
+void CDlgAnnotateBox::ReadData()
 {
 	switch (GetCheckedRadioButton(ANNOTATEBOX_ADD,ANNOTATEBOX_REMOVE))
 	{
 	case ANNOTATEBOX_ADD:
-		v.action = AnotateSetup::ADD;
+		v.action = AnnotateSetup::ADD;
 		break;
 	case ANNOTATEBOX_REMOVE:
-		v.action = AnotateSetup::REMOVE;
+		v.action = AnnotateSetup::REMOVE;
 		break;
 	default:
 		// what do we do here?
@@ -108,13 +108,13 @@ void CDlgAnotateBox::ReadData()
 	switch (GetCheckedRadioButton(ANNOTATEBOX_ALL,ANNOTATEBOX_MATCH))
 	{
 	case ANNOTATEBOX_ALL:
-		v.reference = AnotateSetup::ALL;
+		v.reference = AnnotateSetup::ALL;
 		break;
 	case ANNOTATEBOX_UNNUM:
-		v.reference = AnotateSetup::UNNUMBERED;
+		v.reference = AnnotateSetup::UNNUMBERED;
 		break;
 	case ANNOTATEBOX_MATCH:
-		v.reference = AnotateSetup::MATCHING;
+		v.reference = AnnotateSetup::MATCHING;
 		break;
 	default:
 		// what do we do here?
@@ -124,10 +124,10 @@ void CDlgAnotateBox::ReadData()
 	switch (GetCheckedRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START))
 	{
 	case ANNOTATEBOX_DEF:
-		v.value = AnotateSetup::DEFAULT;
+		v.value = AnnotateSetup::DEFAULT;
 		break;
 	case ANNOTATEBOX_START:
-		v.value = AnotateSetup::SPECIFIED;
+		v.value = AnnotateSetup::SPECIFIED;
 		break;
 	default:
 		// what do we do here?
@@ -141,19 +141,19 @@ void CDlgAnotateBox::ReadData()
 }
 
 
-void CDlgAnotateBox::OnOK()
+void CDlgAnnotateBox::OnOK()
 {
   ReadData();
   EndDialog( IDOK );
 }
 
-void CDlgAnotateBox::OnRefPainter()
+void CDlgAnnotateBox::OnRefPainter()
 {
 	ReadData();
 	EndDialog( IDC_REF_PAINTER );
 }
 
-void CDlgAnotateBox::OnChangeStart()
+void CDlgAnnotateBox::OnChangeStart()
 {
   CheckRadioButton(ANNOTATEBOX_DEF,ANNOTATEBOX_START,ANNOTATEBOX_START);
 }

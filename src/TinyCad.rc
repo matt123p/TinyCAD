@@ -133,7 +133,7 @@ BEGIN
     BEGIN
         MENUITEM "Create PCB &Net List",        IDM_SPECIALNET
         MENUITEM "&Check Design Rules",         IDM_SPECIALCHECK
-        MENUITEM "&Generate Symbol References", IDM_SPECIALANOTATE
+        MENUITEM "&Generate Symbol References", IDM_SPECIALANNOTATE
         MENUITEM "Create &Parts List",          IDM_SPECIALBOM
         MENUITEM SEPARATOR
         MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
@@ -350,7 +350,7 @@ BEGIN
     LTEXT           "Jason Sachs",IDC_STATIC,59,117,89,8
 END
 
-IDD_ANOTATE DIALOGEX 0, 0, 196, 212
+IDD_ANNOTATE DIALOGEX 0, 0, 196, 212
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Generate Symbol References"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -374,7 +374,7 @@ BEGIN
     CONTROL         "All Sheets",IDC_ALL_SHEETS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,47,10
 END
 
-IDD_ERCBOX DIALOGEX 0, 0, 176, 171
+IDD_ERCBOX DIALOGEX 0, 0, 176, 190
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Check Design Rules"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -389,11 +389,14 @@ BEGIN
     CONTROL         "No output driving input(s)",ERC_NOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,103,95,10
     CONTROL         "Unconnected nets",ERC_UNCONNECTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,113,72,10
     GROUPBOX        "Design errors to check",ERRORBOX_TEXT,7,3,160,51
-    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,59,160,89
-    DEFPUSHBUTTON   "Check",IDOK,27,153,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,93,153,50,14
-    CONTROL         "Multiple net names",ERC_MULTIPLENETNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,123,123,10
+    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,59,160,101
+    DEFPUSHBUTTON   "Check",IDOK,27,169,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,93,169,50,14
+    CONTROL         "Multiple net names on same net",ERC_MULTIPLENETNAMES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,123,123,10
     CONTROL         "Non-case distinct net names",ERC_NONCASEDISTINCT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,133,115,10
+    CONTROL         "Unassigned reference designators",ERC_UNASSIGNEDREFDES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,143,132,10
 END
 
 IDD_ERCLIST DIALOGEX 217, 16, 275, 87
@@ -908,7 +911,7 @@ BEGIN
         BOTTOMMARGIN, 213
     END
 
-    IDD_ANOTATE, DIALOG
+    IDD_ANNOTATE, DIALOG
     BEGIN
         LEFTMARGIN, 7
         BOTTOMMARGIN, 196
@@ -1916,7 +1919,7 @@ END
 STRINGTABLE 
 BEGIN
     IDM_SPECIALBOM          "Create a bill of materials"
-    IDM_SPECIALANOTATE      "Automatically create or remove the symbol references"
+    IDM_SPECIALANNOTATE     "Automatically create or remove the symbol references"
     IDM_SPECIALNET          "Create a net-list of the current design"
     IDM_SPECIALCHECK        "Check the design against layout rules"
 END

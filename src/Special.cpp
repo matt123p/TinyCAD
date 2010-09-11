@@ -26,9 +26,9 @@
 #include "DlgBOMExport.h"
 #include "BOMGenerator.h"
 
-////// The auto anotate special function //////
+////// The auto annotate special function //////
 
-AnotateSetup theASetup;
+AnnotateSetup theASetup;
 
 //Compare positions of two objects
 static bool DORefComp(CDrawingObject* o1,CDrawingObject* o2)
@@ -44,10 +44,10 @@ static bool DORefComp(CDrawingObject* o1,CDrawingObject* o2)
    return false;   
 }
 
-// Auto anotate the design
-void CTinyCadView::OnSpecialAnotate()
+// Auto annotate the design
+void CTinyCadView::OnSpecialAnnotate()
 {
-  CDlgAnotateBox theDialog(this,theASetup);
+  CDlgAnnotateBox theDialog(this,theASetup);
 
   // Get rid of any drawing tool
   GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
@@ -115,13 +115,13 @@ void CTinyCadView::OnSpecialAnotate()
 
 					switch (theASetup.reference)
 					{
-					case AnotateSetup::ALL:		// All references
+					case AnnotateSetup::ALL:		// All references
 						IsMatch = TRUE;
 						break;
-					case AnotateSetup::UNNUMBERED:		// Un-numbered references
+					case AnnotateSetup::UNNUMBERED:		// Un-numbered references
 						IsMatch = !thisMethod->HasRef();
 						break;
-					case AnotateSetup::MATCHING:		// References that match...
+					case AnnotateSetup::MATCHING:		// References that match...
 						IsMatch = theASetup.matchval == thisSymbol->reference;
 						break;
 					}
@@ -135,7 +135,7 @@ void CTinyCadView::OnSpecialAnotate()
 						if (whichPass == 0)
 						{
 							// Remove any matching references (if necessary)
-							if (IsSet && (theASetup.value!=AnotateSetup::SPECIFIED 
+							if (IsSet && (theASetup.value!=AnnotateSetup::SPECIFIED 
 								|| thisMethod->GetRefVal()>=theASetup.startval) ) 
 							{
 								thisMethod->RemoveReference();
@@ -144,7 +144,7 @@ void CTinyCadView::OnSpecialAnotate()
 						else
 						{
 							// Now add back any references
-							if (theASetup.action == AnotateSetup::ADD) 
+							if (theASetup.action == AnnotateSetup::ADD) 
 							{
 								/* OK, why the special case? 
 								if (theASetup.reference != 1)
@@ -152,7 +152,7 @@ void CTinyCadView::OnSpecialAnotate()
 									value = (theASetup.value == 0) ? 1 : theASetup.startval;
 								}
 								*/
-								value = (theASetup.value == AnotateSetup::SPECIFIED) 
+								value = (theASetup.value == AnnotateSetup::SPECIFIED) 
 									? theASetup.startval : 1;
 								thisMethod->AddReference( value, theASetup.all_sheets );
 							}
@@ -182,8 +182,8 @@ void CTinyCadView::OnSpecialAnotate()
 
 
 
-// The Anotate Setup values class
-AnotateSetup::AnotateSetup()
+// The Annotate Setup values class
+AnnotateSetup::AnnotateSetup()
 {
   action=ADD;
   reference=ALL;

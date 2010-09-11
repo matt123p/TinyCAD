@@ -387,14 +387,17 @@ public:
 
 // The structure which defines which errors/warnings are in use
 struct ErrorTest {
-	int DupRef	: 1;		// Duplicated references 0
-	int UnConnect	: 1;		// Unconnected items 1
-	int NoConnect	: 1;		// Mode than one item on a no-connect net 2
-	int Power	: 1;		// Power connected to power 3
-	int OutputPwr	: 1;		// Power connected to an output 4
-	int Output	: 1;		// Output connected to an output 5
-	int NoOutput	: 1;		// No outputs driving inputs 6
-	int UnConnected : 1;		// Unconnected nets 7
+	int DupRef	                : 1;		// Duplicated references 0
+	int UnConnect	            : 1;		// Unconnected items 1
+	int NoConnect	            : 1;		// Mode than one item on a no-connect net 2
+	int Power	                : 1;		// Power connected to power 3
+	int OutputPwr	            : 1;		// Power connected to an output 4
+	int Output	                : 1;		// Output connected to an output 5
+	int NoOutput	            : 1;		// No outputs driving inputs 6
+	int UnConnected             : 1;		// Unconnected nets 7
+	int MultipleNetNames        : 1;        // Multiple net names on same net 8
+	int NonCaseDistinctNetNames : 1;        // Non-case distinct net names (i.e., Vcc and VCC) 9
+	int UnAssignedRefDes        : 1;        // Unassigned reference designators (i.e., U?) 10
 };
 
 // The type of nets that exist

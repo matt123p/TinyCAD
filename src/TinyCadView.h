@@ -297,7 +297,7 @@ protected:
 	afx_msg void OnSelectGet();
 
 	// The Special Menu
-	afx_msg void OnSpecialAnotate();
+	afx_msg void OnSpecialAnnotate();
 	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialNet();
 	afx_msg void OnSpecialCheck();
