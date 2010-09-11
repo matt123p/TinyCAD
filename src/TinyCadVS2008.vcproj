@@ -30,7 +30,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Construct the build version information from the SVN working copy and repository"
+				Description="Construct the build version information from the SVN working copy and repository (requires that TortoiseSVN be installed)"
 				CommandLine="&quot;C:\Program Files\TortoiseSVN\bin\SubWCRev.exe&quot; $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f"
 			/>
 			<Tool
