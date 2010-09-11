@@ -178,7 +178,7 @@ BOOL CDrawingObject::CanEdit()
 
 ObjType CDrawingObject::GetType()
 {
-  return xAnotation;
+  return xAnnotation;
 }
 
 

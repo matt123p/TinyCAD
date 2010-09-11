@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by TinyCad.rc
 //
+#define IDOK2                           3
 #define IDD_ABOUTBOX                    100
 #define IDS_PROPSHT_CAPTION             102
 #define IDS_RECURSION                   103
@@ -438,6 +439,8 @@
 #define IDC_ROTATE                      1554
 #define METHODBOX_SHOWPOWER             1555
 #define IDC_CENTRE_NAME                 1556
+#define ERC_MULTIPLENETNAMES            1564
+#define ERC_NONCASEDISTINCT             1565
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -544,7 +547,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32895
-#define _APS_NEXT_CONTROL_VALUE         1564
+#define _APS_NEXT_CONTROL_VALUE         1566
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

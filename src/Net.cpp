@@ -174,14 +174,14 @@ void CDlgERCBox::OnOK()
 // This table determines the type of the netlist
 //
 const int ErcTable[7][7] = {
-// Next > Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			
-		  nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect,		// Unknown
-		  nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			nNoConnect,		// Passive
-		  nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect,		// Input
-		  nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	nNoConnect,		// Output
-		  nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	nNoConnect,		// BiDir
-		  nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			nNoConnect,		// Power
-		  nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	nNoConnect,		// NoConnect
+// Net   > Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			  (Object)
+		  {nUnknown,	nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Unknown
+		  {nPassive,	nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			nNoConnect },		// Passive
+		  {nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Input
+		  {nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	nNoConnect },		// Output
+		  {nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	nNoConnect },		// BiDir
+		  {nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			nNoConnect },		// Power
+		  {nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	nNoConnect }		// NoConnect
 };
 
 void CTinyCadView::OnSpecialCheck()

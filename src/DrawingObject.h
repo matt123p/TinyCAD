@@ -44,7 +44,7 @@ enum paint_options
 enum ObjType {
 	xEndFile = 0,
 	xNoDraw,
-	xAnotation,
+	xAnnotation,
 	xDesignInformation,
 	xIndexInformation,
 	xSymbol,

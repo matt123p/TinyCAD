@@ -374,24 +374,26 @@ BEGIN
     CONTROL         "All Sheets",IDC_ALL_SHEETS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,47,10
 END
 
-IDD_ERCBOX DIALOG  0, 0, 176, 160
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+IDD_ERCBOX DIALOGEX 0, 0, 176, 171
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Check Design Rules"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "Duplicated references",ERC_DUPREF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,16,84,10
     CONTROL         "Unconnected items",ERC_UNCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,26,75,10
     CONTROL         "More than one item on a no-connect net",ERC_NOCONNECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,36,143,10
     CONTROL         "Power connected to Power",ERC_POWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,73,100,10
-    CONTROL         "Power to connected to an output",ERC_OUTPUTTOPWR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,120,10
+    CONTROL         "Power connected to an output",ERC_OUTPUTTOPWR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,120,10
     CONTROL         "Output connected to an output",ERC_OUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,93,113,10
     CONTROL         "No output driving input(s)",ERC_NOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,103,95,10
     CONTROL         "Unconnected nets",ERC_UNCONNECTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,113,72,10
     GROUPBOX        "Design errors to check",ERRORBOX_TEXT,7,3,160,51
-    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,59,160,70
-    DEFPUSHBUTTON   "Check",IDOK,30,140,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,96,140,50,14
+    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,59,160,89
+    DEFPUSHBUTTON   "Check",IDOK,27,153,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,93,153,50,14
+    CONTROL         "Multiple net names",ERC_MULTIPLENETNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,123,123,10
+    CONTROL         "Non-case distinct net names",ERC_NONCASEDISTINCT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,133,115,10
 END
 
 IDD_ERCLIST DIALOGEX 217, 16, 275, 87

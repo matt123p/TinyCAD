@@ -1342,7 +1342,7 @@ void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI)
 	ObjType type = GetCurrentDocument()->GetEdit()->GetType();
 	BOOL r = ( type == xEditItem && GetCurrentDocument()->IsSelected())
 			|| type == xMethod || type == xMethodEx || type == xMethodEx2 || type == xMethodEx3
-			|| type == xAnotation 
+			|| type == xAnnotation 
 			|| type == xLabel || type == xLabelEx || type == xLabelEx2 
 			|| type == xPower
 			|| type == xText || type == xTextEx || type == xTextEx2
@@ -1632,7 +1632,7 @@ void CTinyCadView::ChangeDir(int dir)
 	}
 
 	// Rotate annotation (E.g. import symbol into other symbol)
-	else if (type == xAnotation)
+	else if (type == xAnnotation)
 	{
 		// Use the ChangeDir function in CDrawEditItem
 		CDrawEditItem* edit = new CDrawEditItem(GetCurrentDocument());
