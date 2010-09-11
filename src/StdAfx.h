@@ -141,6 +141,9 @@
 
 // Other useful stuff
 #include <math.h>
+#include <wchar.h>
+#include <string.h>
+#include <memory.h>
 #include <assert.h>
 
 //{{AFX_INSERT_LOCATION}}
