@@ -386,6 +386,9 @@
 #define IDS_NO_SYM_DELETE               1114
 #define IDS_DELETE_SHEET                1115
 #define IDS_MUSTUPGRADE                 1116
+#define ERR_UNASSIGNEDREFDES            1117
+#define ERR_NONDISTINCTNET              1118
+#define ERR_MULTIPLENETNAMES            1119
 #define TAGBOX_TAGNAME                  1200
 #define TAGJUMP_LIST                    1203
 #define JUMPTAGBOX_DELETE               1204

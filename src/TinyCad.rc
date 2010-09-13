@@ -87,13 +87,13 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Design Details...\tCtrl+D",  IDM_FILEDESIGN
         MENUITEM SEPARATOR
-        MENUITEM "&Import\tCtrl+I",             IDM_FILEIMPORT
+        MENUITEM "&Import...\tCtrl+I",          IDM_FILEIMPORT
         MENUITEM SEPARATOR
         MENUITEM "Export as image file...",     ID_FILE_SAVEASBITMAP
         MENUITEM SEPARATOR
-        MENUITEM "&Print\tCtrl+P",              ID_FILE_PRINT
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
         MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW
-        MENUITEM "P&age Setup",                 IDM_FILEPAGESET
+        MENUITEM "P&age Setup...",              IDM_FILEPAGESET
         MENUITEM SEPARATOR
         MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
@@ -118,27 +118,27 @@ BEGIN
         MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
         MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
         MENUITEM SEPARATOR
-        MENUITEM "Insert picture",              ID_EDIT_INSERTPICTURE
+        MENUITEM "Insert picture...",           ID_EDIT_INSERTPICTURE
     END
     POPUP "&Library"
     BEGIN
         MENUITEM "&Libraries...",               IDM_LIBLIB
         MENUITEM SEPARATOR
-        MENUITEM "Set parts per package",       ID_LIBRARY_SETPARTSPERPACKAGE
+        MENUITEM "Set parts per package...",    ID_LIBRARY_SETPARTSPERPACKAGE
         MENUITEM SEPARATOR
         MENUITEM "Homogeneous Symbol (same outline for all parts)", 32876
         MENUITEM "Heterogeneous Symbol (different outlines per part)", 32877
     END
     POPUP "&Special"
     BEGIN
-        MENUITEM "Create PCB &Net List",        IDM_SPECIALNET
-        MENUITEM "&Check Design Rules",         IDM_SPECIALCHECK
-        MENUITEM "&Generate Symbol References", IDM_SPECIALANNOTATE
-        MENUITEM "Create &Parts List",          IDM_SPECIALBOM
+        MENUITEM "Create PCB &Net List...",     IDM_SPECIALNET
+        MENUITEM "&Check Design Rules...",      IDM_SPECIALCHECK
+        MENUITEM "&Generate Symbol References...", IDM_SPECIALANNOTATE
+        MENUITEM "Create &Parts List...",          IDM_SPECIALBOM
         MENUITEM SEPARATOR
         MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
         MENUITEM SEPARATOR
-        MENUITEM "Insert another design as symbol", IDM_TOOLHIERACHICAL
+        MENUITEM "Insert another design as symbol...", IDM_TOOLHIERACHICAL
         MENUITEM "Add hierachical symbol",      32867
     END
     POPUP "&Options"
@@ -191,10 +191,10 @@ BEGIN
         MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "Export all symbols",          ID_FILE_EXPORTLIBRARY
-        MENUITEM "Import symbols",              ID_FILE_IMPORTLIBRARY
+        MENUITEM "Export all symbols...",       ID_FILE_EXPORTLIBRARY
+        MENUITEM "Import symbols...",           ID_FILE_IMPORTLIBRARY
         MENUITEM SEPARATOR
-        MENUITEM "&Print\tCtrl+P",              ID_FILE_PRINT
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
         MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW
         MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
@@ -212,9 +212,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Edit Symbol",                 ID_SYMBOL_EDITSYMBOL
         MENUITEM "Delete Symbol",               ID_SYMBOL_DELETESYMBOL
-        MENUITEM "Symbol Properties",           ID_SYMBOL_SYMBOLPROPERTIES
+        MENUITEM "Symbol Properties...",        ID_SYMBOL_SYMBOLPROPERTIES
         MENUITEM SEPARATOR
-        MENUITEM "Duplicate symbol",            ID_CONTEXT_DUPLICATESYMBOL
+        MENUITEM "Duplicate symbol...",         ID_CONTEXT_DUPLICATESYMBOL
     END
     POPUP "&Window"
     BEGIN
@@ -1185,14 +1185,14 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Edit Symbol",                 ID_SYMBOL_EDITSYMBOL
         MENUITEM "Delete Symbol",               ID_SYMBOL_DELETESYMBOL
-        MENUITEM "Symbol Properties",           ID_SYMBOL_SYMBOLPROPERTIES
+        MENUITEM "Symbol Properties...",        ID_SYMBOL_SYMBOLPROPERTIES
         MENUITEM SEPARATOR
-        MENUITEM "Duplicate symbol",            ID_CONTEXT_DUPLICATESYMBOL
+        MENUITEM "Duplicate symbol...",         ID_CONTEXT_DUPLICATESYMBOL
         MENUITEM "Copy to",                     ID_CONTEXT_COPY_TO
         MENUITEM SEPARATOR
-        MENUITEM "Export symbol to xml",        ID_CONTEXT_EXPORTSYMBOL
-        MENUITEM "Export all symbols",          ID_FILE_EXPORTLIBRARY
-        MENUITEM "Import symbols",              ID_FILE_IMPORTLIBRARY
+        MENUITEM "Export symbol to XML...",     ID_CONTEXT_EXPORTSYMBOL
+        MENUITEM "Export all symbols...",       ID_FILE_EXPORTLIBRARY
+        MENUITEM "Import symbols...",           ID_FILE_IMPORTLIBRARY
     END
 END
 
@@ -1234,7 +1234,7 @@ BEGIN
     BEGIN
         MENUITEM "Insert sheet",                ID_CONTEXT_ADDSHEET
         MENUITEM "Delete sheet",                ID_CONTEXT_DELETESHEET
-        MENUITEM "Rename sheet",                ID_CONTEXT_RENAMESHEET
+        MENUITEM "Rename sheet...",             ID_CONTEXT_RENAMESHEET
         MENUITEM SEPARATOR
         MENUITEM "Add hierachical symbol",      ID_CONTEXT_ADDHIERACHICALSYMBOL
     END
@@ -1244,7 +1244,7 @@ IDR_SYMBOL_SHEET_MENU MENU
 BEGIN
     POPUP "Context"
     BEGIN
-        MENUITEM "Set parts per package",       ID_LIBRARY_SETPARTSPERPACKAGE
+        MENUITEM "Set parts per package...",    ID_LIBRARY_SETPARTSPERPACKAGE
         MENUITEM SEPARATOR
         MENUITEM "Homogeneous Symbol (same outline for all parts)", ID_LIBRARY_HOMOGENEOUS
         MENUITEM "Heterogeneous Symbol (different outlines per part)", ID_LIBRARY_HETEROGENEOUS
@@ -1255,7 +1255,7 @@ IDR_METHOD_EDIT MENU
 BEGIN
     POPUP "Context"
     BEGIN
-        MENUITEM "Replace symbol",              ID_CONTEXT_REPLACESYMBOL
+        MENUITEM "Replace symbol...",           ID_CONTEXT_REPLACESYMBOL
         MENUITEM SEPARATOR
         MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO
         MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO
@@ -1763,7 +1763,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+    AFX_IDS_PREVIEW_CLOSE   "This net has more than one name"
 END
 
 STRINGTABLE 
@@ -1792,7 +1792,7 @@ BEGIN
     IDS_ABORTLOAD           "The design selected could not be loaded.  Please check the filename and pathname and then try again."
     IDS_ABORTNOTMINE        "The design selected was not drawn using TinyCAD.  Please check the filename and pathname, and try again."
     IDS_ABORTSAVE           "The design could not be saved.  Please check filename and pathname, and try again."
-    IDS_ABORTVERSION        "The design selected was drawn by a later version of TinyCAD than this or is not a TinyCAD design file.  You must use the latest version of TinyCAD to load this design if it is indeed a TinyCAD design."
+    IDS_ABORTVERSION        "This file was not created by TinyCAD."
     IDS_ABORTAUTOSAVE       "This design could not be automatically saved."
     IDS_BADPRINT            "Printing could not begin.  Check the printer settings using the Printer Setup button, and try again."
     IDS_NOSYMBOL            "Symbol %s not found."
@@ -1802,7 +1802,7 @@ STRINGTABLE
 BEGIN
     ERR_DUPREF              "This reference is also used with another symbol"
     ERR_OUTPUT              "This output is connected to another output"
-    ERR_OUTPUTTOPWR         "This output is connected to power"
+    ERR_OUTPUTTOPWR         "This output is connected to a power pin"
     ERR_UNCONNECTED         "This network is not connected to anything"
     ERR_OUTPUTBIDIR         "This TriState/Open Collector output is connected to another output pin"
     ERR_POWERBIDIR          "This TriState/Open Collector output is connected to a power pin"
@@ -1813,6 +1813,9 @@ BEGIN
     IDS_NO_SYM_DELETE       "You cannot delete symbols from old library .idx files.  Close this window, and upgrade the library using the Library dialogue."
     IDS_DELETE_SHEET        "Are you sure you wish to delete this sheet?\nWARNING: This cannot be reversed with ""undo""."
     IDS_MUSTUPGRADE         "You must upgrade this library before you can edit it.  Do you wish to do this now?"
+    ERR_UNASSIGNEDREFDES    "This reference designator has not been assigned"
+    ERR_NONDISTINCTNET      "There are 2 or more nets that are spelled with different case letters only.  These will be treated as separate nets."
+    ERR_MULTIPLENETNAMES    "This net has more than one name"
 END
 
 STRINGTABLE 
