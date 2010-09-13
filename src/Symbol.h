@@ -194,6 +194,7 @@ public:
 	CLibraryStoreSymbol();
 
 	CDesignFileSymbol *GetDesignSymbol( CTinyCadDoc *pDesign );
+    bool IsMatching(const TCHAR * theString) const;
 };
 
 typedef std::vector<CLibraryStoreSymbol>	recordCollection;

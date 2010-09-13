@@ -222,36 +222,63 @@ CLibraryStore* CLibraryCollection::GetLibraryByIndex( int library_id )
 //-- matches the search string
 void CLibraryCollection::FillMatchingSymbols( CListBox* lstSymbols, CString sSearch, CListBox* mask  )
 {
-	CLibraryStore* pLib;
-
 	lstSymbols->ResetContent();
 
 	int index = 0;
 	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
 	{
-		pLib = *i;
-		
-		bool use = true;
+		bool bEnabled = true;
 		if (mask)
 		{
+            // Search if a library is enabled
 			for (int j = 0; j < mask->GetCount(); j ++)
 			{
 				if (mask->GetItemData( j ) == index)
 				{
-					use = mask->GetSel( j ) != 0;
+					bEnabled = mask->GetSel( j ) != 0;
 					break;
 				}
 			}
 		}
 
-		if (use)
+		if (bEnabled)
 		{
-			pLib->Find( sSearch, lstSymbols );
+            CLibraryStore* pLib = *i;
+			pLib->AddToListBox( sSearch, lstSymbols );
 		}
 
 		++ index;
 	}
 }
+//-------------------------------------------------------------------------
+//-- Fills listbox with all symbols(of all libraries), whoose symbol name
+//-- matches the search string
+void CLibraryCollection::FillMatchingSymbols(CTreeCtrl* Tree, const CString& sSearch)
+{
+    int index = 0;
+    for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+    {
+        CLibraryStore* pLib = *i;
+        int matches = pLib->GetMatchCount(sSearch);
+        if(matches == 0)
+            continue;
+
+        CString sCaption;
+        CString sName = pLib->m_name;
+        if (sName.ReverseFind('\\') != -1)
+        {
+            sName = sName.Mid(sName.ReverseFind('\\')+1);
+        }
+        sCaption.Format(_T("%s (%d)"), sName, matches);
+        HTREEITEM hLib = Tree->InsertItem(sCaption, TVI_ROOT);
+        Tree->SetItemData(hLib, index);
+
+        pLib->AddToTreeCtrl( sSearch, Tree, hLib);
+
+        ++ index;
+    }
+}
+
 //-------------------------------------------------------------------------
 //-- Write the all library file pathes back to the registry
 void CLibraryCollection::SaveToRegistry()

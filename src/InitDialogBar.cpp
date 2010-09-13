@@ -63,8 +63,10 @@ BOOL CInitDialogBar::Create(CWnd * pParentWnd, UINT nIDTemplate,
 
 	// Since there is no WM_INITDIALOG message we have to call
 	// our own InitDialog function ourselves after m_hWnd is valid
-	if(!OnInitDialogBar())
-		return FALSE;
+	// PH: Seems to be no longer true (at least on my system) and double
+	// call to OnInitDialogBar() interferes with tree initialization.
+	//	if(!OnInitDialogBar())
+	//		return FALSE;
 	return TRUE;
 }
 

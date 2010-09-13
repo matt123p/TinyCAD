@@ -95,6 +95,7 @@ public:
 	//-- Fills listbox with all symbols(of all libraries), whoose symbol name
 	//-- matches the search string
 	static	void					FillMatchingSymbols( CListBox* lstSymbols, CString sSearch, CListBox* mask );
+    static  void                    FillMatchingSymbols( CTreeCtrl* Tree, const CString& sSearch);
 
 	//-- Write the all library file pathes back to the registry
 	static	void					SaveToRegistry();

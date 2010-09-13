@@ -445,6 +445,7 @@
 #define ERC_MULTIPLENETNAMES            1564
 #define ERC_NONCASEDISTINCT             1565
 #define ERC_UNASSIGNEDREFDES            1566
+#define IDC_SYMBOL_TREE                 1567
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -551,7 +552,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        158
 #define _APS_NEXT_COMMAND_VALUE         32895
-#define _APS_NEXT_CONTROL_VALUE         1567
+#define _APS_NEXT_CONTROL_VALUE         1568
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif
