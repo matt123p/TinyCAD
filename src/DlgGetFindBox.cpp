@@ -39,7 +39,6 @@ CDlgGetFindBox::CDlgGetFindBox()
 {
 	//{{AFX_DATA_INIT(CDlgGetFindBox)
 	m_search_string = _T("");
-	m_filter = 0;
 	//}}AFX_DATA_INIT
 	m_Symbol = NULL;
 }
@@ -48,12 +47,9 @@ void CDlgGetFindBox::DoDataExchange(CDataExchange* pDX)
 {
 	CInitDialogBar::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgGetFindBox)
-	DDX_Control(pDX, IDC_SINGLE_LIB_SEL, m_Single_Lib_Sel);
-	DDX_Control(pDX, IDC_LIBRARIES, m_Libraries);
 	DDX_Control(pDX, IDC_SHOW_SYMBOL, m_Show_Symbol);
-	DDX_Control(pDX, FINDGET_LIST, m_List);
+    DDX_Control(pDX, IDC_SYMBOL_TREE, m_Tree);
 	DDX_Text(pDX, IDC_SEARCH_STRING, m_search_string);
-	DDX_Radio(pDX, IDC_RADIO1, m_filter);
 	//}}AFX_DATA_MAP
 }
 
@@ -63,14 +59,12 @@ BEGIN_MESSAGE_MAP(CDlgGetFindBox, CInitDialogBar)
 	ON_EN_CHANGE(IDC_SEARCH_STRING, OnChangeSearchString)
 	ON_WM_DRAWITEM()
 	ON_LBN_DBLCLK(FINDGET_LIST, OnDblclkList)
-	ON_BN_CLICKED(IDC_RADIO1, OnRadio1)
-	ON_BN_CLICKED(IDC_RADIO2, OnRadio2)
 	ON_WM_SIZE()
-	ON_LBN_SELCHANGE(IDC_LIBRARIES, OnSelchangeLibraries)
 	ON_COMMAND(ID_HORZ_RESIZE, OnHorzResize)
-	ON_BN_CLICKED(IDC_SINGLE_LIB_SEL, OnSingleLibSel)
 	//}}AFX_MSG_MAP
 	ON_WM_DESTROY()
+    ON_NOTIFY(TVN_SELCHANGED, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnTreeSelect)
+    ON_NOTIFY(NM_DBLCLK, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnDblclkTree)
 END_MESSAGE_MAP()
 
 
@@ -78,8 +72,9 @@ BOOL CDlgGetFindBox::OnInitDialogBar()
 {
 	CInitDialogBar::OnInitDialogBar();
 
-	BuildSearchList();
-	BuildLibraryList();
+    BuildTree();
+
+	m_Tree.SetItemHeight(m_Tree.GetItemHeight() - 2);  // original height looks weird on Windows
 
 	if (!m_Resize.m_hWnd)
 	{
@@ -91,27 +86,31 @@ BOOL CDlgGetFindBox::OnInitDialogBar()
 	}
 	m_sizeUndockedDefault = m_sizeDefault;
 
-	// Set the checkbox for the libraries
-	m_Single_Lib_Sel.SetCheck( CTinyCadRegistry::GetBool( _T("SelectOneLib"), FALSE ) ? 1 : 0 );
-
 
 	// We remember the default size of the library box...
 	CRect lib_list_rect;
-	m_Libraries.GetWindowRect(lib_list_rect);
+	m_Tree.GetWindowRect(lib_list_rect);
 	ScreenToClient( lib_list_rect );
-	int height = CTinyCadRegistry::GetInt("SymbolLibraryList", lib_list_rect.Height() );
+	int height = CTinyCadRegistry::GetInt("SymbolTreeHeightPx", lib_list_rect.Height() );
 	lib_list_rect.bottom = lib_list_rect.top + height;
-	m_Libraries.MoveWindow( lib_list_rect);
+	m_Tree.MoveWindow( lib_list_rect);
 	DetermineLayout();
-
-	// Now recover the list of selected libraries
-	RestoreLibraryList();
 
 	return TRUE;
 }
 
+void CDlgGetFindBox::OnDblclkList()
+{
+    AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
+}
+void CDlgGetFindBox::OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
+{
+    HTREEITEM hItem = m_Tree.GetSelectedItem();
+    if( ! m_Tree.ItemHasChildren(hItem) )
+        AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
+    *pResult = 0;
+}
 
-// End the dialog when an item is clicked on
 void CDlgGetFindBox::OnListSelect()
 {
 	CListBox*	theListBox 	= (CListBox*) GetDlgItem( FINDGET_LIST );
@@ -124,95 +123,126 @@ void CDlgGetFindBox::OnListSelect()
 	}
 }
 
-void CDlgGetFindBox::OnChangeSearchString()
+void CDlgGetFindBox::OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// TODO: If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CInitDialogBar::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
+    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+    HTREEITEM hItem = m_Tree.GetSelectedItem();
+    if( ! m_Tree.ItemHasChildren(hItem) )
+    {
+        CLibraryStoreSymbol* pSymbol =
+            reinterpret_cast<CLibraryStoreSymbol*>( m_Tree.GetItemData(hItem) );
+        m_Symbol = pSymbol;
+        GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
+    }
 
-	UpdateData( TRUE );
-	BuildSearchList();
+    *pResult = 0;
 }
 
-void CDlgGetFindBox::OnSelchangeLibraries() 
+void CDlgGetFindBox::OnChangeSearchString()
 {
-	// Do we enforce a single item check?
-	if (m_Single_Lib_Sel.GetCheck() != 0)
-	{
-		int sel = m_Libraries.GetCurSel();
-		for (int j = 0; j < m_Libraries.GetCount(); j ++)
-		{
-			if (m_Libraries.GetSel( j ) != 0 && sel != j)
-			{
-				m_Libraries.SetSel(j,FALSE);
-			}
-		}
-
-	}
-
-	BuildSearchList();
+	UpdateData( TRUE );
+    BuildTree();
 }
 
 
 void CDlgGetFindBox::ResetAllSymbols()
 {
-	BuildLibraryList();
-	BuildSearchList();
+    BuildTree();
 }
 
 
-void CDlgGetFindBox::BuildSearchList()
+/// For iterating through all items in a tree, depth-first. Use TVI_ROOT for the first item.
+HTREEITEM GetNextTreeItem(const CTreeCtrl & Tree, HTREEITEM cur)
 {
-	// Build the list box
-	CListBox* theListBox = (CListBox*) GetDlgItem( FINDGET_LIST );
-	theListBox->ResetContent();
+    HTREEITEM res;
+    res = Tree.GetChildItem(cur);
+    if(res != 0)
+        return res;
+    res = Tree.GetNextSiblingItem(cur);
+    if(res != 0)
+        return res;
+    
+    HTREEITEM hParent = Tree.GetParentItem(cur);
+    if(hParent == 0)
+        return 0;  // no more items in the tree
+    res = Tree.GetNextSiblingItem(hParent);
+    return res;
+}
 
-	// Ensure the string is in Lower case for searching
-	m_search_string.MakeLower();
+void CDlgGetFindBox::BuildTree()
+{
+    m_Tree.DeleteAllItems();
 
-	switch (m_filter)
+    // http://www.functionx.com/visualc/treeview/tvdlg1.htm
+    // use TVIS_EXPANDED or Expand(), perhaps TVIS_BOLD
+
+	// Add/filter MRU symbols
 	{
-		case 0:
-			CLibraryCollection::FillMatchingSymbols( theListBox, m_search_string, &m_Libraries );
-			break;
-
-		case 1:
-			for( MRUCollection::iterator i = m_most_recently_used.begin(); i != m_most_recently_used.end(); i++ )
+		CString sCaption;
+		HTREEITEM hLib = m_Tree.InsertItem(_T("(recent) (x)"), TVI_ROOT);
+		int nMatches = 0;
+		for(unsigned i = 0; i < m_most_recently_used.size(); i++)
+		{
+			CLibraryStoreSymbol* pSymbol = m_most_recently_used[i];
+			if(pSymbol->IsMatching(m_search_string))
 			{
-				CLibraryStoreSymbol* pSymbol = *i;
-
-				if( pSymbol && CLibraryCollection::ContainsSymbol(pSymbol->m_pParent) )
-				{
-					CString test = pSymbol->name + pSymbol->description;
-					test.MakeLower();
-					if (test.Find( m_search_string ) != -1)
-					{
-						int index = theListBox->AddString( pSymbol->name + " - " + pSymbol->description);
-						theListBox->SetItemDataPtr( index, pSymbol );
-					}
-				}
+				HTREEITEM hItem = m_Tree.InsertItem( pSymbol->name + " - " + pSymbol->description, hLib );
+				m_Tree.SetItemData(hItem, (DWORD_PTR) pSymbol );
+				nMatches++;
 			}
-		break;
+		}
+
+		if(nMatches != 0)
+		{
+			sCaption.Format(_T("(recent) (%d)"), nMatches);
+			m_Tree.SetItemText(hLib, sCaption);
+		}else
+		{
+			m_Tree.DeleteItem(hLib);
+		}
+	}
+
+	// Fill libraries
+	CLibraryCollection::FillMatchingSymbols(&m_Tree, m_search_string);
+
+	CRect r;
+	m_Tree.GetClientRect(&r);
+	UINT nMaxVisbile = r.Height() / m_Tree.GetItemHeight();
+	if(m_Tree.GetCount() < nMaxVisbile)
+	{
+		// expand matching libraries
+		HTREEITEM cur = m_Tree.GetRootItem();
+		for(; cur != NULL; cur = m_Tree.GetNextSiblingItem(cur))
+		{
+			m_Tree.Expand(cur, TVE_EXPAND);
+		}
 	}
 
 	// Try and find the selected symbol in the list
-	int i;
-	for (i = 0; i < theListBox->GetCount(); i++)
+	HTREEITEM cur = m_Tree.GetRootItem();
+	bool found = false;
+	while(cur != NULL)
 	{
-		if (theListBox->GetItemDataPtr( i ) == m_Symbol)
+		if( ! m_Tree.ItemHasChildren(cur) )
 		{
-			theListBox->SetCurSel( i );
-			break;
+			DWORD_PTR n = m_Tree.GetItemData(cur);
+			CLibraryStoreSymbol * p = reinterpret_cast<CLibraryStoreSymbol*>(n);
+			if(p == m_Symbol)
+			{
+				m_Tree.SelectItem( cur );
+				m_Tree.EnsureVisible( cur );
+				found = true;
+				break;
+			}
 		}
+		cur = GetNextTreeItem(m_Tree, cur);
 	}
-	if (i == theListBox->GetCount())
+	if (found == false)
 	{
 		m_Symbol = NULL;
 		GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
 	}
 }
-
 void CDlgGetFindBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	CDC dc;
@@ -220,9 +250,6 @@ void CDlgGetFindBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	switch (nIDCtl)
 	{
-	case IDC_LIBRARIES:
-		DrawLibraries( dc, lpDrawItemStruct);
-		break;
 	case IDC_SHOW_SYMBOL:
 		DrawSymbol( dc, lpDrawItemStruct->rcItem  );
 		break;
@@ -325,6 +352,7 @@ void CDlgGetFindBox::DrawSymbol(CDC &dc, CRect rect)
 	}
 }
 
+// Vanilla CListBox cannot display check-boxes - and we want them. So we use custom draw. (Should have used MFC CCheckListBox.)
 void CDlgGetFindBox::DrawLibraries(CDC &dc, LPDRAWITEMSTRUCT lpDrawItemStruct )
 {
 	CPen *old_pen;
@@ -376,27 +404,11 @@ void CDlgGetFindBox::DrawLibraries(CDC &dc, LPDRAWITEMSTRUCT lpDrawItemStruct )
 
 
 
-void CDlgGetFindBox::OnDblclkList()
-{
-	AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
-}
-
-void CDlgGetFindBox::OnRadio1()
-{
-	UpdateData( TRUE );
-	BuildSearchList();
-}
-
-void CDlgGetFindBox::OnRadio2()
-{
-	UpdateData( TRUE );
-	BuildSearchList();
-}
-
-
 
 void CDlgGetFindBox::AddToMRU()
 {
+    if(m_Symbol == NULL)
+        return;
 	// Is this symbol already in the MRU list?
 	MRUCollection::iterator it = m_most_recently_used.begin();
 	while (it != m_most_recently_used.end())
@@ -421,7 +433,6 @@ void CDlgGetFindBox::AddToMRU()
 
 
 
-
 void CDlgGetFindBox::OnSize(UINT nType, int cx, int cy)
 {
 	CInitDialogBar::OnSize(nType, cx, cy);
@@ -438,22 +449,26 @@ void CDlgGetFindBox::DetermineLayout()
 	int cy = client.Height();
 
 	// Resize the list to the correct width
-	if (m_List.m_hWnd)
+	if (m_Tree.m_hWnd)
 	{
 		// Move the libraries list into position
 		CRect lib_list_rect;
-		m_Libraries.GetWindowRect(lib_list_rect);
+		m_Tree.GetWindowRect(lib_list_rect);
 		ScreenToClient( lib_list_rect );
 
 		int border_y = lib_list_rect.left;
 		int border_x = IsFloating() ? lib_list_rect.left : lib_list_rect.left + 4;
 		lib_list_rect.right = cx - border_x;
-		m_Libraries.MoveWindow( lib_list_rect);
-		m_Libraries.RedrawWindow();
 
-		CRect resize_rect(lib_list_rect);
-		resize_rect.top = lib_list_rect.bottom + 4;
-		resize_rect.bottom = lib_list_rect.bottom + width;
+		CRect tree_rect(lib_list_rect);
+        m_Tree.GetWindowRect( tree_rect );
+        ScreenToClient( tree_rect );
+		tree_rect.right = cx - border_x;
+		m_Tree.MoveWindow( tree_rect );
+
+		CRect resize_rect(tree_rect);
+		resize_rect.top = tree_rect.bottom + 4;
+		resize_rect.bottom = tree_rect.bottom + width;
 		m_ResizeLib.MoveWindow( resize_rect );
 
 		
@@ -462,21 +477,10 @@ void CDlgGetFindBox::DetermineLayout()
 		m_Show_Symbol.GetWindowRect( show_rect );
 		ScreenToClient( show_rect );
 		int height = show_rect.Height();
-		show_rect.top = resize_rect.bottom + width * 2;
-		show_rect.bottom = show_rect.top + height;
+		show_rect.top = resize_rect.bottom + width;
+		show_rect.bottom = cy - border_y;  //= show_rect.top + height;
 		show_rect.right = cx - border_x;
 		m_Show_Symbol.MoveWindow( show_rect );
-
-
-		// Move the symbol list into position
-		CRect list_rect;
-		m_List.GetWindowRect(list_rect);
-		ScreenToClient( list_rect );
-
-		list_rect.top = show_rect.bottom + width * 2;
-		list_rect.right = cx - border_x;
-		list_rect.bottom = cy - border_y;
-		m_List.MoveWindow( list_rect );
 
 
 		if (IsFloating())
@@ -544,162 +548,35 @@ CSize CDlgGetFindBox::CalcFixedLayout( BOOL bStretch, BOOL bHorz )
 	return IsFloating() ? m_sizeUndockedDefault : m_sizeDefault;
 }
 
-void CDlgGetFindBox::StoreLibraryList(void)
-{
-	CString list_of_libraries;
-
-	for (int i = 0;i < m_Libraries.GetCount(); ++i)
-	{
-		if (m_Libraries.GetSel( i ))
-		{
-			int index = m_Libraries.GetItemData(i);
-			CLibraryStore *lib = CLibraryCollection::GetLibraryByIndex( index );
-			if (lib)
-			{
-				if (!list_of_libraries.IsEmpty())
-				{
-					list_of_libraries += ",";
-				}
-				list_of_libraries += lib->m_name;
-			}
-		}
-	}
-
-	CTinyCadRegistry::Set("SymbolLibrarySelection", list_of_libraries );
-
-}
-
-void CDlgGetFindBox::RestoreLibraryList(void)
-{
-	CString list_of_libraries = CTinyCadRegistry::GetString("SymbolLibrarySelection", "" );
-	std::set<CString>	selected_libs;
-
-	// Split the list up into a a set
-	while (!list_of_libraries.IsEmpty())
-	{
-		CString name;
-		int brk = list_of_libraries.Find(_T(","));
-		if (brk != -1)
-		{
-			name = list_of_libraries.Left( brk );
-			list_of_libraries = list_of_libraries.Mid( brk + 1 );
-		}
-		else
-		{
-			name = list_of_libraries;
-			list_of_libraries = "";
-		}
-		selected_libs.insert( name );
-	}
-
-	for (int i = 0;i < m_Libraries.GetCount(); ++i)
-	{
-		int index = m_Libraries.GetItemData(i);
-		CLibraryStore *lib = CLibraryCollection::GetLibraryByIndex( index );
-		if (lib)
-		{
-			if (selected_libs.find( lib->m_name ) != selected_libs.end() || selected_libs.size() == 0)
-			{
-				// Select this library
-				m_Libraries.SetSel( i, TRUE );
-			}
-		}
-	}
-
-}
-
-
-// Build the list of libraries for the library selection box
-void CDlgGetFindBox::BuildLibraryList()
-{
-	BOOL r = m_Single_Lib_Sel.GetCheck() != 0;
-
-	// Before reseting the content get a list of not-selected items...
-	std::set<CString>	selected_libs;
-	int i;
-	for (i = 0;i < m_Libraries.GetCount(); ++i)
-	{
-		if (m_Libraries.GetSel( i ))
-		{
-			int index = m_Libraries.GetItemData(i);
-			CLibraryStore *lib = CLibraryCollection::GetLibraryByIndex( index );
-			if (lib)
-			{
-				selected_libs.insert( lib->m_name );
-			}
-		}
-	}
-
-	m_Libraries.ResetContent();
-	CLibraryCollection::FillLibraryNames( &m_Libraries );	
-
-	// Now select back all the libraries that were selected and any new ones...
-	for (i = 0;i < m_Libraries.GetCount(); ++i)
-	{
-		int index = m_Libraries.GetItemData(i);
-		CLibraryStore *lib = CLibraryCollection::GetLibraryByIndex( index );
-		if (lib && selected_libs.find( lib->m_name) != selected_libs.end() )
-		{
-			m_Libraries.SetSel( i, TRUE );
-			if (r)
-			{
-				break;
-			}
-		}
-	}
-}
-
 
 void CDlgGetFindBox::OnHorzResize() 
 {
-	// Resize due to the library list size changing...
+	// Resize due to the vertical resize handle dragging...
 	int delta = m_ResizeLib.m_adjust_height;
 
-	// Resize the library window...
+	// Resize the tree window...
 	CRect r;
-	m_Libraries.GetWindowRect( r );
+	m_Tree.GetWindowRect( r );
 	ScreenToClient( r );
 	r.bottom += delta;
-	m_Libraries.MoveWindow( r );
+	m_Tree.MoveWindow( r );
 
-	CTinyCadRegistry::Set("SymbolLibraryList", r.Height() );
+	CTinyCadRegistry::Set("SymbolTreeHeightPx", r.Height() );
 
+	m_Show_Symbol.GetWindowRect( r );
+	ScreenToClient( r );
+	r.top += delta;
+	m_Show_Symbol.MoveWindow( r );
 
 	DetermineLayout();
-	RedrawWindow();
-}
-
-
-void CDlgGetFindBox::OnSingleLibSel() 
-{
-	BOOL r = m_Single_Lib_Sel.GetCheck() != 0;
-	CTinyCadRegistry::Set( "SelectOneLib", r );
-
-	if (r)
-	{
-		int sel = m_Libraries.GetCurSel();
-		for (int j = 0; j < m_Libraries.GetCount(); j ++)
-		{
-			if (m_Libraries.GetSel( j ) != 0 && sel != j)
-			{
-				m_Libraries.SetSel(j,FALSE);
-			}
-		}
-
-		if (sel == LB_ERR)
-		{
-			m_Libraries.SetSel(0,TRUE);
-		}
-	}
-
-	BuildSearchList();
+	// less flicker: RedrawWindow();
 }
 
 
 
 void CDlgGetFindBox::OnDestroy()
 {
-	StoreLibraryList();
-
 	CInitDialogBar::OnDestroy();
 }
+
+

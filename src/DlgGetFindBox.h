@@ -26,19 +26,19 @@
 #include "InitDialogBar.h"
 #include "ResizeWnd.h"
 
-// The dialogue to fetch a new symbol
+/// The dialog to instantiate a new symbol from libraries
 class CDlgGetFindBox : public CInitDialogBar
 {
 protected:
-	CLibraryStoreSymbol *m_Symbol;
+	CLibraryStoreSymbol *m_Symbol;  ///< The currently selected symbol (to be eventually instantiated)
 
 	typedef std::deque<CLibraryStoreSymbol*> MRUCollection;
 	MRUCollection m_most_recently_used;
 
 	CSize m_sizeUndockedDefault;
 
-	CResizeWnd	m_Resize;
-	CResizeWnd	m_ResizeLib;
+	CResizeWnd	m_Resize;  ///< for resizing *this dialog - an stripe on the right edge
+	CResizeWnd	m_ResizeLib;  ///< for resizing space between library list and symbol preview area
 
 public:
  	CDlgGetFindBox();
@@ -56,12 +56,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDlgGetFindBox)
 	enum { IDD = IDD_GETFIND };
-	CButton	m_Single_Lib_Sel;
-	CListBox	m_Libraries;
 	CButton	m_Show_Symbol;
-	CListBox	m_List;
+    CTreeCtrl   m_Tree;
 	CString	m_search_string;
-	int		m_filter;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -85,21 +82,19 @@ protected:
 	afx_msg void OnRadio1();
 	afx_msg void OnRadio2();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnSelchangeLibraries();
 	afx_msg void OnHorzResize();
-	afx_msg void OnSingleLibSel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	void DrawLibraries( CDC &dc, LPDRAWITEMSTRUCT lpDrawItemStruct );
 	void DrawSymbol( CDC &dc, CRect rect );
-	void BuildLibraryList();
 	void BuildSearchList();
+    void BuildTree();
 
 public:
-	void StoreLibraryList(void);
-	void RestoreLibraryList(void);
 	afx_msg void OnDestroy();
+    afx_msg void OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 

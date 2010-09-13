@@ -69,8 +69,7 @@ CLibraryStoreNameSet *CLibraryStore::Extract(const TCHAR *key)
 	return NULL;
 }
 
-// Find a string in the symbol names
-void CLibraryStore::Find(const TCHAR *theString,CListBox *theListBox)
+void CLibraryStore::AddToListBox(const TCHAR *theString,CListBox *theListBox)
 {
 	symbolCollection::iterator it = m_Symbols.begin();
 
@@ -82,13 +81,7 @@ void CLibraryStore::Find(const TCHAR *theString,CListBox *theListBox)
 		for (int i =0; i < pSymbol->GetNumRecords(); i++)
 		{
 			CLibraryStoreSymbol &r = pSymbol->GetRecord( i );
-
-			CString name = r.name;
-			CString desc = r.description;
-			name.MakeLower();
-			desc.MakeLower();
-			if (	name.Find(theString) != -1
-				||	desc.Find(theString) != -1)
+			if (r.IsMatching(theString))
 			{
 				int index = theListBox->AddString( r.name + " - " + r.description );
 				theListBox->SetItemDataPtr(index, &r );
@@ -97,6 +90,50 @@ void CLibraryStore::Find(const TCHAR *theString,CListBox *theListBox)
 
 		++ it;
 	}
+}
+void CLibraryStore::AddToTreeCtrl(const TCHAR *theString, CTreeCtrl* Tree, HTREEITEM hLib)
+{
+    symbolCollection::iterator it = m_Symbols.begin();
+
+    while (it != m_Symbols.end())
+    {
+        CLibraryStoreNameSet *pSymbol = &(it->second);
+
+        // Do this for each of the names in the symbol set
+        for (int i =0; i < pSymbol->GetNumRecords(); i++)
+        {
+            CLibraryStoreSymbol &r = pSymbol->GetRecord( i );
+            if (r.IsMatching(theString))
+            {
+                HTREEITEM hItem = Tree->InsertItem( r.name + " - " + r.description, hLib );
+                Tree->SetItemData(hItem, (DWORD_PTR) &r );
+            }
+        }
+
+        ++ it;
+    }
+}
+int CLibraryStore::GetMatchCount(const TCHAR *theString)
+{
+    int result = 0;
+
+    symbolCollection::iterator it = m_Symbols.begin();
+
+    while (it != m_Symbols.end())
+    {
+        CLibraryStoreNameSet *pSymbol = &(it->second);
+
+        // Do this for each of the names in the symbol set
+        for (int i =0; i < pSymbol->GetNumRecords(); i++)
+        {
+            CLibraryStoreSymbol &r = pSymbol->GetRecord( i );
+            if (r.IsMatching(theString))
+                result++;
+        }
+
+        ++ it;
+    }
+    return result;
 }
 
 

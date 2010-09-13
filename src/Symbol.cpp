@@ -412,6 +412,14 @@ CDesignFileSymbol *CLibraryStoreSymbol::GetDesignSymbol( CTinyCadDoc *pDesign )
 	return m_pParent->GetDesignSymbol( pDesign, m_index );
 }
 
+bool CLibraryStoreSymbol::IsMatching( const TCHAR * theString ) const
+{
+    CString name = this->name;
+    CString desc = this->description;
+    name.MakeLower();
+    desc.MakeLower();
+    return name.Find(theString) != -1 || desc.Find(theString) != -1;
+}
 
 
 

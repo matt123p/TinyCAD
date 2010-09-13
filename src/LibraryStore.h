@@ -31,7 +31,7 @@ public:
 	typedef std::map<int, CLibraryStoreNameSet>	symbolCollection;
 	symbolCollection		m_Symbols;			// The collection of symbols, indexed by symbol id
 
-	CString			m_name;					// The name of this library
+	CString			m_name;					///< The file name of this library
 
 	CLibraryStore();						// The constructor
 	virtual ~CLibraryStore();				// The destructor
@@ -40,8 +40,11 @@ public:
 	// Get a symbol from this library
 	CLibraryStoreNameSet *Extract(const TCHAR *);	
 
-	// Find a string in the symbol descriptions
-	virtual void Find(const TCHAR *,CListBox *);
+	// Adds symbols matching given string to a CListBox
+	virtual void AddToListBox(const TCHAR *,CListBox *);
+
+    void AddToTreeCtrl(const TCHAR *theString, CTreeCtrl* Tree, HTREEITEM hLib);
+    int GetMatchCount(const TCHAR *theString);
 
 	// Check to see if the item exists in this library
 	virtual BOOL DoesExist( CLibraryStoreNameSet *pSymbol );
