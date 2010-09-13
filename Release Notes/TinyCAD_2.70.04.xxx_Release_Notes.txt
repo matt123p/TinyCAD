@@ -1,4 +1,0 @@
-Changes from TinyCAD 2.70.03.300 Production Release:
-
-Feature Requests #2722995 implemented.  Message now says that "This file was not created in TinyCAD.".
-Feature Requests #3015178 implemented.  Now all menu items that open a dialog box end with "..." as is customary
