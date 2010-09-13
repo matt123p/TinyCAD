@@ -192,20 +192,19 @@ const int ErcTable[7][7] = {
 
 void CTinyCadView::OnSpecialCheck()
 {
+	typedef std::map<CString,int> stringCollection;
+
 	// Get rid of any drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
 	CDlgERCBox theDialog;
-
 	static union { ErrorTest e; WORD i; } theErrorTest;
 
 	theErrorTest.i = CTinyCadRegistry::GetInt("ERC", 0xffff);
 
-
 	// Get the user's options
 	theDialog.SetErrorTest(theErrorTest.e);
-	if (theDialog.DoModal() != IDOK)
-	{
+	if (theDialog.DoModal() != IDOK) {
 		return;
 	}
 
@@ -224,56 +223,128 @@ void CTinyCadView::OnSpecialCheck()
 
 	// Delete all the errors which are currently in the design
 	theERCListBox.Close();
-	// GetCurrentDocument()->DeleteErrors();
 	theERCListBox.Open( pDoc );
 	int CurrentError = 0;
 
 	// Scan the design for unassigned references
-	if ((theErrorTest.e).UnAssignedRefDes)
-	{
-	   TRACE("Scanning for unassigned reference designators\n");
+	if ((theErrorTest.e).UnAssignedRefDes) {
+		TRACE("Scanning for unassigned reference designators...\n");
+		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++) {
+			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
+			while (it != pDoc->GetSheet(i)->GetDrawingEnd()) {
+				CDrawingObject *pointer = *it;
+
+				if (pointer->GetType()==xMethodEx3) {
+					CString ref = static_cast<CDrawMethod *>(pointer)->GetField(CDrawMethod::Ref);
+					//TRACE("  ==>Examining string \"%S\"\n",ref);
+					if (ref.Find(_T('?'),0) != -1) {
+						// We have an unassigned reference designator
+						CString buffer;
+						buffer.LoadString( ERR_UNASSIGNEDREFDES );
+						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
+						theERCListBox.AddString(buffer);
+						TRACE("  ==>%S\n",buffer);
+					}
+				}
+				++ it;
+			}
+		}
 	}
 
 	// Scan the design for non-case distinct net names
-	if ((theErrorTest.e).NonCaseDistinctNetNames)
-	{
-	    TRACE("Scanning for net names that are not case distinct\n");
+	if ((theErrorTest.e).NonCaseDistinctNetNames) {
+	    TRACE("Scanning for net names that are not case distinct...\n");
+		CString buffer;
+		buffer.LoadString( ERR_NONDISTINCTNET );
+		//pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
+		//theERCListBox.AddString(buffer);
+		TRACE("  ==>Test not implemented yet:  %S\n",buffer);
 	}
 
 	// Scan the design for multiple net names on the same net
-	if ((theErrorTest.e).MultipleNetNames)
-	{
-	    TRACE("Scanning for multiple net names on the same net\n");
+	if ((theErrorTest.e).MultipleNetNames) {
+	    TRACE("Scanning for multiple net names on the same net...\n");
+		int savedCurrentError = CurrentError;
+
+		netCollection::iterator ni = nets->begin();
+		while (ni != nets->end())
+		{
+			stringCollection netNames;	//Every net name assigned to this net will be collected in this collection
+
+			int net = (*ni).first;
+			//TRACE("  ==>Scanning for net names contained in net=%d\n", net);
+
+			nodeVector &v = (*ni).second;
+
+			nodeVector::iterator vi = v.begin();	//Traverse the nodes in the netlist
+			while (vi != v.end())
+			{
+
+				CNetListNode &node = *vi;
+
+				//Net names are either an explicit label (xLabelEx2) or implied from a power pin (xPower)
+				if (node.m_parent && (node.m_parent->GetType() == xLabelEx2)){
+					CString label_name = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+					if (netNames.find( label_name) == netNames.end()) {
+						netNames[label_name] = net;	//This is a new net name label for this node - add it to the list
+						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+					}
+					else {
+						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d is already in the list\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+					}
+				}
+				else if (node.m_parent && (node.m_parent->GetType() == xPower)) {
+					CString powerLabel = netlist.get_power_label((CDrawPower *) node.m_parent);
+
+					if (netNames.find( powerLabel) == netNames.end()) {
+						netNames[powerLabel] = net;	//This is a new net name label for this node - add it to the list
+						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list\n",powerLabel,node.m_NetList);
+					}
+					else {
+						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d is already in the list\n",powerLabel,node.m_NetList);
+					}
+				}
+
+				++ vi;
+			}
+
+			if (netNames.size() > 1) {
+				TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
+				CString buffer;
+				buffer.LoadString( ERR_MULTIPLENETNAMES );
+				//pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
+				//theERCListBox.AddString(buffer);
+				TRACE("  ==>%S\n",buffer);
+			}
+			++ ni;
+		}
+		TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
+
+
 	}
 
 	// Scan the design for duplicated references
 	if ((theErrorTest.e).DupRef)
 	{
 		std::set<CString>	refs;
-
 		CString last = "";
 
-		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++)
-		{
+		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++) {
 			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
-			while (it != pDoc->GetSheet(i)->GetDrawingEnd()) 
-			{
+			while (it != pDoc->GetSheet(i)->GetDrawingEnd()) {
 				CDrawingObject *pointer = *it;
 
-				if (pointer->GetType()==xMethodEx3) 
-				{
+				if (pointer->GetType()==xMethodEx3) {
 					CString ref = static_cast<CDrawMethod *>(pointer)->GetField(CDrawMethod::Ref);
 
-					if (refs.find( ref ) != refs.end())
-					{
+					if (refs.find( ref ) != refs.end()) {
 						// We have a duplicate...
 						CString buffer;
 						buffer.LoadString( ERR_DUPREF );
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
 						theERCListBox.AddString(buffer);
 					}
-					else
-					{
+					else {
 						refs.insert( ref );
 					}
 				}

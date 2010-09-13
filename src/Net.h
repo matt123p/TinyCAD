@@ -331,11 +331,13 @@ protected:
 	bool get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
 	bool get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
 
-	// Get a attribute value from an attribute name
-	bool get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r );
-
+public:
 	// Get a netlist label name for this power symbol
 	CString get_power_label( CDrawPower *power );
+
+protected:
+	// Get a attribute value from an attribute name
+	bool get_attr( int file_name_index, int sheet, CNetListSymbol &symbol, CString attr, CString &r );
 
 	// Clear out the imports etc..
 	void clear();
