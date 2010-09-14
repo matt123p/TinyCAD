@@ -185,6 +185,10 @@ void CDlgGetFindBox::BuildTree()
 		for(unsigned i = 0; i < m_most_recently_used.size(); i++)
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[i];
+
+			assert(pSymbol != NULL);	//Problem with crashes here.  pSymbol is not NULL, but what it points to does not contain a valid name or description field
+			TRACE("pSymbol->Description=[%S], pSymbol->Name=[%S]\n", pSymbol->description, pSymbol->name);
+
 			if(pSymbol->IsMatching(m_search_string))
 			{
 				HTREEITEM hItem = m_Tree.InsertItem( pSymbol->name + " - " + pSymbol->description, hLib );
