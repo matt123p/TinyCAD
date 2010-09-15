@@ -148,7 +148,10 @@ void CDlgGetFindBox::OnChangeSearchString()
 
 void CDlgGetFindBox::ResetAllSymbols()
 {
-    BuildTree();
+	//The clearing of the most recently used list is experimental - djl 9/15/2010.  Even if it is correct, it probably should go somewhere else
+	m_most_recently_used.clear();
+
+	BuildTree();
 }
 
 
@@ -186,7 +189,7 @@ void CDlgGetFindBox::BuildTree()
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[i];
 
-			assert(pSymbol != NULL);	//Problem with crashes here.  pSymbol is not NULL, but what it points to does not contain a valid name or description field
+			assert(pSymbol != NULL);	//Problem with crashes here.  pSymbol is not NULL, but what it points to does not contain a valid name or description field.  From the debugger, most (but not all) of the contents of m_most_recently_used[] are bad pointers, many with the value 0xfeeefeee
 			TRACE("pSymbol->Description=[%S], pSymbol->Name=[%S]\n", pSymbol->description, pSymbol->name);
 
 			if(pSymbol->IsMatching(m_search_string))
