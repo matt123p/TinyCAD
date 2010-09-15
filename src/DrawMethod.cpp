@@ -219,7 +219,6 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 		f.m_value = pSymbol->fields[i].field_default;
 		f.m_type = pSymbol->fields[i].field_type;
 		f.m_position = CDPoint(0,0);
-		assert((f.m_show >= 0) && (f.m_show < last_symbol_field_type));
 		f.m_show = IsFieldVisible(f.m_type, f.m_value);
 
 		// Does this new field already exist?
