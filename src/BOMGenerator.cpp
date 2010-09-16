@@ -202,7 +202,7 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
   int Xpos = 0, pieces=0;
   while (itx != m_methods.end()) 
   {
-    BomSort::BomObject *pBomObject = &(*itx);
+    const BomSort::BomObject *pBomObject = &(*itx);
 	CDrawMethod *thisMethod = pBomObject->m_pMethod;
 	int sheet = pBomObject->m_sheet;
 	CString name = pBomObject->m_name;

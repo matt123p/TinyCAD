@@ -148,9 +148,6 @@ void CDlgGetFindBox::OnChangeSearchString()
 
 void CDlgGetFindBox::ResetAllSymbols()
 {
-	//The clearing of the most recently used list is experimental - djl 9/15/2010.  Even if it is correct, it probably should go somewhere else
-	m_most_recently_used.clear();
-
 	BuildTree();
 }
 
@@ -182,14 +179,26 @@ void CDlgGetFindBox::BuildTree()
 
 	// Add/filter MRU symbols
 	{
+		// Cleanup MRU
+		int nMRUCount = m_most_recently_used.size();
+		for (int i = 0 ; i < nMRUCount; i++)
+		{
+			CLibraryStoreSymbol* pSymbol = m_most_recently_used[0];
+			m_most_recently_used.pop_front();
+			// Is symbol still alive?
+			if( pSymbol && pSymbol->m_pParent && CLibraryCollection::ContainsSymbol(pSymbol->m_pParent) )
+			{
+				// Place it back in MRU list
+				m_most_recently_used.push_back(pSymbol);
+			}
+		}
+
 		CString sCaption;
 		HTREEITEM hLib = m_Tree.InsertItem(_T("(recent) (x)"), TVI_ROOT);
 		int nMatches = 0;
 		for(unsigned i = 0; i < m_most_recently_used.size(); i++)
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[i];
-
-			assert(pSymbol != NULL);	//Problem with crashes here.  pSymbol is not NULL, but what it points to does not contain a valid name or description field.  From the debugger, most (but not all) of the contents of m_most_recently_used[] are bad pointers, many with the value 0xfeeefeee
 			TRACE("pSymbol->Description=[%S], pSymbol->Name=[%S]\n", pSymbol->description, pSymbol->name);
 
 			if(pSymbol->IsMatching(m_search_string))

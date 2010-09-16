@@ -206,7 +206,7 @@ void CLibraryView::OnDraw(CDC* pDC)
 	//TRACE("CLibraryView::OnDraw(): After adjustment:  current_index = %d, advance = %d\n",current_index, advance);
 	int text_pos_y;
 	int text_pos_x;
-	int text_col_width;
+	int text_col_width = 0;
 	CDPoint p;
 	CDPoint qq;
 

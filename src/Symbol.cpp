@@ -407,6 +407,12 @@ CLibraryStoreSymbol::CLibraryStoreSymbol()
 	m_pParent = NULL;
 }
 
+CLibraryStoreSymbol::~CLibraryStoreSymbol()
+{
+	m_index = 0;
+	m_pParent = NULL;
+}
+
 CDesignFileSymbol *CLibraryStoreSymbol::GetDesignSymbol( CTinyCadDoc *pDesign )
 {
 	return m_pParent->GetDesignSymbol( pDesign, m_index );

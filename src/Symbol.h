@@ -192,6 +192,7 @@ public:
 	int						m_index;
 
 	CLibraryStoreSymbol();
+	~CLibraryStoreSymbol();
 
 	CDesignFileSymbol *GetDesignSymbol( CTinyCadDoc *pDesign );
     bool IsMatching(const TCHAR * theString) const;
