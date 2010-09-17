@@ -228,7 +228,7 @@ void CTinyCadView::OnSpecialCheck()
 
 	// Scan the design for unassigned references
 	if ((theErrorTest.e).UnAssignedRefDes) {
-		TRACE("Scanning for unassigned reference designators...\n");
+		//TRACE("Scanning for unassigned reference designators...\n");
 		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++) {
 			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
 			while (it != pDoc->GetSheet(i)->GetDrawingEnd()) {
@@ -243,7 +243,7 @@ void CTinyCadView::OnSpecialCheck()
 						buffer.LoadString( ERR_UNASSIGNEDREFDES );
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
 						theERCListBox.AddString(buffer);
-						TRACE("  ==>%S\n",buffer);
+						//TRACE("  ==>%S\n",buffer);
 					}
 				}
 				++ it;
@@ -263,13 +263,15 @@ void CTinyCadView::OnSpecialCheck()
 
 	// Scan the design for multiple net names on the same net
 	if ((theErrorTest.e).MultipleNetNames) {
-	    TRACE("Scanning for multiple net names on the same net...\n");
+	    //TRACE("Scanning for multiple net names on the same net...\n");
 		int savedCurrentError = CurrentError;
 
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
 		{
 			stringCollection netNames;	//Every net name assigned to this net will be collected in this collection
+			typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
+			nodeVectorCollection netNameNodes;
 
 			int net = (*ni).first;
 			//TRACE("  ==>Scanning for net names contained in net=%d\n", net);
@@ -287,6 +289,8 @@ void CTinyCadView::OnSpecialCheck()
 					CString label_name = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
 					if (netNames.find( label_name) == netNames.end()) {
 						netNames[label_name] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[label_name] = vi;
+
 						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
 					}
 					else {
@@ -298,6 +302,7 @@ void CTinyCadView::OnSpecialCheck()
 
 					if (netNames.find( powerLabel) == netNames.end()) {
 						netNames[powerLabel] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[powerLabel] = vi;
 						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list\n",powerLabel,node.m_NetList);
 					}
 					else {
@@ -308,19 +313,38 @@ void CTinyCadView::OnSpecialCheck()
 				++ vi;
 			}
 
+			CString buffer;
+			CString formattedBuffer;
 			if (netNames.size() > 1) {
-				TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
-				CString buffer;
-				buffer.LoadString( ERR_MULTIPLENETNAMES );
-				//pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-				//theERCListBox.AddString(buffer);
-				TRACE("  ==>%S\n",buffer);
+				//TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
+				buffer.LoadString( ERR_MULTIPLENETNAMES );	//This is the base error message string
+				//TRACE("    ==>Base msg=%S\n",buffer);
+
+				//Now unpack and format the multiple net names
+				nodeVectorCollection::iterator nv_it = netNameNodes.begin();
+				//assert(nv_it != netNameNodes.end());
+				CString stuff=(*nv_it).first;
+				formattedBuffer.Format(_T("%s:  \"%s\""), buffer, (*nv_it).first);	//Get the base message and the first net name
+				//TRACE("       First formatted msg = %S\n", formattedBuffer);
+
+				while (++nv_it != netNameNodes.end()) {
+					buffer.Format(_T(",\"%s\""),(*nv_it).first);
+					formattedBuffer += buffer;	//concatenate the next net name onto the end
+					//TRACE("       Next formatted msg = %S\n", formattedBuffer);
+				}
+
+				//Now unpack and identify each net name label that is a duplicate, using the error message string that contains all of the net names
+				for (nv_it = netNameNodes.begin(); nv_it != netNameNodes.end(); nv_it++) {
+					CNetListNode &node = *((*nv_it).second);
+					//drawingIterator di = pDoc->GetSheet(node.m_sheet)->GetDrawingBegin;
+					pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
+					theERCListBox.AddString(formattedBuffer);
+					//TRACE("  ==>%S\n",formattedBuffer);
+				}
 			}
 			++ ni;
 		}
-		TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
-
-
+		//TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
 	}
 
 	// Scan the design for duplicated references
@@ -353,7 +377,6 @@ void CTinyCadView::OnSpecialCheck()
 			}
 		}
 	}
-
 
 	// Scan netlist to determine the type of each net
 	netCollection::iterator nit = nets->begin();
