@@ -374,38 +374,38 @@ BEGIN
     CONTROL         "All Sheets",IDC_ALL_SHEETS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,47,10
 END
 
-IDD_ERCBOX DIALOGEX 0, 0, 176, 190
+IDD_ERCBOX DIALOGEX 0, 0, 176, 188
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Check Design Rules"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "Duplicated references",ERC_DUPREF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,16,84,10
-    CONTROL         "Unconnected items",ERC_UNCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,26,75,10
+    CONTROL         "Unconnected items",ERC_UNCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,27,75,10
     CONTROL         "More than one item on a no-connect net",ERC_NOCONNECT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,36,143,10
-    CONTROL         "Power connected to Power",ERC_POWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,73,100,10
-    CONTROL         "Power connected to an output",ERC_OUTPUTTOPWR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,120,10
-    CONTROL         "Output connected to an output",ERC_OUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,93,113,10
-    CONTROL         "No output driving input(s)",ERC_NOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,103,95,10
-    CONTROL         "Unconnected nets",ERC_UNCONNECTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,113,72,10
-    GROUPBOX        "Design errors to check",ERRORBOX_TEXT,7,3,160,51
-    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,59,160,101
-    DEFPUSHBUTTON   "Check",IDOK,27,169,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,93,169,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,38,143,10
+    CONTROL         "Power connected to Power",ERC_POWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,84,100,10
+    CONTROL         "Power connected to an output",ERC_OUTPUTTOPWR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,95,120,10
+    CONTROL         "Output connected to an output",ERC_OUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,106,113,10
+    CONTROL         "No output driving input(s)",ERC_NOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,117,95,10
+    CONTROL         "Unconnected nets",ERC_UNCONNECTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,128,72,10
+    GROUPBOX        "Design errors to check",ERRORBOX_TEXT,7,3,160,64
+    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,71,160,95
+    DEFPUSHBUTTON   "Check",IDOK,27,170,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,93,170,50,14
     CONTROL         "Multiple net names on same net",ERC_MULTIPLENETNAMES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,123,123,10
-    CONTROL         "Non-case distinct net names",ERC_NONCASEDISTINCT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,133,115,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,139,123,10
+    CONTROL         "Non-case distinct net names",ERC_NONCASEDISTINCT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,150,115,10
     CONTROL         "Unassigned reference designators",ERC_UNASSIGNEDREFDES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,143,132,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,50,132,10
 END
 
-IDD_ERCLIST DIALOGEX 217, 16, 275, 87
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
+IDD_ERCLIST DIALOGEX 217, 16, 544, 100
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
 CAPTION "Design Markers"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LISTBOX         ERCLIST_LIST,7,6,258,61,WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "Close",IDOK,215,68,50,14
+    LISTBOX         ERCLIST_LIST,0,0,544,87,WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Close",IDOK,494,85,50,14
 END
 
 IDD_FIND DIALOGEX 0, 0, 157, 62
@@ -912,6 +912,11 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         BOTTOMMARGIN, 196
+    END
+
+    IDD_ERCLIST, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 99
     END
 
     IDD_GETFIND, DIALOG

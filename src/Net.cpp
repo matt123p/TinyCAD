@@ -193,8 +193,9 @@ const int ErcTable[7][7] = {
 void CTinyCadView::OnSpecialCheck()
 {
 	typedef std::map<CString,int> stringCollection;
+	CString formattedBuffer;
 
-	// Get rid of any drawing tool
+	/// Get rid of any drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
 	CDlgERCBox theDialog;
@@ -202,7 +203,7 @@ void CTinyCadView::OnSpecialCheck()
 
 	theErrorTest.i = CTinyCadRegistry::GetInt("ERC", 0xffff);
 
-	// Get the user's options
+	/// Get the user's options
 	theDialog.SetErrorTest(theErrorTest.e);
 	if (theDialog.DoModal() != IDOK) {
 		return;
@@ -211,22 +212,22 @@ void CTinyCadView::OnSpecialCheck()
 	theErrorTest.e = theDialog.GetErrorTest();  
 	CTinyCadRegistry::Set("ERC",theErrorTest.i);
 
-	// Set the Busy icon
+	/// Set the Busy icon
 	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
-	// Generate the netlist
+	/// Generate the netlist
 	CNetList netlist;
 	netlist.m_follow_imports = false;
 	CTinyCadMultiDoc *pDoc = static_cast<CTinyCadMultiDoc*>(GetDocument());
 	netlist.MakeNet( pDoc );
 	netCollection *nets = &netlist.m_nets;
 
-	// Delete all the errors which are currently in the design
+	/// Delete all the errors which are currently in the design
 	theERCListBox.Close();
 	theERCListBox.Open( pDoc );
 	int CurrentError = 0;
 
-	// Scan the design for unassigned references
+	/// Scan the design for unassigned references
 	if ((theErrorTest.e).UnAssignedRefDes) {
 		//TRACE("Scanning for unassigned reference designators...\n");
 		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++) {
@@ -251,27 +252,21 @@ void CTinyCadView::OnSpecialCheck()
 		}
 	}
 
-	// Scan the design for non-case distinct net names
-	if ((theErrorTest.e).NonCaseDistinctNetNames) {
-	    TRACE("Scanning for net names that are not case distinct...\n");
-		CString buffer;
-		buffer.LoadString( ERR_NONDISTINCTNET );
-		//pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-		//theERCListBox.AddString(buffer);
-		TRACE("  ==>Test not implemented yet:  %S\n",buffer);
-	}
-
-	// Scan the design for multiple net names on the same net
-	if ((theErrorTest.e).MultipleNetNames) {
-	    //TRACE("Scanning for multiple net names on the same net...\n");
+	/// Scan the design for non-case distinct net names
+	/// Scan the design for multiple net names on the same net
+	if ((theErrorTest.e).MultipleNetNames || (theErrorTest.e).NonCaseDistinctNetNames) {
+		typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
+		nodeVectorCollection allNetNames;
+	    //TRACE("Scanning for multiple net names and non-case distinct net names on the same net...\n");
 		int savedCurrentError = CurrentError;
 
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
 		{
 			stringCollection netNames;	//Every net name assigned to this net will be collected in this collection
-			typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
 			nodeVectorCollection netNameNodes;
+			CString buffer;
+			CString formattedBuffer;
 
 			int net = (*ni).first;
 			//TRACE("  ==>Scanning for net names contained in net=%d\n", net);
@@ -281,65 +276,104 @@ void CTinyCadView::OnSpecialCheck()
 			nodeVector::iterator vi = v.begin();	//Traverse the nodes in the netlist
 			while (vi != v.end())
 			{
-
+				CString lcNetName;
+				CString labelName;
 				CNetListNode &node = *vi;
 
 				//Net names are either an explicit label (xLabelEx2) or implied from a power pin (xPower)
 				if (node.m_parent && (node.m_parent->GetType() == xLabelEx2)){
-					CString label_name = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
-					if (netNames.find( label_name) == netNames.end()) {
-						netNames[label_name] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[label_name] = vi;
+					labelName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+					if (netNames.find( labelName) == netNames.end()) {
+						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[labelName] = vi;
+						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list of names for this net\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
 
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+						//if this net name is unique in this particular net, it should also be unique in the entire design
+						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
+						//already in this design with some other combination of alphabet case
+						lcNetName = labelName;
+						lcNetName.MakeLower();
+						if (allNetNames.find(lcNetName) == allNetNames.end()) {
+							//This net name in lower case only is not yet in the list so put it in
+							allNetNames[lcNetName] = vi;
+							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",label_name, lcNetName);
+						}
+						else {
+							//While this lower case version of the label_name should not have already been in this list, it is
+							//so generate a warning that net names that are not case distinct are present in this design
+							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
+							buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
+							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
+							theERCListBox.AddString(formattedBuffer);
+						}
 					}
 					else {
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d is already in the list\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d is already in the list of names for this net - ignoring\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
 					}
 				}
 				else if (node.m_parent && (node.m_parent->GetType() == xPower)) {
-					CString powerLabel = netlist.get_power_label((CDrawPower *) node.m_parent);
+					labelName = netlist.get_power_label((CDrawPower *) node.m_parent);
 
-					if (netNames.find( powerLabel) == netNames.end()) {
-						netNames[powerLabel] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[powerLabel] = vi;
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list\n",powerLabel,node.m_NetList);
+					if (netNames.find( labelName) == netNames.end()) {
+						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[labelName] = vi;
+						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list of names for this net\n",powerLabel,node.m_NetList);
+
+						//if this net name is unique in this particular net, it should also be unique in the entire design
+						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
+						//already in this design with some other combination of alphabet case
+						lcNetName = labelName;
+						lcNetName.MakeLower();
+						if (allNetNames.find(lcNetName) == allNetNames.end()) {
+							//This net name in lower case only is not yet in the list so put it in
+							allNetNames[lcNetName] = vi;
+							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",powerLabel, lcNetName);
+						}
+						else {
+							//While this lower case version of the label_name should not have already been in this list, it is
+							//so generate a warning that net names that are not case distinct are present in this design
+							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
+							buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
+							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
+							theERCListBox.AddString(formattedBuffer);
+						}
 					}
 					else {
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d is already in the list\n",powerLabel,node.m_NetList);
+						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d is already in the list of names for this net - ignoring\n",powerLabel,node.m_NetList);
 					}
 				}
 
 				++ vi;
 			}
 
-			CString buffer;
-			CString formattedBuffer;
 			if (netNames.size() > 1) {
-				//TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
-				buffer.LoadString( ERR_MULTIPLENETNAMES );	//This is the base error message string
-				//TRACE("    ==>Base msg=%S\n",buffer);
+				//Note:  A non-case distinct net name will always produce a multiple net name warning, unless multiple net name warnings are turned off
+				if ((theErrorTest.e).MultipleNetNames) {	//record the multiple net name warnings
+					//TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
+					buffer.LoadString( ERR_MULTIPLENETNAMES );	//This is the base error message string
+					//TRACE("    ==>Base msg=%S\n",buffer);
 
-				//Now unpack and format the multiple net names
-				nodeVectorCollection::iterator nv_it = netNameNodes.begin();
-				//assert(nv_it != netNameNodes.end());
-				CString stuff=(*nv_it).first;
-				formattedBuffer.Format(_T("%s:  \"%s\""), buffer, (*nv_it).first);	//Get the base message and the first net name
-				//TRACE("       First formatted msg = %S\n", formattedBuffer);
+					//Now unpack and format the multiple net names
+					nodeVectorCollection::iterator nv_it = netNameNodes.begin();
+					CString stuff=(*nv_it).first;
+					formattedBuffer.Format(_T("%s:  \"%s\""), buffer, (*nv_it).first);	//Get the base message and the first net name
+					//TRACE("       First formatted msg = %S\n", formattedBuffer);
 
-				while (++nv_it != netNameNodes.end()) {
-					buffer.Format(_T(",\"%s\""),(*nv_it).first);
-					formattedBuffer += buffer;	//concatenate the next net name onto the end
-					//TRACE("       Next formatted msg = %S\n", formattedBuffer);
-				}
+					while (++nv_it != netNameNodes.end()) {
+						buffer.Format(_T(",\"%s\""),(*nv_it).first);
+						formattedBuffer += buffer;	//concatenate the next net name onto the end
+						//TRACE("       Next formatted msg = %S\n", formattedBuffer);
+					}
 
-				//Now unpack and identify each net name label that is a duplicate, using the error message string that contains all of the net names
-				for (nv_it = netNameNodes.begin(); nv_it != netNameNodes.end(); nv_it++) {
-					CNetListNode &node = *((*nv_it).second);
-					//drawingIterator di = pDoc->GetSheet(node.m_sheet)->GetDrawingBegin;
-					pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
-					theERCListBox.AddString(formattedBuffer);
-					//TRACE("  ==>%S\n",formattedBuffer);
+					//Now unpack and identify each net name label that is a duplicate, using the error message string that contains all of the net names
+					for (nv_it = netNameNodes.begin(); nv_it != netNameNodes.end(); nv_it++) {
+						CNetListNode &node = *((*nv_it).second);
+						pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
+						theERCListBox.AddString(formattedBuffer);
+						//TRACE("  ==>%S\n",formattedBuffer);
+					}
 				}
 			}
 			++ ni;
@@ -347,7 +381,7 @@ void CTinyCadView::OnSpecialCheck()
 		//TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
 	}
 
-	// Scan the design for duplicated references
+	/// Scan the design for duplicated references
 	if ((theErrorTest.e).DupRef)
 	{
 		std::set<CString>	refs;
@@ -365,8 +399,9 @@ void CTinyCadView::OnSpecialCheck()
 						// We have a duplicate...
 						CString buffer;
 						buffer.LoadString( ERR_DUPREF );
+						formattedBuffer.Format(_T("%s:  %s on page %d\n"),buffer, ref, i+1);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-						theERCListBox.AddString(buffer);
+						theERCListBox.AddString(formattedBuffer);
 					}
 					else {
 						refs.insert( ref );
@@ -378,12 +413,15 @@ void CTinyCadView::OnSpecialCheck()
 		}
 	}
 
-	// Scan netlist to determine the type of each net
+	/// Scan netlist to determine the type of each object contained on each net.  Determine if the object type and the net type are compatible
 	netCollection::iterator nit = nets->begin();
-
 	while (nit != nets->end()) 
 	{
 		nodeVector::iterator nv_it = (*nit).second.begin();
+		CString netObjectName= "";
+		CString netObjectRefDes= "";
+		CString netObjectSheetName = "";
+		CString netObjectXY= "";
 
 		int theNetType = nUnknown;
 		CString lastPower = "";
@@ -395,11 +433,14 @@ void CTinyCadView::OnSpecialCheck()
 		while (theNetType < ERR_BASE && nv_it != (*nit).second.end()) 
 		{
 			CNetListNode& theNode = *nv_it;
+			CNetListNode& savedNode = theNode;
 
 			CDrawingObject* pObject = theNode.m_parent;
 			
-			if (pObject != NULL) 
+			if (pObject != NULL)
 			{
+				//Keep a few identifying items around to help format intelligible error messages after the second object is found
+
 				// Determine the type of this node
 				int node_type = nUnknown;
 				switch (pObject->GetType()) 
@@ -418,16 +459,24 @@ void CTinyCadView::OnSpecialCheck()
 							node_type = nUnknown;
 						}
 					}
-					// power symbols should not inc the number of connections
-					//connections ++;
-					pos = pObject->m_point_a;
+					// power symbols should not increment the number of connections
+					pos = pObject->m_point_a;	//This will be used to locate this object on the sheet from the error message
 					sheet = theNode.m_sheet;
+
+					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+					netObjectRefDes= "N/A";
+					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet+1);
+					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xNoConnect:
 					node_type = 1;
 					connections ++;
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
+					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+					netObjectRefDes= "N/A";
+					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet+1);
+					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xPin:
 				case xPinEx:
@@ -466,6 +515,11 @@ void CTinyCadView::OnSpecialCheck()
 						pos = pPin->GetActivePoint(theNode.m_pMethod);
 						sheet = theNode.m_sheet;
 						connections ++;
+
+					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+						netObjectRefDes.Format(_T("%s, Pin Number=%s, Pin Name=%s"),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
+						netObjectSheetName.Format(_T("Sheet=\'%s\'"),theNode.m_pMethod->m_pDesign->GetSheetName());
+						netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					}
 					break;
 				}
@@ -506,7 +560,7 @@ void CTinyCadView::OnSpecialCheck()
 				break;
 		}
 
-		// Is this error to be reported?
+		/// Is this error to be reported?
 		switch (ErrorNumber) 
 		{
 		case ERR_UNCONNECT:
@@ -555,15 +609,18 @@ void CTinyCadView::OnSpecialCheck()
 		{
 			CString buffer;
 			buffer.LoadString( ErrorNumber );
+			formattedBuffer.Format(_T("%s:  [%s, %s, %s, %s]"),
+				buffer,
+				netObjectName, netObjectRefDes, netObjectSheetName, netObjectXY);
 			pDoc->GetSheet(sheet-1)->Add(new CDrawError(pDoc->GetSheet(sheet-1),pos,CurrentError++));
-			theERCListBox.AddString(buffer);
+			theERCListBox.AddString(formattedBuffer);
 		}
 
 		++ nit;
 	}
 
 
-	// Were any errors detected?
+	/// Were any errors detected?
 	if (CurrentError == 0) 
 	{
 		CString buffer;
@@ -571,10 +628,10 @@ void CTinyCadView::OnSpecialCheck()
 		theERCListBox.AddString(buffer);
 	}
 
-	// Set the normal icon
+	/// Set the normal icon
 	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
 
-	// Re-Draw the window
+	/// Re-Draw the window
 	Invalidate();
 
 }
