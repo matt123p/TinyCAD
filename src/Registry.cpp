@@ -74,10 +74,10 @@ int CRegistry::SetValueEx(CString sKey, DWORD Type, const void *data, unsigned l
 // Place a CString item
 void CRegistry::Set( CString sKey, CString sVal )
 {
-	TRACE("CRegistry::Set():  sKey=[%S], sVal.length()=%d, sVal=[%S]\n",
-		sKey,
-		sVal.GetLength()*sizeof(TCHAR),
-		sVal);
+	//TRACE("CRegistry::Set():  sKey=[%S], sVal.length()=%d, sVal=[%S]\n",
+	//	sKey,
+	//	sVal.GetLength()*sizeof(TCHAR),
+	//	sVal);
 	SetValueEx( sKey, REG_SZ, sVal, sVal.GetLength() * sizeof( TCHAR ) );
 }
 //-------------------------------------------------------------------------
@@ -163,7 +163,7 @@ CString	CRegistry::GetString( CString sKey, CString sDefaultVal, DWORD m_nSize )
 
 	QueryValueEx( sKey, &nType, pTest, &nSize );
 
-	TRACE("CRegistry::GetString(\"%S\"):  Querying registry key [%S] using max buffer size of %d, returned key length=%d\n", sKey, sKey, m_nSize, nSize);
+	//TRACE("CRegistry::GetString(\"%S\"):  Querying registry key [%S] using max buffer size of %d, returned key length=%d\n", sKey, sKey, m_nSize, nSize);
 
 	sReturn.ReleaseBuffer();
 
@@ -327,7 +327,7 @@ bool CRegistry::keyExists( CString sKey )
 	DWORD	nSize	= sizeof( Buffer );
 	DWORD	nType = 0;
 
-	TRACE("CRegistry::keyExists(\"%S\"):  Using max buffer size=1024\n", sKey);
+	//TRACE("CRegistry::keyExists(\"%S\"):  Using max buffer size=1024\n", sKey);
 
 	return QueryValueEx( sKey, &nType, Buffer, &nSize ) == ERROR_SUCCESS;
 }
