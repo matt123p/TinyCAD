@@ -335,7 +335,7 @@ void CNetList::dumpNetListObjects()
 void CNetList::WriteWires()
 {
 	/// Scan each netlist
-	TRACE("\nEntering CNetList::WriteWires():  Updating the wires in this design\n");
+	//TRACE("\nEntering CNetList::WriteWires():  Updating the wires in this design\n");
     netCollection::iterator ni = m_nets.begin();
 	while (ni != m_nets.end()) 
 	{
@@ -421,7 +421,7 @@ void CNetList::WriteWires()
 
 		++ ni;
 	}
-	TRACE("Exiting CNetList::WriteWires()\n\n");
+	//TRACE("Exiting CNetList::WriteWires()\n\n");
 }
 
 /**
@@ -433,7 +433,7 @@ void CNetList::WriteWires()
  */
 void CNetList::Link( linkCollection& nets )
 {
-	TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
+	//TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
 	/// Get rid of any old data
 	m_CurrentNet = 1;
 	m_nodes.erase( m_nodes.begin(), m_nodes.end() );
@@ -453,7 +453,7 @@ void CNetList::Link( linkCollection& nets )
 	/// Now scan the nodes to generate the superset of
 	/// labels and their netlists
 
-	TRACE("\n\n\n  ==>Pass 1:  Scanning all netlist nodes to generate the superset of labels and their linking information.\n");
+	//TRACE("\n\n\n  ==>Pass 1:  Scanning all netlist nodes to generate the superset of labels and their linking information.\n");
 	linkCollection::iterator i = nets.begin();
 	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
 	{
@@ -615,7 +615,7 @@ void CNetList::Link( linkCollection& nets )
 	index = 0;
 	i = nets.begin();
 	int sheetIndex = 0;
-	TRACE("\n\n\n  ==>Pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
+	//TRACE("\n\n\n  ==>Pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
 	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
 	{
 		++sheetIndex;	//used for debugging only
@@ -682,7 +682,7 @@ void CNetList::Link( linkCollection& nets )
 		++ index;
 		++ i;
 	}
-	TRACE("  ==>Pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
+	//TRACE("  ==>Pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
 
 //Uncomment to debug the netlist
 //	TRACE("\n\n\nDump of netlist objects after pass 2:\n");
