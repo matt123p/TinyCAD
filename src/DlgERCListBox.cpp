@@ -63,11 +63,11 @@ void CDlgERCListBox::Close()
   if (open) {
 	DestroyWindow();
 	// Now remove all the errors from the design
-  for (int i = 0; i < m_pDesign->GetNumberOfSheets(); i++)
-  {
-	m_pDesign->GetSheet(i)->DeleteErrors();
-	open = FALSE;
-  }
+	  for (int i = 0; i < m_pDesign->GetNumberOfSheets(); i++)
+	  {
+		m_pDesign->GetSheet(i)->DeleteErrors();
+		open = FALSE;
+	  }
   }
 }
 
@@ -114,9 +114,18 @@ void CDlgERCListBox::OnClick()
 
 		if (pointer->GetType()==xError && static_cast<CDrawError*>(pointer)->GetErrorNumber() == WhichItem)
 		{
-			m_pDesign->SelectSheetView( i );
-			m_pDesign->GetCurrentSheet()->Select( pointer );
-			pointer->Display();
+			TRACE("CDlgERCListBox::OnClick():  Successfully found the xError object to select\n");
+			//The next statement appears to display the page at some arbitrary location - it does not
+			//guarantee that the page will be displayed with the error object visible.
+			m_pDesign->SelectSheetView( i );	//This displays the page (does nothing if page is already displayed)
+
+			//The next statement is supposed to "select" the error object and turn it from a heavy bordered circle in dark red
+			//into a heavy bordered circle in bright red, but this is not enough "motion" and not a bright enough color 
+			//difference to easily spot the error marker on a busy page.  This is where a blinking error marker (when selected) 
+			//could really make a difference.
+			m_pDesign->GetCurrentSheet()->Select( pointer );	//This selects the object
+
+			pointer->Display();	//This updates the page name selection tab
 		}
 
 		++ it;
