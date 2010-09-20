@@ -40,7 +40,6 @@ class CRegistry
 	private:	static	void			Set( CString sKey, void* data,int length );
 
 	public:		static	CString			GetString(	CString sKey, CString sDefaultVal );
-	public:		static	CString			GetString(	CString sKey, CString sDefaultVal, DWORD nSize );
 	public:		static	bool			GetBool(	CString sKey, bool bDefaultVal );
 	public:		static	BOOL			GetBOOL(	CString sKey, BOOL nDefaultVal );
 	public:		static	int				GetInt(		CString sKey, int nDefaultVal );
@@ -50,7 +49,7 @@ class CRegistry
 	public:		static	double			GetDouble(	CString sKey, double nDefaultVal );
 	protected:	static	CSize			GetSize(	CString sKey, CSize szDefault );
 	private:	static	bool			GetRaw(		CString sKey, char* data, unsigned int length);
-	protected:	static	CStringList*	GetStringList( CString sKey, DWORD nSize );
+	protected:	static	CStringList*	GetStringList( CString sKey);
 	public:		static	void			DeleteValue( CString sKey );
 
 	//=====================================================================

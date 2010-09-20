@@ -82,7 +82,6 @@ class CTinyCadRegistry
 	private: static	const CString	M_SMDIMAXIMIZE;
 	private: static	const CString	M_SMAXIMIZE;
 	private: static	const CString	M_SLIBRARIES;
-	public:  static const int		M_SLIBRARIES_MAX_LENGTH;
 };
 //=========================================================================
 
