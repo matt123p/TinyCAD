@@ -242,8 +242,10 @@ void CTinyCadView::OnSpecialCheck()
 						// We have an unassigned reference designator
 						CString buffer;
 						buffer.LoadString( ERR_UNASSIGNEDREFDES );
+						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\'%s\', xy=(%g,%g)]\n"),
+							buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x/5, pointer->m_point_a.y/5);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-						theERCListBox.AddString(buffer);
+						theERCListBox.AddString(formattedBuffer);
 						//TRACE("  ==>%S\n",buffer);
 					}
 				}
@@ -358,7 +360,7 @@ void CTinyCadView::OnSpecialCheck()
 					//Now unpack and format the multiple net names
 					nodeVectorCollection::iterator nv_it = netNameNodes.begin();
 					CString stuff=(*nv_it).first;
-					formattedBuffer.Format(_T("%s:  \"%s\""), buffer, (*nv_it).first);	//Get the base message and the first net name
+					formattedBuffer.Format(_T("%s:  [\"%s\""), buffer, (*nv_it).first);	//Get the base message and the first net name
 					//TRACE("       First formatted msg = %S\n", formattedBuffer);
 
 					while (++nv_it != netNameNodes.end()) {
@@ -366,6 +368,7 @@ void CTinyCadView::OnSpecialCheck()
 						formattedBuffer += buffer;	//concatenate the next net name onto the end
 						//TRACE("       Next formatted msg = %S\n", formattedBuffer);
 					}
+					formattedBuffer += ']';
 
 					//Now unpack and identify each net name label that is a duplicate, using the error message string that contains all of the net names
 					for (nv_it = netNameNodes.begin(); nv_it != netNameNodes.end(); nv_it++) {
@@ -399,7 +402,7 @@ void CTinyCadView::OnSpecialCheck()
 						// We have a duplicate...
 						CString buffer;
 						buffer.LoadString( ERR_DUPREF );
-						formattedBuffer.Format(_T("%s:  %s on page %d\n"),buffer, ref, i+1);
+						formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"),buffer, pointer->GetName(), ref, i+1);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
 						theERCListBox.AddString(formattedBuffer);
 					}
@@ -418,10 +421,10 @@ void CTinyCadView::OnSpecialCheck()
 	while (nit != nets->end()) 
 	{
 		nodeVector::iterator nv_it = (*nit).second.begin();
-		CString netObjectName= "";
-		CString netObjectRefDes= "";
-		CString netObjectSheetName = "";
-		CString netObjectXY= "";
+		CString netObjectName;
+		CString netObjectRefDes;
+		CString netObjectSheetName;
+		CString netObjectXY;
 
 		int theNetType = nUnknown;
 		CString lastPower = "";
@@ -464,8 +467,8 @@ void CTinyCadView::OnSpecialCheck()
 					sheet = theNode.m_sheet;
 
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-					netObjectRefDes= "N/A";
-					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet+1);
+					netObjectRefDes= "RefDes=N/A";
+					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
 					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xNoConnect:
@@ -474,8 +477,8 @@ void CTinyCadView::OnSpecialCheck()
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-					netObjectRefDes= "N/A";
-					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet+1);
+					netObjectRefDes= "RefDes=N/A";
+					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
 					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xPin:
@@ -517,7 +520,7 @@ void CTinyCadView::OnSpecialCheck()
 						connections ++;
 
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-						netObjectRefDes.Format(_T("%s, Pin Number=%s, Pin Name=%s"),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
+						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=%s"),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
 						netObjectSheetName.Format(_T("Sheet=\'%s\'"),theNode.m_pMethod->m_pDesign->GetSheetName());
 						netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					}
