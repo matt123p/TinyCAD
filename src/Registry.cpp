@@ -148,37 +148,29 @@ bool CRegistry::GetRaw( CString sKey,char *data,unsigned int length)
 // Get a String subkey
 CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 {
-	DWORD nSize = 1024;	//default size
-	return CRegistry::GetString(sKey, sDefaultVal, nSize);	//If no length specified, use a relatively short length for reading from registry
-}
-	
-	//-------------------------------------------------------------------------
-// Get a String subkey
-CString	CRegistry::GetString( CString sKey, CString sDefaultVal, DWORD m_nSize )
-{
 	CString sReturn = sDefaultVal;
 	DWORD	nType   = 0;
-	DWORD	nSize = m_nSize;
-	TCHAR*	pTest	= sReturn.GetBuffer( nSize );
+	DWORD	nBytes = 0;
 
-	QueryValueEx( sKey, &nType, pTest, &nSize );
+	if(RegQueryValueEx((HKEY) m_oKey, sKey, NULL, NULL, NULL, &nBytes) != ERROR_SUCCESS)
+		return sDefaultVal;  // failed
 
-	//TRACE("CRegistry::GetString(\"%S\"):  Querying registry key [%S] using max buffer size of %d, returned key length=%d\n", sKey, sKey, m_nSize, nSize);
+	TCHAR* pTest = sReturn.GetBuffer( nBytes );  // maybe doubly large if unicode but I prefer to be safe
+	RegQueryValueEx( (HKEY) m_oKey, sKey, NULL, &nType, (BYTE *)pTest, &nBytes);
 
-	sReturn.ReleaseBuffer();
-
+	sReturn.ReleaseBuffer(nBytes / sizeof(TCHAR));
 	return sReturn;
 }
 //-------------------------------------------------------------------------
 // Get a String array
 // Splits a comma separated string into its substrings.
 // nSize is the max buffer length that will be allocated when working with this string
-CStringList* CRegistry::GetStringList( CString sKey, DWORD nSize )
+CStringList* CRegistry::GetStringList( CString sKey)
 {
 	CStringList* colReturn	= new CStringList();
 
 	// Is there a list of items in the registry?
-	CString		sItems		= CRegistry::GetString( sKey, "", nSize );
+	CString		sItems		= CRegistry::GetString( sKey, "");
 
 	// single item
 	CString		sItem		= "";

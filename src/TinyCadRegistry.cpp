@@ -18,7 +18,6 @@ const CString CTinyCadRegistry::M_SPRINTBANDW	= "PrintBandW";
 const CString CTinyCadRegistry::M_SMDIMAXIMIZE	= "MdiMaximize";
 const CString CTinyCadRegistry::M_SMAXIMIZE		= "Maximize";
 const CString CTinyCadRegistry::M_SLIBRARIES	= "Libraries";
-const int	  CTinyCadRegistry::M_SLIBRARIES_MAX_LENGTH = 8192;	//Maximum bytes that can be stored in the M_SLIBRARIES key (divide by sizeof(TCHAR) for characters)
 
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
@@ -139,7 +138,7 @@ bool CTinyCadRegistry::GetMaximize()
 //-- Returns list of libraries
 CStringList* CTinyCadRegistry::GetLibraryNames()
 {
-	CStringList* colReturn = CRegistry::GetStringList( M_SLIBRARIES, M_SLIBRARIES_MAX_LENGTH );
+	CStringList* colReturn = CRegistry::GetStringList( M_SLIBRARIES );
 
 	return colReturn;
 }
