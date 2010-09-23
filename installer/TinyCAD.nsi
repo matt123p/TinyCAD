@@ -82,20 +82,6 @@ skip_mdac_download:
   
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
   SetOutPath "$INSTDIR\library"
-  File "..\libs\74TTL.mdb"
-  File "..\libs\AC connectors.mdb"
-  File "..\libs\Analog.mdb"
-  File "..\libs\Connectors.mdb"
-  File "..\libs\DISCRETE.mdb"
-  File "..\libs\IC-CMOS4000.mdb"
-  File "..\libs\IC-OPAMP.mdb"
-  File "..\libs\IC-VREG.mdb"
-  File "..\libs\Microcontroller.mdb"
-  File "..\libs\passive2.mdb"
-  File "..\libs\passive.mdb"
-  File "..\libs\semi.mdb"
-  File "..\libs\switches.mdb"
-  File "..\libs\valve.mdb"
   File "..\libs\74TTL.TCLib"
   File "..\libs\AC connectors.TCLib"
   File "..\libs\Analog.TCLib"
@@ -137,6 +123,7 @@ skip_mdac_download:
   File "..\libs\th_uC.TCLib"
   File "..\libs\th_Vreg.TCLib"
   File "..\libs\gen_Power.TCLib"
+  File "..\libs\Relay_v1"
 
   SetOutPath "$INSTDIR\examples"
   File "..\examples\AMP.DSN"
@@ -267,6 +254,7 @@ Section Uninstall
   Delete "$INSTDIR\library\th_uC.TCLib"
   Delete "$INSTDIR\library\th_Vreg.TCLib"
   Delete "$INSTDIR\library\valve.TCLib"
+  Delete "$INSTDIR\library\Relay_v1.TCLib"
 
   Delete "$INSTDIR\TinyCAD.chm"
 
