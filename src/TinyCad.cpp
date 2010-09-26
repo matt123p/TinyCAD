@@ -280,11 +280,29 @@ CString CTinyCadApp::GetVersion()
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetReleaseType()
 {
-//	return "Debug/Test Release (uncontrolled)";
+	//There is a custom build step that runs the TortoiseSVN command "SubWCRev.exe".  This command
+	//stores information describing the state of the working copy of the repository used to produce
+	//this particular build.  In conjunction with a header template file, this information ends up
+	//in the following preprocessor definitions:
+	CString svn_wcrange = SVN_WCRANGE;	//a valid production build will always consist of a single revision, not a range of revisions
+	CString svn_modifications_postfix = SVN_MODIFICATIONS_POSTFIX;	//a valid production build will never contain uncommitted modified files
+
+	//If a range of SVN revisions was used to create this build or if there are modified files that have not been
+	//committed to SVN present in the working copy that produced this build, then the results of this build cannot 
+	//be duplicated by anyone else so it will be described as an "Uncontrolled Release".
+
+	if ((svn_wcrange.Find('-') != -1) || (svn_modifications_postfix.Find('+') != -1))
+	{
+		return "Uncontrolled Release";
+	}
+
+	//There is not presently a mechanism to automatically mark a release as an alpha or beta release
+	//although it would be nice if there was such a mechanism.
 //	return "Alpha Release";
 //	return "Beta Release";
 	return "Production Release";
 }
+
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetName()
 {
