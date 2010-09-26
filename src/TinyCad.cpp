@@ -344,39 +344,51 @@ void CTinyCadApp::ReadRegistry()
 	CStringList*	colLibs = CTinyCadRegistry::GetLibraryNames();
 
 	// Iterate through the list in head-to-tail order.
-	for( POSITION pos = colLibs->GetHeadPosition(); pos != NULL; )
+	CString sSearch;
+	for (POSITION pos = colLibs->GetHeadPosition(); pos != NULL; )
 	{
 		// One single library
-		CString			sLibName = colLibs->GetNext( pos );
-		CLibraryStore*	oLib	= NULL;
+		CString sLibName = colLibs->GetNext(pos);	//This actually gets the current string that corresponds to *pos, and increments pos to point to the next string
+		CLibraryStore* oLib = NULL;
 
-		// Is this a new file library or an old library type?
-		CString sSearch = sLibName + _T(".idx");
+		//TRACE("\nProcessing library:  sLibName=\"%S\"\n", sLibName);
+
+		CString sSearch;
+
+		//Library names are stored without type information.  Look for the newest library types first (.TCLib), then the older .mdb, then theh oldest .idx
+		sSearch.Format(_T("%s.TCLib"), sLibName);
+		//TRACE("  1.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 		FindFile theFind( sSearch );
 		if (theFind.Success())
-		{	//the .idx file was found, so it must be an old library file (i.e., non-database format)
-			oLib = new CLibraryFile;
+		{	
+			//the .TCLib file was found, so it must be a new SQLIte library file
+			TRACE("    Found library file \"%S\".  This is an SQLite3 library.\n",sSearch);
+			oLib = new CLibrarySQLite;
 		}
 		else
 		{
-			CString sSearch = sLibName + _T(".mdb");
+			sSearch.Format(_T("%s.mdb"), sLibName);
+			//TRACE("  2.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 			FindFile theFind( sSearch );
 			if (theFind.Success())
-			{	//the .mdb file was found, so it must be a jet library file
+			{	//the .mdb file was found, so it must be one of the older JET/DAO library files
+				TRACE("    Found library file \"%S\".  This is a Microsoft JET/DAO library.\n",sSearch);
 				oLib = new CLibraryDb;
 			}
 			else
 			{
-				CString sSearch = sLibName + _T(".TCLib");
+				sSearch.Format(_T("%s.idx"), sLibName);
 				FindFile theFind( sSearch );
+				//TRACE("  3.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 				if (theFind.Success())
-				{	//the .TCLib file was found, so it must be a new SQLIte library file
-					oLib = new CLibrarySQLite;
+				{	//the .idx file was found, so it must be an old library file (i.e., non-database format)
+					TRACE("    Found library file \"%S\".  This is the oldest library type.\n",sSearch);
+					oLib = new CLibraryFile;
 				}
 				else
 				{	//no known library format was found
 					CString s;
-					s.Format(_T("Library not found:\r\n%s"), sLibName);
+					s.Format(_T("    Library not found in any format:\r\n\\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
 					AfxMessageBox( s );
 				}
 			}
@@ -384,6 +396,7 @@ void CTinyCadApp::ReadRegistry()
 
 		if (oLib)
 		{
+			//TRACE("Adding opened library \"%S\" to CLibraryCollection\n",sSearch);
 			oLib->Attach( sLibName );
 			CLibraryCollection::Add( oLib );
 		}
