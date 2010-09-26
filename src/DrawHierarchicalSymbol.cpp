@@ -151,18 +151,18 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 		return FALSE;
 	}
 
-	// Now find the hierachical symbol in this design
+	// Now find the hierarchical symbol in this design
 	xml.intoTag();
 
 	bool found = false;
 	while (	xml.nextTag( name ) )
 	{
 		// Save the old layer setting
-		CDrawingObject *obj = NULL;
+		//CDrawingObject *obj = NULL;
 
 		if (name == "HierachicalSymbol")
 		{
-			// Hierachical symbol loader...
+			// Hierarchical symbol loader...
 			clearSymbol();
 			m_Loaded = true;
 			m_pDesign->ReadFileXML( xml, FALSE, m_Symbol, TRUE );
@@ -353,7 +353,7 @@ void CDrawHierarchicalSymbol::SaveXML( CXMLWriter &xml )
 	xml.addAttribute( _T("file"), m_pDesign->formatXMLFilename( m_Filename ) );
 
 	// Now read in the fields
-	int field_size = m_fields.size();;
+	//int field_size = m_fields.size();;
 	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];

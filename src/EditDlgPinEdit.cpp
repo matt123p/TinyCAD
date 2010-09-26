@@ -152,7 +152,7 @@ void CEditDlgPinEdit::OnChange()
   static_cast<CDrawPin*>(getObject())->m_show |= IsDlgButtonChecked(PINBOX_NUMBERON)!=0 ? 2 : 0;
   static_cast<CDrawPin*>(getObject())->m_centre_name = IsDlgButtonChecked(IDC_CENTRE_NAME)!=0;
 
-  static_cast<CDrawPin*>(getObject())->m_dir   = GetCheckedRadioButton(PINBOX_UP,PINBOX_RIGHT)-PINBOX_UP;
+  static_cast<CDrawPin*>(getObject())->m_dir   = (BYTE) (GetCheckedRadioButton(PINBOX_UP,PINBOX_RIGHT)-PINBOX_UP);
 
   int length = GetDlgItemInt(PINBOX_LENGTH);
   if (length != 0) {
@@ -161,7 +161,7 @@ void CEditDlgPinEdit::OnChange()
   //  int length = max(5,GetDlgItemInt(PINBOX_LENGTH));
   int number_pos = min(length, (int) GetDlgItemInt(PINBOX_PIN_POS ) );
 
-  static_cast<CDrawPin*>(getObject())->m_length = length;
+  static_cast<CDrawPin*>(getObject())->m_length = (WORD) length;
   static_cast<CDrawPin*>(getObject())->m_number_pos = number_pos;
 
   getObject()->m_pDesign->GetOptions()->SetPinLength( length );
@@ -190,12 +190,12 @@ void CEditDlgPinEdit::ReFocus()
 
 void CEditDlgPinEdit::OnSelchangeElec() 
 {
-	static_cast<CDrawPin*>(getObject())->m_elec = m_Elec.GetCurSel();	
+	static_cast<CDrawPin*>(getObject())->m_elec = (BYTE) m_Elec.GetCurSel();	
     getObject()->Display();
 }
 
 void CEditDlgPinEdit::OnSelchangePinType() 
 {
-	static_cast<CDrawPin*>(getObject())->m_which = m_Which.GetCurSel();
+	static_cast<CDrawPin*>(getObject())->m_which = (BYTE) m_Which.GetCurSel();
     getObject()->Display();
 }

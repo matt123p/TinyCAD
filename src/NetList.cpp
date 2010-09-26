@@ -468,7 +468,7 @@ void CNetList::Link( linkCollection& nets )
 		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet
 		{
 			nodeVector &v = (*ni).second;
-			int old_netlist = (*ni).first;
+			//int old_netlist = (*ni).first;
 			int new_netlist = 0;
 
 //			TRACE("\n    ==>Pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
@@ -651,7 +651,7 @@ void CNetList::Link( linkCollection& nets )
 //			TRACE("      ==>Pass 2 (sheetIndex = %d):  Updating the nodes in new_netlist=%d\n", sheetIndex, new_netlist);
 			while (vi != v.end())
 			{
-				CNetListNode &node = *vi;
+//				CNetListNode &node = *vi;
 //				TRACE("      ==>Pass 2:  Traversing node vector:  old_netlist=%d, new_netlist=%d, Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
 //					old_netlist, new_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
 				vi->m_NetList = new_netlist;
@@ -700,7 +700,7 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	linkCollection nets;
 	Counter file_counter;
 
-	CTinyCadMultiDoc*	aDesign = pDesign;
+	//CTinyCadMultiDoc*	aDesign = pDesign;
 	CollectionMemberReference<CImportFile *> impref;
 
 	CImportFile *f = new CImportFile(pDesign);
@@ -1728,7 +1728,9 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 		if (nv_it != (*nit).second.end()) 
 		{
 			theLine = "";
-			BOOL first = TRUE,PrintLine=FALSE, Labeled = FALSE;
+			//BOOL first = TRUE;
+			BOOL PrintLine=FALSE;
+			BOOL Labeled = FALSE;
 
 			while (nv_it != (*nit).second.end()) 
 			{
@@ -2396,7 +2398,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 	mode = normal;
 	CString lookup;
 	std::vector<CString> macro_strings;
-	CDrawMethod* pMethod = symbol.m_pMethod;
+	//CDrawMethod* pMethod = symbol.m_pMethod;
 	int brackets = 0;
 
 	for (int i = 0; i < spice.GetLength(); i++)

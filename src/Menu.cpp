@@ -124,7 +124,7 @@ void CTinyCadView::OnFindFind()
 
 void CTinyCadView::OnViewZoomIn()
 {
-  CMenu *pMenu = GetMenu();
+  //CMenu *pMenu = GetMenu();
   double NewZoom = GetTransform().doubleScale(1.0)*1.3;
   CPoint p = GetTransform().Scale(MousePosition);
 

@@ -567,7 +567,7 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 		// Copy dirty flag to Document modified flag
 		BOOL dirty = m_pParent->CDocument::IsModified();
 		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 
 		// Go through the list of action and undo each one in the reverse
 		// order that they were applied
@@ -668,7 +668,7 @@ void CTinyCadDoc::Redo()
 		// Copy dirty flag to Document modified flag
 		BOOL dirty = m_pParent->CDocument::IsModified();
 		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 
 		// Go through the list of action and redo each one 
 		//
@@ -799,7 +799,7 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 		BOOL dirty = m_pParent->CDocument::IsModified();
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 		if (action ==  CDocUndoSet::Addition || action ==  CDocUndoSet::Deletion)
 		{
 			m_pParent->CDocument::SetModifiedFlag( TRUE );

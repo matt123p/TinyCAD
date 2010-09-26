@@ -130,8 +130,8 @@ void CEditDlgPowerEdit::OnChange()
   GetDlgItemText(POWERBOX_TEXT, str, sizeof(str) );
   static_cast<CDrawPower*>(getObject())->str = str;
 
-  static_cast<CDrawPower*>(getObject())->dir=GetCheckedRadioButton(POWERBOX_TOP,POWERBOX_RIGHT)-POWERBOX_TOP;
-  static_cast<CDrawPower*>(getObject())->which=GetCheckedRadioButton(POWERBOX_BAR,POWERBOX_EARTH)-POWERBOX_BAR;
+  static_cast<CDrawPower*>(getObject())->dir= (BYTE) (GetCheckedRadioButton(POWERBOX_TOP,POWERBOX_RIGHT)-POWERBOX_TOP);
+  static_cast<CDrawPower*>(getObject())->which= (BYTE) (GetCheckedRadioButton(POWERBOX_BAR,POWERBOX_EARTH)-POWERBOX_BAR);
 
   getObject()->Display();
 }

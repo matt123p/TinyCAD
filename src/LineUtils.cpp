@@ -499,8 +499,8 @@ void CLineUtils::SplitForDisplay( CTinyCadDoc *pDesign, BOOL erase, int grow )
 	int split = static_cast<int>(max( split_y, split_x ));
 	split = max(1,split);
 
-	double x = 0;
-	double y = 0;
+	//double x = 0;
+	//double y = 0;
 
 	// Move along the line...
 	CDPoint p1,p2;

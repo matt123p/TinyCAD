@@ -202,7 +202,7 @@ void CDrawPower::Rotate(CDPoint p,int ndir)
 		m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
 	}
 	
-	dir = DoRotate(dir,ndir);
+	dir = (BYTE) DoRotate(dir,ndir);
 
 	CalcLayout();
 }

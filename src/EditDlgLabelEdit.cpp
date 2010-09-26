@@ -99,7 +99,7 @@ void CEditDlgLabelEdit::OnChange()
 
   GetDlgItemText(TEXTBOX_TEXT, str, sizeof(str) );
   static_cast<CDrawLabel*>(getObject())->str = str;
-  static_cast<CDrawLabel*>(getObject())->dir = GetCheckedRadioButton(IDC_LABEL_DIR1,IDC_LABEL_DIR4) - IDC_LABEL_DIR1;
+  static_cast<CDrawLabel*>(getObject())->dir = (BYTE) (GetCheckedRadioButton(IDC_LABEL_DIR1,IDC_LABEL_DIR4) - IDC_LABEL_DIR1);
 
   int style = GetCheckedRadioButton(IDC_STYLE1,IDC_STYLE4) - IDC_STYLE1;
   static_cast<CDrawLabel*>(getObject())->m_Style = static_cast<CDrawLabel::label_style>(style);

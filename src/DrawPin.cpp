@@ -263,8 +263,8 @@ CDrawPin::CDrawPin(CTinyCadDoc *pDesign)
   m_elec=0;
   m_str="";
   m_show=3;
-  m_length = pDesign->GetOptions()->GetPinLength();
-  m_part = m_pDesign->IsEditLibrary() ? static_cast<CTinyCadSymbolDoc*>(m_pDesign)->GetPart() : 0;
+  m_length = (WORD) pDesign->GetOptions()->GetPinLength();
+  m_part = (BYTE) (m_pDesign->IsEditLibrary() ? static_cast<CTinyCadSymbolDoc*>(m_pDesign)->GetPart() : 0);
   m_number_pos = pDesign->GetOptions()->GetPinNumberPos();
   m_centre_name = FALSE;
 }
@@ -807,7 +807,7 @@ void CDrawPin::Rotate(CDPoint p,int ndir)
   m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
   m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
 
-  m_dir = DoRotate(m_dir,ndir);
+  m_dir = (BYTE) DoRotate(m_dir,ndir);
 }
 
 const TCHAR* CDrawPin::GetElectricalTypeName(int i)

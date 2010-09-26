@@ -588,7 +588,7 @@ public:
 	// Get the actual position of this pin given the parent method
 	CDPoint GetActivePoint(CDrawMethod *parent);
 
-	void SetPart(int NewPart) { m_part=NewPart; }
+	void SetPart(int NewPart) { m_part= (BYTE) NewPart; }
 
 	BOOL IsHierarchicalPin();
 
@@ -1043,7 +1043,7 @@ public:
 	int  GetRotate() { return rotate; }
 	virtual void SetRefVal(int value);
 	void SetRef(const TCHAR *NewRef) { m_fields[Ref].m_value = NewRef; }
-	void SetPart(int NewPart) { part = NewPart; }
+	void SetPart(int NewPart) { part = (BYTE) NewPart; }
 	hSYMBOL GetSymbolID() { return m_Symbol; }
 
 	// Add/remove the next references

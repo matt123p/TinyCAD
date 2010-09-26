@@ -76,8 +76,8 @@ void CTinyCadView::OnSpecialAnnotate()
   CDrawMethod *thisMethod;
   CSymbolRecord *thisSymbol;
   int value=0;
-  int part=0;
-  BOOL IsSet,IsMatch,MissingSymbols=FALSE;
+  //int part=0;
+  BOOL IsSet,IsMatch=FALSE,MissingSymbols=FALSE;
   
 	for (int whichPass = 0; whichPass < 2; whichPass++)
 	{

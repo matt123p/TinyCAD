@@ -339,7 +339,7 @@ CStream *CLibrarySQLite::GetMethodArchive( CLibraryStoreNameSet *symbol)
 // Create a new library database
 bool CLibrarySQLite::Create( const TCHAR *filename )
 {
-	int iErr = SQLITE_OK;
+	//int iErr = SQLITE_OK;
 
 	m_name=filename;
 

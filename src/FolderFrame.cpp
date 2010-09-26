@@ -255,7 +255,7 @@ void CFolderView::OnChangedTab(NMHDR* nmtab, LRESULT* pRes)
 
 void CFolderView::OnContextMenu(NMHDR* nmtab, LRESULT* pRes)
 {
-	NMFOLDERTAB& nmft = *(NMFOLDERTAB*)nmtab;
+	//NMFOLDERTAB& nmft = *(NMFOLDERTAB*)nmtab;
 	OnFolderContextMenu();
 }
 

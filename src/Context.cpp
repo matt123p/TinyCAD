@@ -181,7 +181,7 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 	}	
 
 
-  int Selected = -1;
+  //int Selected = -1;
 
   if (allBlack)
 	Colour = RGB(0,0,0);
@@ -314,7 +314,7 @@ BOOL CContext::SelectPen(int Style,int Width,LONG Colour, paint_options options)
 
 BOOL CContext::SelectBrush(COLORREF Colour, int Index)
 {
-  int Selected = -1;
+  //int Selected = -1;
 
   if (allBlack)
 	Colour = RGB(0,0,0);
@@ -354,7 +354,7 @@ BOOL CContext::SelectBrush(COLORREF Colour, int Index)
 BOOL CContext::SelectFont(LOGFONT &plf,
 		int iRotation )
 {
-  int Selected = -1;
+  //int Selected = -1;
   LOGFONT lf = plf;
 
   int iWidth = lf.lfWidth;
@@ -574,7 +574,7 @@ CSize CContext::GetTextExtentI(CString text)
 
   SIZE r = { 0, 0 };
   ::GetTextExtentPoint32( m_pDC->m_hDC, TextString, lpi, &r );
-  int e = GetLastError();
+  //int e = GetLastError();
   return r;
 }
 
@@ -584,7 +584,7 @@ CDSize CContext::GetTextExtent(CString s)
 	SelectFontNow( true );
 
 	CSize r = GetTextExtentI(s);
-	double scale = m_Transform.doubleDeScale( static_cast<int>(m_datum_scaling) );
+	//double scale = m_Transform.doubleDeScale( static_cast<int>(m_datum_scaling) );
 	return CDSize(r.cx / m_datum_scaling, r.cy / m_datum_scaling ); 
 }
 

@@ -126,7 +126,7 @@ void CDlgGetFindBox::OnListSelect()
 
 void CDlgGetFindBox::OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+    //LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
     HTREEITEM hItem = m_Tree.GetSelectedItem();
     if( ! m_Tree.ItemHasChildren(hItem) )
     {
@@ -493,7 +493,7 @@ void CDlgGetFindBox::DetermineLayout()
 		CRect show_rect;
 		m_Show_Symbol.GetWindowRect( show_rect );
 		ScreenToClient( show_rect );
-		int height = show_rect.Height();
+		//int height = show_rect.Height();
 		show_rect.top = resize_rect.bottom + width;
 		show_rect.bottom = cy - border_y;  //= show_rect.top + height;
 		show_rect.right = cx - border_x;

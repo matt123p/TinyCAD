@@ -271,8 +271,8 @@ void CTinyCadMultiDoc::AutoSave()
 BOOL CTinyCadMultiDoc::ReadFile( CStreamFile& file )
 {
 	// Is this an old style document?
-	CDrawingObject*	obj		= NULL;
-	BYTE			tp		= xNULL;
+	//CDrawingObject*	obj		= NULL;
+	//BYTE			tp		= xNULL;
 	CHeaderStamp	oHeader;
 
 
@@ -338,7 +338,7 @@ BOOL CTinyCadMultiDoc::ReadFile( CStreamFile& file )
 		while (	xml.nextTag( name ) )
 		{
 			// Save the old layer setting
-			CDrawingObject *obj = NULL;
+			//CDrawingObject *obj = NULL;
 
 			if (name == "DETAILS" )
 			{
@@ -350,9 +350,9 @@ BOOL CTinyCadMultiDoc::ReadFile( CStreamFile& file )
 				pNewDoc->ReadFileXML( xml, TRUE );
 				m_sheets.push_back( pNewDoc );
 			}
-			else if (name == "HierachicalSymbol")
+			else if ((name == "HierachicalSymbol") || (name == "HierarchicalSymbol"))	//Unfortunately, "hierarchical" was misspelled as "hierachical" and must still be recognized as a valid tag name
 			{
-				// Hierachical symbol loader...
+				// Hierarchical symbol loader...
 				CTinyCadDoc *pNewDoc = new CTinyCadHierarchicalDoc(this);
 				pNewDoc->ReadFileXML( xml, TRUE );
 				m_sheets.push_back( pNewDoc );

@@ -309,13 +309,13 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
 		return distance - width;
-
-		if (distance <= width)
-		{
-			return distance - width;
-		}
-
-		return distance;
+		//
+		//if (distance <= width)
+		//{
+		//	return distance - width;
+		//}
+		//
+		//return distance;
 	}
 	else
 	{
@@ -332,15 +332,15 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 		return distance - width;
 
 		// On the ellipse?
-		if (distance <= width)
-		{
-			return distance - width;
-		}
-
-		return distance;
+		//if (distance <= width)
+		//{
+		//	return distance - width;
+		//}
+		//
+		//return distance;
 	}
 
-	return 100.0;
+	//return 100.0;
 }
 
 

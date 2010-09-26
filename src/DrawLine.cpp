@@ -299,7 +299,7 @@ void CDrawLine::NewOptions()
 
 	if (m_re_edit)
 	{
-		bool changed = false;
+		//bool changed = false;
 
 		if (	m_use_default_style != g_EditToolBar.m_LineEdit.m_use_default_style
 			 || m_style != m_pDesign->GetOptions()->GetCurrentStyle(GetType()) )

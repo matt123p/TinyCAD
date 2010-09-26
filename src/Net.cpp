@@ -201,7 +201,7 @@ void CTinyCadView::OnSpecialCheck()
 	CDlgERCBox theDialog;
 	static union { ErrorTest e; WORD i; } theErrorTest;
 
-	theErrorTest.i = CTinyCadRegistry::GetInt("ERC", 0xffff);
+	theErrorTest.i = (WORD) CTinyCadRegistry::GetInt("ERC", 0xffff);
 
 	/// Get the user's options
 	theDialog.SetErrorTest(theErrorTest.e);
@@ -260,7 +260,7 @@ void CTinyCadView::OnSpecialCheck()
 		typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
 		nodeVectorCollection allNetNames;
 	    //TRACE("Scanning for multiple net names and non-case distinct net names on the same net...\n");
-		int savedCurrentError = CurrentError;
+		//int savedCurrentError = CurrentError;
 
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
@@ -436,7 +436,7 @@ void CTinyCadView::OnSpecialCheck()
 		while (theNetType < ERR_BASE && nv_it != (*nit).second.end()) 
 		{
 			CNetListNode& theNode = *nv_it;
-			CNetListNode& savedNode = theNode;
+			//CNetListNode& savedNode = theNode;
 
 			CDrawingObject* pObject = theNode.m_parent;
 			

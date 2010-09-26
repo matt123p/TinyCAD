@@ -48,7 +48,7 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
   scaling_y = 1.0;
   can_scale = FALSE;
   show_power = FALSE;
-  rotate=new_rotation;
+  rotate= (BYTE) new_rotation;
 	
   m_Symbol = symbol;
 
@@ -300,7 +300,7 @@ void CDrawMethod::Rotate(CDPoint p,int ndir)
 
 	}
 
-	rotate = DoRotate(rotate,ndir);
+	rotate = (BYTE) DoRotate(rotate,ndir);
 
 	NewRotation();
 
@@ -768,7 +768,7 @@ void CDrawMethod::SaveXML( CXMLWriter &xml )
 
 
 	// Now read in the fields
-	int field_size = m_fields.size();;
+	//int field_size = m_fields.size();;
 	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];
