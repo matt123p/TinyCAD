@@ -45,10 +45,13 @@
 #elif _MSC_VER < 1600
 	//This source can be compiled with VS2008 with this setting
 	#pragma message("Compiling TinyCAD with Visual Studio 2008")
+#elif _MSC_VER < 1700
+	//This source can be compiled with VS2008 with this setting
+	#pragma message("Compiling TinyCAD with Visual Studio 2010")
 #else
-	//This source has not been tested with a Visual Studio C++ compiler newer than 2008
+	//This source has not been tested with a Visual Studio C++ compiler newer than 2010
 	#define USE_VS2008
-	#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2008")
+	#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2010")
 	#pragma message("\tUnsupported compiler - Setting Visual Studio 2008 options - Don't expect too much!")
 	#pragma message("\tThis message applies to all of the source files in TinyCAD, not just this file")
 #endif
