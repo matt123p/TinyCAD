@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLGET, OnUpdateToolget)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLJUNC, OnUpdateTooljunc)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLLABEL, OnUpdateToollabel)
-	ON_UPDATE_COMMAND_UI(IDM_TOOLHIERACHICAL, OnUpdateToolHierachical)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLHIERARCHICAL, OnUpdateToolHierarchical)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
@@ -174,7 +174,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_BUSBACK, OnSelectBusBack )
 	ON_COMMAND( IDM_TOOLCONNECT, OnSelectConnect )
 	ON_COMMAND( IDM_TOOLLABEL, OnSelectLabel )
-	ON_COMMAND( IDM_TOOLHIERACHICAL, OnSelectHierachical )
+	ON_COMMAND( IDM_TOOLHIERARCHICAL, OnSelectHierarchical )
 	ON_COMMAND( IDM_TOOLPOWER, OnSelectPower )
 	ON_COMMAND( IDM_TOOLPOLYGON, OnSelectPolygon )
 	ON_COMMAND( IDM_TOOLWIRE, OnSelectWire )
@@ -1056,7 +1056,7 @@ void CTinyCadView::OnUpdateToollabel(CCmdUI* pCmdUI)
 	}
 }
 
-void CTinyCadView::OnUpdateToolHierachical(CCmdUI* pCmdUI) 
+void CTinyCadView::OnUpdateToolHierarchical(CCmdUI* pCmdUI) 
 {
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)	

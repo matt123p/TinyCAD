@@ -62,7 +62,7 @@
 #define IDM_LIBPIN                      170
 #define IDM_LIBLIB                      171
 #define IDM_LIBUPDATE                   172
-#define IDS_NOHIERACHICAL_SYMBOL        172
+#define IDS_NOHIERARCHICAL_SYMBOL        172
 #define IDM_LIBDEVICE                   174
 #define IDM_LIBEND                      175
 #define IDM_SPECIALBOM                  180
@@ -529,10 +529,10 @@
 #define ID_HORZ_RESIZE                  32864
 #define ID_EDIT_INSERTPICTURE           32865
 #define ID_HELP_EMAILFORSUPPORT         32866
-#define ID_CONTEXT_ADDHIERACHICALSYMBOL 32867
-#define IDM_TOOL_HIERACHICAL            32868
-#define IDM_TOOLHIERACHICAL             32869
-#define ID_SPECIAL_ADDHIERACHICALSYMBOLTOTHISDESIGN 32871
+#define ID_CONTEXT_ADDHIERARCHICALSYMBOL 32867
+#define IDM_TOOL_HIERARCHICAL            32868
+#define IDM_TOOLHIERARCHICAL             32869  //obsolete - do not use
+#define ID_SPECIAL_ADDHIERARCHICALSYMBOLTOTHISDESIGN 32871
 #define ID_CONTEXT_OPENDESIGN           32872
 #define ID_CONTEXT_RELOADSYMBOLFROMDESIGN 32873
 #define ID_LIBRARY_HOMOGENEOUS          32876

@@ -67,8 +67,8 @@ BEGIN_MESSAGE_MAP(CTinyCadMultiDoc, CMultiSheetDoc)
 	ON_UPDATE_COMMAND_UI(ID_CONTEXT_DELETESHEET, OnUpdateContextDeletesheet)
 	ON_COMMAND(ID_CONTEXT_RENAMESHEET, OnContextRenamesheet)
 	//}}AFX_MSG_MAP
-	ON_COMMAND(ID_CONTEXT_ADDHIERACHICALSYMBOL, OnContextAddhierachicalsymbol)
-	ON_UPDATE_COMMAND_UI(ID_CONTEXT_ADDHIERACHICALSYMBOL, OnUpdateContextAddhierachicalsymbol)
+	ON_COMMAND(ID_CONTEXT_ADDHIERARCHICALSYMBOL, OnContextAddhierarchicalsymbol)
+	ON_UPDATE_COMMAND_UI(ID_CONTEXT_ADDHIERARCHICALSYMBOL, OnUpdateContextAddhierarchicalsymbol)
 	ON_COMMAND(ID_LIBRARY_ADDPIN, OnLibraryAddpin)
 	ON_UPDATE_COMMAND_UI(ID_LIBRARY_ADDPIN, OnUpdateLibraryAddpin)
 	ON_UPDATE_COMMAND_UI(ID_CONTEXT_RENAMESHEET, OnUpdateContextRenamesheet)
@@ -521,9 +521,9 @@ void CTinyCadMultiDoc::SetTabsFromDocument()
 {
 	UpdateAllViews( NULL, DOC_UPDATE_TABS );
 }
-void CTinyCadMultiDoc::OnContextAddhierachicalsymbol()
+void CTinyCadMultiDoc::OnContextAddhierarchicalsymbol()
 {
-	// Add in a new document that is the hierachical symbol
+	// Add in a new document that is the hierarchical symbol
 	GetCurrentSheet()->SelectObject( new CDrawEditItem(GetCurrentSheet()) );	
 
 	// Insert the new sheet		
@@ -539,9 +539,9 @@ void CTinyCadMultiDoc::OnContextAddhierachicalsymbol()
 	SetTabsFromDocument();
 }
 
-void CTinyCadMultiDoc::OnUpdateContextAddhierachicalsymbol(CCmdUI *pCmdUI)
+void CTinyCadMultiDoc::OnUpdateContextAddhierarchicalsymbol(CCmdUI *pCmdUI)
 {
-	// Determine if we already have the hierachical symbol
+	// Determine if we already have the hierarchical symbol
 	pCmdUI->Enable(!m_sheets[0]->IsHierarchicalSymbol());
 }
 
@@ -553,7 +553,7 @@ void CTinyCadMultiDoc::OnLibraryAddpin()
 
 void CTinyCadMultiDoc::OnUpdateLibraryAddpin(CCmdUI* pCmdUI) 
 {
-	// Only allow pin additions on the hierachical symbol sheet
+	// Only allow pin additions on the hierarchical symbol sheet
 	pCmdUI->Enable( GetCurrentSheet()->IsHierarchicalSymbol() );
 }
 

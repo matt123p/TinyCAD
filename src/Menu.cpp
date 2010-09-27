@@ -361,7 +361,7 @@ void CTinyCadView::OnSelectPolygon()
 	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument())); 
 }
 
-void CTinyCadView::OnSelectHierachical() 
+void CTinyCadView::OnSelectHierarchical() 
 { 
 	// Drop the current drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 

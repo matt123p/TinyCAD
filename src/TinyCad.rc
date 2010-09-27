@@ -138,8 +138,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
         MENUITEM SEPARATOR
-        MENUITEM "Insert another design as symbol...", IDM_TOOLHIERACHICAL
-        MENUITEM "Add hierachical symbol",      32867
+        MENUITEM "Insert another design as symbol...", IDM_TOOLHIERARCHICAL
+        MENUITEM "Add hierarchical symbol",     32867
     END
     POPUP "&Options"
     BEGIN
@@ -1237,7 +1237,7 @@ BEGIN
         MENUITEM "Delete sheet",                ID_CONTEXT_DELETESHEET
         MENUITEM "Rename sheet...",             ID_CONTEXT_RENAMESHEET
         MENUITEM SEPARATOR
-        MENUITEM "Add hierachical symbol",      ID_CONTEXT_ADDHIERACHICALSYMBOL
+        MENUITEM "Add hierarchical symbol",      ID_CONTEXT_ADDHIERARCHICALSYMBOL
     END
 END
 
@@ -1878,7 +1878,7 @@ BEGIN
     IDM_EDITROTATE          "Rotate Block\nRotate Block"
     IDM_EDITUNDO            "Undo the last action\nUndo"
     IDM_LIBLIB              "Go to the set-up libraries dialog\nSetup libraries"
-    IDS_NOHIERACHICAL_SYMBOL 
+    IDS_NOHIERARCHICAL_SYMBOL 
                             "This file does not have a hierarchical symbol associated with it"
 END
 
@@ -1980,7 +1980,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDM_TOOL_HIERACHICAL    "Insert drawing\nInsert drawing"
+    IDM_TOOL_HIERARCHICAL    "Insert drawing\nInsert drawing"
 END
 
 #endif    // English (U.K.) resources

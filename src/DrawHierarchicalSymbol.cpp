@@ -48,7 +48,7 @@ CDrawHierarchicalSymbol::~CDrawHierarchicalSymbol(void)
 
 int CDrawHierarchicalSymbol::getMenuID()
 {
-	return IDM_TOOLHIERACHICAL;
+	return IDM_TOOLHIERARCHICAL;
 }
 
 ObjType CDrawHierarchicalSymbol::GetType()
@@ -58,7 +58,7 @@ ObjType CDrawHierarchicalSymbol::GetType()
 
 const TCHAR* CDrawHierarchicalSymbol::GetXMLTag()
 {
-	return _T("HIERACHICAL_SYMBOL");
+	return _T("HIERARCHICAL_SYMBOL");
 }
 
 // Get the definition of this symbol
@@ -146,7 +146,7 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 
 	if (name != "TinyCADSheets")
 	{
-		AfxMessageBox(IDS_NOHIERACHICAL_SYMBOL,MB_ICONEXCLAMATION);
+		AfxMessageBox(IDS_NOHIERARCHICAL_SYMBOL,MB_ICONEXCLAMATION);
 		m_tr = CDPoint( -50, -50 );
 		return FALSE;
 	}
@@ -160,7 +160,7 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 		// Save the old layer setting
 		//CDrawingObject *obj = NULL;
 
-		if (name == "HierachicalSymbol")
+		if ((name == "HierachicalSymbol") || (name == "HierarchicalSymbol"))	//for historical reasons, the misspelled "HierachicalSymbol" must continue to be recognized
 		{
 			// Hierarchical symbol loader...
 			clearSymbol();
@@ -174,7 +174,7 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 
 	if (!found)
 	{
-		AfxMessageBox(IDS_NOHIERACHICAL_SYMBOL,MB_ICONEXCLAMATION);
+		AfxMessageBox(IDS_NOHIERARCHICAL_SYMBOL,MB_ICONEXCLAMATION);
 		return FALSE;
 	}
 

@@ -52,7 +52,7 @@ bool CTinyCadHierarchicalDoc::IsHierarchicalSymbol() const
 
 CString CTinyCadHierarchicalDoc::GetXMLTag()
 {
-	return "HierachicalSymbol";
+	return "HierarchicalSymbol";    //Historically, this was misspelled "HierachicalSymbol" and has been fixed in many places in a backwards compatible way
 }
 
 

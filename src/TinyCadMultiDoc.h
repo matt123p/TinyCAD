@@ -121,8 +121,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnContextAddhierachicalsymbol();
-	afx_msg void OnUpdateContextAddhierachicalsymbol(CCmdUI *pCmdUI);
+	afx_msg void OnContextAddhierarchicalsymbol();
+	afx_msg void OnUpdateContextAddhierarchicalsymbol(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateContextRenamesheet(CCmdUI *pCmdUI);
 };
 

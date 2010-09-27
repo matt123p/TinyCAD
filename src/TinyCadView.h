@@ -180,7 +180,7 @@ protected:
 	afx_msg void OnUpdateToolget(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTooljunc(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToollabel(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateToolHierachical(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateToolHierarchical(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpolygon(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpower(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolsquare(CCmdUI* pCmdUI);
@@ -286,7 +286,7 @@ protected:
 	afx_msg void OnSelectJunction();
 	afx_msg void OnSelectPower() { GetCurrentDocument()->SelectObject(new CDrawPower(GetCurrentDocument())); }
 	afx_msg void OnSelectLabel() { GetCurrentDocument()->SelectObject(new CDrawLabel(GetCurrentDocument())); }
-	afx_msg void OnSelectHierachical();
+	afx_msg void OnSelectHierarchical();
 	afx_msg void OnSelectConnect() { GetCurrentDocument()->SelectObject(new CDrawNoConnect(GetCurrentDocument())); }
 	afx_msg void OnSelectPolygon();
 	afx_msg void OnSelectArc();
