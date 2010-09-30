@@ -2,11 +2,15 @@ Changes from TinyCAD 2.70.03.300 Production Release:
 
 Feature Requests #2722995 implemented.  Message now says that "This file was not created in TinyCAD.".
 
-Feature Requests #3015178 implemented.  Now all menu items that open a dialog box end with "..." as is customary in Windows.
+Feature Requests #3015178 implemented.  Now all menu items that open a dialog box end with "..." as is customary in Windows and other modern GUI's.
 
 Feature Requests #3015564,2794990,2798597 implemented.  The library panel is now tree based and clearly displays the name of every library and symbol in an outline format.  It is no longer necessary to select showing one library at a time or all of them (flattened).  All libraries are always shown plus a recent selections virtual librarary.  Click on the ‘+’ sign in front of the library name to view and select the contents of the library.
 
+Bug Fix #xxxxxxx implemented.  Crashes no longer occur when accessing members of the most frequently used library symbol list.  Now if an entry becomes obsolete, it is removed from the list so that it can't be selected.
+
 Bug Fix #2782974,2633697 implemented.  Corrected the misspelling of the word "Annotate" across all files.
+
+Bug Fix #xxxxxxx implemented.  Corrected the misspelling of the word "Hierarchical" across all files.  As a consequence of this type fix, new TinyCAD design files that contain hierarchical symbols cannot be read by older versions of TinyCAD, but newer versions of TinyCAD will still be able to read older design files.
 
 Bug Fix #??????? implemented.  Extended the design rule checker to include tests for non-case distinct net names, unassigned reference designators, and nets with multiple names.
 
@@ -14,5 +18,5 @@ Bug Fix #3058944, 2887870 implemented.  The MSVC runtime library is now installe
 
 Bug Fix #2870991 implemented.  This change fixes the netlist problem that caused it to not generate the correct netlist when multiple labels were attached to the same net AND the net extended across multiple pages with different names on different pages.
 
-Bug Fix #2370118 implemented.  This fix extends the number of characters allowed in the sum of all library names from 2048 to 8192.  While TinyCAD will still "forget" all of the library names if this new limit is exceeded, it is now large enough to include 40 to 80 libraries in the default location, depending on operating system version.
+Bug Fix #2370118 implemented.  This fix removes the limit on the the number of characters allowed in the sum of all library names from 2048 to the maximum permitted by Windows.  This new number will vary depending on the native language selected for use on Windows.  The most common Unicode languages use 16 bit wide characters while some Asian languages require 32 bit wide characters.  While TinyCAD will still "forget" all of the library names if this new limit is exceeded, it is now large enough to include more than 100 libraries in the default location in the longest of Unicode character sets, so this problem is effectively behind us.  Technically, Windows XP and newer (Vista, Windows 7) have a length limitation for the value of a registry key limited only by available memory while Windows 98 is lower, somewhere around 16K bytes.  For 16 bit wide characters, this means that Windows 98 will limit to 8K characters while newer versions are effectively only limited by available memory/2.
 
