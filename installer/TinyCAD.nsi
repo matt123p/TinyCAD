@@ -123,7 +123,7 @@ skip_mdac_download:
   File "..\libs\th_uC.TCLib"
   File "..\libs\th_Vreg.TCLib"
   File "..\libs\gen_Power.TCLib"
-  File "..\libs\Relay_v1"
+  File "..\libs\Relay_v1.TCLib"
 
   SetOutPath "$INSTDIR\examples"
   File "..\examples\AMP.DSN"
