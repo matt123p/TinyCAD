@@ -43,6 +43,7 @@ IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
 //
 
 START_BITMAP            BITMAP                  "STARTUP.BMP"
+IDB_BITMAP1             BITMAP                  "res\\LGPLV3.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -324,30 +325,31 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 269, 220
+IDD_ABOUTBOX DIALOGEX 0, 0, 269, 250
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 1994-2010 Matt Pyne",IDC_STATIC,39,30,159,8
-    DEFPUSHBUTTON   "OK",IDOK,212,199,50,14,WS_GROUP
-    LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,205,107,8
+    DEFPUSHBUTTON   "OK",IDOK,212,229,50,14,WS_GROUP
+    LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,235,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
-    LTEXT           "Founding Author:",IDC_STATIC,39,44,89,8
-    LTEXT           "Development Team for Current Release:",IDC_STATIC,39,66,218,8
-    LTEXT           "Don Lucas",IDC_STATIC,59,77,89,8
-    LTEXT           "Mark Langezaal",IDC_STATIC,59,87,89,8
-    LTEXT           "Magnus Beischer",IDC_STATIC,59,97,89,8
-    LTEXT           "Matt Pyne",IDC_STATIC,60,55,89,8
-    LTEXT           "Stephen Friederichs",IDC_STATIC,59,107,89,8
-    LTEXT           "Other included open source products:",IDC_STATIC,39,130,218,8
-    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,57,141,189,8
-    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,57,152,189,8
-    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,57,163,189,8
-    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,57,174,189,8
-    LTEXT           "Jason Sachs",IDC_STATIC,59,117,89,8
+    LTEXT           "Founding Author:",IDC_STATIC,39,83,89,8
+    LTEXT           "Development Team for Current Release:",IDC_STATIC,39,105,218,8
+    LTEXT           "Don Lucas",IDC_STATIC,59,116,89,8
+    LTEXT           "Mark Langezaal",IDC_STATIC,59,126,89,8
+    LTEXT           "Magnus Beischer",IDC_STATIC,59,136,89,8
+    LTEXT           "Matt Pyne",IDC_STATIC,60,94,89,8
+    LTEXT           "Stephen Friederichs",IDC_STATIC,59,146,89,8
+    LTEXT           "Other included open source products:",IDC_STATIC,39,169,218,8
+    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,57,180,189,8
+    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,57,191,189,8
+    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,57,202,189,8
+    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,57,213,189,8
+    LTEXT           "Jason Sachs",IDC_STATIC,59,156,89,8
+    CONTROL         160,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE,39,44,100,36
 END
 
 IDD_ANNOTATE DIALOGEX 0, 0, 196, 212
@@ -904,7 +906,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 262
         TOPMARGIN, 7
-        BOTTOMMARGIN, 213
+        BOTTOMMARGIN, 243
     END
 
     IDD_ANNOTATE, DIALOG
@@ -1010,6 +1012,13 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_PNG1                PNG                     "res\\lgplv3-147x51.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1237,7 +1246,7 @@ BEGIN
         MENUITEM "Delete sheet",                ID_CONTEXT_DELETESHEET
         MENUITEM "Rename sheet...",             ID_CONTEXT_RENAMESHEET
         MENUITEM SEPARATOR
-        MENUITEM "Add hierarchical symbol",      ID_CONTEXT_ADDHIERARCHICALSYMBOL
+        MENUITEM "Add hierarchical symbol",     ID_CONTEXT_ADDHIERARCHICALSYMBOL
     END
 END
 
@@ -1980,7 +1989,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDM_TOOL_HIERARCHICAL    "Insert drawing\nInsert drawing"
+    IDM_TOOL_HIERARCHICAL   "Insert drawing\nInsert drawing"
 END
 
 #endif    // English (U.K.) resources
