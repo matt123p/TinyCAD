@@ -276,6 +276,8 @@ Section Uninstall
   Delete "$SMPROGRAMS\TinyCAD\Help.lnk"
   Delete "$DESKTOP\TinyCAD.lnk"
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD.lnk"
+  Delete "$INSTDIR\LGPL Version 2.1.txt"
+  Delete "$INSTDIR\LGPL Version 3.0.txt"
 
   RMDir "$SMPROGRAMS\TinyCAD"
   RMDir "$INSTDIR\library"
