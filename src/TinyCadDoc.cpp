@@ -180,7 +180,7 @@ BOOL CTinyCadDoc::Import( CStream& ar )
 // Save as a PNG file
 void CTinyCadDoc::SavePNG( const TCHAR *file_name, CDC &ref_dc, int scaling, bool bw, bool rotate )
 {
-	// Calculate the boundries
+	// Calculate the boundaries
 	CDRect rect = CDRect(0,0,0,0);
 
 	if (IsSelected())
