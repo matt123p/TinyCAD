@@ -93,14 +93,14 @@ void CDlgERCListBox::SetSelect(int NewSelect)
 void CDlgERCListBox::OnClick()
 {
   // Do we notice this?
-  if (stop)
-	return;
+  if (stop) return;
 
   // Get the item which has been selected
   int WhichItem;
   theListBox = (CListBox *)GetDlgItem(ERCLIST_LIST);
-  if ((WhichItem = theListBox->GetCurSel())==LB_ERR)
-	return;
+  if ((WhichItem = theListBox->GetCurSel())==LB_ERR) {
+	  return;
+  }
 
   // Now select the item in the current design (if we can...)
   m_pDesign->GetCurrentSheet()->UnSelect();
@@ -110,26 +110,29 @@ void CDlgERCListBox::OnClick()
 	drawingIterator it = m_pDesign->GetSheet(i)->GetDrawingBegin();
 	while (it != m_pDesign->GetSheet(i)->GetDrawingEnd()) 
 	{
-		CDrawingObject *pointer = *it;
+		CDrawingObject *ercObject = *it;
 
-		if (pointer->GetType()==xError && static_cast<CDrawError*>(pointer)->GetErrorNumber() == WhichItem)
+		if (ercObject->GetType()==xError && static_cast<CDrawError*>(ercObject)->GetErrorNumber() == WhichItem)
 		{
-			TRACE("CDlgERCListBox::OnClick():  Successfully found the xError object to select\n");
-			//The next statement appears to display the page at some arbitrary location - it does not
-			//guarantee that the page will be displayed with the error object visible.
-			m_pDesign->SelectSheetView( i );	//This displays the page (does nothing if page is already displayed)
+			//The next statement displays the page with the ERC marker centered in view and at a zoom factor that is still under the user's control
+			m_pDesign->SelectERCSheetView( i, ercObject );	//This displays a view centered around the ERC marker.
 
-			//The next statement is supposed to "select" the error object and turn it from a heavy bordered circle in dark red
-			//into a heavy bordered circle in bright red, but this is not enough "motion" and not a bright enough color 
-			//difference to easily spot the error marker on a busy page.  This is where a blinking error marker (when selected) 
-			//could really make a difference.
-			m_pDesign->GetCurrentSheet()->Select( pointer );	//This selects the object
+			//The next statement selects the error object so that it turns from a heavy bordered circle
+			//in brown into a heavy bordered circle in bright red
+			m_pDesign->GetCurrentSheet()->Select( ercObject );	//This selects the object
 
-			pointer->Display();	//This updates the page name selection tab
+			//Sometimes there is more than one ERC marker at the same spot - it won't appear highlighted 
+			//to the user unless it is on top!
+			//Note:	Because BringToFront() changes the ordering of objects in the drawing, this action will
+			//invalidate the iterator being used to traverse this list!  You must quit iterating this list
+			//after bringing this object to the front!
+			m_pDesign->GetCurrentSheet()->BringToFront();
+
+			ercObject->Display();	//This draws the object and also updates the page name selection tab
+			break;	//While logically appropriate, this statement is also required to avoid crashing when incrementing the iterator which is now invalid
 		}
 
 		++ it;
 	}
   }
 }
-

@@ -47,6 +47,7 @@ extern CEditToolbar g_EditToolBar;
 
 class CTinyCadView : public CFolderView
 {
+	friend CMultiSheetDoc;	//Needs access to centering the screen around ERC objects
 protected: // create from serialization only
 	CTinyCadView();
 	DECLARE_DYNCREATE(CTinyCadView)
@@ -68,11 +69,12 @@ protected: // create from serialization only
 
 	CStatusBar m_wndStatusBar;	// The status bar associated with this window
 
-	CDPoint 	MousePosition;		// The last known mouse position
-	CPoint		StartPosition;		// The start position of a mouse capture
+	CDPoint 	MousePosition;		// The last known mouse position (as a pair of doubles)
+	CPoint		StartPosition;		// The start position of a mouse capture (as a pair of ints)
 
 	// Change the current offset co-ords
 	void SetScroll(double,double,bool first = false);
+
 	// Set a new zoom value
 	void ChangeZoomFactor(double);
 	void SetZoomFactor(double);
@@ -119,16 +121,16 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CTinyCadView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
-	virtual void OnInitialUpdate();
+		virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+		virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+		virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
+		virtual void OnInitialUpdate();
 	protected:
-	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
-	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+		virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
+		virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
+		virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+		virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+		virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	//}}AFX_VIRTUAL
 
 // Implementation
