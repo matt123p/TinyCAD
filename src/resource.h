@@ -51,7 +51,9 @@
 #define IDI_ALIGN_TOP                   153
 #define IDI_ALIGN_MIDDLE                154
 #define IDI_ALIGN_BOTTOM                155
+#define IDB_PNG1                        158
 #define IDM_EDITREDO                    160
+#define IDB_BITMAP1                     160
 #define IDM_EDITMOVE                    162
 #define IDM_EDITDRAG                    163
 #define IDM_EDITDELBLK                  165
@@ -62,7 +64,7 @@
 #define IDM_LIBPIN                      170
 #define IDM_LIBLIB                      171
 #define IDM_LIBUPDATE                   172
-#define IDS_NOHIERARCHICAL_SYMBOL        172
+#define IDS_NOHIERARCHICAL_SYMBOL       172
 #define IDM_LIBDEVICE                   174
 #define IDM_LIBEND                      175
 #define IDM_SPECIALBOM                  180
@@ -530,8 +532,8 @@
 #define ID_EDIT_INSERTPICTURE           32865
 #define ID_HELP_EMAILFORSUPPORT         32866
 #define ID_CONTEXT_ADDHIERARCHICALSYMBOL 32867
-#define IDM_TOOL_HIERARCHICAL            32868
-#define IDM_TOOLHIERARCHICAL             32869  //obsolete - do not use
+#define IDM_TOOL_HIERARCHICAL           32868
+#define IDM_TOOLHIERARCHICAL            32869
 #define ID_SPECIAL_ADDHIERARCHICALSYMBOLTOTHISDESIGN 32871
 #define ID_CONTEXT_OPENDESIGN           32872
 #define ID_CONTEXT_RELOADSYMBOLFROMDESIGN 32873
@@ -550,7 +552,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        158
+#define _APS_NEXT_RESOURCE_VALUE        161
 #define _APS_NEXT_COMMAND_VALUE         32895
 #define _APS_NEXT_CONTROL_VALUE         1568
 #define _APS_NEXT_SYMED_VALUE           113

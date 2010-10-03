@@ -3937,6 +3937,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\LGPLV3.bmp"
+				>
+			</File>
+			<File
 				RelativePath="res\selected.ico"
 				>
 			</File>
