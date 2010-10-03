@@ -46,6 +46,7 @@ static CWinApp	theApp;
 
 
 
+CTinyCadRegistry * g_pRegistry = NULL;
 
 //*************************************************************************
 //*                                                                       *
@@ -60,6 +61,7 @@ CTinyCadApp::CTinyCadApp()
 CTinyCadApp::~CTinyCadApp()
 {
 	CLibraryCollection::Clear();
+	delete g_pRegistry;
 }
 
 
@@ -340,7 +342,7 @@ void CTinyCadApp::SetLockOutSymbolRedraw( bool r )
 void CTinyCadApp::ReadRegistry()
 {
 	// create singleton registry
-	new CTinyCadRegistry();
+	g_pRegistry = new CTinyCadRegistry();
 
 	// Is there a list of libraries in the registry?
 	CStringList*	colLibs = CTinyCadRegistry::GetLibraryNames();
