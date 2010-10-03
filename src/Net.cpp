@@ -120,6 +120,9 @@ void CTinyCadView::OnSpecialCreatespicefile()
 	// Generate the SPICE file
 	CNetList netlist;
 	netlist.WriteSpiceFile( static_cast<CTinyCadMultiDoc*>(GetDocument()), dlg.GetPathName() );
+	//TRACE("Spice netlist file path = %S\n",dlg.GetPathName());
+	// Now open the Spice netlist for the user
+	CTinyCadApp::EditTextFile( dlg.GetPathName() );
 }
 
 
@@ -265,7 +268,7 @@ void CTinyCadView::OnSpecialCheck()
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
 		{
-			stringCollection netNames;	//Every net name assigned to this net will be collected in this collection
+			stringCollection netNames;	//Every net name assigned to this net will be collected in this temporary collection to help find multiple net names
 			nodeVectorCollection netNameNodes;
 			CString buffer;
 			CString formattedBuffer;
