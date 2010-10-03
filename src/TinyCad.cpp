@@ -46,6 +46,7 @@ static CWinApp	theApp;
 
 
 
+CTinyCadRegistry * g_pRegistry = NULL;
 
 //*************************************************************************
 //*                                                                       *
@@ -60,6 +61,7 @@ CTinyCadApp::CTinyCadApp()
 CTinyCadApp::~CTinyCadApp()
 {
 	CLibraryCollection::Clear();
+	delete g_pRegistry;
 }
 
 
@@ -98,6 +100,8 @@ HACCEL				CTinyCadApp::m_hAccelTable;
 //=========================================================================
 BOOL CTinyCadApp::InitInstance()
 {
+	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	// InitCommonControls() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -356,7 +360,7 @@ void CTinyCadApp::SetLockOutSymbolRedraw( bool r )
 void CTinyCadApp::ReadRegistry()
 {
 	// create singleton registry
-	new CTinyCadRegistry();
+	g_pRegistry = new CTinyCadRegistry();
 
 	// Is there a list of libraries in the registry?
 	CStringList*	colLibs = CTinyCadRegistry::GetLibraryNames();

@@ -65,7 +65,7 @@ void CAutoSave::SetEnabled( boolean bIsEnabled )
 {
 	if( bIsEnabled )
 	{
-		if( GetInstance()->m_nDelay == 0 )
+		if( CAutoSave::m_nDelay == 0 )
 		{
 			// Force minimal delay
 			SetDelay( 1 );
@@ -80,14 +80,14 @@ void CAutoSave::SetEnabled( boolean bIsEnabled )
 //-- Returns the delay in minutes between timer events
 UInt32 CAutoSave::GetDelay()
 {
-	return GetInstance()->m_nDelay;
+	return CAutoSave::m_nDelay;
 }
 //-------------------------------------------------------------------------
 //-- Sets the Timer's delay, the number of minutes between
 //-- successive action events
 void CAutoSave::SetDelay( UInt32 nDelay )
 {
-	GetInstance()->m_nDelay = nDelay;
+	CAutoSave::m_nDelay = nDelay;
 
 	CRegistry::Set( "AutoSave", m_nDelay );
 }

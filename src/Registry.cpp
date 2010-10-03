@@ -317,13 +317,9 @@ CSize CRegistry::GetSize( CString sKey, CSize szDefault )
 //-------------------------------------------------------------------------
 bool CRegistry::keyExists( CString sKey )
 {
-	TCHAR	Buffer[ 1024 ];
-	DWORD	nSize	= sizeof( Buffer );
-	DWORD	nType = 0;
+	DWORD	nSize	= 0;
 
-	//TRACE("CRegistry::keyExists(\"%S\"):  Using max buffer size=1024\n", sKey);
-
-	return QueryValueEx( sKey, &nType, Buffer, &nSize ) == ERROR_SUCCESS;
+	return QueryValueEx( sKey, NULL, NULL, &nSize ) == ERROR_SUCCESS;
 }
 //-------------------------------------------------------------------------
 void CRegistry::DeleteValue( CString sKey )
@@ -392,7 +388,7 @@ TCHAR *FindFile::GetName()
 }
 
 
-// Was the find file successfull?
+// Was the find file successful?
 bool FindFile::Success()
 {
 	return handle != INVALID_HANDLE_VALUE;
