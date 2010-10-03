@@ -79,8 +79,8 @@ skip_mdac_download:
   File "..\src\msvc\redist\x86\msvcr90.dll"
   File "..\docs\TinyCAD.chm"
   File "..\docs\PDF Outputs\TinyCAD_Manual.pdf"
-  File "..\LGPL Version 2.1.txt"
-  File "..\LGPL Version 3.0.txt"
+  File "..\installer\LGPL Version 2.1.txt"
+  File "..\installer\LGPL Version 3.0.txt"
   
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
   SetOutPath "$INSTDIR\library"
