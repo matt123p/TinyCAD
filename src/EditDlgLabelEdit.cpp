@@ -81,12 +81,14 @@ void CEditDlgLabelEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
   ReFocus();
 
   stop=FALSE;  
+  CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 
 void CEditDlgLabelEdit::OnChange()
 {
   TCHAR str[SIZESTRING];
+  CTinyCadApp::SetTranslateAccelerator(FALSE);
 
   if (stop)
 	return;

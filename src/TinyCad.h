@@ -57,6 +57,8 @@ class CTinyCadApp : public CWinApp
 	// Handle to accelerator table
 	private: static HACCEL				m_hAccelTable;
 
+	private: static  bool				m_translateAccelerator;
+
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
@@ -81,6 +83,7 @@ public:
 	//-- Read the settings from the registry
 	private: void						ReadRegistry();
 	public:static void SetLockOutSymbolRedraw( bool r );
+	public:static void SetTranslateAccelerator( bool b );
 
 	//=====================================================================
 	//==  manage views                                                   ==
