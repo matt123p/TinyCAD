@@ -34,6 +34,7 @@
 BEGIN_MESSAGE_MAP( CDlgERCListBox, CDialog )
 	ON_LBN_SELCHANGE(ERCLIST_LIST , OnClick )
 	ON_BN_CLICKED(IDOK , Close )
+	ON_BN_CLICKED(IDOK2 , ReCheck )
 END_MESSAGE_MAP()
 
 
@@ -43,16 +44,22 @@ CDlgERCListBox::CDlgERCListBox()
   stop=FALSE;
 }
 
-void CDlgERCListBox::Open(CMultiSheetDoc *pDesign)
+void CDlgERCListBox::Open(CMultiSheetDoc *pDesign, CTinyCadView *pView)
 {
 	m_pDesign = pDesign;
+	m_pView = pView;
 
   if (!open) {
   	Create(IDD_ERCLIST,AfxGetMainWnd());
 
-	theListBox = (CListBox *)GetDlgItem(ERCLIST_LIST);
-	theListBox->ResetContent();
+	if (!m_pView) {
+		CWnd *wnd = GetDlgItem (IDOK2);
+		wnd->ShowWindow(SW_HIDE);
+    }
   }
+  theListBox = (CListBox *)GetDlgItem(ERCLIST_LIST);
+  theListBox->ResetContent();
+
   open = TRUE;
   stop = FALSE;
 }
@@ -67,6 +74,23 @@ void CDlgERCListBox::Close()
 	  {
 		m_pDesign->GetSheet(i)->DeleteErrors();
 		open = FALSE;
+	  }
+  }
+}
+
+// Close the dialog window 
+void CDlgERCListBox::ReCheck()
+{
+  if (open) {
+	// Now remove all the errors from the design
+	  for (int i = 0; i < m_pDesign->GetNumberOfSheets(); i++)
+	  {
+		 m_pDesign->GetSheet(i)->DeleteErrors();
+	  }
+
+	  if (m_pView)
+	  {
+		 m_pView->DoSpecialCheck();
 	  }
   }
 }

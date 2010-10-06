@@ -85,7 +85,7 @@ void CTinyCadView::OnFindFind()
 	// GetCurrentDocument()->DeleteErrors();
 
 	CMultiSheetDoc *pDoc = static_cast<CMultiSheetDoc*>(GetDocument());
-	theERCListBox.Open(pDoc);
+	theERCListBox.Open(pDoc, NULL);
 	int CurrentError = 0;
 
 	// Now look for this string
