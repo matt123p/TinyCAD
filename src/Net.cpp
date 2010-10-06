@@ -551,7 +551,7 @@ void CTinyCadView::DoSpecialCheck()
 
 		int ErrorNumber = 0;
 
-		if (connections == 1)
+		if (connections == 1 && theNetType != nNoConnect)
 		{
 			theNetType = ERR_UNCONNECT;
 		}
