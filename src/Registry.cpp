@@ -153,12 +153,14 @@ CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 	DWORD	nBytes = 0;
 
 	if(RegQueryValueEx((HKEY) m_oKey, sKey, NULL, NULL, NULL, &nBytes) != ERROR_SUCCESS)
-		return sDefaultVal;  // failed
+		return sDefaultVal;  // failed - key not found
 
-	TCHAR* pTest = sReturn.GetBuffer( nBytes );  // maybe doubly large if unicode but I prefer to be safe
+	//Note:  Returned byte length nBytes includes the terminating zero if the key represents a zero terminated string such as REG_SZ or REG_MULTI_SZ
+	TCHAR* pTest = sReturn.GetBuffer( nBytes / sizeof(TCHAR) );		//Convert number of bytes (including terminating 0) into Unicode character count
 	RegQueryValueEx( (HKEY) m_oKey, sKey, NULL, &nType, (BYTE *)pTest, &nBytes);
+	sReturn.ReleaseBuffer();	//Deallocates unused space.  Assumes that the string is zero terminated.  Does not affect space that is actually used.
 
-	sReturn.ReleaseBuffer(nBytes / sizeof(TCHAR) - 1);
+	//TRACE("Reading Registry key \"%S\":  wcslen(sReturn) = %d, sReturn.GetLength() = %d, nBytes = %d\n",sKey, wcslen((const wchar_t *) sReturn.GetString()), sReturn.GetLength(), nBytes);
 	return sReturn;
 }
 //-------------------------------------------------------------------------
