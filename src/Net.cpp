@@ -245,7 +245,7 @@ void CTinyCadView::OnSpecialCheck()
 						// We have an unassigned reference designator
 						CString buffer;
 						buffer.LoadString( ERR_UNASSIGNEDREFDES );
-						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\'%s\', xy=(%g,%g)]\n"),
+						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"),
 							buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x/5, pointer->m_point_a.y/5);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
 						theERCListBox.AddString(formattedBuffer);
@@ -261,9 +261,8 @@ void CTinyCadView::OnSpecialCheck()
 	/// Scan the design for multiple net names on the same net
 	if ((theErrorTest.e).MultipleNetNames || (theErrorTest.e).NonCaseDistinctNetNames) {
 		typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
-		nodeVectorCollection allNetNames;
-	    //TRACE("Scanning for multiple net names and non-case distinct net names on the same net...\n");
-		//int savedCurrentError = CurrentError;
+		std::map<CString, CNetListNode> allNetNames;	//stores each net name encountered along with a copy of its node vector contents used later for error messages
+		std::map<CString,CString> firstNetName;	//stores the first net name encountered indexed by its lower case only equivalent - used later if multiple uncased net names found when the first one found is no longer easily available
 
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
@@ -274,79 +273,64 @@ void CTinyCadView::OnSpecialCheck()
 			CString formattedBuffer;
 
 			int net = (*ni).first;
-			//TRACE("  ==>Scanning for net names contained in net=%d\n", net);
-
 			nodeVector &v = (*ni).second;
 
 			nodeVector::iterator vi = v.begin();	//Traverse the nodes in the netlist
 			while (vi != v.end())
 			{
-				CString lcNetName;
+				CString lcLabelName;
 				CString labelName;
 				CNetListNode &node = *vi;
 
 				//Net names are either an explicit label (xLabelEx2) or implied from a power pin (xPower)
-				if (node.m_parent && (node.m_parent->GetType() == xLabelEx2)){
-					labelName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
-					if (netNames.find( labelName) == netNames.end()) {
-						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[labelName] = vi;
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list of names for this net\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
-
-						//if this net name is unique in this particular net, it should also be unique in the entire design
-						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
-						//already in this design with some other combination of alphabet case
-						lcNetName = labelName;
-						lcNetName.MakeLower();
-						if (allNetNames.find(lcNetName) == allNetNames.end()) {
-							//This net name in lower case only is not yet in the list so put it in
-							allNetNames[lcNetName] = vi;
-							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",label_name, lcNetName);
-						}
-						else {
-							//While this lower case version of the label_name should not have already been in this list, it is
-							//so generate a warning that net names that are not case distinct are present in this design
-							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
-							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
-							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
-							theERCListBox.AddString(formattedBuffer);
-						}
-					}
-					else {
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d is already in the list of names for this net - ignoring\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
-					}
-				}
-				else if (node.m_parent && (node.m_parent->GetType() == xPower)) {
-					labelName = netlist.get_power_label((CDrawPower *) node.m_parent);
+				if (node.m_parent && ((node.m_parent->GetType() == xPower) || (node.m_parent->GetType() == xLabelEx2))) {
+					labelName = (node.m_parent->GetType() == xPower) ? 
+						netlist.get_power_label((CDrawPower *) node.m_parent) : 
+						static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+					lcLabelName = labelName;
+					lcLabelName.MakeLower();
 
 					if (netNames.find( labelName) == netNames.end()) {
-						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[labelName] = vi;
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list of names for this net\n",powerLabel,node.m_NetList);
+						//This is a new net name label for this node - add it to the associative arrays used to later format error messages when needed.
 
-						//if this net name is unique in this particular net, it should also be unique in the entire design
-						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
-						//already in this design with some other combination of alphabet case
-						lcNetName = labelName;
-						lcNetName.MakeLower();
-						if (allNetNames.find(lcNetName) == allNetNames.end()) {
+						//Furthermore, if this net name is unique in this particular net, then it should also be unique in the entire design.
+						//Put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
+						//already in this design with some other combination of alphabet case.  The original case of the net name is preserved
+						//in the firstNetName associative array, the net number is preserved in the netNames associative array, and the node iterator
+						//is preserved in the netNameNodes associative array.  This information is only kept for the first occurrence of a net name
+						//because it is not known at this time if another object analyzed later will be in conflict with this one and this descriptive 
+						//information will then be needed to format the error messages.
+
+						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[labelName] = vi;	//This particular map stores only a copy of the node vector iterator - useful only for decoding information contained in this particular net while this net is being scanned
+						if (firstNetName.find(lcLabelName) == firstNetName.end()) {
+							//firstNetName is indexed by the lc net name, so it must be carefully checked to be sure that it is safe to put it in this list - it may not be the first
+							firstNetName[lcLabelName] = labelName;	//Retain this mixed case net name for later reference in error messages
+						}
+
+						if (allNetNames.find(lcLabelName) == allNetNames.end()) {
 							//This net name in lower case only is not yet in the list so put it in
-							allNetNames[lcNetName] = vi;
-							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",powerLabel, lcNetName);
+							allNetNames[lcLabelName] = *vi;			//Retain a copy of the netlist node for later use in error messages
 						}
 						else {
-							//While this lower case version of the label_name should not have already been in this list, it is
-							//so generate a warning that net names that are not case distinct are present in this design
-							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
+							//While the lower case version of the labelName should not have already been in this list, it apparently is,
+							//so generate a warning that net names that are not case distinct are present in this design.
+							//TRACE("      Warning:  Net name \"%S\" on net #%d is already in this design as \"%S\" on net #%d.  The two nets differ only in character case and identify non-connected nets.\n", labelName, node.m_NetList, firstNetName.find(lcLabelName)->second, allNetNames[lcLabelName].m_NetList);
 							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName, firstNetName[lcLabelName]);
 							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
 							theERCListBox.AddString(formattedBuffer);
+
+							//In addition, add an error marker for the first occurrence of this non-distinct net name.  The first occurrence did not
+							//generate an error at the time, but a copy of it's node contents was stored in the allNetNames associative array so it is still possible to retrieve this information.
+							CString firstLabelName;
+							firstLabelName = firstNetName[lcLabelName];	//restore original label name from when it was first saved
+							buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, firstLabelName, labelName);
+							pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1), allNetNames[lcLabelName].m_a, CurrentError++));
+							theERCListBox.AddString(formattedBuffer);
+
 						}
-					}
-					else {
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d is already in the list of names for this net - ignoring\n",powerLabel,node.m_NetList);
 					}
 				}
 
@@ -384,7 +368,6 @@ void CTinyCadView::OnSpecialCheck()
 			}
 			++ ni;
 		}
-		//TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
 	}
 
 	/// Scan the design for duplicated references
@@ -472,7 +455,7 @@ void CTinyCadView::OnSpecialCheck()
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 					netObjectRefDes= "RefDes=N/A";
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
-					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xNoConnect:
 					node_type = 1;
@@ -482,7 +465,7 @@ void CTinyCadView::OnSpecialCheck()
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 					netObjectRefDes= "RefDes=N/A";
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
-					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+					netObjectXY.Format(_T("X,Y=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xPin:
 				case xPinEx:
@@ -522,10 +505,10 @@ void CTinyCadView::OnSpecialCheck()
 						sheet = theNode.m_sheet;
 						connections ++;
 
-					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=%s"),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
-						netObjectSheetName.Format(_T("Sheet=\'%s\'"),theNode.m_pMethod->m_pDesign->GetSheetName());
-						netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=\"%s\""),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
+						netObjectSheetName.Format(_T("Sheet=\"%s\""),theNode.m_pMethod->m_pDesign->GetSheetName());
+						netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					}
 					break;
 				}

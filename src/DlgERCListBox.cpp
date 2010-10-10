@@ -90,6 +90,9 @@ void CDlgERCListBox::SetSelect(int NewSelect)
   }
 }
 
+/**
+ * This is the "browser" function for browsing through the ERC markers and associated messages.
+ */
 void CDlgERCListBox::OnClick()
 {
   // Do we notice this?
@@ -105,17 +108,17 @@ void CDlgERCListBox::OnClick()
   // Now select the item in the current design (if we can...)
   m_pDesign->GetCurrentSheet()->UnSelect();
 
-  for (int i = 0; i < m_pDesign->GetNumberOfSheets(); i++)
+  for (int sheetIndex = 0; sheetIndex < m_pDesign->GetNumberOfSheets(); sheetIndex++)
   {
-	drawingIterator it = m_pDesign->GetSheet(i)->GetDrawingBegin();
-	while (it != m_pDesign->GetSheet(i)->GetDrawingEnd()) 
+	drawingIterator it = m_pDesign->GetSheet(sheetIndex)->GetDrawingBegin();
+	while (it != m_pDesign->GetSheet(sheetIndex)->GetDrawingEnd()) 
 	{
 		CDrawingObject *ercObject = *it;
 
 		if (ercObject->GetType()==xError && static_cast<CDrawError*>(ercObject)->GetErrorNumber() == WhichItem)
 		{
 			//The next statement displays the page with the ERC marker centered in view and at a zoom factor that is still under the user's control
-			m_pDesign->SelectERCSheetView( i, ercObject );	//This displays a view centered around the ERC marker.
+			m_pDesign->SelectERCSheetView( sheetIndex, ercObject );	//This displays a view centered around the ERC marker.
 
 			//The next statement selects the error object so that it turns from a heavy bordered circle
 			//in brown into a heavy bordered circle in bright red
