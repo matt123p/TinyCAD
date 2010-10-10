@@ -117,10 +117,12 @@ void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	ReFocus();
 
 	stop=FALSE;
+    CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 void CEditDlgPowerEdit::OnChange()
 {
+  CTinyCadApp::SetTranslateAccelerator(FALSE);
   TCHAR str[SIZESTRING];
   if (stop)
 	return;

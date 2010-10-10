@@ -1027,6 +1027,7 @@ void CTinyCadView::OnUpdateToolconnect(CCmdUI* pCmdUI)
 	{
 		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
 	}
+	pCmdUI->Enable(!GetCurrentDocument()->IsEditLibrary());
 }
 
 void CTinyCadView::OnUpdateToolget(CCmdUI* pCmdUI) 

@@ -93,6 +93,7 @@ CMultiDocTemplate*	CTinyCadApp::m_pTxtTemplate	= NULL;
 bool				CTinyCadApp::m_LockOutSymbolRedraw = false;
 COLORREF			CTinyCadApp::m_colours[16];
 HACCEL				CTinyCadApp::m_hAccelTable;
+bool				CTinyCadApp::m_translateAccelerator = false;
 
 
 //=========================================================================
@@ -350,6 +351,13 @@ void CTinyCadApp::SetLockOutSymbolRedraw( bool r )
 		ResetAllSymbols();
 	}
 }
+
+void CTinyCadApp::SetTranslateAccelerator( bool b )
+{
+	m_translateAccelerator = b;
+
+}
+
 //-------------------------------------------------------------------------
 
 //=========================================================================
@@ -566,26 +574,29 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 			//
 			BOOL translate = TRUE;
 
-			// Allow simple text editing in dialogs.
-			if(WM_KEYDOWN == lpMsg->message)
+			if (!m_translateAccelerator)
 			{
-				if(::GetKeyState(VK_CONTROL) < 0)
+				// Allow simple text editing in dialogs.
+				if(WM_KEYDOWN == lpMsg->message)
 				{
-					switch(lpMsg->wParam)
+					if(::GetKeyState(VK_CONTROL) < 0)
 					{
-					case 'Z':	// Undo
-					case 'X':	// Cut
-					case 'C':	// Copy
-					case 'V':	// Paste
-						translate = FALSE;
+						switch(lpMsg->wParam)
+						{
+						case 'Z':	// Undo
+						case 'X':	// Cut
+						case 'C':	// Copy
+						case 'V':	// Paste
+							translate = FALSE;
+						}
 					}
-				}
-				else 
-				{
-					switch(lpMsg->wParam)
+					else 
 					{
-					case VK_DELETE:	// Delete
-						translate = FALSE;
+						switch(lpMsg->wParam)
+						{
+						case VK_DELETE:	// Delete
+							translate = FALSE;
+						}
 					}
 				}
 			}

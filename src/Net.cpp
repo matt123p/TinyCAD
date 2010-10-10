@@ -195,9 +195,6 @@ const int ErcTable[7][7] = {
 
 void CTinyCadView::OnSpecialCheck()
 {
-	typedef std::map<CString,int> stringCollection;
-	CString formattedBuffer;
-
 	/// Get rid of any drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
@@ -215,6 +212,21 @@ void CTinyCadView::OnSpecialCheck()
 	theErrorTest.e = theDialog.GetErrorTest();  
 	CTinyCadRegistry::Set("ERC",theErrorTest.i);
 
+	DoSpecialCheck();
+}
+
+void CTinyCadView::DoSpecialCheck()
+{
+	typedef std::map<CString,int> stringCollection;
+	CString formattedBuffer;
+
+	/// Get rid of any drawing tool
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+
+	static union { ErrorTest e; WORD i; } theErrorTest;
+
+	theErrorTest.i = (WORD) CTinyCadRegistry::GetInt("ERC", 0xffff);
+
 	/// Set the Busy icon
 	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
 
@@ -226,8 +238,9 @@ void CTinyCadView::OnSpecialCheck()
 	netCollection *nets = &netlist.m_nets;
 
 	/// Delete all the errors which are currently in the design
-	theERCListBox.Close();
-	theERCListBox.Open( pDoc );
+//	theERCListBox.Close();
+	theERCListBox.Open( pDoc, this );
+
 	int CurrentError = 0;
 
 	/// Scan the design for unassigned references
@@ -521,7 +534,7 @@ void CTinyCadView::OnSpecialCheck()
 
 		int ErrorNumber = 0;
 
-		if (connections == 1)
+		if (connections == 1 && theNetType != nNoConnect)
 		{
 			theNetType = ERR_UNCONNECT;
 		}
