@@ -158,7 +158,7 @@ CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 	TCHAR* pTest = sReturn.GetBuffer( nBytes );  // maybe doubly large if unicode but I prefer to be safe
 	RegQueryValueEx( (HKEY) m_oKey, sKey, NULL, &nType, (BYTE *)pTest, &nBytes);
 
-	sReturn.ReleaseBuffer(nBytes / sizeof(TCHAR));
+	sReturn.ReleaseBuffer(nBytes / sizeof(TCHAR) - 1);
 	return sReturn;
 }
 //-------------------------------------------------------------------------
