@@ -180,17 +180,17 @@ void CDlgERCBox::OnOK()
 ////// the menu entry point for this special function //////
 
 
-// This table determines the type of the netlist
+// This table determines the type of the netlist, or, if the type is greater than ERR_BASE, then the error number to be generated for this combination of types
 //
-const int ErcTable[7][7] = {
-// Net   > Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			  (Object)
-		  {nUnknown,	nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Unknown
-		  {nPassive,	nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			nNoConnect },		// Passive
-		  {nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Input
-		  {nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	nNoConnect },		// Output
-		  {nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	nNoConnect },		// BiDir
-		  {nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			nNoConnect },		// Power
-		  {nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	nNoConnect }		// NoConnect
+const int ErcTable[7 /*theNetType*/][7/*node_type*/] = {
+// Net:down, Node:across	> Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			(Node type)
+/* Unknown */				{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Unknown
+/* Passive */				{nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },	// Passive
+/* Input */					{nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },	// Input
+/* Output */				{nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	ERR_NOCONNECT },	// Output
+/* Tri-State/BiDir */		{nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	ERR_NOCONNECT },	// BiDir
+/* Power */					{nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			ERR_NOCONNECT },	// Power
+/* NoConnect */				{ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }		// NoConnect
 };
 
 void CTinyCadView::OnSpecialCheck()
@@ -462,7 +462,7 @@ void CTinyCadView::DoSpecialCheck()
 						}
 					}
 					// power symbols should not increment the number of connections
-					pos = pObject->m_point_a;	//This will be used to locate this object on the sheet from the error message
+					pos = pObject->m_point_a;	//This will be used to locate this object on the sheet for the error message
 					sheet = theNode.m_sheet;
 
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
@@ -470,15 +470,15 @@ void CTinyCadView::DoSpecialCheck()
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
 					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
-				case xNoConnect:
-					node_type = 1;
-					connections ++;
+				case xNoConnect:	//This is a schematic level NoConnect marker, not a NoConnect pin, but it will be treated the same
+					node_type = xNoConnect;	//This used to get set to 1 (nInput) for reasons that I cannot fathom
+					connections++;
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 					netObjectRefDes= "RefDes=N/A";
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
-					netObjectXY.Format(_T("X,Y=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xPin:
 				case xPinEx:
@@ -525,7 +525,8 @@ void CTinyCadView::DoSpecialCheck()
 					}
 					break;
 				}
-				
+
+				//TRACE("ErcTable[net type = %d][node type = %d] = %d, connections = %d\n", theNetType, node_type, ErcTable[theNetType][node_type],connections);
 				theNetType = (node_type!=nUnknown) ? ErcTable[theNetType][node_type] : theNetType;
 			}
 
@@ -536,33 +537,31 @@ void CTinyCadView::DoSpecialCheck()
 
 		if (connections == 1 && theNetType != nNoConnect)
 		{
+			//If connections is equal to 1, then the type of the net is the same as the type of the pin
 			theNetType = ERR_UNCONNECT;
 		}
 	
-
-		switch (theNetType) 
+		switch (theNetType) //Note that the "theNetType" will either contain the real net type, or it will contain an error message number that is >= ERR_BASE
 		{
 			case nUnknown:
 				if (connections > 0)
 				{
+					//If after scanning all connected objects when there is more than 1 object and a net type could not be determined, 
+					//then issue the ERR_UNCONNECTED message.  This can be caused by stray net lines, but no pins.
 					ErrorNumber = ERR_UNCONNECTED;
 				}
 				break;
 			case nInput:
+				// A net type of Input can only occur if at least one pin was an input and no other pins of types capable of driving an output are present
 				ErrorNumber = ERR_NOUTPUT;
 				break;
-			case nNoConnect:
-				if (connections > 2)
-				{
-					theNetType = ERR_UNCONNECT;
-				}
-				break;
 			default:
+				// Most errors AND error free nets will occur here
 				ErrorNumber = theNetType;
 				break;
 		}
 
-		/// Is this error to be reported?
+		/// Is this error to be reported?  If not, overwrite the error number with -1 so that it will be less than ERR_BASE
 		switch (ErrorNumber) 
 		{
 		case ERR_UNCONNECT:
