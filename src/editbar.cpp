@@ -48,6 +48,7 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 
 void CEditDlg::Close()
 {
+	CTinyCadApp::SetTranslateAccelerator(FALSE);
 	if (opens > 0)
 	{
 		--opens;
