@@ -918,6 +918,12 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 						if (pointer->GetType()==xPinEx && thePin->IsPower()) 
 						{
+							//djl TODO:  This code section is associated with a bug that needs to be fixed.  While this is indeed a power pin,
+							//adding it to the nodelist doesn't discriminate between hidden power pins and non-hidden ones.  This makes
+							//net lines connect to a hidden power pin's coordinates as if it wasn't hidden.  Obviously, this is really
+							//bad behavior!  Hidden power pins need to be in the node list, but we need a way to prevent them from connecting to
+							//any net lines.  Presently, this method hasn't been identified, but perhaps net lines should only be allowed to connect
+							//to a pin's coordinates if it is a non-hidden pin.
 							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
 							// Set netlist label name to invisible symbol power pin name
 //							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
