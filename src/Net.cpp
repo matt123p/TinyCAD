@@ -182,15 +182,16 @@ void CDlgERCBox::OnOK()
 
 // This table determines the type of the netlist, or, if the type is greater than ERR_BASE, then the error number to be generated for this combination of types
 //
+// djl TODO:  Differentiate between no-connect pins and no-connect markers - they really are different!
 const int ErcTable[7 /*theNetType*/][7/*node_type*/] = {
-// Net:down, Node:across	> Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			(Node type)
-/* Unknown */				{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Unknown
-/* Passive */				{nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },	// Passive
-/* Input */					{nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },	// Input
-/* Output */				{nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	ERR_NOCONNECT },	// Output
-/* Tri-State/BiDir */		{nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	ERR_NOCONNECT },	// BiDir
-/* Power */					{nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			ERR_NOCONNECT },	// Power
-/* NoConnect */				{ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }		// NoConnect
+// Net:down, Node:across	> Unknown Pin	Passive Pin,	Input Pin,		Output Pin,			TriState/BiDir Pin	Power Pin,		NoConnect Pin or Marker
+/* Unknown Net*/			{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },
+/* Passive Net*/			{nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
+/* Input Net*/				{nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
+/* Output Net*/				{nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	ERR_NOCONNECT },
+/* Tri-State/BiDir Net*/	{nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	ERR_NOCONNECT },
+/* Power Net*/				{nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			ERR_NOCONNECT },
+/* NoConnect Net*/			{ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }
 };
 
 void CTinyCadView::OnSpecialCheck()
