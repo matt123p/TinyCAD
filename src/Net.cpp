@@ -136,7 +136,7 @@ void CTinyCadView::OnSpecialCreatespicefile()
 BOOL CDlgERCBox::OnInitDialog()
 {
 
-  // Copy the errortest into the dialog
+  // Copy the error test into the dialog
   CheckDlgButton(ERC_DUPREF,theErrorTest.DupRef);
   CheckDlgButton(ERC_UNCONNECT,theErrorTest.UnConnect);
   CheckDlgButton(ERC_NOCONNECT,theErrorTest.NoConnect);
@@ -157,7 +157,7 @@ BOOL CDlgERCBox::OnInitDialog()
 void CDlgERCBox::OnOK()
 {
 
-  // Copy the dialog into the errortest
+  // Copy the dialog into the error test
   theErrorTest.DupRef		            =IsDlgButtonChecked(ERC_DUPREF)!=0;
   theErrorTest.UnConnect	            =IsDlgButtonChecked(ERC_UNCONNECT)!=0;
   theErrorTest.NoConnect	            =IsDlgButtonChecked(ERC_NOCONNECT)!=0;
@@ -194,15 +194,15 @@ void CDlgERCBox::OnOK()
 // Presently, if 2 or more output pins are connected together and at least one of them also has no-connect marker placed on it, then no error messages
 // will be generated when they really should.  No-connect markers should only indicate that the marked pin is intended to be left floating.
 //
-const int ErcTable[7 /*theNetType*/][7/*node_type*/] = {
-// Net:down, Node:across	> Unknown Pin	Passive Pin,	Input Pin,		Output Pin,			TriState/BiDir Pin	Power Pin,		NoConnect Pin or Marker
+const int ErcTable[7 /*theNetType*/][7/*theNodeType*/] = {
+// Net:down, Node:across	> Unknown obj	Passive Pin,	Input Pin,		Output Pin,			TriState/BiDir Pin	Power Pin,		NoConnect Pin or Marker
 /* Unknown Net*/			{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },
 /* Passive Net*/			{nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
 /* Input Net*/				{nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
 /* Output Net*/				{nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	ERR_NOCONNECT },
 /* Tri-State/BiDir Net*/	{nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	ERR_NOCONNECT },
 /* Power Net*/				{nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			ERR_NOCONNECT },
-/* NoConnect Net*/			{ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }
+/* NoConnect Net*/			{nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }
 };
 
 void CTinyCadView::OnSpecialCheck()
@@ -428,6 +428,7 @@ void CTinyCadView::DoSpecialCheck()
 	}
 
 	/// Scan netlist to determine the type of each object contained on each net.  Determine if the object type and the net type are compatible
+	//TRACE("\n\n\nScanning netlist for object type compatibility\n");
 	netCollection::iterator nit = nets->begin();
 	while (nit != nets->end()) 
 	{
@@ -455,12 +456,12 @@ void CTinyCadView::DoSpecialCheck()
 			{
 				//Keep a few identifying items around to help format intelligible error messages after the second object is found
 
-				// Determine the type of this node
-				int node_type = nUnknown;
+				// Determine the interpreted type of this node
+				int theNodeType = nUnknown;	//nUnknown is a simplified net type, not really a node type
 				switch (pObject->GetType()) 
 				{
 				case xPower:
-					node_type = nPower;
+					theNodeType = nPower;
 					if (lastPower=="")
 					{
 						lastPower = static_cast<CDrawPower *>(pObject)->GetValue();
@@ -470,7 +471,7 @@ void CTinyCadView::DoSpecialCheck()
 						if ( lastPower != static_cast<CDrawPower *>(pObject)->GetValue() ) 
 						{
 							theNetType = ERR_POWER;
-							node_type = nUnknown;
+							theNodeType = nUnknown;
 						}
 					}
 					// power symbols should not increment the number of connections
@@ -482,8 +483,8 @@ void CTinyCadView::DoSpecialCheck()
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
 					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
-				case xNoConnect:	//This is a schematic level NoConnect marker, not a NoConnect pin, but it will be treated the same
-					node_type = xNoConnect;	//This used to get set to 1 (nInput) for reasons that I cannot fathom
+				case xNoConnect:	//This is a schematic level NoConnect marker, not a NoConnect pin
+					theNodeType = nPassive;	//A no-connect marker forces the net type to passive only once.  A passive net can have no errors.
 					connections++;
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
@@ -499,31 +500,31 @@ void CTinyCadView::DoSpecialCheck()
 						switch(pPin->GetElec()) 
 						{
 						case 0:		// Input
-							node_type = nInput; 
+							theNodeType = nInput; 
 							break;
 						case 1:		// Output
-							node_type = nOutput; 
+							theNodeType = nOutput; 
 							break;
 						case 2:		// Tristate
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 3:		// Open Collector
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 4:		// Passive
-							node_type = nPassive; 
+							theNodeType = nPassive; 
 							break;
 						case 5:		// Input/Output
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 6:		// Not Connected
-							node_type = nNoConnect;
+							theNodeType = nNoConnect;
 							break;
 						}
 						
 						if (pPin->IsPower()) 
 						{
-							node_type = nPower;
+							theNodeType = nPower;
 						}
 
 						pos = pPin->GetActivePoint(theNode.m_pMethod);
@@ -536,10 +537,21 @@ void CTinyCadView::DoSpecialCheck()
 						netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					}
 					break;
+				default:
+					theNodeType = nUnknown;	//all other node types will be treated as an onknown net type.  The majority of these are net connection lines.
 				}
 
-				//TRACE("ErcTable[net type = %d][node type = %d] = %d, connections = %d\n", theNetType, node_type, ErcTable[theNetType][node_type],connections);
-				theNetType = (node_type!=nUnknown) ? ErcTable[theNetType][node_type] : theNetType;
+				if (theNetType < ERR_BASE) {	//Once an error index has been assigned to theNetType, no further evaluations are possible
+					assert((theNetType >= 0) && (theNetType < 7));
+					assert((theNodeType >= 0) && (theNodeType < 7));
+					//TRACE("ErcTable[net type = %d][node type = %d] = %d, connections = %d\n", theNetType, theNodeType, ErcTable[theNetType][theNodeType],connections);
+
+					theNetType = ErcTable[theNetType][theNodeType];	//Since new net type is partially a function of the old net type, this constitutes a state machine
+				}
+				else {
+					//TRACE("Error index %d has been assigned, skipping further evaluation...\n", theNetType);
+					break;
+				}
 			}
 
 			++ nv_it;
@@ -628,7 +640,7 @@ void CTinyCadView::DoSpecialCheck()
 			pDoc->GetSheet(sheet-1)->Add(new CDrawError(pDoc->GetSheet(sheet-1),pos,CurrentError++));
 			theERCListBox.AddString(formattedBuffer);
 		}
-
+		//TRACE("\n");	//Next net
 		++ nit;
 	}
 
