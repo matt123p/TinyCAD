@@ -180,9 +180,20 @@ void CDlgERCBox::OnOK()
 ////// the menu entry point for this special function //////
 
 
-// This table determines the type of the netlist, or, if the type is greater than ERR_BASE, then the error number to be generated for this combination of types
+// This table progressively determines the type of the netlist, or, if the type is greater than ERR_BASE, then the error number to be generated for this combination of types.
+// The code uses this table as a type of progressive state machine in order to allow objects to be analyzed in any order.  Each successive evaluation
+// of current net type and current object type determines the next net type of this table.  Certain net types lock in and force the net type to stay that type.
+// For example, if a number of input pins are first examined, the net type will progress from unknown to nInput to nInput to nInput.  Then when an output pin
+// is examined, the net type will convert to nOutput and stay that way even if additional nInput pins are found.  If a second nOutput pin is found, however, the
+// net type will become ERR_OUTPUT, a preprocessor macro that will be used to select an error message from the resource table.  Once a net type becomes one
+// of the message id types, then the state machine locks into this value and essentially stops evaluating any additional connections that might be present.
 //
 // djl TODO:  Differentiate between no-connect pins and no-connect markers - they really are different!
+// A no-connect pin causes errors only if connected to any other pin or net object.
+// A no-connect marker should tell the ERC checker to ignore any unconnected pin errors for this pin or net, but shouldn't change the type of the net.
+// Presently, if 2 or more output pins are connected together and at least one of them also has no-connect marker placed on it, then no error messages
+// will be generated when they really should.  No-connect markers should only indicate that the marked pin is intended to be left floating.
+//
 const int ErcTable[7 /*theNetType*/][7/*node_type*/] = {
 // Net:down, Node:across	> Unknown Pin	Passive Pin,	Input Pin,		Output Pin,			TriState/BiDir Pin	Power Pin,		NoConnect Pin or Marker
 /* Unknown Net*/			{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },
