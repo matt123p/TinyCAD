@@ -333,7 +333,7 @@ void CDrawPin::Move(CDPoint p, CDPoint no_snap_p)
 void CDrawPin::ConvertPowerToNormal()
 {
 	// Convert this pin to a normal one
-	// and set the 'pin is converted' indicater
+	// and set the 'pin is converted' indicator
 	m_which = 0;
 	m_converted_power = 1; 
 
