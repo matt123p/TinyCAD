@@ -84,6 +84,12 @@ void CTinyCadView::OnSpecialAnnotate()
 		int sheet = theASetup.all_sheets ? 0 : GetDocument()->GetActiveSheetIndex();
 		do
 		{
+			// Signal change for undo
+			if (whichPass == 0) 
+			{
+				GetDocument()->GetSheet(sheet)->BeginNewChangeSet();
+			}
+
 			//copy all objects in the current sheet to a new vector so that it can be sorted
 			std::vector<CDrawingObject*> objs;
 			objs.assign(GetDocument()->GetSheet(sheet)->GetDrawingBegin(), GetDocument()->GetSheet(sheet)->GetDrawingEnd());
@@ -128,6 +134,9 @@ void CTinyCadView::OnSpecialAnnotate()
 
 					if (IsMatch)
 					{
+						// Signal change for undo
+						GetDocument()->GetSheet(sheet)->MarkChangeForUndo( thisMethod );
+
 
 						// First pass  - we remove references if necessary,
 						// Second pass - we add refences back in...
