@@ -710,11 +710,11 @@ void IncrementNumber(CString &number, int increment) {
 	int numi = _tstoi(nums) + increment;
 	if (numi > 999) numi = 999;
 	if (numi < 1) numi = 1;
-	TCHAR newNum[4];
+	TCHAR newNum[5];
 	#ifdef USE_VS2003
 		_itot(numi, newNum, 10);
 	#else	/* use the VS2008 "safe" version */
-		_itot_s(numi, newNum, 3, 10);
+		_itot_s(numi, newNum, sizeof(newNum)/sizeof(TCHAR), 10);
 	#endif
 	number = number.Left(intpos) + newNum + number.Mid(intpos + nums.GetLength());
   } else {
