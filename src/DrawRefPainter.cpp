@@ -44,6 +44,8 @@ void CDrawRefPainter::LButtonDown(CDPoint p, CDPoint no_snap_p)
 {
 	m_point_a = m_point_b = p;
 
+	m_pDesign->BeginNewChangeSet();
+
 	// No, so see if any of the other objects can be moved...
 	drawingIterator it = m_pDesign->GetDrawingBegin();
 	while (it != m_pDesign->GetDrawingEnd()) 
@@ -71,6 +73,8 @@ void CDrawRefPainter::RButtonUp(CDPoint p, CDPoint no_snap_p )
 {
 	m_point_a = m_point_b = p;
 
+	m_pDesign->BeginNewChangeSet();
+
 	// No, so see if any of the other objects can be moved...
 	drawingIterator it = m_pDesign->GetDrawingBegin();
 	while (it != m_pDesign->GetDrawingEnd()) 
@@ -83,6 +87,7 @@ void CDrawRefPainter::RButtonUp(CDPoint p, CDPoint no_snap_p )
 			if (pointer->GetType() == xMethodEx3) 
 			{
 				CDrawMethod *pMethod = (CDrawMethod *)pointer;
+				m_pDesign->MarkChangeForUndo( pMethod );
 				pMethod->RemoveReference();
 				pMethod->Display( TRUE );
 			}
