@@ -350,7 +350,7 @@ BOOL CTinyCadMultiDoc::ReadFile( CStreamFile& file )
 				pNewDoc->ReadFileXML( xml, TRUE );
 				m_sheets.push_back( pNewDoc );
 			}
-			else if ((name == "HierachicalSymbol") || (name == "HierarchicalSymbol"))	//Unfortunately, "hierarchical" was misspelled as "hierachical" and must still be recognized as a valid tag name
+			else if ((name == _T("HierarchicalSymbol")) || (name == _T("HierachicalSymbol")))	//Unfortunately, "hierarchical" was misspelled as "hierachical" and must still be recognized as a valid tag name
 			{
 				// Hierarchical symbol loader...
 				CTinyCadDoc *pNewDoc = new CTinyCadHierarchicalDoc(this);

@@ -228,7 +228,7 @@ public:
 	void SaveXML(CXMLWriter&, drawingCollection &drawing, BOOL Details = FALSE, BOOL SaveSelect = FALSE, BOOL SaveResources = TRUE);
 	void SaveXML(CXMLWriter&, BOOL Details = FALSE, BOOL SaveSelect = FALSE);
 
-	virtual CString GetXMLTag();
+	virtual const CString GetXMLTag();
 
 
 	void DeleteErrors();

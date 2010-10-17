@@ -74,5 +74,6 @@ public:
 	// Loading and saving
 	virtual void SaveXML( CXMLWriter &xml );
 	virtual void LoadXML( CXMLReader &xml );
-	static const TCHAR* GetXMLTag();
+	static const CString GetXMLTag();
+	static const CString GetAltXMLTag();	//supports old misspelled version of keyword
 };

@@ -56,9 +56,14 @@ ObjType CDrawHierarchicalSymbol::GetType()
 	return xHierarchicalSymbol;
 }
 
-const TCHAR* CDrawHierarchicalSymbol::GetXMLTag()
+const CString CDrawHierarchicalSymbol::GetXMLTag()
 {
 	return _T("HIERARCHICAL_SYMBOL");
+}
+
+const CString CDrawHierarchicalSymbol::GetAltXMLTag()
+{	//Note:  Never "fix" the following misspelled text keyword!  It supports reading in older design files where the keyword actually was misspelled
+	return _T("HIERACHICAL_SYMBOL");	//This keyword was once misspelled and needs this function to be able to recognize the old keyword in old drawing files.
 }
 
 // Get the definition of this symbol
@@ -160,7 +165,7 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 		// Save the old layer setting
 		//CDrawingObject *obj = NULL;
 
-		if ((name == "HierachicalSymbol") || (name == "HierarchicalSymbol"))	//for historical reasons, the misspelled "HierachicalSymbol" must continue to be recognized
+		if ((name == _T("HierarchicalSymbol")) || (name == _T("HierachicalSymbol")))	//for historical reasons, the misspelled "HierachicalSymbol" must continue to be recognized
 		{
 			// Hierarchical symbol loader...
 			clearSymbol();

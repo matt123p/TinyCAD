@@ -50,9 +50,14 @@ bool CTinyCadHierarchicalDoc::IsHierarchicalSymbol() const
 	return true;
 }
 
-CString CTinyCadHierarchicalDoc::GetXMLTag()
+const CString CTinyCadHierarchicalDoc::GetXMLTag()
 {
-	return "HierarchicalSymbol";    //Historically, this was misspelled "HierachicalSymbol" and has been fixed in many places in a backwards compatible way
+	return _T("HierarchicalSymbol");    //Historically, this was misspelled "HierachicalSymbol" and has been fixed in many places in a backwards compatible way
+}
+
+const CString CTinyCadHierarchicalDoc::GetAltXMLTag()
+{	//Note:  Never "fix" the misspelled text string below - this is needed to be able to read in old designs where the keyword actually was misspelled
+	return _T("HierachicalSymbol");    //Historically, this was misspelled "HierachicalSymbol"
 }
 
 
