@@ -268,7 +268,7 @@ void CEditDlgMethodEdit::OnChangePart()
 		int NewPart = str[0]-'A';
 		// Is this part letter within the parts defined for this symbol
 		if (NewPart < (pMethod->GetSymbolData())->ppp)
-			pMethod->part= (BYTE) NewPart;
+			pMethod->SetPart(NewPart);
 		else
 			Message(IDS_BADPART,MB_ICONEXCLAMATION);
   	}

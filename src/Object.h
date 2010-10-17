@@ -1043,7 +1043,7 @@ public:
 	int  GetRotate() { return rotate; }
 	virtual void SetRefVal(int value);
 	void SetRef(const TCHAR *NewRef) { m_fields[Ref].m_value = NewRef; }
-	void SetPart(int NewPart) { part = (BYTE) NewPart; }
+	void SetPart(int NewPart);
 	hSYMBOL GetSymbolID() { return m_Symbol; }
 
 	// Add/remove the next references

@@ -88,45 +88,6 @@ CTinyCadDoc::~CTinyCadDoc()
 	FlushRedo();
 }
 
-#if 0
-BOOL CTinyCadDoc::OnNewDocument()
-{
-	BOOL bReturn = super::OnNewDocument();
-
-	if( bReturn )
-	{
-		GetDetails().Reset();
-
-  SetPart(0);
-
-  SelectObject(new CDrawEditItem(this));
-  UnSelect();
-
-	// Remove all objects from memory
-		
-		for( drawingIterator i = GetDrawingBegin(); i != GetDrawingEnd(); i++ ) 
-	{
-			CDrawingObject* pointer = *i;
-		delete pointer;
-	}
-		m_drawing.clear();
-
-    // Now delete the Redo List
-	m_undo_level = 0;
-	m_change_set = FALSE;
-	FlushRedo();
-	m_undo_level = 0;
-  NameDir = 1;
-  PinDir = 1;
-  part = 0;
-  show_power = FALSE;
-	}
-
-	return bReturn;
-}
-#endif
-
-
 // Iterate through the drawing
 drawingIterator CTinyCadDoc::GetDrawingBegin()
 {
