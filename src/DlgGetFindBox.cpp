@@ -148,6 +148,7 @@ void CDlgGetFindBox::OnChangeSearchString()
 
 void CDlgGetFindBox::ResetAllSymbols()
 {
+	m_Symbol = NULL;
 	BuildTree();
 }
 
