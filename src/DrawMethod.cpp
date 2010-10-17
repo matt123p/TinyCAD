@@ -1667,3 +1667,17 @@ bool CDrawMethod::GetActive( CActiveNode &a )
 }
 
 
+void CDrawMethod::SetPart(int NewPart)
+{
+	// Get the position of the first visible non-power pin
+	CDPoint refOld = GetFirstStaticPoint( );
+
+	// Apply new setting
+	part = (BYTE) NewPart; 
+
+	// Get the position again of that same first visible non-power pin
+	CDPoint refNew = GetFirstStaticPoint( );
+
+	// move symbol in such a way that the pins stay stationary
+	m_point_a += (refOld - refNew);
+}
