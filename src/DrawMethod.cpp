@@ -162,8 +162,14 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 	// Signal change for undo
 	m_pDesign->MarkChangeForUndo( this );
 
+	// Get the fixed position of a visible non-power pin
+	CDPoint refOld = GetFirstStaticPoint( );
 	// First replace the symbol
 	m_Symbol = new_symbol;
+	// Get the position again of that same first visible non-power pin
+	CDPoint refNew = GetFirstStaticPoint( );
+	// move symbol in such a way that the pins stay stationary
+	m_point_a += (refOld - refNew);
 
 	// Now copy over any relevant fields...
 	CSymbolRecord *pSymbol = GetSymbolData();
@@ -1587,9 +1593,11 @@ void CDrawMethod::RemoveReference()
 }
 
 
-// Get the first pin that is always visible
+// Get the bottom right pin that is always visible
 CDPoint CDrawMethod::GetFirstStaticPoint()
 {
+	CDPoint a = CDPoint(0,0);
+
 	if (m_activePoints.size() == 0)
 	{
 		drawingCollection method;
@@ -1608,14 +1616,16 @@ CDPoint CDrawMethod::GetFirstStaticPoint()
 			// If it is a pin then use it
 			if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible() && !(thePin->IsPower() || thePin->IsConvertedPower())) 
 			{
-				return thePin->GetActivePoint( this );
+				CDPoint ap = thePin->GetActivePoint( this );
+				a.x = max(a.x, ap.x);
+				a.y = max(a.y, ap.y);
 			}
 
 			++ it;
 		}
 	}
 
-	return CDPoint(0,0);
+	return a;
 }
 
 
@@ -1669,7 +1679,7 @@ bool CDrawMethod::GetActive( CActiveNode &a )
 
 void CDrawMethod::SetPart(int NewPart)
 {
-	// Get the position of the first visible non-power pin
+	// Get the fixed position of a visible non-power pin
 	CDPoint refOld = GetFirstStaticPoint( );
 
 	// Apply new setting
