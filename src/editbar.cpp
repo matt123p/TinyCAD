@@ -32,6 +32,7 @@
 
 void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 {
+	CTinyCadApp::SetTranslateAccelerator(FALSE);
 	m_pDesign = pDesign;
 	m_pObject = pObject;
 

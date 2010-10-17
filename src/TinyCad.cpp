@@ -607,6 +607,25 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
 					return TRUE;
 			}
+
+			// Disable the Accelerator translator when
+			// Any non ctrl key is pressed or when
+			// the left mousebutton is pressed
+			if (m_translateAccelerator)
+			{
+				// Allow simple text editing in dialogs.
+				if(WM_KEYDOWN == lpMsg->message)
+				{
+					if(::GetKeyState(VK_CONTROL) >= 0)
+					{
+						m_translateAccelerator = FALSE;
+					}
+				}
+				else if(WM_LBUTTONDOWN == lpMsg->message)
+				{
+					m_translateAccelerator = FALSE;
+				}
+			}
 		}
 	}	
     return CWinApp::ProcessMessageFilter(code, lpMsg);
