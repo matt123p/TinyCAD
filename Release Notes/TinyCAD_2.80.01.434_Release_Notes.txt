@@ -1,0 +1,32 @@
+Changes from TinyCAD 2.80.00.396 Production Release:
+
+Bug Fix #3085720 - Fixed problems involving the No-Connect pin or the No-Connect net markers failing to warn if they are connected to output pins or to each other.
+
+Bug Fix #3085512 - Additional fixes to the DEL key problem
+
+New Feature:  Some of the more important choices in the annotation dialog choices are now stored in the Windows Registry.
+
+Bug Fix #3086798 - Hierarchical designs not compatible between 2.80 and 2.70.
+Hierarchical designs from older versions of TinyCAD will now work in newer versions of TinyCAD.
+
+Bug Fix 3089306 - Temporary fix for problem with hidden power pins connecting with net lines based on X/Y coordinate match.  This does not solve the problem of symbols with hidden pins connecting with hidden pins from other symbols because this temporary solution simply moves the pins away from the drawing area by a fixed amount.  Hidden pins that were on top of each other prior to the translations will still be on top of each other after the translation.  They simply won't connect with any visible net lines.
+
+Bug fix 3089316 - Annotating multi-gate parts changes symbol origin.
+
+Bug Fix 3088063 - Auto-incrementing a pin number from 99 to 100 crashes.
+
+Bug Fix #3089312 - Various annotation commands don't participate in undo/redo.
+
+Bug Fix #3067069 - Incomplete deleting of text and label.
+
+Bug Fix #2903136 - DEL key not working.
+
+New Feature:  Symbol picker now sorts the symbols before displaying them.
+
+New Feature:  Added the FAQ list to the Help file.
+
+New Feature:  Added the LGPL Version 2.1 license text to the license file for easy reference.
+
+Bug Fix:  All menu picks that open a dialog now end in "..."
+
+Bug Fix #2548253 - Disable the "No Connect" button when editing symbols
