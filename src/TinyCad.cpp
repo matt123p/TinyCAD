@@ -602,7 +602,7 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 			}
 
 			// Not for popup windows like message boxes or modal dialogs
-			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP))
+			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & (WS_POPUP | WS_EX_DLGMODALFRAME)))
 			{
 				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
 					return TRUE;
