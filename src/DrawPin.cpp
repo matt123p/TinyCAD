@@ -311,16 +311,14 @@ CDPoint CDrawPin::GetActivePoint(CDrawMethod *parent)
 		break;
   }
 
-  // FIXME: Temporary fix so that hidden power pins
-  // will never coincide a visible netlist node.
-  // But they still can coincide with another hidden power pin.
+  // Hidden power pins will not have a nodelist coordinate
+  // so they will never coincide with any other netlist node.
   //
   // The m_which==4 condition can only occure when called from
   // CTinyCadView::DoSpecialCheck and CNetList::MakeNetForSheet
   if (m_which == 4) // Hidden Power
   {
-	  r.x = -100000 - r.x;
-	  r.y = -100000 - r.y;
+	  r = CDPoint(); // Return a CDPoint with no value
   }
 
   return r;
@@ -345,7 +343,7 @@ void CDrawPin::Move(CDPoint p, CDPoint no_snap_p)
 void CDrawPin::ConvertPowerToNormal()
 {
 	// Convert this pin to a normal one
-	// and set the 'pin is converted' indicater
+	// and set the 'pin is converted' indicator
 	m_which = 0;
 	m_converted_power = 1; 
 
@@ -710,11 +708,11 @@ void IncrementNumber(CString &number, int increment) {
 	int numi = _tstoi(nums) + increment;
 	if (numi > 999) numi = 999;
 	if (numi < 1) numi = 1;
-	TCHAR newNum[4];
+	TCHAR newNum[5];
 	#ifdef USE_VS2003
 		_itot(numi, newNum, 10);
 	#else	/* use the VS2008 "safe" version */
-		_itot_s(numi, newNum, 3, 10);
+		_itot_s(numi, newNum, sizeof(newNum)/sizeof(TCHAR), 10);
 	#endif
 	number = number.Left(intpos) + newNum + number.Mid(intpos + nums.GetLength());
   } else {
