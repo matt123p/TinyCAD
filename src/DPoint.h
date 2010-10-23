@@ -23,6 +23,10 @@
 #define __DPOINT_H__
 
 #include "revision.h"
+#include <limits>
+// Use the C header for _isnan() function
+// because Microsoft doesn't supply the C++ std::isnan() function 
+#include <float.h>
 
 class CDPoint
 {
@@ -49,14 +53,14 @@ public:
 
 	bool hasValue( ) const
 	{
-		return (x != -999111 || y != -999222);
+		return !(_isnan(x) || _isnan(y));
 	}
 
 	CDPoint()
 	{
-		// Initialize with unlikely values
-		x = -999111;
-		y = -999222;
+		// Initialize with not-a-number
+		x = std::numeric_limits<long double>::quiet_NaN( );
+		y = std::numeric_limits<long double>::quiet_NaN( );
 	}
 
 	CDPoint( double ix, double iy)
