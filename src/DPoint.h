@@ -47,10 +47,16 @@ public:
 		return a * static_cast<double>(PIXELSPERMM);
 	}
 
+	bool hasValue( ) const
+	{
+		return (x != -999111 || y != -999222);
+	}
+
 	CDPoint()
 	{
-		x = 0;
-		y = 0;
+		// Initialize with unlikely values
+		x = -999111;
+		y = -999222;
 	}
 
 	CDPoint( double ix, double iy)

@@ -184,13 +184,14 @@ int CNetList::Add(CNetListNode &ins)
 	/// Has this node already been assigned a net-list index?
 	if (ins.m_NetList == -1) 
 	{
-		/// No, so we can add without checking for prior connections...
-		if (found != 0) 
+		/// No, and it must have a (visible) point, so we can add without checking for prior connections...
+		if (found != 0 && ins.m_a.hasValue()) 
 		{
 			ins.m_NetList = found;
 		}
 		else
 		{
+			// new netlists and hidden power pins always get a new netlist number.
 			ins.m_NetList = GetNewNet();
 			m_nodes[ins.m_a] = ins.m_NetList;
 		}
@@ -918,12 +919,9 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 						if (pointer->GetType()==xPinEx && thePin->IsPower()) 
 						{
-							//djl TODO:  This code section is associated with a bug that needs to be fixed.  While this is indeed a power pin,
-							//adding it to the nodelist doesn't discriminate between hidden power pins and non-hidden ones.  This makes
-							//net lines connect to a hidden power pin's coordinates as if it wasn't hidden.  Obviously, this is really
-							//bad behavior!  Hidden power pins need to be in the node list, but we need a way to prevent them from connecting to
-							//any net lines.  Presently, this method hasn't been identified, but perhaps net lines should only be allowed to connect
-							//to a pin's coordinates if it is a non-hidden pin.
+							// Hidden power pins will get an uninitialized CDPoint node point.
+							// The Add method will never connect to any other uninitialized CDPoint node point
+							// and thus hidden power pins will correctly never connect to anything by their node coordinate.
 							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
 							// Set netlist label name to invisible symbol power pin name
 //							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
