@@ -179,19 +179,18 @@ int CNetList::GetNewNet()
 int CNetList::Add(CNetListNode &ins)
 {
 	/// Is this node already in the tree?
-	int found = m_nodes[ ins.m_a ];
+	int found = ins.m_a.hasValue() ? m_nodes[ ins.m_a ] : 0;
   
 	/// Has this node already been assigned a net-list index?
 	if (ins.m_NetList == -1) 
 	{
-		/// No, and it must have a (visible) point, so we can add without checking for prior connections...
-		if (found != 0 && ins.m_a.hasValue()) 
+		/// No, so we can add without checking for prior connections...
+		if (found != 0) 
 		{
 			ins.m_NetList = found;
 		}
 		else
 		{
-			// new netlists and hidden power pins always get a new netlist number.
 			ins.m_NetList = GetNewNet();
 			m_nodes[ins.m_a] = ins.m_NetList;
 		}
