@@ -314,7 +314,7 @@ protected:
 	void WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
 
 	// Create netlist and output as a PCB GPLEDA PCB script
-	void WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename,  bool unixOutputFile );
+	void WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename);
 
 	// Create netlist and output as an XML file)
 	void WriteNetListFileXML( CTinyCadMultiDoc *pDesign, const TCHAR *filename );

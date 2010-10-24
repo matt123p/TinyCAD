@@ -72,8 +72,7 @@ BOOL CDlgPCBExport::OnInitDialog()
 	m_Filetype.AddString( _T("PADS-PCB") );
 	m_Filetype.AddString( _T("Eagle SCR") );
 	m_Filetype.AddString( _T("Protel") );
-	m_Filetype.AddString( _T("gEDA PCB (Unix)") );
-	m_Filetype.AddString( _T("gEDA PCB (Dos)") );
+	m_Filetype.AddString( _T("gEDA PCB") );
 	m_Filetype.AddString( _T("XML") );
 
 	m_Filetype.SetCurSel( m_type );
