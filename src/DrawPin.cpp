@@ -311,16 +311,6 @@ CDPoint CDrawPin::GetActivePoint(CDrawMethod *parent)
 		break;
   }
 
-  // Hidden power pins will not have a nodelist coordinate
-  // so they will never coincide with any other netlist node.
-  //
-  // The m_which==4 condition can only occur when called from
-  // CTinyCadView::DoSpecialCheck and CNetList::MakeNetForSheet
-  if (m_which == 4) // Hidden Power
-  {
-	  r = CDPoint(); // Return a CDPoint with no value
-  }
-
   return r;
 }
 
