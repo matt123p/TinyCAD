@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLNOTE, OnUpdateToolNoteText)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLTEXT, OnUpdateTooltext)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLWIRE, OnUpdateToolwire)
 	ON_UPDATE_COMMAND_UI(IDM_VIEWCENTRE, OnUpdateViewcentre)
@@ -182,6 +183,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_TOOLARC, OnSelectArc )
 	ON_COMMAND( IDM_TOOLSQUARE, OnSelectSquare )
 	ON_COMMAND( IDM_TOOLCIRCLE, OnSelectCircle )
+	ON_COMMAND( IDM_TOOLNOTE, OnSelectNoteText )
 	ON_COMMAND( IDM_TOOLTEXT, OnSelectText )
 	ON_COMMAND( IDM_TOOLGET, OnSelectGet )
 	ON_COMMAND( IDC_SHOW_SYMBOL, OnSelectGet )
@@ -1086,6 +1088,15 @@ void CTinyCadView::OnUpdateToolpower(CCmdUI* pCmdUI)
 }
 
 void CTinyCadView::OnUpdateToolsquare(CCmdUI* pCmdUI) 
+{
+	CDrawingObject *q = GetCurrentDocument()->GetEdit();
+	if (q)	
+	{
+		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
+	}
+}
+
+void CTinyCadView::OnUpdateToolNoteText(CCmdUI* pCmdUI) 
 {
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)	

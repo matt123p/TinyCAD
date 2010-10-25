@@ -147,11 +147,15 @@ BOOL CDrawSquare::RButtonDown(CDPoint p, CDPoint s)
   return r;
 }
 
-const TCHAR* CDrawSquare::GetXMLTag( BOOL isSquare )
+const TCHAR* CDrawSquare::GetXMLTag( BOOL isSquare, BOOL hasNoteText )
 {
 	if (isSquare)
 	{
 		return _T("RECTANGLE");
+	}
+	else if (hasNoteText)
+	{
+		return _T("NOTE_TEXT");
 	}
 	else
 	{
@@ -162,12 +166,15 @@ const TCHAR* CDrawSquare::GetXMLTag( BOOL isSquare )
 // Load and save to an XML file
 void CDrawSquare::SaveXML( CXMLWriter &xml )
 {
-	xml.addTag(GetXMLTag(IsSquare()));
+	xml.addTag(GetXMLTag(IsSquare(), HasNoteText()));
 
 	xml.addAttribute( _T("a"), CDPoint(m_point_a) );
 	xml.addAttribute( _T("b"), CDPoint(m_point_b) );
 	xml.addAttribute( _T("style"), Style );
 	xml.addAttribute( _T("fill"), Fill );
+	if (HasNoteText()) {
+		xml.addAttribute(_T("note_text"), NoteText);
+	}
 
 	xml.closeTag();
 }
@@ -281,10 +288,10 @@ double CDrawSquare::EllipseDistanceFromPoint( CDPoint p, BOOL &IsInside )
 double CDrawSquare::DistanceFromPoint( CDPoint p )
 {
 
-	if (IsSquare())
+	if (IsSquare() || HasNoteText())
 	{
 		// Are we filled?
-		if (Fill != fsNONE)
+		if (Fill != fsNONE || HasNoteText())	//note text is treated as if the rectangle is filled
 		{
 			if (IsInside(p.x,p.x,p.y,p.y))
 			{
@@ -309,13 +316,6 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
 		return distance - width;
-		//
-		//if (distance <= width)
-		//{
-		//	return distance - width;
-		//}
-		//
-		//return distance;
 	}
 	else
 	{
@@ -330,17 +330,7 @@ double CDrawSquare::DistanceFromPoint( CDPoint p )
 		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
 		return distance - width;
-
-		// On the ellipse?
-		//if (distance <= width)
-		//{
-		//	return distance - width;
-		//}
-		//
-		//return distance;
 	}
-
-	//return 100.0;
 }
 
 
@@ -353,9 +343,9 @@ BOOL CDrawSquare::IsInside(double left,double right,double top,double bottom)
 		return FALSE;
 	}
 
-	if (IsSquare())
+	if (IsSquare() || HasNoteText())
 	{
-		if (Fill != fsNONE || (left==right && top==bottom))
+		if (Fill != fsNONE || (left==right && top==bottom) || HasNoteText())
 		{
 			// Filled rectangle
 			return TRUE;
@@ -374,7 +364,7 @@ BOOL CDrawSquare::IsInside(double left,double right,double top,double bottom)
 	}
 	else
 	{
-		// Determine the ellipse is entirely inside the
+		// Determine if the ellipse is entirely inside the
 		// rectangle...
 		CDRect r(m_point_a.x,m_point_a.y,m_point_b.x,m_point_b.y);
 		r.NormalizeRect();
@@ -428,9 +418,14 @@ void CDrawSquare::Paint(CContext &dc,paint_options options)
 
   if (IsSquare())
   {
-	dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
+		dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
   }
-  else
+  else if (HasNoteText())
+  {
+		dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
+		//Now draw the note text on top of the rectangle
+  }
+  else	//Must be an ellipse
   {
 	  dc.Ellipse(CDRect(sma.x,sma.y,smb.x,smb.y));
   }

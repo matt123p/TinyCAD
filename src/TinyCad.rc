@@ -1554,6 +1554,7 @@ BEGIN
     BUTTON      IDM_TOOLPOLYGON
     BUTTON      IDM_TOOLCIRCLE
     BUTTON      IDM_TOOLSQUARE
+	BUTTON      IDM_TOOLNOTE
     SEPARATOR
     BUTTON      IDM_TOOLARC
 END
@@ -1955,6 +1956,7 @@ BEGIN
     IDM_TOOLLINE            "Line annotations\nLine"
     IDM_TOOLCIRCLE          "Ellipse annotations\nEllipse"
     IDM_TOOLSQUARE          "Rectangle annotations\nRectangle"
+	IDM_TOOLNOTE            "Multi-Line Text annotations\nNote"
     IDM_EDITDELITEM         "Delete items\nDelete (DEL)"
     IDM_EDITEDIT            "Edit items\nEdit (ESC)"
 END

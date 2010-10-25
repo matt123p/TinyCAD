@@ -186,6 +186,7 @@ protected:
 	afx_msg void OnUpdateToolpolygon(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpower(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolsquare(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateToolNoteText(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTooltext(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolwire(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewcentre(CCmdUI* pCmdUI);
@@ -294,6 +295,7 @@ protected:
 	afx_msg void OnSelectArc();
 	afx_msg void OnSelectSquare() { GetCurrentDocument()->SelectObject(new CDrawSquare(GetCurrentDocument(),xSquareEx3)); }
 	afx_msg void OnSelectCircle() { GetCurrentDocument()->SelectObject(new CDrawSquare(GetCurrentDocument(),xCircleEx3)); }
+	afx_msg void OnSelectNoteText() { GetCurrentDocument()->SelectObject(new CDrawSquare(GetCurrentDocument(),xNoteText)); }
 	afx_msg void OnSelectText() { GetCurrentDocument()->SelectObject(new CDrawText(GetCurrentDocument(),xTextEx2)); }
 	afx_msg void OnViewCentre() { GetCurrentDocument()->SelectObject(new CDrawCentre(GetCurrentDocument())); }
 	afx_msg void OnSelectGet();
