@@ -98,6 +98,7 @@ public:
 	void OnClick();
 
 	DECLARE_MESSAGE_MAP()
+	virtual void OnCancel();
 };
 
 

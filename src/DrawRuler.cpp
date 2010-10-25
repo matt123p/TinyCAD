@@ -95,7 +95,7 @@ void CDrawRuler::Paint(CContext &dc,paint_options options)
 	{
 		m_point_a = CDPoint( m_point_a.x, dc.GetTransform().DeScale( CPoint(0,RULER_WIDTH) ).y );
 		m_point_b = CDPoint( m_point_a.x, m_pDesign->GetDetails().GetPageBoundsAsPoint().y + 150 );
-		dc.TextOut( m_point_a.x, m_point_a.y + text_size.cy * 2, pos );
+		dc.TextOut( m_point_a.x, m_point_a.y + text_size.cx, pos );
 		text_rect = CDRect( m_point_a.x, m_point_a.y, m_point_a.x - text_size.cy, m_point_a.y + text_size.cx ); 
 	}
 	dc.MoveTo( m_point_a );
