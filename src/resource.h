@@ -51,14 +51,17 @@
 #define IDI_ALIGN_TOP                   153
 #define IDI_ALIGN_MIDDLE                154
 #define IDI_ALIGN_BOTTOM                155
-#define IDB_PNG1                        158
 #define IDM_EDITREDO                    160
 #define IDB_BITMAP1                     160
 #define IDM_EDITMOVE                    162
 #define IDM_EDITDRAG                    163
+#define IDB_PNG2                        163
 #define IDM_EDITDELBLK                  165
+#define IDB_BITMAP2                     165
 #define IDM_EDITDUP                     166
+#define IDI_ICON1                       166
 #define IDM_EDITREPEAT                  167
+#define IDB_BITMAP3                     167
 #define IDM_EDITROTATE                  168
 #define IDM_EDITUNDO                    169
 #define IDM_LIBPIN                      170
@@ -552,9 +555,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        161
+#define _APS_NEXT_RESOURCE_VALUE        168
 #define _APS_NEXT_COMMAND_VALUE         32895
-#define _APS_NEXT_CONTROL_VALUE         1568
+#define _APS_NEXT_CONTROL_VALUE         1569
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

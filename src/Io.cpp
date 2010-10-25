@@ -71,7 +71,7 @@ BOOL CTinyCadDoc::Save(BOOL GetName,BOOL SaveSelect)
   return r;
 }
 
-CString CTinyCadDoc::GetXMLTag()
+const CString CTinyCadDoc::GetXMLTag()
 {
 	return "TinyCAD";
 }
@@ -568,7 +568,7 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 		{
 			obj = new CDrawMethod(this);
 		}
-		else if (name == CDrawHierarchicalSymbol::GetXMLTag())
+		else if ((name == CDrawHierarchicalSymbol::GetXMLTag()) || (name == CDrawHierarchicalSymbol::GetAltXMLTag()))	//GetAltXMLTag() supports an old mispelled keyword
 		{
 			obj = new CDrawHierarchicalSymbol(this);
 		}

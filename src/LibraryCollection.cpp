@@ -275,6 +275,7 @@ void CLibraryCollection::FillMatchingSymbols(CTreeCtrl* Tree, const CString& sSe
 
         pLib->AddToTreeCtrl( sSearch, Tree, hLib);
 
+		Tree->SortChildren(hLib);
         ++ index;
     }
 }

@@ -550,7 +550,7 @@ class CDrawPin : public CDrawingObject {
 public:
 	BOOL IsInvisible();// Is this pin currently visible?
 			   		
-	BOOL IsPower() { return m_which == 4; }				// Is this pin a power pin?
+	BOOL IsPower() { return m_which == 4; }				// Is this pin a power pin?  Note that this will return false for power pins converted to normal pins.
 	BOOL IsConvertedPower() { return m_converted_power != 0; }	// Is this pin a power pin converted to normal?
 	void ConvertPowerToNormal();
 
@@ -592,7 +592,7 @@ public:
 
 	BOOL IsHierarchicalPin();
 
-	CDrawPin(CTinyCadDoc *pDesign);				// The constructoe
+	CDrawPin(CTinyCadDoc *pDesign);				// The constructor
 	virtual ~CDrawPin() { }
 };
 

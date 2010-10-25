@@ -156,8 +156,10 @@ CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 		return sDefaultVal;  // failed - key not found
 
 	//Note:  Returned byte length nBytes includes the terminating zero if the key represents a zero terminated string such as REG_SZ or REG_MULTI_SZ
-	TCHAR* pTest = sReturn.GetBuffer( nBytes / sizeof(TCHAR) );		//Convert number of bytes (including terminating 0) into Unicode character count
+	TCHAR* pTest = sReturn.GetBuffer( nBytes / sizeof(TCHAR) + 1);
 	RegQueryValueEx( (HKEY) m_oKey, sKey, NULL, &nType, (BYTE *)pTest, &nBytes);
+
+	pTest[nBytes / sizeof(TCHAR)] = _T('\0');  // Windows Registry may return an unterminated string
 	sReturn.ReleaseBuffer();	//Deallocates unused space.  Assumes that the string is zero terminated.  Does not affect space that is actually used.
 
 	//TRACE("Reading Registry key \"%S\":  wcslen(sReturn) = %d, sReturn.GetLength() = %d, nBytes = %d\n",sKey, wcslen((const wchar_t *) sReturn.GetString()), sReturn.GetLength(), nBytes);

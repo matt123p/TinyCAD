@@ -136,7 +136,7 @@ void CTinyCadView::OnSpecialCreatespicefile()
 BOOL CDlgERCBox::OnInitDialog()
 {
 
-  // Copy the errortest into the dialog
+  // Copy the error test into the dialog
   CheckDlgButton(ERC_DUPREF,theErrorTest.DupRef);
   CheckDlgButton(ERC_UNCONNECT,theErrorTest.UnConnect);
   CheckDlgButton(ERC_NOCONNECT,theErrorTest.NoConnect);
@@ -157,7 +157,7 @@ BOOL CDlgERCBox::OnInitDialog()
 void CDlgERCBox::OnOK()
 {
 
-  // Copy the dialog into the errortest
+  // Copy the dialog into the error test
   theErrorTest.DupRef		            =IsDlgButtonChecked(ERC_DUPREF)!=0;
   theErrorTest.UnConnect	            =IsDlgButtonChecked(ERC_UNCONNECT)!=0;
   theErrorTest.NoConnect	            =IsDlgButtonChecked(ERC_NOCONNECT)!=0;
@@ -180,17 +180,29 @@ void CDlgERCBox::OnOK()
 ////// the menu entry point for this special function //////
 
 
-// This table determines the type of the netlist
+// This table progressively determines the type of the netlist, or, if the type is greater than ERR_BASE, then the error number to be generated for this combination of types.
+// The code uses this table as a type of progressive state machine in order to allow objects to be analyzed in any order.  Each successive evaluation
+// of current net type and current object type determines the next net type of this table.  Certain net types lock in and force the net type to stay that type.
+// For example, if a number of input pins are first examined, the net type will progress from unknown to nInput to nInput to nInput.  Then when an output pin
+// is examined, the net type will convert to nOutput and stay that way even if additional nInput pins are found.  If a second nOutput pin is found, however, the
+// net type will become ERR_OUTPUT, a preprocessor macro that will be used to select an error message from the resource table.  Once a net type becomes one
+// of the message id types, then the state machine locks into this value and essentially stops evaluating any additional connections that might be present.
 //
-const int ErcTable[7][7] = {
-// Net   > Unknown		Passive,		Input,			Output,				TriState/BiDir		Power,			NoConnect,			  (Object)
-		  {nUnknown,	nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Unknown
-		  {nPassive,	nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			nNoConnect },		// Passive
-		  {nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },		// Input
-		  {nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	nNoConnect },		// Output
-		  {nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	nNoConnect },		// BiDir
-		  {nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			nNoConnect },		// Power
-		  {nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	nNoConnect }		// NoConnect
+// djl TODO:  Differentiate between no-connect pins and no-connect markers - they really are different!
+// A no-connect pin causes errors only if connected to any other pin or net object.
+// A no-connect marker should tell the ERC checker to ignore any unconnected pin errors for this pin or net, but shouldn't change the type of the net.
+// Presently, if 2 or more output pins are connected together and at least one of them also has no-connect marker placed on it, then no error messages
+// will be generated when they really should.  No-connect markers should only indicate that the marked pin is intended to be left floating.
+//
+const int ErcTable[7 /*theNetType*/][7/*theNodeType*/] = {
+// Net:down, Node:across	> Unknown obj	Passive Pin,	Input Pin,		Output Pin,			TriState/BiDir Pin	Power Pin,		NoConnect Pin or Marker
+/* Unknown Net*/			{nUnknown,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			nNoConnect },
+/* Passive Net*/			{nPassive,		nPassive,		nPassive,		nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
+/* Input Net*/				{nInput,		nPassive,		nInput,			nOutput,			nBiDir,				nPower,			ERR_NOCONNECT },
+/* Output Net*/				{nOutput,		nOutput,		nOutput,		ERR_OUTPUT,			ERR_OUTPUTBIDIR,	ERR_POWERBIDIR,	ERR_NOCONNECT },
+/* Tri-State/BiDir Net*/	{nBiDir,		nBiDir,			nBiDir,			ERR_OUTPUTBIDIR,	nBiDir,				ERR_POWERBIDIR,	ERR_NOCONNECT },
+/* Power Net*/				{nPower,		nPower,			nPower,			ERR_OUTPUTTOPWR,	ERR_POWERBIDIR,		nPower,			ERR_NOCONNECT },
+/* NoConnect Net*/			{nNoConnect,	ERR_NOCONNECT,	ERR_NOCONNECT,	ERR_NOCONNECT,		ERR_NOCONNECT, 		ERR_NOCONNECT,	ERR_NOCONNECT }
 };
 
 void CTinyCadView::OnSpecialCheck()
@@ -258,7 +270,7 @@ void CTinyCadView::DoSpecialCheck()
 						// We have an unassigned reference designator
 						CString buffer;
 						buffer.LoadString( ERR_UNASSIGNEDREFDES );
-						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\'%s\', xy=(%g,%g)]\n"),
+						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"),
 							buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x/5, pointer->m_point_a.y/5);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
 						theERCListBox.AddString(formattedBuffer);
@@ -274,9 +286,8 @@ void CTinyCadView::DoSpecialCheck()
 	/// Scan the design for multiple net names on the same net
 	if ((theErrorTest.e).MultipleNetNames || (theErrorTest.e).NonCaseDistinctNetNames) {
 		typedef std::map<CString,nodeVector::iterator> nodeVectorCollection;
-		nodeVectorCollection allNetNames;
-	    //TRACE("Scanning for multiple net names and non-case distinct net names on the same net...\n");
-		//int savedCurrentError = CurrentError;
+		std::map<CString, CNetListNode> allNetNames;	//stores each net name encountered along with a copy of its node vector contents used later for error messages
+		std::map<CString,CString> firstNetName;	//stores the first net name encountered indexed by its lower case only equivalent - used later if multiple uncased net names found when the first one found is no longer easily available
 
 		netCollection::iterator ni = nets->begin();
 		while (ni != nets->end())
@@ -287,79 +298,64 @@ void CTinyCadView::DoSpecialCheck()
 			CString formattedBuffer;
 
 			int net = (*ni).first;
-			//TRACE("  ==>Scanning for net names contained in net=%d\n", net);
-
 			nodeVector &v = (*ni).second;
 
 			nodeVector::iterator vi = v.begin();	//Traverse the nodes in the netlist
 			while (vi != v.end())
 			{
-				CString lcNetName;
+				CString lcLabelName;
 				CString labelName;
 				CNetListNode &node = *vi;
 
 				//Net names are either an explicit label (xLabelEx2) or implied from a power pin (xPower)
-				if (node.m_parent && (node.m_parent->GetType() == xLabelEx2)){
-					labelName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
-					if (netNames.find( labelName) == netNames.end()) {
-						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[labelName] = vi;
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d added to the list of names for this net\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
-
-						//if this net name is unique in this particular net, it should also be unique in the entire design
-						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
-						//already in this design with some other combination of alphabet case
-						lcNetName = labelName;
-						lcNetName.MakeLower();
-						if (allNetNames.find(lcNetName) == allNetNames.end()) {
-							//This net name in lower case only is not yet in the list so put it in
-							allNetNames[lcNetName] = vi;
-							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",label_name, lcNetName);
-						}
-						else {
-							//While this lower case version of the label_name should not have already been in this list, it is
-							//so generate a warning that net names that are not case distinct are present in this design
-							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
-							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
-							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
-							theERCListBox.AddString(formattedBuffer);
-						}
-					}
-					else {
-						//TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d is already in the list of names for this net - ignoring\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
-					}
-				}
-				else if (node.m_parent && (node.m_parent->GetType() == xPower)) {
-					labelName = netlist.get_power_label((CDrawPower *) node.m_parent);
+				if (node.m_parent && ((node.m_parent->GetType() == xPower) || (node.m_parent->GetType() == xLabelEx2))) {
+					labelName = (node.m_parent->GetType() == xPower) ? 
+						netlist.get_power_label((CDrawPower *) node.m_parent) : 
+						static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+					lcLabelName = labelName;
+					lcLabelName.MakeLower();
 
 					if (netNames.find( labelName) == netNames.end()) {
-						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
-						netNameNodes[labelName] = vi;
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d added to the list of names for this net\n",powerLabel,node.m_NetList);
+						//This is a new net name label for this node - add it to the associative arrays used to later format error messages when needed.
 
-						//if this net name is unique in this particular net, it should also be unique in the entire design
-						//put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
-						//already in this design with some other combination of alphabet case
-						lcNetName = labelName;
-						lcNetName.MakeLower();
-						if (allNetNames.find(lcNetName) == allNetNames.end()) {
+						//Furthermore, if this net name is unique in this particular net, then it should also be unique in the entire design.
+						//Put this net name (in lower case) in the flattened net name list as well as a way to determine if it is
+						//already in this design with some other combination of alphabet case.  The original case of the net name is preserved
+						//in the firstNetName associative array, the net number is preserved in the netNames associative array, and the node iterator
+						//is preserved in the netNameNodes associative array.  This information is only kept for the first occurrence of a net name
+						//because it is not known at this time if another object analyzed later will be in conflict with this one and this descriptive 
+						//information will then be needed to format the error messages.
+
+						netNames[labelName] = net;	//This is a new net name label for this node - add it to the list
+						netNameNodes[labelName] = vi;	//This particular map stores only a copy of the node vector iterator - useful only for decoding information contained in this particular net while this net is being scanned
+						if (firstNetName.find(lcLabelName) == firstNetName.end()) {
+							//firstNetName is indexed by the lc net name, so it must be carefully checked to be sure that it is safe to put it in this list - it may not be the first
+							firstNetName[lcLabelName] = labelName;	//Retain this mixed case net name for later reference in error messages
+						}
+
+						if (allNetNames.find(lcLabelName) == allNetNames.end()) {
 							//This net name in lower case only is not yet in the list so put it in
-							allNetNames[lcNetName] = vi;
-							//TRACE("      Adding net name \"%S\" to allNetNames[] as \"%S\"\n",powerLabel, lcNetName);
+							allNetNames[lcLabelName] = *vi;			//Retain a copy of the netlist node for later use in error messages
 						}
 						else {
-							//While this lower case version of the label_name should not have already been in this list, it is
-							//so generate a warning that net names that are not case distinct are present in this design
-							//TRACE("      Warning:  Net name \"%S\" is already in this design with a different character case and identifies a non-connected net\n",labelName);
+							//While the lower case version of the labelName should not have already been in this list, it apparently is,
+							//so generate a warning that net names that are not case distinct are present in this design.
+							//TRACE("      Warning:  Net name \"%S\" on net #%d is already in this design as \"%S\" on net #%d.  The two nets differ only in character case and identify non-connected nets.\n", labelName, node.m_NetList, firstNetName.find(lcLabelName)->second, allNetNames[lcLabelName].m_NetList);
 							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName,*(allNetNames.find(lcNetName)));
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName, firstNetName[lcLabelName]);
 							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
 							theERCListBox.AddString(formattedBuffer);
+
+							//In addition, add an error marker for the first occurrence of this non-distinct net name.  The first occurrence did not
+							//generate an error at the time, but a copy of it's node contents was stored in the allNetNames associative array so it is still possible to retrieve this information.
+							CString firstLabelName;
+							firstLabelName = firstNetName[lcLabelName];	//restore original label name from when it was first saved
+							buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, firstLabelName, labelName);
+							pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1), allNetNames[lcLabelName].m_a, CurrentError++));
+							theERCListBox.AddString(formattedBuffer);
+
 						}
-					}
-					else {
-						//TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d is already in the list of names for this net - ignoring\n",powerLabel,node.m_NetList);
 					}
 				}
 
@@ -397,7 +393,6 @@ void CTinyCadView::DoSpecialCheck()
 			}
 			++ ni;
 		}
-		//TRACE("Multiple net name test found %d errors\n",CurrentError-savedCurrentError);
 	}
 
 	/// Scan the design for duplicated references
@@ -433,6 +428,7 @@ void CTinyCadView::DoSpecialCheck()
 	}
 
 	/// Scan netlist to determine the type of each object contained on each net.  Determine if the object type and the net type are compatible
+	//TRACE("\n\n\nScanning netlist for object type compatibility\n");
 	netCollection::iterator nit = nets->begin();
 	while (nit != nets->end()) 
 	{
@@ -460,12 +456,12 @@ void CTinyCadView::DoSpecialCheck()
 			{
 				//Keep a few identifying items around to help format intelligible error messages after the second object is found
 
-				// Determine the type of this node
-				int node_type = nUnknown;
+				// Determine the interpreted type of this node
+				int theNodeType = nUnknown;	//nUnknown is a simplified net type, not really a node type
 				switch (pObject->GetType()) 
 				{
 				case xPower:
-					node_type = nPower;
+					theNodeType = nPower;
 					if (lastPower=="")
 					{
 						lastPower = static_cast<CDrawPower *>(pObject)->GetValue();
@@ -475,27 +471,27 @@ void CTinyCadView::DoSpecialCheck()
 						if ( lastPower != static_cast<CDrawPower *>(pObject)->GetValue() ) 
 						{
 							theNetType = ERR_POWER;
-							node_type = nUnknown;
+							theNodeType = nUnknown;
 						}
 					}
 					// power symbols should not increment the number of connections
-					pos = pObject->m_point_a;	//This will be used to locate this object on the sheet from the error message
+					pos = pObject->m_point_a;	//This will be used to locate this object on the sheet for the error message
 					sheet = theNode.m_sheet;
 
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 					netObjectRefDes= "RefDes=N/A";
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
-					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
-				case xNoConnect:
-					node_type = 1;
-					connections ++;
+				case xNoConnect:	//This is a schematic level NoConnect marker, not a NoConnect pin
+					theNodeType = nPassive;	//A no-connect marker forces the net type to passive only once.  A passive net can have no errors.
+					connections++;
 					pos = pObject->m_point_a;
 					sheet = theNode.m_sheet;
 					netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 					netObjectRefDes= "RefDes=N/A";
 					netObjectSheetName.Format(_T("Sheet=#%d"),theNode.m_sheet);
-					netObjectXY.Format(_T("xy=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+					netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
 					break;
 				case xPin:
 				case xPinEx:
@@ -504,31 +500,31 @@ void CTinyCadView::DoSpecialCheck()
 						switch(pPin->GetElec()) 
 						{
 						case 0:		// Input
-							node_type = nInput; 
+							theNodeType = nInput; 
 							break;
 						case 1:		// Output
-							node_type = nOutput; 
+							theNodeType = nOutput; 
 							break;
 						case 2:		// Tristate
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 3:		// Open Collector
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 4:		// Passive
-							node_type = nPassive; 
+							theNodeType = nPassive; 
 							break;
 						case 5:		// Input/Output
-							node_type = nBiDir; 
+							theNodeType = nBiDir; 
 							break;
 						case 6:		// Not Connected
-							node_type = nNoConnect;
+							theNodeType = nNoConnect;
 							break;
 						}
 						
 						if (pPin->IsPower()) 
 						{
-							node_type = nPower;
+							theNodeType = nPower;
 						}
 
 						pos = pPin->GetActivePoint(theNode.m_pMethod);
@@ -536,14 +532,26 @@ void CTinyCadView::DoSpecialCheck()
 						connections ++;
 
 						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=%s"),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
-						netObjectSheetName.Format(_T("Sheet=\'%s\'"),theNode.m_pMethod->m_pDesign->GetSheetName());
+						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=\"%s\""),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
+						netObjectSheetName.Format(_T("Sheet=\"%s\""),theNode.m_pMethod->m_pDesign->GetSheetName());
 						netObjectXY.Format(_T("XY=(%g,%g)"),pos.x/5, pos.y/5);
 					}
 					break;
+				default:
+					theNodeType = nUnknown;	//all other node types will be treated as an onknown net type.  The majority of these are net connection lines.
 				}
-				
-				theNetType = (node_type!=nUnknown) ? ErcTable[theNetType][node_type] : theNetType;
+
+				if (theNetType < ERR_BASE) {	//Once an error index has been assigned to theNetType, no further evaluations are possible
+					assert((theNetType >= 0) && (theNetType < 7));
+					assert((theNodeType >= 0) && (theNodeType < 7));
+					//TRACE("ErcTable[net type = %d][node type = %d] = %d, connections = %d\n", theNetType, theNodeType, ErcTable[theNetType][theNodeType],connections);
+
+					theNetType = ErcTable[theNetType][theNodeType];	//Since new net type is partially a function of the old net type, this constitutes a state machine
+				}
+				else {
+					//TRACE("Error index %d has been assigned, skipping further evaluation...\n", theNetType);
+					break;
+				}
 			}
 
 			++ nv_it;
@@ -553,33 +561,31 @@ void CTinyCadView::DoSpecialCheck()
 
 		if (connections == 1 && theNetType != nNoConnect)
 		{
+			//If connections is equal to 1, then the type of the net is the same as the type of the pin
 			theNetType = ERR_UNCONNECT;
 		}
 	
-
-		switch (theNetType) 
+		switch (theNetType) //Note that the "theNetType" will either contain the real net type, or it will contain an error message number that is >= ERR_BASE
 		{
 			case nUnknown:
 				if (connections > 0)
 				{
+					//If after scanning all connected objects when there is more than 1 object and a net type could not be determined, 
+					//then issue the ERR_UNCONNECTED message.  This can be caused by stray net lines, but no pins.
 					ErrorNumber = ERR_UNCONNECTED;
 				}
 				break;
 			case nInput:
+				// A net type of Input can only occur if at least one pin was an input and no other pins of types capable of driving an output are present
 				ErrorNumber = ERR_NOUTPUT;
 				break;
-			case nNoConnect:
-				if (connections > 2)
-				{
-					theNetType = ERR_UNCONNECT;
-				}
-				break;
 			default:
+				// Most errors AND error free nets will occur here
 				ErrorNumber = theNetType;
 				break;
 		}
 
-		/// Is this error to be reported?
+		/// Is this error to be reported?  If not, overwrite the error number with -1 so that it will be less than ERR_BASE
 		switch (ErrorNumber) 
 		{
 		case ERR_UNCONNECT:
@@ -634,7 +640,7 @@ void CTinyCadView::DoSpecialCheck()
 			pDoc->GetSheet(sheet-1)->Add(new CDrawError(pDoc->GetSheet(sheet-1),pos,CurrentError++));
 			theERCListBox.AddString(formattedBuffer);
 		}
-
+		//TRACE("\n");	//Next net
 		++ nit;
 	}
 

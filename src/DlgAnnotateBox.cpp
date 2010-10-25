@@ -23,7 +23,7 @@
 #include "special.h"
 #include "library.h"
 #include "TinyCad.h"
-
+#include "TinyCadRegistry.h"
 
 // The annotate box dialog
 
@@ -36,6 +36,10 @@ END_MESSAGE_MAP()
 
 BOOL CDlgAnnotateBox::OnInitDialog()
 {
+  //Some default values for this dialog are stored in the Registry
+  v.reference = (enum AnnotateSetup::WhichReferences) CTinyCadRegistry::GetInt( "Annotate.type", (int) AnnotateSetup::UNNUMBERED );
+  v.all_sheets = CTinyCadRegistry::GetInt( "Annotate.allsheets", (int) true) != 0;
+
   SetDlgItemText(ANNOTATEBOX_MATCHVAL,v.matchval);
   SetDlgItemInt(ANNOTATEBOX_STARTVAL,v.startval);
   int id = -1;
@@ -144,6 +148,9 @@ void CDlgAnnotateBox::ReadData()
 void CDlgAnnotateBox::OnOK()
 {
   ReadData();
+
+  CTinyCadRegistry::Set( "Annotate.type", v.reference);
+  CTinyCadRegistry::Set( "Annotate.allsheets", v.all_sheets);
   EndDialog( IDOK );
 }
 
