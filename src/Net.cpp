@@ -534,7 +534,7 @@ void CTinyCadView::DoSpecialCheck()
 						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
 						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=\"%s\""),theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
 						netObjectSheetName.Format(_T("Sheet=\"%s\""),theNode.m_pMethod->m_pDesign->GetSheetName());
-						netObjectXY.Format(_T("XY=(%g,%g)"),theNode.m_a.x/5, theNode.m_a.y/5);
+						netObjectXY.Format(_T("XY=(%g,%g)"),pos.x/5, pos.y/5);
 					}
 					break;
 				default:
