@@ -591,7 +591,7 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 		{
 			obj = new CDrawSquare(this, xSquareEx3);
 		}
-		else if (name == CDrawSquare::GetXMLTag( TRUE, TRUE ))
+		else if (name == CDrawSquare::GetXMLTag( FALSE, TRUE ))
 		{
 			obj = new CDrawSquare(this, xNoteText);
 		}
