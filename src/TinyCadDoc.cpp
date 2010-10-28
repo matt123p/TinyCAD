@@ -116,8 +116,6 @@ BOOL CTinyCadDoc::Import( CStream& ar )
 		{
 			Add( *i );
 		}
-		UnSelect();
-		SetModifiedFlag( FALSE );
 
 		// Now select the objects
 		UnSelect();
@@ -1289,7 +1287,8 @@ void CTinyCadDoc::SelectObject(CDrawingObject *NewO )
 
 	if (NewO)
 	{
-		if (NewO->GetType() != xEditItem)
+		// Not when it is an editing object
+		if (NewO->GetType() != xEditItem && NewO->GetType() != xAnnotation)
 		{
 			BeginNewChangeSet();
 		}
