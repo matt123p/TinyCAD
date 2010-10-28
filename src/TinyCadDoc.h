@@ -192,6 +192,9 @@ public:
 	// Undo the move of the selected objects
 	void SelectUndoMove(CDPoint);
 
+	// Select all objects
+	void SelectAll();
+
 	// Change the Z-order of the selected objects
 	void BringToFront();
 	void SendToBack();

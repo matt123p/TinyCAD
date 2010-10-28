@@ -1676,6 +1676,23 @@ void CTinyCadDoc::SelectMove(CDPoint r)
 }
 
 
+// Select all objects
+void CTinyCadDoc::SelectAll()
+{
+	drawingIterator it = GetDrawingBegin();
+	drawingIterator itEnd = GetDrawingEnd();
+	while (it != itEnd) 
+	{
+		CDrawingObject *obj = *it;
+
+		obj->Display();
+		Select( obj );
+  		
+		++ it;
+	}
+}
+
+
 void CTinyCadDoc::AddNewJunction( CDPoint q )
 {
 	// A junction is required, create it!

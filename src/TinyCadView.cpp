@@ -78,6 +78,8 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_EDITPASTE, OnUpdateEditpaste)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCUT, OnUpdateEditcut)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCOPY, OnUpdateEditcopy)
+	ON_UPDATE_COMMAND_UI(IDM_EDITDELITEM, OnUpdateEditDelete)
+	ON_UPDATE_COMMAND_UI(IDM_EDITSELECTALL, OnUpdateEditSelectAll)
 	ON_UPDATE_COMMAND_UI(IDM_EDITROTATELEFT, OnUpdateEditRotateLRF)
 	ON_UPDATE_COMMAND_UI(IDM_EDITROTATERIGHT, OnUpdateEditRotateLRF)
 	ON_UPDATE_COMMAND_UI(IDM_EDITFLIP, OnUpdateEditRotateLRF)
@@ -156,6 +158,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_EDITCOPY, OnEditCopy )
 	ON_COMMAND( IDM_EDITCUT, OnEditCut )
 	ON_COMMAND( IDM_EDITPASTE, OnEditPaste )
+	ON_COMMAND( IDM_EDITSELECTALL, OnEditSelectAll )
 	ON_COMMAND( IDM_EDITDUPLICATE, OnEditDuplicate )
 	ON_COMMAND( IDM_EDITROTATELEFT, OnEditRotateLeft )
 	ON_COMMAND( IDM_EDITROTATERIGHT, OnEditRotateRight )
@@ -1334,6 +1337,16 @@ void CTinyCadView::OnUpdateEditcut(CCmdUI* pCmdUI)
 }
 
 void CTinyCadView::OnUpdateEditcopy(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable( GetCurrentDocument()->IsSelected() );
+}
+
+void CTinyCadView::OnUpdateEditDelete(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable( GetCurrentDocument()->IsSelected() );
+}
+
+void CTinyCadView::OnUpdateEditSelectAll(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable( TRUE );
 }

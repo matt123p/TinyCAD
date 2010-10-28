@@ -294,6 +294,9 @@ void CTinyCadView::OnEditCopy()
 	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem)
 		return;
 
+	if (!GetCurrentDocument()->IsSelected())
+		return;
+
 	OpenClipboard();
 	EmptyClipboard();
 
@@ -308,14 +311,9 @@ void CTinyCadView::OnEditCopy()
 	// Save the selected area
 	CStreamClipboard stream;
 	CXMLWriter xml( &stream );
-	if (GetCurrentDocument()->IsSelected())
-	{
-		GetCurrentDocument()->SaveXML(xml,TRUE,TRUE);
-	}
-	else
-	{
-		GetCurrentDocument()->SaveXML(xml,TRUE,FALSE);
-	}
+
+	GetCurrentDocument()->SaveXML(xml,TRUE,TRUE);
+
 	stream.SaveToClipboard(ClipboardFormat);
 
 	CloseClipboard();
@@ -329,6 +327,17 @@ void CTinyCadView::OnEditCopyto()
 		GetCurrentDocument()->Save(TRUE,TRUE);
 	}
 }
+
+
+void CTinyCadView::OnEditSelectAll()
+{
+	// Get rid of the current editing object
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 
+
+	GetCurrentDocument()->UnSelect(); 
+	GetCurrentDocument()->SelectAll();
+}
+
 
 void CTinyCadView::OnEditRotateLeft() 
 {
