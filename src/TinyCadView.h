@@ -207,6 +207,8 @@ protected:
 	afx_msg void OnUpdateEditpaste(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcut(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcopy(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditDelete(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditSelectAll(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditRotateLRF(CCmdUI* pCmdUI);
 	afx_msg void OnDestroy();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
@@ -264,6 +266,7 @@ protected:
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditCut();
 	afx_msg void OnEditPaste();
+	afx_msg void OnEditSelectAll();
 	afx_msg void OnEditDuplicate();
 	afx_msg void OnEditRotateLeft();
 	afx_msg void OnEditRotateRight();

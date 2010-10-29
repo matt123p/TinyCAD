@@ -111,6 +111,9 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Copy to...\tCtrl+E",          ID_EDIT_COPYTO
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
@@ -297,6 +300,7 @@ BEGIN
     VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY, NOINVERT
     VK_F9,          IDM_BUSBACK,            VIRTKEY, NOINVERT
     VK_F8,          IDM_BUSSLASH,           VIRTKEY, NOINVERT
+    "A",            IDM_EDITSELECTALL,      VIRTKEY, CONTROL, NOINVERT
     "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT, NOINVERT
     VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY, NOINVERT
@@ -1127,6 +1131,7 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
@@ -1279,6 +1284,7 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
@@ -1854,6 +1860,7 @@ BEGIN
     IDM_EDITCOPY            "Copy the selection to the clipboard\nCopy"
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
     IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
+    IDM_EDITSELECTALL       "Select all objects\nSelect All"
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
 END
 
