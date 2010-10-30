@@ -869,8 +869,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,80,1,0
- PRODUCTVERSION 2,80,1,0
+ FILEVERSION 2,80,2,0
+ PRODUCTVERSION 2,80,2,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -888,12 +888,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 80, 1, 0"
+            VALUE "FileVersion", "2, 80, 2, 0"
             VALUE "InternalName", "TinyCAD"
             VALUE "LegalCopyright", "Copyright (C) 2002 - 2010 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 80, 1, 0"
+            VALUE "ProductVersion", "2, 80, 2, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1860,8 +1860,12 @@ BEGIN
     IDM_EDITCOPY            "Copy the selection to the clipboard\nCopy"
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
     IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
-    IDM_EDITSELECTALL       "Select all objects\nSelect All"
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITSELECTALL       "Select all objects\nSelect All"
 END
 
 STRINGTABLE 
