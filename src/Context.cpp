@@ -803,7 +803,7 @@ void CContext::TextOut(double x,double y, int width, const TCHAR *t)
 	CRect rect(r.x ,r.y - s_height,r.x+s_width,r.y );
 
 	int old = m_pDC->SetTextAlign( DT_TOP | DT_LEFT );
-	m_pDC->DrawText(t,rect,DT_SINGLELINE | DT_RIGHT | DT_TOP  );
+	m_pDC->DrawText(t,rect,DT_SINGLELINE | DT_RIGHT | DT_TOP | DT_NOPREFIX );
 	m_pDC->SetTextAlign( old );
 }
 
