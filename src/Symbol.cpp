@@ -422,9 +422,11 @@ bool CLibraryStoreSymbol::IsMatching( const TCHAR * theString ) const
 {
     CString name = this->name;
     CString desc = this->description;
+	CString searched = theString;
     name.MakeLower();
     desc.MakeLower();
-    return name.Find(theString) != -1 || desc.Find(theString) != -1;
+	searched.MakeLower();
+    return name.Find(searched) != -1 || desc.Find(searched) != -1;
 }
 
 
