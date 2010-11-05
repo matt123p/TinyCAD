@@ -74,6 +74,9 @@ public:
 
 	SymbolFieldType	field_type;
 
+	// default constructor to initialize field_pos to (0,0)
+	CSymbolField() { field_pos = CDPoint(0,0); }
+
 	// Save this field
 	void Save(CStream &);							// Save this symbol field into an archive
 	void SaveXML(CXMLWriter &xml, bool simple);		// Save this symbol field into xml
