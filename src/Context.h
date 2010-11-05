@@ -140,7 +140,7 @@ public:
 	double GetZoomFactor() const;
 	void GetScaling( int rot, double &x, double &y ) const;
 	BOOL GetIsYUp() const;
-
+	BOOL GetIsFlipped() const;
 	int GetRotMir() const;
 	
 
