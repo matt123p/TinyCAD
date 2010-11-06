@@ -55,10 +55,8 @@ void CDlgGetFindBox::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgGetFindBox, CInitDialogBar)
 	//{{AFX_MSG_MAP(CDlgGetFindBox)
-	ON_LBN_SELCHANGE(FINDGET_LIST , OnListSelect )
 	ON_EN_CHANGE(IDC_SEARCH_STRING, OnChangeSearchString)
 	ON_WM_DRAWITEM()
-	ON_LBN_DBLCLK(FINDGET_LIST, OnDblclkList)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_HORZ_RESIZE, OnHorzResize)
 	//}}AFX_MSG_MAP
@@ -99,29 +97,12 @@ BOOL CDlgGetFindBox::OnInitDialogBar()
 	return TRUE;
 }
 
-void CDlgGetFindBox::OnDblclkList()
-{
-    AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
-}
 void CDlgGetFindBox::OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 {
     HTREEITEM hItem = m_Tree.GetSelectedItem();
     if( ! m_Tree.ItemHasChildren(hItem) )
         AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
     *pResult = 0;
-}
-
-// End the dialog when an item is clicked on
-void CDlgGetFindBox::OnListSelect()
-{
-	CListBox*	theListBox 	= (CListBox*) GetDlgItem( FINDGET_LIST );
-	int			WhichItem 	= theListBox->GetCurSel();
-
- 	if (WhichItem != LB_ERR)
-	{
-		m_Symbol = static_cast<CLibraryStoreSymbol *>(theListBox->GetItemDataPtr( WhichItem ));
-		GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
-	}
 }
 
 void CDlgGetFindBox::OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult)
@@ -369,57 +350,6 @@ void CDlgGetFindBox::DrawSymbol(CDC &dc, CRect rect)
 		q.EndTRM( old );
 	}
 }
-
-// Vanilla CListBox cannot display check-boxes - and we want them. So we use custom draw. (Should have used MFC CCheckListBox.)
-void CDlgGetFindBox::DrawLibraries(CDC &dc, LPDRAWITEMSTRUCT lpDrawItemStruct )
-{
-	CPen *old_pen;
-	CBrush *old_brush;
-	CPen select_pen;
-	CBrush select_brush;
-	COLORREF old_colour;
-	HICON icon;
-
-	if ((lpDrawItemStruct->itemState & ODS_SELECTED) != 0)
-	{
-		icon = AfxGetApp()->LoadIcon( IDI_SELECTED_BOX );
-	}
-	else
-	{
-		icon = AfxGetApp()->LoadIcon( IDI_UNSELECTED_BOX );
-	}
-
-	old_pen = (CPen *)dc.SelectStockObject( WHITE_PEN );
-	old_brush = (CBrush *)dc.SelectStockObject( WHITE_BRUSH );
-	old_colour = dc.SetTextColor( RGB(0,0,0) );
-
-	dc.Rectangle( &lpDrawItemStruct->rcItem );
-
-	CRect r = lpDrawItemStruct->rcItem;
-	
-	CLibraryStore *lib = CLibraryCollection::GetLibraryByIndex( lpDrawItemStruct->itemData );
-	CString s;
-	if (lib)
-	{
-		s = lib->m_name;
-	}
-	dc.SetBkMode( TRANSPARENT );
-	DrawIconEx(dc.m_hDC, r.left + 1, r.top+1, icon, r.Height() - 5, r.Height() - 5, 0, NULL, DI_NORMAL );
-	r.left += 13;
-
-	int brk = s.ReverseFind('\\');
-	if (brk != -1)
-	{
-		s = s.Mid(brk+1);
-	}
-	dc.DrawText( s , &r, DT_LEFT | DT_VCENTER );
-	
-
-	dc.SetTextColor( old_colour );
-	dc.SelectObject( old_pen );
-	dc.SelectObject( old_brush );
-}
-
 
 
 

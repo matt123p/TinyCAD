@@ -54,7 +54,7 @@ int CFolderTab::ComputeRgn(CDC& dc, int x)
 	rc.SetRectEmpty();
 
 	// calculate desired text rectangle
-	dc.DrawText(m_sText, &rc, DT_CALCRECT);
+	dc.DrawText(m_sText, &rc, DT_CALCRECT | DT_NOPREFIX);
 	rc.right  += 2*CXOFFSET + 2*CXMARGIN;						// add margins
 	rc.bottom = rc.top + GetSystemMetrics(SM_CYHSCROLL);	// ht = scrollbar ht
 	rc += CPoint(x,0);												// shift right
@@ -131,7 +131,7 @@ int CFolderTab::Draw(CDC& dc, CFont& font, BOOL bSelected)
 	// draw text
 	rc.DeflateRect(CXOFFSET + CXMARGIN, CYMARGIN);
 	CFont* pOldFont = dc.SelectObject(&font);
-	dc.DrawText(m_sText, &rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+	dc.DrawText(m_sText, &rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE|DT_NOPREFIX);
 	dc.SelectObject(pOldFont);
 
 	return m_rect.right;
