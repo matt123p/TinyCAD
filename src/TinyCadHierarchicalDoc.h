@@ -37,7 +37,8 @@ public:
 	virtual CString	GetSheetName() const;
 	virtual void 	SetSheetName( const TCHAR *sName );
 	virtual bool	IsHierarchicalSymbol() const;
-	virtual CString GetXMLTag();
+	virtual const CString GetXMLTag();
+	virtual const CString GetAltXMLTag();
 
 	// Called after a paste or import to enable the
 	// document to sort out the imported block when

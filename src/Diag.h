@@ -31,6 +31,7 @@ class CDrawMethod;
 class CDrawPin;
 class CDrawText;
 class CDrawPower;
+class CTinyCadView;
 
 
 
@@ -86,15 +87,18 @@ class CDlgERCListBox : public CDialog {
 	CListBox *theListBox;
 	BOOL stop;
 	CMultiSheetDoc *m_pDesign;
+	CTinyCadView *m_pView;
 public:	
 	CDlgERCListBox();
-	void Open(CMultiSheetDoc *pDesign);
+	void Open(CMultiSheetDoc *pDesign, CTinyCadView *pView);
 	void Close();
+	void ReCheck();
 	void AddString(CString);
 	void SetSelect(int);
 	void OnClick();
 
 	DECLARE_MESSAGE_MAP()
+	virtual void OnCancel();
 };
 
 

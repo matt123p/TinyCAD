@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLGET, OnUpdateToolget)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLJUNC, OnUpdateTooljunc)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLLABEL, OnUpdateToollabel)
-	ON_UPDATE_COMMAND_UI(IDM_TOOLHIERACHICAL, OnUpdateToolHierachical)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLHIERARCHICAL, OnUpdateToolHierarchical)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
@@ -78,6 +78,8 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_EDITPASTE, OnUpdateEditpaste)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCUT, OnUpdateEditcut)
 	ON_UPDATE_COMMAND_UI(IDM_EDITCOPY, OnUpdateEditcopy)
+	ON_UPDATE_COMMAND_UI(IDM_EDITDELITEM, OnUpdateEditDelete)
+	ON_UPDATE_COMMAND_UI(IDM_EDITSELECTALL, OnUpdateEditSelectAll)
 	ON_UPDATE_COMMAND_UI(IDM_EDITROTATELEFT, OnUpdateEditRotateLRF)
 	ON_UPDATE_COMMAND_UI(IDM_EDITROTATERIGHT, OnUpdateEditRotateLRF)
 	ON_UPDATE_COMMAND_UI(IDM_EDITFLIP, OnUpdateEditRotateLRF)
@@ -156,6 +158,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_EDITCOPY, OnEditCopy )
 	ON_COMMAND( IDM_EDITCUT, OnEditCut )
 	ON_COMMAND( IDM_EDITPASTE, OnEditPaste )
+	ON_COMMAND( IDM_EDITSELECTALL, OnEditSelectAll )
 	ON_COMMAND( IDM_EDITDUPLICATE, OnEditDuplicate )
 	ON_COMMAND( IDM_EDITROTATELEFT, OnEditRotateLeft )
 	ON_COMMAND( IDM_EDITROTATERIGHT, OnEditRotateRight )
@@ -174,7 +177,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_BUSBACK, OnSelectBusBack )
 	ON_COMMAND( IDM_TOOLCONNECT, OnSelectConnect )
 	ON_COMMAND( IDM_TOOLLABEL, OnSelectLabel )
-	ON_COMMAND( IDM_TOOLHIERACHICAL, OnSelectHierachical )
+	ON_COMMAND( IDM_TOOLHIERARCHICAL, OnSelectHierarchical )
 	ON_COMMAND( IDM_TOOLPOWER, OnSelectPower )
 	ON_COMMAND( IDM_TOOLPOLYGON, OnSelectPolygon )
 	ON_COMMAND( IDM_TOOLWIRE, OnSelectWire )
@@ -1027,6 +1030,7 @@ void CTinyCadView::OnUpdateToolconnect(CCmdUI* pCmdUI)
 	{
 		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
 	}
+	pCmdUI->Enable(!GetCurrentDocument()->IsEditLibrary());
 }
 
 void CTinyCadView::OnUpdateToolget(CCmdUI* pCmdUI) 
@@ -1056,7 +1060,7 @@ void CTinyCadView::OnUpdateToollabel(CCmdUI* pCmdUI)
 	}
 }
 
-void CTinyCadView::OnUpdateToolHierachical(CCmdUI* pCmdUI) 
+void CTinyCadView::OnUpdateToolHierarchical(CCmdUI* pCmdUI) 
 {
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)	
@@ -1333,6 +1337,16 @@ void CTinyCadView::OnUpdateEditcut(CCmdUI* pCmdUI)
 }
 
 void CTinyCadView::OnUpdateEditcopy(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable( GetCurrentDocument()->IsSelected() );
+}
+
+void CTinyCadView::OnUpdateEditDelete(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable( GetCurrentDocument()->IsSelected() );
+}
+
+void CTinyCadView::OnUpdateEditSelectAll(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable( TRUE );
 }

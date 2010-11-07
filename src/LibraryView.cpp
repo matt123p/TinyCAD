@@ -135,7 +135,7 @@ void CLibraryView::OnDraw(CDC* pDC)
 	s.SetAccurateGrid(FineGrid);
 	CTinyCadDoc doc;
 	
-	const int inter_spacing = 20;
+	//const int inter_spacing = 20;
 	const int text_spacing = 25;
 	int current_index = 0;
 	int current_y = 0;
@@ -478,9 +478,9 @@ void CLibraryView::OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo)
 	s.SetGridSnap( FALSE );
 	CTinyCadDoc doc;
 
-	const int inter_spacing = 20;
-	const int text_spacing = 25;
-	double current_y = 0;
+	//const int inter_spacing = 20;
+	//const int text_spacing = 25;
+	//double current_y = 0;
 
 	int pages = (pDoc->m_SymbolMap.size() / m_symbols_per_print_page) + 1;
 

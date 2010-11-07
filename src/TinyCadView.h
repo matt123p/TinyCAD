@@ -47,6 +47,7 @@ extern CEditToolbar g_EditToolBar;
 
 class CTinyCadView : public CFolderView
 {
+	friend CMultiSheetDoc;	//Needs access to centering the screen around ERC objects
 protected: // create from serialization only
 	CTinyCadView();
 	DECLARE_DYNCREATE(CTinyCadView)
@@ -68,11 +69,12 @@ protected: // create from serialization only
 
 	CStatusBar m_wndStatusBar;	// The status bar associated with this window
 
-	CDPoint 	MousePosition;		// The last known mouse position
-	CPoint		StartPosition;		// The start position of a mouse capture
+	CDPoint 	MousePosition;		// The last known mouse position (as a pair of doubles)
+	CPoint		StartPosition;		// The start position of a mouse capture (as a pair of ints)
 
 	// Change the current offset co-ords
 	void SetScroll(double,double,bool first = false);
+
 	// Set a new zoom value
 	void ChangeZoomFactor(double);
 	void SetZoomFactor(double);
@@ -119,16 +121,16 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CTinyCadView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
-	virtual void OnInitialUpdate();
+		virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+		virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+		virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
+		virtual void OnInitialUpdate();
 	protected:
-	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
-	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+		virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
+		virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
+		virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+		virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+		virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -180,7 +182,7 @@ protected:
 	afx_msg void OnUpdateToolget(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTooljunc(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToollabel(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateToolHierachical(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateToolHierarchical(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpolygon(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpower(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolsquare(CCmdUI* pCmdUI);
@@ -205,6 +207,8 @@ protected:
 	afx_msg void OnUpdateEditpaste(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcut(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditcopy(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditDelete(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateEditSelectAll(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditRotateLRF(CCmdUI* pCmdUI);
 	afx_msg void OnDestroy();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
@@ -262,6 +266,7 @@ protected:
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditCut();
 	afx_msg void OnEditPaste();
+	afx_msg void OnEditSelectAll();
 	afx_msg void OnEditDuplicate();
 	afx_msg void OnEditRotateLeft();
 	afx_msg void OnEditRotateRight();
@@ -286,7 +291,7 @@ protected:
 	afx_msg void OnSelectJunction();
 	afx_msg void OnSelectPower() { GetCurrentDocument()->SelectObject(new CDrawPower(GetCurrentDocument())); }
 	afx_msg void OnSelectLabel() { GetCurrentDocument()->SelectObject(new CDrawLabel(GetCurrentDocument())); }
-	afx_msg void OnSelectHierachical();
+	afx_msg void OnSelectHierarchical();
 	afx_msg void OnSelectConnect() { GetCurrentDocument()->SelectObject(new CDrawNoConnect(GetCurrentDocument())); }
 	afx_msg void OnSelectPolygon();
 	afx_msg void OnSelectArc();
@@ -324,6 +329,7 @@ public:
 	afx_msg void OnContextReloadsymbolfromdesign();
 	void SelectSheet(int sheet);
 	void ChangeDir(int dir);
+	void DoSpecialCheck();
 };
 
 inline CMultiSheetDoc* CTinyCadView::GetDocument()

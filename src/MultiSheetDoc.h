@@ -51,6 +51,7 @@ public:
 	// get the number of documents in this multi-doc
 	virtual int	 GetNumberOfSheets();
 	virtual void SelectSheetView( int i );
+	virtual void SelectERCSheetView( int i, CDrawingObject *ercObject );
 	virtual void SetActiveSheetIndex( int i );
 	virtual int GetActiveSheetIndex();
 	virtual CString GetSheetName( int i );

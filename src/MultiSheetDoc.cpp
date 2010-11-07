@@ -163,6 +163,21 @@ void CMultiSheetDoc::SelectSheetView( int i )
     }
 }
 
+void CMultiSheetDoc::SelectERCSheetView( int i, CDrawingObject *ercObject )
+{
+	POSITION pos = GetFirstViewPosition();
+    while (pos != NULL)
+    {
+		CView* pView = GetNextView(pos);
+		if (pView->IsKindOf( RUNTIME_CLASS( CTinyCadView )))
+		{
+			static_cast<CTinyCadView *> (pView)->SelectSheet(i);
+			static_cast<CTinyCadView *> (pView)->SetScrollCentre(ercObject->m_point_a);	//Around the ERC marker - user is still free to change the focus and switch to a different zoom factor
+			pView->RedrawWindow();
+		}
+    }
+}
+
 BOOL CMultiSheetDoc::IsModified()
 {
 	if (CDocument::IsModified())

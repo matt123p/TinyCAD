@@ -108,6 +108,18 @@ public:
 		m_sheet = sheet;
 	}
 	
+	// A special constructor that assists in making duplicate copies of CNetListNodes
+	CNetListNode()
+	{
+		m_a.x = 0;
+		m_a.y = 0;
+		m_parent = NULL;
+		m_NetList = -1;
+		m_file_name_index = -1;
+		m_pMethod = NULL;
+		m_sheet = -1;
+	}
+
 	inline int getFileNameIndex() const { return m_file_name_index; }
 
 	// The destructor for this node

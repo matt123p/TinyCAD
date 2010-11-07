@@ -248,7 +248,7 @@ void CJunctionUtils::CheckJunctionRequirement( CDPoint q, bool perform_split )
   if ((items <= 2 || !line_end) && have_junc)
   {
 	  // No junction required, delete it!
-	  CDrawingObject *pJunction = *junc;
+	  //CDrawingObject *pJunction = *junc;
 	  m_pDesign->Delete( junc );
 
 	  // Do we need to merge a wire?

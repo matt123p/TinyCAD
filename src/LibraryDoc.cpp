@@ -221,13 +221,13 @@ void CLibraryDoc::DuplicateSymbol( int which )
 		CLibraryStoreNameSet *r = tempDoc.getSymbol();
 		for (int i =0; i<r->GetNumRecords(); i++)
 		{
-			r->GetRecord(i).NameID = -1;
+			r->GetRecord(i).NameID = (DWORD) -1;
 			if (i == 0)
 			{
 				r->GetRecord(i).name = "Copy of " + r->GetRecord(i).name;
 			}
 		}
-		r->FilePos = -1;
+		r->FilePos = (DWORD) -1;
 		tempDoc.Store();
 	}
 }
@@ -245,9 +245,9 @@ void CLibraryDoc::CopySymbol(int which, CLibraryStore *target)
 		CLibraryStoreNameSet *r = tempDoc.getSymbol();
 		for (int i =0; i<r->GetNumRecords(); i++)
 		{
-			r->GetRecord(i).NameID = -1;
+			r->GetRecord(i).NameID = (DWORD) -1;
 		}
-		r->FilePos = -1;
+		r->FilePos = (DWORD) -1;
 		tempDoc.Store();
 	}
 }

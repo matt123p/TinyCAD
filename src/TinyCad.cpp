@@ -93,6 +93,7 @@ CMultiDocTemplate*	CTinyCadApp::m_pTxtTemplate	= NULL;
 bool				CTinyCadApp::m_LockOutSymbolRedraw = false;
 COLORREF			CTinyCadApp::m_colours[16];
 HACCEL				CTinyCadApp::m_hAccelTable;
+bool				CTinyCadApp::m_translateAccelerator = false;
 
 
 //=========================================================================
@@ -284,11 +285,29 @@ CString CTinyCadApp::GetVersion()
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetReleaseType()
 {
-//	return "Debug/Test Release (uncontrolled)";
+	//There is a custom build step that runs the TortoiseSVN command "SubWCRev.exe".  This command
+	//stores information describing the state of the working copy of the repository used to produce
+	//this particular build.  In conjunction with a header template file, this information ends up
+	//in the following preprocessor definitions:
+	CString svn_wcrange = SVN_WCRANGE;	//a valid production build will always consist of a single revision, not a range of revisions
+	CString svn_modifications_postfix = SVN_MODIFICATIONS_POSTFIX;	//a valid production build will never contain uncommitted modified files
+
+	//If a range of SVN revisions was used to create this build or if there are modified files that have not been
+	//committed to SVN present in the working copy that produced this build, then the results of this build cannot 
+	//be duplicated by anyone else so it will be described as an "Uncontrolled Release".
+
+	if ((svn_wcrange.Find('-') != -1) || (svn_modifications_postfix.Find('+') != -1))
+	{
+		return "Uncontrolled Release";
+	}
+
+	//There is not presently a mechanism to automatically mark a release as an alpha or beta release
+	//although it would be nice if there was such a mechanism.
 //	return "Alpha Release";
 //	return "Beta Release";
 	return "Production Release";
 }
+
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetName()
 {
@@ -332,6 +351,13 @@ void CTinyCadApp::SetLockOutSymbolRedraw( bool r )
 		ResetAllSymbols();
 	}
 }
+
+void CTinyCadApp::SetTranslateAccelerator( bool b )
+{
+	m_translateAccelerator = b;
+
+}
+
 //-------------------------------------------------------------------------
 
 //=========================================================================
@@ -348,39 +374,51 @@ void CTinyCadApp::ReadRegistry()
 	CStringList*	colLibs = CTinyCadRegistry::GetLibraryNames();
 
 	// Iterate through the list in head-to-tail order.
-	for( POSITION pos = colLibs->GetHeadPosition(); pos != NULL; )
+	CString sSearch;
+	for (POSITION pos = colLibs->GetHeadPosition(); pos != NULL; )
 	{
 		// One single library
-		CString			sLibName = colLibs->GetNext( pos );
-		CLibraryStore*	oLib	= NULL;
+		CString sLibName = colLibs->GetNext(pos);	//This actually gets the current string that corresponds to *pos, and increments pos to point to the next string
+		CLibraryStore* oLib = NULL;
 
-		// Is this a new file library or an old library type?
-		CString sSearch = sLibName + _T(".idx");
+		//TRACE("\nProcessing library:  sLibName=\"%S\"\n", sLibName);
+
+		CString sSearch;
+
+		//Library names are stored without type information.  Look for the newest library types first (.TCLib), then the older .mdb, then theh oldest .idx
+		sSearch.Format(_T("%s.TCLib"), sLibName);
+		//TRACE("  1.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 		FindFile theFind( sSearch );
 		if (theFind.Success())
-		{	//the .idx file was found, so it must be an old library file (i.e., non-database format)
-			oLib = new CLibraryFile;
+		{	
+			//the .TCLib file was found, so it must be a new SQLIte library file
+			TRACE("    Found library file \"%S\".  This is an SQLite3 library.\n",sSearch);
+			oLib = new CLibrarySQLite;
 		}
 		else
 		{
-			CString sSearch = sLibName + _T(".mdb");
+			sSearch.Format(_T("%s.mdb"), sLibName);
+			//TRACE("  2.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 			FindFile theFind( sSearch );
 			if (theFind.Success())
-			{	//the .mdb file was found, so it must be a jet library file
+			{	//the .mdb file was found, so it must be one of the older JET/DAO library files
+				TRACE("    Found library file \"%S\".  This is a Microsoft JET/DAO library.\n",sSearch);
 				oLib = new CLibraryDb;
 			}
 			else
 			{
-				CString sSearch = sLibName + _T(".TCLib");
+				sSearch.Format(_T("%s.idx"), sLibName);
 				FindFile theFind( sSearch );
+				//TRACE("  3.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 				if (theFind.Success())
-				{	//the .TCLib file was found, so it must be a new SQLIte library file
-					oLib = new CLibrarySQLite;
+				{	//the .idx file was found, so it must be an old library file (i.e., non-database format)
+					TRACE("    Found library file \"%S\".  This is the oldest library type.\n",sSearch);
+					oLib = new CLibraryFile;
 				}
 				else
 				{	//no known library format was found
 					CString s;
-					s.Format(_T("Library not found:\r\n%s"), sLibName);
+					s.Format(_T("    Library not found in any format:\r\n\\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
 					AfxMessageBox( s );
 				}
 			}
@@ -388,6 +426,7 @@ void CTinyCadApp::ReadRegistry()
 
 		if (oLib)
 		{
+			//TRACE("Adding opened library \"%S\" to CLibraryCollection\n",sSearch);
 			oLib->Attach( sLibName );
 			CLibraryCollection::Add( oLib );
 		}
@@ -535,35 +574,57 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 			//
 			BOOL translate = TRUE;
 
-			// Allow simple text editing in dialogs.
-			if(WM_KEYDOWN == lpMsg->message)
+			if (!m_translateAccelerator)
 			{
-				if(::GetKeyState(VK_CONTROL) < 0)
+				// Allow simple text editing in dialogs.
+				if(WM_KEYDOWN == lpMsg->message)
 				{
-					switch(lpMsg->wParam)
+					if(::GetKeyState(VK_CONTROL) < 0)
 					{
-					case 'Z':	// Undo
-					case 'X':	// Cut
-					case 'C':	// Copy
-					case 'V':	// Paste
-						translate = FALSE;
+						switch(lpMsg->wParam)
+						{
+						case 'Z':	// Undo
+						case 'X':	// Cut
+						case 'C':	// Copy
+						case 'V':	// Paste
+							translate = FALSE;
+						}
 					}
-				}
-				else 
-				{
-					switch(lpMsg->wParam)
+					else 
 					{
-					case VK_DELETE:	// Delete
-						translate = FALSE;
+						switch(lpMsg->wParam)
+						{
+						case VK_DELETE:	// Delete
+							translate = FALSE;
+						}
 					}
 				}
 			}
 
 			// Not for popup windows like message boxes or modal dialogs
-			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & WS_POPUP))
+			if (translate && !((::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & (WS_POPUP | WS_EX_DLGMODALFRAME)))
 			{
 				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) 
 					return TRUE;
+			}
+
+			// Disable the Accelerator translator when
+			// Any non ctrl key is pressed or when
+			// the left mousebutton is pressed
+			if (m_translateAccelerator)
+			{
+				// Allow simple text editing in dialogs.
+				if(WM_KEYDOWN == lpMsg->message)
+				{
+					if(::GetKeyState(VK_CONTROL) >= 0)
+					{
+						m_translateAccelerator = FALSE;
+					}
+				}
+				else if(WM_LBUTTONDOWN == lpMsg->message)
+				{
+					m_translateAccelerator = FALSE;
+				}
 			}
 		}
 	}	

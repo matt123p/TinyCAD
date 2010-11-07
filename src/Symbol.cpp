@@ -96,7 +96,7 @@ CSymbolRecord::CSymbolRecord()
 	name_type = default_show;
 	ref_type = default_show;
     fields_loaded = FALSE;
-    NameID = -1;
+    NameID = (DWORD) -1;
 }
 
 
@@ -167,7 +167,7 @@ void CSymbolRecord::LoadXML( CXMLReader &xml)
 CLibraryStoreNameSet::CLibraryStoreNameSet(CLibraryStore *NewLib)
 {
   lib=NewLib;
-  FilePos = -1;
+  FilePos = (DWORD) -1;
 }
 
 // The destructor
@@ -216,8 +216,8 @@ void CLibraryStoreNameSet::SaveXML( CXMLWriter &xml )
 // Load this NameSet as an XML export
 void CLibraryStoreNameSet::LoadXML(CTinyCadMultiSymbolDoc *pDesign, CXMLReader &xml)
 {
-	int nt = 0;
-	int rt = 0;
+	//int nt = 0;
+	//int rt = 0;
 	CString tag;
 
 	while (xml.nextTag( tag ))
@@ -356,11 +356,11 @@ void CLibraryStoreNameSet::Blank()
 
 	CLibraryStoreSymbol r;
 	r.description = "New symbol";
-	FilePos = -1;
+	FilePos = (DWORD) -1;
 	r.name = "New symbol";
 	ppp = 1;
 	r.reference = "U?";
-	r.NameID = -1;
+	r.NameID = (DWORD) -1;
 	r.m_index = 0;
 	r.m_pParent = this;
 	orientation = 0;
@@ -436,7 +436,7 @@ bool CLibraryStoreSymbol::IsMatching( const TCHAR * theString ) const
 CDesignFileSymbol::CDesignFileSymbol()
 {
 	m_pDesign = NULL;
-	FilePos = -1;
+	FilePos = (DWORD) -1;
 	ppp = 1;
 	m_heterogeneous = false;
 }

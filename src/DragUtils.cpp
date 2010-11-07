@@ -73,8 +73,15 @@ void CDragUtils::Merge()
 	while (it_wires != it_wiresEnd)
 	{
 		CDrawingObject *pointer = (*it_wires).m_Object;
+
+		// Bug fix for: 2206894 - Wire disappears when made colinear
+		// Remove all zero length wires
+		if (pointer->GetType() == xWire && pointer->m_point_a == pointer->m_point_b)
+		{
+			m_discards.insert( pointer );
+		}
 	
-		// Is this a zero length wire?
+		// Is this a valid wire?
 		if (pointer->GetType() == xWire && m_discards.find( pointer ) == m_discards.end())
 		{
 			// Is this wire horizontal or vertical?
@@ -113,7 +120,7 @@ void CDragUtils::Merge()
 					if (test != pointer && m_discards.find( test ) == m_discards.end())
 					{
 						// Is this a wire?
-						if (!merge_a && test->GetType() == xWire && test->m_point_a != test->m_point_b)
+						if (test->GetType() == xWire && test->m_point_a != test->m_point_b)
 						{
 							// Is our pointer connected to this wire?
 							CLineUtils l( test->m_point_a, test->m_point_b );
@@ -141,13 +148,18 @@ void CDragUtils::Merge()
 								else if (	(test_vert && test_vert == vert) 
 									||	(test_horiz && test_horiz == horiz))
 								{
-									if (do_merge_a)
+									// Bug fix for: Invalid Toolwindow state
+									// Never merge the currently selected object.
+									if(m_pDesign->GetSingleSelectedItem() != test)
 									{
-										merge_a = test;
-									}
-									else
-									{
-										merge_b = test;
+										if (do_merge_a)
+										{
+											merge_a = test;
+										}
+										else
+										{
+											merge_b = test;
+										}
 									}
 								}
 							}

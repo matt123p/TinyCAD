@@ -570,7 +570,7 @@ void CXMLReader::uudecode( xml_char_t in )
 		{
 			if (m_uu_line_size > 0 && m_uu_size > 0)
 			{
-				*m_uu_data = c[i];
+				*m_uu_data = (BYTE) c[i];
 				m_uu_line_size --;
 				m_uu_size --;
 				m_uu_data ++;
@@ -630,7 +630,7 @@ void CXMLReader::unmakeString( CString str, BYTE &data )
 {
 	int d;
 	unmakeString( str, d );
-	data = d;
+	data = (BYTE) d;
 }
 
 
@@ -638,14 +638,14 @@ void CXMLReader::unmakeString( CString str, unsigned short &data )
 {
 	int d;
 	unmakeString( str, d );
-	data = d;
+	data = (unsigned short) d;
 }
 
 void CXMLReader::unmakeString( CString str, short &data )
 {
 	int d;
 	unmakeString( str, d );
-	data = d;
+	data = (short) d;
 }
 
 void CXMLReader::unmakeString( CString str, long &data )

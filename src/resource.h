@@ -52,17 +52,22 @@
 #define IDI_ALIGN_MIDDLE                154
 #define IDI_ALIGN_BOTTOM                155
 #define IDM_EDITREDO                    160
+#define IDB_BITMAP1                     160
 #define IDM_EDITMOVE                    162
 #define IDM_EDITDRAG                    163
+#define IDB_PNG2                        163
 #define IDM_EDITDELBLK                  165
+#define IDB_BITMAP2                     165
 #define IDM_EDITDUP                     166
+#define IDI_ICON1                       166
 #define IDM_EDITREPEAT                  167
+#define IDB_BITMAP3                     167
 #define IDM_EDITROTATE                  168
 #define IDM_EDITUNDO                    169
 #define IDM_LIBPIN                      170
 #define IDM_LIBLIB                      171
 #define IDM_LIBUPDATE                   172
-#define IDS_NOHIERACHICAL_SYMBOL        172
+#define IDS_NOHIERARCHICAL_SYMBOL       172
 #define IDM_LIBDEVICE                   174
 #define IDM_LIBEND                      175
 #define IDM_SPECIALBOM                  180
@@ -529,10 +534,10 @@
 #define ID_HORZ_RESIZE                  32864
 #define ID_EDIT_INSERTPICTURE           32865
 #define ID_HELP_EMAILFORSUPPORT         32866
-#define ID_CONTEXT_ADDHIERACHICALSYMBOL 32867
-#define IDM_TOOL_HIERACHICAL            32868
-#define IDM_TOOLHIERACHICAL             32869
-#define ID_SPECIAL_ADDHIERACHICALSYMBOLTOTHISDESIGN 32871
+#define ID_CONTEXT_ADDHIERARCHICALSYMBOL 32867
+#define IDM_TOOL_HIERARCHICAL           32868
+#define IDM_TOOLHIERARCHICAL            32869
+#define ID_SPECIAL_ADDHIERARCHICALSYMBOLTOTHISDESIGN 32871
 #define ID_CONTEXT_OPENDESIGN           32872
 #define ID_CONTEXT_RELOADSYMBOLFROMDESIGN 32873
 #define ID_LIBRARY_HOMOGENEOUS          32876
@@ -542,6 +547,7 @@
 #define IDM_OPTIONS_TOGGLE_UNITS        32886
 #define IDM_TOGGLE_GRIDSIZE             32888
 #define ID_HELP_OPENTINYCADUSERMANUAL   32894
+#define IDM_EDITSELECTALL               32895
 #define IDC_SCALING                     40000
 #define ID_CONTEXT_COPY_TO              65535
 
@@ -550,9 +556,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        158
-#define _APS_NEXT_COMMAND_VALUE         32895
-#define _APS_NEXT_CONTROL_VALUE         1568
+#define _APS_NEXT_RESOURCE_VALUE        168
+#define _APS_NEXT_COMMAND_VALUE         32896
+#define _APS_NEXT_CONTROL_VALUE         1569
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

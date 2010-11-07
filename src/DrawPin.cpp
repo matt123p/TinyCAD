@@ -263,8 +263,8 @@ CDrawPin::CDrawPin(CTinyCadDoc *pDesign)
   m_elec=0;
   m_str="";
   m_show=3;
-  m_length = pDesign->GetOptions()->GetPinLength();
-  m_part = m_pDesign->IsEditLibrary() ? static_cast<CTinyCadSymbolDoc*>(m_pDesign)->GetPart() : 0;
+  m_length = (WORD) pDesign->GetOptions()->GetPinLength();
+  m_part = (BYTE) (m_pDesign->IsEditLibrary() ? static_cast<CTinyCadSymbolDoc*>(m_pDesign)->GetPart() : 0);
   m_number_pos = pDesign->GetOptions()->GetPinNumberPos();
   m_centre_name = FALSE;
 }
@@ -333,7 +333,7 @@ void CDrawPin::Move(CDPoint p, CDPoint no_snap_p)
 void CDrawPin::ConvertPowerToNormal()
 {
 	// Convert this pin to a normal one
-	// and set the 'pin is converted' indicater
+	// and set the 'pin is converted' indicator
 	m_which = 0;
 	m_converted_power = 1; 
 
@@ -698,11 +698,11 @@ void IncrementNumber(CString &number, int increment) {
 	int numi = _tstoi(nums) + increment;
 	if (numi > 999) numi = 999;
 	if (numi < 1) numi = 1;
-	TCHAR newNum[4];
+	TCHAR newNum[5];
 	#ifdef USE_VS2003
 		_itot(numi, newNum, 10);
 	#else	/* use the VS2008 "safe" version */
-		_itot_s(numi, newNum, 3, 10);
+		_itot_s(numi, newNum, sizeof(newNum)/sizeof(TCHAR), 10);
 	#endif
 	number = number.Left(intpos) + newNum + number.Mid(intpos + nums.GetLength());
   } else {
@@ -807,7 +807,7 @@ void CDrawPin::Rotate(CDPoint p,int ndir)
   m_point_a = CDPoint(m_point_a.x+p.x,m_point_a.y+p.y);
   m_point_b = CDPoint(m_point_b.x+p.x,m_point_b.y+p.y);
 
-  m_dir = DoRotate(m_dir,ndir);
+  m_dir = (BYTE) DoRotate(m_dir,ndir);
 }
 
 const TCHAR* CDrawPin::GetElectricalTypeName(int i)

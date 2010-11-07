@@ -28,7 +28,8 @@
 // Visual Studio 2003:  _MSC_VER = 1300 through 1399
 // Visual Studio 2005:  _MSC_VER = 1400 through 1499
 // Visual Studio 2008:  _MSC_VER = 1500 through 1599
-// Visual Studio ????:  _MSC_VER > 1600
+// Visual Studio 2010:	_MSC_VER = 1600 through 1699
+// Visual Studio ????:  _MSC_VER > 1700
 
 /** The following code determines which compiler is being used for compilation.  
   * When compiling StdAfx.cpp, in conjunction with other code in StdAfx.cpp, it
@@ -66,11 +67,15 @@
 	//This source can be compiled with VS2008 with this setting
 	#define USE_VS2008
 	//#pragma message("Compiling TinyCAD with Visual Studio 2008")
-#else
-	//This source has not been tested with a Visual Studio C++ compiler newer than 2008
+#elif _MSC_VER < 1700
+	//This source can be compiled with VS2008 with this setting
 	#define USE_VS2008
-	#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2008")
-	#pragma message("\tUnsupported compiler - Setting Visual Studio 2008 options - Don't expect too much!")
+	//#pragma message("Compiling TinyCAD with Visual Studio 2010")
+#else
+	//This source has not been tested with a Visual Studio C++ compiler newer than 2010
+	#define USE_VS2008
+	#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2010")
+	#pragma message("\tUnsupported compiler - Setting Visual Studio 2008/2010 options - Don't expect too much!")
 #endif
 
 #ifdef USE_VS2003

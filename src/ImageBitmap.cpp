@@ -136,7 +136,7 @@ CBitmap *CImageBitmap::CreateImageBitmap(int Width, int Height, CDC &dc, int bpp
 	q.bi.bmiHeader.biWidth = Width;
 	q.bi.bmiHeader.biHeight = Height; 
 	q.bi.bmiHeader.biPlanes = 1; 
-	q.bi.bmiHeader.biBitCount = bpp;
+	q.bi.bmiHeader.biBitCount = (WORD) bpp;
 	q.bi.bmiHeader.biCompression = BI_RGB;
 	q.bi.bmiHeader.biSizeImage = 0; 
 	q.bi.bmiHeader.biXPelsPerMeter = 0; 

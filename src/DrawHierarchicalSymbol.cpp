@@ -48,7 +48,7 @@ CDrawHierarchicalSymbol::~CDrawHierarchicalSymbol(void)
 
 int CDrawHierarchicalSymbol::getMenuID()
 {
-	return IDM_TOOLHIERACHICAL;
+	return IDM_TOOLHIERARCHICAL;
 }
 
 ObjType CDrawHierarchicalSymbol::GetType()
@@ -56,9 +56,14 @@ ObjType CDrawHierarchicalSymbol::GetType()
 	return xHierarchicalSymbol;
 }
 
-const TCHAR* CDrawHierarchicalSymbol::GetXMLTag()
+const CString CDrawHierarchicalSymbol::GetXMLTag()
 {
-	return _T("HIERACHICAL_SYMBOL");
+	return _T("HIERARCHICAL_SYMBOL");
+}
+
+const CString CDrawHierarchicalSymbol::GetAltXMLTag()
+{	//Note:  Never "fix" the following misspelled text keyword!  It supports reading in older design files where the keyword actually was misspelled
+	return _T("HIERACHICAL_SYMBOL");	//This keyword was once misspelled and needs this function to be able to recognize the old keyword in old drawing files.
 }
 
 // Get the definition of this symbol
@@ -146,23 +151,23 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 
 	if (name != "TinyCADSheets")
 	{
-		AfxMessageBox(IDS_NOHIERACHICAL_SYMBOL,MB_ICONEXCLAMATION);
+		AfxMessageBox(IDS_NOHIERARCHICAL_SYMBOL,MB_ICONEXCLAMATION);
 		m_tr = CDPoint( -50, -50 );
 		return FALSE;
 	}
 
-	// Now find the hierachical symbol in this design
+	// Now find the hierarchical symbol in this design
 	xml.intoTag();
 
 	bool found = false;
 	while (	xml.nextTag( name ) )
 	{
 		// Save the old layer setting
-		CDrawingObject *obj = NULL;
+		//CDrawingObject *obj = NULL;
 
-		if (name == "HierachicalSymbol")
+		if ((name == _T("HierarchicalSymbol")) || (name == _T("HierachicalSymbol")))	//for historical reasons, the misspelled "HierachicalSymbol" must continue to be recognized
 		{
-			// Hierachical symbol loader...
+			// Hierarchical symbol loader...
 			clearSymbol();
 			m_Loaded = true;
 			m_pDesign->ReadFileXML( xml, FALSE, m_Symbol, TRUE );
@@ -174,7 +179,7 @@ BOOL CDrawHierarchicalSymbol::Load( const TCHAR *filename )
 
 	if (!found)
 	{
-		AfxMessageBox(IDS_NOHIERACHICAL_SYMBOL,MB_ICONEXCLAMATION);
+		AfxMessageBox(IDS_NOHIERARCHICAL_SYMBOL,MB_ICONEXCLAMATION);
 		return FALSE;
 	}
 
@@ -353,7 +358,7 @@ void CDrawHierarchicalSymbol::SaveXML( CXMLWriter &xml )
 	xml.addAttribute( _T("file"), m_pDesign->formatXMLFilename( m_Filename ) );
 
 	// Now read in the fields
-	int field_size = m_fields.size();;
+	//int field_size = m_fields.size();;
 	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];

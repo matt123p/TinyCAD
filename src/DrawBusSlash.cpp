@@ -69,7 +69,7 @@ void CDrawBusSlash::LoadXML( CXMLReader &xml )
 CDrawBusSlash::CDrawBusSlash(CTinyCadDoc *pDesign, int NewDir)
 : CDrawingObject( pDesign )
 {
-	theDir = NewDir;
+	theDir = (BYTE) NewDir;
 	m_point_a=m_point_b=CDPoint(0,0);
 	m_segment=1;
 }

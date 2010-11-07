@@ -710,7 +710,7 @@ ObjType CDrawPolygon::GetType()
 void CDrawPolygon::Display( BOOL erase )
 {
 	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
-	int width = max(2,theStyle->Thickness) * 2;
+	//int width = max(2,theStyle->Thickness) * 2;
 
   CDRect r(min(m_point_a.x,m_point_b.x),min(m_point_a.y,m_point_b.y),
 	  max(m_point_a.x,m_point_b.x),max(m_point_a.y,m_point_b.y));
@@ -1276,12 +1276,12 @@ double CDrawPolygon::DistanceFromPoint( CDPoint p )
 	return closest_distance - width;
 
 	// On the polygon?
-	if (closest_distance <= width)
-	{
-		return closest_distance - width;
-	}
+	//if (closest_distance <= width)
+	//{
+	//	return closest_distance - width;
+	//}
 
-	return closest_distance;
+	//return closest_distance;
 }
 
 

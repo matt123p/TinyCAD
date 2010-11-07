@@ -207,7 +207,7 @@ bool CImagePNG::ImportBMP(const TCHAR *filename)
 			LPLOGPALETTE pLogPal = (LPLOGPALETTE) new char[2 * sizeof(WORD) +
 				nColorTableEntries * sizeof(PALETTEENTRY)];
 			pLogPal->palVersion = 0x300;
-			pLogPal->palNumEntries = nColorTableEntries;
+			pLogPal->palNumEntries = (WORD) nColorTableEntries;
 			LPRGBQUAD pDibQuad = (LPRGBQUAD) lpvColorTable;
 			for(int i = 0; i < nColorTableEntries; i++) {
 				pLogPal->palPalEntry[i].peRed = pDibQuad->rgbRed;
@@ -905,7 +905,7 @@ void CImagePNG::QuantizeBuffer( CBitmap &output, CDC &dc )
 			
 			while (QuantizedColor) 
 			{
-				QuantizedColor ->NewColorIndex = i;
+				QuantizedColor ->NewColorIndex = (unsigned char) i;
 				Red += QuantizedColor -> RGB[0];
 				Green += QuantizedColor -> RGB[1];
 				Blue += QuantizedColor -> RGB[2];
@@ -951,7 +951,7 @@ void CImagePNG::QuantizeBuffer( CBitmap &output, CDC &dc )
 			(BlueV(colour) >> (8 - BITS_PER_PRIM_COLOR));
 		Index = ColorArrayEntries[Index].NewColorIndex;
 
-		m_output_bits[i] = Index;
+		m_output_bits[i] = (unsigned char) Index;
 		if (MaxRGBError[0] < ABS(m_ColorMap[Index].red - RedV(colour)))
 			MaxRGBError[0] = ABS(m_ColorMap[Index].red - RedV(colour));
 		if (MaxRGBError[1] < ABS(m_ColorMap[Index].green - GreenV(colour)))
@@ -1064,11 +1064,11 @@ bool CImagePNG::SubdivColorMap(NewColorMapType *NewColorSubdiv,
 		NewColorSubdiv[*NewColorMapSize].RGBWidth[SortRGBAxis] =
 			NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] +
 			NewColorSubdiv[*NewColorMapSize].RGBWidth[SortRGBAxis] -
-			MinColor;
-		NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] = MinColor;
+			(unsigned char) MinColor;
+		NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] = (unsigned char) MinColor;
 
 		NewColorSubdiv[Index].RGBWidth[SortRGBAxis] =
-			MaxColor - NewColorSubdiv[Index].RGBMin[SortRGBAxis];
+			(unsigned char) MaxColor - NewColorSubdiv[Index].RGBMin[SortRGBAxis];
 
 		(*NewColorMapSize)++;
     }

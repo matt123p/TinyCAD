@@ -792,7 +792,7 @@ void CDrawLabel::Rotate(CDPoint p,int ndir)
 		m_active_point = CDPoint(m_active_point.x+p.x,m_active_point.y+p.y);
 	}
 
-	dir = DoRotate(dir,ndir);
+	dir = (BYTE) DoRotate(dir,ndir);
 
 	CalcLayout();
 }

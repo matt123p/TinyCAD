@@ -41,7 +41,7 @@ CLibraryStore::~CLibraryStore()
 // Extract a symbol from this library
 CLibraryStoreNameSet *CLibraryStore::Extract(const TCHAR *key)
 {
-    CLibraryStoreNameSet *temp=NULL;
+    //CLibraryStoreNameSet *temp=NULL;
   
 	symbolCollection::iterator it = m_Symbols.begin();
 

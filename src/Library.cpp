@@ -601,7 +601,8 @@ BOOL CLibraryFile::Upgrade(CLibraryStore *NewLib)
 	  OldMethodsName = MethodsFileName();
 	}
 
-	int ok = OldMethods.Open(OldMethodsName,CFile::modeRead);
+	//int ok = 
+		OldMethods.Open(OldMethodsName,CFile::modeRead);
 
 	// Now we can write the new index file back
 	for( symbolCollection::iterator i = m_Symbols.begin(); i != m_Symbols.end(); i++ ) 
@@ -615,10 +616,10 @@ BOOL CLibraryFile::Upgrade(CLibraryStore *NewLib)
 		tmp_design.GetActiveSheet()->Import(stream);
 
 		// Clear this symbols identity...
-		thisSymbol.FilePos = -1;
+		thisSymbol.FilePos = (DWORD) -1;
 
 		CSymbolRecord &r = thisSymbol.GetRecord(0);
-		r.NameID = -1;
+		r.NameID = (DWORD) -1;
 
 		// Write this symbol into the new library
 		NewLib->Store( &thisSymbol, tmp_design );

@@ -178,12 +178,20 @@ int CNetList::GetNewNet()
  */ 
 int CNetList::Add(CNetListNode &ins)
 {
-	/// Is this node already in the tree?
-	int found = m_nodes[ ins.m_a ];
-  
-	/// Has this node already been assigned a net-list index?
-	if (ins.m_NetList == -1) 
+	/// Is this a node without connection point?
+	if (!ins.m_a.hasValue())
 	{
+		/// Always assign a new net-list index
+		ins.m_NetList = GetNewNet();
+		m_nets[ins.m_NetList].push_back( ins );
+		return ins.m_NetList;
+	}
+	/// Has this node already been assigned a net-list index?
+	else if (ins.m_NetList == -1) 
+	{
+		/// Is this node already in the tree?
+		int found = m_nodes[ ins.m_a ];
+  
 		/// No, so we can add without checking for prior connections...
 		if (found != 0) 
 		{
@@ -201,6 +209,9 @@ int CNetList::Add(CNetListNode &ins)
 	} 
 	else 
 	{
+		/// Is this node already in the tree?
+		int found = m_nodes[ ins.m_a ];
+  
 		/// If this node was already found, but with a different netlist
 		/// number, then first we must join the two netlists together
 		if (found != 0 && found != ins.m_NetList) 
@@ -468,7 +479,7 @@ void CNetList::Link( linkCollection& nets )
 		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet
 		{
 			nodeVector &v = (*ni).second;
-			int old_netlist = (*ni).first;
+			//int old_netlist = (*ni).first;
 			int new_netlist = 0;
 
 //			TRACE("\n    ==>Pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
@@ -651,7 +662,7 @@ void CNetList::Link( linkCollection& nets )
 //			TRACE("      ==>Pass 2 (sheetIndex = %d):  Updating the nodes in new_netlist=%d\n", sheetIndex, new_netlist);
 			while (vi != v.end())
 			{
-				CNetListNode &node = *vi;
+//				CNetListNode &node = *vi;
 //				TRACE("      ==>Pass 2:  Traversing node vector:  old_netlist=%d, new_netlist=%d, Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
 //					old_netlist, new_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
 				vi->m_NetList = new_netlist;
@@ -700,7 +711,7 @@ void CNetList::MakeNet( CTinyCadMultiDoc *pDesign )
 	linkCollection nets;
 	Counter file_counter;
 
-	CTinyCadMultiDoc*	aDesign = pDesign;
+	//CTinyCadMultiDoc*	aDesign = pDesign;
 	CollectionMemberReference<CImportFile *> impref;
 
 	CImportFile *f = new CImportFile(pDesign);
@@ -918,7 +929,10 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 						if (pointer->GetType()==xPinEx && thePin->IsPower()) 
 						{
-							CNetListNode n(file_index_id, sheetOneIndexed, thePin,thePin->GetActivePoint(theMethod) );
+							// Hidden power pins will get an uninitialized CDPoint node point.
+							// The Add method will never connect to any other uninitialized CDPoint node point
+							// and thus hidden power pins will correctly never connect to anything by their node coordinate.
+							CNetListNode n(file_index_id, sheetOneIndexed, thePin, CDPoint() );
 							// Set netlist label name to invisible symbol power pin name
 //							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
 //								n.m_NetList,
@@ -1725,7 +1739,9 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 		if (nv_it != (*nit).second.end()) 
 		{
 			theLine = "";
-			BOOL first = TRUE,PrintLine=FALSE, Labeled = FALSE;
+			//BOOL first = TRUE;
+			BOOL PrintLine=FALSE;
+			BOOL Labeled = FALSE;
 
 			while (nv_it != (*nit).second.end()) 
 			{
@@ -2368,7 +2384,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 	mode = normal;
 	CString lookup;
 	std::vector<CString> macro_strings;
-	CDrawMethod* pMethod = symbol.m_pMethod;
+	//CDrawMethod* pMethod = symbol.m_pMethod;
 	int brackets = 0;
 
 	for (int i = 0; i < spice.GetLength(); i++)

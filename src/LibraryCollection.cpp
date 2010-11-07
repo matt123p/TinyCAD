@@ -233,7 +233,7 @@ void CLibraryCollection::FillMatchingSymbols( CListBox* lstSymbols, CString sSea
             // Search if a library is enabled
 			for (int j = 0; j < mask->GetCount(); j ++)
 			{
-				if (mask->GetItemData( j ) == index)
+				if (mask->GetItemData( j ) == (DWORD) index)
 				{
 					bEnabled = mask->GetSel( j ) != 0;
 					break;

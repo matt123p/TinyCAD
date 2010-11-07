@@ -498,7 +498,7 @@ void CFolderTabCtrl::RecomputeLayout()
 	CFont* pOldFont = dc.SelectObject(&m_fontNormal);
 	int x = 0;
 	int n = GetItemCount();
-	CFolderTab* pTab;
+	CFolderTab* pTab=NULL;
 	for (int i=0; i<n; i++) {
 		pTab = GetTab(i);
 		if (pTab) 

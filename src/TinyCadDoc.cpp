@@ -88,45 +88,6 @@ CTinyCadDoc::~CTinyCadDoc()
 	FlushRedo();
 }
 
-#if 0
-BOOL CTinyCadDoc::OnNewDocument()
-{
-	BOOL bReturn = super::OnNewDocument();
-
-	if( bReturn )
-	{
-		GetDetails().Reset();
-
-  SetPart(0);
-
-  SelectObject(new CDrawEditItem(this));
-  UnSelect();
-
-	// Remove all objects from memory
-		
-		for( drawingIterator i = GetDrawingBegin(); i != GetDrawingEnd(); i++ ) 
-	{
-			CDrawingObject* pointer = *i;
-		delete pointer;
-	}
-		m_drawing.clear();
-
-    // Now delete the Redo List
-	m_undo_level = 0;
-	m_change_set = FALSE;
-	FlushRedo();
-	m_undo_level = 0;
-  NameDir = 1;
-  PinDir = 1;
-  part = 0;
-  show_power = FALSE;
-	}
-
-	return bReturn;
-}
-#endif
-
-
 // Iterate through the drawing
 drawingIterator CTinyCadDoc::GetDrawingBegin()
 {
@@ -155,8 +116,6 @@ BOOL CTinyCadDoc::Import( CStream& ar )
 		{
 			Add( *i );
 		}
-		UnSelect();
-		SetModifiedFlag( FALSE );
 
 		// Now select the objects
 		UnSelect();
@@ -180,7 +139,7 @@ BOOL CTinyCadDoc::Import( CStream& ar )
 // Save as a PNG file
 void CTinyCadDoc::SavePNG( const TCHAR *file_name, CDC &ref_dc, int scaling, bool bw, bool rotate )
 {
-	// Calculate the boundries
+	// Calculate the boundaries
 	CDRect rect = CDRect(0,0,0,0);
 
 	if (IsSelected())
@@ -567,7 +526,7 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 		// Copy dirty flag to Document modified flag
 		BOOL dirty = m_pParent->CDocument::IsModified();
 		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 
 		// Go through the list of action and undo each one in the reverse
 		// order that they were applied
@@ -668,7 +627,7 @@ void CTinyCadDoc::Redo()
 		// Copy dirty flag to Document modified flag
 		BOOL dirty = m_pParent->CDocument::IsModified();
 		m_pParent->CDocument::SetModifiedFlag( s.m_dirty );
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 
 		// Go through the list of action and redo each one 
 		//
@@ -799,7 +758,7 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 		BOOL dirty = m_pParent->CDocument::IsModified();
-		s.m_dirty = dirty;
+		s.m_dirty = (BYTE) dirty;
 		if (action ==  CDocUndoSet::Addition || action ==  CDocUndoSet::Deletion)
 		{
 			m_pParent->CDocument::SetModifiedFlag( TRUE );
@@ -1328,7 +1287,8 @@ void CTinyCadDoc::SelectObject(CDrawingObject *NewO )
 
 	if (NewO)
 	{
-		if (NewO->GetType() != xEditItem)
+		// Not when it is an editing object
+		if (NewO->GetType() != xEditItem && NewO->GetType() != xAnnotation)
 		{
 			BeginNewChangeSet();
 		}
@@ -1713,6 +1673,23 @@ void CTinyCadDoc::SelectMove(CDPoint r)
   }
   
   j.CheckTodoList( false );
+}
+
+
+// Select all objects
+void CTinyCadDoc::SelectAll()
+{
+	drawingIterator it = GetDrawingBegin();
+	drawingIterator itEnd = GetDrawingEnd();
+	while (it != itEnd) 
+	{
+		CDrawingObject *obj = *it;
+
+		obj->Display();
+		Select( obj );
+  		
+		++ it;
+	}
 }
 
 

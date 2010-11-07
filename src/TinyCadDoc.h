@@ -192,6 +192,9 @@ public:
 	// Undo the move of the selected objects
 	void SelectUndoMove(CDPoint);
 
+	// Select all objects
+	void SelectAll();
+
 	// Change the Z-order of the selected objects
 	void BringToFront();
 	void SendToBack();
@@ -228,7 +231,7 @@ public:
 	void SaveXML(CXMLWriter&, drawingCollection &drawing, BOOL Details = FALSE, BOOL SaveSelect = FALSE, BOOL SaveResources = TRUE);
 	void SaveXML(CXMLWriter&, BOOL Details = FALSE, BOOL SaveSelect = FALSE);
 
-	virtual CString GetXMLTag();
+	virtual const CString GetXMLTag();
 
 
 	void DeleteErrors();

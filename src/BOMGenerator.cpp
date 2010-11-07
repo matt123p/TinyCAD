@@ -204,7 +204,7 @@ void CBOMGenerator::WriteToFile( FILE *fout, bool csv )
   {
     const BomSort::BomObject *pBomObject = &(*itx);
 	CDrawMethod *thisMethod = pBomObject->m_pMethod;
-	int sheet = pBomObject->m_sheet;
+	//int sheet = pBomObject->m_sheet;
 	CString name = pBomObject->m_name;
 
 	if (name != LastName && LastName != "")

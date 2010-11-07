@@ -3911,6 +3911,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\bitmap2.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\bitmap3.bmp"
+				>
+			</File>
+			<File
 				RelativePath="CAD.ICO"
 				>
 			</File>
@@ -3935,7 +3943,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\icon1.ico"
+				>
+			</File>
+			<File
 				RelativePath="res\idr_main.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\LGPLV3.bmp"
 				>
 			</File>
 			<File

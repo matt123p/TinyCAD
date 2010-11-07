@@ -388,7 +388,7 @@ void CTinyCadMultiSymbolDoc::OnUpdateLibraryHomogeneous(CCmdUI *pCmdUI)
 // Write this symbol back to the library
 BOOL CTinyCadMultiSymbolDoc::Store()
 {
-	m_symboledit.ppp = m_ppp;
+	m_symboledit.ppp = (BYTE) m_ppp;
 
 	CDlgUpdateBox dlg( AfxGetMainWnd() );
 	dlg.SetSymbol( &m_symboledit );

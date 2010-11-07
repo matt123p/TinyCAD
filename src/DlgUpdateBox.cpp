@@ -332,7 +332,7 @@ void CDlgUpdateBox::OnOK()
 
   UpdateToRecord();
 
-  m_NewSymbol->ppp=GetDlgItemInt(UPDATE_PPP);
+  m_NewSymbol->ppp= (BYTE) GetDlgItemInt(UPDATE_PPP);
   m_NewSymbol->SetRecords( m_records );
 
   EndDialog( IDOK );
@@ -730,7 +730,7 @@ void CDlgUpdateBox::OnAddName()
 	// Create a new name that is a copy of the current name...
 	CLibraryStoreSymbol r = getCurrentRecord();
 
-	r.NameID = -1;
+	r.NameID = (DWORD) -1;
 	r.name = "New Symbol";
 	m_records.push_back( r );
 	

@@ -192,7 +192,7 @@ void CEditDlgHierarchicalEdit::OnChangeRotation()
   getObject()->Display();
 
   // Set the rotation
-  pMethod->rotate=GetDir();
+  pMethod->rotate= (BYTE) GetDir();
 
   // Update the method's attributes
   pMethod->NewRotation();
@@ -230,7 +230,7 @@ void CEditDlgHierarchicalEdit::OnChangeText()
 // Get the rotation and mirroring
 int CEditDlgHierarchicalEdit::GetDir()
 {
-  CDrawHierarchicalSymbol *pMethod = static_cast<CDrawHierarchicalSymbol*>(getObject());
+  //CDrawHierarchicalSymbol *pMethod = static_cast<CDrawHierarchicalSymbol*>(getObject());
 
   int dir;
 

@@ -37,7 +37,7 @@ void CTinyCadView::OnDraw(CDC* pDC)
 {
 	CTinyCadDoc* pDoc = GetCurrentDocument();
 	CDC BitmapDC;
-	CBitmap *old_bitmap;
+	CBitmap *old_bitmap=NULL;
 
   int selected;
 
@@ -264,7 +264,7 @@ bool CTinyCadView::CreateBitmap( CDC &dc, int width, int height )
 	q.bi.bmiHeader.biWidth = width; 
 	q.bi.bmiHeader.biHeight = height; 
 	q.bi.bmiHeader.biPlanes = 1; 
-	q.bi.bmiHeader.biBitCount = bpp;
+	q.bi.bmiHeader.biBitCount = (WORD) bpp;
 	q.bi.bmiHeader.biCompression = bpp == 16 ? BI_BITFIELDS : BI_RGB ;
 	q.bi.bmiHeader.biSizeImage = 0; 
 	q.bi.bmiHeader.biXPelsPerMeter = 0; 

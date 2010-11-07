@@ -210,7 +210,7 @@ void CEditDlgMethodEdit::OnChangeRotation()
   getObject()->Display();
 
   // Set the rotation
-  pMethod->rotate=GetDir();
+  pMethod->rotate= (BYTE) GetDir();
 
   // Update the method's attributes
   pMethod->NewRotation();
@@ -268,7 +268,7 @@ void CEditDlgMethodEdit::OnChangePart()
 		int NewPart = str[0]-'A';
 		// Is this part letter within the parts defined for this symbol
 		if (NewPart < (pMethod->GetSymbolData())->ppp)
-			pMethod->part=NewPart;
+			pMethod->SetPart(NewPart);
 		else
 			Message(IDS_BADPART,MB_ICONEXCLAMATION);
   	}
@@ -284,7 +284,7 @@ void CEditDlgMethodEdit::OnChangePart()
 // Get the rotation and mirroring
 int CEditDlgMethodEdit::GetDir()
 {
-  CDrawMethod *pMethod = static_cast<CDrawMethod*>(getObject());
+  //CDrawMethod *pMethod = static_cast<CDrawMethod*>(getObject());
 
   int dir;
 

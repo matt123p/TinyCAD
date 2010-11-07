@@ -85,7 +85,7 @@ void CTinyCadView::OnFindFind()
 	// GetCurrentDocument()->DeleteErrors();
 
 	CMultiSheetDoc *pDoc = static_cast<CMultiSheetDoc*>(GetDocument());
-	theERCListBox.Open(pDoc);
+	theERCListBox.Open(pDoc, NULL);
 	int CurrentError = 0;
 
 	// Now look for this string
@@ -124,7 +124,7 @@ void CTinyCadView::OnFindFind()
 
 void CTinyCadView::OnViewZoomIn()
 {
-  CMenu *pMenu = GetMenu();
+  //CMenu *pMenu = GetMenu();
   double NewZoom = GetTransform().doubleScale(1.0)*1.3;
   CPoint p = GetTransform().Scale(MousePosition);
 
@@ -294,6 +294,9 @@ void CTinyCadView::OnEditCopy()
 	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem)
 		return;
 
+	if (!GetCurrentDocument()->IsSelected())
+		return;
+
 	OpenClipboard();
 	EmptyClipboard();
 
@@ -308,14 +311,9 @@ void CTinyCadView::OnEditCopy()
 	// Save the selected area
 	CStreamClipboard stream;
 	CXMLWriter xml( &stream );
-	if (GetCurrentDocument()->IsSelected())
-	{
-		GetCurrentDocument()->SaveXML(xml,TRUE,TRUE);
-	}
-	else
-	{
-		GetCurrentDocument()->SaveXML(xml,TRUE,FALSE);
-	}
+
+	GetCurrentDocument()->SaveXML(xml,TRUE,TRUE);
+
 	stream.SaveToClipboard(ClipboardFormat);
 
 	CloseClipboard();
@@ -329,6 +327,17 @@ void CTinyCadView::OnEditCopyto()
 		GetCurrentDocument()->Save(TRUE,TRUE);
 	}
 }
+
+
+void CTinyCadView::OnEditSelectAll()
+{
+	// Get rid of the current editing object
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 
+
+	GetCurrentDocument()->UnSelect(); 
+	GetCurrentDocument()->SelectAll();
+}
+
 
 void CTinyCadView::OnEditRotateLeft() 
 {
@@ -361,7 +370,7 @@ void CTinyCadView::OnSelectPolygon()
 	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument())); 
 }
 
-void CTinyCadView::OnSelectHierachical() 
+void CTinyCadView::OnSelectHierarchical() 
 { 
 	// Drop the current drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 

@@ -62,7 +62,7 @@ CImage* ListOfMetaFiles::GetImage() const
 //-------------------------------------------------------------------------
 void ListOfMetaFiles::ReadNative( CStream& oStream )
 {
-	UINT32 	nSize		= -1;
+	UINT32 	nSize		= (UINT32) -1;
   	BYTE*	naBuffer	= NULL;
 
 	Init( NULL );

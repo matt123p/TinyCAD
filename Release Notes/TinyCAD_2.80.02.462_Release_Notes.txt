@@ -1,0 +1,13 @@
+Changes from TinyCAD 2.80.01.434 Production Release:
+
+Bug Fix #3092340  - 5-step crash using Text Tool - Yet another fix for the 'DEL' key problem. In this case it is the ESC key with the focus on a modal dialog.
+
+Bug Fix #3089308 - Hidden power pins will connect to other hidden power pins in different symbols if the symbols are arranged such that the hidden power pins active ends are positioned on top of each other.
+
+Bug Fix #3094447 - ERC list does not show up
+
+Bug Fix #3096965 - Duplicate parts after Paste+Undo - After pasting (Ctrl+V) a selection, and then do Undo (Ctrl+Z) you will end up with a duplication of your initial selection, which is difficult to detect.
+
+New Feature Request #3097756 - Add Ctrl+A to select all objects
+
+FAQ List updated with Q&A #4.
