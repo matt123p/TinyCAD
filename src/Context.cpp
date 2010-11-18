@@ -636,7 +636,6 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	double *datum_width = new double[len];
 	int *actual_width = new int[len];
 	double scale = m_Transform.doubleDeScale( static_cast<int>(m_datum_scaling) );
-	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy));
 
     SelectFontNow( true );
 	int i;
@@ -733,29 +732,13 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	m_pDC->SetBkMode(TRANSPARENT);
 
 	// move the positioning to follow the rotations
-	if (dir==0)
+	if (dir==1)
 	{
-		if (m_Transform.GetIsFlipped())
-			a=CPoint(a.x+iHeight,a.y);
+		a=CPoint(a.x,a.y+ipos);
 	}
-	else if (dir==1)
+	if (dir==2)
 	{
-		if (m_Transform.GetIsFlipped())
-			a=CPoint(a.x,a.y+ipos);
-		else
-			a=CPoint(a.x+iHeight,a.y+ipos);
-	}
-	else if (dir==2)
-	{
-		if (m_Transform.GetIsFlipped())
-			a=CPoint(a.x-ipos,a.y);
-		else
-			a=CPoint(a.x-ipos,a.y+iHeight);
-	}
-	else if (dir==3)
-	{
-		if (m_Transform.GetIsFlipped())
-			a=CPoint(a.x,a.y+iHeight);
+		a=CPoint(a.x-ipos,a.y);
 	}
 
 
@@ -766,6 +749,8 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	TCHAR Last=' ';
 	CPen *oldPen = NULL;
 
+	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy));
+	
 	SelectPen(PS_SOLID,1,cSELECT);
 
 	int x_pos = 0;

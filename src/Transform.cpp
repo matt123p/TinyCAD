@@ -234,7 +234,7 @@ int Transform::RotateDir(int in) const
   
   // Current rotation=> 0  1  2  3
   // Current dir ..						  \/..
-  const int table[] = {	0, 1, 2, 3, 	// 0
+  int table[] = {		0, 1, 2, 3, 	// 0
 						1, 0, 3, 2,		// 1
 						2, 2, 0, 0,		// 2
 						3, 3, 1, 1,		// 3
@@ -314,11 +314,6 @@ BOOL Transform::GetIsYUp() const
 { 
 	return IsYUp; 
 }
-
-BOOL Transform::GetIsFlipped() const 
-{ 
-	return (rotmir==1 || rotmir==2 || rotmir==4 || rotmir==7); 
-} 
 
 int Transform::GetRotMir() const 
 { 
