@@ -780,6 +780,9 @@ void CDlgUpdateBox::OnSelchangeListNames()
 
 void CDlgUpdateBox::OnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult) 
 {
+	// Remove edit box
+	EndEdit();
+
 	int sel = m_Tab.GetCurSel();
 	
 	m_Add.ShowWindow( sel == 0);
