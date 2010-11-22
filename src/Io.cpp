@@ -77,7 +77,7 @@ const CString CTinyCadDoc::GetXMLTag()
 }
 
 //-------------------------------------------------------------------------
-void CTinyCadDoc::SaveXML(CXMLWriter &xml, drawingCollection &drawing, BOOL Details, BOOL SaveSelect, BOOL SaveResources )
+void CTinyCadDoc::SaveXML(CXMLWriter &xml, drawingCollection &drawing, BOOL Details, BOOL SaveSelect, BOOL SaveResources, BOOL SaveOriginObject )
 {
   // Write the objects to the file
   try
@@ -118,19 +118,23 @@ void CTinyCadDoc::SaveXML(CXMLWriter &xml, drawingCollection &drawing, BOOL Deta
 	if (Details)
 	{
 		theOptions.SaveSymbolsXML(xml);
+		theOptions.WriteXML(xml) ;
 	}
 
-	if (Details)
+	// Save the document origin 
+	if (!SaveOriginObject)
 	{
-		theOptions.WriteXML( xml) ;
+		SaveDocumentOriginXML(xml);
 	}
 
+	// Save symbol objects
 	for( drawingIterator i = drawing.begin(); i != drawing.end(); i++ )
 	{
 		CDrawingObject* obj = *i;
 
 		if (obj->GetType() != xError
-			&& 	(Details || !obj->IsConstruction()) 
+			&& 	(Details || !obj->IsConstruction() || (SaveOriginObject && obj->GetType() == xOrigin)) 
+			&&  (!Details || obj->GetType() != xOrigin)
 			&&  (!SaveSelect || IsSelected( obj )) )
 		{
 
@@ -450,7 +454,7 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 		}
 		
 		// Check we are at the right point
-		if (name != GetXMLTag())
+		if (name != _T("TinyCAD") && name != _T("HierarchicalSymbol"))
 		{
 			Message(IDS_ABORTVERSION,MB_ICONEXCLAMATION);
 			return FALSE;
@@ -458,6 +462,7 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 	}
 
 	BOOL ResetMerge = TRUE;
+	CDPoint origin;
 
 	xml.intoTag();
 
@@ -576,6 +581,14 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 		{
 			obj = new CDrawNoConnect(this);
 		}
+		else if (name == CDrawOrigin::GetXMLTag())
+		{
+			// Allow only a single origin object
+			if (!origin.hasValue())
+			{
+				obj = new CDrawOrigin(this);
+			}
+		}
 		else if (name == CDrawPin::GetXMLTag())
 		{
 			obj = new CDrawPin(this);
@@ -622,6 +635,11 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 			if (!obj->IsEmpty())
 			{
 				drawing.insert( drawing.end(), obj );
+				if (obj->GetType()==xOrigin)
+				{
+					// Capture the drawing origin
+					origin = obj->m_point_a;
+				}
 			}
 		}
 	}
@@ -632,6 +650,14 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 	{
 		xml.outofTag();
 	}
+
+	// Set the document origin
+	// only while editing symbols
+	if (IsEditLibrary())
+	{
+		theOptions.SetOrigin(origin);
+	}
+
   }
   catch( CException *e ) 
   {
@@ -644,6 +670,18 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
   return drawing.size() > 0;
 }
 
+// Save the document origin as XML
+void CTinyCadDoc::SaveDocumentOriginXML(CXMLWriter &xml)
+{
+	if (theOptions.HasOrigin())
+	{
+		// Save the drawing origin as an origin object
+		CDPoint origin = theOptions.GetOrigin();
+		xml.addTag(CDrawOrigin::GetXMLTag());
+		xml.addAttribute( _T("pos"), CDPoint(origin) );
+		xml.closeTag();
+	}
+}
 
 
 

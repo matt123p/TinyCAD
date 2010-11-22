@@ -75,7 +75,7 @@ void CDrawRuler::Paint(CContext &dc,paint_options options)
 		dc.SetTextColor( cRULER );
 	}
 
-	CString pos = m_pDesign->GetOptions()->PointToDisplay(m_point_a,horiz);
+	CString pos = m_pDesign->GetOptions()->PointToDisplay(m_point_a - m_pDesign->GetOptions()->GetOrigin(), horiz);
 	
 	// Select the font
 	dc.SelectFont(*m_pDesign->GetOptions()->GetFont(fRULE),horiz ? 2 : 0 );

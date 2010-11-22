@@ -553,14 +553,20 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 			switch (act.m_action)
 			{
 			case CDocUndoSet::Deletion:
-				// We must re-insert the deleted objects
-				m_drawing.insert( it, Dup(act.m_object) );
-				action_taken = TRUE;
+				{
+					CDrawingObject *obj = Dup(act.m_object);
+					// We must re-insert the deleted objects
+					m_drawing.insert( it, obj );
+					obj->NotifyEdit(CDocUndoSet::Addition);
+					action_taken = TRUE;
+				}
 				break;
 			case CDocUndoSet::Addition:
 				// We must remove the additions
 				if (it != itEnd)
 				{
+					CDrawingObject *obj = *it;
+					obj->NotifyEdit(CDocUndoSet::Deletion);
 					delete *it;
 					m_drawing.erase( it );
 				}
@@ -580,6 +586,7 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 					// Action taken when object contents differs
 					if (*act.m_object != *copy)
 					{
+						(*it)->NotifyEdit(CDocUndoSet::Change);
 						action_taken = TRUE;
 					}
 
@@ -659,15 +666,21 @@ void CTinyCadDoc::Redo()
 				// We must re-delete the deleted objects
 				if (it != itEnd)
 				{
+					CDrawingObject *obj = *it;
+					obj->NotifyEdit(CDocUndoSet::Deletion);
 					delete *it;
 					m_drawing.erase( it );
 				}
 				action_taken = TRUE;
 				break;
 			case CDocUndoSet::Addition:
-				// We must re-insert the additions
-				m_drawing.insert( it, Dup(act.m_object) );
-				action_taken = TRUE;
+				{
+					CDrawingObject *obj = Dup(act.m_object);
+					// We must re-insert the additions
+					m_drawing.insert( it, Dup(act.m_object) );
+					obj->NotifyEdit(CDocUndoSet::Addition);
+					action_taken = TRUE;
+				}
 				break;
 			case CDocUndoSet::Change:
 				// We convert the old objects into the new objects...
@@ -683,6 +696,7 @@ void CTinyCadDoc::Redo()
 					// Action taken when object contents differs
 					if (*act.m_object != *copy)
 					{
+						(*it)->NotifyEdit(CDocUndoSet::Change);
 						action_taken = TRUE;
 					}
 
@@ -775,6 +789,8 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 			m_pParent->CDocument::SetModifiedFlag( IsModified() );
 		}
 	}
+
+	index_object->NotifyEdit(action);
 
 	CDocUndoSet &s = m_undo[ m_undo_level ];
 
@@ -1227,6 +1243,15 @@ void CTinyCadDoc::Invalidate()
 	if (m_pParent)
 	{
 		m_pParent->UpdateAllViews( NULL, DOC_UPDATE_INVALIDATE, NULL );
+	}
+}
+
+// Redraw the rulers
+void CTinyCadDoc::InvalidateRulers()
+{
+	if (m_pParent)
+	{
+		m_pParent->UpdateAllViews( NULL, DOC_UPDATE_RULERS, NULL );
 	}
 }
 

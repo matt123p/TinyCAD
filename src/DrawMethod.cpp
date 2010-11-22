@@ -159,6 +159,9 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 		return;
 	}
 
+	// Erase old symbol
+	Display();
+
 	// Signal change for undo
 	m_pDesign->MarkChangeForUndo( this );
 
@@ -169,7 +172,7 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 	// Get the position again of that same first visible non-power pin
 	CDPoint refNew = GetFirstStaticPoint( );
 	// move symbol in such a way that the pins stay stationary
-	m_point_a += (refOld - refNew);
+	Shift(refOld - refNew);
 
 	// Now copy over any relevant fields...
 	CSymbolRecord *pSymbol = GetSymbolData();
@@ -245,6 +248,9 @@ void CDrawMethod::ReplaceSymbol( hSYMBOL old_symbol, hSYMBOL new_symbol, bool ke
 			m_fields.push_back( f );
 		}
 	}
+
+	// Display new symbol
+	Display();
 }
 
 
@@ -1593,13 +1599,57 @@ void CDrawMethod::RemoveReference()
 }
 
 
+CDPoint CDrawMethod::TranslatePointToDesign(CDPoint p)
+{ 
+	CDPoint r;
+	CDPoint bound = GetTr();
+	CDPoint s = m_point_a;
+
+	ScalePoint( p );
+
+	// Has this object been mirrored?
+	if ((GetRotate()&4)!=0)
+	{
+		p.x = bound.x - p.x;
+	}
+
+
+	switch ((GetRotate())&3) {
+	case 0:	// Up
+		r.x = p.x + s.x;
+		r.y = p.y + s.y;
+		break;
+	case 1: // Down
+		r.x = p.x + s.x;
+		r.y = (bound.y - p.y) + s.y;
+		break;
+	case 2: // Left
+		r.x = p.y + s.x;
+		r.y = p.x + s.y;
+		break;
+	case 3: // Right
+		r.x = (bound.y - p.y) + s.x;
+		r.y = p.x + s.y;
+		break;
+	}
+
+	return r;
+}
+
+
 // Get the bottom right pin that is always visible
 CDPoint CDrawMethod::GetFirstStaticPoint()
 {
-	CDPoint a = CDPoint(0,0);
+	// Use the origin as the static point
+	// Get the symbol origin
+	CDPoint origin = GetSymbolData()->GetOrigin( part, show_power != 0 );
+	CDPoint a = TranslatePointToDesign( origin );
 
-	if (m_activePoints.size() == 0)
+	if (!a.hasValue())
 	{
+		// If the symbol has no origin then
+		// create an artificial origin by searching for
+		// a pin which is always visible.
 		drawingCollection method;
 		CDPoint tr;
 		ExtractSymbol( tr, method );
@@ -1613,19 +1663,35 @@ CDPoint CDrawMethod::GetFirstStaticPoint()
 			CDrawingObject *MethodPtr = (*it);
 			CDrawPin* thePin = static_cast<CDrawPin*>((CDrawPin*)MethodPtr);
 
-			// If it is a pin then use it
+			// If it is an 'always visible' pin then use it
 			if (MethodPtr->GetType()==xPinEx && !thePin->IsInvisible() && !(thePin->IsPower() || thePin->IsConvertedPower())) 
 			{
 				CDPoint ap = thePin->GetActivePoint( this );
-				a.x = max(a.x, ap.x);
-				a.y = max(a.y, ap.y);
+
+				if (!a.hasValue())
+				{
+					a = ap;
+				}
+				// Use the most bottom-right pin
+				else if (a < ap)
+				{
+					a = ap;
+				}
 			}
 
 			++ it;
 		}
+
+		// When the symbol has no pins then use the symbol center.
+		if (!a.hasValue())
+		{
+			a.x = (m_point_a.x + m_point_b.x) / 2;
+			a.y = (m_point_a.y + m_point_b.y) / 2;
+		}
 	}
 
-	return a;
+	// Ensure it is snapped to the grid
+	return m_pDesign->m_snap.Snap(a);
 }
 
 
@@ -1689,5 +1755,5 @@ void CDrawMethod::SetPart(int NewPart)
 	CDPoint refNew = GetFirstStaticPoint( );
 
 	// move symbol in such a way that the pins stay stationary
-	m_point_a += (refOld - refNew);
+	Shift(refOld - refNew);
 }

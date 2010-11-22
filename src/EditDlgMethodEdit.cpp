@@ -328,7 +328,7 @@ void CEditDlgMethodEdit::OnClickList(NMHDR* pNMHDR, LRESULT* pResult)
 	CRect r;
 	m_list.GetItemRect( index, &rect, LVIR_BOUNDS );
 	r = rect;
-	int x = rect.right - 2;
+	int x = rect.right;
 	r.left = x;
 	int column;
 	for (column=2;column>=0;column--)
@@ -441,7 +441,8 @@ void CEditDlgMethodEdit::BeginEdit(int index, CRect r)
 	}
 
 	// Now create the edit control
-	m_edit_control.Create( WS_CHILD|WS_VISIBLE|WS_BORDER, r, this, 101 );
+	m_edit_control.Create( WS_CHILD|WS_VISIBLE|WS_BORDER|ES_AUTOHSCROLL, r, this, 101 );
+	m_edit_control.SetLimitText(255);
 	m_edit_control.SetFont( GetFont() );
 	m_edit_control.SetWindowText( v );
 	m_edit_control.SetSel( 0, v.GetLength() );
@@ -562,7 +563,7 @@ void CEditDlgMethodEdit::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 		item.cchTextMax = sizeof( buffer );
 		m_list.GetItem( &item );
 
-		dc.DrawText( buffer, &r, DT_LEFT | DT_VCENTER );
+		dc.DrawText( buffer, &r, DT_LEFT | DT_VCENTER | DT_NOPREFIX );
 			
 		right = left;
 	}
@@ -651,7 +652,7 @@ void CEditDlgMethodEdit::OnBnClickedShowpower()
 	CDPoint refNew = pMethod->GetFirstStaticPoint( );
 
 	// move symbol in such a way that the pins stay stationary
-	pMethod->m_point_a += (refOld - refNew);
+	pMethod->Shift(refOld - refNew);
 
 	// Show symbol 
 	pMethod->Display();
