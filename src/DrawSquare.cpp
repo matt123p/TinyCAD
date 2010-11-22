@@ -424,6 +424,7 @@ void CDrawSquare::Paint(CContext &dc,paint_options options)
   {
 		dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
 		//Now draw the note text on top of the rectangle
+		dc.Rectangle(CDRect(sma.x-2, sma.y-2, smb.x+2, smb.y+2));	//junky test pattern
   }
   else	//Must be an ellipse
   {

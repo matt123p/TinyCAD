@@ -68,18 +68,18 @@ public:
 	CEditDlg*	m_pCurrentTool;
 
 
-	CEditDlgNoTool				m_NoTool;
-	CEditDlgTextEdit			m_TextEdit;
-	CEditDlgLabelEdit			m_LabelEdit;
-	CEditDlgPowerEdit			m_PowerEdit;
-	CEditDlgPinEdit				m_PinEdit;
-	CEditDlgDrawLineEdit		m_DrawLineEdit;
-	CEditDlgDrawPolyEdit		m_DrawPolyEdit;
-	CEditDlgMethodEdit			m_MethodEdit;
-	CEditDlgRotateBox			m_RotateBox;
-	CEditDlgLine				m_LineEdit;
-	CEditDlgPolygon				m_PolygonEdit;
-	CEditDlgHierarchicalEdit	m_HierarchicalEdit;
+	CEditDlgNoTool				m_NoTool;				//Used when nothing else is being edited
+	CEditDlgTextEdit			m_TextEdit;				//Used to edit single line annotation text
+	CEditDlgLabelEdit			m_LabelEdit;			//Used to edit net labels (net names, not general text)
+	CEditDlgPowerEdit			m_PowerEdit;			//Used to edit power and ground objects
+	CEditDlgPinEdit				m_PinEdit;				//Used to edit the pins of a symbol
+	CEditDlgDrawLineEdit		m_DrawLineEdit;			//Used to edit net connection lines
+	CEditDlgDrawPolyEdit		m_DrawPolyEdit;			//Used to edit annotation polygons
+	CEditDlgMethodEdit			m_MethodEdit;			//Used to edit symbols
+	CEditDlgRotateBox			m_RotateBox;			//Used to edit the rotation of an object
+	CEditDlgLine				m_LineEdit;				//Used to edit annotation lines (i.e., graphical lines)
+	CEditDlgPolygon				m_PolygonEdit;			//Used to edit annotation polygons also?!!
+	CEditDlgHierarchicalEdit	m_HierarchicalEdit;		//Used to edit hierarchical symbols
 
 
 	void changeSelected(CDrawingObject *previous, CDrawingObject *pObject );
