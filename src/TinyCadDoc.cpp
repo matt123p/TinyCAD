@@ -582,11 +582,11 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 
 					copy->Display();
 					*it = act.m_object;
+					(*it)->NotifyEdit(CDocUndoSet::Change);
 
 					// Action taken when object contents differs
 					if (*act.m_object != *copy)
 					{
-						(*it)->NotifyEdit(CDocUndoSet::Change);
 						action_taken = TRUE;
 					}
 
@@ -677,7 +677,7 @@ void CTinyCadDoc::Redo()
 				{
 					CDrawingObject *obj = Dup(act.m_object);
 					// We must re-insert the additions
-					m_drawing.insert( it, Dup(act.m_object) );
+					m_drawing.insert( it, obj );
 					obj->NotifyEdit(CDocUndoSet::Addition);
 					action_taken = TRUE;
 				}
@@ -692,11 +692,11 @@ void CTinyCadDoc::Redo()
 
 					copy->Display();
 					*it = act.m_object;
+					(*it)->NotifyEdit(CDocUndoSet::Change);
 
 					// Action taken when object contents differs
 					if (*act.m_object != *copy)
 					{
-						(*it)->NotifyEdit(CDocUndoSet::Change);
 						action_taken = TRUE;
 					}
 

@@ -252,16 +252,9 @@ CDrawingObject* CDrawOrigin::Store()
 
 void CDrawOrigin::NotifyEdit(int action)
 {
-//	enum action
-//	{
-//		Addition=0,
-//		Deletion=1,
-//		Change=2
-//	};
-
-	switch(action)
+	switch(static_cast<CDocUndoSet::action>(action))
 	{
-	case 0: // Addition
+	case CDocUndoSet::Addition:
 		if (m_point_a.hasValue())
 		{
 			// Origin is only valid in a library symbol
@@ -296,7 +289,7 @@ void CDrawOrigin::NotifyEdit(int action)
 			}
 		}
 		break;
-	case 1: // Deletion
+	case CDocUndoSet::Deletion:
 		{
 			// Restore the previous origin position
 			// by looking for a valid origin object
@@ -315,7 +308,7 @@ void CDrawOrigin::NotifyEdit(int action)
 			m_pDesign->InvalidateRulers();
 		}
 		break;
-	case 2: // Change
+	case CDocUndoSet::Change:
 		{
 			// Search for the single valid origin object
 			CDPoint origin;

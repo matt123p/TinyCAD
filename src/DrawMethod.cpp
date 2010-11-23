@@ -1672,8 +1672,8 @@ CDPoint CDrawMethod::GetFirstStaticPoint()
 				{
 					a = ap;
 				}
-				// Use the most bottom-right pin
-				else if (a < ap)
+				// Use the upper leftmost pin
+				else if (ap < a)
 				{
 					a = ap;
 				}
