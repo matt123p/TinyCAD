@@ -749,7 +749,7 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	TCHAR Last=' ';
 	CPen *oldPen = NULL;
 
-	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy));
+	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy) * 0.92);
 	
 	SelectPen(PS_SOLID,1,cSELECT);
 
