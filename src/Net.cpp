@@ -433,6 +433,71 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 		}
 	}
 
+	/// Scan the design for missing sub-parts
+	if ((theErrorTest.e).UnConnected)
+	{
+		typedef struct 
+		{
+			int				ppp;
+			int				parts;
+			CDPoint			point;
+			CTinyCadDoc*	pDesign;
+			int				sheet;
+			CString			name;
+		} partref;
+
+		typedef std::map<CString, partref> refList;
+		refList refs;
+
+		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++) {
+			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
+			while (it != pDoc->GetSheet(i)->GetDrawingEnd()) {
+				CDrawingObject *pointer = *it;
+
+				if (pointer->GetType()==xMethodEx3) {
+					int ppp = static_cast<CDrawMethod *>(pointer)->GetSymbolData()->ppp;
+					if (ppp > 1)
+					{
+						// Count all parts per reference
+						CString partReferenceString = static_cast<CDrawMethod *>(pointer)->GetFieldByName("Ref");
+						refList::iterator ref = refs.find(partReferenceString);
+						if (ref == refs.end())
+						{
+							partref pr;
+							pr.ppp = ppp;
+							pr.parts = 1;
+							pr.pDesign = pDoc->GetSheet(i);
+							pr.sheet = i;
+							pr.point = static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref);
+							pr.name = static_cast<CDrawMethod *>(pointer)->GetName();
+
+							refs[partReferenceString] = pr;
+						}
+						else
+						{
+							ref->second.parts ++;
+						}
+					}
+				}
+
+				++ it;
+			}
+		}
+
+		// Check if all part in the package are present.
+		for (refList::iterator ref_it = refs.begin(); ref_it != refs.end(); ref_it++)
+		{
+			if (ref_it->second.ppp != ref_it->second.parts)
+			{
+				partref&  ref = ref_it->second;
+				CString buffer = _T("Not all parts in this package are in this design");
+				formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"),buffer, ref.name, ref_it->first, ref.sheet+1);
+				pDoc->GetSheet(ref.sheet)->Add(new CDrawError(ref.pDesign,ref.point,CurrentError++));
+				errorList.push_back(formattedBuffer);
+			}
+		}		
+	}
+
 	/// Scan netlist to determine the type of each object contained on each net.  Determine if the object type and the net type are compatible
 	//TRACE("\n\n\nScanning netlist for object type compatibility\n");
 	netCollection::iterator nit = nets->begin();
