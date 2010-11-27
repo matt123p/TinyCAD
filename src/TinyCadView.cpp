@@ -537,8 +537,6 @@ CTinyCadDoc* CTinyCadView::GetCurrentDocument() // non-debug version is inline
 // CTinyCadView message handlers
 
 class CDlgPositionBox;
-// extern CDlgPositionBox thePositionBox;
-#define thisDesign (&((static_cast<CTinyCadView *>(m_pMainWnd))->theDesign))
 
 
 /////////////////////////////////////////////////////////////////////////////

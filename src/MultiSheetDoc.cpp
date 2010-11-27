@@ -195,3 +195,17 @@ BOOL CMultiSheetDoc::IsModified()
 
 	return FALSE;
 }
+
+void CMultiSheetDoc::DelayUpdateFrameTitle()
+{
+	POSITION pos = GetFirstViewPosition();
+    while (pos != NULL)
+    {
+		CView* pView = GetNextView(pos);
+		CFrameWnd* pFrame = pView->GetParentFrame();
+		if (pFrame != NULL)
+		{
+			pFrame->DelayUpdateFrameTitle();
+		}
+    }
+}

@@ -46,6 +46,8 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+	virtual void CChildFrame::OnUpdateFrameTitle(BOOL bAddToTitle);
+
 	//}}AFX_VIRTUAL
 
 // Implementation

@@ -506,6 +506,8 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 	SetSelectable( NULL );
 	BOOL action_taken = FALSE;
 
+	m_InUndoAddAction = 1;
+
 	// Is this possible?
 	while (CanUndo() && !action_taken)
 	{
@@ -547,7 +549,11 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 				-- index;
 			}
 
-
+			if (it != itEnd)
+			{
+				// Remove old object
+				(*it)->Display();
+			}
 			act.m_object->Display();
 
 			switch (act.m_action)
@@ -593,6 +599,11 @@ void CTinyCadDoc::Undo(BOOL SingleLevel)
 
 		m_undo_level --;
 	}
+
+	// Update the GUI
+	ShowModifiedFlag();
+
+	m_InUndoAddAction = 0;
 }
 
 // Redo the last action
@@ -600,6 +611,8 @@ void CTinyCadDoc::Redo()
 {
 	SetSelectable( NULL );
 	BOOL action_taken = FALSE;
+
+	m_InUndoAddAction = 1;
 
 	// Is this possible?
 	while (CanRedo())
@@ -609,6 +622,7 @@ void CTinyCadDoc::Redo()
 		// Re-apply all of the changes we have done at this level
 		CDocUndoSet &s = m_undo[ m_undo_level ];
 
+		// Is this a document-saved action?
 		if (s.m_dirty == 2)
 		{
 			m_pParent->CDocument::SetModifiedFlag( FALSE );
@@ -616,6 +630,8 @@ void CTinyCadDoc::Redo()
 			{
 				continue;
 			}
+			// Stop at this undo level
+			break;
 		}
 
 		if (action_taken)
@@ -694,15 +710,20 @@ void CTinyCadDoc::Redo()
 			++ act_it;
 		}
 	}
+
+	// Update the GUI
+	ShowModifiedFlag();
+
+	m_InUndoAddAction = 0;
 }
 
 // Make a duplicate of an object..
 CDrawingObject*	CTinyCadDoc::Dup( CDrawingObject *p )
 {
 	// Now make a duplicate for the Undo/Redo list
-	m_InUndoAddAction = TRUE;
+	m_InUndoAddAction++;
 	CDrawingObject *pNewObject = p->Store();
-	m_InUndoAddAction = FALSE;
+	m_InUndoAddAction--;
 	m_drawing.pop_back();
 
 	return pNewObject;
@@ -742,6 +763,7 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 		}
 	}
 
+	m_InUndoAddAction++;
 
 	// Do we need to increment the undo level?
 	if (m_change_set || index_object == NULL || m_undo.size()==0)
@@ -767,13 +789,22 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 		{
 			if (index_object == NULL)
 			{
+				// Indicate this is a document-saved action
 				s.m_dirty = 2;
 				m_change_set = TRUE;
+				m_InUndoAddAction--;
+
+				// Update the GUI
+				ShowModifiedFlag();
+				// Nothing more to do here
 				return;
 			}
 
 			m_pParent->CDocument::SetModifiedFlag( IsModified() );
 		}
+
+		// Update the GUI
+		ShowModifiedFlag();
 	}
 
 	CDocUndoSet &s = m_undo[ m_undo_level ];
@@ -785,6 +816,8 @@ void CTinyCadDoc::AddUndoAction( CDocUndoSet::action action, CDrawingObject *ind
 	act.m_object = Dup(index_object);
 
 	s.m_actions.push_back( act );
+
+	m_InUndoAddAction--;
 }
 
 void CTinyCadDoc::MarkDeleteForUndo( CDrawingObject *pObject )
@@ -797,6 +830,10 @@ void CTinyCadDoc::MarkAdditionForUndo( CDrawingObject *pObject )
 	AddUndoAction( CDocUndoSet::Addition, pObject );
 }
 
+void CTinyCadDoc::MarkDocSavedForUndo( )
+{
+	AddUndoAction( CDocUndoSet::Change, NULL );
+}
 
 void CTinyCadDoc::MarkChangeForUndo( CDrawingObject* pObject )
 {
@@ -1295,7 +1332,9 @@ void CTinyCadDoc::SelectObject(CDrawingObject *NewO )
 		NewO->BeginEdit(FALSE);
 	}
 
-  edit=NewO;
+	ShowModifiedFlag();
+
+	edit = NewO;
 }
 
 // Draw the design rulers and the details box
@@ -1722,16 +1761,36 @@ COption& CTinyCadDoc::GetOption()
 {
 	return theOptions;
 }
-//-------------------------------------------------------------------------
-void CTinyCadDoc::SetModifiedFlag(BOOL Changed )
+
+void CTinyCadDoc::ShowModifiedFlag()
 {
 	if (m_pParent)
 	{
-		if (Changed == FALSE)
+		// Update the window titles
+		m_pParent->DelayUpdateFrameTitle();
+	}
+}
+
+//-------------------------------------------------------------------------
+void CTinyCadDoc::SetModifiedFlag(BOOL bModified )
+{
+	if (m_pParent)
+	{
+		if (!m_InUndoAddAction)
 		{
-			m_pParent->SetModifiedFlag( Changed );
-			MarkChangeForUndo(NULL);
+			// bModified == FALSE means the document has just 
+			// been saved or loaded.
+			if (bModified == FALSE)
+			{
+				// Tell MFC this document is not modified anymore
+				m_pParent->SetModifiedFlag( FALSE );
+				// And store this state in the undo buffer
+				MarkDocSavedForUndo();
+			}
 		}
+
+		// Update the 'Modified' flag in the window caption
+		ShowModifiedFlag();
 	}
 }
 
