@@ -46,6 +46,9 @@ void CTinyCadView::OnSpecialNet()
 	// Get rid of any drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
+	// Do ERC Check
+	DoSpecialCheck(false);
+
 	// Get the file in which to save the network
 	TCHAR szFile[256];
 
@@ -88,6 +91,9 @@ void CTinyCadView::OnSpecialCreatespicefile()
 {
 	// Get rid of any drawing tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+
+	// Do ERC Check
+	DoSpecialCheck(false);
 
 	// Get the file in which to save the network
 	TCHAR szFile[256];
@@ -227,7 +233,7 @@ void CTinyCadView::OnSpecialCheck()
 	DoSpecialCheck();
 }
 
-void CTinyCadView::DoSpecialCheck()
+int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 {
 	typedef std::map<CString,int> stringCollection;
 	CString formattedBuffer;
@@ -251,8 +257,8 @@ void CTinyCadView::DoSpecialCheck()
 
 	/// Delete all the errors which are currently in the design
 //	theERCListBox.Close();
-	theERCListBox.Open( pDoc, this );
 
+	std::vector<CString>	errorList;
 	int CurrentError = 0;
 
 	/// Scan the design for unassigned references
@@ -273,7 +279,7 @@ void CTinyCadView::DoSpecialCheck()
 						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"),
 							buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x/5, pointer->m_point_a.y/5);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-						theERCListBox.AddString(formattedBuffer);
+						errorList.push_back(formattedBuffer);
 						//TRACE("  ==>%S\n",buffer);
 					}
 				}
@@ -344,7 +350,7 @@ void CTinyCadView::DoSpecialCheck()
 							buffer.LoadString(ERR_NONDISTINCTNET);
 							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, labelName, firstNetName[lcLabelName]);
 							pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
-							theERCListBox.AddString(formattedBuffer);
+							errorList.push_back(formattedBuffer);
 
 							//In addition, add an error marker for the first occurrence of this non-distinct net name.  The first occurrence did not
 							//generate an error at the time, but a copy of it's node contents was stored in the allNetNames associative array so it is still possible to retrieve this information.
@@ -353,7 +359,7 @@ void CTinyCadView::DoSpecialCheck()
 							buffer.LoadString(ERR_NONDISTINCTNET);
 							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""),buffer, firstLabelName, labelName);
 							pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(allNetNames[lcLabelName].m_sheet-1), allNetNames[lcLabelName].m_a, CurrentError++));
-							theERCListBox.AddString(formattedBuffer);
+							errorList.push_back(formattedBuffer);
 
 						}
 					}
@@ -386,7 +392,7 @@ void CTinyCadView::DoSpecialCheck()
 					for (nv_it = netNameNodes.begin(); nv_it != netNameNodes.end(); nv_it++) {
 						CNetListNode &node = *((*nv_it).second);
 						pDoc->GetSheet(node.m_sheet-1)->Add( new CDrawError(pDoc->GetSheet(node.m_sheet-1), node.m_a, CurrentError++));
-						theERCListBox.AddString(formattedBuffer);
+						errorList.push_back(formattedBuffer);
 						//TRACE("  ==>%S\n",formattedBuffer);
 					}
 				}
@@ -415,7 +421,7 @@ void CTinyCadView::DoSpecialCheck()
 						buffer.LoadString( ERR_DUPREF );
 						formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"),buffer, pointer->GetName(), ref, i+1);
 						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),static_cast<CDrawMethod *>(pointer)->GetFieldPos(CDrawMethod::Ref),CurrentError++));
-						theERCListBox.AddString(formattedBuffer);
+						errorList.push_back(formattedBuffer);
 					}
 					else {
 						refs.insert( ref );
@@ -638,7 +644,7 @@ void CTinyCadView::DoSpecialCheck()
 				buffer,
 				netObjectName, netObjectRefDes, netObjectSheetName, netObjectXY);
 			pDoc->GetSheet(sheet-1)->Add(new CDrawError(pDoc->GetSheet(sheet-1),pos,CurrentError++));
-			theERCListBox.AddString(formattedBuffer);
+			errorList.push_back(formattedBuffer);
 		}
 		//TRACE("\n");	//Next net
 		++ nit;
@@ -646,11 +652,20 @@ void CTinyCadView::DoSpecialCheck()
 
 
 	/// Were any errors detected?
-	if (CurrentError == 0) 
+	if (CurrentError == 0 && alwaysShowList) 
 	{
 		CString buffer;
 		buffer.LoadString( ERR_NOERROR );
-		theERCListBox.AddString(buffer);
+		errorList.push_back(buffer);
+	}
+
+	if (CurrentError > 0 || alwaysShowList)
+	{
+		theERCListBox.Open( pDoc, this );
+		for (unsigned int i = 0; i < errorList.size(); i++)
+		{
+			theERCListBox.AddString(errorList[i]);
+		}
 	}
 
 	/// Set the normal icon
@@ -659,5 +674,6 @@ void CTinyCadView::DoSpecialCheck()
 	/// Re-Draw the window
 	Invalidate();
 
+	return CurrentError;
 }
 
