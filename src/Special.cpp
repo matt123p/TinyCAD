@@ -258,10 +258,17 @@ void CTinyCadView::OnSpecialBom()
 
   CBOMGenerator	bom;
   bom.GenerateBomForDesign( dlg.m_All_Sheets != 0, 
-	  dlg.m_All_Attrs != 0, dlg.m_Prefix != 0, dlg.m_Hierarchical != 0, GetDocument() );
+	  dlg.m_All_Attrs != 0, dlg.m_Prefix != 0, dlg.m_Hierarchical != 0, GetDocument(), dlg.m_type );
 
   // Now generate the output file
-  bom.WriteToFile( theFile, dlg.m_type == 1 );
+  if (dlg.m_type == 2)
+  {
+	bom.WriteToXls( theFile );
+  }
+  else
+  {
+	bom.WriteToFile( theFile, dlg.m_type == 1 );
+  }
 
   fclose(theFile);
 
