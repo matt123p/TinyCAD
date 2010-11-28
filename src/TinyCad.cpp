@@ -612,11 +612,40 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 					}
 					else 
 					{
-						switch(lpMsg->wParam)
+						if ('A' <= lpMsg->wParam && lpMsg->wParam <= 'Z') // Plain text
 						{
-						case VK_DELETE:	// Delete
 							translate = FALSE;
 						}
+						else 
+						{
+							switch(lpMsg->wParam)
+							{
+							case VK_DELETE:	// Delete
+								translate = FALSE;
+							}
+						}
+					}
+				}
+			}
+			// Translate only non-text entry
+			else if (m_translateAccelerator)
+			{
+				if(WM_KEYDOWN == lpMsg->message)
+				{
+					// Don't translate plain text entry
+					if(::GetKeyState(VK_CONTROL) < 0) { }
+					else if(::GetKeyState(VK_SHIFT) < 0) { }
+					else if ('A' <= lpMsg->wParam && lpMsg->wParam <= 'Z')
+					{
+						translate = FALSE;
+					}
+					else
+					{
+						//switch(lpMsg->wParam)
+						//{
+						//case VK_SPACE:
+						//	translate = FALSE;
+						//}
 					}
 				}
 			}
