@@ -67,6 +67,8 @@ public:
 
 	virtual BOOL IsModified();
 
+	void DelayUpdateFrameTitle();
+
 // Attributes
 public:
 

@@ -40,7 +40,7 @@ CDlgBOMExport::CDlgBOMExport(CWnd* pParent /*=NULL*/)
 	m_All_Sheets = FALSE;
 	//}}AFX_DATA_INIT
 
-	m_type = CTinyCadRegistry::GetInt( "BOMType", 0 );
+	m_type = CTinyCadRegistry::GetInt( "BOMNetlist", 0 );
 	m_Hierarchical = CTinyCadRegistry::GetBool( "BOMHierarchical", 0 );
 	m_Prefix = CTinyCadRegistry::GetBool( "BOMPrefixNetlist", 0 );
 	m_All_Sheets = CTinyCadRegistry::GetBool( "BOMAllSheets", 0 );
@@ -79,6 +79,7 @@ BOOL CDlgBOMExport::OnInitDialog()
 	m_Filetype.ResetContent();
 	m_Filetype.AddString( _T("Text file") );
 	m_Filetype.AddString( _T("CSV file") );
+	m_Filetype.AddString( _T("Spreadsheet compatible CSV file") );
 
 	m_Filetype.SetCurSel( m_type );
 
@@ -150,6 +151,8 @@ CString CDlgBOMExport::GetExtension()
 	case 0:	// TinyCAD
 		return ".txt";
 	case 1: // CSV
+		return ".csv";
+	case 2: // Spreadsheet type CSV
 		return ".csv";
 	}
 

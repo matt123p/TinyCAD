@@ -86,15 +86,17 @@ private:
 	bool		m_hierarchical;
 	bool		m_prefix_import;
 
-	void GenerateBomForDesign( int level, int parentPos, const CImportFile& pDesign );
+	void GenerateBomForDesign( int level, int parentPos, const CImportFile& pDesign, int type );
 	void XInc(FILE *theFile,int &Xpos,int amount);
 
 public:
 	CBOMGenerator(void);
 	~CBOMGenerator(void);
 
-	void GenerateBomForDesign( bool all_sheets, bool all_attr, bool prefix_sheet, bool hierarchical, CMultiSheetDoc *pDesign );
+	void GenerateBomForDesign( bool all_sheets, bool all_attr, bool prefix_sheet, bool hierarchical, CMultiSheetDoc *pDesign, int type );
 	void WriteToFile( FILE *fout, bool csv );
+	void WriteToXls( FILE *fout );
+	CString EscapeForCSV(const CString& str, char delimiter);
 
 	bool GetMissingRef() { return m_MissingRef; }
 };

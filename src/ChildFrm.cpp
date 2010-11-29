@@ -23,6 +23,9 @@
 
 #include "ChildFrm.h"
 
+// Private MFC function only sets the title if it's different
+//
+extern void AFXAPI AfxSetWindowText(HWND hWndCtrl, LPCTSTR lpszNew);	   
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame
@@ -60,7 +63,31 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
+void CChildFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
+{
+	GetMDIFrame()->OnUpdateFrameTitle(bAddToTitle);
 
+	if ((GetStyle() & FWS_ADDTOTITLE) == 0)
+		return;
+
+	if (bAddToTitle)
+	{
+		CDocument* pDoc = GetActiveDocument();
+		CString csText;
+		if (pDoc == NULL)
+			csText = m_strTitle;
+		else
+			csText = pDoc->GetTitle();
+
+		if (m_nWindow > 0)
+			csText.Format(_T("%s: %d"), csText, m_nWindow);
+
+		if (pDoc->IsModified())
+			csText += " *";
+
+		AfxSetWindowText(m_hWnd, csText);
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame diagnostics

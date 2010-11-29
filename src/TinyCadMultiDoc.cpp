@@ -107,7 +107,7 @@ void CTinyCadMultiDoc::Serialize(CArchive& ar)
 		sheetCollection::iterator i = m_sheets.begin();
 		while (i != m_sheets.end())
 		{
-			(*i)->MarkChangeForUndo(FALSE);
+			(*i)->MarkDocSavedForUndo();
 			i++;
 		}
 

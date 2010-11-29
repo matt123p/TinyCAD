@@ -576,7 +576,16 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 
 			if (!m_translateAccelerator)
 			{
-				// Allow simple text editing in dialogs.
+				// Allow simple text editing in dialogs:
+				//  Ctrl+Z        Undo
+				//  Ctrl+Y        Redo
+				//  Ctrl+X        Cut
+				//  Ctrl+C        Copy
+				//  Ctrl+V        Paste
+				//  Shift+Delete  Cut
+				//  Ctrl+Insert   Copy
+				//  Shift+Insert  Paste
+				//  Delete        Delete
 				if(WM_KEYDOWN == lpMsg->message)
 				{
 					if(::GetKeyState(VK_CONTROL) < 0)
@@ -584,19 +593,59 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 						switch(lpMsg->wParam)
 						{
 						case 'Z':	// Undo
+						case 'Y':	// Redo
 						case 'X':	// Cut
 						case 'C':	// Copy
 						case 'V':	// Paste
+						case VK_INSERT:	// Copy
+							translate = FALSE;
+						}
+					}
+					else if(::GetKeyState(VK_SHIFT) < 0)
+					{
+						switch(lpMsg->wParam)
+						{
+						case VK_INSERT:	// Paste
+						case VK_DELETE:	// Cut
 							translate = FALSE;
 						}
 					}
 					else 
 					{
-						switch(lpMsg->wParam)
+						if ('A' <= lpMsg->wParam && lpMsg->wParam <= 'Z') // Plain text
 						{
-						case VK_DELETE:	// Delete
 							translate = FALSE;
 						}
+						else 
+						{
+							switch(lpMsg->wParam)
+							{
+							case VK_DELETE:	// Delete
+								translate = FALSE;
+							}
+						}
+					}
+				}
+			}
+			// Translate only non-text entry
+			else if (m_translateAccelerator)
+			{
+				if(WM_KEYDOWN == lpMsg->message)
+				{
+					// Don't translate plain text entry
+					if(::GetKeyState(VK_CONTROL) < 0) { }
+					else if(::GetKeyState(VK_SHIFT) < 0) { }
+					else if ('A' <= lpMsg->wParam && lpMsg->wParam <= 'Z')
+					{
+						translate = FALSE;
+					}
+					else
+					{
+						//switch(lpMsg->wParam)
+						//{
+						//case VK_SPACE:
+						//	translate = FALSE;
+						//}
 					}
 				}
 			}

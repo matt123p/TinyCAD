@@ -415,7 +415,7 @@ void CTinyCadMultiSymbolDoc::SaveXML( CXMLWriter &xml )
 		while (i != m_symbols.end())
 		{
 			(*i)->SaveXML(xml,FALSE,FALSE);
-			(*i)->MarkChangeForUndo(NULL);
+			(*i)->MarkDocSavedForUndo();
 			++ i;
 		}
 		xml.closeTag();		
@@ -423,7 +423,7 @@ void CTinyCadMultiSymbolDoc::SaveXML( CXMLWriter &xml )
 	else
 	{
 		m_symbols[0]->SaveXML(xml,FALSE,FALSE);
-		m_symbols[0]->MarkChangeForUndo(NULL);
+		m_symbols[0]->MarkDocSavedForUndo();
 	}
 }
 

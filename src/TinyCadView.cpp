@@ -537,8 +537,6 @@ CTinyCadDoc* CTinyCadView::GetCurrentDocument() // non-debug version is inline
 // CTinyCadView message handlers
 
 class CDlgPositionBox;
-// extern CDlgPositionBox thePositionBox;
-#define thisDesign (&((static_cast<CTinyCadView *>(m_pMainWnd))->theDesign))
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1397,8 +1395,13 @@ void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* p
 {
 	if (!bActivate)
 	{
-		// Get rid of any drawing tool at this moment
-		GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+		CDrawingObject* obj = GetCurrentDocument()->GetEdit();
+		// Don't get rid of edit tool, we want to keep the dialog open.
+		if (obj && obj->GetType() != xEditItem)
+		{
+			// Get rid of any drawing tool at this moment
+			GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+		}
 	}
 	
 	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);

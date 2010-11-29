@@ -94,6 +94,8 @@ void CDrawEditItem::EndEdit()
 		Display();
 		InSelectByDrag = FALSE;
 	}
+
+	m_pDesign->ShowModifiedFlag();
 }
 
 
@@ -401,6 +403,7 @@ void CDrawEditItem::LButtonDown(CDPoint p, CDPoint no_snap_p)
 	}
 
 	m_pDesign->ForceSetCursor();
+	m_pDesign->ShowModifiedFlag();
 }
 
 

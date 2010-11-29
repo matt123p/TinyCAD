@@ -215,6 +215,7 @@ public:
 
 	void SetModifiedFlag(BOOL Changed = TRUE);
 	BOOL IsModified();
+	void ShowModifiedFlag();
 
 	CDetails&	GetDetails();
 
@@ -242,6 +243,7 @@ public:
 	void MarkChangeForUndo( CDrawingObject* pObject );
 	void MarkDeleteForUndo( CDrawingObject *pObject );
 	void MarkAdditionForUndo( CDrawingObject *pObject );
+	void MarkDocSavedForUndo();
 	void MarkSelectChangeForUndo();
 
 	void Undo(BOOL SingleLevel = FALSE);

@@ -50,7 +50,7 @@ CBOMGenerator::~CBOMGenerator(void)
 
 
 
-void CBOMGenerator::GenerateBomForDesign( bool all_sheets, bool all_attr, bool prefix_sheet, bool hierarchical, CMultiSheetDoc *pDesign )
+void CBOMGenerator::GenerateBomForDesign( bool all_sheets, bool all_attr, bool prefix_sheet, bool hierarchical, CMultiSheetDoc *pDesign, int type )
 {
 	m_attrs.clear();
 	m_methods.clear();
@@ -62,14 +62,15 @@ void CBOMGenerator::GenerateBomForDesign( bool all_sheets, bool all_attr, bool p
 	m_hierarchical = hierarchical;
 
 	m_attrs.push_back( "Description" );
+	m_attrs.push_back( "Package" );
 	m_filename = pDesign->GetPathName();
 	m_file_counter.reset();
 
 	CImportFile rootfile(pDesign);
-	GenerateBomForDesign( 0, -1, rootfile );
+	GenerateBomForDesign( 0, -1, rootfile, type );
 }
 
-void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImportFile& impfile)
+void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImportFile& impfile, int type)
 {
 	CollectionMemberReference<CImportFile*> cmrDefaultParent(m_imports, parentPos);
 	CollectionMemberReference<CImportFile*> cmrParent;
@@ -107,7 +108,7 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImpor
 				{
 					m_imports.push_back( f );
 					int where = m_imports.size()-1;
-					GenerateBomForDesign( level+1, where, *f );
+					GenerateBomForDesign( level+1, where, *f, type );
 				}
 				else
 				{
@@ -118,7 +119,7 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImpor
 			{
 				CDrawMethod *thisMethod = (CDrawMethod*)ObjPtr;
 
-				CString name = thisMethod->GetName();
+				CString name = EscapeForCSV(thisMethod->GetName(), (type==2?';':',') );
 
 				if (m_all_attr)
 				{
@@ -161,8 +162,17 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImpor
 					// Now generate the names
 					for (unsigned int i = 0; i < fields.size();i++)
 					{
-						name += ",";
-						name += fields[i];
+						// spreadsheet type csv
+						if (type == 2)
+						{
+							name += ";";
+							name += EscapeForCSV(fields[i], ';');
+						}
+						else
+						{
+							name += ",";
+							name += EscapeForCSV(fields[i], ',');
+						}
 					}
 
 				}
@@ -175,7 +185,7 @@ void CBOMGenerator::GenerateBomForDesign( int level, int parentPos, const CImpor
 
 		++sheet;
 	}
-	while (do_all_sheets && sheet <= pDesign->GetNumberOfSheets());
+	while (do_all_sheets && sheet < pDesign->GetNumberOfSheets());
 }
 
 
@@ -303,3 +313,69 @@ void CBOMGenerator::XInc(FILE *theFile,int &Xpos,int amount)
 	}
 }
 
+void CBOMGenerator::WriteToXls( FILE *fout )
+{
+	_ftprintf(fout,_T("Reference;Quantity;Name"));
+	for (unsigned int i = 0; i < m_attrs.size(); i++)
+	{
+		_ftprintf(fout,_T(";%s"), EscapeForCSV(m_attrs[i], ';'));
+	}
+	_ftprintf(fout,_T("\n"));
+
+
+	bomCollection::iterator itx = m_methods.begin();
+	CString LastRef = "";
+	CString LastName = "";
+	int Xpos = 0, pieces=0;
+	while (itx != m_methods.end()) 
+	{
+		const BomSort::BomObject *pBomObject = &(*itx);
+		CDrawMethod *thisMethod = pBomObject->m_pMethod;
+		//int sheet = pBomObject->m_sheet;
+		CString name = pBomObject->m_name;
+
+		if (name != LastName && LastName != "")
+		{
+			_ftprintf(fout,_T(";%d;%s\n"),pieces,LastName);
+
+			pieces = 0;
+		}
+
+		// Do not write out references more than once
+	
+		CString ref = pBomObject->getRefDes();
+		if (ref != LastRef) 
+		{
+			if (pieces > 0)
+			{
+				_ftprintf(fout,_T(","));
+			}
+
+			_ftprintf(fout,_T("%s"),ref);
+			pieces ++;
+		}
+
+		if (ref==(thisMethod->GetSymbolData())->reference)
+			m_MissingRef = true;
+
+		LastRef = ref;
+		LastName = name;
+
+		++ itx;
+	}
+
+	if (pieces > 0)
+	{
+		_ftprintf(fout,_T(";%d;%s\n"),pieces,LastName);
+	}
+}
+
+CString CBOMGenerator::EscapeForCSV( const CString& str, char delimiter)
+{
+	if (str.Find(delimiter) < 0)
+	{
+		return str;
+	}
+
+	return "\"" + str + "\"";
+}

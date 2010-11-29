@@ -75,18 +75,13 @@ protected:
 
 
 	//{{AFX_MSG(CDlgGetFindBox)
-	afx_msg void OnListSelect();
 	afx_msg void OnChangeSearchString();
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
-	afx_msg void OnDblclkList();
-	afx_msg void OnRadio1();
-	afx_msg void OnRadio2();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnHorzResize();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	void DrawLibraries( CDC &dc, LPDRAWITEMSTRUCT lpDrawItemStruct );
 	void DrawSymbol( CDC &dc, CRect rect );
 	void BuildSearchList();
     void BuildTree();

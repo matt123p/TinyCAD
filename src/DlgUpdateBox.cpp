@@ -480,7 +480,7 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 	CRect r;
 	m_list.GetItemRect( index, &rect, LVIR_BOUNDS );
 	r = rect;
-	int x = rect.right - 2;
+	int x = rect.right;
 	r.left = x;
 	int column;
 	for (column=2;column>=0;column--)
@@ -520,10 +520,11 @@ void CDlgUpdateBox::OnClickUpdateList(NMHDR* pNMHDR, LRESULT* pResult)
 		// Now create the edit control
 		if (m_index >= 2 || m_column > 0)
 		{
-			DWORD style = WS_CHILD|WS_VISIBLE|WS_BORDER;
+			DWORD style = WS_CHILD|WS_VISIBLE|WS_BORDER|ES_AUTOHSCROLL;
 
 			m_capture = TRUE;
 			m_edit_control.Create( style, r, this, 101 );
+			m_edit_control.SetLimitText(255);
 			m_edit_control.SetFont( GetFont() );
 			m_edit_control.SetWindowText( v );
 			m_edit_control.SetSel( 0, v.GetLength() );
@@ -633,7 +634,7 @@ void CDlgUpdateBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		item.cchTextMax = sizeof( buffer );
 		m_list.GetItem( &item );
 
-		dc.DrawText( buffer, &r, DT_LEFT | DT_VCENTER );
+		dc.DrawText( buffer, &r, DT_LEFT | DT_VCENTER | DT_NOPREFIX );
 			
 		right = left;
 	}
@@ -779,6 +780,9 @@ void CDlgUpdateBox::OnSelchangeListNames()
 
 void CDlgUpdateBox::OnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult) 
 {
+	// Remove edit box
+	EndEdit();
+
 	int sel = m_Tab.GetCurSel();
 	
 	m_Add.ShowWindow( sel == 0);

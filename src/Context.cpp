@@ -749,7 +749,7 @@ void CContext::TextOut(CString text,CDPoint da,paint_options options,int dir)
 	TCHAR Last=' ';
 	CPen *oldPen = NULL;
 
-	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy));
+	int iHeight = static_cast<int>(m_Transform.doubleScale(GetTextExtent( "A" ).cy) * 0.92);
 	
 	SelectPen(PS_SOLID,1,cSELECT);
 
@@ -803,7 +803,7 @@ void CContext::TextOut(double x,double y, int width, const TCHAR *t)
 	CRect rect(r.x ,r.y - s_height,r.x+s_width,r.y );
 
 	int old = m_pDC->SetTextAlign( DT_TOP | DT_LEFT );
-	m_pDC->DrawText(t,rect,DT_SINGLELINE | DT_RIGHT | DT_TOP  );
+	m_pDC->DrawText(t,rect,DT_SINGLELINE | DT_RIGHT | DT_TOP | DT_NOPREFIX );
 	m_pDC->SetTextAlign( old );
 }
 

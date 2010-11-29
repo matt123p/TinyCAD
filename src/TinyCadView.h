@@ -329,7 +329,7 @@ public:
 	afx_msg void OnContextReloadsymbolfromdesign();
 	void SelectSheet(int sheet);
 	void ChangeDir(int dir);
-	void DoSpecialCheck();
+	int DoSpecialCheck(bool alwaysShowList=true);
 };
 
 inline CMultiSheetDoc* CTinyCadView::GetDocument()
