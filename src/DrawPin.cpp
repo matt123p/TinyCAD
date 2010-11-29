@@ -272,46 +272,9 @@ CDrawPin::CDrawPin(CTinyCadDoc *pDesign)
 
 CDPoint CDrawPin::GetActivePoint(CDrawMethod *parent)
 {
-  CDPoint r,p;
-  CDPoint bound = parent->GetTr();
-  CDPoint s = parent->m_point_a;
-  CDPoint pos = m_point_a;
-
-
-//  // We use point b if we are have a centred name
-//  if (m_centre_name)
-//  {
-//	  pos = m_point_b;
-//  }
-
-  // Has this object been mirrored?
-  if ((parent->GetRotate()&4)!=0)
-	p = CDPoint(-pos.x + bound.x ,pos.y);
-  else
-	p = pos;
-
-  parent->ScalePoint( p );
-
-  switch ((parent->GetRotate())&3) {
-	case 0:	// Up
-		r.x = p.x + s.x;
-		r.y = p.y + s.y;
-		break;
-	case 1: // Down
-		r.x = p.x + s.x;
-		r.y = (bound.y - p.y) + s.y;
-		break;
-	case 2: // Left
-		r.x = p.y + s.x;
-		r.y = p.x + s.y;
-		break;
-	case 3: // Right
-		r.x = (bound.y - p.y) + s.x;
-		r.y = p.x + s.y;
-		break;
-  }
-
-  return r;
+	CDPoint pos = m_point_a;
+	
+    return parent->TranslatePointToDesign( pos );
 }
 
 

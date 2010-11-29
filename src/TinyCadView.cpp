@@ -52,6 +52,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLBUSNAME, OnUpdateToolbusname)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLCIRCLE, OnUpdateToolcircle)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLCONNECT, OnUpdateToolconnect)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLORIGIN, OnUpdateToolorigin)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLGET, OnUpdateToolget)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLJUNC, OnUpdateTooljunc)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLLABEL, OnUpdateToollabel)
@@ -176,6 +177,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_BUSSLASH, OnSelectBusSlash )
 	ON_COMMAND( IDM_BUSBACK, OnSelectBusBack )
 	ON_COMMAND( IDM_TOOLCONNECT, OnSelectConnect )
+	ON_COMMAND( IDM_TOOLORIGIN, OnSelectOrigin )
 	ON_COMMAND( IDM_TOOLLABEL, OnSelectLabel )
 	ON_COMMAND( IDM_TOOLHIERARCHICAL, OnSelectHierarchical )
 	ON_COMMAND( IDM_TOOLPOWER, OnSelectPower )
@@ -563,13 +565,19 @@ int CTinyCadView::OnCreate( LPCREATESTRUCT q )
 {
 	CView::OnCreate( q );
 
+	BOOL originButton = FALSE;
+	if (GetCurrentDocument())
+	{
+		originButton = GetCurrentDocument()->IsEditLibrary();
+	}
+
 	// Now create the new rulers
   	CRect nSize;
   	GetClientRect(nSize);
-  	vRuler = new Ruler(GetDocument(), 0, nSize, this);
-  	hRuler = new Ruler(GetDocument(), 2, nSize, this);
+  	vRuler = new Ruler(GetDocument(), 0, nSize, this, originButton);
+  	hRuler = new Ruler(GetDocument(), 2, nSize, this, originButton);
 
-  ClipboardFormat = RegisterClipboardFormat(CLIPBOARD_FORMAT);
+	ClipboardFormat = RegisterClipboardFormat(CLIPBOARD_FORMAT);
 
 
 	// initialize the cursor array
@@ -693,7 +701,7 @@ void CTinyCadView::OnMouseMove(UINT nFlags, CPoint p)
 		MousePosition=no_snap_p;
 	
 		// Now display the position
-		CString pos = GetCurrentDocument()->GetOptions()->PointToUnit(snap_p);
+		CString pos = GetCurrentDocument()->GetOptions()->PointToUnit(snap_p - GetCurrentDocument()->GetOptions()->GetOrigin());
 		static_cast<CMainFrame*>(AfxGetMainWnd())->setPositionText( pos );
 
 		// Not when threshold not reached
@@ -922,6 +930,18 @@ void CTinyCadView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	case DOC_UPDATE_TABS:
 		SetTabsFromDocument();
 		break;
+
+	case DOC_UPDATE_RULERS:
+		if (vRuler)
+		{
+			vRuler->Invalidate();
+		}
+		if (hRuler)
+		{
+			hRuler->Invalidate();
+		}
+		break;
+
 	}
 	
 }
@@ -1029,6 +1049,16 @@ void CTinyCadView::OnUpdateToolconnect(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
 	}
 	pCmdUI->Enable(!GetCurrentDocument()->IsEditLibrary());
+}
+
+void CTinyCadView::OnUpdateToolorigin(CCmdUI* pCmdUI) 
+{
+	CDrawingObject *q = GetCurrentDocument()->GetEdit();
+	if (q)	
+	{
+		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
+	}
+	pCmdUI->Enable(GetCurrentDocument()->IsEditLibrary());
 }
 
 void CTinyCadView::OnUpdateToolget(CCmdUI* pCmdUI) 

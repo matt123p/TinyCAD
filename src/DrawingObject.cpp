@@ -170,6 +170,11 @@ void CDrawingObject::EndEdit()
   Display();
 }
 
+void CDrawingObject::NotifyEdit(int action)
+{
+}
+
+
 BOOL CDrawingObject::CanEdit()
 {
   return FALSE;

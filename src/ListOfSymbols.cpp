@@ -115,6 +115,11 @@ BOOL ListOfSymbols::Compare(CDocResource *o)
 	}
 
 	// Now do the correct testing...
-	return m_pSymbol->name == pSymbol->name && m_pSymbol->FilePos == pSymbol->FilePos;
+//This test will often yield wrong result because FilePos is always -1 when editing existing symbols on a sheet.
+//// return m_pSymbol->name == pSymbol->name && m_pSymbol->FilePos == pSymbol->FilePos;
+
+	// Do a deep compare of all symboldef contents.
+	// (The ref_point info will not be taken into account)
+	return *m_pSymbol == *pSymbol;
 }
 //-------------------------------------------------------------------------

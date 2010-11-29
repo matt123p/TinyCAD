@@ -37,6 +37,7 @@ class CTinyCadView;
 #define		DOC_UPDATE_INVALIDRECT		102
 #define		DOC_UPDATE_SETCURSOR		103
 #define		DOC_UPDATE_TABS				104
+#define		DOC_UPDATE_RULERS           105
 
 struct doc_invalidrect : public CObject
 {
@@ -229,8 +230,9 @@ public:
 	BOOL ReadFile(CStream &theArchive, BOOL Details, drawingCollection &drawing);
 	BOOL ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &drawing, BOOL AlreadyStarted );
 	BOOL Save(BOOL GetName = TRUE, BOOL SaveSelect = FALSE);
-	void SaveXML(CXMLWriter&, drawingCollection &drawing, BOOL Details = FALSE, BOOL SaveSelect = FALSE, BOOL SaveResources = TRUE);
+	void SaveXML(CXMLWriter&, drawingCollection &drawing, BOOL Details = FALSE, BOOL SaveSelect = FALSE, BOOL SaveResources = TRUE, BOOL SaveOrigin = FALSE);
 	void SaveXML(CXMLWriter&, BOOL Details = FALSE, BOOL SaveSelect = FALSE);
+	void SaveDocumentOriginXML(CXMLWriter&);
 
 	virtual const CString GetXMLTag();
 
@@ -264,6 +266,7 @@ public:
 	void Invalidate();
 	void InvalidateRect( CDRect r, BOOL erase, int grow, BOOL outline_only = FALSE );
 	void ForceSetCursor();
+	void InvalidateRulers();
 
 
 	// Set the next repeat object for the editing view

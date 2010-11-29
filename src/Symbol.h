@@ -117,6 +117,7 @@ public:
 	int		m_part;
 	CDPoint	m_reference_point;
 	CDPoint	m_top_right;
+	CDPoint	m_origin;
 
 	CDesignFileSymbolFilter( int part = 0, bool include_power_pins = false )
 	{
@@ -160,7 +161,7 @@ public:
 	DWORD			FilePos;			// The position in the file or database of this symbol
 	BYTE 			ppp;				// Parts per package
 
-	void SaveXML(CXMLWriter &xml);					// Save this symbol into an archive
+	void SaveXML(CXMLWriter &xml, bool refpoints = true);	// Save this symbol into an archive
 	void LoadXML(CTinyCadDoc *, CXMLReader &xml);	// Load this symbol from an archive
 	void Load(CTinyCadDoc *, CStream &);			// Load this symbol from an archive
 	BOOL LoadSymbol( CTinyCadDoc *, CStream &);		// Load just the symbol, (no details) from the stream
@@ -168,6 +169,7 @@ public:
 	// Return the methods object
 	BOOL GetMethod( int part, bool include_power_pins, drawingCollection &drawing );
 	CDPoint GetTr( int part, bool include_power_pins );
+	CDPoint GetOrigin( int part, bool include_power_pins );
 
 	// What type of symbol is this?
 	bool IsHeterogeneous() { return m_heterogeneous; }
@@ -176,6 +178,9 @@ public:
 	void CreateNoSymbol( CTinyCadDoc *pDesign );
 
 	CTinyCadDoc* GetDesign() { return m_pDesign; }
+
+	virtual bool operator==( const CDesignFileSymbol &obj ) const; // Compare two objects for equality
+	virtual bool operator!=( const CDesignFileSymbol &obj ) const; // Compare two objects for unequality
 
 private:
 	CTinyCadDoc*	  m_pDesign;

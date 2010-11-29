@@ -307,6 +307,42 @@ public:
 };
 
 
+class CDrawOrigin : public CDrawingObject 
+{
+protected:
+	BOOL is_stuck;
+public:
+	virtual double DistanceFromPoint( CDPoint p );
+	virtual BOOL IsInside(double left,double right,double top,double bottom);
+	virtual int SetCursorEdit( CDPoint p );
+
+	virtual void Display( BOOL erase = TRUE );
+	virtual void Paint(CContext &,paint_options);
+	virtual CDrawingObject* Store();
+
+	virtual void Load(CStream &);
+
+	virtual void SaveXML( CXMLWriter &xml );
+	virtual void LoadXML( CXMLReader &xml );
+	static const TCHAR* GetXMLTag();
+
+	virtual void NotifyEdit(int action);
+
+	virtual void Move(CDPoint, CDPoint no_snap_p);
+	virtual void Shift(CDPoint);
+	virtual void LButtonDown(CDPoint,CDPoint);
+	virtual ObjType GetType();		// Get this object's type
+	virtual CString GetName() const;
+	virtual int getMenuID() { return IDM_TOOLORIGIN; }
+
+	virtual BOOL IsConstruction();
+
+	// This is used for the construction of this object
+	CDrawOrigin(CTinyCadDoc *pDesign);
+	virtual ~CDrawOrigin() { }
+};
+
+
 class CEditDlgTextEdit;
 
 class CDrawText : public CDrawRectOutline
@@ -958,6 +994,7 @@ public:
 	enum FieldPos { Ref=0, Name, Other };
 
 	CDPoint GetTr();
+	CDPoint TranslatePointToDesign(CDPoint p);
 	CDesignFileSymbol *GetSymbolData();
 	virtual BOOL ExtractSymbol( CDPoint &tr, drawingCollection &method );
 	virtual BOOL IsInside(double left,double right,double top,double bottom);

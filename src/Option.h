@@ -45,6 +45,8 @@ class COption
 	private: Bool8	GridShow;							// Should we show the grid?
 	private: LONG	Units;								// The units to use
 
+	private: CDPoint	origin;							// The grid origin
+
 	// Some default settings for dialogs
 	private: int		PinLength;							// The default pin length
 	private: int		PinNumberPos;						// The default pin number position
@@ -225,6 +227,11 @@ class COption
 
 	int		GetPinNumberPos() { return PinNumberPos; }
 	void	SetPinNumberPos( int pl );
+
+	bool		 HasOrigin();
+	void         SetOrigin(CDPoint org);
+	CDPoint      GetOrigin();
+
 };
 //=========================================================================
 
