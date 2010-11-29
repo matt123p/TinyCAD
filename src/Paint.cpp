@@ -128,7 +128,6 @@ void CTinyCadView::OnDraw(CDC* pDC)
 		  double grid = GetCurrentDocument()->m_snap.GetGrid();
 		  double SGrid = dc.GetTransform().doubleScale(grid);
 		  if (GetCurrentDocument()->GetOptions()->ShowGrid() && SGrid > 10) {
-			double xi,yi;
 			double x = dc.GetTransform().GetOrigin().x;
 			double y = dc.GetTransform().GetOrigin().y;
 

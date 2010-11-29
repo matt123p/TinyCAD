@@ -160,12 +160,12 @@ void Ruler::OnPaint()
 	if (dir == 2)
 	{
 		Origin = static_cast<int>(GetTransform().GetOrigin().x);
-		org = m_pDesign->GetCurrentSheet()->GetOptions()->GetOrigin().x;
+		org = (long) m_pDesign->GetCurrentSheet()->GetOptions()->GetOrigin().x;
 	}
 	else
 	{
 		Origin = static_cast<int>(GetTransform().GetOrigin().y);
-		org = m_pDesign->GetCurrentSheet()->GetOptions()->GetOrigin().y;
+		org = (long) m_pDesign->GetCurrentSheet()->GetOptions()->GetOrigin().y;
 	}
 	org *= 10;
 
