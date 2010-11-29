@@ -142,7 +142,7 @@ BEGIN
         MENUITEM "&Generate Symbol References...", IDM_SPECIALANNOTATE
         MENUITEM "Create &Parts List...",       IDM_SPECIALBOM
         MENUITEM SEPARATOR
-        MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
+        MENUITEM "Create Spice Net List...",    ID_SPECIAL_CREATESPICEFILE
         MENUITEM SEPARATOR
         MENUITEM "Insert another design as symbol...", IDM_TOOLHIERARCHICAL
         MENUITEM "Add hierarchical symbol",     32867

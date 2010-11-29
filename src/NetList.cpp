@@ -1158,12 +1158,9 @@ void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHA
 		WriteNetListFileProtel( pDesign, filename );
 		break;
 	case 4:
-		WriteNetListFilePCB( pDesign, filename, true );
+		WriteNetListFilePCB( pDesign, filename);
 		break;
 	case 5:
-		WriteNetListFilePCB( pDesign, filename, false );
-		break;
-	case 6:
 		WriteNetListFileXML( pDesign, filename );
 		break;
 	default:
@@ -1988,23 +1985,12 @@ void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofs
  * @param filename
  * @param unixOutputFile - a flag indicating whether this file should be written using wide byte characters (for Unix systems) or wide characters (for Windows/DOS systems)
  */
-void CNetList::WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename, bool unixOutputFile)
+void CNetList::WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 {
-  #define TMP_SIZE 5000
-  char tmp [TMP_SIZE];
-  size_t convertedCount;
   FILE *theFile;
   errno_t err;
 
-  if (unixOutputFile)
-  {
-    wcstombs_s(&convertedCount, tmp, TMP_SIZE, filename, _tcslen(filename));	//convert Unicode string to single byte character string
-	err = fopen_s(&theFile, tmp, "wb");	//open in binary mode with ASCII character set
-  }
-  else
-  {
-	err = _tfopen_s(&theFile, filename, _T("w"));	//open in translated text mode in Unicode format
-  }
+  err = _tfopen_s(&theFile, filename, _T("w"));	//open in translated text mode in ANSI format
 
   if ((theFile == NULL) || (err != 0))
   {
@@ -2084,21 +2070,7 @@ void CNetList::WriteNetListFilePCB( CTinyCadMultiDoc *pDesign, const TCHAR *file
 					aLabel.Format(_T("N%06d "), Label++);
 				}
 
-				if (unixOutputFile)
-				{	//Unix output files are encoded as single byte character strings
-					//with no translation of cr/lf characters.  Line endings will be a 
-					//single lf character.
-
-					wcstombs_s(&convertedCount, tmp, TMP_SIZE, aLabel, aLabel.GetLength());	//convert Unicode string to single byte character string
-					fprintf(theFile," %s ", tmp);	//print the net name label as single byte characters
-					
-					wcstombs_s(&convertedCount, tmp, TMP_SIZE, theLine, theLine.GetLength());	//convert Unicode string to single byte character string
-					fprintf(theFile," %s\n", tmp);	//print the list of net connections as single byte characters
-				}
-				else
-				{	//Output Unicode file for Windows/DOS
-					_ftprintf(theFile,_T(" %s  %s\n"), aLabel, theLine);	//print the net label and net connections as Unicode characters
-				}
+				_ftprintf(theFile,_T(" %s  %s\n"), aLabel, theLine);	//print the net label and net connections as ANSI characters
 			}
 		}
 

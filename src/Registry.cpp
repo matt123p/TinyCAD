@@ -161,8 +161,6 @@ CString	CRegistry::GetString( CString sKey, CString sDefaultVal )
 
 	pTest[nBytes / sizeof(TCHAR)] = _T('\0');  // Windows Registry may return an unterminated string
 	sReturn.ReleaseBuffer();	//Deallocates unused space.  Assumes that the string is zero terminated.  Does not affect space that is actually used.
-
-	//TRACE("Reading Registry key \"%S\":  wcslen(sReturn) = %d, sReturn.GetLength() = %d, nBytes = %d\n",sKey, wcslen((const wchar_t *) sReturn.GetString()), sReturn.GetLength(), nBytes);
 	return sReturn;
 }
 //-------------------------------------------------------------------------
