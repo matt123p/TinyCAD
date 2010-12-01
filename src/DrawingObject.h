@@ -61,6 +61,7 @@ enum ObjType {
 	xBusName = 15,
 	xNoConnect = 16, xJunction, xLabel, xWire, xBus, xMethod,
 	xPower, xPin, xBusSlash, xLabelEx, xMethodEx, xMethodEx2, xPinEx,
+	xOrigin,
 
 	xLine = 32, xDash, xText, xCircle, xSquare, xArc, xLineEx, xTextEx,
 	xCircleEx, xSquareEx, xArcEx,
@@ -137,6 +138,8 @@ public:
 
 	virtual void BeginEdit(BOOL re_edit);	// Called before starting editing this object
 	virtual void EndEdit();					// Called before deleting this object from current edit
+
+	virtual void NotifyEdit(int action);	// Called during add to undo and undo/redo actions
 
 	virtual void Display( BOOL erase = TRUE );
 	virtual void Paint(CContext &, paint_options  );	// Display this object on the screen

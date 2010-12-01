@@ -222,6 +222,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="DrawOrigin.cpp" />
     <ClCompile Include="SQLite\CppSQLite3U.cpp" />
     <ClCompile Include="DbAttributeSet.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -1527,6 +1528,8 @@
     <None Include="res\alignRt.ico" />
     <None Include="res\alignTop.ico" />
     <None Include="CAD.ICO" />
+    <None Include="res\bitmap2.bmp" />
+    <None Include="res\bitmap3.bmp" />
     <None Include="res\cur00001.cur" />
     <None Include="res\cur00002.cur" />
     <None Include="res\drawbus.bmp" />

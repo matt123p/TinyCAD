@@ -27,6 +27,7 @@ COption::COption()
 {
 	PinLength = 20;
 	PinNumberPos = 0;
+	origin = CDPoint();
 }
 //-------------------------------------------------------------------------
 void COption::Init( CTinyCadDoc *pDesign )
@@ -309,3 +310,26 @@ hFONT COption::AddFont( LOGFONT* lf, hFONT MergeNumber)
 }
 //-------------------------------------------------------------------------
 
+bool COption::HasOrigin()
+{
+	return origin.hasValue();
+}
+
+void COption::SetOrigin(CDPoint org)
+{	
+	origin = org;
+	if (!org.hasValue())
+	{
+		origin = org;
+	}
+}
+
+ CDPoint COption::GetOrigin()
+{	
+	if (origin.hasValue())
+	{
+		return origin;
+	}
+
+	return CDPoint(0,0);
+}

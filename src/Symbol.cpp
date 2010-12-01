@@ -21,6 +21,7 @@
 #include "TinyCadView.h"
 #include "TinyCadMultiSymbolDoc.h"
 #include "HeaderStamp.h"
+#include "StreamMemory.h"
 
 ////// The Symbol Field class //////
 
@@ -131,14 +132,14 @@ void CSymbolRecord::LoadXML( CXMLReader &xml)
 	{
 		if (tag_name == _T("NAME"))
 		{
-			xml.getChildData( name );
 			xml.getAttribute( _T("type"), nt );
+			xml.getChildData( name );
 			name_type = static_cast<SymbolFieldType>(nt);
 		}
 		else if (tag_name == _T("REF"))
 		{
-			xml.getChildData( reference );
 			xml.getAttribute( _T("type"), rt );
+			xml.getChildData( reference );
 			ref_type = static_cast<SymbolFieldType>(rt);
 		}
 		else if (tag_name == _T("DESCRIPTION"))
@@ -422,9 +423,11 @@ bool CLibraryStoreSymbol::IsMatching( const TCHAR * theString ) const
 {
     CString name = this->name;
     CString desc = this->description;
+	CString searched = theString;
     name.MakeLower();
     desc.MakeLower();
-    return name.Find(theString) != -1 || desc.Find(theString) != -1;
+	searched.MakeLower();
+    return name.Find(searched) != -1 || desc.Find(searched) != -1;
 }
 
 
@@ -489,7 +492,7 @@ void CDesignFileSymbol::CreateNoSymbol( CTinyCadDoc *pDesign )
 
 
 // Save this symbol into an archive
-void CDesignFileSymbol::SaveXML(CXMLWriter &xml)
+void CDesignFileSymbol::SaveXML(CXMLWriter &xml, bool refpoints)
 {
 	xml.addTag( _T("NAME" )); 
 	xml.addAttribute( _T("type"), name_type );
@@ -510,25 +513,27 @@ void CDesignFileSymbol::SaveXML(CXMLWriter &xml)
 		fields[i].SaveXML( xml, false );
 	}
 
-	// Save the reference points we have generated for this symbol
-	FilteredSymbolCollection::iterator s = m_filter_cache.begin();
-	while (s != m_filter_cache.end())
+	if (refpoints)
 	{
-		CDesignFileSymbolFilter f = (s->first);
-
-		// Only store one ref point for homogeneous symbols
-		if (s->first.m_part == 0 || IsHeterogeneous() )
+		// Save the reference points we have generated for this symbol
+		FilteredSymbolCollection::iterator s = m_filter_cache.begin();
+		while (s != m_filter_cache.end())
 		{
-			xml.addTag( _T("REF_POINT") );
-			xml.addAttribute( _T("power"), f.m_include_power_pins );
-			xml.addAttribute( _T("part"), f.m_part );
-			xml.addAttribute( _T("pos"), f.m_reference_point );
-			xml.closeTag();
-		}
+			CDesignFileSymbolFilter f = (s->first);
 
-		++ s;
-	}	
+			// Only store one ref point for homogeneous symbols
+			if (s->first.m_part == 0 || IsHeterogeneous() )
+			{
+				xml.addTag( _T("REF_POINT") );
+				xml.addAttribute( _T("power"), f.m_include_power_pins );
+				xml.addAttribute( _T("part"), f.m_part );
+				xml.addAttribute( _T("pos"), f.m_reference_point );
+				xml.closeTag();
+			}
 
+			++ s;
+		}	
+	}
 
 	// Save the symbol's outline
 	if (m_heterogeneous)
@@ -537,14 +542,14 @@ void CDesignFileSymbol::SaveXML(CXMLWriter &xml)
 		symbolCollection::iterator s = m_methods.begin();
 		while (s != m_methods.end())
 		{
-			m_pDesign->SaveXML(xml, *s, FALSE,FALSE,FALSE);
+			m_pDesign->SaveXML(xml, *s, FALSE,FALSE,FALSE,TRUE);
 			++s;
 		}
 		xml.closeTag();
 	}
 	else
 	{
-		m_pDesign->SaveXML(xml, m_methods[0], FALSE,FALSE,FALSE);
+		m_pDesign->SaveXML(xml, m_methods[0], FALSE,FALSE,FALSE,TRUE);
 	}
 }
 
@@ -552,8 +557,6 @@ void CDesignFileSymbol::SaveXML(CXMLWriter &xml)
 // Load this symbol from an archive
 void CDesignFileSymbol::LoadXML(CTinyCadDoc *pDesign, CXMLReader &xml)
 {
-	int nt = 0;
-	int rt = 0;
 	CString tag;
 	m_pDesign = pDesign;
 
@@ -561,14 +564,16 @@ void CDesignFileSymbol::LoadXML(CTinyCadDoc *pDesign, CXMLReader &xml)
 	{
 		if (tag == _T("NAME"))
 		{
-			xml.getChildData( name );
+			int nt = 0;
 			xml.getAttribute( _T("type"), nt );
+			xml.getChildData( name );
 			name_type = static_cast<SymbolFieldType>(nt);
 		}
 		else if (tag == _T("REF"))
 		{
-			xml.getChildData( reference );
+			int rt = 0;
 			xml.getAttribute( _T("type"), rt );
+			xml.getChildData( reference );
 			ref_type = static_cast<SymbolFieldType>(rt);
 		}
 		else if (tag == _T("DESCRIPTION"))
@@ -723,139 +728,135 @@ BOOL CDesignFileSymbol::LoadSymbol( CTinyCadDoc *pDesign, CStream &theArchive )
 
 void CDesignFileSymbol::CreateSymbol(CTinyCadDoc *pDesign, drawingCollection &drawing, const CDesignFileSymbolFilter& filter)
 {
-  // Find the co-ords of the bounding box of this symbol
-  CDPoint a=CDPoint(0,0);
-  CDPoint b=CDPoint(0,0);
-  bool first = true;
+	// Find the co-ords of the bounding box of this symbol
+	CDPoint a = CDPoint(0,0);
+	CDPoint origin;
+	bool first = true;
  
-  BOOL has_pins = FALSE;
-  CDPoint pin = CDPoint(0,0);
+	BOOL has_pins = FALSE;
+	CDPoint pin = CDPoint(0,0);
 
-  drawingCollection& method = m_heterogeneous ? m_methods[ filter.m_part ] : m_methods[0];
+	drawingCollection& method = m_heterogeneous ? m_methods[ filter.m_part ] : m_methods[0];
 
-  // CDPoint b=method.front()->m_point_a;
-
-  // Make a copy of the symbol from the master method,
-  // making any changes required as we go...
-  //
-  drawingIterator it = method.begin();
-  while (it != method.end()) 
-  {
-      CDrawingObject* pointer = pDesign->Dup( *it );
-	  ++ it;
-
-	  CDrawPin *thePin = static_cast<CDrawPin*>(pointer);
-
-	if (pointer->GetType()==xPinEx)
+	// Make a copy of the symbol from the master method,
+	// making any changes required as we go...
+	//
+	drawingIterator it = method.begin();
+	while (it != method.end()) 
 	{
+		CDrawingObject* pointer = pDesign->Dup( *it );
+		++ it;
 
-		// Special treatment for power pins...
-		if (thePin->IsPower())
+		CDrawPin *thePin = static_cast<CDrawPin*>(pointer);
+
+		if (pointer->GetType()==xPinEx)
 		{
+			// Special treatment for power pins...
 			// Do we need to convert it to a normal pin?
-			if (filter.m_include_power_pins)
+			if (thePin->IsPower() && filter.m_include_power_pins)
 			{
 				// Now insert the copy
 				thePin->ConvertPowerToNormal();
 			}
-		}
 
-		if (!has_pins)
-		{
-			if (!thePin->IsInvisible())
+			if (!has_pins && !thePin->IsInvisible())
 			{
 				// Use this for the pin-offset calculation
 				pin = pointer->m_point_a;
 				has_pins = TRUE;
 			}
 		}
-	}
 
 
-	// Is this the right part in package?
-	if (!m_heterogeneous 
+		// Is this the right part in package?
+		if (!m_heterogeneous 
 		&& pointer->GetType() == xPinEx 
 		&& thePin->GetPart() != filter.m_part )
+		{
+			// No, so don't copy it!
+			delete pointer;
+		}
+		// Is this an origin object?
+		else if (pointer->GetType() == xOrigin)
+		{
+			// Copy the origin data
+			// and remove it from the method list.
+			CDrawOrigin *theOrigin = static_cast<CDrawOrigin*>(pointer);
+			origin = theOrigin->m_point_a;
+			delete pointer;
+		}
+		else
+		{
+			if (first)
+			{
+				first = false;
+				a.x = max(pointer->m_point_a.x,pointer->m_point_b.x);
+				a.y = max(pointer->m_point_a.y,pointer->m_point_b.y);
+			}
+			else
+			{
+				a.x = max(a.x,max(pointer->m_point_a.x,pointer->m_point_b.x));
+				a.y = max(a.y,max(pointer->m_point_a.y,pointer->m_point_b.y));
+			}
+
+			// Make a copy to our list...
+			drawing.push_back( pointer );
+		}
+	}
+
+	// If this symbol has pins, then snap the pin to the grid,
+	// rather than the bounding rect
+	CDPoint snapa;
+  
+	// Do we already have a ref-point?
+	FilteredSymbolCollection::iterator fx = m_filter_cache.find( filter );
+	if (fx != m_filter_cache.end())
 	{
-		// No, so don't copy it!
-		delete pointer;
+		snapa = fx->first.m_reference_point;
+		m_filter_cache.erase( fx );
 	}
 	else
 	{
-		if (first)
+		// Snap the co-ords of the bounding box to the grid
+		snapa = pDesign->m_snap.Snap(a);
+
+		// Now make sure the pins stay on-grid
+		if (has_pins)
 		{
-			b=pointer->m_point_a;
-			first = false;
+			// Snap the co-ords of the pin to the grid
+			CDPoint pin_offset = pin - pDesign->m_snap.Snap(pin);
+			snapa = snapa + pin_offset;
 		}
+		  
+		// Make sure snapping is always positive
+		if (snapa.x < a.x) snapa.x += pDesign->m_snap.GetGrid();
+		if (snapa.y < a.y) snapa.y += pDesign->m_snap.GetGrid();
 
-		a.x=max(a.x,max(pointer->m_point_a.x,pointer->m_point_b.x));
-		a.y=max(a.y,max(pointer->m_point_a.y,pointer->m_point_b.y));
-
-		b.x=min(b.x,min(pointer->m_point_a.x,pointer->m_point_b.x));
-		b.y=min(b.y,min(pointer->m_point_a.y,pointer->m_point_b.y));
-
-		// Yes, so make a copy to our list...
-		drawing.push_back( pointer );
 	}
-  }
 
-  // If this symbol has pins, then snap the pin to the grid,
-  // rather than the bounding rect
-  CDPoint snapa,snapb;
-  
-  // Do we already have a ref-point?
-  FilteredSymbolCollection::iterator fx = m_filter_cache.find( filter );
-  if (fx != m_filter_cache.end())
-  {
-	  snapa = fx->first.m_reference_point;
-	  m_filter_cache.erase( fx );
-  }
-  else
-  {
-	CDPoint pin_offset = CDPoint(0,0);
-
-	// Snap the co-ords of the bounding box to the grid
-	snapa = pDesign->m_snap.Snap(a);
-	snapb = pDesign->m_snap.Snap(b);
-
-	// Now make sure the pins stay on-grid
-	if (has_pins)
+	// Now translate so that bottom left hand corner is at 0,0
+	it = drawing.begin();
+	while (it != drawing.end()) 
 	{
-		// Snap the co-ords of the pin to the grid
-		pin_offset=pin - pDesign->m_snap.Snap(pin);
-
-		snapa = snapa + pin_offset;
-		snapb = snapb + pin_offset;
+		(*it)->Shift( CDPoint(-snapa.x,-snapa.y) );
+		++ it;
 	}
 
-	  
-	// Make sure snapping is always positive
-	if (snapa.x<a.x)
-		snapa.x+=pDesign->m_snap.GetGrid();
-	if (snapa.y<a.y)
-		snapa.y+=pDesign->m_snap.GetGrid();
-	if (snapb.x>b.x)
-		snapb.x-=pDesign->m_snap.GetGrid();
-	if (snapb.y>b.y)
-		snapb.y-=pDesign->m_snap.GetGrid();
-  }
+	// Apply translation also to the origin
+	// which is no longer a CDrawingObject here.
+	origin -= snapa;
 
-  // Now translate so that bottom left hand corner is at 0,0
-  it = drawing.begin();
-  while (it != drawing.end()) 
-  {
-	  (*it)->Shift( CDPoint(-snapa.x,-snapa.y) );
-  	  ++ it;
-  }
-
-    // Set the reference point
-    CDesignFileSymbolFilter f = filter;
+	// Set the reference point
+	CDesignFileSymbolFilter f = filter;
 	f.m_reference_point = snapa;
 
 	// Set the top-right point
 	f.m_top_right = GetTr(pDesign, drawing );
 
-  	m_filter_cache[f] = drawing;
+	// Set the origin
+	f.m_origin = origin;
+
+	m_filter_cache[f] = drawing;
 }
 
 
@@ -923,29 +924,21 @@ CDPoint CDesignFileSymbol::GetTr( int part, bool include_power_pins )
 	return CDPoint( 0,0 );
 }
 
-/** Return the top right coordinate of this symbol.  Consider only pin coordinates, 
- *  and do not include invisible pins.  Adjust the coordinates of each pin by snapping 
- *  them to the current grid before determining the overall bounding rectangle.  When returning
+/** Return the top right coordinate of this symbol, and do not include invisible pins.
+ *  Adjust the coordinates by snapping them to the current grid 
+ *  before determining the overall bounding rectangle.  When returning
  *  the top right point, relocate the origin so that it is located at the top left point.
  *  This is accomplished by actually returning the width and height of the symbol's pins.
- *  Note that this is not necessarily the true bounding rectangle for the symbol because it does not 
- *  consider the location of any non-pin graphical objects such as text or polygons.
  */
-CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawing )
+CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawing)
 {
 	// Find the co-ords of the bounding box of this symbol
 
-	CDPoint a=CDPoint(0,0);	//Initialized in case no pins are found!
-	CDPoint b=CDPoint(0,0);	//Initialized in case no pins are found!
-	
+	CDPoint a;
+	CDPoint b;
+	bool first = true;
+
 	//TRACE("CDesignFileSymbol::GetTr():  Evaluating primitives in symbol in order to determine the bounding rectangle\n");
-	if (drawing.size()>0)
-	{
-		b = drawing.front()->m_point_a;
-	}
-
-	CDPoint pin = CDPoint(0,0);
-
 	for (drawingIterator it = drawing.begin(); it != drawing.end(); ++it) 
 	{
 		CDrawingObject *pointer = *it;
@@ -953,22 +946,35 @@ CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawin
 
 		if (! (pointer->GetType() == xPinEx && thePin->IsInvisible()) )
 		{
-			a.x=max(a.x,max(pointer->m_point_a.x,pointer->m_point_b.x));
-			a.y=max(a.y,max(pointer->m_point_a.y,pointer->m_point_b.y));
+			if (first)
+			{
+				first = false;
+				a.x = max(pointer->m_point_a.x, pointer->m_point_b.x);
+				a.y = max(pointer->m_point_a.y, pointer->m_point_b.y);
 
-			b.x=min(b.x,min(pointer->m_point_a.x,pointer->m_point_b.x));
-			b.y=min(b.y,min(pointer->m_point_a.y,pointer->m_point_b.y));
+				b.x = min(pointer->m_point_a.x, pointer->m_point_b.x);
+				b.y = min(pointer->m_point_a.y, pointer->m_point_b.y);
+			}
+			else
+			{
+				a.x = max(a.x, max(pointer->m_point_a.x, pointer->m_point_b.x));
+				a.y = max(a.y, max(pointer->m_point_a.y, pointer->m_point_b.y));
+
+				b.x = min(b.x, min(pointer->m_point_a.x, pointer->m_point_b.x));
+				b.y = min(b.y, min(pointer->m_point_a.y, pointer->m_point_b.y));
+			}
 		}
 	}
 
-
-	// If this symbol has pins, then snap the pin to the grid,
-	// rather than the bounding rect
-	CDPoint snapa, snapb;
-
+	// No visible primitives found
+	if (first)
+	{
+		return CDPoint(0,0);
+	}
+	
 	// Snap the co-ords of the bounding box to the grid
-	snapa = pDesign->m_snap.Snap(a);
-	snapb = pDesign->m_snap.Snap(b);
+	CDPoint snapa = pDesign->m_snap.Snap(a);
+	CDPoint snapb = pDesign->m_snap.Snap(b);
 
 	// Make sure snapping is always positive
 	if (snapa.x < a.x) snapa.x += pDesign->m_snap.GetGrid();
@@ -976,7 +982,84 @@ CDPoint CDesignFileSymbol::GetTr(CTinyCadDoc *pDesign, drawingCollection &drawin
 	if (snapb.x > b.x) snapb.x -= pDesign->m_snap.GetGrid();
 	if (snapb.y > b.y) snapb.y -= pDesign->m_snap.GetGrid();
 
-	// Return top right hand corner relative to 0,0.  This is actually accomplished by returning the length and height of the bounding rectangle.
+	// Return top right hand corner relative to 0,0.
+	// This is actually accomplished by returning the length and height of the bounding rectangle.
 	return CDPoint(snapb.x - snapa.x ,snapb.y - snapa.y );
 }
 
+
+// Get origin the specified symbol
+CDPoint CDesignFileSymbol::GetOrigin( int part, bool include_power_pins )
+{
+	// Only use the part number if we are a heterogeneous symbol
+	if (!IsHeterogeneous())
+	{
+		part = 0;
+	}
+
+	// First check the cache!
+	CDesignFileSymbolFilter f( part, include_power_pins );
+	FilteredSymbolCollection::iterator it = m_filter_cache.find( f );
+
+	if (it != m_filter_cache.end() && it->second.size() > 0)
+	{
+		// Origin point already in the cache so use it!
+		return it->first.m_origin;
+	}
+	else
+	{
+		// Drawing not created yet - so create it
+		drawingCollection drawing;
+		if (m_methods[0].size() > 0)
+		{
+			CreateSymbol( m_methods[0].front()->m_pDesign, drawing, f );
+
+			// .. and get the top-right point from the cache
+			it = m_filter_cache.find( f );
+			if (it != m_filter_cache.end())
+			{
+				return it->first.m_origin;
+			}
+			else {
+				//TRACE("Warning:  After drawing symbol that was not originally found in the symbol cache, it was still not found in the symbol cache!\n");
+			}
+		}
+	}
+
+	//TRACE("Warning:  No symbol found when attempting to retrieve the top right point!  Returning empty-point\n");
+	return CDPoint();
+}
+
+// Compare two symbols for equality
+bool CDesignFileSymbol::operator==( const CDesignFileSymbol &obj ) const
+{
+	// Cheap test for unequality	
+	if (name != obj.name)
+	{
+		return false;
+	}
+
+	// Compare object contents
+	CStreamMemory stream1;
+	CStreamMemory stream2;
+    CXMLWriter xml1( &stream1 );
+    CXMLWriter xml2( &stream2 );
+
+	// The last 'false' parameter to SaveXML indicates that no REF_POINT data is to be stored.
+	// This is done because the ref_part is only part of a design file symbol, and
+	// not library symbol, and thus should not be compared.
+	// ('->' will call the virtual SaveXML function, '.' would always call the CDesignFileSymbol::SaveXML)
+	((CDesignFileSymbol*)this)->SaveXML(xml1, false);
+	((CDesignFileSymbol &)obj).SaveXML(xml2, false);
+	
+	// Are stored contents equal?
+	if (stream1 == stream2)
+		return true;
+	else
+		return false;
+}
+
+bool CDesignFileSymbol::operator!=( const CDesignFileSymbol &obj ) const
+{
+	return !(*this == obj);
+}

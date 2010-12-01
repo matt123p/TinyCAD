@@ -127,32 +127,19 @@ void CTinyCadView::OnDraw(CDC* pDC)
 		  // Fill this region with a grid
 		  double grid = GetCurrentDocument()->m_snap.GetGrid();
 		  double SGrid = dc.GetTransform().doubleScale(grid);
-		  if (GetCurrentDocument()->GetOptions()->ShowGrid() && SGrid>5) {
-			double xi,yi;
+		  if (GetCurrentDocument()->GetOptions()->ShowGrid() && SGrid > 10) {
 			double x = dc.GetTransform().GetOrigin().x;
 			double y = dc.GetTransform().GetOrigin().y;
-
-			BOOL doall = SGrid>10, showX = (GetCurrentDocument()->m_snap.GetAccurateGrid()==FineGrid);
 
 			TransformSnap s = GetCurrentDocument()->m_snap;
 			s.SetGridSnap(TRUE);
 
+			x = s.Snap(x);
+			y = s.Snap(y);
+
    			for (double xp=x>=0 ? x : 0;xp<End.x && xp<GetCurrentDocument()->GetDetails().GetPageBoundsAsPoint().x;xp+=grid) {
 				for (double yp=y>=0 ? y : 0;yp<End.y && yp<GetCurrentDocument()->GetDetails().GetPageBoundsAsPoint().y;yp+=grid) {
-					xi = s.Snap(xp);
-					yi = s.Snap(yp);
-					double rx = xi / (xi- NormalGrid / 10);
-					double ry = yi / (yi- NormalGrid / 10);
-					if (rx < 0.1 && ry < 0.1) {
-						dc.SetPixel(CDPoint(xi,yi),0);
-						if (showX) {
-							dc.SetPixel(CDPoint(xi+1,yi),0);
-							dc.SetPixel(CDPoint(xi-1,yi),0);
-							dc.SetPixel(CDPoint(xi,yi+1),0);
-							dc.SetPixel(CDPoint(xi,yi-1),0);
-						}
-					} else if (doall)
-						dc.SetPixel(CDPoint(xi,yi),0);
+					dc.SetPixel(CDPoint(xp,yp),0);
 				}
 			}
 		  }

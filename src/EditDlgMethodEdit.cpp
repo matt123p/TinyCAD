@@ -652,7 +652,7 @@ void CEditDlgMethodEdit::OnBnClickedShowpower()
 	CDPoint refNew = pMethod->GetFirstStaticPoint( );
 
 	// move symbol in such a way that the pins stay stationary
-	pMethod->m_point_a += (refOld - refNew);
+	pMethod->Shift(refOld - refNew);
 
 	// Show symbol 
 	pMethod->Display();

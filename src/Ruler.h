@@ -24,6 +24,17 @@
 
 #define RULER_WIDTH 	20
 
+class COriginButton : public CButton {
+
+public:
+	COriginButton() { };
+	virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
+	void OnClick();
+
+protected :
+	DECLARE_MESSAGE_MAP()
+};
+
 class CMultiSheetDoc;
 
 class Ruler : public CWnd {
@@ -34,12 +45,14 @@ private:
 	CPoint 		oldPosition;
 	int			dir;
 	int			theHeight;
+	BOOL		hasOrigin;
+	COriginButton     button;
 
 	void ShowPositionEx(CDC &dc, CPoint r);
 	Transform& GetTransform();
 
 public:
-	Ruler(CMultiSheetDoc*pDesign, int nDir, CRect nSize, CWnd *parent);
+	Ruler(CMultiSheetDoc*pDesign, int nDir, CRect nSize, CWnd *parent, BOOL hasOrigin);
 	void ShowPosition(CPoint r);
 
 	void OnPaint();
@@ -47,7 +60,6 @@ public:
 
 	DECLARE_MESSAGE_MAP()
 };
-
 
 
 #endif
