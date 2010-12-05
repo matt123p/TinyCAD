@@ -359,7 +359,7 @@ private:
 	typedef std::vector< intCollection > linkMap;
 
 	// worker function for low-level stuff (NO GUI elements)
-    void rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::ofstream& outfile);
+    void rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile);
 
     // Worker function used to debug the netlist linker
 	void dumpNetListObjects();

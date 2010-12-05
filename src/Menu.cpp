@@ -176,9 +176,6 @@ void CTinyCadView::OnSelectGet()
   }  
 
   GetCurrentDocument()->SelectSymbol( theSymbol );
-
-  // Set focus to View so that it will receive keyboard messages.
-  SetFocus();
 }
 
 

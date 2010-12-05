@@ -81,18 +81,6 @@ void CEditToolbar::Create(CWnd *pParent)
 
 void CEditToolbar::setDlg(CEditDlg *pWnd)
 {
-	if (!pWnd->GetSafeHwnd())
-	{
-		// When shutting down
-		return;
-	}
-
-	// This will fix the 'scrambled toolbox' bug!
-	if (m_pCurrentTool && pWnd != &m_NoTool)
-	{
-		m_pCurrentTool->ShowWindow( SW_HIDE );
-	}
-
 	CRect rect(0,0,0,0);
 
 	if (pWnd)

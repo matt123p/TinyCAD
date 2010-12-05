@@ -129,10 +129,7 @@ BOOL CDetailsPropertyPage1::OnApply()
 	m_pDesign->GetCurrentSheet()->GetDetails().SetOrganisation( m_sOrg );
 	m_pDesign->GetCurrentSheet()->GetDetails().SetSheets( m_sSheets );
 	m_pDesign->GetCurrentSheet()->GetDetails().SetLastChange( m_sDate );
-
-	// Force the modified flag on ::CDocument
-	m_pDesign->GetCurrentSheet()->GetParent()->SetModifiedFlag();
-
+	
 	return CPropertyPage::OnApply();
 }
 

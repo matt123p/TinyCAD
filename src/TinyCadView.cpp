@@ -35,7 +35,6 @@
 
 extern CDlgERCListBox theERCListBox;
 
-CTinyCadView* g_currentview = NULL;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -136,8 +135,6 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_WM_SYSKEYDOWN()
 	ON_WM_SYSKEYUP()
 	
-	ON_WM_KEYDOWN()
-
 	ON_WM_CLOSE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
@@ -231,7 +228,6 @@ CTinyCadView::CTinyCadView()
 
 CTinyCadView::~CTinyCadView()
 {
-	g_currentview = NULL;
 }
 
 BOOL CTinyCadView::PreCreateWindow(CREATESTRUCT& cs)
@@ -772,43 +768,7 @@ void CTinyCadView::OnLButtonUp(UINT nFlags, CPoint p)
 	CView::OnLButtonUp(nFlags, p);
 }
 
-void CTinyCadView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// Check for single-key commands.
-	// Don't use the Accelerator key table for this
-	// because that will hog all key handling in TinyCAD.
-	// By handling the single-key commands here (CTinyCadView::OnKeyDown)
-	// they will correctly respond only when CTinyCadView has the keyboard focus.
-	
-	// Shift-key not pressed (=high-order bit not set)
-	// Ctrl-key not pressed 
-	// Alt-key not pressed 
-	// 'Menu'-key not pressed
-	// 'Windows'-keys not pressed 
-	if (::GetKeyState(VK_SHIFT) >= 0 &&
-		::GetKeyState(VK_CONTROL) >= 0 &&
-		::GetKeyState(VK_MENU) >= 0 && 
-		::GetKeyState(VK_APPS) >= 0 && 
-		::GetKeyState(VK_LWIN) >= 0 && 
-		::GetKeyState(VK_RWIN) >= 0)
-	{
-		switch (nChar)
-		{
-		case 'R':
-			OnEditRotateRight();
-			break;
-		case 'L':
-			OnEditRotateLeft();
-			break;
-		case 'F':
-			OnEditFlip();
-			break;
-		case 'U':
-			OnEditDuplicate();
-			break;
-		}
-	}
-}
+
 
 void CTinyCadView::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
@@ -1463,21 +1423,10 @@ BOOL CTinyCadView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
 {
-	//TRACE3("OnActivateView bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
-	if (bActivate)
-	{
-		// When switching to a different view then
-		// get rid of any drawing tool on the current view
-		if (g_currentview != this && g_currentview != NULL)
-		{
-			g_currentview->GetCurrentDocument()->SelectObject(new CDrawEditItem(g_currentview->GetCurrentDocument()));
-		}
-		g_currentview = this;
-	}
 	if (!bActivate)
 	{
 		CDrawingObject* obj = GetCurrentDocument()->GetEdit();
-		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
+		// Don't get rid of edit tool, we want to keep the dialog open.
 		if (obj && obj->GetType() != xEditItem)
 		{
 			// Get rid of any drawing tool at this moment

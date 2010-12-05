@@ -36,20 +36,30 @@ void CEditDlg::Show( CTinyCadDoc *pDesign, CDrawingObject *pObject )
 	m_pDesign = pDesign;
 	m_pObject = pObject;
 
-	g_EditToolBar.setDlg( this );
+	if (opens == 0)
+	{
+		++opens;
+	}
+
+	if (opens > 0) 
+	{
+		g_EditToolBar.setDlg( this );
+	}
 }
 
 void CEditDlg::Close()
 {
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
-	if (!g_EditToolBar.GetSafeHwnd())
+	if (opens > 0)
 	{
-		// When shutting down
-		return;
+		--opens;
+	}             
+	
+	if (opens == 0)
+	{
+		g_EditToolBar.unsetDlg();
+		ShowWindow( SW_HIDE );
 	}
-
-	g_EditToolBar.unsetDlg();
-	ShowWindow( SW_HIDE );
 }
 
 

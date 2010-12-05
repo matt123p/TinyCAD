@@ -34,7 +34,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include "rapidxml-1.13/rapidxml.hpp"
 #include "rapidxml-1.13/rapidxml_print.hpp"
 
@@ -1783,46 +1782,6 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
   fclose(theFile);
 }
 
-
-void to_utf8(const std::basic_string<TCHAR>& str, std::ofstream& outfile)
-{
-	// Setup the default encoding
-#ifdef UNICODE
-	iconv_t	m_charset_conv = iconv_open( "UTF-8", "UCS-2-INTERNAL" );
-#else
-	iconv_t	m_charset_conv = iconv_open( "UTF-8", "char" );
-#endif
-
-	// Allocate output buffer
-	std::string outbuffer;
-    outbuffer.resize(str.size());
-
-	const TCHAR* pstr = str.c_str();
-	size_t	inbuf_size = str.size() * sizeof( TCHAR );
-
-	// Do while there is input to convert
-	while (inbuf_size)
-	{
-		size_t	outbuf_size = outbuffer.size();
-		char* m_conversion_buffer = const_cast< char* >(outbuffer.c_str());
-		char* out = m_conversion_buffer;
-
-		// Convert to UTF-8
-		// increment: pstr, out
-		// decrement: inbuf_size, outbuf_size
-		iconv( m_charset_conv, (const char**)&pstr, &inbuf_size, &out, &outbuf_size );
-
-		// Truncate buffer
-		int	converted_bytes_to_write = out - m_conversion_buffer;
-		outbuffer.resize(converted_bytes_to_write) ;
-
-		// output converted buffer
-		outfile << outbuffer;
-	}
-
-	iconv_close( m_charset_conv );
-}
-
 /**
  * Create netlist and output as an XML file
  * 
@@ -1837,7 +1796,7 @@ namespace RXML
 }
 void CNetList::WriteNetListFileXML( CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 {
-	std::ofstream outfile;
+	std::basic_ofstream<TCHAR> outfile;
 	outfile.open (filename);
 	/// !!! jms -- TODO -- needs to handle file open error
 
@@ -1850,7 +1809,7 @@ void CNetList::WriteNetListFileXML( CTinyCadMultiDoc *pDesign, const TCHAR *file
 	outfile.close();
 }
 
-void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::ofstream& outfile)
+void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::basic_ofstream<TCHAR>& outfile)
 {
 	RXML::document doc;
 
@@ -2014,13 +1973,8 @@ void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::ofstream&
 		++ nit;
 	}
 
-	// output the XML document.
-	std::basic_string <TCHAR> s;
-	print(std::back_inserter(s), doc);
-
-	// Convert to UTF-8.
-	to_utf8(s, outfile);
-
+	// 3. output the XML document.
+	outfile << doc;
 }
 
 

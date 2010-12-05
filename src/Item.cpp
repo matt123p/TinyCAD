@@ -295,7 +295,6 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
  	BOOL ctrl_pressed = GetAsyncKeyState(VK_CONTROL) < 0;
 
 	CDrawingObject *closest_object = GetClosestObject( no_snap_p );
-	bool changeset_started = false;
 
 	if (!ctrl_pressed)
 	{
@@ -337,7 +336,6 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 		{
 			// Move selected item to the head
 			m_pDesign->BeginNewChangeSet();
-			changeset_started = true;
 			m_pDesign->Select(closest_object);
 			m_pDesign->MarkChangeForUndo( closest_object );
 		}
@@ -354,10 +352,7 @@ void CDrawEditItem::ClickSelection( CDPoint p, CDPoint no_snap_p )
 			if ((m_pDesign->GetSingleSelectedItem())->CanEdit()) 
 			{
 				// Begin Editing this Item
-				if (!changeset_started)
-				{
-					m_pDesign->BeginNewChangeSet();
-				}
+				m_pDesign->BeginNewChangeSet();
 				(m_pDesign->GetSingleSelectedItem())->BeginEdit(TRUE);
 			  	m_segment=0;
 			}
