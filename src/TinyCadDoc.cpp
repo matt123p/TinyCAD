@@ -458,8 +458,38 @@ void CTinyCadDoc::Add(CDrawingObject *NewObject)
 	if (NewObject == NULL)
 		return;
 
-	// Store the object in the linked list
-	m_drawing.insert( m_drawing.end(), NewObject );
+	// Always append to back?
+	if (m_InUndoAddAction || NewObject->GetType()==xError)
+	{
+		// Append to back of list
+		m_drawing.push_back( NewObject );
+	}
+	else {
+
+		bool added = false;
+		// Insert the object in front of all error objects
+		// This is done so that the Undo action will be recorded for this object.
+		for ( drawingCollection::reverse_iterator rit = m_drawing.rbegin(); rit != m_drawing.rend(); ++ rit)
+		{
+			// skip all xError objects
+			if ((*rit)->GetType()!=xError) 
+			{
+				// convert reverse iterator back to normal iterator
+				drawingCollection::iterator it = rit.base();
+				// Insert the object in the linked list
+				m_drawing.insert( it, NewObject );
+				added = true;
+				break;
+			}
+		}
+
+		// in case the list is empty or contains only xError objects...
+		if (!added)
+		{
+			// Append to front of list
+			m_drawing.push_front(  NewObject );
+		}
+	}
 
 	// Store object and set the dirty flag
 	if (NewObject->GetType()!=xError)
@@ -467,9 +497,8 @@ void CTinyCadDoc::Add(CDrawingObject *NewObject)
 		if (!m_InUndoAddAction)
 		{
 			MarkAdditionForUndo( NewObject );
+			SetModifiedFlag( TRUE );
 		}
-
-		SetModifiedFlag( TRUE );
 	}
 }
 

@@ -69,7 +69,7 @@ CDrawMethod::CDrawMethod(CTinyCadDoc *pDesign,hSYMBOL symbol,int new_rotation)
   m_fields[Ref].m_description="Ref";
   m_fields[Ref].m_position = CDPoint(0,0);
   m_fields[Ref].m_type = newSymbol->ref_type;
-  m_fields[Ref].m_show= IsFieldVisible(newSymbol->name_type, newSymbol->reference);
+  m_fields[Ref].m_show= IsFieldVisible(newSymbol->ref_type, newSymbol->reference);
 
   // Now load in the other fields
   for (unsigned int i = 0; i < newSymbol->fields.size(); i++)

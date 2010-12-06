@@ -137,7 +137,11 @@ void CDlgERCListBox::OnClick()
 	}
 
 	// Now select the item in the current design (if we can...)
-	m_pDesign->GetCurrentSheet()->UnSelect();
+	//m_pDesign->GetCurrentSheet()->UnSelect();
+
+	/// Get rid of any drawing tool
+	// This is necessary because TinyCAD does not handle well any object selected + a drawing tool
+	m_pDesign->GetCurrentSheet()->SelectObject(new CDrawEditItem(m_pDesign->GetCurrentSheet()));
 
 	for (int sheetIndex = 0; sheetIndex < m_pDesign->GetNumberOfSheets(); sheetIndex++)
 	{
