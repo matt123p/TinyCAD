@@ -317,7 +317,7 @@ protected:
 	void WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
 
 	// Create netlist and output as a PCB file (PADS-PCB)
-	void WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *filename );
+	void WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *filename, bool withValue );
 
 	// Create netlist and output as a Eagle PCB script
 	void WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *filename );

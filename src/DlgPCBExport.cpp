@@ -70,6 +70,7 @@ BOOL CDlgPCBExport::OnInitDialog()
 	m_Filetype.ResetContent();
 	m_Filetype.AddString( _T("TinyCAD") );
 	m_Filetype.AddString( _T("PADS-PCB") );
+	m_Filetype.AddString( _T("PADS-PCB-WITH-VALUE") );
 	m_Filetype.AddString( _T("Eagle SCR") );
 	m_Filetype.AddString( _T("Protel") );
 	m_Filetype.AddString( _T("gEDA PCB") );
@@ -125,6 +126,16 @@ void CDlgPCBExport::OnSelchangeFileType()
 	int b = m_Filename.ReverseFind( '.' );
 	if (b != -1)
 	{
+		if (b >= 4)
+		{
+			if (m_Filename[b-4] == '.' &&
+				m_Filename[b-3] == 'n' &&
+				m_Filename[b-2] == 'e' &&
+				m_Filename[b-1] == 't')
+			{
+				b -= 4;
+			}
+		}
 		m_Filename = m_Filename.Left( b ) + ext;
 	}
 
@@ -143,11 +154,11 @@ CString CDlgPCBExport::GetExtension()
 		return ".net";
 	case 1: // PADS
 		return ".net";
-	case 2: // Eagle
-		return ".scr";
-	case 3: // Protel
+	case 2: // PADS
 		return ".net";
-	case 4: // PCB
+	case 3: // Eagle
+		return ".scr";
+	case 4: // Protel
 		return ".net";
 	case 5: // PCB
 		return ".net";
