@@ -53,4 +53,3 @@ Bug Fix - Copying to and from an Hierarchical Symbol sheet gives error: "This fi
 Bug Fix - Ampersand gets turned into _ on all symbol property dialogs.
 Bug Fix - Ampersand gets turned into _ on sheet name tab.
 Bug Fix - Refresh display problem of top symbol in library symbol edit list when scrolling up.
-
