@@ -185,7 +185,7 @@ void CLibraryView::OnDraw(CDC* pDC)
 		dMax_range_y = max_range_y-min_range_y+1;
 		dPercentY = GetDeviceScrollPosition().y;
 		dPercentY = dPercentY/dMax_range_y;
-		advance = static_cast<int> (floor((dPercentY * pDoc->m_SymbolMap.size())+0.5));	//result is in units of number of symbols to scroll
+		advance = static_cast<int> (floor( dPercentY * pDoc->m_SymbolMap.size() ));	//result is in units of number of symbols to scroll
 		current_y = static_cast<int>(advance * block_height);
 		start_y = current_y;
 

@@ -296,9 +296,15 @@ CString CTinyCadApp::GetReleaseType()
 	//committed to SVN present in the working copy that produced this build, then the results of this build cannot 
 	//be duplicated by anyone else so it will be described as an "Uncontrolled Release".
 
-	if ((svn_wcrange.Find('-') != -1) || (svn_modifications_postfix.Find('+') != -1))
+	if (svn_modifications_postfix.Find('+') != -1)
 	{
 		return "Uncontrolled Release";
+	}
+
+	CString svn_url = SVN_WCURL;
+	if ((svn_modifications_postfix.Find('-') != -1) || (svn_url.Find(_T("\\branches\\")) != -1) || (svn_url.Find(_T("/branches/")) != -1))
+	{
+		return "Alpha Release";
 	}
 
 	//There is not presently a mechanism to automatically mark a release as an alpha or beta release

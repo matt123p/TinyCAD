@@ -1150,18 +1150,21 @@ void CNetList::WriteNetListFile( int type, CTinyCadMultiDoc *pDesign, const TCHA
 	switch (type)
 	{
 	case 1:
-		WriteNetListFilePADS( pDesign, filename );
+		WriteNetListFilePADS( pDesign, filename, false );
 		break;
 	case 2:
-		WriteNetListFileEagle( pDesign, filename );
+		WriteNetListFilePADS( pDesign, filename, true );
 		break;
 	case 3:
-		WriteNetListFileProtel( pDesign, filename );
+		WriteNetListFileEagle( pDesign, filename );
 		break;
 	case 4:
-		WriteNetListFilePCB( pDesign, filename);
+		WriteNetListFileProtel( pDesign, filename );
 		break;
 	case 5:
+		WriteNetListFilePCB( pDesign, filename );
+		break;
+	case 6:
 		WriteNetListFileXML( pDesign, filename );
 		break;
 	default:
@@ -1331,7 +1334,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
  * @param pDesign
  * @param filename
  */
-void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *filename )
+void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *filename, bool withValue )
 {
   FILE *theFile;
   errno_t err;
@@ -1389,11 +1392,16 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 						referenced.insert( Ref );
 
 						CString Package = _T("This part has no 'Package' attribute");
+						CString Value;
 						for (int i = 2; i < pMethod->GetFieldCount(); i++)
 						{
 							if (pMethod->GetFieldName(i).CompareNoCase(_T("package")) == 0)
 							{
 								Package = pMethod->GetField(i);
+							}
+							if (pMethod->GetFieldName(i).CompareNoCase(_T("value")) == 0)
+							{
+								Value = pMethod->GetField(i);
 							}
 						}
 
@@ -1404,7 +1412,14 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 							Ref = Ref + _T(" ");
 						}
 						while (Ref.GetLength() < 8);
-						_ftprintf(theFile,_T("%s%s\n"), Ref, Package);
+						if (withValue && !Value.IsEmpty())
+						{
+							_ftprintf(theFile,_T("%s%s@%s\n"), Ref, Value, Package);
+						}
+						else
+						{
+							_ftprintf(theFile,_T("%s%s\n"), Ref, Package);
+						}
 					}
 				}
 				
