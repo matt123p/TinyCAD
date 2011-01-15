@@ -325,19 +325,19 @@ CString CTinyCadApp::GetMainDir()
 	CString sReturn;
 	TCHAR 	theBuffer[1024];
 	DWORD 	theBytes = GetModuleFileName(NULL,theBuffer,sizeof(theBuffer) - 1);
-
+	//TRACE("GetModuleFileName returned \"%S\"\n",theBuffer);
 	if( theBytes != 0 )
 	{
 		TCHAR* thePtr = theBuffer + theBytes;
 
 		while (thePtr >= theBuffer && *thePtr != _TCHAR('\\'))
-  	{
+  		{
 			thePtr--;
 		}
 		*thePtr = _TCHAR('\0');
 
 		sReturn = CString( theBuffer ) + "\\";
-  }
+	}
 
 	return sReturn;
 }
@@ -676,12 +676,11 @@ void CTinyCadApp::OnHelpOpenTinyCADUserManual()
 //	ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T(".\\"), NULL, NULL, SW_SHOWNORMAL );
 
 	// Open the TinyCAD User's Manual
-	// For now, this will only work at the default installation 
-	// directory on the c drive.  When I figure out how, I will 
-	// upgrade this to use the directory that TinyCAD was started from.
-	TRACE("Opening the TinyCAD User Manual using \"c:\\Program Files\\TinyCAD\\TinyCAD_Manual.pdf\"\n");
+	CString userManual;
+	userManual = GetMainDir() + _T("TinyCAD_Manual.pdf");
+	TRACE("Opening the TinyCAD User Manual using \"%S\"\n",userManual);
 	int ret_code = 0;
-	ret_code = (int) ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T("c:\\Program Files\\TinyCAD\\TinyCAD_Manual.pdf"), NULL, NULL, SW_SHOWNORMAL );	
+	ret_code = (int) ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), userManual, NULL, NULL, SW_SHOWNORMAL );	
 	TRACE("ShellExecute returned code %d\n", ret_code);
 }
 //-------------------------------------------------------------------------
