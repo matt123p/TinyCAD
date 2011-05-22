@@ -46,7 +46,7 @@ private:
 				m_pMethod = pMethod;
 				m_sheet = sheet;
 				m_name = name;
-				m_RefDes = CNetList::get_reference_path(pMethod, &ImportContext, false);
+				m_RefDes = CNetList::get_reference_path(pMethod, &ImportContext, true);
 			}
 		};
 

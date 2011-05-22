@@ -264,7 +264,7 @@ void CNetList::dumpNetListObjects()
 	{
 		int net = (*ni).first;
 		nodeVector &v = (*ni).second;
-		/// Update the nodes in the netlist
+		/// Dump each node in the netlist
 		nodeVector::iterator vi = v.begin();
 
 		TRACE("\n  ==>Dumping objects for net=%d, preferred net name=\"%S\"\n", net, (*vi).getPreferredLabel());
@@ -582,7 +582,7 @@ void CNetList::Link( linkCollection& nets )
 					/// We only link at label level...
 					CString label_name = node.getLabel();
 
-					/// Get netlist of label (sould always be found)
+					/// Get netlist of label (should always be found)
 					stringCollection::iterator s = labels.find( label_name );
 					if (s != labels.end())
 					{
@@ -699,14 +699,81 @@ void CNetList::Link( linkCollection& nets )
 	TRACE("  ==>Linker pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
 
 //Uncomment to debug the netlist
-//	TRACE("\n\n\nDump of netlist objects after pass 2:\n");
+//	TRACE("\n\n\nDump of netlist objects contained in m_nets after pass 2:\n");
 //	CNetList::dumpNetListObjects();
 //	TRACE("Dump complete.\n\n\n");
+
+	TRACE("  -->Linker pass 3:  Determine which of several possible net names to assign to each net in the super net\n");
+    netCollection::iterator ni = m_nets.begin();
+	while (ni != m_nets.end())
+	{
+		int net = (*ni).first;
+		TRACE("\n    ==>Extracting potential net names for objects in net=%d\n", net);
+
+		nodeVector &v = (*ni).second;
+
+		/// Collect the net names from the nodes in the netlist.
+		/// Potential net names are considered from hierarchical pins with generated net names, net name labels, and net numbers when no other possibilities are present.
+		/// The first choice from the lowest numbered file name index is the goal.  While the file name index is not exactly the hierarchical level
+		/// that the label or pin occurred on, it is proportional to that hierarchical level.  0 is the topmost level.
+		CString preferredNetName="";
+		int preferredNetNameLevel=99999999;	//this must only be larger than the largest number of files contained in the file index which is at least as large as the highest number of hierarchical levels in the schematic design
+
+		nodeVector::iterator vi = v.begin();
+		nodeVector::iterator vi_saved;
+		while (vi != v.end())
+		{
+			CNetListNode &node = *vi;
+			vi_saved = vi;	//save a copy of the last value of vi used for use outside of the loop in order to set the final net name.
+
+			if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
+				TRACE("      ==>Object:  xLabelEx2=\"%S\" on net=%d from file name index=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
+				if (preferredNetNameLevel > node.getFileNameIndex()) {
+					//This label is of higher priority than the previous choice
+					TRACE("        ==>Choosing xLabelEx2=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+					preferredNetName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+					preferredNetNameLevel = node.getFileNameIndex();
+				}
+			}
+			else if (node.m_parent && node.m_parent->GetType() == xPower) {
+				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
+				TRACE("      ==>Object:  xPower=\"%S\" on m_net=%d, file name index=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
+				if (preferredNetNameLevel > node.getFileNameIndex()) {
+					//This label is of higher priority than the previous choice
+					TRACE("        ==>Choosing xPower=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",powerLabel, node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+					preferredNetName = powerLabel;
+					preferredNetNameLevel = node.getFileNameIndex();
+				}
+			}
+			else if (node.m_parent && (node.getFileNameIndex() > 0) && (node.m_parent->GetType() == xPinEx)) {
+				TRACE("      ==>Object:  Hierarchical xPinEx=\"%S\" on net=%d from file name index=%d\n", node.getLabel(), node.m_NetList, node.getFileNameIndex());
+				if (preferredNetNameLevel > node.getFileNameIndex()) {
+					//This label is of higher priority than the previous choice
+					if (!(node.getLabel().IsEmpty())) {
+						TRACE("        ==>Choosing xPinEx=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",node.getLabel() , node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+						preferredNetName = node.getLabel();
+						preferredNetNameLevel = node.getFileNameIndex();
+					}
+				}
+
+			}
+
+			++ vi;
+		}
+
+		// (*vi_saved).setLabel(preferredNetName);	//assign the net name that was found
+		if (!preferredNetName.IsEmpty()) {
+			(*vi_saved).setPreferredLabel(preferredNetName);	//the saving of a separate preferred net name may not be necessary, but it seems necessary at the moment
+			TRACE("      ==>Preferred net name = \"%S\" assigned to this node.\n", preferredNetName);
+		}
+		else {
+			TRACE("      ==>No preferred net name found for this node because it contained no net labels or power symbols.  Preferred net name left empty.\n");
+		}
+		++ ni;
+	}
+	TRACE("  Linker Pass #3 complete\n");
 //Uncomment to debug the netlist
-	TRACE("\n\n\nDump of netlist objects after pass 3 completes (sheetIndex=%d, nets.size()=%d, node count=%d).\n",
-			sheetIndex,
-			nets.size(),
-			m_nets.size());
+	TRACE("\n\n\nDump of netlist objects after pass 3 completes.  Total size of netlist=%d.\n", nets.size());
 	CNetList::dumpNetListObjects();
 	TRACE("Dump complete.\n\n\n");
 }
@@ -872,7 +939,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = 
 								// pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
-								get_reference_path(pSymbol, imports[file_index_id], false);
+								get_reference_path(pSymbol, imports[file_index_id], true);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = pSymbol;
 							Add(n);
@@ -897,7 +964,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 				drawingCollection method;
 				((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
 
-				CString myRefDes = get_reference_path(theMethod, imports[file_index_id], false);
+				CString myRefDes = get_reference_path(theMethod, imports[file_index_id], true);
 
 				drawingIterator it = method.begin();
 				drawingIterator itEnd = method.end();
@@ -950,7 +1017,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = 
 								// theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
-								get_reference_path(theMethod, imports[file_index_id], false);
+								get_reference_path(theMethod, imports[file_index_id], true);
 
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = theMethod;
@@ -1232,7 +1299,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 					CString Ref  = 
 						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
-						get_reference_path(pMethod, *fi, false);
+						get_reference_path(pMethod, *fi, true);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1392,7 +1459,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref = get_reference_path(pMethod, *fi, false);
+					CString Ref = get_reference_path(pMethod, *fi, true);
 						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 					/// Do we need to output this part?
@@ -1572,7 +1639,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
 				CString Ref  = 
-					get_reference_path(pMethod, (*fi), false);
+					get_reference_path(pMethod, (*fi), true);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
@@ -1715,7 +1782,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (pointer->GetType() == xMethodEx3) 
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-				CString Ref  = get_reference_path(pMethod, *fi, false);
+				CString Ref  = get_reference_path(pMethod, *fi, true);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
@@ -1924,7 +1991,7 @@ void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::ofstream&
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
 				CString Ref  = 
-					get_reference_path(pMethod, (*fi), false);
+					get_reference_path(pMethod, (*fi), true);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 				
 				/*
@@ -2240,6 +2307,18 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 				TRACE("  In WriteSpiceFile():  Adding label \"%S\" to the labels list for net=%d at file index level=%d.\n",theNode.getLabel(), theNode.m_NetList, theNode.getFileNameIndex());
 				labels[ theNode.m_NetList ] = theNode.getLabel();
 			}
+
+			/// Does this node contain a preferred label?
+			if (!theNode.getPreferredLabel().IsEmpty())
+			{
+				// Only one node in each net list contains a valid preferred net name label.  Use this one for ultimately creating netlists and other usages.
+				// The non-preferred net names are stored in the labels collection and are necessary for localized lookups.  Only the preferred 
+				// label should be used for generating netlists, though.  If a preferred label does not exist, then one of the non-preferred ones
+				// should be used, although this list will most likely be empty also.
+				// Note:  On 5/21/2011, djl modified getPreferredLabel() to return a normal label if one exists and a preferred label if one does not exist.  This may conflict with the usage in this section of code.  We may have to still have a way to identify the absence of a preferred label.
+				TRACE("  In WriteSpiceFile():  Adding label \"%S\" to the preferred labels list for net=%d at file index level=%d.\n", theNode.getPreferredLabel(), theNode.m_NetList, theNode.getFileNameIndex());
+				preferredLabel[ theNode.m_NetList] = theNode.getPreferredLabel();
+			}
 		}
 
 		++ nit;
@@ -2296,12 +2375,12 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 						if (field.CompareNoCase(AttrSpiceProlog) == 0)
 						{
 							CNetListSymbol symbol( (*fi)->getFileNameIndex(), sheet, pMethod );
-							spice_prolog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, pMethod->GetField(j) );
+							spice_prolog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, preferredLabel, pMethod->GetField(j) );
 						}
 						else if (field.CompareNoCase(AttrSpiceEpilog) == 0)
 						{
 							CNetListSymbol symbol( (*fi)->getFileNameIndex(), sheet, pMethod );
-							spice_epilog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, pMethod->GetField(j) );
+							spice_epilog = expand_spice( (*fi)->getFileNameIndex(), sheet, symbol, labels, preferredLabel, pMethod->GetField(j) );
 						}
 						else if (field.CompareNoCase(AttrSpicePrologPri) == 0)
 						{
@@ -2377,7 +2456,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 		/// Now output the SPICE model line
 		if (!spice.IsEmpty())
 		{
-			_ftprintf(theFile,_T("%s\n"), expand_spice( file_name_index, sheet, symbol, labels, spice ) );
+			_ftprintf(theFile,_T("%s\n"), expand_spice( file_name_index, sheet, symbol, labels, preferredLabel, spice ) );
 		}
 		else
 		{
@@ -2419,7 +2498,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
  * @param spice
  * @return
  */
-CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString spice )
+CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString spice )
 {
 	// NOTE: The spice parameter is expanded using parameter substitution
 	//       to have some kind of parameters in it e.g. R $(1) $(2) %(NAME) etc....
@@ -2573,7 +2652,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 				CString r;
 				int nodes;
 				int net;
-				if (get_pin_by_number_or_name( symbol, labels, lookup, nodes, r, net ))
+				if (get_pin_by_number_or_name( symbol, labels, preferredLabel, lookup, nodes, r, net ))
 				{
 					if (mode == reading_pin)
 					{
@@ -2661,7 +2740,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 					macro_strings.push_back( lookup );
 
 					/// Now evaluate the query
-					bool r = eval_spice_macro( file_name_index, sheet, symbol, labels, spice_line, macro_strings[0] );
+					bool r = eval_spice_macro( file_name_index, sheet, symbol, labels, preferredLabel, spice_line, macro_strings[0] );
 
 					/// ... and insert the appropriate text
 					CString insert;
@@ -2680,7 +2759,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 					mode = normal;
 					
 					/// We need to recursively evaluate the macro...
-					spice_line += expand_spice( file_name_index, sheet, symbol, labels, insert );
+					spice_line += expand_spice( file_name_index, sheet, symbol, labels, preferredLabel, insert );
 				}
 				else
 				{
@@ -2706,7 +2785,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
  * @param macro
  * @return
  */
-bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString &spice_line, CString macro )
+bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString &spice_line, CString macro )
 {
 	/// What is this query?
 	int brk = macro.Find(_T("("));
@@ -2752,7 +2831,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		/// Determine if this pin exists and is connected..
 		CString r;
 		int nodes,net;
-		get_pin_by_number( symbol, labels, value, nodes, r, net );
+		get_pin_by_number( symbol, labels, preferredLabel, value, nodes, r, net );
 
 		return nodes > 1;
 	}
@@ -2761,7 +2840,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		/// Determine if this pin exists and is connected..
 		CString r;
 		int nodes,net;
-		get_pin_by_number( symbol, labels, value, nodes, r, net );
+		get_pin_by_number( symbol, labels, preferredLabel, value, nodes, r, net );
 
 		return nodes == 1;
 	}
@@ -2779,6 +2858,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
  * 
  * @param symbol
  * @param labels
+ * @param preferredLabel
  * @param pin
  * @param nodes
  * @param r
@@ -2786,12 +2866,12 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
  * @return
  */
 
-bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
+bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString pin, int &nodes, CString &r, int &net )
 {
 	// Look up the pin number first, then if not found, see if it can be found as a pin name instead.
 	// This maintains strict compatibility with a PSpice extended feature that allows macros to reference
 	// either the pin number (very common) or the pin name (a little less common)
-	if (get_pin_by_number(symbol, labels, pin, nodes, r, net))
+	if (get_pin_by_number(symbol, labels, preferredLabel, pin, nodes, r, net))
 	{
 		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin number=\"%S\" found by number and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, r, net, nodes);
 		return true;
@@ -2803,7 +2883,7 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 	{
 		CString target_pin_number = it->second;
 		bool retCode;
-		retCode = get_pin_by_number(symbol, labels, target_pin_number, nodes, r, net);
+		retCode = get_pin_by_number(symbol, labels, preferredLabel, target_pin_number, nodes, r, net);
 		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin name=\"%S\" %Sfound by name then number.  pin number=\"%S\" and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, retCode ? _T(""):_T("not "), target_pin_number, r, net, nodes);
 		return retCode;
 	}
@@ -2818,7 +2898,7 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 	return false;
 }
 
-bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
+bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString pin, int &nodes, CString &r, int &net )
 {
 	//  This function returns true if it finds the pin that it is searching for, false otherwise.
 	//	It also returns the value of the netname connected to this pin via string variable r, 
@@ -2838,8 +2918,8 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 		//		lowest hierarchical level in the design.  It is preferred for the label from the highest level of the hierarchy that has a label
 		//		to be used as the final net name.  For this reason, the preferredLabel collection was created.  The preferred label collection 
 		//		is not stored with the design, but is determined by the net list linker.
-//#define UseNewStyleGetPinByNumber
-#undef UseNewStyleGetPinByNumber
+#define UseNewStyleGetPinByNumber
+//#undef UseNewStyleGetPinByNumber
 #ifdef UseNewStyleGetPinByNumber	//New style uses the preferred label collection instead of the original labels collection
 		if (preferredLabel.find( net ) != preferredLabel.end())
 		{
@@ -2967,7 +3047,7 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 		int b = s.FindOneOf(_T("0123456789"));
 		if (b != 1)
 		{
-			r = get_reference_path(pMethod, m_imports[file_name_index], false);
+			r = get_reference_path(pMethod, m_imports[file_name_index], true);
 			return true;
 		}
 		else

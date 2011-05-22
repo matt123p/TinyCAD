@@ -92,8 +92,8 @@ public:
 //				m_parent->GetName());
 	}
 
-//#define UseNewStyleGetLabel
-#undef UseNewStyleGetLabel
+#define UseNewStyleGetLabel
+//#undef UseNewStyleGetLabel
 #ifdef UseNewStyleGetLabel
 	const CString getLabel()
 	{
@@ -396,12 +396,12 @@ protected:
 
 	// Expand a spice line
 	typedef std::map<int,CString> labelCollection;
-	CString expand_spice( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString spice );
-	bool eval_spice_macro( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, CString &spice_line, CString macro );
+	CString expand_spice( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString spice );
+	bool eval_spice_macro( int file_name_index, int sheet, CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString &spice_line, CString macro );
 
 	// Get a netlist name from a pin number
-	bool get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
-	bool get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net );
+	bool get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString pin, int &nodes, CString &r, int &net );
+	bool get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, labelCollection &preferredLabel, CString pin, int &nodes, CString &r, int &net );
 
 public:
 	// Get a netlist label name for this power symbol
