@@ -52,7 +52,8 @@ class CNetListNode
 private:
 
 	int		m_file_name_index;			// The unqiue file name index this node came from
-	CString m_label;					// The name of this node
+	CString m_label;					// The net name of this node - note that this is not guaranteed to be unique among all nodes in a single net.
+	CString m_preferred_label;			// For hierarchical designs (also flat designs with more than one net name), this is the "preferred" name for this node based on a hierarchical method.
 
 public:
 	int		m_NetList;					// The netlist this node is a member of
@@ -65,10 +66,56 @@ public:
 	CDrawingObject *m_parent;			// The object which generated this node
 	CDrawMethod *m_pMethod;				// The method which the pin belongs to
 
+	const CString getPreferredLabel()
+	{	//Preferred labels are specially selected from multiple label possibilities when expanding hierarchical schematics
+		if (m_preferred_label.IsEmpty())
+		{
+			if (m_label.IsEmpty()) {
+//				TRACE("getPreferredLabel():  Returning \"\" because both the preferred label and the normal label are empty.\n");
+				return "";
+			}
+			else {	//return a non-preferred label if a preferred label has not yet been assigned.
+//				TRACE("getPreferredLabel():  Returning normal label \"%S\"  because a preferred label has not been assigned.\n",m_label);
+				return m_label;
+			}
+		}
+//		TRACE("getPreferredLabel():  Returning preferred label \"%S\"\n",m_preferred_label);
+		return m_preferred_label;
+	}
+
+	void setPreferredLabel( const TCHAR *name )
+	{	//Preferred labels are specially selected from multiple label possibilities when expanding hierarchical schematics
+		m_preferred_label = name;
+//		TRACE("In setPreferredLabel() of node. Assigned preferred label name=\"%S\" at file index level %d, m_pParent->GetName()=[%S]\n",
+//				m_preferred_label,
+//				m_file_name_index,
+//				m_parent->GetName());
+	}
+
+//#define UseNewStyleGetLabel
+#undef UseNewStyleGetLabel
+#ifdef UseNewStyleGetLabel
 	const CString getLabel()
 	{
 		if (m_label.IsEmpty())
 		{
+			return "";
+		}
+		else
+		{
+//			TRACE("In getLabel():  Returning normal label=\"%S\", m_pParent->GetName()=[%S]\n",
+//					m_label, 
+//					m_parent->GetName());
+			return m_label;
+		}
+	}
+
+#else	//This alternate version was used with hierarchical schematics for a while before an improved net naming system was coded.
+	const CString getLabel()
+	{
+		if (m_label.IsEmpty())	//Is this really supposed to override hierarchical label creation?
+		{
+//			TRACE("getLabel():  Returning empty label \"\" from level=%d\n", m_file_name_index);
 			return "";
 		}
 
@@ -82,19 +129,31 @@ public:
 			 *	same design is 1, etc.).  This may be a bit problematic because this sequence may not guarantee uniqueness in all
 			 *	situations. Only further testing will reveal if this is a problem or not.
 			 */
-			s.Format(_T("_HN_%d_%s"),
-				m_file_name_index, m_label );
+			s.Format(_T("_HN_%d_%s"), m_file_name_index, m_label );
+//			TRACE("In getLabel() of hierarchical node.  Constructed label name=[%S], m_pParent->GetName()=[%S], underlying label name=[%S]\n",
+//					s, 
+//					m_parent->GetName(),
+//					m_label);
 			return s;
 		}
 		else
 		{
+//			TRACE("In getLabel() of non-hierarchical node. Assigned label name=[%S], m_pParent->GetName()=[%S]\n",
+//					m_label, 
+//					m_parent->GetName());
 			return m_label;
 		}
 	}
+#endif
+
 
 	void setLabel( const TCHAR *name )
 	{
 		m_label = name;
+//		TRACE("In setLabel() of node. Assigned label name=\"%S\" at file index level %d, m_pParent->GetName()=[%S]\n",
+//				m_label,
+//				m_file_name_index,
+//				m_parent->GetName());
 	}
 
 	// The constructor for this node
@@ -159,7 +218,8 @@ class CNetListSymbol
 	int				m_file_name_index;
 
 public:
-	
+
+	CString m_reference_copy;	//a copy of the reference designator is saved for use with localized error messages
 	// The pointer to the symbol and it's data
 	CDrawMethod*	m_pMethod;		
 

@@ -336,9 +336,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPT
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1994-2010 Matt Pyne",IDC_STATIC,39,48,127,8
+    LTEXT           "Copyright (C) 1994-2011 Matt Pyne",IDC_STATIC,39,48,127,8
     DEFPUSHBUTTON   "OK",IDOK,212,241,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,247,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
@@ -869,8 +869,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,80,3,0
- PRODUCTVERSION 2,80,3,0
+ FILEVERSION 2,80,4,0
+ PRODUCTVERSION 2,80,4,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -888,12 +888,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 80, 3, 0"
+            VALUE "FileVersion", "2, 80, 4, 0"
             VALUE "InternalName", "TinyCAD"
             VALUE "LegalCopyright", "Copyright (C) 2002 - 2010 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 80, 3, 0"
+            VALUE "ProductVersion", "2, 80, 4, 0"
         END
     END
     BLOCK "VarFileInfo"

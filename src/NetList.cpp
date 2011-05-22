@@ -263,12 +263,12 @@ void CNetList::dumpNetListObjects()
 	while (ni != m_nets.end())
 	{
 		int net = (*ni).first;
-		TRACE("  ==>Dumping objects for net=%d\n", net);
-
 		nodeVector &v = (*ni).second;
-
 		/// Update the nodes in the netlist
 		nodeVector::iterator vi = v.begin();
+
+		TRACE("\n  ==>Dumping objects for net=%d, preferred net name=\"%S\"\n", net, (*vi).getPreferredLabel());
+
 		while (vi != v.end())
 		{
 			enum ObjType objectType;
@@ -319,18 +319,19 @@ void CNetList::dumpNetListObjects()
 				}
 			}
 			if (node.m_parent && node.m_parent->GetType() == xWire) {
-				TRACE("    ==>Object:  xWire node\n");
+//				Skip nodes of type=xWire in dump as there are typically a lot and they don't particularly add value when debugging the netlist
+//				TRACE("    ==>Object:  xWire node\n");
 			}
 			else if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
-				TRACE("    ==>Object:  xLabelEx2=\"%S\" on net=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList);
+				TRACE("    ==>Object:  xLabelEx2      =\"%S\" on m_net=%d, context hierarchy level=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
 			}
 			else if (node.m_parent && node.m_parent->GetType() == xPower) {
 				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
-				TRACE("    ==>Object:  xPower=\"%S\" on m_net=%d\n",powerLabel,node.m_NetList);
+				TRACE("    ==>Object:  xPower         =\"%S\" on m_net=%d, context hierarchy level=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
 			}
 			else {
-				TRACE("    ==>Object:  %S (obj type=%d) on m_net=%d, net label=\"%S\", refdes=\"%S\", pin number=\"%S\"\n",
-					objectNameString, node.m_parent->GetType(),node.m_NetList, node.getLabel(), node.m_reference, node.m_pin);
+				TRACE("    ==>Object:  %-15S on m_net=%d, context hierarchy level=%d, m_parent->GetType=%d, net label=\"%S\", refdes=\"%S\", pin number=\"%S\"\n",
+					objectNameString,node.m_NetList, node.getFileNameIndex(), node.m_parent->GetType(), node.getLabel(), node.m_reference, node.m_pin);
 			}
 
 			++ vi;
@@ -445,7 +446,7 @@ void CNetList::WriteWires()
  */
 void CNetList::Link( linkCollection& nets )
 {
-	//TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
+	TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
 	/// Get rid of any old data
 	m_CurrentNet = 1;
 	m_nodes.erase( m_nodes.begin(), m_nodes.end() );
@@ -471,25 +472,25 @@ void CNetList::Link( linkCollection& nets )
 	{
 		CNetList &n = *i;
 		// Dump the current net
-//		TRACE("\n  ==>Pass 1:  Traversing linkCollection:  m_CurrentNet = %d, n.m_CurrentNet = %d, follow imports = %S\n",
-//				m_CurrentNet,
-//				n.m_CurrentNet,
-//				(n.m_follow_imports) ? _T("True"):_T("False"));
+		TRACE("\n  ==>Linker pass 1:  Traversing linkCollection:  m_CurrentNet = %d, n.m_CurrentNet = %d, follow imports = %S\n",
+				m_CurrentNet,
+				n.m_CurrentNet,
+				(n.m_follow_imports) ? _T("True"):_T("False"));
 		/// Scan each netlist
 		netCollection::iterator ni = n.m_nets.begin();
 		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet
 		{
 			nodeVector &v = (*ni).second;
-			//int old_netlist = (*ni).first;
+			int old_netlist = (*ni).first;	//Uncomment for debugging the netlist!
 			int new_netlist = 0;
 
-//			TRACE("\n    ==>Pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
+//			TRACE("\n    ==>Linker pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
 			/// Scan each node
 			nodeVector::iterator vi = v.begin();
 			while (vi != v.end())	//this loop traverses a collection of schematic objects associated with a single net originally from a single sheet
 			{
 				CNetListNode &node = *vi;
-//				TRACE("      ==>Pass 1:  Traversing node vector:  Netlist %d Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
+//				TRACE("      ==>Linker pass 1:  Traversing node vector:  Netlist %d Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
 //					old_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
 
 				/// Look for nodes with labels
@@ -499,14 +500,14 @@ void CNetList::Link( linkCollection& nets )
 
 					/// Do we already have an entry for this label?
 					stringCollection::iterator s = labels.find( label_name );
-					//TRACE("        ==>Associated label=\"%S\"\n", label_name);
+					TRACE("        ==>Associated label=\"%S\"\n", label_name);
 					if (s != labels.end())
 					{
 						/// Get netlist of label
 						int q = (*s).second;
-//						TRACE("        ==>Found an entry for label \"%S\" in labels table associated with netlist %d\n",
-//							label_name,
-//							(*s).second);
+						TRACE("        ==>Found an entry for label \"%S\" in labels table associated with netlist %d\n",
+							label_name,
+							(*s).second);
 
 						/// Have we already assigned a netlist to this node?
 						if (new_netlist == 0)
@@ -518,6 +519,7 @@ void CNetList::Link( linkCollection& nets )
 						// Update netlist of label
 						if (new_netlist != q)
 						{
+							TRACE("Updating all labels of old netlist (=%d) with new netlist (=%d)\n",old_netlist, new_netlist);
 							// Update all labels of old netlist with new netlist
 							stringCollection::iterator li = labels.begin();
 							while (li != labels.end())
@@ -617,7 +619,7 @@ void CNetList::Link( linkCollection& nets )
 	}
 
 //	Uncomment for debugging the netlist
-//	TRACE("\n\n\nDump of netlist objects after pass 1 (nets.size() = %d):\n", nets.size());
+//	TRACE("\n\n\nDump of netlist objects after Linker pass 1 (nets.size() = %d):\n", nets.size());
 //	CNetList::dumpNetListObjects();
 //	TRACE("Dump complete.\n\n\n");
 
@@ -627,12 +629,12 @@ void CNetList::Link( linkCollection& nets )
 	index = 0;
 	i = nets.begin();
 	int sheetIndex = 0;
-	//TRACE("\n\n\n  ==>Pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
+	TRACE("\n\n\n  ==>Linker pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
 	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
 	{
 		++sheetIndex;	//used for debugging only
 		CNetList &n = *i;
-//		TRACE("\n  ==>Pass 2:  Traversing linkCollection, sheetIndex = %d, nets.size() = %d, node count = %d:  Current net = %d, follow imports = %S\n",
+//		TRACE("\n  ==>Linker pass 2:  Traversing linkCollection, sheetIndex = %d, nets.size() = %d, node count = %d:  Current net = %d, follow imports = %S\n",
 //				sheetIndex,
 //				nets.size(),
 //				n.m_nets.size(),
@@ -640,7 +642,7 @@ void CNetList::Link( linkCollection& nets )
 //				(n.m_follow_imports) ? _T("True"):_T("False"));
 
 //Uncomment for debugging the netlist
-//		TRACE("\n\n\nDump of netlist objects in the middle of pass 2 (sheetIndex = %d, nets.size() = %d, node count = %d) just prior to processing current net=%d:\n",
+//		TRACE("\n\n\nDump of netlist objects in the middle of linker pass 2 (sheetIndex = %d, nets.size() = %d, node count = %d) just prior to processing current net=%d:\n",
 //				sheetIndex,
 //				nets.size(),
 //				n.m_nets.size(),
@@ -656,31 +658,31 @@ void CNetList::Link( linkCollection& nets )
 			nodeVector &v = (*ni).second;	//get the list of schematic objects for this net
 			int old_netlist = (*ni).first;	//get the net number for this net
 			int new_netlist = map[ index ][ old_netlist ];
-//			TRACE("\n    ==>Pass 2 (sheetIndex = %d):  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d, m_CurrentNet = %d\n", sheetIndex, old_netlist, new_netlist, n.m_CurrentNet);
+//			TRACE("\n    ==>Linker pass 2 (sheetIndex = %d):  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d, m_CurrentNet = %d\n", sheetIndex, old_netlist, new_netlist, n.m_CurrentNet);
 
 			/// Update the nodes in the netlist
 			nodeVector::iterator vi = v.begin();
-//			TRACE("      ==>Pass 2 (sheetIndex = %d):  Updating the nodes in new_netlist=%d\n", sheetIndex, new_netlist);
+//			TRACE("      ==>Linker pass 2 (sheetIndex = %d):  Updating the nodes in new_netlist=%d\n", sheetIndex, new_netlist);
 			while (vi != v.end())
 			{
 //				CNetListNode &node = *vi;
-//				TRACE("      ==>Pass 2:  Traversing node vector:  old_netlist=%d, new_netlist=%d, Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
+//				TRACE("      ==>Linker pass 2:  Traversing node vector:  old_netlist=%d, new_netlist=%d, Node name=\"%S\" from sheet %d, refdes=\"%S\", pin=\"%S\"\n",
 //					old_netlist, new_netlist, node.getLabel(), node.m_sheet, node.m_reference, node.m_pin);
 				vi->m_NetList = new_netlist;
 				++ vi;
 			}
 
 			/// Now concatenate the old lists onto the new list
-//			TRACE("    ==>Pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d):  Now concatenating all of the nodes in this netlist together.  n.m_CurrentNet = %d\n",
-//					sheetIndex,
-//					nets.size(),
-//					n.m_nets.size(),
-//					n.m_CurrentNet);
+			TRACE("    ==>Pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d):  Now concatenating all of the nodes in this netlist together.  n.m_CurrentNet = %d\n",
+					sheetIndex,
+					nets.size(),
+					n.m_nets.size(),
+					n.m_CurrentNet);
 
 			std::copy(v.begin(), v.end(), std::back_inserter(m_nets[new_netlist]));
 
 //Uncomment to debug the netlist
-//			TRACE("\n\n\nDump of netlist objects in the middle of pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d) just after the concatenation of all of the nodes. n.m_CurrentNet=%d:\n",
+//			TRACE("\n\n\nDump of netlist objects in the middle of Linker pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d) just after the concatenation of all of the nodes. n.m_CurrentNet=%d:\n",
 //					sheetIndex,
 //					nets.size(),
 //					n.m_nets.size(),
@@ -694,12 +696,19 @@ void CNetList::Link( linkCollection& nets )
 		++ index;
 		++ i;
 	}
-	//TRACE("  ==>Pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
+	TRACE("  ==>Linker pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
 
 //Uncomment to debug the netlist
 //	TRACE("\n\n\nDump of netlist objects after pass 2:\n");
 //	CNetList::dumpNetListObjects();
 //	TRACE("Dump complete.\n\n\n");
+//Uncomment to debug the netlist
+	TRACE("\n\n\nDump of netlist objects after pass 3 completes (sheetIndex=%d, nets.size()=%d, node count=%d).\n",
+			sheetIndex,
+			nets.size(),
+			m_nets.size());
+	CNetList::dumpNetListObjects();
+	TRACE("Dump complete.\n\n\n");
 }
 
 /**
@@ -827,7 +836,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 		case xHierarchicalSymbol:
 			{
 				CDrawHierarchicalSymbol *pSymbol = static_cast<CDrawHierarchicalSymbol*>(ObjPtr);
-//				TRACE("Found xHierarchicalSymbol with name=[%S], value=[%S], ref=[%S]\n\n",pSymbol->GetName(),pSymbol->GetRef());
+//				TRACE("Found xHierarchicalSymbol with name=[%S], Ref=[%S] based on file \"%S\"\n\n",pSymbol->GetName(), pSymbol->GetRef(), pSymbol->GetFilename());
 				/// Try and stop recursion by limiting the number of imports
 				if (imports.size() > 100)
 				{
@@ -1139,7 +1148,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 
 
 /**
- * Create netlist and output as a SPICE file.
+ * Create netlist and output as the specified type of file.
  * 
  * @param type
  * @param pDesign
@@ -2190,6 +2199,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 	typedef std::map<CString,CNetListSymbol>    symbolCollection;
     symbolCollection symbols;
     labelCollection labels;
+	labelCollection preferredLabel;
 
 	netCollection::iterator nit = m_nets.begin();
 
@@ -2207,6 +2217,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 			{
 				/// Yes, so update the pin allocations in the symbol map...
 				CNetListSymbol &symbol = symbols[ theNode.m_reference ];
+				symbol.m_reference_copy = theNode.m_reference;	//a copy of this symbol's reference designator is kept for use in error messages that don't otherwise have access to the reference designator.
 
 				// store pin name to pin number mapping as well for use with advanced Spice netlists
 				if (theNode.m_parent->GetType() == xPinEx)
@@ -2221,10 +2232,12 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 				// this was missing in prior versions!
 			}
 
-			/// Is this node a label?
+			/// Does this node contain a label?
 			if (!theNode.getLabel().IsEmpty())
 			{
-				/// Yes, so update the label collection
+				/// Yes, so update the label collection - this collection gets every label possibly assigned to this net.
+				/// This includes duplicate labels, hierarchical labels (pin names), and generated labels.
+				TRACE("  In WriteSpiceFile():  Adding label \"%S\" to the labels list for net=%d at file index level=%d.\n",theNode.getLabel(), theNode.m_NetList, theNode.getFileNameIndex());
 				labels[ theNode.m_NetList ] = theNode.getLabel();
 			}
 		}
@@ -2270,9 +2283,7 @@ void CNetList::WriteSpiceFile( CTinyCadMultiDoc *pDesign, const TCHAR *filename 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 
-					/// Search this symbols fields and extract the SPICE_IMPORT field...
-
-					// !!!! JMS -- why does it get the prolog and epilog but not the actual spice contents?
+					/// Search this symbol's fields and extract the SPICE_IMPORT field...
 
 					CString spice_prolog;
 					CString spice_epilog;
@@ -2424,7 +2435,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 	//		 \\ is an escape sequence - the next character is to be output literally
 	//
 	//       Also we haven't dealt with power connections here either.  To determine
-	//       If a connection is power connection, use the labels maps.
+	//       If a connection is a power connection, use the labels map.
 	//
 
 	CString spice_line;
@@ -2494,6 +2505,7 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 			break;
 		case awaiting_escape:
 			spice_line += c;
+			TRACE("Concatenating special escaped character \'%c\' (0x%02X) to Spice output file.  This doesn't seem to work for some characters!\n",c,c);
 			mode = normal;
 			break;
 		case awaiting_macro_escape:
@@ -2610,10 +2622,12 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 			{
 				if (brackets == 1)
 				{
+					TRACE("Going to \'awaiting_macro_escape\' because brackets=1\n");
 					mode = awaiting_macro_escape;
 				}
 				else
 				{
+					TRACE("Not going to \'awaiting_macro_escape\' because brackets=%d.  Outputting the escape character \'\\\'instead!\n", brackets);
 					lookup += '\\';
 				}
 			}
@@ -2761,7 +2775,7 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 }
 
 /**
- * Get a netlist name from a pin number.
+ * Get a netlist net name from a pin number.
  * 
  * @param symbol
  * @param labels
@@ -2779,23 +2793,38 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 	// either the pin number (very common) or the pin name (a little less common)
 	if (get_pin_by_number(symbol, labels, pin, nodes, r, net))
 	{
+		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin number=\"%S\" found by number and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, r, net, nodes);
 		return true;
 	}
 	
 	pinNameToNumberMap::iterator it = symbol.m_pin_name_map.find(pin);
 	
-	if (it != symbol.m_pin_name_map.end()) // found!
+	if (it != symbol.m_pin_name_map.end()) // found by name!
 	{
 		CString target_pin_number = it->second;
-		return get_pin_by_number(symbol, labels, target_pin_number, nodes, r, net);
+		bool retCode;
+		retCode = get_pin_by_number(symbol, labels, target_pin_number, nodes, r, net);
+		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin name=\"%S\" %Sfound by name then number.  pin number=\"%S\" and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, retCode ? _T(""):_T("not "), target_pin_number, r, net, nodes);
+		return retCode;
 	}
 
+	TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin \"%S\" not found by number or by name in symbol associated with file index #%d\n", symbol.m_reference_copy, pin, symbol.getFileNameIndex());
+	//The following code with the extra indentation is part of the debug message, not part of the functionality of this method.
+		it = symbol.m_pin_name_map.begin();
+		while (it != symbol.m_pin_name_map.end()) {
+			TRACE("    pin name=\"%S\", pin number=\"%S\"\n",it->first, it->second);
+			++it;
+		}
 	return false;
 }
 
 bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &labels, CString pin, int &nodes, CString &r, int &net )
 {
-	// don't iterate through the m_pins map! We can just use find.
+	//  This function returns true if it finds the pin that it is searching for, false otherwise.
+	//	It also returns the value of the netname connected to this pin via string variable r, 
+	//	the number of nodes connected to this pin via int variable nodes, 
+	//	and the net number of the net connected to this pin via int variable net.
+	//  Sort of an all-purpose function, I suppose - it should probably be refactored into 3 different functions.
 	nodes = 0;
 	pinCollection::iterator pin_it = symbol.m_pins.find(pin);
 	if (pin_it != symbol.m_pins.end())
@@ -2803,6 +2832,27 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 		CString pin_number = pin_it->first;
 		CString s;
 		net = pin_it->second;
+		//Note:  Before hierarchical netlists were fully implemented, this function searched only the labels collection for the name of the net.
+		//		This was a problem because in a hierarchical schematic, each hierarchical level has a net and potentially a net name.  All of
+		//		these potential names are contained in the labels collection, but only the first one found was returned, usually the label from the
+		//		lowest hierarchical level in the design.  It is preferred for the label from the highest level of the hierarchy that has a label
+		//		to be used as the final net name.  For this reason, the preferredLabel collection was created.  The preferred label collection 
+		//		is not stored with the design, but is determined by the net list linker.
+//#define UseNewStyleGetPinByNumber
+#undef UseNewStyleGetPinByNumber
+#ifdef UseNewStyleGetPinByNumber	//New style uses the preferred label collection instead of the original labels collection
+		if (preferredLabel.find( net ) != preferredLabel.end())
+		{
+			//s = labels[ net ];
+			s = preferredLabel[ net ];
+			TRACE("CNetList::get_pin_by_number():  symbol=%S; found pin number=\"%S\" and is associated with net label \"%S\" on net=%d.  Non-preferred label \"%S\" was ignored.\n", symbol.m_reference_copy, pin, s, net, labels[net]);
+		}
+		else
+		{
+			s.Format(_T("_N_%d"), net );
+			TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find a net label for net=%d, so label \"%S\" was constructed to be associated with this net.\n", symbol.m_reference_copy, net, s);
+		}
+#else	//Use the old (original) style - this style considers only the labels collection and ignores the preferredLabel collection
 		if (labels.find( net ) != labels.end())
 		{
 			s = labels[ net ];
@@ -2811,9 +2861,10 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 		{
 			s.Format(_T("_N_%d"), net );
 		}
-		r = s;
+#endif
+		r = s;	//This is the netname that is returned by this function
 
-		/// Count the number of connected nodes
+		/// Count the number of connected nodes as an assist to the calling function.
 		nodeVector &vn = m_nets[ net ];
 		nodeVector::iterator i = vn.begin();
 		while (i != vn.end())
@@ -2827,6 +2878,7 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 		return true;
 	}
 
+	//TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find pin \"%S\" in symbol associated with file index = %d\n", symbol.m_reference_copy, pin, symbol.getFileNameIndex());
 	return false;
 }
 

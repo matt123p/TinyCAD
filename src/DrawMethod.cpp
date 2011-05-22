@@ -445,6 +445,7 @@ BOOL CDrawMethod::CanEdit()
 
 CString CDrawMethod::GetName() const
 {
+	//TRACE("CDrawMethod::GetName() is returning name=[%S]\n",m_fields[Name].m_value);
   return m_fields[Name].m_value;
 }
 

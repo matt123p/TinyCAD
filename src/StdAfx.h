@@ -68,8 +68,8 @@
 	#define USE_VS2008
 	//#pragma message("Compiling TinyCAD with Visual Studio 2008")
 #elif _MSC_VER < 1700
-	//This source can be compiled with VS2008 with this setting
-	#define USE_VS2008
+	//This source can be compiled with VS2010 with this setting
+	#define USE_VS2008	//So far, VS2010 compiles the same as VS2008
 	//#pragma message("Compiling TinyCAD with Visual Studio 2010")
 #else
 	//This source has not been tested with a Visual Studio C++ compiler newer than 2010
