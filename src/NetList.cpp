@@ -446,7 +446,7 @@ void CNetList::WriteWires()
  */
 void CNetList::Link( linkCollection& nets )
 {
-	TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
+//	TRACE("CNetList::Link():  Entering the net node linker.  nets.size()=%d\n", nets.size());
 	/// Get rid of any old data
 	m_CurrentNet = 1;
 	m_nodes.erase( m_nodes.begin(), m_nodes.end() );
@@ -472,10 +472,10 @@ void CNetList::Link( linkCollection& nets )
 	{
 		CNetList &n = *i;
 		// Dump the current net
-		TRACE("\n  ==>Linker pass 1:  Traversing linkCollection:  m_CurrentNet = %d, n.m_CurrentNet = %d, follow imports = %S\n",
-				m_CurrentNet,
-				n.m_CurrentNet,
-				(n.m_follow_imports) ? _T("True"):_T("False"));
+//		TRACE("\n  ==>Linker pass 1:  Traversing linkCollection:  m_CurrentNet = %d, n.m_CurrentNet = %d, follow imports = %S\n",
+//				m_CurrentNet,
+//				n.m_CurrentNet,
+//				(n.m_follow_imports) ? _T("True"):_T("False"));
 		/// Scan each netlist
 		netCollection::iterator ni = n.m_nets.begin();
 		while (ni != n.m_nets.end())	//this loop traverses a collection of nets originally found on a single sheet
@@ -500,14 +500,14 @@ void CNetList::Link( linkCollection& nets )
 
 					/// Do we already have an entry for this label?
 					stringCollection::iterator s = labels.find( label_name );
-					TRACE("        ==>Associated label=\"%S\"\n", label_name);
+//					TRACE("        ==>Associated label=\"%S\"\n", label_name);
 					if (s != labels.end())
 					{
 						/// Get netlist of label
 						int q = (*s).second;
-						TRACE("        ==>Found an entry for label \"%S\" in labels table associated with netlist %d\n",
-							label_name,
-							(*s).second);
+//						TRACE("        ==>Found an entry for label \"%S\" in labels table associated with netlist %d\n",
+//							label_name,
+//							(*s).second);
 
 						/// Have we already assigned a netlist to this node?
 						if (new_netlist == 0)
@@ -519,7 +519,7 @@ void CNetList::Link( linkCollection& nets )
 						// Update netlist of label
 						if (new_netlist != q)
 						{
-							TRACE("Updating all labels of old netlist (=%d) with new netlist (=%d)\n",old_netlist, new_netlist);
+//							TRACE("Updating all labels of old netlist (=%d) with new netlist (=%d)\n",old_netlist, new_netlist);
 							// Update all labels of old netlist with new netlist
 							stringCollection::iterator li = labels.begin();
 							while (li != labels.end())
@@ -629,7 +629,7 @@ void CNetList::Link( linkCollection& nets )
 	index = 0;
 	i = nets.begin();
 	int sheetIndex = 0;
-	TRACE("\n\n\n  ==>Linker pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
+//	TRACE("\n\n\n  ==>Linker pass 2:  Now building a super net of all of the netlists linked together from each schematic page (nets.size()=%d\n",nets.size());
 	while ( i != nets.end() )	//this loop traverses a collection of collections of nets organized by which sheet they originated on
 	{
 		++sheetIndex;	//used for debugging only
@@ -673,11 +673,11 @@ void CNetList::Link( linkCollection& nets )
 			}
 
 			/// Now concatenate the old lists onto the new list
-			TRACE("    ==>Pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d):  Now concatenating all of the nodes in this netlist together.  n.m_CurrentNet = %d\n",
-					sheetIndex,
-					nets.size(),
-					n.m_nets.size(),
-					n.m_CurrentNet);
+//			TRACE("    ==>Pass 2 (sheetIndex=%d, nets.size()=%d, node count=%d):  Now concatenating all of the nodes in this netlist together.  n.m_CurrentNet = %d\n",
+//					sheetIndex,
+//					nets.size(),
+//					n.m_nets.size(),
+//					n.m_CurrentNet);
 
 			std::copy(v.begin(), v.end(), std::back_inserter(m_nets[new_netlist]));
 
@@ -696,19 +696,19 @@ void CNetList::Link( linkCollection& nets )
 		++ index;
 		++ i;
 	}
-	TRACE("  ==>Linker pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
+//	TRACE("  ==>Linker pass 2:  Finished building the super netlist.  nets.size() = %d\n\n\n", nets.size());
 
 //Uncomment to debug the netlist
 //	TRACE("\n\n\nDump of netlist objects contained in m_nets after pass 2:\n");
 //	CNetList::dumpNetListObjects();
 //	TRACE("Dump complete.\n\n\n");
 
-	TRACE("  -->Linker pass 3:  Determine which of several possible net names to assign to each net in the super net\n");
+//	TRACE("  -->Linker pass 3:  Determine which of several possible net names to assign to each net in the super net\n");
     netCollection::iterator ni = m_nets.begin();
 	while (ni != m_nets.end())
 	{
 		int net = (*ni).first;
-		TRACE("\n    ==>Extracting potential net names for objects in net=%d\n", net);
+//		TRACE("\n    ==>Extracting potential net names for objects in net=%d\n", net);
 
 		nodeVector &v = (*ni).second;
 
@@ -727,30 +727,30 @@ void CNetList::Link( linkCollection& nets )
 			vi_saved = vi;	//save a copy of the last value of vi used for use outside of the loop in order to set the final net name.
 
 			if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
-				TRACE("      ==>Object:  xLabelEx2=\"%S\" on net=%d from file name index=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
+//				TRACE("      ==>Object:  xLabelEx2=\"%S\" on net=%d from file name index=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
 				if (preferredNetNameLevel > node.getFileNameIndex()) {
 					//This label is of higher priority than the previous choice
-					TRACE("        ==>Choosing xLabelEx2=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+//					TRACE("        ==>Choosing xLabelEx2=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
 					preferredNetName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
 					preferredNetNameLevel = node.getFileNameIndex();
 				}
 			}
 			else if (node.m_parent && node.m_parent->GetType() == xPower) {
 				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
-				TRACE("      ==>Object:  xPower=\"%S\" on m_net=%d, file name index=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
+//				TRACE("      ==>Object:  xPower=\"%S\" on m_net=%d, file name index=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
 				if (preferredNetNameLevel > node.getFileNameIndex()) {
 					//This label is of higher priority than the previous choice
-					TRACE("        ==>Choosing xPower=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",powerLabel, node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+//					TRACE("        ==>Choosing xPower=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",powerLabel, node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
 					preferredNetName = powerLabel;
 					preferredNetNameLevel = node.getFileNameIndex();
 				}
 			}
 			else if (node.m_parent && (node.getFileNameIndex() > 0) && (node.m_parent->GetType() == xPinEx)) {
-				TRACE("      ==>Object:  Hierarchical xPinEx=\"%S\" on net=%d from file name index=%d\n", node.getLabel(), node.m_NetList, node.getFileNameIndex());
+//				TRACE("      ==>Object:  Hierarchical xPinEx=\"%S\" on net=%d from file name index=%d\n", node.getLabel(), node.m_NetList, node.getFileNameIndex());
 				if (preferredNetNameLevel > node.getFileNameIndex()) {
 					//This label is of higher priority than the previous choice
 					if (!(node.getLabel().IsEmpty())) {
-						TRACE("        ==>Choosing xPinEx=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",node.getLabel() , node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+//						TRACE("        ==>Choosing xPinEx=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",node.getLabel() , node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
 						preferredNetName = node.getLabel();
 						preferredNetNameLevel = node.getFileNameIndex();
 					}
@@ -764,18 +764,18 @@ void CNetList::Link( linkCollection& nets )
 		// (*vi_saved).setLabel(preferredNetName);	//assign the net name that was found
 		if (!preferredNetName.IsEmpty()) {
 			(*vi_saved).setPreferredLabel(preferredNetName);	//the saving of a separate preferred net name may not be necessary, but it seems necessary at the moment
-			TRACE("      ==>Preferred net name = \"%S\" assigned to this node.\n", preferredNetName);
+//			TRACE("      ==>Preferred net name = \"%S\" assigned to this node.\n", preferredNetName);
 		}
 		else {
-			TRACE("      ==>No preferred net name found for this node because it contained no net labels or power symbols.  Preferred net name left empty.\n");
+//			TRACE("      ==>No preferred net name found for this node because it contained no net labels or power symbols.  Preferred net name left empty.\n");
 		}
 		++ ni;
 	}
-	TRACE("  Linker Pass #3 complete\n");
+//	TRACE("  Linker Pass #3 complete\n");
 //Uncomment to debug the netlist
-	TRACE("\n\n\nDump of netlist objects after pass 3 completes.  Total size of netlist=%d.\n", nets.size());
-	CNetList::dumpNetListObjects();
-	TRACE("Dump complete.\n\n\n");
+//	TRACE("\n\n\nDump of netlist objects after pass 3 completes.  Total size of netlist=%d.\n", nets.size());
+//	CNetList::dumpNetListObjects();
+//	TRACE("Dump complete.\n\n\n");
 }
 
 /**
@@ -2917,20 +2917,26 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 		//		these potential names are contained in the labels collection, but only the first one found was returned, usually the label from the
 		//		lowest hierarchical level in the design.  It is preferred for the label from the highest level of the hierarchy that has a label
 		//		to be used as the final net name.  For this reason, the preferredLabel collection was created.  The preferred label collection 
-		//		is not stored with the design, but is determined by the net list linker.
+		//		is not stored with the design, but is determined by the net list linker.  In lieu of this, the older netlister created a concatenated
+		//		name using reference designators and pin names, but this was not well liked by the users (including me)
 #define UseNewStyleGetPinByNumber
 //#undef UseNewStyleGetPinByNumber
 #ifdef UseNewStyleGetPinByNumber	//New style uses the preferred label collection instead of the original labels collection
 		if (preferredLabel.find( net ) != preferredLabel.end())
 		{
-			//s = labels[ net ];
 			s = preferredLabel[ net ];
-			TRACE("CNetList::get_pin_by_number():  symbol=%S; found pin number=\"%S\" and is associated with net label \"%S\" on net=%d.  Non-preferred label \"%S\" was ignored.\n", symbol.m_reference_copy, pin, s, net, labels[net]);
+			//TRACE("CNetList::get_pin_by_number():  symbol=%S; found pin number=\"%S\" and is associated with net label \"%S\" on net=%d.  Non-preferred label \"%S\" was ignored.\n", symbol.m_reference_copy, pin, s, net, labels[net]);
 		}
-		else
+		else if ((labels.find( net ) != labels.end()) && !labels[net].IsEmpty())
 		{
-			s.Format(_T("_N_%d"), net );
-			TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find a net label for net=%d, so label \"%S\" was constructed to be associated with this net.\n", symbol.m_reference_copy, net, s);
+			//labels[net] is not guaranteed to be unique for hierarchical designs so it must be combined with the net number and a reserved prefix to guarantee uniqueness
+			s.Format(_T("_N_%s_%d"), labels[net], net);	
+			//TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find a user assigned net label for net=%d, so label \"%S\" was constructed to be associated with this net.\n", symbol.m_reference_copy, net, s);
+		}
+		else 
+		{
+			s.Format(_T("_N_%d"), net);
+			//TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find a net label for net=%d, so label \"%S\" was constructed to be associated with this net.\n", symbol.m_reference_copy, net, s);
 		}
 #else	//Use the old (original) style - this style considers only the labels collection and ignores the preferredLabel collection
 		if (labels.find( net ) != labels.end())
