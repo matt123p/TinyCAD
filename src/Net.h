@@ -92,13 +92,11 @@ public:
 //				m_parent->GetName());
 	}
 
-#define UseNewStyleGetLabel
-//#undef UseNewStyleGetLabel
-#ifdef UseNewStyleGetLabel
 	const CString getLabel()
 	{
-		if (m_label.IsEmpty())
+		if (m_label.IsEmpty())	//Is this really supposed to override hierarchical label creation?
 		{
+//			TRACE("getLabel():  Returning empty label \"\" from level=%d\n", m_file_name_index);
 			return "";
 		}
 
@@ -127,42 +125,6 @@ public:
 			return m_label;
 		}
 	}
-
-#else	//This alternate version was used with hierarchical schematics for a while before an improved net naming system was coded.
-	const CString getLabel()
-	{
-		if (m_label.IsEmpty())	//Is this really supposed to override hierarchical label creation?
-		{
-//			TRACE("getLabel():  Returning empty label \"\" from level=%d\n", m_file_name_index);
-			return "";
-		}
-
-		if (m_file_name_index != 0)
-		{
-			CString s;
-			/** This forms a unique net name for this node.  Only a hierarchical symbol will have a file name index that
-			 *	is non-zero.  The unique net name presently consists of the net name prefix (hard-coded to "_HN_" for hierarchical net)
-			 *	concatenated with the net node number concatenated with the pin name.  In the case of hierarchical symbols, the net
-			 *	node number is the hierarchical design instance number (i.e., the first instance is 0, the second instance of the 
-			 *	same design is 1, etc.).  This may be a bit problematic because this sequence may not guarantee uniqueness in all
-			 *	situations. Only further testing will reveal if this is a problem or not.
-			 */
-			s.Format(_T("_HN_%d_%s"), m_file_name_index, m_label );
-//			TRACE("In getLabel() of hierarchical node.  Constructed label name=[%S], m_pParent->GetName()=[%S], underlying label name=[%S]\n",
-//					s, 
-//					m_parent->GetName(),
-//					m_label);
-			return s;
-		}
-		else
-		{
-//			TRACE("In getLabel() of non-hierarchical node. Assigned label name=[%S], m_pParent->GetName()=[%S]\n",
-//					m_label, 
-//					m_parent->GetName());
-			return m_label;
-		}
-	}
-#endif
 
 
 	void setLabel( const TCHAR *name )
@@ -445,7 +407,9 @@ private:
 
 public:
 	// Get a hierarchical reference path from a symbol.
+	static const bool m_refDirectionForward=false;	//a more or less global setting for TinyCAD that controls whether reference designator paths in hierarchical symbols are generated from left to right (i.e., 'forward') or right to left (i.e., 'backwards')
 	static CString get_reference_path( const CDrawMethod* psymbol, const CImportFile *pcontext, bool forward, TCHAR separator=_T('_'));
+	static CString get_partial_reference_path( const CDrawMethod* psymbol, const CImportFile *pcontext, bool forward, TCHAR separator=_T('_'));
 
 
 	netCollection		m_nets;

@@ -703,12 +703,24 @@ void CNetList::Link( linkCollection& nets )
 //	CNetList::dumpNetListObjects();
 //	TRACE("Dump complete.\n\n\n");
 
-//	TRACE("  -->Linker pass 3:  Determine which of several possible net names to assign to each net in the super net\n");
+	TRACE("  -->Linker pass 3:  Determine which of several possible net names to assign to each net in this final netlist\n");
+
+//	struct t_NetNodeDetails {
+//		CString constructedNetName;	//This represents one of potentially many possible net names (i.e., 1 possible name for almost every node object in each net)
+//		int hierarchical_context_level;	//The hierarchical level that a possible net name occurs at is one of the final net name decision factors
+//		enum ObjType obj_type;	//Some types of objects will be given priority over other types of objects, so the object type must be stored for later use.
+//		enum NetType net_type;	//Some types of objects will be given priority over other types of objects based on the overall electrical type of the net
+//		CString baseNetName;	//The undecorated base name that the preferred net name might be based on - this is either a pin name or a local label name.
+//		CString partialReferencePath;	//The partial reference designator path used to navigate to this net node object - does not include the final reference designator
+//		CString referenceDesignator;	//Will be empty for some object types such as labels that aren't associated with a symbol.
+//	} netNodeDetails;
+//	std::map<int priority, t_NetNodeDetails* netNodeDetails> prioritizedNetNames;
+
     netCollection::iterator ni = m_nets.begin();
 	while (ni != m_nets.end())
 	{
 		int net = (*ni).first;
-//		TRACE("\n    ==>Extracting potential net names for objects in net=%d\n", net);
+		TRACE("\n    ==>Extracting potential net names for objects in net=%d\n", net);
 
 		nodeVector &v = (*ni).second;
 
@@ -718,6 +730,7 @@ void CNetList::Link( linkCollection& nets )
 		/// that the label or pin occurred on, it is proportional to that hierarchical level.  0 is the topmost level.
 		CString preferredNetName="";
 		int preferredNetNameLevel=99999999;	//this must only be larger than the largest number of files contained in the file index which is at least as large as the highest number of hierarchical levels in the schematic design
+		enum ObjType preferredNetNameType=xNULL;
 
 		nodeVector::iterator vi = v.begin();
 		nodeVector::iterator vi_saved;
@@ -725,57 +738,102 @@ void CNetList::Link( linkCollection& nets )
 		{
 			CNetListNode &node = *vi;
 			vi_saved = vi;	//save a copy of the last value of vi used for use outside of the loop in order to set the final net name.
-
+			
 			if (node.m_parent && node.m_parent->GetType() == xLabelEx2){
-//				TRACE("      ==>Object:  xLabelEx2=\"%S\" on net=%d from file name index=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
-				if (preferredNetNameLevel > node.getFileNameIndex()) {
-					//This label is of higher priority than the previous choice
-//					TRACE("        ==>Choosing xLabelEx2=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
-					preferredNetName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();
+				TRACE("      ==>Object:  xLabelEx2=\"%S\" on net=%d from file name index=%d\n", static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.m_NetList, node.getFileNameIndex());
+				//Labels of type=xLabelEx2 are preferred over labels of type=xPinEx or no type, but are not preferred over labels of type=xPower
+				if (preferredNetNameLevel >= node.getFileNameIndex() && (preferredNetNameType != xPower)) {
+					//This xLabelEx2 is of equal or higher priority than the previous choice of xPinEx or a different xLabelEx2 (presumably a duplicate) because a user entered it.
+					TRACE("        ==>Choosing xLabelEx2=\"%S\" from level=%d and type=%d over previous choice=\"%S\" from level=%d and type=%d\n",static_cast<CDrawLabel*>(node.m_parent)->GetValue(), node.getFileNameIndex(), xLabelEx2, preferredNetName, preferredNetNameLevel, preferredNetNameType);
+					if (node.getFileNameIndex() != 0) {
+						//Net labels from lower hierarchical levels are not guaranteed to be unique, so must be modified with the net number or hierarchical reference designator path (user's choice?).
+//						preferredNetName.Format(_T("_N_%d_%s"), node.m_NetList, static_cast<CDrawLabel*>(node.m_parent)->GetValue());
+
+						//xLabelEx2 is not associated with a symbol, so it doesn't have a reference designator.  get_partial_reference_path() must be used rather
+						//than get_reference_path() to avoid exceptions and a duplicate last reference designator.
+						//If get_partial_reference_path() contains at least one hierarchical designator, then it will also include a trailing underscore to be used as a separator
+						preferredNetName.Format(_T("%s%s"), get_partial_reference_path((CDrawMethod*) node.m_parent, m_imports[node.getFileNameIndex()], true), static_cast<CDrawLabel*>(node.m_parent)->GetValue());
+					}
+					else {
+						preferredNetName = static_cast<CDrawLabel*>(node.m_parent)->GetValue();	//Hierarchical level 0 labels are guaranteed to be unique and are safe to use without modification.
+					}
 					preferredNetNameLevel = node.getFileNameIndex();
+					preferredNetNameType = xLabelEx2;
 				}
 			}
-			else if (node.m_parent && node.m_parent->GetType() == xPower) {
+			else if (node.m_parent && node.m_parent->GetType() == xPower) {	//xPower symbols are effectively global across hierarchical levels
 				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
-//				TRACE("      ==>Object:  xPower=\"%S\" on m_net=%d, file name index=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
-				if (preferredNetNameLevel > node.getFileNameIndex()) {
-					//This label is of higher priority than the previous choice
-//					TRACE("        ==>Choosing xPower=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",powerLabel, node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
+				TRACE("      ==>Object:  xPower=\"%S\" on m_net=%d, file name index=%d\n",powerLabel,node.m_NetList,node.getFileNameIndex());
+				if (preferredNetNameLevel >= node.getFileNameIndex()) {
+					//This label is of equal or higher priority than all other choices
+					TRACE("        ==>Choosing xPower=\"%S\" from level=%d and type=%d over previous choice=\"%S\" from level=%d and type=%d\n",powerLabel, node.getFileNameIndex(), xPower, preferredNetName, preferredNetNameLevel);
 					preferredNetName = powerLabel;
 					preferredNetNameLevel = node.getFileNameIndex();
+					preferredNetNameType = xPower;
 				}
 			}
+#if 0	//This net name possibility is under construction and is not yet safe to use!  It is still producing duplicate net names under some circumstances.
 			else if (node.m_parent && (node.getFileNameIndex() > 0) && (node.m_parent->GetType() == xPinEx)) {
-//				TRACE("      ==>Object:  Hierarchical xPinEx=\"%S\" on net=%d from file name index=%d\n", node.getLabel(), node.m_NetList, node.getFileNameIndex());
-				if (preferredNetNameLevel > node.getFileNameIndex()) {
-					//This label is of higher priority than the previous choice
-					if (!(node.getLabel().IsEmpty())) {
-//						TRACE("        ==>Choosing xPinEx=\"%S\" from level=%d over previous choice=\"%S\" from level=%d\n",node.getLabel() , node.getFileNameIndex(), preferredNetName, preferredNetNameLevel);
-						preferredNetName = node.getLabel();
+				//Unnamed nets can most easily be given reasonable net names by constructing one from the controlling pin name.
+				//The problem is in figuring out which one is controlling as different net types have different controlling pin types.
+				//It is also a significant possiblity that the same constructed name might be chosen for more than one discrete net number.  
+				//This will break any external net list tools and must be avoided at all costs.
+				//
+				//Must exclude pins from level=0 from this algorithm because they don't have a designator path other than the default "_" path.  
+				//Using them will potentially result in multiple nets being given the same preferred name.
+				TRACE("      ==>Object:  xPinEx=\"%S\" on net=%d from file name index=%d\n", node.getLabel(), node.m_NetList, node.getFileNameIndex());
+				//This pin may already have a net label constructed on the fly from the node.getLabel() functionality, but it is not guaranteed to be unique in the flattened netlist,
+				//so a new guaranteed unique name is constructed here for use in exporting netlists only.  The original constructed name is used to actually form the sheet local netlists
+				//and is guaranteed to be unique in that context, but once merged into the global netlist, it may not be sufficient, especially if it exists only on lower hierarchical levels only.
+
+				if ((preferredNetNameLevel >= node.getFileNameIndex()) && (preferredNetNameType != xPower) && (preferredNetNameType != xLabelEx2)) {
+					//This label is of equal or higher priority than the previous choice, but will not override even higher level hierarchical nets with names derived from labels or power symbols.
+					if (!(static_cast<CDrawPin*>(node.m_parent)->GetPinName().IsEmpty())) {
+						TRACE("        ==>Choosing xPinEx=\"%S\" from level=%d and type=%d (underlying label name = \"%s\") over previous choice=\"%S\" from level=%d and type=%d\n",
+							static_cast<CDrawPin*>(node.m_parent)->GetPinName(),
+							node.getFileNameIndex(), 
+							xPinEx, 
+							node.getLabel(),  
+							preferredNetName, 
+							preferredNetNameLevel, 
+							preferredNetNameType);
+						//Construct a net name from this hierarchical pin's pin name consisting of the path of reference designators required to reach this pin (separated by underscores) and ending with the pin's name
+						preferredNetName.Format(_T("GS_%s%s"), get_partial_reference_path((CDrawMethod*) node.m_parent, m_imports[node.getFileNameIndex()], true), static_cast<CDrawPin*>(node.m_parent)->GetPinName());
+//						preferredNetName.Format(_T("%s_%s"), node.m_reference, static_cast<CDrawPin*>(node.m_parent)->GetPinName());
 						preferredNetNameLevel = node.getFileNameIndex();
+						TRACE("           ==>Constructed name = \"%S\"\n",preferredNetName);
+						preferredNetNameType = xPinEx;
 					}
 				}
-
 			}
-
+#endif
 			++ vi;
 		}
 
-		// (*vi_saved).setLabel(preferredNetName);	//assign the net name that was found
-		if (!preferredNetName.IsEmpty()) {
-			(*vi_saved).setPreferredLabel(preferredNetName);	//the saving of a separate preferred net name may not be necessary, but it seems necessary at the moment
-//			TRACE("      ==>Preferred net name = \"%S\" assigned to this node.\n", preferredNetName);
+		//If this net has no preferred name at all, then create one
+		if (preferredNetName.IsEmpty()) {
+			preferredNetName.Format(_T("_N_%d"), (*vi_saved).m_NetList);
+			preferredNetNameType=xNULL;	//There isn't a type for constructed net names.
+			preferredNetNameLevel=0;	//Since the complete net list is now known, let's assume that this was formed at level 0 even though it might have been embedded at a lower level.  This variable isn't actually used at this point except for debugging.
+			TRACE("      ==>No preferred net name found for this node because it contained no net labels or power symbols or hierarchical pins with non-blank pin names.  Preferred net name will be constructed.\n");
 		}
-		else {
-//			TRACE("      ==>No preferred net name found for this node because it contained no net labels or power symbols.  Preferred net name left empty.\n");
+
+		//Now iterate through the nodes in this vector again, and this time set the preferred label for each node for later use
+		vi = v.begin();
+		while (vi != v.end())
+		{
+			(*vi++).setPreferredLabel(preferredNetName);	//the saving of a separate preferred net name may not be necessary, but it seems necessary at the moment
+			TRACE("      ==>Preferred net name = \"%S\" assigned to this node taken from level=%d and type=%d\n", preferredNetName, preferredNetNameLevel, preferredNetNameType);
 		}
+
 		++ ni;
 	}
-//	TRACE("  Linker Pass #3 complete\n");
+
+	TRACE("  Linker Pass #3 complete\n\n\n\n");
 //Uncomment to debug the netlist
-//	TRACE("\n\n\nDump of netlist objects after pass 3 completes.  Total size of netlist=%d.\n", nets.size());
-//	CNetList::dumpNetListObjects();
-//	TRACE("Dump complete.\n\n\n");
+	TRACE("\n\n\nDump of netlist objects after pass 3 completes.  Total size of netlist=%d.\n", m_nets.size());
+	CNetList::dumpNetListObjects();
+	TRACE("Dump complete.\n\n\n");
 }
 
 /**
@@ -939,7 +997,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = 
 								// pSymbol->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
-								get_reference_path(pSymbol, imports[file_index_id], true);
+								get_reference_path(pSymbol, imports[file_index_id], CNetList::m_refDirectionForward);
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = pSymbol;
 							Add(n);
@@ -964,7 +1022,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 				drawingCollection method;
 				((CDrawMethod *)ObjPtr)->ExtractSymbol(tr,method);
 
-				CString myRefDes = get_reference_path(theMethod, imports[file_index_id], true);
+				CString myRefDes = get_reference_path(theMethod, imports[file_index_id], CNetList::m_refDirectionForward);
 
 				drawingIterator it = method.begin();
 				drawingIterator itEnd = method.end();
@@ -1017,7 +1075,7 @@ void CNetList::MakeNetForSheet (fileCollection &imports, int import_index, int s
 							n.setLabel( thePin->GetPinName() );
 							n.m_reference = 
 								// theMethod->GetRefSheet(m_prefix_references,m_prefix_import,file_index_id,sheetOneIndexed);
-								get_reference_path(theMethod, imports[file_index_id], true);
+								get_reference_path(theMethod, imports[file_index_id], CNetList::m_refDirectionForward);
 
 							n.m_pin = thePin->GetNumber();
 							n.m_pMethod = theMethod;
@@ -1299,7 +1357,7 @@ void CNetList::WriteNetListFileProtel( CTinyCadMultiDoc *pDesign, const TCHAR *f
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 					CString Ref  = 
 						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
-						get_reference_path(pMethod, *fi, true);
+						get_reference_path(pMethod, *fi, CNetList::m_refDirectionForward);
 
 					/// Do we need to output this part?
 					if (referenced.find( Ref ) == referenced.end())
@@ -1459,7 +1517,7 @@ void CNetList::WriteNetListFilePADS( CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (pointer->GetType() == xMethodEx3) 
 				{
 					CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-					CString Ref = get_reference_path(pMethod, *fi, true);
+					CString Ref = get_reference_path(pMethod, *fi, CNetList::m_refDirectionForward);
 						// pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 					/// Do we need to output this part?
@@ -1639,7 +1697,7 @@ void CNetList::WriteNetListFileTinyCAD( CTinyCadMultiDoc *pDesign, const TCHAR *
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
 				CString Ref  = 
-					get_reference_path(pMethod, (*fi), true);
+					get_reference_path(pMethod, (*fi), CNetList::m_refDirectionForward);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
@@ -1782,7 +1840,7 @@ void CNetList::WriteNetListFileEagle( CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (pointer->GetType() == xMethodEx3) 
 			{
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
-				CString Ref  = get_reference_path(pMethod, *fi, true);
+				CString Ref  = get_reference_path(pMethod, *fi, CNetList::m_refDirectionForward);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 
 				/// Do we need to output this part?
@@ -1991,7 +2049,7 @@ void CNetList::rawWriteNetListFileXML( CTinyCadMultiDoc *pDesign, std::ofstream&
 				CDrawMethod *pMethod = static_cast<CDrawMethod *>(pointer);
 				CString Name = pMethod->GetField(CDrawMethod::Name);
 				CString Ref  = 
-					get_reference_path(pMethod, (*fi), true);
+					get_reference_path(pMethod, (*fi), CNetList::m_refDirectionForward);
 					//pMethod->GetRefSheet(m_prefix_references,m_prefix_import,(*fi)->getFileNameIndex(),i+1);
 				
 				/*
@@ -2584,11 +2642,12 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 			break;
 		case awaiting_escape:
 			spice_line += c;
-			TRACE("Concatenating special escaped character \'%c\' (0x%02X) to Spice output file.  This doesn't seem to work for some characters!\n",c,c);
+			//TRACE("Concatenating special escaped character \'%c\' (0x%02X) to Spice output file.  This doesn't seem to work for some characters!\n",c,c);
 			mode = normal;
 			break;
 		case awaiting_macro_escape:
 			lookup += c;
+			//TRACE("Concatenating special escaped character \'%c\' (0x%02X) to Spice lookup string.  This doesn't seem to work for some characters!\n",c,c);
 			mode = reading_macro;
 			break;
 		case awaiting_pin:
@@ -2701,12 +2760,12 @@ CString CNetList::expand_spice( int file_name_index, int sheet, CNetListSymbol &
 			{
 				if (brackets == 1)
 				{
-					TRACE("Going to \'awaiting_macro_escape\' because brackets=1\n");
+					//TRACE("Going to \'awaiting_macro_escape\' because brackets=1\n");
 					mode = awaiting_macro_escape;
 				}
 				else
 				{
-					TRACE("Not going to \'awaiting_macro_escape\' because brackets=%d.  Outputting the escape character \'\\\'instead!\n", brackets);
+					//TRACE("Not going to \'awaiting_macro_escape\' because brackets=%d.  Outputting the escape character \'\\\'instead!\n", brackets);
 					lookup += '\\';
 				}
 			}
@@ -2873,7 +2932,7 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 	// either the pin number (very common) or the pin name (a little less common)
 	if (get_pin_by_number(symbol, labels, preferredLabel, pin, nodes, r, net))
 	{
-		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin number=\"%S\" found by number and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, r, net, nodes);
+		//TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin number=\"%S\" found by number and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, r, net, nodes);
 		return true;
 	}
 	
@@ -2884,7 +2943,7 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 		CString target_pin_number = it->second;
 		bool retCode;
 		retCode = get_pin_by_number(symbol, labels, preferredLabel, target_pin_number, nodes, r, net);
-		TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin name=\"%S\" %Sfound by name then number.  pin number=\"%S\" and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, retCode ? _T(""):_T("not "), target_pin_number, r, net, nodes);
+		//TRACE("CNetList::get_pin_by_number_or_name():  symbol=%S, pin name=\"%S\" %Sfound by name then number.  pin number=\"%S\" and is associated with label=\"%S\" on net=%d containing %d nodes\n", symbol.m_reference_copy, pin, retCode ? _T(""):_T("not "), target_pin_number, r, net, nodes);
 		return retCode;
 	}
 
@@ -2892,7 +2951,7 @@ bool CNetList::get_pin_by_number_or_name( CNetListSymbol &symbol, labelCollectio
 	//The following code with the extra indentation is part of the debug message, not part of the functionality of this method.
 		it = symbol.m_pin_name_map.begin();
 		while (it != symbol.m_pin_name_map.end()) {
-			TRACE("    pin name=\"%S\", pin number=\"%S\"\n",it->first, it->second);
+			//TRACE("    pin name=\"%S\", pin number=\"%S\"\n",it->first, it->second);
 			++it;
 		}
 	return false;
@@ -2969,6 +3028,8 @@ bool CNetList::get_pin_by_number( CNetListSymbol &symbol, labelCollection &label
 }
 
 	// Get a hierarchical reference path from a symbol.
+	// This version appends or prepends the final reference desigator of the current symbol
+	// Care must be taken to ensure that psymbol is of a type of CDrawMethod* that contains a valid reference designator
 	//
 	// Note that file_name_index in all of these functions is misleading.
 	// It should really be called "context_instance_index" or something.
@@ -2992,9 +3053,60 @@ CString CNetList::get_reference_path(
 			bool forward, 
 			TCHAR separator)
 {
+	CString s;
+	CString ref = pcontext->getReferenceContext();
+
+	if (ref.GetLength() > 0)
+	{
+
+		s = get_partial_reference_path(psymbol, pcontext, forward, separator);
+
+		//append or prepend, as appropriate, the current object's reference designtor
+		if (forward)
+		{ 
+			s += psymbol->GetRef();	//For hierarchical symbols, this may result in duplication of the reference designator because the current ref is the same as the current context
+		}
+		else
+		{
+			s = psymbol->GetRef() + s;	//For hierarchical symbols, this may result in duplication of the reference designator because the current ref is the same as the current context
+		}
+	}
+	else
+	{
+		s = psymbol->GetRef();
+	}
+	TRACE("  ==>CNetList::get_reference_path() generated \"%S\"\n",s);
+	return s;
+}
+
+	// Get a hierarchical partial reference path from a symbol.
+	// This version does not append or prepend the designator of the current symbol
+	//
+	// Note that file_name_index in all of these functions is misleading.
+	// It should really be called "context_instance_index" or something.
+	// It is a unique incremental identifier representing the context of a circuit or
+	// subcircuit. 0 represents the root (main) circuit. Each instance of a hierarchical
+	// design gets a new ID. (so if the root circuit has 2 instances of a hierarchical
+	// design, and that design has 2 instances of another hierarchical design,
+	// there will be 7 IDs total: 1 for the main circuit, 2 for the 2nd level design,
+	// and 4 for the 4 instances of the 3rd level design.
+	// 
+	// As to the format of this function's output:
+	// Suppose the symbol in question is U4 inside a hierarchical circuit H1 
+	// which in turn is inside another hierarchical circuit H22 in the root circuit.
+	// If forward=true and separator="_", this will return "H22_H1_U1".
+    // If forward=false and separator=":", this will return "U1:H1:H22".
+    // The default separator is an underscore.
+CString CNetList::get_partial_reference_path( 
+			const CDrawMethod* psymbol, 
+			const CImportFile* pcontext,
+			bool forward, 
+			TCHAR separator)
+{
 	CString ref = pcontext->getReferenceContext();
 	// The canonical reference for the constant index is forward,
 	// with a separator of "/" and an additional "/" at the beginning.
+	TRACE("CNetList::get_partial_reference_path() uses reference context = \"%S\".  Length=%d\n",ref, ref.GetLength());
 
 	_TCHAR * canonical_separator = _T("/");
 	CString s;
@@ -3015,20 +3127,12 @@ CString CNetList::get_reference_path(
 			}
 			tok = ref.Tokenize(canonical_separator, curpos);
 		}
-
-		if (forward)
-		{
-			s += psymbol->GetRef();
-		}
-		else
-		{
-			s = psymbol->GetRef() + s;
-		}
 	}
 	else
 	{
-		s = psymbol->GetRef();
+		s = "";
 	}
+	TRACE("  ==>CNetList::get_partial_reference_path() generated \"%S\"\n",s);
 	return s;
 }
 
@@ -3053,7 +3157,7 @@ bool CNetList::get_attr( int file_name_index, int sheet, CNetListSymbol &symbol,
 		int b = s.FindOneOf(_T("0123456789"));
 		if (b != 1)
 		{
-			r = get_reference_path(pMethod, m_imports[file_name_index], true);
+			r = get_reference_path(pMethod, m_imports[file_name_index], CNetList::m_refDirectionForward);
 			return true;
 		}
 		else
