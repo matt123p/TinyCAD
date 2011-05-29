@@ -434,7 +434,7 @@ void CDrawPolygon::FindNearestSegment(CDPoint p, int &line, int &handle)
 
 		++s;
 
-		if (s == (*itz).flatterned_segment)
+		if (s == (*itz).flattened_segment)
 		{
 			++h;
 			++itz;
@@ -1031,7 +1031,7 @@ void CDrawPolygon::FlatternPath()
 			m_points.push_back(CDPoint( (*it).x, (*it).y));
 		}
 
-		(*it).flatterned_segment = m_points.size();
+		(*it).flattened_segment = m_points.size();
 
 		last = *it;
 		++it;

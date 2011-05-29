@@ -29,7 +29,7 @@ public:
 	double x;
 	double y;
 
-	int flatterned_segment;
+	int flattened_segment;
 
 	enum arc_type
 	{
@@ -44,7 +44,7 @@ public:
 		x = 0;
 		y = 0;
 		arc = Arc_none;
-		flatterned_segment = 0;
+		flattened_segment = 0;
 	}
 	CArcPoint(double xi, double yi, arc_type arci = Arc_none)
 	{
@@ -53,14 +53,14 @@ public:
 		x = xi;
 		y = yi;
 		arc = arci;
-		flatterned_segment = 0;
+		flattened_segment = 0;
 	}
 	CArcPoint(const CPoint &p)
 	{
 		x = p.x;
 		y = p.y;
 		arc = Arc_none;
-		flatterned_segment = 0;
+		flattened_segment = 0;
 	}
 
 	CArcPoint(const CDPoint &p)
@@ -70,7 +70,7 @@ public:
 		x = p.x;
 		y = p.y;
 		arc = Arc_none;
-		flatterned_segment = 0;
+		flattened_segment = 0;
 	}
 
 	void ReadPoint(CStream& archive)
