@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002-2005 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002-2005 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #include "stdafx.h"
 #include "math.h"
@@ -54,7 +54,7 @@ BOOL CDRect::PtInRect(CDPoint point) const
 {
 	CDRect r(*this);
 	r.NormalizeRect();
-	return !( point.x < r.left || point.x > r.right || point.y < r.top || point.y > r.bottom);
+	return ! (point.x < r.left || point.x > r.right || point.y < r.top || point.y > r.bottom);
 }
 
 // Inflate rectangle's width and height by
@@ -76,7 +76,6 @@ void CDRect::InflateRect(double l, double t, double r, double b)
 	bottom += b;
 }
 
-
 void CDRect::NormalizeRect()
 {
 	if (right < left)
@@ -92,7 +91,6 @@ void CDRect::NormalizeRect()
 		top = s;
 	}
 }
-
 
 // Operators returning CRect values
 CDRect CDRect::operator+(CDPoint point) const
@@ -126,7 +124,4 @@ CDRect CDRect::operator+=(CDPoint point)
 
 	return *this;
 }
-
-
-
 

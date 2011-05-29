@@ -30,38 +30,38 @@ COption::COption()
 	origin = CDPoint();
 }
 //-------------------------------------------------------------------------
-void COption::Init( CTinyCadDoc *pDesign )
+void COption::Init(CTinyCadDoc *pDesign)
 {
 	// Keep a track of the design
 	m_pDesign = pDesign;
 
 	// Init the font settings for normal text, pin text and ruler text
-	theFontList = ListOfFonts( ListOfFonts::TEXT_HEIGHT, false );
-	theFontList.Add(new ListOfFonts(ListOfFonts::PIN_HEIGHT,false ));
+	theFontList = ListOfFonts(ListOfFonts::TEXT_HEIGHT, false);
+	theFontList.Add(new ListOfFonts(ListOfFonts::PIN_HEIGHT, false));
 	theFontList.Add(new ListOfFonts(ListOfFonts::RULE_HEIGHT, true));
 
 	// Init the line settings for normal and dashed lines
-	m_colLineStyles = ListOfStyles( PS_SOLID, 1, cBLACK );
-	m_colLineStyles.Add( new ListOfStyles(PS_DASH, 1, cBLACK) );
+	m_colLineStyles = ListOfStyles(PS_SOLID, 1, cBLACK);
+	m_colLineStyles.Add(new ListOfStyles(PS_DASH, 1, cBLACK));
 
 	// Init no fill and black fill styles
-	theFillStyleList = ListOfFillStyles( -1, cBLACK );
-	theFillStyleList.Add(new ListOfFillStyles(0,cBLACK));
+	theFillStyleList = ListOfFillStyles(-1, cBLACK);
+	theFillStyleList.Add(new ListOfFillStyles(0, cBLACK));
 
 	// Attempt to load the defaults for the grid
-	GridShow			= CRegistry::GetBool("ShowGrid", false);
-	Units				= CRegistry::GetInt("Units", 0);
-	PinLength			= CRegistry::GetInt("PinLength", 30);
-	PinNumberPos		= CRegistry::GetInt("PinNumberPos", 0);
-	AutoDrag			= CRegistry::GetBool("AutoDrag", true );
-	AutoJunc			= CRegistry::GetBool("AutoJunc", true);
-	AutoSnap			= CRegistry::GetBool("AutoSnap", true);
-	AutoSnapRange		= CRegistry::GetInt("AutoDragRange", 15);
+	GridShow = CRegistry::GetBool("ShowGrid", false);
+	Units = CRegistry::GetInt("Units", 0);
+	PinLength = CRegistry::GetInt("PinLength", 30);
+	PinNumberPos = CRegistry::GetInt("PinNumberPos", 0);
+	AutoDrag = CRegistry::GetBool("AutoDrag", true);
+	AutoJunc = CRegistry::GetBool("AutoJunc", true);
+	AutoSnap = CRegistry::GetBool("AutoSnap", true);
+	AutoSnapRange = CRegistry::GetInt("AutoDragRange", 15);
 
 	// Create the no symbol object
 	CDesignFileSymbol *NoSymbol = new CDesignFileSymbol();
-	NoSymbol->CreateNoSymbol( pDesign );
-	theSymbolList = new ListOfSymbols( NoSymbol );
+	NoSymbol->CreateNoSymbol(pDesign);
+	theSymbolList = new ListOfSymbols(NoSymbol);
 }
 
 //-------------------------------------------------------------------------
@@ -90,7 +90,6 @@ ListOfStyles& COption::GetLineStyles()
 //-------------------------------------------------------------------------
 
 
-
 void COption::UnTag()
 {
 	theFontList.UnTag();
@@ -100,40 +99,39 @@ void COption::UnTag()
 	theSymbolList->UnTag();
 }
 
-
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 
 ////// Some default settings for dialogs ////// 
 
-void COption::SetPinLength( int pl )
+void COption::SetPinLength(int pl)
 {
 	PinLength = pl;
-	CRegistry::Set("PinLength", PinLength );
+	CRegistry::Set("PinLength", PinLength);
 }
 
-void COption::SetPinNumberPos( int pl )
+void COption::SetPinNumberPos(int pl)
 {
 	PinNumberPos = pl;
-	CRegistry::Set("PinNumberPos", PinNumberPos );
+	CRegistry::Set("PinNumberPos", PinNumberPos);
 }
 
 ////// Save the current settings along with the design //////
 
 void COption::WriteXML(CXMLWriter &xml)
 {
-	xml.addTag( _T("OPTIONS") );
+	xml.addTag(_T("OPTIONS"));
 
-// !!	xml.addTag( "FONT", CurrentFont )
-// !!	xml.addTag( "STYLE", CurrentStyle );
-	xml.addTag( _T("GRID"), GridShow );
-	xml.addTag( _T("UNITS"), Units );
-	m_oColors.WriteXML( xml );
+	// !!	xml.addTag( "FONT", CurrentFont )
+	// !!	xml.addTag( "STYLE", CurrentStyle );
+	xml.addTag(_T("GRID"), GridShow);
+	xml.addTag(_T("UNITS"), Units);
+	m_oColors.WriteXML(xml);
 
 	xml.closeTag();
 }
 
-void COption::ReadXML( CXMLReader &xml )
+void COption::ReadXML(CXMLReader &xml)
 {
 	CString name;
 	xml.intoTag();
@@ -141,35 +139,34 @@ void COption::ReadXML( CXMLReader &xml )
 	// Set the default colours (ignoring the registry)
 	m_oColors.Init();
 
-
-	while (xml.nextTag( name ))
+	while (xml.nextTag(name))
 	{
 		if (name == "FONT")
 		{
-// !!		xml.getChildData( CurrentFont );
+			// !!		xml.getChildData( CurrentFont );
 		}
 		else if (name == "STYLE")
 		{
-// !!		xml.getChildData( CurrentStyle );
+			// !!		xml.getChildData( CurrentStyle );
 		}
 		else if (name == "GRID")
 		{
-			xml.getChildData( GridShow );
+			xml.getChildData(GridShow);
 		}
 		else if (name == "UNITS")
 		{
-			xml.getChildData( Units );
+			xml.getChildData(Units);
 		}
 		else
 		{
-			m_oColors.ReadXML( xml, name );
+			m_oColors.ReadXML(xml, name);
 		}
-	}	
+	}
 
 	xml.outofTag();
 }
 
-void COption::ReadNative( CStream& oArchive)
+void COption::ReadNative(CStream& oArchive)
 {
 	LONG ScrollBar;
 	hRESOURCE iCurrentFont, iCurrentStyle;
@@ -188,104 +185,103 @@ void COption::ReadNative( CStream& oArchive)
 
 //-------------------------------------------------------------------------
 //-- Change the size of a font and create a new entry
-hFONT COption::ChangeFontSize( hFONT n, double delta_height, double width )
+hFONT COption::ChangeFontSize(hFONT n, double delta_height, double width)
 {
-  LOGFONT Font = *GetFont( n );
-  Font.lfHeight += static_cast<int>(delta_height);
+	LOGFONT Font = *GetFont(n);
+	Font.lfHeight += static_cast<int> (delta_height);
 
-  if (width != 0)
-  {
-	Font.lfWidth = static_cast<int>(width);
-  }
+	if (width != 0)
+	{
+		Font.lfWidth = static_cast<int> (width);
+	}
 
-  return AddFont( &Font );
+	return AddFont(&Font);
 }
 //-------------------------------------------------------------------------
-int COption::GetFontWidth( hFONT n )
+int COption::GetFontWidth(hFONT n)
 {
-	LOGFONT* Font = GetFont( n );
+	LOGFONT* Font = GetFont(n);
 
-  // If we have an aspect ratio that is not 1.0 then we must
-  // first find the "average" width of the font.  We can only
-  // do this by first selecting the font with an aspect ratio
-  // of 1.0 and measuring it.
+	// If we have an aspect ratio that is not 1.0 then we must
+	// first find the "average" width of the font.  We can only
+	// do this by first selecting the font with an aspect ratio
+	// of 1.0 and measuring it.
 
-  if (Font->lfWidth == 0)
-  {
-		CClientDC dc( AfxGetMainWnd() );
-	CFont f;
-	f.CreateFontIndirect( Font );
+	if (Font->lfWidth == 0)
+	{
+		CClientDC dc(AfxGetMainWnd());
+		CFont f;
+		f.CreateFontIndirect(Font);
 
-	TEXTMETRIC metrics;
+		TEXTMETRIC metrics;
 
-		CFont* old_font = dc.SelectObject( &f );
-	dc.GetTextMetrics( &metrics );
-	dc.SelectObject( old_font );
-	Font->lfWidth = metrics.tmAveCharWidth;
-  }
+		CFont* old_font = dc.SelectObject(&f);
+		dc.GetTextMetrics(&metrics);
+		dc.SelectObject(old_font);
+		Font->lfWidth = metrics.tmAveCharWidth;
+	}
 
-  return Font->lfWidth;
+	return Font->lfWidth;
 }
 //-------------------------------------------------------------------------
 void COption::ChooseFont(ObjType t, CDC &PrinterDC, HWND Window)
 {
 	CHOOSEFONT cf;
-	LOGFONT aLogFont = *(GetFont(GetCurrentFont(t)));
+	LOGFONT aLogFont = * (GetFont(GetCurrentFont(t)));
 
 	cf.lStructSize = sizeof(CHOOSEFONT);
-    cf.hwndOwner = Window;
-    cf.hDC = PrinterDC.m_hDC;
-    cf.lpLogFont = &aLogFont;
-    cf.iPointSize = 10;
-    cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_BOTH;
-    cf.rgbColors = cBLACK;
-    cf.lCustData = 0;
-    cf.lpfnHook = NULL;
-    cf.lpTemplateName = NULL;
-    cf.hInstance = NULL;
-    cf.lpszStyle = NULL;
-    cf.nFontType = SCREEN_FONTTYPE;
-    cf.nSizeMin = 5;
-    cf.nSizeMax = 128;
+	cf.hwndOwner = Window;
+	cf.hDC = PrinterDC.m_hDC;
+	cf.lpLogFont = &aLogFont;
+	cf.iPointSize = 10;
+	cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_BOTH;
+	cf.rgbColors = cBLACK;
+	cf.lCustData = 0;
+	cf.lpfnHook = NULL;
+	cf.lpTemplateName = NULL;
+	cf.hInstance = NULL;
+	cf.lpszStyle = NULL;
+	cf.nFontType = SCREEN_FONTTYPE;
+	cf.nSizeMin = 5;
+	cf.nSizeMax = 128;
 
 	if (::ChooseFont(&cf))
 	{
-		CurrentFont[ t ] = AddFont(&aLogFont);
+		CurrentFont[t] = AddFont(&aLogFont);
 	}
 }
 
 ////// The symbol operators //////
 
 // Convert a CPoint to a Unit CString
-CString COption::PointToDisplay(CDPoint a,BOOL horiz)
+CString COption::PointToDisplay(CDPoint a, BOOL horiz)
 {
- 	CString r;
+	CString r;
 
-  	double Scale = GetUnits()==0 ? (float)PIXELSPERMM : ((float)PIXELSPERMM * 25.4f);
+	double Scale = GetUnits() == 0 ? (float) PIXELSPERMM : ((float) PIXELSPERMM * 25.4f);
 	double sx = a.x / Scale;
 	double sy = a.y / Scale;
 	if (horiz)
 	{
-  		r.Format(_T("%9.03f"),sy,GetUnits()==0 ? _T("mm") : _T("\""));
+		r.Format(_T("%9.03f"), sy, GetUnits() == 0 ? _T("mm") : _T("\""));
 	}
 	else
 	{
-		r.Format(_T("%9.03f"),sx,GetUnits()==0 ? _T("mm") : _T("\""));
+		r.Format(_T("%9.03f"), sx, GetUnits() == 0 ? _T("mm") : _T("\""));
 	}
 
 	return r;
 }
 
-
 // Convert a CPoint to a Unit CString
 CString COption::PointToUnit(CDPoint a)
 {
- 	CString r;
+	CString r;
 
-  	double Scale = GetUnits()==0 ? (float)PIXELSPERMM : ((float)PIXELSPERMM * 25.4f);
+	double Scale = GetUnits() == 0 ? (float) PIXELSPERMM : ((float) PIXELSPERMM * 25.4f);
 	double sx = a.x / Scale;
 	double sy = a.y / Scale;
-  	r.Format(_T("%9.03f,%9.03f%s"),sx,sy,GetUnits()==0 ? _T(" mm") : _T(" \""));
+	r.Format(_T("%9.03f,%9.03f%s"), sx, sy, GetUnits() == 0 ? _T(" mm") : _T(" \""));
 
 	return r;
 }
@@ -301,12 +297,12 @@ void COption::ResetMerge()
 //-------------------------------------------------------------------------
 hFONT COption::GetCurrentFont(ObjType t)
 {
-	return CurrentFont[ t ];
+	return CurrentFont[t];
 }
 //-------------------------------------------------------------------------
-hFONT COption::AddFont( LOGFONT* lf, hFONT MergeNumber)
+hFONT COption::AddFont(LOGFONT* lf, hFONT MergeNumber)
 {
-	return theFontList.Add( new ListOfFonts(*lf), MergeNumber );
+	return theFontList.Add(new ListOfFonts(*lf), MergeNumber);
 }
 //-------------------------------------------------------------------------
 
@@ -316,7 +312,7 @@ bool COption::HasOrigin()
 }
 
 void COption::SetOrigin(CDPoint org)
-{	
+{
 	origin = org;
 	if (!org.hasValue())
 	{
@@ -324,12 +320,12 @@ void COption::SetOrigin(CDPoint org)
 	}
 }
 
- CDPoint COption::GetOrigin()
-{	
+CDPoint COption::GetOrigin()
+{
 	if (origin.hasValue())
 	{
 		return origin;
 	}
 
-	return CDPoint(0,0);
+	return CDPoint(0, 0);
 }

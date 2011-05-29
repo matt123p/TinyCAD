@@ -22,26 +22,32 @@ class CHeaderStamp
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:				CHeaderStamp();
-	private:	void	Init();
+public:
+	CHeaderStamp();
+private:
+	void Init();
 
 	//=====================================================================
 	//== accessor                                                        ==
 	//=====================================================================
 	//-- Write to a file
-	public:		void	Write( CStream& oArchive ) const;
+public:
+	void Write(CStream& oArchive) const;
 
 	//-- Return true if file reading was OK
-	public:		bool	IsChecked( bool ReportError ) const;
+public:
+	bool IsChecked(bool ReportError) const;
 
 	//-- Show error dialog if errors occure
-	private:	void	ShowErrorMsg( int nMsgID, bool bIsErrorReport ) const;
+private:
+	void ShowErrorMsg(int nMsgID, bool bIsErrorReport) const;
 
 	//=====================================================================
 	//== mutator                                                         ==
 	//=====================================================================
 	//-- Read from a file
-	public:		void	Read( CStream& oArchive );
+public:
+	void Read(CStream& oArchive);
 
 private:
 	//=====================================================================
@@ -49,26 +55,26 @@ private:
 	//=====================================================================
 	//-- 7 bit ASCII code, with a one byte length prefix
 	//-- 8 bytes size
-	static const CString	M_SNAME;
+	static const CString M_SNAME;
 
 	//-- revision number of the file format it saves
 	//-- 1 byte size
-	static const BYTE 		M_NREVISION;
+	static const BYTE M_NREVISION;
 
 	//-- magic number to spot TinyCAD files
 	//-- 2 bytes size
-	static const short 		M_NMAGIC;
+	static const short M_NMAGIC;
 
 	//=====================================================================
 	//== class variables                                                 ==
 	//=====================================================================
-	//-- Programname
-	CString 				m_sName;
+	//-- Program name
+	CString m_sName;
 
 	//-- file format revision
-	BYTE					m_nRevision;
+	BYTE m_nRevision;
 
 	//-- identifying number for TinyCAD files
-	short 					m_nMagic;
+	short m_nMagic;
 };
 //=========================================================================

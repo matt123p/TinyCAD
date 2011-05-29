@@ -18,7 +18,6 @@
 //
 #include "stdafx.h"
 
-
 // this file includes the multimon stub function
 // that are implmented in multimon.h
 
@@ -30,4 +29,3 @@
 #include "multimon.h"
 //
 #endif // !defined(COMPILE_MULTIMON_STUBS) && (WINVER < 0x0500)
-

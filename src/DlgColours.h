@@ -23,36 +23,44 @@
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
 //=========================================================================
-class CDlgColours
-: public CDialog
+class CDlgColours: public CDialog
 {
 	typedef CDialog super;
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CDlgColours)
-	enum { IDD = IDD_COLOURS };
-		// NOTE: the ClassWizard will add data members here
+	enum
+	{
+		IDD = IDD_COLOURS
+	};
+	// NOTE: the ClassWizard will add data members here
 	//}}AFX_DATA
 
-	private:	COLORREF			m_oaCustomColors[16];
-	private:	CUserColor&			m_oColorRef;
-	private:	CUserColor			m_oColor;
-	private:	std::map<int,int>	m_id_map;
+private:
+	COLORREF m_oaCustomColors[16];
+private:
+	CUserColor& m_oColorRef;
+private:
+	CUserColor m_oColor;
+private:
+	std::map<int, int> m_id_map;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:							CDlgColours( CUserColor& oColor );
+public:
+	CDlgColours(CUserColor& oColor);
 
 	//=====================================================================
 	//== accessor/mutator                                                ==
 	//=====================================================================
-	public:		void 				EditColor( int nID );
+public:
+	void EditColor(int nID);
 
 	//=====================================================================
 	//== Message handling                                                ==
 	//=====================================================================
-	protected:
+protected:
 	// Generated message map functions
 	//{{AFX_MSG(CDlgColours)
 	afx_msg void OnColBus();
@@ -68,6 +76,6 @@ class CDlgColours
 
 	virtual void OnOK();
 
-	DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 //=========================================================================

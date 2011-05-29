@@ -10,21 +10,20 @@
 
 #pragma once
 
-
 // CWinXPToolbar
 
-class CWinXPToolbar : public CToolBar
+class CWinXPToolbar: public CToolBar
 {
-	DECLARE_DYNAMIC(CWinXPToolbar)
+	DECLARE_DYNAMIC( CWinXPToolbar)
 
 public:
 	CWinXPToolbar();
 	virtual ~CWinXPToolbar();
 
 protected:
-	CImageList  m_ToolbarImages;
-	CImageList  m_ToolbarImagesDisabled;
-	CImageList  m_ToolbarImagesHot;
+	CImageList m_ToolbarImages;
+	CImageList m_ToolbarImagesDisabled;
+	CImageList m_ToolbarImagesHot;
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -37,6 +36,5 @@ public:
 protected:
 	void CWinXPToolbar::MakeToolbarImageList(UINT imageWidth, UINT inBitmapID, CImageList& outImageList);
 };
-
 
 #endif 

@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002,2003 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002,2003 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #include "stdafx.h"
 #include <math.h>
@@ -31,11 +31,8 @@
 #include "LibraryCollection.h"
 #include ".\dlggetfindbox.h"
 
-
-CDlgGetFindBox::CDlgGetFindBox()
-: CInitDialogBar()
-, m_Resize( TRUE )
-, m_ResizeLib( FALSE )
+CDlgGetFindBox::CDlgGetFindBox() :
+	CInitDialogBar(), m_Resize(TRUE), m_ResizeLib(FALSE)
 {
 	//{{AFX_DATA_INIT(CDlgGetFindBox)
 	m_search_string = _T("");
@@ -48,50 +45,48 @@ void CDlgGetFindBox::DoDataExchange(CDataExchange* pDX)
 	CInitDialogBar::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgGetFindBox)
 	DDX_Control(pDX, IDC_SHOW_SYMBOL, m_Show_Symbol);
-    DDX_Control(pDX, IDC_SYMBOL_TREE, m_Tree);
+	DDX_Control(pDX, IDC_SYMBOL_TREE, m_Tree);
 	DDX_Text(pDX, IDC_SEARCH_STRING, m_search_string);
 	//}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CDlgGetFindBox, CInitDialogBar)
 	//{{AFX_MSG_MAP(CDlgGetFindBox)
-	ON_EN_CHANGE(IDC_SEARCH_STRING, OnChangeSearchString)
-	ON_WM_DRAWITEM()
+	ON_EN_CHANGE(IDC_SEARCH_STRING, 
+	OnChangeSearchString)ON_WM_DRAWITEM()
 	ON_WM_SIZE()
 	ON_COMMAND(ID_HORZ_RESIZE, OnHorzResize)
 	//}}AFX_MSG_MAP
-	ON_WM_DESTROY()
-    ON_NOTIFY(TVN_SELCHANGED, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnTreeSelect)
-    ON_NOTIFY(NM_DBLCLK, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnDblclkTree)
+	        ON_WM_DESTROY()
+	        ON_NOTIFY(TVN_SELCHANGED, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnTreeSelect)
+	        ON_NOTIFY(NM_DBLCLK, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnDblclkTree)
 END_MESSAGE_MAP()
-
 
 BOOL CDlgGetFindBox::OnInitDialogBar()
 {
 	CInitDialogBar::OnInitDialogBar();
 
-    BuildTree();
+	BuildTree();
 
-	m_Tree.SetItemHeight(m_Tree.GetItemHeight() - 2);  // original height looks weird on Windows
+	m_Tree.SetItemHeight(m_Tree.GetItemHeight() - 2); // original height looks weird on Windows
 
 	if (!m_Resize.m_hWnd)
 	{
-		m_Resize.Create( NULL, _T(""), WS_VISIBLE|WS_CHILD,CRect(0,0,10,10), this, ID_RESIZE );
+		m_Resize.Create(NULL, _T(""), WS_VISIBLE | WS_CHILD, CRect(0, 0, 10, 10), this, ID_RESIZE);
 	}
 	if (!m_ResizeLib.m_hWnd)
 	{
-		m_ResizeLib.Create( NULL, _T(""), WS_VISIBLE|WS_CHILD,CRect(0,0,10,10), this, ID_HORZ_RESIZE );
+		m_ResizeLib.Create(NULL, _T(""), WS_VISIBLE | WS_CHILD, CRect(0, 0, 10, 10), this, ID_HORZ_RESIZE);
 	}
 	m_sizeUndockedDefault = m_sizeDefault;
-
 
 	// We remember the default size of the library box...
 	CRect lib_list_rect;
 	m_Tree.GetWindowRect(lib_list_rect);
-	ScreenToClient( lib_list_rect );
-	int height = CTinyCadRegistry::GetInt("SymbolTreeHeightPx", lib_list_rect.Height() );
+	ScreenToClient(lib_list_rect);
+	int height = CTinyCadRegistry::GetInt("SymbolTreeHeightPx", lib_list_rect.Height());
 	lib_list_rect.bottom = lib_list_rect.top + height;
-	m_Tree.MoveWindow( lib_list_rect);
+	m_Tree.MoveWindow(lib_list_rect);
 	DetermineLayout();
 
 	return TRUE;
@@ -99,33 +94,30 @@ BOOL CDlgGetFindBox::OnInitDialogBar()
 
 void CDlgGetFindBox::OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    HTREEITEM hItem = m_Tree.GetSelectedItem();
-    if( ! m_Tree.ItemHasChildren(hItem) )
-        AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET );
-    *pResult = 0;
+	HTREEITEM hItem = m_Tree.GetSelectedItem();
+	if (!m_Tree.ItemHasChildren(hItem)) AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET);
+	*pResult = 0;
 }
 
 void CDlgGetFindBox::OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    //LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-    HTREEITEM hItem = m_Tree.GetSelectedItem();
-    if( ! m_Tree.ItemHasChildren(hItem) )
-    {
-        CLibraryStoreSymbol* pSymbol =
-            reinterpret_cast<CLibraryStoreSymbol*>( m_Tree.GetItemData(hItem) );
-        m_Symbol = pSymbol;
-        GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
-    }
+	//LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	HTREEITEM hItem = m_Tree.GetSelectedItem();
+	if (!m_Tree.ItemHasChildren(hItem))
+	{
+		CLibraryStoreSymbol* pSymbol = reinterpret_cast<CLibraryStoreSymbol*> (m_Tree.GetItemData(hItem));
+		m_Symbol = pSymbol;
+		GetDlgItem(IDC_SHOW_SYMBOL)->RedrawWindow();
+	}
 
-    *pResult = 0;
+	*pResult = 0;
 }
 
 void CDlgGetFindBox::OnChangeSearchString()
 {
-	UpdateData( TRUE );
-    BuildTree();
+	UpdateData(TRUE);
+	BuildTree();
 }
-
 
 void CDlgGetFindBox::ResetAllSymbols()
 {
@@ -133,42 +125,38 @@ void CDlgGetFindBox::ResetAllSymbols()
 	BuildTree();
 }
 
-
 /// For iterating through all items in a tree, depth-first. Use TVI_ROOT for the first item.
 HTREEITEM GetNextTreeItem(const CTreeCtrl & Tree, HTREEITEM cur)
 {
-    HTREEITEM res;
-    res = Tree.GetChildItem(cur);
-    if(res != 0)
-        return res;
-    res = Tree.GetNextSiblingItem(cur);
-    if(res != 0)
-        return res;
-    
-    HTREEITEM hParent = Tree.GetParentItem(cur);
-    if(hParent == 0)
-        return 0;  // no more items in the tree
-    res = Tree.GetNextSiblingItem(hParent);
-    return res;
+	HTREEITEM res;
+	res = Tree.GetChildItem(cur);
+	if (res != 0) return res;
+	res = Tree.GetNextSiblingItem(cur);
+	if (res != 0) return res;
+
+	HTREEITEM hParent = Tree.GetParentItem(cur);
+	if (hParent == 0) return 0; // no more items in the tree
+	res = Tree.GetNextSiblingItem(hParent);
+	return res;
 }
 
 void CDlgGetFindBox::BuildTree()
 {
-    m_Tree.DeleteAllItems();
+	m_Tree.DeleteAllItems();
 
-    // http://www.functionx.com/visualc/treeview/tvdlg1.htm
-    // use TVIS_EXPANDED or Expand(), perhaps TVIS_BOLD
+	// http://www.functionx.com/visualc/treeview/tvdlg1.htm
+	// use TVIS_EXPANDED or Expand(), perhaps TVIS_BOLD
 
 	// Add/filter MRU symbols
 	{
 		// Cleanup MRU
 		int nMRUCount = m_most_recently_used.size();
-		for (int i = 0 ; i < nMRUCount; i++)
+		for (int i = 0; i < nMRUCount; i++)
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[0];
 			m_most_recently_used.pop_front();
 			// Is symbol still alive?
-			if( pSymbol && pSymbol->m_pParent && CLibraryCollection::ContainsSymbol(pSymbol->m_pParent) )
+			if (pSymbol && pSymbol->m_pParent && CLibraryCollection::ContainsSymbol(pSymbol->m_pParent))
 			{
 				// Place it back in MRU list
 				m_most_recently_used.push_back(pSymbol);
@@ -178,24 +166,25 @@ void CDlgGetFindBox::BuildTree()
 		CString sCaption;
 		HTREEITEM hLib = m_Tree.InsertItem(_T("(recent) (x)"), TVI_ROOT);
 		int nMatches = 0;
-		for(unsigned i = 0; i < m_most_recently_used.size(); i++)
+		for (unsigned i = 0; i < m_most_recently_used.size(); i++)
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[i];
 			TRACE("pSymbol->Description=[%S], pSymbol->Name=[%S]\n", pSymbol->description, pSymbol->name);
 
-			if(pSymbol->IsMatching(m_search_string))
+			if (pSymbol->IsMatching(m_search_string))
 			{
-				HTREEITEM hItem = m_Tree.InsertItem( pSymbol->name + " - " + pSymbol->description, hLib );
-				m_Tree.SetItemData(hItem, (DWORD_PTR) pSymbol );
+				HTREEITEM hItem = m_Tree.InsertItem(pSymbol->name + " - " + pSymbol->description, hLib);
+				m_Tree.SetItemData(hItem, (DWORD_PTR) pSymbol);
 				nMatches++;
 			}
 		}
 
-		if(nMatches != 0)
+		if (nMatches != 0)
 		{
 			sCaption.Format(_T("(recent) (%d)"), nMatches);
 			m_Tree.SetItemText(hLib, sCaption);
-		}else
+		}
+		else
 		{
 			m_Tree.DeleteItem(hLib);
 		}
@@ -207,11 +196,11 @@ void CDlgGetFindBox::BuildTree()
 	CRect r;
 	m_Tree.GetClientRect(&r);
 	UINT nMaxVisbile = r.Height() / m_Tree.GetItemHeight();
-	if(m_Tree.GetCount() < nMaxVisbile)
+	if (m_Tree.GetCount() < nMaxVisbile)
 	{
 		// expand matching libraries
 		HTREEITEM cur = m_Tree.GetRootItem();
-		for(; cur != NULL; cur = m_Tree.GetNextSiblingItem(cur))
+		for (; cur != NULL; cur = m_Tree.GetNextSiblingItem(cur))
 		{
 			m_Tree.Expand(cur, TVE_EXPAND);
 		}
@@ -220,16 +209,16 @@ void CDlgGetFindBox::BuildTree()
 	// Try and find the selected symbol in the list
 	HTREEITEM cur = m_Tree.GetRootItem();
 	bool found = false;
-	while(cur != NULL)
+	while (cur != NULL)
 	{
-		if( ! m_Tree.ItemHasChildren(cur) )
+		if (!m_Tree.ItemHasChildren(cur))
 		{
 			DWORD_PTR n = m_Tree.GetItemData(cur);
-			CLibraryStoreSymbol * p = reinterpret_cast<CLibraryStoreSymbol*>(n);
-			if(p == m_Symbol)
+			CLibraryStoreSymbol * p = reinterpret_cast<CLibraryStoreSymbol*> (n);
+			if (p == m_Symbol)
 			{
-				m_Tree.SelectItem( cur );
-				m_Tree.EnsureVisible( cur );
+				m_Tree.SelectItem(cur);
+				m_Tree.EnsureVisible(cur);
 				found = true;
 				break;
 			}
@@ -239,19 +228,19 @@ void CDlgGetFindBox::BuildTree()
 	if (found == false)
 	{
 		m_Symbol = NULL;
-		GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
+		GetDlgItem(IDC_SHOW_SYMBOL)->RedrawWindow();
 	}
 }
 void CDlgGetFindBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	CDC dc;
-	dc.Attach( lpDrawItemStruct->hDC );
+	dc.Attach(lpDrawItemStruct->hDC);
 
 	switch (nIDCtl)
 	{
-	case IDC_SHOW_SYMBOL:
-		DrawSymbol( dc, lpDrawItemStruct->rcItem  );
-		break;
+		case IDC_SHOW_SYMBOL:
+			DrawSymbol(dc, lpDrawItemStruct->rcItem);
+			break;
 	}
 
 	dc.Detach();
@@ -261,44 +250,43 @@ void CDlgGetFindBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 void CDlgGetFindBox::DrawSymbol(CDC &dc, CRect rect)
 {
-	dc.SelectStockObject( WHITE_BRUSH );
-	dc.Rectangle( rect );
+	dc.SelectStockObject(WHITE_BRUSH);
+	dc.Rectangle(rect);
 
 	if (m_Symbol != NULL)
 	{
 		Transform transform;
-		CContext q( &dc, transform );
+		CContext q(&dc, transform);
 
 		// Now access the symbol and draw it next to the name
 		CDPoint p;
 		CTinyCadDoc doc;
-		CDesignFileSymbol *pSymbol = m_Symbol->GetDesignSymbol( &doc );
+		CDesignFileSymbol *pSymbol = m_Symbol->GetDesignSymbol(&doc);
 
 		// Determine the rotation
 		int orientation = m_Symbol->m_pParent->orientation;
 
-
 		drawingCollection method;
 		if (pSymbol)
 		{
-			pSymbol->GetMethod( 0, false, method );
-			p = pSymbol->GetTr( 0, false );
+			pSymbol->GetMethod(0, false, method);
+			p = pSymbol->GetTr(0, false);
 		}
 		else
 		{
-			p = CDPoint(-75,-15);
+			p = CDPoint(-75, -15);
 		}
 
 		switch (orientation)
 		{
-		case 2:
+			case 2:
 			{
 				CDPoint q = p;
 				p.x = q.y;
 				p.y = q.x;
 			}
-			break;
-		case 3:
+				break;
+			case 3:
 			{
 				CDPoint q = p;
 				p.x = q.y;
@@ -311,52 +299,49 @@ void CDlgGetFindBox::DrawSymbol(CDC &dc, CRect rect)
 		// Determine the zoom factor
 		double zoom = min( (width * 75) / fabs(p.x), (height*75)/fabs(p.y) );
 		zoom = min( zoom, 100 );
-		q.SetZoomFactor( zoom/100.0 );
+		q.SetZoomFactor(zoom / 100.0);
 
-		height = static_cast<int>((height * 100) / zoom);
-		width = static_cast<int>((width * 100) / zoom);
+		height = static_cast<int> ( (height * 100) / zoom);
+		width = static_cast<int> ( (width * 100) / zoom);
 
 		// Draw the name
 		q.SetTextAlign(TA_LEFT | TA_BOTTOM | TA_NOUPDATECP);
-		q.SetBkMode( TRANSPARENT );
+		q.SetBkMode(TRANSPARENT);
 
 		// Now display the symbol
 		CDPoint old;
 
 		switch (orientation)
 		{
-		case 2:
-			old = q.SetTRM( CDPoint((width-p.x)/2, (height - p.y)/2) , CDPoint(0,0), orientation );
-			break;
-		case 3:
-			old = q.SetTRM( CDPoint(width / 2 + p.x/2, (height-p.y)/2) , CDPoint(0,0), orientation );
-			break;
-		default:
-			old = q.SetTRM( CDPoint((width-p.x)/2, (height-p.y)/2) , CDPoint(0,0), orientation );
-			break;
+			case 2:
+				old = q.SetTRM(CDPoint( (width - p.x) / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
+			case 3:
+				old = q.SetTRM(CDPoint(width / 2 + p.x / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
+			default:
+				old = q.SetTRM(CDPoint( (width - p.x) / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
 		}
 		if (pSymbol)
 		{
 			drawingIterator paint_it = method.begin();
 			while (paint_it != method.end())
 			{
-				(*paint_it)->Paint( q, draw_normal );
-				++ paint_it;
+				(*paint_it)->Paint(q, draw_normal);
+				++paint_it;
 			}
 
 			delete pSymbol;
 		}
 
-		q.EndTRM( old );
+		q.EndTRM(old);
 	}
 }
 
-
-
 void CDlgGetFindBox::AddToMRU()
 {
-    if(m_Symbol == NULL)
-        return;
+	if (m_Symbol == NULL) return;
 	// Is this symbol already in the MRU list?
 	MRUCollection::iterator it = m_most_recently_used.begin();
 	while (it != m_most_recently_used.end())
@@ -367,10 +352,10 @@ void CDlgGetFindBox::AddToMRU()
 			// Already in the MRU list
 			return;
 		}
-		++ it;
+		++it;
 	}
 
-	m_most_recently_used.push_front( m_Symbol );
+	m_most_recently_used.push_front(m_Symbol);
 
 	// We keep only up to 20 symbols in this list
 	if (m_most_recently_used.size() > 20)
@@ -379,20 +364,17 @@ void CDlgGetFindBox::AddToMRU()
 	}
 }
 
-
-
 void CDlgGetFindBox::OnSize(UINT nType, int cx, int cy)
 {
 	CInitDialogBar::OnSize(nType, cx, cy);
 	DetermineLayout();
 }
 
-
 void CDlgGetFindBox::DetermineLayout()
 {
 	const int width = 6;
 	CRect client;
-	GetClientRect( client );
+	GetClientRect(client);
 	int cx = client.Width();
 	int cy = client.Height();
 
@@ -402,34 +384,32 @@ void CDlgGetFindBox::DetermineLayout()
 		// Move the libraries list into position
 		CRect lib_list_rect;
 		m_Tree.GetWindowRect(lib_list_rect);
-		ScreenToClient( lib_list_rect );
+		ScreenToClient(lib_list_rect);
 
 		int border_y = lib_list_rect.left;
 		int border_x = IsFloating() ? lib_list_rect.left : lib_list_rect.left + 4;
 		lib_list_rect.right = cx - border_x;
 
 		CRect tree_rect(lib_list_rect);
-        m_Tree.GetWindowRect( tree_rect );
-        ScreenToClient( tree_rect );
+		m_Tree.GetWindowRect(tree_rect);
+		ScreenToClient(tree_rect);
 		tree_rect.right = cx - border_x;
-		m_Tree.MoveWindow( tree_rect );
+		m_Tree.MoveWindow(tree_rect);
 
 		CRect resize_rect(tree_rect);
 		resize_rect.top = tree_rect.bottom + 4;
 		resize_rect.bottom = tree_rect.bottom + width;
-		m_ResizeLib.MoveWindow( resize_rect );
+		m_ResizeLib.MoveWindow(resize_rect);
 
-		
 		// Move the symbol preview window into position
 		CRect show_rect;
-		m_Show_Symbol.GetWindowRect( show_rect );
-		ScreenToClient( show_rect );
+		m_Show_Symbol.GetWindowRect(show_rect);
+		ScreenToClient(show_rect);
 		//int height = show_rect.Height();
 		show_rect.top = resize_rect.bottom + width;
-		show_rect.bottom = cy - border_y;  //= show_rect.top + height;
+		show_rect.bottom = cy - border_y; //= show_rect.top + height;
 		show_rect.right = cx - border_x;
-		m_Show_Symbol.MoveWindow( show_rect );
-
+		m_Show_Symbol.MoveWindow(show_rect);
 
 		if (IsFloating())
 		{
@@ -440,17 +420,16 @@ void CDlgGetFindBox::DetermineLayout()
 		}
 		else
 		{
-			resize_rect.left = cx-width;
+			resize_rect.left = cx - width;
 			resize_rect.right = cx;
 			resize_rect.top = border_y;
-			resize_rect.bottom = cy-2;
+			resize_rect.bottom = cy - 2;
 		}
-		m_Resize.MoveWindow( resize_rect );
+		m_Resize.MoveWindow(resize_rect);
 	}
 }
 
-
-CSize CDlgGetFindBox::CalcDynamicLayout( int nLength, DWORD dwMode )
+CSize CDlgGetFindBox::CalcDynamicLayout(int nLength, DWORD dwMode)
 {
 	if (m_Resize.m_adjust_width != 0)
 	{
@@ -468,7 +447,7 @@ CSize CDlgGetFindBox::CalcDynamicLayout( int nLength, DWORD dwMode )
 	else
 	{
 		// Otherwise store this length
-		if ((dwMode & LM_LENGTHY)!=0)
+		if ( (dwMode & LM_LENGTHY) != 0)
 		{
 			m_sizeUndockedDefault.cy = nLength;
 		}
@@ -482,49 +461,44 @@ CSize CDlgGetFindBox::CalcDynamicLayout( int nLength, DWORD dwMode )
 	return CalcFixedLayout(dwMode & LM_STRETCH, dwMode & LM_HORZDOCK);
 }
 
-CSize CDlgGetFindBox::CalcFixedLayout( BOOL bStretch, BOOL bHorz )
+CSize CDlgGetFindBox::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
 	if (!IsFloating())
 	{
-		CWnd* pWnd=GetParent();
+		CWnd* pWnd = GetParent();
 		CRect r;
 		pWnd->GetClientRect(r);
 		m_sizeDefault.cy = r.Height();
 	}
 
-
 	return IsFloating() ? m_sizeUndockedDefault : m_sizeDefault;
 }
 
-
-void CDlgGetFindBox::OnHorzResize() 
+void CDlgGetFindBox::OnHorzResize()
 {
 	// Resize due to the vertical resize handle dragging...
 	int delta = m_ResizeLib.m_adjust_height;
 
 	// Resize the tree window...
 	CRect r;
-	m_Tree.GetWindowRect( r );
-	ScreenToClient( r );
+	m_Tree.GetWindowRect(r);
+	ScreenToClient(r);
 	r.bottom += delta;
-	m_Tree.MoveWindow( r );
+	m_Tree.MoveWindow(r);
 
-	CTinyCadRegistry::Set("SymbolTreeHeightPx", r.Height() );
+	CTinyCadRegistry::Set("SymbolTreeHeightPx", r.Height());
 
-	m_Show_Symbol.GetWindowRect( r );
-	ScreenToClient( r );
+	m_Show_Symbol.GetWindowRect(r);
+	ScreenToClient(r);
 	r.top += delta;
-	m_Show_Symbol.MoveWindow( r );
+	m_Show_Symbol.MoveWindow(r);
 
 	DetermineLayout();
 	// less flicker: RedrawWindow();
 }
 
-
-
 void CDlgGetFindBox::OnDestroy()
 {
 	CInitDialogBar::OnDestroy();
 }
-
 

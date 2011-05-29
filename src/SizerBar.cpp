@@ -7,10 +7,9 @@
 #include "StdAfx.h"
 #include "WinMgr.h"
 
-
 // standard sizing cursors
-static HCURSOR hcSizeEW = ::LoadCursor(NULL,(LPCTSTR)IDC_SIZEWE);
-static HCURSOR hcSizeNS = ::LoadCursor(NULL,(LPCTSTR)IDC_SIZENS);
+static HCURSOR hcSizeEW = ::LoadCursor(NULL, (LPCTSTR) IDC_SIZEWE);
+static HCURSOR hcSizeNS = ::LoadCursor(NULL, (LPCTSTR) IDC_SIZENS);
 
 IMPLEMENT_DYNCREATE(CSizerBar, CWnd)
 BEGIN_MESSAGE_MAP(CSizerBar, CWnd)
@@ -27,8 +26,8 @@ END_MESSAGE_MAP()
 CSizerBar::CSizerBar()
 {
 	m_pWinMgr = NULL;
-	m_bHorz = -1;			// undetermined; I will compute
-	m_bDragging=FALSE;	// not dragging yet
+	m_bHorz = -1; // undetermined; I will compute
+	m_bDragging = FALSE; // not dragging yet
 }
 
 CSizerBar::~CSizerBar()
@@ -41,8 +40,7 @@ BOOL CSizerBar::PreCreateWindow(CREATESTRUCT& cs)
 	return CStatic::PreCreateWindow(cs);
 }
 
-BOOL CSizerBar::Create(DWORD dwStyle, CWnd* pParentWnd, CWinMgr& wm,
-	UINT nID, const RECT& rc)
+BOOL CSizerBar::Create(DWORD dwStyle, CWnd* pParentWnd, CWinMgr& wm, UINT nID, const RECT& rc)
 {
 	m_pWinMgr = &wm;
 	return CStatic::Create(NULL, dwStyle, rc, pParentWnd, nID);
@@ -53,12 +51,10 @@ void CSizerBar::OnPaint()
 	CPaintDC dc(this);
 	CRect rc;
 	GetClientRect(&rc);
-	dc.FillSolidRect(&rc,GetSysColor(COLOR_3DFACE));
-	dc.Draw3dRect(&rc,GetSysColor(COLOR_3DLIGHT),
-		GetSysColor(COLOR_3DDKSHADOW));
-	rc.DeflateRect(1,1);
-	dc.Draw3dRect(&rc,GetSysColor(COLOR_3DHIGHLIGHT),
-		GetSysColor(COLOR_3DSHADOW));
+	dc.FillSolidRect(&rc, GetSysColor(COLOR_3DFACE));
+	dc.Draw3dRect(&rc, GetSysColor(COLOR_3DLIGHT), GetSysColor(COLOR_3DDKSHADOW));
+	rc.DeflateRect(1, 1);
+	dc.Draw3dRect(&rc, GetSysColor(COLOR_3DHIGHLIGHT), GetSysColor(COLOR_3DSHADOW));
 }
 
 //////////////////
@@ -67,11 +63,9 @@ void CSizerBar::OnPaint()
 //
 BOOL CSizerBar::IsHorizontal()
 {
-	if (!m_hWnd)
-		return FALSE;	 // not created yet: doesn't matter
-	if (m_bHorz!=-1)
-		return m_bHorz; // I already figured it out
-	
+	if (!m_hWnd) return FALSE; // not created yet: doesn't matter
+	if (m_bHorz != -1) return m_bHorz; // I already figured it out
+
 	// If width is greater than height, I must be horizontal. Duh.
 	CRect rc;
 	GetWindowRect(&rc);
@@ -94,9 +88,9 @@ void CSizerBar::OnLButtonDown(UINT nFlags, CPoint pt)
 {
 	ClientToScreen(&pt);
 	m_ptPrevious = pt;
-	
-	SetCapture();				 // all mouse messages are MINE
-	m_hwndPrevFocus = ::SetFocus(m_hWnd);  // set focus to me to get Escape key
+
+	SetCapture(); // all mouse messages are MINE
+	m_hwndPrevFocus = ::SetFocus(m_hWnd); // set focus to me to get Escape key
 
 	ASSERT(m_pWinMgr);
 	CWinMgr& wm = *m_pWinMgr;
@@ -121,12 +115,12 @@ void CSizerBar::OnLButtonDown(UINT nFlags, CPoint pt)
 	// sizes are and don't violate them. Max size never tested.
 	SIZEINFO szi;
 	wm.OnGetSizeInfo(szi, prev, pParentWnd);
-	CRect rcPrevMin(rcPrev.TopLeft(),szi.szMin);
-	CRect rcPrevMax(rcPrev.TopLeft(),szi.szMax);
+	CRect rcPrevMin(rcPrev.TopLeft(), szi.szMin);
+	CRect rcPrevMax(rcPrev.TopLeft(), szi.szMax);
 
 	wm.OnGetSizeInfo(szi, next, pParentWnd);
-	CRect rcNextMin(rcNext.BottomRight()-szi.szMin, rcNext.BottomRight());
-	CRect rcNextMax(rcNext.BottomRight()-szi.szMax, rcNext.BottomRight());
+	CRect rcNextMin(rcNext.BottomRight() - szi.szMin, rcNext.BottomRight());
+	CRect rcNextMax(rcNext.BottomRight() - szi.szMax, rcNext.BottomRight());
 
 	// Initialize rcClip. This is the box the user is allowed to move
 	// the sizer bar in. Can't go outside of this--would violate min/max
@@ -143,25 +137,26 @@ void CSizerBar::OnLButtonDown(UINT nFlags, CPoint pt)
 	// has solid width -- so I have to make a little bigger/smaller according
 	// to the offset of mouse coords within the sizer bar iteself.
 	CRect rcBar;
-	GetWindowRect(&rcBar);	 // bar location in screen coords
-	if (IsHorizontal()) {
+	GetWindowRect(&rcBar); // bar location in screen coords
+	if (IsHorizontal())
+	{
 		rcClip.left = rcBar.left;
-		rcClip.top += pt.y-rcBar.top;
+		rcClip.top += pt.y - rcBar.top;
 		rcClip.right = rcBar.right;
-		rcClip.bottom -= rcBar.top-pt.y;
-	} else {
-		rcClip.left += pt.x-rcBar.left;
+		rcClip.bottom -= rcBar.top - pt.y;
+	}
+	else
+	{
+		rcClip.left += pt.x - rcBar.left;
 		rcClip.top = rcBar.top;
-		rcClip.right -= rcBar.right-pt.x;
+		rcClip.right -= rcBar.right - pt.x;
 		rcClip.bottom = rcBar.bottom;
 	}
-	if (rcClip.right < rcClip.left)
-		rcClip.left = rcClip.right = pt.x;
-	if (rcClip.bottom < rcClip.top)
-		rcClip.bottom = rcClip.top = pt.y;
+	if (rcClip.right < rcClip.left) rcClip.left = rcClip.right = pt.x;
+	if (rcClip.bottom < rcClip.top) rcClip.bottom = rcClip.top = pt.y;
 
 	ClipCursor(&rcClip); // clip it!
-	m_bDragging=TRUE;
+	m_bDragging = TRUE;
 }
 
 //////////////////
@@ -170,11 +165,13 @@ void CSizerBar::OnLButtonDown(UINT nFlags, CPoint pt)
 //
 void CSizerBar::OnMouseMove(UINT nFlags, CPoint pt)
 {
-	if (m_bDragging) {
+	if (m_bDragging)
+	{
 		ClientToScreen(&pt);
-		if (pt!=m_ptPrevious) {
-			CPoint ptDelta = pt-m_ptPrevious;
-			NotifyMoved(ptDelta);				 // notify parent
+		if (pt != m_ptPrevious)
+		{
+			CPoint ptDelta = pt - m_ptPrevious;
+			NotifyMoved(ptDelta); // notify parent
 			m_ptPrevious = pt;
 		}
 	}
@@ -185,11 +182,12 @@ void CSizerBar::OnMouseMove(UINT nFlags, CPoint pt)
 //
 void CSizerBar::OnLButtonUp(UINT nFlags, CPoint pt)
 {
-	if (m_bDragging) {
+	if (m_bDragging)
+	{
 		ClientToScreen(&pt);
-		CPoint ptDelta = pt-m_ptPrevious; // distance moved
-		CancelDrag();							 // cancel drag mode
-		NotifyMoved(ptDelta);				 // notify parent
+		CPoint ptDelta = pt - m_ptPrevious; // distance moved
+		CancelDrag(); // cancel drag mode
+		NotifyMoved(ptDelta); // notify parent
 	}
 }
 
@@ -198,10 +196,10 @@ void CSizerBar::OnLButtonUp(UINT nFlags, CPoint pt)
 //
 void CSizerBar::CancelDrag()
 {
-	ReleaseCapture();						// release mouse
-	ClipCursor(NULL);						// free to roam now
-	::SetFocus(m_hwndPrevFocus);		// restore original focus window
-	m_bDragging = FALSE;					// stop dragging
+	ReleaseCapture(); // release mouse
+	ClipCursor(NULL); // free to roam now
+	::SetFocus(m_hwndPrevFocus); // restore original focus window
+	m_bDragging = FALSE; // stop dragging
 }
 
 //////////////////
@@ -209,7 +207,8 @@ void CSizerBar::CancelDrag()
 //
 void CSizerBar::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar==VK_ESCAPE && m_bDragging) {
+	if (nChar == VK_ESCAPE && m_bDragging)
+	{
 		CancelDrag();
 		return;
 	}
@@ -221,8 +220,7 @@ void CSizerBar::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //
 void CSizerBar::OnCancelMode()
 {
-	if (m_bDragging)
-		CancelDrag();
+	if (m_bDragging) CancelDrag();
 }
 
 //////////////////
@@ -232,8 +230,8 @@ void CSizerBar::OnCancelMode()
 void CSizerBar::NotifyMoved(CPoint ptDelta)
 {
 	NMWINMGR nmr;
-	nmr.code = NMWINMGR::SIZEBAR_MOVED;		 // notification subcode
-	nmr.idFrom = GetDlgCtrlID();				 // my ID
-	nmr.sizebar.ptMoved = ptDelta;			 // distance moved
-	GetParent()->SendMessage(WM_WINMGR, nmr.idFrom, (LPARAM)&nmr);
+	nmr.code = NMWINMGR::SIZEBAR_MOVED; // notification subcode
+	nmr.idFrom = GetDlgCtrlID(); // my ID
+	nmr.sizebar.ptMoved = ptDelta; // distance moved
+	GetParent()->SendMessage(WM_WINMGR, nmr.idFrom, (LPARAM) &nmr);
 }

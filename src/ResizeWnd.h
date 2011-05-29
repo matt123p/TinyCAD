@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002-2005 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002-2005 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #if !defined(AFX_RESIZEWND_H__6D1E2B77_7980_473D_8B38_DBF96BBEFB06__INCLUDED_)
 #define AFX_RESIZEWND_H__6D1E2B77_7980_473D_8B38_DBF96BBEFB06__INCLUDED_
@@ -29,31 +29,31 @@
 /////////////////////////////////////////////////////////////////////////////
 // CResizeWnd window
 
-class CResizeWnd : public CWnd
+class CResizeWnd: public CWnd
 {
-// Construction
+	// Construction
 public:
-	CResizeWnd( BOOL vertical );
+	CResizeWnd(BOOL vertical);
 
 protected:
-	HCURSOR		m_cursor;
-	BOOL		m_tracking;
-	BOOL		m_vertical;
+	HCURSOR m_cursor;
+	BOOL m_tracking;
+	BOOL m_vertical;
 
-// Attributes
+	// Attributes
 public:
-	int			m_adjust_width;
-	int			m_adjust_height;
+	int m_adjust_width;
+	int m_adjust_height;
 
-// Operations
+	// Operations
 public:
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CResizeWnd)
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CResizeWnd();
 

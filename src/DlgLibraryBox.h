@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #pragma once
 
@@ -32,8 +32,7 @@
 //*                                                                       *
 //*************************************************************************
 
-class CDlgLibraryBox
-: public CDialog
+class CDlgLibraryBox: public CDialog
 {
 private:
 	//=====================================================================
@@ -41,26 +40,29 @@ private:
 	//=====================================================================
 	//-- Listbox showing all the names of libraries stored in
 	//-- CLibraryCollection singleton
-	CListBox*			m_lstLibs;
+	CListBox* m_lstLibs;
 
 	// The position of the buttons relative to the right hand
 	// border
-	int					m_button_pos;
+	int m_button_pos;
 
 	// The position of the list box's right hand side relative to the
 	// right hand side of the border
-	int					m_list_pos;
-	int					m_list_bottom_border;
+	int m_list_pos;
+	int m_list_bottom_border;
 
 	//{{AFX_DATA(CDlgLibraryBox)
-	enum { IDD = IDD_LIBRARY };
+	enum
+	{
+		IDD = IDD_LIBRARY
+	};
 	//}}AFX_DATA
 
 public:
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-						CDlgLibraryBox( CWnd* pParentWnd );
+	CDlgLibraryBox(CWnd* pParentWnd);
 
 private:
 	//=====================================================================
@@ -68,14 +70,14 @@ private:
 	//=====================================================================
 	//-- Returns a reference on the current selected listbox item,
 	//-- otherwise NULL.
-	CLibraryStore*		GetSelectedLibrary() const;
+	CLibraryStore* GetSelectedLibrary() const;
 
 	//=====================================================================
 	//== mutator                                                         ==
 	//=====================================================================
 	//-- Controls En/Disabling of some buttons of the dialog
 	//-- Parameter bHasToRefill forces redrawing of listbox
-	void				RefreshComponents( bool bHasToRefill );
+	void RefreshComponents(bool bHasToRefill);
 
 protected:
 	//=====================================================================
@@ -113,7 +115,7 @@ protected:
 	afx_msg void 		OnDblclkAvailable();
 	//}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

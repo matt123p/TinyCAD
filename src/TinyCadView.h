@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #if !defined(AFX_TINYCADVIEW_H__A2D9E56B_4BF2_4F22_98DB_450C36940721__INCLUDED_)
 #define AFX_TINYCADVIEW_H__A2D9E56B_4BF2_4F22_98DB_450C36940721__INCLUDED_
@@ -23,7 +23,6 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
 
 #include "resource.h"
 #include "option.h"
@@ -44,36 +43,35 @@ class CDlgPositionBox;
 
 extern CEditToolbar g_EditToolBar;
 
-
-class CTinyCadView : public CFolderView
+class CTinyCadView: public CFolderView
 {
-	friend CMultiSheetDoc;	//Needs access to centering the screen around ERC objects
-protected: // create from serialization only
+	friend CMultiSheetDoc; //Needs access to centering the screen around ERC objects
+protected:
+	// create from serialization only
 	CTinyCadView();
-	DECLARE_DYNCREATE(CTinyCadView)
+	DECLARE_DYNCREATE( CTinyCadView)
 
 	// Have we captured the mouse control?
-	int		m_captured;
+	int m_captured;
 
 	// Are we panning with the middle mouse button
-	int		m_panning;
-	
+	int m_panning;
+
 	// The previous zoom
-	double	m_old_zoom_factor;
+	double m_old_zoom_factor;
 
-
-	UINT	ClipboardFormat;		// The registered clipboard format
+	UINT ClipboardFormat; // The registered clipboard format
 
 	/////////////////////////////////////////////////////////////////////////////
 	//
 
-	CStatusBar m_wndStatusBar;	// The status bar associated with this window
+	CStatusBar m_wndStatusBar; // The status bar associated with this window
 
-	CDPoint 	MousePosition;		// The last known mouse position (as a pair of doubles)
-	CPoint		StartPosition;		// The start position of a mouse capture (as a pair of ints)
+	CDPoint MousePosition; // The last known mouse position (as a pair of doubles)
+	CPoint StartPosition; // The start position of a mouse capture (as a pair of ints)
 
 	// Change the current offset co-ords
-	void SetScroll(double,double,bool first = false);
+	void SetScroll(double, double, bool first = false);
 
 	// Set a new zoom value
 	void ChangeZoomFactor(double);
@@ -83,14 +81,14 @@ protected: // create from serialization only
 	Ruler *vRuler;
 	Ruler *hRuler;
 
-	BOOL	  m_Printing;
-	Transform m_Printing_Transform;	// The cache of the transform whilst printing...
-	int		  current_Sheet;		// The cache of the current sheet whilst printing...
+	BOOL m_Printing;
+	Transform m_Printing_Transform; // The cache of the transform whilst printing...
+	int current_Sheet; // The cache of the current sheet whilst printing...
 
 	Transform &GetTransform();
 
 	// The printing information
-	int	m_rows;
+	int m_rows;
 	int m_cols;
 	BOOL m_PrintAllSheets;
 
@@ -98,8 +96,7 @@ protected: // create from serialization only
 
 	void SetTabsFromDocument();
 
-
-// Attributes
+	// Attributes
 public:
 	CMultiSheetDoc* GetDocument();
 	CTinyCadDoc* GetCurrentDocument();
@@ -113,27 +110,26 @@ protected:
 	virtual void OnChangedFolder(int iPage);
 	virtual void OnFolderContextMenu();
 
-
-// Operations
+	// Operations
 public:
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CTinyCadView)
-	public:
-		virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-		virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-		virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
-		virtual void OnInitialUpdate();
-	protected:
-		virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
-		virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-		virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
-		virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-		virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+public:
+	virtual void OnDraw(CDC* pDC); // overridden to draw this view
+	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
+	virtual void OnInitialUpdate();
+protected:
+	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
+	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
+	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CTinyCadView();
 #ifdef _DEBUG
@@ -146,29 +142,27 @@ protected:
 	void SetScrollCentre(CDPoint);
 	void SetScrollPoint(CDPoint, CPoint);
 
-
 	// Read and write the	// Create a bitmap for off-screen drawing...
-	bool CreateBitmap( CDC &dc, int width, int height );
+	bool CreateBitmap(CDC &dc, int width, int height);
 
 	// The off-screen drawing bitmap...
-	BOOL	m_use_offscreen_drawing;
-	static CBitmap		m_bitmap;
-	static int			m_bitmap_width;
-	static int			m_bitmap_height;
-	static int			m_max_bitmap_size;
- // registry defaults
+	BOOL m_use_offscreen_drawing;
+	static CBitmap m_bitmap;
+	static int m_bitmap_width;
+	static int m_bitmap_height;
+	static int m_max_bitmap_size;
+	// registry defaults
 	void RegistryInit();
 	void RegistryRead();
 
- 	// Get a symbol from the libraries
+	// Get a symbol from the libraries
 	void SetLibEdit(CLibraryStore *NewLibEdit);
-	
+
 	// Clipboard operators
 	afx_msg void OnDestroyClipboard();
 	BOOL IsClipboardAvailable();
 
-
-// Generated message map functions
+	// Generated message map functions
 protected:
 	//{{AFX_MSG(CTinyCadView)
 	afx_msg void OnUpdateEditedit(CCmdUI* pCmdUI);
@@ -332,11 +326,13 @@ public:
 	afx_msg void OnContextReloadsymbolfromdesign();
 	void SelectSheet(int sheet);
 	void ChangeDir(int dir);
-	int DoSpecialCheck(bool alwaysShowList=true);
+	int DoSpecialCheck(bool alwaysShowList = true);
 };
 
 inline CMultiSheetDoc* CTinyCadView::GetDocument()
-   { return (CMultiSheetDoc*)m_pDocument; }
+{
+	return (CMultiSheetDoc*) m_pDocument;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 

@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002,2003 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002,2003 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #include "stdafx.h"
 #include "LibraryCollection.h"
@@ -24,7 +24,7 @@
 #include "LibrarySQLite.h"
 #include <assert.h>
 
-typedef std::list<CLibraryStore*>::iterator		TIterator;
+typedef std::list<CLibraryStore*>::iterator TIterator;
 
 //*************************************************************************
 //*                                                                       *
@@ -51,7 +51,7 @@ std::list<CLibraryStore*> CLibraryCollection::m_colLibs;
 //-- Removes all library objects (and deletes all pointers)
 void CLibraryCollection::Clear()
 {
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
 		delete *i;
 	}
@@ -62,22 +62,22 @@ void CLibraryCollection::Clear()
 }
 //-------------------------------------------------------------------------
 //-- Add library
-void CLibraryCollection::Add( CLibraryStore* pLib )
+void CLibraryCollection::Add(CLibraryStore* pLib)
 {
 	assert( pLib != NULL );
 
-	m_colLibs.push_back( pLib );
+	m_colLibs.push_back(pLib);
 
 	assert( ! m_colLibs.empty() );
 }
 //-------------------------------------------------------------------------
 //-- Removes one library(and deletes its pointer)
-void CLibraryCollection::Remove( CLibraryStore* pLib )
+void CLibraryCollection::Remove(CLibraryStore* pLib)
 {
 	assert( pLib != NULL );
 	assert( ! m_colLibs.empty() );
 
-	m_colLibs.remove( pLib );
+	m_colLibs.remove(pLib);
 	delete pLib;
 }
 //-------------------------------------------------------------------------
@@ -85,7 +85,7 @@ void CLibraryCollection::Remove( CLibraryStore* pLib )
 //-- processing of the libraries
 void CLibraryCollection::DoIdle()
 {
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
 		(*i)->OnIdle();
 	}
@@ -98,13 +98,13 @@ void CLibraryCollection::DoIdle()
 
 //-------------------------------------------------------------------------
 //-- Returns true if this library exist in the collection
-bool CLibraryCollection::Contains( CLibraryStore* pLib )
+bool CLibraryCollection::Contains(CLibraryStore* pLib)
 {
 	assert( pLib != NULL );
 
 	bool bReturn = false;
 
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
 		bReturn |= (pLib->m_name == (*i)->m_name);
 	}
@@ -113,34 +113,34 @@ bool CLibraryCollection::Contains( CLibraryStore* pLib )
 }
 //-------------------------------------------------------------------------
 //-- Returns true if this symbol exist in any library
-bool CLibraryCollection::ContainsSymbol( CLibraryStoreNameSet* pSymbol )
+bool CLibraryCollection::ContainsSymbol(CLibraryStoreNameSet* pSymbol)
 {
 	assert( pSymbol != NULL );
 
-	bool 			bReturn = false;
-	CLibraryStore*	pLib;
+	bool bReturn = false;
+	CLibraryStore* pLib;
 
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
 		pLib = (*i);
 
 		//BETTER: bReturn |= pLib->Contains( pSymbol );
-		bReturn |= (pLib->DoesExist( pSymbol ) == TRUE);
+		bReturn |= (pLib->DoesExist(pSymbol) == TRUE);
 	}
 
 	return bReturn;
 }
 //-------------------------------------------------------------------------
 //-- Returns the library with this name
-CLibraryStore* CLibraryCollection::GetLibrary( CString sName )
+CLibraryStore* CLibraryCollection::GetLibrary(CString sName)
 {
 	assert( ! sName.IsEmpty() );
 
-	CLibraryStore*	pReturn = NULL;
+	CLibraryStore* pReturn = NULL;
 
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
-		if(	sName == (*i)->m_name )
+		if (sName == (*i)->m_name)
 		{
 			pReturn = *i;
 			break;
@@ -151,17 +151,17 @@ CLibraryStore* CLibraryCollection::GetLibrary( CString sName )
 }
 //-------------------------------------------------------------------------
 //-- Returns a symbol identified by its name, searching in all libraries
-CLibraryStoreNameSet* CLibraryCollection::GetSymbol( CString sKey )
+CLibraryStoreNameSet* CLibraryCollection::GetSymbol(CString sKey)
 {
 	assert( ! sKey.IsEmpty() );
 
 	CLibraryStoreNameSet* pReturn = NULL;
 
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
-		pReturn = (*i)->Extract( sKey );
+		pReturn = (*i)->Extract(sKey);
 
-		if( pReturn != NULL )
+		if (pReturn != NULL)
 		{
 			break;
 		}
@@ -171,71 +171,71 @@ CLibraryStoreNameSet* CLibraryCollection::GetSymbol( CString sKey )
 }
 //-------------------------------------------------------------------------
 //-- Fills listbox entries with library names
-void CLibraryCollection::FillLibraryNames( CListBox* lstLib )
+void CLibraryCollection::FillLibraryNames(CListBox* lstLib)
 {
 	lstLib->ResetContent();
 
 	int library_id = 0;
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
-		int index = lstLib->AddString( (*i)->m_name );
-		lstLib->SetItemData( index, library_id );
-		++ library_id;
+		int index = lstLib->AddString( (*i)->m_name);
+		lstLib->SetItemData(index, library_id);
+		++library_id;
 	}
 }
 //-------------------------------------------------------------------------
 //-- Fills listbox entries with library names
-void CLibraryCollection::FillLibraryNames( int start_id, CMenu* menuLib )
+void CLibraryCollection::FillLibraryNames(int start_id, CMenu* menuLib)
 {
 	int library_id = start_id;
 	int pos = 0;
-	
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
-		menuLib->InsertMenu( pos, MF_BYPOSITION|MF_STRING, library_id,  (*i)->m_name );
-		++ library_id;
-		++ pos;
+		menuLib->InsertMenu(pos, MF_BYPOSITION | MF_STRING, library_id, (*i)->m_name);
+		++library_id;
+		++pos;
 	}
 }
 
 //-------------------------------------------------------------------------
 //-- Fills listbox entries with library names
-CLibraryStore* CLibraryCollection::GetLibraryByIndex( int library_id )
+CLibraryStore* CLibraryCollection::GetLibraryByIndex(int library_id)
 {
 	TIterator lib_it = m_colLibs.begin();
-	while (library_id > 0 && lib_it != m_colLibs.end()) 
+	while (library_id > 0 && lib_it != m_colLibs.end())
 	{
-		++ lib_it;
-		-- library_id;
+		++lib_it;
+		--library_id;
 	}
 
 	if (lib_it != m_colLibs.end())
 	{
 		return *lib_it;
 	}
-	
+
 	return NULL;
 }
 
 //-------------------------------------------------------------------------
 //-- Fills listbox with all symbols(of all libraries), whoose symbol name
 //-- matches the search string
-void CLibraryCollection::FillMatchingSymbols( CListBox* lstSymbols, CString sSearch, CListBox* mask  )
+void CLibraryCollection::FillMatchingSymbols(CListBox* lstSymbols, CString sSearch, CListBox* mask)
 {
 	lstSymbols->ResetContent();
 
 	int index = 0;
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
 		bool bEnabled = true;
 		if (mask)
 		{
-            // Search if a library is enabled
-			for (int j = 0; j < mask->GetCount(); j ++)
+			// Search if a library is enabled
+			for (int j = 0; j < mask->GetCount(); j++)
 			{
-				if (mask->GetItemData( j ) == (DWORD) index)
+				if (mask->GetItemData(j) == (DWORD) index)
 				{
-					bEnabled = mask->GetSel( j ) != 0;
+					bEnabled = mask->GetSel(j) != 0;
 					break;
 				}
 			}
@@ -243,11 +243,11 @@ void CLibraryCollection::FillMatchingSymbols( CListBox* lstSymbols, CString sSea
 
 		if (bEnabled)
 		{
-            CLibraryStore* pLib = *i;
-			pLib->AddToListBox( sSearch, lstSymbols );
+			CLibraryStore* pLib = *i;
+			pLib->AddToListBox(sSearch, lstSymbols);
 		}
 
-		++ index;
+		++index;
 	}
 }
 //-------------------------------------------------------------------------
@@ -255,40 +255,39 @@ void CLibraryCollection::FillMatchingSymbols( CListBox* lstSymbols, CString sSea
 //-- matches the search string
 void CLibraryCollection::FillMatchingSymbols(CTreeCtrl* Tree, const CString& sSearch)
 {
-    int index = 0;
-    for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
-    {
-        CLibraryStore* pLib = *i;
-        int matches = pLib->GetMatchCount(sSearch);
-        if(matches == 0)
-            continue;
+	int index = 0;
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
+	{
+		CLibraryStore* pLib = *i;
+		int matches = pLib->GetMatchCount(sSearch);
+		if (matches == 0) continue;
 
-        CString sCaption;
-        CString sName = pLib->m_name;
-        if (sName.ReverseFind('\\') != -1)
-        {
-            sName = sName.Mid(sName.ReverseFind('\\')+1);
-        }
-        sCaption.Format(_T("%s (%d)"), sName, matches);
-        HTREEITEM hLib = Tree->InsertItem(sCaption, TVI_ROOT);
-        Tree->SetItemData(hLib, index);
+		CString sCaption;
+		CString sName = pLib->m_name;
+		if (sName.ReverseFind('\\') != -1)
+		{
+			sName = sName.Mid(sName.ReverseFind('\\') + 1);
+		}
+		sCaption.Format(_T("%s (%d)"), sName, matches);
+		HTREEITEM hLib = Tree->InsertItem(sCaption, TVI_ROOT);
+		Tree->SetItemData(hLib, index);
 
-        pLib->AddToTreeCtrl( sSearch, Tree, hLib);
+		pLib->AddToTreeCtrl(sSearch, Tree, hLib);
 
 		Tree->SortChildren(hLib);
-        ++ index;
-    }
+		++index;
+	}
 }
 
 //-------------------------------------------------------------------------
 //-- Write the all library file pathes back to the registry
 void CLibraryCollection::SaveToRegistry()
 {
-	CString	sLibs = "";
+	CString sLibs = "";
 
-	for( TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++ )
+	for (TIterator i = m_colLibs.begin(); i != m_colLibs.end(); i++)
 	{
-		if( ! sLibs.IsEmpty() )
+		if (!sLibs.IsEmpty())
 		{
 			sLibs += ",";
 		}
@@ -296,29 +295,29 @@ void CLibraryCollection::SaveToRegistry()
 		sLibs += (*i)->m_name;
 	}
 
-	CRegistry::Set( "Libraries", sLibs );
+	CRegistry::Set("Libraries", sLibs);
 }
 //-------------------------------------------------------------------------
 //-- Converts a library from the old format to
 //-- the new Microsoft Access database format.
-CLibraryStore* CLibraryCollection::Upgrade( CLibraryStore* pOldLib )
+CLibraryStore* CLibraryCollection::Upgrade(CLibraryStore* pOldLib)
 {
-	if( CTinyCadApp::IsLibInUse(pOldLib) )
+	if (CTinyCadApp::IsLibInUse(pOldLib))
 	{
 		// We cannot upgrade whilst in use
-		AfxMessageBox( IDS_NOUPGRADE );
+		AfxMessageBox(IDS_NOUPGRADE);
 	}
 	else
 	{
 		CLibraryStore* pNewLib = new CLibrarySQLite;
 
-		if( pOldLib->Upgrade( pNewLib ) )
+		if (pOldLib->Upgrade(pNewLib))
 		{
 			// First remove the old library from this system
-			Remove( pOldLib );
+			Remove(pOldLib);
 
 			// Now add the new library
-			Add( pNewLib );
+			Add(pNewLib);
 
 			// Finally update the symbol picker...
 			CTinyCadApp::ResetAllSymbols();

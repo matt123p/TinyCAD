@@ -23,43 +23,38 @@
 
 void CTinyCadView::OnFileDesign()
 {
-	CDetailsPropertySheet theDialog( GetDocument(), this );
-	
-  if (theDialog.DoModal() == IDOK)
-  {
-	GetCurrentDocument()->SetModifiedFlag( TRUE );
-	GetCurrentDocument()->Invalidate();
-  }
+	CDetailsPropertySheet theDialog(GetDocument(), this);
+
+	if (theDialog.DoModal() == IDOK)
+	{
+		GetCurrentDocument()->SetModifiedFlag(TRUE);
+		GetCurrentDocument()->Invalidate();
+	}
 }
 
-
-void CTinyCadView::OnFileImport() 
-{ 
-	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 
-	GetCurrentDocument()->UnSelect(); 
-	GetCurrentDocument()->Import( TRUE );
+void CTinyCadView::OnFileImport()
+{
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+	GetCurrentDocument()->UnSelect();
+	GetCurrentDocument()->Import(TRUE);
 }
-
 
 void CTinyCadView::OnFilePageSet()
 {
-  // Get rid of any drawing tool
-  GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+	// Get rid of any drawing tool
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
-  CDlgPageSizeBox theDialog(this,GetCurrentDocument()->GetDetails().GetPageBoundsAsPoint());
-  if (theDialog.DoModal()==IDOK) {
-	GetCurrentDocument()->GetDetails().SetPageBounds(theDialog.GetSize());
-	Invalidate();
-  }
+	CDlgPageSizeBox theDialog(this, GetCurrentDocument()->GetDetails().GetPageBoundsAsPoint());
+	if (theDialog.DoModal() == IDOK)
+	{
+		GetCurrentDocument()->GetDetails().SetPageBounds(theDialog.GetSize());
+		Invalidate();
+	}
 }
-
-
-
 
 ////// The Find Menu //////
 
 extern CDlgERCListBox theERCListBox;
-
 
 // Find a string in this design
 void CTinyCadView::OnFindFind()
@@ -70,8 +65,7 @@ void CTinyCadView::OnFindFind()
 	// Do the dialog
 	CDlgFindBox theDialog(this);
 
-	if (theDialog.DoModal()!=IDOK)
-		return;
+	if (theDialog.DoModal() != IDOK) return;
 
 	// Get the string to be found
 	CString FindString = theDialog.GetString();
@@ -79,12 +73,11 @@ void CTinyCadView::OnFindFind()
 	// Now convert it to lower case only (as this will be a case insensive search)
 	FindString.MakeLower();
 
-	
 	// Delete all the errors which are currently in the design
 	theERCListBox.Close();
 	// GetCurrentDocument()->DeleteErrors();
 
-	CMultiSheetDoc *pDoc = static_cast<CMultiSheetDoc*>(GetDocument());
+	CMultiSheetDoc *pDoc = static_cast<CMultiSheetDoc*> (GetDocument());
 	theERCListBox.Open(pDoc, NULL);
 	int CurrentError = 0;
 
@@ -94,99 +87,92 @@ void CTinyCadView::OnFindFind()
 	for (int i = 0; i < pDoc->GetNumberOfSheets(); i++)
 	{
 		drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
-		while (it != pDoc->GetSheet(i)->GetDrawingEnd()) 
+		while (it != pDoc->GetSheet(i)->GetDrawingEnd())
 		{
 			CDrawingObject *pointer = *it;
 
 			theFoundString = pointer->Find(FindString);
-			if (theFoundString!="") {
+			if (theFoundString != "")
+			{
 				TCHAR buffer[STRLEN];
-				_tcscpy_s(buffer,pointer->GetName());
-				_tcscat_s(buffer,_T(": "));
-				_tcscat_s(buffer,theFoundString);
-				pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i),pointer->m_point_a,CurrentError++));
+				_tcscpy_s(buffer, pointer->GetName());
+				_tcscat_s(buffer, _T(": "));
+				_tcscat_s(buffer, theFoundString);
+				pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i), pointer->m_point_a, CurrentError++));
 				theERCListBox.AddString(buffer);
 			}
-			
-			++ it;
+
+			++it;
 		}
 	}
 
 	// Was the string found?
-	if (CurrentError == 0) {
+	if (CurrentError == 0)
+	{
 		Message(IDS_NOFIND);
 		theERCListBox.Close();
 	}
 }
 
-
 //////// The VIEW menu ////////
 
 void CTinyCadView::OnViewZoomIn()
 {
-  //CMenu *pMenu = GetMenu();
-  double NewZoom = GetTransform().doubleScale(1.0)*1.3;
-  CPoint p = GetTransform().Scale(MousePosition);
+	//CMenu *pMenu = GetMenu();
+	double NewZoom = GetTransform().doubleScale(1.0) * 1.3;
+	CPoint p = GetTransform().Scale(MousePosition);
 
-  // Don't reinitalize NewZoom
-  // because this will prevent the zoom to ever be 1.0 
-  // due to 'odd' zoom increments (1.3)
-  if (NewZoom < 40)
-  {
-	SetZoomFactor(NewZoom);
+	// Don't reinitalize NewZoom
+	// because this will prevent the zoom to ever be 1.0
+	// due to 'odd' zoom increments (1.3)
+	if (NewZoom < 40)
+	{
+		SetZoomFactor(NewZoom);
 #if 1
-	// Keep zoom position at the mouse position
-	SetScrollPoint(MousePosition, p);
+		// Keep zoom position at the mouse position
+		SetScrollPoint(MousePosition, p);
 #else
-	// Centre at the mouse position
-    SetScrollCentre(MousePosition);
+		// Centre at the mouse position
+		SetScrollCentre(MousePosition);
 #endif
-  }
+	}
 }
 
 void CTinyCadView::OnViewZoomOut()
 {
-  double NewZoom = GetTransform().doubleScale(1.0)/1.3;
-  CPoint p = GetTransform().Scale(MousePosition);
+	double NewZoom = GetTransform().doubleScale(1.0) / 1.3;
+	CPoint p = GetTransform().Scale(MousePosition);
 
-  // Don't reinitalize NewZoom 
-  // because this will prevent the zoom to ever be 1.0 
-  // due to 'odd' zoom increments (1.3)
-  if (NewZoom > 0.25)
-  {
-    SetZoomFactor(NewZoom);
+	// Don't reinitalize NewZoom
+	// because this will prevent the zoom to ever be 1.0
+	// due to 'odd' zoom increments (1.3)
+	if (NewZoom > 0.25)
+	{
+		SetZoomFactor(NewZoom);
 
-	// Always zoom out around the mouse position
-	// to make the scroll position more predictable
-	SetScrollPoint(MousePosition, p);
-  }
+		// Always zoom out around the mouse position
+		// to make the scroll position more predictable
+		SetScrollPoint(MousePosition, p);
+	}
 }
 
 //////// The TOOLS menu /////////
 
 
-
 // Get an object
 void CTinyCadView::OnSelectGet()
 {
-  CLibraryStoreSymbol *theSymbol = static_cast<CMainFrame*>(AfxGetMainWnd())->GetSelectSymbol();
-  if (theSymbol==NULL) 
-  {
-	return;
-  }  
+	CLibraryStoreSymbol *theSymbol = static_cast<CMainFrame*> (AfxGetMainWnd())->GetSelectSymbol();
+	if (theSymbol == NULL)
+	{
+		return;
+	}
 
-  GetCurrentDocument()->SelectSymbol( theSymbol );
+	GetCurrentDocument()->SelectSymbol(theSymbol);
 
-  // Set focus to View so that it will receive keyboard messages.
-  SetFocus();
+	// Set focus to View so that it will receive keyboard messages.
+	SetFocus();
 }
-
-
-
-
-
-
-
 
 //////// The Help Menu ////////
 
@@ -195,26 +181,19 @@ void CTinyCadView::OnAbout()
 	CDlgAbout().DoModal();
 }
 
-
-
-
-
 ////// The EDIT Menu //////
 
 
-
- void CTinyCadView::OnEditCut()
+void CTinyCadView::OnEditCut()
 {
-	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem)
-		return;
+	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem) return;
 
-	((CDrawEditItem *)GetCurrentDocument()->GetEdit())->ReleaseSelection();
+	((CDrawEditItem *) GetCurrentDocument()->GetEdit())->ReleaseSelection();
 	OnEditCopy();
 	GetCurrentDocument()->BeginNewChangeSet();
 	GetCurrentDocument()->SelectDelete();
 	Invalidate();
 }
-
 
 // Paste...
 void CTinyCadView::OnEditPaste()
@@ -228,42 +207,42 @@ void CTinyCadView::OnEditPaste()
 		// Now open the file
 		CStreamClipboard stream;
 
-		if (stream.ReadFromClipboard( ClipboardFormat ))
+		if (stream.ReadFromClipboard(ClipboardFormat))
 		{
-			GetCurrentDocument()->SelectObject( NULL );
+			GetCurrentDocument()->SelectObject(NULL);
 
 			if (GetCurrentDocument()->Import(stream))
 			{
 				GetCurrentDocument()->PostPaste();
 				CDrawBlockImport *pImport = new CDrawBlockImport(GetCurrentDocument());
-				GetCurrentDocument()->SelectObject(pImport); 
+				GetCurrentDocument()->SelectObject(pImport);
 				pImport->Import();
 			}
 			else
 			{
-				GetCurrentDocument()->SelectObject( new CDrawEditItem(GetCurrentDocument()) );	
+				GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 			}
 		}
 
 	}
-	else if (::IsClipboardFormatAvailable( CF_ENHMETAFILE ))
+	else if (::IsClipboardFormatAvailable(CF_ENHMETAFILE))
 	{
 		// It is a meta-file, we paste these as a new type of object
-		HENHMETAFILE clipboard_data = (HENHMETAFILE)::GetClipboardData( CF_ENHMETAFILE );
-		CDrawMetaFile *pObject = new CDrawMetaFile( GetCurrentDocument() );
-		pObject->setMetaFile( clipboard_data );
-		GetCurrentDocument()->AddImage( pObject );
+		HENHMETAFILE clipboard_data = (HENHMETAFILE) ::GetClipboardData(CF_ENHMETAFILE);
+		CDrawMetaFile *pObject = new CDrawMetaFile(GetCurrentDocument());
+		pObject->setMetaFile(clipboard_data);
+		GetCurrentDocument()->AddImage(pObject);
 	}
-	else if (::IsClipboardFormatAvailable( CF_BITMAP ))
+	else if (::IsClipboardFormatAvailable(CF_BITMAP))
 	{
 		// Create a PNG image with this data
 		CBitmap bitmap;
-		bitmap.Attach( (HBITMAP)::GetClipboardData( CF_BITMAP ) ); 
+		bitmap.Attach((HBITMAP) ::GetClipboardData(CF_BITMAP));
 
-		CDrawMetaFile *pObject = new CDrawMetaFile( GetCurrentDocument() );
-		if (pObject->setBitmap( bitmap ))
+		CDrawMetaFile *pObject = new CDrawMetaFile(GetCurrentDocument());
+		if (pObject->setBitmap(bitmap))
 		{
-			GetCurrentDocument()->AddImage( pObject );
+			GetCurrentDocument()->AddImage(pObject);
 		}
 	}
 	else
@@ -276,7 +255,7 @@ void CTinyCadView::OnEditPaste()
 
 void CTinyCadView::OnDestroyClipboard()
 {
-	CWnd::OnDestroyClipboard();	
+	CWnd::OnDestroyClipboard();
 }
 
 BOOL CTinyCadView::IsClipboardAvailable()
@@ -286,104 +265,94 @@ BOOL CTinyCadView::IsClipboardAvailable()
 
 void CTinyCadView::OnEditDuplicate()
 {
-	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem)
-		return;
+	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem) return;
 	OnEditCopy();
 	OnEditPaste();
 }
 
 void CTinyCadView::OnEditCopy()
 {
-	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem)
-		return;
+	if (GetCurrentDocument()->GetEdit()->GetType() != xEditItem) return;
 
-	if (!GetCurrentDocument()->IsSelected())
-		return;
+	if (!GetCurrentDocument()->IsSelected()) return;
 
 	OpenClipboard();
 	EmptyClipboard();
 
 	CClientDC ref_dc(this);
-	HENHMETAFILE hmeta = GetCurrentDocument()->CreateMetafile( ref_dc, NULL, false );
+	HENHMETAFILE hmeta = GetCurrentDocument()->CreateMetafile(ref_dc, NULL, false);
 
 	if (hmeta)
 	{
-		SetClipboardData(CF_ENHMETAFILE,hmeta);
+		SetClipboardData(CF_ENHMETAFILE, hmeta);
 	}
 
 	// Save the selected area
 	CStreamClipboard stream;
-	CXMLWriter xml( &stream );
+	CXMLWriter xml(&stream);
 
-	GetCurrentDocument()->SaveXML(xml,TRUE,TRUE);
+	GetCurrentDocument()->SaveXML(xml, TRUE, TRUE);
 
 	stream.SaveToClipboard(ClipboardFormat);
 
 	CloseClipboard();
 }
 
-
-void CTinyCadView::OnEditCopyto() 
+void CTinyCadView::OnEditCopyto()
 {
 	if (GetCurrentDocument()->IsSelected())
 	{
-		GetCurrentDocument()->Save(TRUE,TRUE);
+		GetCurrentDocument()->Save(TRUE, TRUE);
 	}
 }
-
 
 void CTinyCadView::OnEditSelectAll()
 {
 	// Get rid of the current editing object
-	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
-	GetCurrentDocument()->UnSelect(); 
+	GetCurrentDocument()->UnSelect();
 	GetCurrentDocument()->SelectAll();
 }
 
-
-void CTinyCadView::OnEditRotateLeft() 
+void CTinyCadView::OnEditRotateLeft()
 {
 	ChangeDir(2);
 }
 
-
-void CTinyCadView::OnEditRotateRight() 
+void CTinyCadView::OnEditRotateRight()
 {
 	ChangeDir(3);
 }
 
-
-void CTinyCadView::OnEditFlip() 
+void CTinyCadView::OnEditFlip()
 {
 	ChangeDir(4);
 }
 
-
-
-void CTinyCadView::OnSelectArc() 
-{ 
+void CTinyCadView::OnSelectArc()
+{
 	g_EditToolBar.m_DrawPolyEdit.SetArcAngle();
-	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument())); 
+	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument()));
 }
 
-void CTinyCadView::OnSelectPolygon() 
-{ 
+void CTinyCadView::OnSelectPolygon()
+{
 	g_EditToolBar.m_DrawPolyEdit.SetLineAngle();
-	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument())); 
+	GetCurrentDocument()->SelectObject(new CDrawPolygon(GetCurrentDocument()));
 }
 
-void CTinyCadView::OnSelectHierarchical() 
-{ 
+void CTinyCadView::OnSelectHierarchical()
+{
 	// Drop the current drawing tool
-	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument())); 
+	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
 	// Create a new symbol to work with...
 	CDrawHierarchicalSymbol *pSymbol = new CDrawHierarchicalSymbol(GetCurrentDocument());
 
 	if (pSymbol->SelectFile())
 	{
-		GetCurrentDocument()->SelectObject(pSymbol); 
+		GetCurrentDocument()->SelectObject(pSymbol);
 	}
 	else
 	{
@@ -392,14 +361,14 @@ void CTinyCadView::OnSelectHierarchical()
 }
 
 void CTinyCadView::OnSelectJunction()
-{ 
+{
 	if (!GetCurrentDocument()->GetOptions()->GetAutoJunc())
 	{
-		GetCurrentDocument()->SelectObject(new CDrawJunction(GetCurrentDocument())); 
+		GetCurrentDocument()->SelectObject(new CDrawJunction(GetCurrentDocument()));
 	}
 	else
 	{
-		AfxMessageBox( IDS_NOJUNCTION );
+		AfxMessageBox(IDS_NOJUNCTION);
 	}
 }
 

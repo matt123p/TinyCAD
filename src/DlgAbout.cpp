@@ -22,8 +22,8 @@
 //=========================================================================
 
 //-------------------------------------------------------------------------
-CDlgAbout::CDlgAbout()
-: super( IDD_ABOUTBOX )
+CDlgAbout::CDlgAbout() :
+	super(IDD_ABOUTBOX)
 {
 }
 //-------------------------------------------------------------------------
@@ -32,10 +32,7 @@ BOOL CDlgAbout::OnInitDialog()
 	super::OnInitDialog();
 
 	CString sVersion;
-	sVersion.Format(_T("%s %s %s"), 
-		CTinyCadApp::GetName(), 
-		CTinyCadApp::GetVersion(),
-		CTinyCadApp::GetReleaseType());
+	sVersion.Format(_T("%s %s %s"), CTinyCadApp::GetName(), CTinyCadApp::GetVersion(), CTinyCadApp::GetReleaseType());
 
 	GetDlgItem(IDC_VERSION)->SetWindowText(sVersion);
 

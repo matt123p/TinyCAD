@@ -15,21 +15,21 @@
 //=========================================================================
 
 //-------------------------------------------------------------------------
-ListOfSymbols::ListOfSymbols()
-: super()
+ListOfSymbols::ListOfSymbols() :
+	super()
 {
 	Init();
 }
 //-------------------------------------------------------------------------
-ListOfSymbols::ListOfSymbols( const ListOfSymbols& o )
+ListOfSymbols::ListOfSymbols(const ListOfSymbols& o)
 {
-	Init( o.m_pSymbol );
+	Init(o.m_pSymbol);
 }
 //-------------------------------------------------------------------------
-ListOfSymbols::ListOfSymbols( CDesignFileSymbol* pSymbol )
-: super()
+ListOfSymbols::ListOfSymbols(CDesignFileSymbol* pSymbol) :
+	super()
 {
-	Init( pSymbol );
+	Init(pSymbol);
 }
 //-------------------------------------------------------------------------
 ListOfSymbols::~ListOfSymbols()
@@ -39,10 +39,10 @@ ListOfSymbols::~ListOfSymbols()
 //-------------------------------------------------------------------------
 void ListOfSymbols::Init()
 {
-	Init( NULL );
+	Init(NULL);
 }
 //-------------------------------------------------------------------------
-void ListOfSymbols::Init( CDesignFileSymbol* pSymbol )
+void ListOfSymbols::Init(CDesignFileSymbol* pSymbol)
 {
 	m_pSymbol = pSymbol;
 }
@@ -64,10 +64,10 @@ CDesignFileSymbol* ListOfSymbols::GetSymbol()
 //=========================================================================
 
 //-------------------------------------------------------------------------
-void ListOfSymbols::SaveItemXML( CTinyCadDoc *pDesign, CXMLWriter &xml)
+void ListOfSymbols::SaveItemXML(CTinyCadDoc *pDesign, CXMLWriter &xml)
 {
 	// Save the symbol with the document...
-	m_pSymbol->SaveXML( xml );
+	m_pSymbol->SaveXML(xml);
 }
 //-------------------------------------------------------------------------
 void ListOfSymbols::LoadItemXML(CTinyCadDoc *pDesign, CXMLReader &xml)
@@ -76,25 +76,25 @@ void ListOfSymbols::LoadItemXML(CTinyCadDoc *pDesign, CXMLReader &xml)
 	CString name;
 	CDesignFileSymbol *psymbol = new CDesignFileSymbol();
 
-	xml.getAttribute( _T("id"), n );
+	xml.getAttribute(_T("id"), n);
 	xml.intoTag();
 
-	psymbol->LoadXML( pDesign, xml );
+	psymbol->LoadXML(pDesign, xml);
 
 	xml.outofTag();
 
 	ListOfSymbols *nFS = new ListOfSymbols(psymbol);
-	Add(nFS,n);
+	Add(nFS, n);
 }
 //-------------------------------------------------------------------------
 void ListOfSymbols::LoadItem(CTinyCadDoc *pDesign, CStream &theFile, hRESOURCE n)
 {
 	// Save the symbol with the document...
 	CDesignFileSymbol *psymbol = new CDesignFileSymbol;
-	psymbol->Load( pDesign, theFile );
+	psymbol->Load(pDesign, theFile);
 
 	ListOfSymbols *nFS = new ListOfSymbols(psymbol);
-	Add(nFS,n);
+	Add(nFS, n);
 }
 //-------------------------------------------------------------------------
 
@@ -106,8 +106,8 @@ void ListOfSymbols::LoadItem(CTinyCadDoc *pDesign, CStream &theFile, hRESOURCE n
 // The resource for line styles
 BOOL ListOfSymbols::Compare(CDocResource *o)
 {
-	CDesignFileSymbol *pSymbol = static_cast<CDesignFileSymbol*>(((ListOfSymbols *)o)->m_pSymbol);
-	
+	CDesignFileSymbol *pSymbol = static_cast<CDesignFileSymbol*> ( ((ListOfSymbols *) o)->m_pSymbol);
+
 	// Correct for bug in previous versions of TinyCAD XML parsing
 	if (m_pSymbol->name.IsEmpty() || pSymbol->name.IsEmpty())
 	{
@@ -115,8 +115,8 @@ BOOL ListOfSymbols::Compare(CDocResource *o)
 	}
 
 	// Now do the correct testing...
-//This test will often yield wrong result because FilePos is always -1 when editing existing symbols on a sheet.
-//// return m_pSymbol->name == pSymbol->name && m_pSymbol->FilePos == pSymbol->FilePos;
+	//This test will often yield wrong result because FilePos is always -1 when editing existing symbols on a sheet.
+	//// return m_pSymbol->name == pSymbol->name && m_pSymbol->FilePos == pSymbol->FilePos;
 
 	// Do a deep compare of all symboldef contents.
 	// (The ref_point info will not be taken into account)

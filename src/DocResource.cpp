@@ -16,10 +16,10 @@
 //-------------------------------------------------------------------------
 CDocResource::CDocResource()
 {
-	ResourceNumber	= 0;
-	MergeNumber		= 0;
-	InUse			= false;
-	next			= NULL;
+	ResourceNumber = 0;
+	MergeNumber = 0;
+	InUse = false;
+	next = NULL;
 }
 //-------------------------------------------------------------------------
 CDocResource::~CDocResource()
@@ -46,14 +46,14 @@ hRESOURCE CDocResource::GetResourceNumber() const
 //=========================================================================
 
 //-------------------------------------------------------------------------
-hRESOURCE CDocResource::ConvertOld( hRESOURCE nOldID )
+hRESOURCE CDocResource::ConvertOld(hRESOURCE nOldID)
 {
 	// If the number was out of range then return the default font
 	hRESOURCE nReturn = 0;
 
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
 	{
-		if( nOldID == pointer->MergeNumber )
+		if (nOldID == pointer->MergeNumber)
 		{
 			nReturn = pointer->ResourceNumber;
 		}
@@ -63,20 +63,19 @@ hRESOURCE CDocResource::ConvertOld( hRESOURCE nOldID )
 }
 //-------------------------------------------------------------------------
 //-- Add a new resource to this list
-hRESOURCE CDocResource::Add( CDocResource* NewResource, hRESOURCE NewMerge )
+hRESOURCE CDocResource::Add(CDocResource* NewResource, hRESOURCE NewMerge)
 {
-	CDocResource*	pointer 	= this;
-	CDocResource*	last 		= NULL;
-	hRESOURCE 		nextNumber 	= 0;
+	CDocResource* pointer = this;
+	CDocResource* last = NULL;
+	hRESOURCE nextNumber = 0;
 
-	while (pointer!=NULL && !(pointer->MergeNumber == -1 && pointer->Compare(NewResource)) )
+	while (pointer != NULL && ! (pointer->MergeNumber == -1 && pointer->Compare(NewResource)))
 	{
 		// Find the next index number available
-		if (pointer->ResourceNumber >= nextNumber)
-			nextNumber = hRESOURCE( pointer->ResourceNumber + 1 );
+		if (pointer->ResourceNumber >= nextNumber) nextNumber = hRESOURCE(pointer->ResourceNumber + 1);
 
 		last = pointer;
-		pointer=pointer->next;
+		pointer = pointer->next;
 	}
 
 	// This resouce is already defined
@@ -100,15 +99,15 @@ hRESOURCE CDocResource::Add( CDocResource* NewResource, hRESOURCE NewMerge )
 }
 //-------------------------------------------------------------------------
 // Get a resource from the list
-CDocResource* CDocResource::Get( hRESOURCE nID )
+CDocResource* CDocResource::Get(hRESOURCE nID)
 {
 	// If the number was out of range then return the default font
 	// (the head of the list)
 	CDocResource* pReturn = this;
 
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
 	{
-		if( pointer->ResourceNumber == nID )
+		if (pointer->ResourceNumber == nID)
 		{
 			pReturn = pointer;
 		}
@@ -118,11 +117,11 @@ CDocResource* CDocResource::Get( hRESOURCE nID )
 }
 //-------------------------------------------------------------------------
 // Tag a resource given a resource number
-void CDocResource::Tag( hRESOURCE nID )
+void CDocResource::Tag(hRESOURCE nID)
 {
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
 	{
-		if( pointer->ResourceNumber == nID )
+		if (pointer->ResourceNumber == nID)
 		{
 			pointer->InUse = true;
 		}
@@ -131,8 +130,8 @@ void CDocResource::Tag( hRESOURCE nID )
 //-------------------------------------------------------------------------
 void CDocResource::UnTag()
 {
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
-{
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
+	{
 		pointer->InUse = false;
 	}
 }
@@ -141,32 +140,32 @@ void CDocResource::UnTag()
 void CDocResource::ResetMerge()
 {
 	// All the merge numbers to invalid
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
 	{
 		pointer->MergeNumber = -1;
 	}
 }
 //-------------------------------------------------------------------------
-void CDocResource::SaveXML( CTinyCadDoc* pDesign, const TCHAR* name, CXMLWriter& xml )
+void CDocResource::SaveXML(CTinyCadDoc* pDesign, const TCHAR* name, CXMLWriter& xml)
 {
 	// Now actually save the resources
-	for( CDocResource* pointer = this; pointer != NULL; pointer = pointer->next )
+	for (CDocResource* pointer = this; pointer != NULL; pointer = pointer->next)
 	{
-		if( pointer->InUse )
+		if (pointer->InUse)
 		{
-			xml.addTag( name );
-			xml.addAttribute( _T("id"), pointer->ResourceNumber );
-			pointer->SaveItemXML( pDesign, xml );
+			xml.addTag(name);
+			xml.addAttribute(_T("id"), pointer->ResourceNumber);
+			pointer->SaveItemXML(pDesign, xml);
 			xml.closeTag();
 		}
 	}
 }
 //-------------------------------------------------------------------------
-void CDocResource::Load( CTinyCadDoc* pDesign, CStream& oStream )
+void CDocResource::Load(CTinyCadDoc* pDesign, CStream& oStream)
 {
 	// Number of Fonts in this list
-	UInt16 		nCntRes		= 0;
-	hRESOURCE 	nOldResNo 	= 0;
+	UInt16 nCntRes = 0;
+	hRESOURCE nOldResNo = 0;
 
 	// All the merge numbers to invalid
 	ResetMerge();
@@ -174,16 +173,16 @@ void CDocResource::Load( CTinyCadDoc* pDesign, CStream& oStream )
 	// Read in the number of Fonts
 	oStream >> nCntRes;
 
-	for( int n = 0; n < nCntRes; n++ )
+	for (int n = 0; n < nCntRes; n++)
 	{
 		oStream >> nOldResNo;
-		LoadItem( pDesign, oStream, nOldResNo );
+		LoadItem(pDesign, oStream, nOldResNo);
 	}
 }
 //-------------------------------------------------------------------------
 //-- Compare this resource with another resource
-bool CDocResource::Comparex( const CDocResource* ) const
+bool CDocResource::Comparex(const CDocResource*) const
 {
 	return false;
-};
+}
 //-------------------------------------------------------------------------

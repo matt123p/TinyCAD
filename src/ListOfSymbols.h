@@ -21,41 +21,44 @@ typedef hRESOURCE hSYMBOL;
 //*************************************************************************
 
 //=========================================================================
-class ListOfSymbols
-: public CDocResource
+class ListOfSymbols: public CDocResource
 {
 	typedef CDocResource super;
 
-	private:	CDesignFileSymbol* m_pSymbol;
+private:
+	CDesignFileSymbol* m_pSymbol;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:						ListOfSymbols();
-	public:						ListOfSymbols( const ListOfSymbols& o );
-	public:						ListOfSymbols( CDesignFileSymbol* oSymbol );
-	public:	virtual				~ListOfSymbols();
-	private:			void	Init();
-	private:			void	Init( CDesignFileSymbol* oSymbol );
+public:
+	ListOfSymbols();
+	ListOfSymbols(const ListOfSymbols& o);
+	ListOfSymbols(CDesignFileSymbol* oSymbol);
+	virtual ~ListOfSymbols();
+private:
+	void Init();
+	void Init(CDesignFileSymbol* oSymbol);
 
 	//=====================================================================
 	//== accessor/mutator                                                ==
 	//=====================================================================
 	//-- Get the data associated with this resource
-	public:			CDesignFileSymbol* 	GetSymbol();
+public:
+	CDesignFileSymbol* GetSymbol();
 
 	//=====================================================================
 	//== serialization                                                   ==
 	//=====================================================================
 
-	public:virtual void SaveItemXML( CTinyCadDoc*, CXMLWriter& xml );
-	public:virtual void LoadItem( CTinyCadDoc* pDesign, CStream&, hRESOURCE );
-	public:virtual void LoadItemXML( CTinyCadDoc* pDesign, CXMLReader& xml );
+	virtual void SaveItemXML(CTinyCadDoc*, CXMLWriter& xml);
+	virtual void LoadItem(CTinyCadDoc* pDesign, CStream&, hRESOURCE);
+	virtual void LoadItemXML(CTinyCadDoc* pDesign, CXMLReader& xml);
 
 	//=====================================================================
 	//== Comparison                                                      ==
 	//=====================================================================
 	//-- Compare this resource with another resource of the same type
-	public:	virtual	BOOL		Compare( CDocResource* );
+	virtual BOOL Compare(CDocResource*);
 };
 //=========================================================================

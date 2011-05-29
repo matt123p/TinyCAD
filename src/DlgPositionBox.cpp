@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002,2003 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002,2003 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 // DlgPositionBox.cpp : implementation file
 //
@@ -24,7 +24,6 @@
 #include "tinycad.h"
 #include "DlgPositionBox.h"
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CDlgPositionBox dialog
 
@@ -32,15 +31,13 @@
 CDlgPositionBox::CDlgPositionBox()
 {
 	//{{AFX_DATA_INIT(CDlgPositionBox)
-		// NOTE: the ClassWizard will add member initialization here
+	// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 }
 
-
-
 BEGIN_MESSAGE_MAP(CDlgPositionBox, CDialogBar)
-	//{{AFX_MSG_MAP(CDlgPositionBox)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CDlgPositionBox)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -50,6 +47,6 @@ END_MESSAGE_MAP()
 // Change the text in the Dialog
 void CDlgPositionBox::SetPosition(const TCHAR *s)
 {
-	SetDlgItemText( POSITIONBOX_POS, s );
+	SetDlgItemText(POSITIONBOX_POS, s);
 }
 

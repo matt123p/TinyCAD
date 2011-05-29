@@ -6,7 +6,6 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-
 #pragma once
 
 #include "Symbol.h"
@@ -27,51 +26,53 @@
 //=========================================================================
 class COption
 {
-	private: CTinyCadDoc*			m_pDesign;
+private:
+	CTinyCadDoc* m_pDesign;
 
-	private: CUserColor 			m_oColors;
-	private: ListOfFonts			theFontList;
-	private: ListOfStyles			m_colLineStyles;
-	private: ListOfFillStyles		theFillStyleList;
-	private: ListOfMetaFiles		theMetaFileList;
-	private: ListOfSymbols*			theSymbolList;
+	CUserColor m_oColors;
+	ListOfFonts theFontList;
+	ListOfStyles m_colLineStyles;
+	ListOfFillStyles theFillStyleList;
+	ListOfMetaFiles theMetaFileList;
+	ListOfSymbols* theSymbolList;
 
 	// The current settings
-	private: std::map<ObjType,hFONT>	CurrentFont;			// The default font number
-	private: std::map<ObjType,hSTYLE>	CurrentStyle;			// The default line style
-	private: std::map<ObjType,hFILL>	CurrentFillStyle;		// The default line style
+	std::map<ObjType, hFONT> CurrentFont; // The default font number
+	std::map<ObjType, hSTYLE> CurrentStyle; // The default line style
+	std::map<ObjType, hFILL> CurrentFillStyle; // The default line style
 
 	// The current grid settings
-	private: Bool8	GridShow;							// Should we show the grid?
-	private: LONG	Units;								// The units to use
+	Bool8 GridShow; // Should we show the grid?
+	LONG Units; // The units to use
 
-	private: CDPoint	origin;							// The grid origin
+	CDPoint origin; // The grid origin
 
 	// Some default settings for dialogs
-	private: int		PinLength;							// The default pin length
-	private: int		PinNumberPos;						// The default pin number position
+	int PinLength; // The default pin length
+	int PinNumberPos; // The default pin number position
 
 	// The current auto-snap settings
-	private: BOOL	AutoSnap;
-	private: BOOL	AutoDrag;
-	private: BOOL	AutoJunc;
-	private: int		AutoSnapRange;
+	BOOL AutoSnap;
+	BOOL AutoDrag;
+	BOOL AutoJunc;
+	int AutoSnapRange;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:						COption();
-	public:						~COption();
-	public:	void				Init( CTinyCadDoc *pDesign );
+public:
+	COption();
+	~COption();
+	void Init(CTinyCadDoc *pDesign);
 
 	//=====================================================================
 	//== Accessor                                                        ==
 	//=====================================================================
 	/** Get the user defined colours. */
-	public:		CUserColor&		GetUserColor();
+	CUserColor& GetUserColor();
 
 	/** Get the styles for line drawing. */
-	public:		ListOfStyles&	GetLineStyles();
+	ListOfStyles& GetLineStyles();
 
 	//=====================================================================
 	//== Mutator                                                         ==
@@ -80,10 +81,9 @@ class COption
 	//=====================================================================
 	//== Serialization                                                   ==
 	//=====================================================================
-	public:		void			ReadXML( CXMLReader& xml );
-	public:		void			WriteXML( CXMLWriter& xml );
-	public:		void			ReadNative( CStream& oArchive  );
-
+	void ReadXML(CXMLReader& xml);
+	void WriteXML(CXMLWriter& xml);
+	void ReadNative(CStream& oArchive);
 
 	// Untag all of our resources
 	void UnTag();
@@ -91,31 +91,46 @@ class COption
 	////// The font operators ////
 
 	//-- Add a font to the list and return it's new index number
-	hFONT AddFont(LOGFONT *lf,hFONT MergeNumber = -1);
+	hFONT AddFont(LOGFONT *lf, hFONT MergeNumber = -1);
 
 	//-- Load the font table from a file
-	void LoadFonts(CStream &theFile) { theFontList.Load(m_pDesign,theFile); }
+	void LoadFonts(CStream &theFile)
+	{
+		theFontList.Load(m_pDesign, theFile);
+	}
 
 	// Convert an old font number into a new font number
-	hFONT GetNewFontNumber(hFONT n) { return theFontList.ConvertOld(n); }
+	hFONT GetNewFontNumber(hFONT n)
+	{
+		return theFontList.ConvertOld(n);
+	}
 
 	//-- Get a font from the number
-	LOGFONT *GetFont(hFONT n)  { return ((ListOfFonts *)theFontList.Get(n))->GetFontPtr(); }
-	hFONT ChangeFontSize(hFONT n, double delta_height, double width );
+	LOGFONT *GetFont(hFONT n)
+	{
+		return ((ListOfFonts *) theFontList.Get(n))->GetFontPtr();
+	}
+	hFONT ChangeFontSize(hFONT n, double delta_height, double width);
 
 	//-- Specify this font is in use
-	void TagFont(hFONT n) { theFontList.Tag(n); }
+	void TagFont(hFONT n)
+	{
+		theFontList.Tag(n);
+	}
 
 	//-- Bring up the user change font box
-	void ChooseFont(ObjType t, CDC &,HWND = NULL);	
-	hFONT  	GetCurrentFont(ObjType t);
-	void SetCurrentFont(ObjType t, hFONT n) { CurrentFont[ t ] = n; }
-	int GetFontWidth( hFONT n );
+	void ChooseFont(ObjType t, CDC &, HWND = NULL);
+	hFONT GetCurrentFont(ObjType t);
+	void SetCurrentFont(ObjType t, hFONT n)
+	{
+		CurrentFont[t] = n;
+	}
+	int GetFontWidth(hFONT n);
 
 	////// The Line Style operators //////
 
 	// Add a line style to the list and return it's new index number
-	hSTYLE AddStyle(LineStyle *ls,hFONT MergeNumber = -1)
+	hSTYLE AddStyle(LineStyle *ls, hFONT MergeNumber = -1)
 	{
 		hSTYLE n = m_colLineStyles.Add(new ListOfStyles(*ls), MergeNumber);
 
@@ -125,7 +140,10 @@ class COption
 	}
 
 	// Load the line style table from a file
-	void LoadStyles(CStream &theFile) { m_colLineStyles.Load(m_pDesign,theFile); }
+	void LoadStyles(CStream &theFile)
+	{
+		m_colLineStyles.Load(m_pDesign, theFile);
+	}
 	// Convert an old line style number into a new font number
 	hSTYLE GetNewStyleNumber(hSTYLE n)
 	{
@@ -135,102 +153,271 @@ class COption
 		return m;
 	}
 	// Get a line style from the number
-	LineStyle *GetStyle(hSTYLE n)  { return ((ListOfStyles *)m_colLineStyles.Get(n))->GetLineStylePtr(); }
-	// Specify this line style is in use
-	void TagStyle(hSTYLE n) { m_colLineStyles.Tag(n); }
-	hSTYLE  GetCurrentStyle( ObjType t ) { return CurrentStyle[ t ]; }
-	void SetCurrentStyle(ObjType t, hSTYLE n) { CurrentStyle[ t ] = n; }
+	LineStyle *GetStyle(hSTYLE n)
+	{
+		return ((ListOfStyles *) m_colLineStyles.Get(n))->GetLineStylePtr();
+	}
 	
-
+	// Specify this line style is in use
+	void TagStyle(hSTYLE n)
+	{
+		m_colLineStyles.Tag(n);
+	}
+	
+	hSTYLE GetCurrentStyle(ObjType t)
+	{
+		return CurrentStyle[t];
+	}
+	
+	void SetCurrentStyle(ObjType t, hSTYLE n)
+	{
+		CurrentStyle[t] = n;
+	}
 
 	////// The Fill Style operators //////
 
 	// Add a fill style to the list and return it's new index number
-	hFILL AddFillStyle(FillStyle *ls,hFONT MergeNumber = -1) { return theFillStyleList.Add(new ListOfFillStyles(*ls), MergeNumber); }
+	hFILL AddFillStyle(FillStyle *ls, hFONT MergeNumber = -1)
+	{
+		return theFillStyleList.Add(new ListOfFillStyles(*ls), MergeNumber);
+	}
+	
 	// Load the fill style table from a file
-	void LoadFillStyles(CStream &theFile) { theFillStyleList.Load(m_pDesign,theFile); }
+	void LoadFillStyles(CStream &theFile)
+	{
+		theFillStyleList.Load(m_pDesign, theFile);
+	}
+	
 	// Convert an old line style number into a new font number
-	hFILL GetNewFillStyleNumber(hFILL n) { return theFillStyleList.ConvertOld(n); }
+	hFILL GetNewFillStyleNumber(hFILL n)
+	{
+		return theFillStyleList.ConvertOld(n);
+	}
+	
 	// Get a fill style from the number
-	FillStyle *GetFillStyle(hSTYLE n)  { return ((ListOfFillStyles *)theFillStyleList.Get(n))->GetFillStylePtr(); }
+	FillStyle *GetFillStyle(hSTYLE n)
+	{
+		return ((ListOfFillStyles *) theFillStyleList.Get(n))->GetFillStylePtr();
+	}
+	
 	// Specify this fill style is in use
-	void TagFillStyle(hSTYLE n) { theFillStyleList.Tag(n); }
-	hFILL  GetCurrentFillStyle(ObjType t) { return CurrentFillStyle[ t ]; }
-	void SetCurrentFillStyle(ObjType t,hFILL n) { CurrentFillStyle[ t ] = n; }
+	void TagFillStyle(hSTYLE n)
+	{
+		theFillStyleList.Tag(n);
+	}
+	
+	hFILL GetCurrentFillStyle(ObjType t)
+	{
+		return CurrentFillStyle[t];
+	}
+	
+	void SetCurrentFillStyle(ObjType t, hFILL n)
+	{
+		CurrentFillStyle[t] = n;
+	}
 
 	////// The Meta File operators //////
 
 	// Add a line style to the list and return it's new index number
-	hMETAFILE AddMetaFile(CImage* s,hMETAFILE MergeNumber = -1) { return theMetaFileList.Add(new ListOfMetaFiles(s), MergeNumber); }
+	hMETAFILE AddMetaFile(CImage* s, hMETAFILE MergeNumber = -1)
+	{
+		return theMetaFileList.Add(new ListOfMetaFiles(s), MergeNumber);
+	}
+	
 	// Load the line style table from a file
-	void LoadMetaFiles(CStream &theFile) { theMetaFileList.Load(m_pDesign,theFile); }
+	void LoadMetaFiles(CStream &theFile)
+	{
+		theMetaFileList.Load(m_pDesign, theFile);
+	}
+	
 	// Convert an old line style number into a new font number
-	hMETAFILE GetNewMetaFileNumber(hMETAFILE n) { return theMetaFileList.ConvertOld(n); }
+	hMETAFILE GetNewMetaFileNumber(hMETAFILE n)
+	{
+		return theMetaFileList.ConvertOld(n);
+	}
+	
 	// Get a line style from the number
-	CImage* GetImage(hMETAFILE n)  { return ((ListOfMetaFiles *)theMetaFileList.Get(n))->GetImage(); }
+	CImage* GetImage(hMETAFILE n)
+	{
+		return ((ListOfMetaFiles *) theMetaFileList.Get(n))->GetImage();
+	}
+	
 	// Specify this line style is in use
-	void TagMetaFile(hSTYLE n) { theMetaFileList.Tag(n); }
+	void TagMetaFile(hSTYLE n)
+	{
+		theMetaFileList.Tag(n);
+	}
 
 	////// The Symbols operators //////
 
 	// Add a line style to the list and return it's new index number
-	hSYMBOL AddSymbol(CDesignFileSymbol *s,hSYMBOL MergeNumber = -1) { return theSymbolList->Add(new ListOfSymbols(s), MergeNumber); }
+	hSYMBOL AddSymbol(CDesignFileSymbol *s, hSYMBOL MergeNumber = -1)
+	{
+		return theSymbolList->Add(new ListOfSymbols(s), MergeNumber);
+	}
+	
 	// Load the line style table from a file
-	void LoadSymbols(CStream &theFile) { theSymbolList->Load(m_pDesign,theFile); }
+	void LoadSymbols(CStream &theFile)
+	{
+		theSymbolList->Load(m_pDesign, theFile);
+	}
+	
 	// Convert an old line style number into a new font number
-	hSYMBOL GetNewSymbolNumber(hSYMBOL n) { return theSymbolList->ConvertOld(n); }
+	hSYMBOL GetNewSymbolNumber(hSYMBOL n)
+	{
+		return theSymbolList->ConvertOld(n);
+	}
+	
 	// Get a line style from the number
-	CDesignFileSymbol *GetSymbol(hSYMBOL n)  { return ((ListOfSymbols *)theSymbolList->Get(n))->GetSymbol(); }
+	CDesignFileSymbol *GetSymbol(hSYMBOL n)
+	{
+		return ((ListOfSymbols *) theSymbolList->Get(n))->GetSymbol();
+	}
+	
 	// Specify this line style is in use
-	void TagSymbol(hSYMBOL n) { theSymbolList->Tag(n); }
-
+	void TagSymbol(hSYMBOL n)
+	{
+		theSymbolList->Tag(n);
+	}
 
 	////// The XML operations //////
 
-	void SaveFontsXML(CXMLWriter &xml) { theFontList.SaveXML(m_pDesign,_T("FONT"), xml); }
-	void SaveStylesXML(CXMLWriter &xml) { m_colLineStyles.SaveXML(m_pDesign,_T("STYLE"), xml); }
-	void SaveFillStylesXML(CXMLWriter &xml) { theFillStyleList.SaveXML(m_pDesign,_T("FILL"), xml); }
-	void SaveMetaFilesXML(CXMLWriter &xml) { theMetaFileList.SaveXML(m_pDesign,_T("IMAGE"), xml); }
-	void SaveSymbolsXML(CXMLWriter &xml) { theSymbolList->SaveXML(m_pDesign,_T("SYMBOLDEF"), xml); }
+	void SaveFontsXML(CXMLWriter &xml)
+	{
+		theFontList.SaveXML(m_pDesign, _T("FONT"), xml);
+	}
+	
+	void SaveStylesXML(CXMLWriter &xml)
+	{
+		m_colLineStyles.SaveXML(m_pDesign, _T("STYLE"), xml);
+	}
+	
+	void SaveFillStylesXML(CXMLWriter &xml)
+	{
+		theFillStyleList.SaveXML(m_pDesign, _T("FILL"), xml);
+	}
+	
+	void SaveMetaFilesXML(CXMLWriter &xml)
+	{
+		theMetaFileList.SaveXML(m_pDesign, _T("IMAGE"), xml);
+	}
+	
+	void SaveSymbolsXML(CXMLWriter &xml)
+	{
+		theSymbolList->SaveXML(m_pDesign, _T("SYMBOLDEF"), xml);
+	}
 
-	void LoadFontXML(CXMLReader &xml) { theFontList.LoadItemXML(m_pDesign,xml); }
-	void LoadStyleXML(CXMLReader &xml) { m_colLineStyles.LoadItemXML(m_pDesign,xml); }
-	void LoadFillStyleXML(CXMLReader &xml) { theFillStyleList.LoadItemXML(m_pDesign,xml); }
-	void LoadMetaFileXML(CXMLReader &xml) { theMetaFileList.LoadItemXML(m_pDesign,xml); }
-	void LoadSymbolXML(CXMLReader &xml) { theSymbolList->LoadItemXML(m_pDesign,xml); }
+	void LoadFontXML(CXMLReader &xml)
+	{
+		theFontList.LoadItemXML(m_pDesign, xml);
+	}
+	
+	void LoadStyleXML(CXMLReader &xml)
+	{
+		m_colLineStyles.LoadItemXML(m_pDesign, xml);
+	}
+	
+	void LoadFillStyleXML(CXMLReader &xml)
+	{
+		theFillStyleList.LoadItemXML(m_pDesign, xml);
+	}
+	
+	void LoadMetaFileXML(CXMLReader &xml)
+	{
+		theMetaFileList.LoadItemXML(m_pDesign, xml);
+	}
+	
+	void LoadSymbolXML(CXMLReader &xml)
+	{
+		theSymbolList->LoadItemXML(m_pDesign, xml);
+	}
 
 	void ResetMerge();
 
 	////// The grid operators //////
 
-	bool ShowGrid() { return GridShow == TRUE ; }		// The size of the current grid
-	void SetGridShow( bool s ) { GridShow = s; }
-	int	 GetUnits() { return Units; }
-	void SetUnits( int u ) { Units = u; }
+	bool ShowGrid()
+	{
+		return GridShow == TRUE;
+	} // The size of the current grid
+	
+	void SetGridShow(bool s)
+	{
+		GridShow = s;
+	}
+	
+	int GetUnits()
+	{
+		return Units;
+	}
+	
+	void SetUnits(int u)
+	{
+		Units = u;
+	}
+	
 	CString PointToUnit(CDPoint);
-	CString PointToDisplay(CDPoint,BOOL horiz);
+	CString PointToDisplay(CDPoint, BOOL horiz);
 
 	////// The auto-wire settins //////
-	bool GetAutoSnap() { return AutoSnap == TRUE; }
-	bool GetAutoDrag() { return AutoDrag == TRUE; }
-	bool GetAutoJunc() { return AutoJunc == TRUE; }
-	int	 GetAutoSnapRange() { return AutoSnapRange; }
+	bool GetAutoSnap()
+	{
+		return AutoSnap == TRUE;
+	}
+	
+	bool GetAutoDrag()
+	{
+		return AutoDrag == TRUE;
+	}
+	
+	bool GetAutoJunc()
+	{
+		return AutoJunc == TRUE;
+	}
+	
+	int GetAutoSnapRange()
+	{
+		return AutoSnapRange;
+	}
 
-	void SetAutoSnap(bool r) { AutoSnap = r; }
-	void SetAutoDrag(bool r) { AutoDrag = r; }
-	void SetAutoJunc(bool r) { AutoJunc = r; }
-	void SetAutoSnapRange( int r ) { AutoSnapRange = r; }
+	void SetAutoSnap(bool r)
+	{
+		AutoSnap = r;
+	}
+	
+	void SetAutoDrag(bool r)
+	{
+		AutoDrag = r;
+	}
+	
+	void SetAutoJunc(bool r)
+	{
+		AutoJunc = r;
+	}
+	
+	void SetAutoSnapRange(int r)
+	{
+		AutoSnapRange = r;
+	}
 
 	////// Some default settings for dialogs ////// 
-	int		GetPinLength() { return PinLength; }
-	void	SetPinLength( int pl );
+	int GetPinLength()
+	{
+		return PinLength;
+	}
+	
+	void SetPinLength(int pl);
 
-	int		GetPinNumberPos() { return PinNumberPos; }
-	void	SetPinNumberPos( int pl );
+	int GetPinNumberPos()
+	{
+		return PinNumberPos;
+	}
+	
+	void SetPinNumberPos(int pl);
 
-	bool		 HasOrigin();
-	void         SetOrigin(CDPoint org);
-	CDPoint      GetOrigin();
+	bool HasOrigin();
+	void SetOrigin(CDPoint org);
+	CDPoint GetOrigin();
 
 };
 //=========================================================================

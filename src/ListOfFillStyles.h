@@ -18,54 +18,70 @@
 //*************************************************************************
 
 // The fill style type
-typedef	hRESOURCE	hFILL;
+typedef hRESOURCE hFILL;
 
 //=========================================================================
 class FillStyle
 {
-	public:	Int32		Index;	// -1:No fill 0:Black fill
-	public: COLORREF	Colour;
+public:
+	Int32 Index; // -1:No fill 0:Black fill
+public:
+	COLORREF Colour;
 };
 //=========================================================================
-class ListOfFillStyles : public CDocResource
+class ListOfFillStyles: public CDocResource
 {
 	typedef CDocResource super;
 
 	// The Fill style this describes
-	private:		FillStyle	m_oFillStyle;
+private:
+	FillStyle m_oFillStyle;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public: 					ListOfFillStyles();
-	public: 					ListOfFillStyles( Int32 nIndex, COLORREF crLine );
-	public: 					ListOfFillStyles( FillStyle oStyle );
-	public: 					~ListOfFillStyles();
-	private:		void		Init();
-	private:		void		Init( Int32 nIndex, COLORREF crLine );
-
+public:
+	ListOfFillStyles();
+public:
+	ListOfFillStyles(Int32 nIndex, COLORREF crLine);
+public:
+	ListOfFillStyles(FillStyle oStyle);
+public:
+	~ListOfFillStyles();
+private:
+	void Init();
+private:
+	void Init(Int32 nIndex, COLORREF crLine);
 
 	//=====================================================================
 	//== accessor/mutator                                                ==
 	//=====================================================================
 	// Get the data associated with this resource
-	public:			FillStyle*	GetFillStylePtr();
+public:
+	FillStyle* GetFillStylePtr();
 
 	//=====================================================================
 	//== serialization                                                   ==
 	//=====================================================================
-	public:	virtual	void		ReadNative( CStream& oStream );
-	public:	virtual	void		Read( CXMLReader& xml, hFILL& nID );
-	public:	virtual	void		Write( CXMLWriter& xml ) const;
+public:
+	virtual void ReadNative(CStream& oStream);
+public:
+	virtual void Read(CXMLReader& xml, hFILL& nID);
+public:
+	virtual void Write(CXMLWriter& xml) const;
 
-	public:	virtual void 		LoadItem(CTinyCadDoc*, CStream&, hRESOURCE );
-	public:	virtual void 		SaveItemXML( CTinyCadDoc*, CXMLWriter& xml );
-	public:	virtual void 		LoadItemXML(CTinyCadDoc*, CXMLReader& xml );
+public:
+	virtual void LoadItem(CTinyCadDoc*, CStream&, hRESOURCE);
+public:
+	virtual void SaveItemXML(CTinyCadDoc*, CXMLWriter& xml);
+public:
+	virtual void LoadItemXML(CTinyCadDoc*, CXMLReader& xml);
 
 	//=====================================================================
 	//== Comparision                                                     ==
 	//=====================================================================
 	//-- Compare this resource with another resource of the same type
-	public: virtual	BOOL 		Compare( CDocResource* );
+public:
+	virtual BOOL Compare(CDocResource*);
 };
 //=========================================================================
