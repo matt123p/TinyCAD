@@ -24,20 +24,28 @@
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.1888426596" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.1998577273" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.979973299" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1925988986" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.868308650" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1962697250" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 9.0\VC\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 9.0\VC\atlmfc\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft SDKs\Windows\v7.0A\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Program Files\HTML Help Workshop\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.163057384" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.511674685" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.362529499" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 9.0\VC\atlmfc\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\Microsoft SDKs\Windows\v7.0A\Include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Program Files\HTML Help Workshop\include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1186710527" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -233,6 +241,7 @@
 					</target>
 				</buildTargets>
 			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">

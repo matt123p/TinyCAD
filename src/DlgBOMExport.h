@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002-2005 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002-2005 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #if !defined(AFX_DlgBOMExport_H__83B4BA94_722D_4B75_B882_EF77441F5749__INCLUDED_)
 #define AFX_DlgBOMExport_H__83B4BA94_722D_4B75_B882_EF77441F5749__INCLUDED_
@@ -29,33 +29,36 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgBOMExport dialog
 
-class CDlgBOMExport : public CDialog
+class CDlgBOMExport: public CDialog
 {
-// Construction
+	// Construction
 public:
 	CString GetExtension();
-	CDlgBOMExport(CWnd* pParent = NULL);   // standard constructor
+	CDlgBOMExport(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CDlgBOMExport)
-	enum { IDD = IDD_EXPORT_BOM };
-	CComboBox	m_Filetype;
-	CString	m_Filename;
-	BOOL	m_Prefix;
-	BOOL	m_All_Attrs;
-	BOOL	m_All_Sheets;
+	enum
+	{
+		IDD = IDD_EXPORT_BOM
+	};
+	CComboBox m_Filetype;
+	CString m_Filename;
+	BOOL m_Prefix;
+	BOOL m_All_Attrs;
+	BOOL m_All_Sheets;
 	//}}AFX_DATA
 
 	int m_type;
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CDlgBOMExport)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 
 	// Generated message map functions

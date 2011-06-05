@@ -19,13 +19,9 @@
 
 #include <dde.h>
 
-
 CEditToolbar g_EditToolBar;
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
-
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
@@ -75,84 +71,61 @@ CMainFrame::~CMainFrame()
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
-		return -1;
+	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1) return -1;
 
-	CRect r(0,0,0,0);
+	CRect r(0, 0, 0, 0);
 
-	if (!m_wndGetFindBox.Create(this,  CDlgGetFindBox::IDD, WS_CHILD | WS_VISIBLE | CBRS_LEFT
-		| CBRS_GRIPPER | CBRS_SIZE_DYNAMIC, CDlgGetFindBox::IDD) )
+	if (!m_wndGetFindBox.Create(this, CDlgGetFindBox::IDD, WS_CHILD | WS_VISIBLE | CBRS_LEFT | CBRS_GRIPPER | CBRS_SIZE_DYNAMIC, CDlgGetFindBox::IDD))
 	{
 		TRACE0("Failed to create toolbar for annotations\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
-	
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_MAINFRAME) ||
-		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_MAINFRAME) || !m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 	m_wndToolBar.AttachToolbarImages(16, IDR_MAINFRAME, 0, 0);
 
-
-	if (!m_wndToolBarDraw.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWING) ||
-		!m_wndToolBarDraw.LoadToolBar(IDR_DRAWING))
+	if (!m_wndToolBarDraw.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWING) || !m_wndToolBarDraw.LoadToolBar(IDR_DRAWING))
 	{
 		TRACE0("Failed to create toolbar for drawing\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 	m_wndToolBarDraw.AttachToolbarImages(16, IDR_DRAWING, 0, 0);
 
-
-	if (!m_wndToolBarDrawBus.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWBUS) ||
-		!m_wndToolBarDrawBus.LoadToolBar(IDR_DRAWBUS))
+	if (!m_wndToolBarDrawBus.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWBUS) || !m_wndToolBarDrawBus.LoadToolBar(IDR_DRAWBUS))
 	{
 		TRACE0("Failed to create toolbar for buses\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 	m_wndToolBarDrawBus.AttachToolbarImages(16, IDR_DRAWBUS, 0, 0);
 
-
-	if (!m_wndToolBarDrawGroup.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWGROUP) ||
-		!m_wndToolBarDrawGroup.LoadToolBar(IDR_DRAWGROUP))
+	if (!m_wndToolBarDrawGroup.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_DRAWGROUP) || !m_wndToolBarDrawGroup.LoadToolBar(IDR_DRAWGROUP))
 	{
 		TRACE0("Failed to create toolbar for group operations\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 	m_wndToolBarDrawGroup.AttachToolbarImages(16, IDR_DRAWGROUP, 0, 0);
 
-
-	if (!m_wndToolBarAnnotate.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_ANNOTATE) ||
-		!m_wndToolBarAnnotate.LoadToolBar(IDR_ANNOTATE))
+	if (!m_wndToolBarAnnotate.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, r, IDR_ANNOTATE) || !m_wndToolBarAnnotate.LoadToolBar(IDR_ANNOTATE))
 	{
 		TRACE0("Failed to create toolbar for annotations\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 	m_wndToolBarAnnotate.AttachToolbarImages(16, IDR_ANNOTATE, 0, 0);
 
-
-	if (!m_wndPositionBox.Create(this,  CDlgPositionBox::IDD, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CDlgPositionBox::IDD) )
+	if (!m_wndPositionBox.Create(this, CDlgPositionBox::IDD, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CDlgPositionBox::IDD))
 	{
 		TRACE0("Failed to create toolbar for annotations\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 
-
-
-	if (!m_wndStatusBar.Create(this) ||
-		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+	if (!m_wndStatusBar.Create(this) || !m_wndStatusBar.SetIndicators(indicators, sizeof (indicators) / sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
-		return -1;      // fail to create
+		return -1; // fail to create
 	}
 
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
@@ -162,15 +135,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBarDrawGroup.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndPositionBox.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndGetFindBox.EnableDocking(CBRS_ALIGN_LEFT);
-	
+
 	EnableDocking(CBRS_ALIGN_ANY);
 
-	DockControlBar(&m_wndToolBar, AFX_IDW_DOCKBAR_TOP );
+	DockControlBar(&m_wndToolBar, AFX_IDW_DOCKBAR_TOP);
 	RecalcLayout();
 
 	CRect rect;
 	m_wndToolBar.GetWindowRect(&rect);
-	rect.left=rect.right-2;
+	rect.left = rect.right - 2;
 	rect.right = rect.right + 40;
 
 	DockControlBar(&m_wndToolBarDraw, AFX_IDW_DOCKBAR_TOP, &rect);
@@ -183,18 +156,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rect.left++;
 	DockControlBar(&m_wndPositionBox, AFX_IDW_DOCKBAR_TOP, &rect);
 
-	rect.top ++;
-	rect.bottom ++;
+	rect.top++;
+	rect.bottom++;
 	DockControlBar(&m_wndGetFindBox, AFX_IDW_DOCKBAR_LEFT, &rect);
 
 	LoadBarState(_T("Settings"));
 
-
-	g_EditToolBar.Create( this );
-	GetWindowRect( m_oldRect );
+	g_EditToolBar.Create(this);
+	GetWindowRect(m_oldRect);
 
 	// Now show the splash screen
-	new CDlgStartUpWindow( this );
+	new CDlgStartUpWindow(this);
 
 	return 0;
 }
@@ -219,145 +191,137 @@ void CMainFrame::Dump(CDumpContext& dc) const
 }
 
 #endif //_DEBUG
-
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
 
 
-void CMainFrame::OnSize(UINT nType, int cx, int cy) 
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
 	CMDIFrameWnd::OnSize(nType, cx, cy);
-	
+
 	if (nType != SIZE_MINIMIZED)
 	{
 		CRect newRect;
-		GetWindowRect( newRect );
+		GetWindowRect(newRect);
 
 		CRect currentRect;
-		g_EditToolBar.GetWindowRect( currentRect );
-		currentRect -= CPoint( m_oldRect.right - newRect.right, m_oldRect.top - newRect.top );
-		g_EditToolBar.MoveWindow( currentRect );
+		g_EditToolBar.GetWindowRect(currentRect);
+		currentRect -= CPoint(m_oldRect.right - newRect.right, m_oldRect.top - newRect.top);
+		g_EditToolBar.MoveWindow(currentRect);
 
 		m_oldRect = newRect;
 
-		CTinyCadRegistry::SetMaximize( IsZoomed() != 0 );
-	
+		CTinyCadRegistry::SetMaximize(IsZoomed() != 0);
+
 		RecalcLayout();
 	}
 }
 
-
-void CMainFrame::OnMove(int x, int y) 
+void CMainFrame::OnMove(int x, int y)
 {
 	CMDIFrameWnd::OnMove(x, y);
-	
+
 	CRect newRect;
-	GetWindowRect( newRect );
+	GetWindowRect(newRect);
 	CRect currentRect;
-	g_EditToolBar.GetWindowRect( currentRect );
-	currentRect -= CPoint( m_oldRect.right - newRect.right, m_oldRect.top - newRect.top );
-	g_EditToolBar.MoveWindow( currentRect );
+	g_EditToolBar.GetWindowRect(currentRect);
+	currentRect -= CPoint(m_oldRect.right - newRect.right, m_oldRect.top - newRect.top);
+	g_EditToolBar.MoveWindow(currentRect);
 	m_oldRect = newRect;
 
 }
 
-
-
-void CMainFrame::OnClose() 
+void CMainFrame::OnClose()
 {
 	SaveBarState(_T("Settings"));
-	
+
 	CMDIFrameWnd::OnClose();
 }
 
-void CMainFrame::OnViewAnnotationtoolbar() 
+void CMainFrame::OnViewAnnotationtoolbar()
 {
-	ShowControlBar(&m_wndToolBarAnnotate, (m_wndToolBarAnnotate.IsWindowVisible() ==0), FALSE); 
+	ShowControlBar(&m_wndToolBarAnnotate, (m_wndToolBarAnnotate.IsWindowVisible() == 0), FALSE);
 }
 
-void CMainFrame::OnUpdateViewAnnotationtoolbar(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewAnnotationtoolbar(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndToolBarAnnotate.IsWindowVisible());
-	
+
 }
 
-void CMainFrame::OnViewBustoolbar() 
+void CMainFrame::OnViewBustoolbar()
 {
-	ShowControlBar(&m_wndToolBarDrawBus, (m_wndToolBarDrawBus.IsWindowVisible() ==0), FALSE); 
-	
+	ShowControlBar(&m_wndToolBarDrawBus, (m_wndToolBarDrawBus.IsWindowVisible() == 0), FALSE);
+
 }
 
-void CMainFrame::OnUpdateViewBustoolbar(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewBustoolbar(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_wndToolBarDrawBus.IsWindowVisible()); 
-	
+	pCmdUI->SetCheck(m_wndToolBarDrawBus.IsWindowVisible());
+
 }
 
-void CMainFrame::OnViewEdittoolbar() 
+void CMainFrame::OnViewEdittoolbar()
 {
-	ShowControlBar(&m_wndToolBarDraw, (m_wndToolBarDraw.IsWindowVisible() ==0), FALSE); 
+	ShowControlBar(&m_wndToolBarDraw, (m_wndToolBarDraw.IsWindowVisible() == 0), FALSE);
 }
 
-void CMainFrame::OnUpdateViewEdittoolbar(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewEdittoolbar(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndToolBarDraw.IsWindowVisible());
-	
+
 }
 
-
-void CMainFrame::OnViewFiletoolbar() 
+void CMainFrame::OnViewFiletoolbar()
 {
-	ShowControlBar(&m_wndToolBar, (m_wndToolBar.IsWindowVisible() ==0), FALSE); 
-	
+	ShowControlBar(&m_wndToolBar, (m_wndToolBar.IsWindowVisible() == 0), FALSE);
+
 }
 
-void CMainFrame::OnUpdateViewFiletoolbar(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewFiletoolbar(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndToolBar.IsWindowVisible());
-	
+
 }
 
-
-void CMainFrame::OnViewGrouptoolbar() 
+void CMainFrame::OnViewGrouptoolbar()
 {
-	ShowControlBar(&m_wndToolBarDrawGroup, (m_wndToolBarDrawGroup.IsWindowVisible() ==0), FALSE); 
-	
+	ShowControlBar(&m_wndToolBarDrawGroup, (m_wndToolBarDrawGroup.IsWindowVisible() == 0), FALSE);
+
 }
 
-
-void CMainFrame::OnUpdateViewGrouptoolbar(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewGrouptoolbar(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndToolBarDrawGroup.IsWindowVisible());
-	
+
 }
 
-
-void CMainFrame::OnViewshowpos() 
+void CMainFrame::OnViewshowpos()
 {
-	m_wndPositionBox.ShowWindow( m_wndPositionBox.IsWindowVisible() ? SW_HIDE : SW_SHOW );
+	m_wndPositionBox.ShowWindow(m_wndPositionBox.IsWindowVisible() ? SW_HIDE : SW_SHOW);
 }
 
-void CMainFrame::OnUpdateViewshowpos(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewshowpos(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndPositionBox.IsWindowVisible());
-	
+
 }
 
-void CMainFrame::OnResize() 
+void CMainFrame::OnResize()
 {
-	RecalcLayout();	
+	RecalcLayout();
 }
 
-void CMainFrame::OnOptionsToolbarsSymbol() 
+void CMainFrame::OnOptionsToolbarsSymbol()
 {
-	ShowControlBar(&m_wndGetFindBox, (m_wndGetFindBox.IsWindowVisible() ==0), FALSE); 
-	
+	ShowControlBar(&m_wndGetFindBox, (m_wndGetFindBox.IsWindowVisible() == 0), FALSE);
+
 }
 
-void CMainFrame::OnUpdateOptionsToolbarsSymbol(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateOptionsToolbarsSymbol(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndGetFindBox.IsWindowVisible());
-	
+
 }
 //-------------------------------------------------------------------------
 //--
@@ -373,9 +337,9 @@ void CMainFrame::OnTimer(UINT t)
 	CAutoSave::Start();
 }
 //-------------------------------------------------------------------------
-void CMainFrame::setPositionText( CString sPos )
+void CMainFrame::setPositionText(CString sPos)
 {
-	m_wndPositionBox.SetPosition( sPos );
+	m_wndPositionBox.SetPosition(sPos);
 }
 //-------------------------------------------------------------------------
 CLibraryStoreSymbol* CMainFrame::GetSelectSymbol()
@@ -391,17 +355,17 @@ CLibraryStoreSymbol* CMainFrame::GetSelectSymbol()
 LRESULT CMainFrame::OnDDEExecute(WPARAM wParam, LPARAM lParam)
 {
 	// unpack the DDE message
-   UINT_PTR unused;
+	UINT_PTR unused;
 	HGLOBAL hData;
-   //IA64: Assume DDE LPARAMs are still 32-bit
+	//IA64: Assume DDE LPARAMs are still 32-bit
 	VERIFY(UnpackDDElParam(WM_DDE_EXECUTE, lParam, &unused, (UINT_PTR*)&hData));
 
 	// get the command string
 	TCHAR szCommand[_MAX_PATH * 2];
-	LPCTSTR lpsz = (LPCTSTR)GlobalLock(hData);
+	LPCTSTR lpsz = (LPCTSTR) GlobalLock(hData);
 	int commandLength = lstrlen(lpsz);
-	lstrcpyn(szCommand, lpsz, sizeof(szCommand));
-	if (commandLength >= sizeof(szCommand))
+	lstrcpyn(szCommand, lpsz, sizeof (szCommand));
+	if (commandLength >= sizeof (szCommand))
 	{
 		// The command would be truncated. This could be a security problem
 		TRACE0("Warning: Command was ignored because it was too long.\n");
@@ -410,22 +374,19 @@ LRESULT CMainFrame::OnDDEExecute(WPARAM wParam, LPARAM lParam)
 	GlobalUnlock(hData);
 
 	// acknowledge now - before attempting to execute
-	::PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)m_hWnd,
-	  //IA64: Assume DDE LPARAMs are still 32-bit
-		ReuseDDElParam(lParam, WM_DDE_EXECUTE, WM_DDE_ACK,
-		(UINT)0x8000, (UINT_PTR)hData));
+	::PostMessage((HWND) wParam, WM_DDE_ACK, (WPARAM) m_hWnd,
+	//IA64: Assume DDE LPARAMs are still 32-bit
+	ReuseDDElParam(lParam, WM_DDE_EXECUTE, WM_DDE_ACK, (UINT) 0x8000, (UINT_PTR) hData));
 
 	// don't execute the command when the window is disabled
 	if (!IsWindowEnabled())
 	{
-		TRACE(traceAppMsg, 0, _T("Warning: DDE command '%s' ignored because window is disabled.\n"),
-			szCommand);
+		TRACE(traceAppMsg, 0, _T("Warning: DDE command '%s' ignored because window is disabled.\n"), szCommand);
 		return 0;
 	}
 
 	// execute the command
-	if (!AfxGetApp()->OnDDECommand(szCommand))
-		TRACE(traceAppMsg, 0, _T("Error: failed to execute DDE command '%s'.\n"), szCommand);
+	if (!AfxGetApp()->OnDDECommand(szCommand)) TRACE(traceAppMsg, 0, _T("Error: failed to execute DDE command '%s'.\n"), szCommand);
 
 	return 0L;
 }

@@ -25,7 +25,7 @@
 
 // CMonitorDC
 
-CMonitorDC::CMonitorDC( CMonitor* pMonitor )
+CMonitorDC::CMonitorDC(CMonitor* pMonitor)
 {
 	ASSERT( pMonitor );
 	ASSERT( pMonitor->IsMonitor() );
@@ -37,6 +37,5 @@ CMonitorDC::~CMonitorDC()
 {
 	VERIFY( DeleteDC() );
 }
-
 
 // CMonitorDC member functions

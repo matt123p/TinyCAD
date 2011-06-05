@@ -19,17 +19,17 @@
 //-------------------------------------------------------------------------
 ListOfMetaFiles::ListOfMetaFiles()
 {
-	Init( NULL );
+	Init(NULL);
 }
 //-------------------------------------------------------------------------
-ListOfMetaFiles::ListOfMetaFiles( const ListOfMetaFiles& o )
+ListOfMetaFiles::ListOfMetaFiles(const ListOfMetaFiles& o)
 {
-	Init( o.m_pImage );
+	Init(o.m_pImage);
 }
 //-------------------------------------------------------------------------
-ListOfMetaFiles::ListOfMetaFiles( CImage* s )
+ListOfMetaFiles::ListOfMetaFiles(CImage* s)
 {
-	Init( s );
+	Init(s);
 }
 //-------------------------------------------------------------------------
 ListOfMetaFiles::~ListOfMetaFiles()
@@ -37,7 +37,7 @@ ListOfMetaFiles::~ListOfMetaFiles()
 }
 //-------------------------------------------------------------------------
 //-- The default line style
-void ListOfMetaFiles::Init( CImage* s )
+void ListOfMetaFiles::Init(CImage* s)
 {
 	m_pImage = s;
 }
@@ -52,7 +52,8 @@ void ListOfMetaFiles::Init( CImage* s )
 CImage* ListOfMetaFiles::GetImage() const
 {
 	return m_pImage;
-};
+}
+
 //-------------------------------------------------------------------------
 
 //=========================================================================
@@ -60,46 +61,46 @@ CImage* ListOfMetaFiles::GetImage() const
 //=========================================================================
 
 //-------------------------------------------------------------------------
-void ListOfMetaFiles::ReadNative( CStream& oStream )
+void ListOfMetaFiles::ReadNative(CStream& oStream)
 {
-	UINT32 	nSize		= (UINT32) -1;
-  	BYTE*	naBuffer	= NULL;
+	UINT32 nSize = (UINT32) -1;
+	BYTE* naBuffer = NULL;
 
-	Init( NULL );
+	Init(NULL);
 
 	oStream >> nSize;
-	naBuffer = new BYTE[ nSize ];
-  	oStream.Read( naBuffer, nSize );
+	naBuffer = new BYTE[nSize];
+	oStream.Read(naBuffer, nSize);
 
-  	// Create the new metafile
-  	m_pImage = new CImageMetafile();
-	m_pImage->SetCompressedData( naBuffer, nSize );
+	// Create the new metafile
+	m_pImage = new CImageMetafile();
+	m_pImage->SetCompressedData(naBuffer, nSize);
 }
 //-------------------------------------------------------------------------
-void ListOfMetaFiles::Read( CXMLReader& xml, hMETAFILE& nID )
+void ListOfMetaFiles::Read(CXMLReader& xml, hMETAFILE& nID)
 {
 	CString name;
 	CString type;
-	UINT 	nSize 		= 0;
-	BYTE*	naBuffer 	= NULL;
+	UINT nSize = 0;
+	BYTE* naBuffer = NULL;
 
-	Init( NULL );
+	Init(NULL);
 
-	xml.getAttribute( _T("id"), nID );
-	xml.getAttribute( _T("type"), type );
+	xml.getAttribute(_T("id"), nID);
+	xml.getAttribute(_T("type"), type);
 	xml.intoTag();
 
-	while (xml.nextTag( name ))
+	while (xml.nextTag(name))
 	{
 		if (name == "UUENCODE")
 		{
-			xml.getChildDataUUdecode( naBuffer, nSize );
+			xml.getChildDataUUdecode(naBuffer, nSize);
 		}
 	}
 
 	xml.outofTag();
 
-  	// Create the new metafile
+	// Create the new metafile
 	if (type == "PNG")
 	{
 		m_pImage = new CImagePNG();
@@ -113,38 +114,38 @@ void ListOfMetaFiles::Read( CXMLReader& xml, hMETAFILE& nID )
 		// Default to metafile...
 		m_pImage = new CImageMetafile();
 	}
-  	
-	m_pImage->SetCompressedData( naBuffer, nSize );
+
+	m_pImage->SetCompressedData(naBuffer, nSize);
 }
 //-------------------------------------------------------------------------
-void ListOfMetaFiles::Write( CXMLWriter& xml ) const
+void ListOfMetaFiles::Write(CXMLWriter& xml) const
 {
-	m_pImage->SaveXML( xml );
+	m_pImage->SaveXML(xml);
 }
 //--------------------------------------------------------------------------
-void ListOfMetaFiles::SaveItemXML( CTinyCadDoc*, CXMLWriter& xml )
+void ListOfMetaFiles::SaveItemXML(CTinyCadDoc*, CXMLWriter& xml)
 {
-	xml.addAttribute( _T("type"), m_pImage->GetType() );
-	Write( xml );
+	xml.addAttribute(_T("type"), m_pImage->GetType());
+	Write(xml);
 }
 //--------------------------------------------------------------------------
-void ListOfMetaFiles::LoadItemXML( CTinyCadDoc*, CXMLReader& xml )
+void ListOfMetaFiles::LoadItemXML(CTinyCadDoc*, CXMLReader& xml)
 {
-	ListOfMetaFiles	oMeta;
-	hRESOURCE		nID;
+	ListOfMetaFiles oMeta;
+	hRESOURCE nID;
 
-	oMeta.Read( xml, nID );
+	oMeta.Read(xml, nID);
 
-	Add( new ListOfMetaFiles(oMeta), nID );
+	Add(new ListOfMetaFiles(oMeta), nID);
 }
 //--------------------------------------------------------------------------
-void ListOfMetaFiles::LoadItem(CTinyCadDoc*, CStream& oStream, hRESOURCE n )
+void ListOfMetaFiles::LoadItem(CTinyCadDoc*, CStream& oStream, hRESOURCE n)
 {
 	ListOfMetaFiles oMeta;
 
-	oMeta.ReadNative( oStream );
+	oMeta.ReadNative(oStream);
 
-	Add( new ListOfMetaFiles(oMeta), n );
+	Add(new ListOfMetaFiles(oMeta), n);
 }
 //--------------------------------------------------------------------------
 
@@ -153,9 +154,9 @@ void ListOfMetaFiles::LoadItem(CTinyCadDoc*, CStream& oStream, hRESOURCE n )
 //=========================================================================
 
 //-------------------------------------------------------------------------
-BOOL ListOfMetaFiles::Compare( CDocResource* o )
+BOOL ListOfMetaFiles::Compare(CDocResource* o)
 {
-	#define  pMetaFile (((ListOfMetaFiles *)o)->m_pImage)
+#define  pMetaFile (((ListOfMetaFiles *)o)->m_pImage)
 
 	return m_pImage == pMetaFile;
 }

@@ -17,71 +17,74 @@
 //*************************************************************************
 
 //=========================================================================
-class CTinyCadRegistry
-: public CRegistry
+class CTinyCadRegistry: public CRegistry
 {
 	typedef CRegistry super;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:	CTinyCadRegistry();
-	public:	virtual ~CTinyCadRegistry();
+public:
+	CTinyCadRegistry();
+	virtual ~CTinyCadRegistry();
 
 	//-- Write the initial data to the registry
-	private:static  void	CreateDefaultEntries();
+private:
+	static void CreateDefaultEntries();
 
 	//=====================================================================
 	//== Accessor for application settings                               ==
 	//=====================================================================
 	//-- Returns the page size
-	public:static  CSize	GetPageSize();
+public:
+	static CSize GetPageSize();
 
 	//-- Returns the print scale
-	public:static  double	GetPrintScale();
+	static double GetPrintScale();
 
 	//-- Returns black and white print
-	public:static  bool		GetPrintBandW();
+	static bool GetPrintBandW();
 
 	//-- Returns MDI child window state
-	public:static  bool		GetMDIMaximize();
+	static bool GetMDIMaximize();
 
 	//-- Returns main window state
-	public:static  bool		GetMaximize();
+	static bool GetMaximize();
 
 	//-- Returns list of libraries
-	public: static CStringList*	GetLibraryNames();
+	static CStringList* GetLibraryNames();
 
 	//=====================================================================
 	//== Mutator for application settings                               ==
 	//=====================================================================
 	//-- Changes the page size
-	public:static  void		SetPageSize( CSize szPage);
+	static void SetPageSize(CSize szPage);
 
 	//-- Changes the print scale
-	public:static  void		SetPrintScale( double nPrintScale );
+	static void SetPrintScale(double nPrintScale);
 
 	//-- Changes black and white print
-	public:static  void		SetPrintBandW( bool nPrintBandW );
+	static void SetPrintBandW(bool nPrintBandW);
 
 	//-- Changes MDI child window state
-	public:static  void		SetMDIMaximize( bool bMDIMaximize );
+	static void SetMDIMaximize(bool bMDIMaximize);
 
 	//-- Changes main window state
-	public:static  void		SetMaximize( bool bWndMaximize );
+	static void SetMaximize(bool bWndMaximize);
 
 	//=====================================================================
 	//== class constants                                                 ==
 	//=====================================================================
 	//-- The revision number for storage in the registry database
-	private: static const CString	M_SKEY;
+private:
+	static const CString M_SKEY;
 
-	private: static	const CString	M_SPAGESIZE;
-	private: static	const CString	M_SPRINTSCALE;
-	private: static	const CString	M_SPRINTBANDW;
-	private: static	const CString	M_SMDIMAXIMIZE;
-	private: static	const CString	M_SMAXIMIZE;
-	private: static	const CString	M_SLIBRARIES;
+	static const CString M_SPAGESIZE;
+	static const CString M_SPRINTSCALE;
+	static const CString M_SPRINTBANDW;
+	static const CString M_SMDIMAXIMIZE;
+	static const CString M_SMAXIMIZE;
+	static const CString M_SLIBRARIES;
 };
 //=========================================================================
 

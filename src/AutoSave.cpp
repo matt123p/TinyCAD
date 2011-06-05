@@ -14,13 +14,13 @@
 //== init class constants                                                ==
 //=========================================================================
 //-- Remember: The timer event identifier 1 was used in Startup.cpp
-const int	CAutoSave::M_NID 		= 2;
+const int CAutoSave::M_NID = 2;
 
 //=========================================================================
 //== init class variables                                                ==
 //=========================================================================
-UInt32		CAutoSave::m_nDelay		= 10;
-CAutoSave*	CAutoSave::m_pInstance	= NULL;
+UInt32 CAutoSave::m_nDelay = 10;
+CAutoSave* CAutoSave::m_pInstance = NULL;
 
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
@@ -30,12 +30,12 @@ CAutoSave*	CAutoSave::m_pInstance	= NULL;
 CAutoSave::CAutoSave()
 {
 	// Timer's initial delay is ten minutes
-	m_nDelay = CRegistry::GetInt( "AutoSave", 10 );
+	m_nDelay = CRegistry::GetInt("AutoSave", 10);
 }
 //-------------------------------------------------------------------------
-CAutoSave*	CAutoSave::GetInstance()
+CAutoSave* CAutoSave::GetInstance()
 {
-	if( m_pInstance == NULL )
+	if (m_pInstance == NULL)
 	{
 		m_pInstance = new CAutoSave();
 	}
@@ -61,19 +61,19 @@ boolean CAutoSave::IsEnabled()
 }
 //-------------------------------------------------------------------------
 //-- Enables/Disables timer events
-void CAutoSave::SetEnabled( boolean bIsEnabled )
+void CAutoSave::SetEnabled(boolean bIsEnabled)
 {
-	if( bIsEnabled )
+	if (bIsEnabled)
 	{
-		if( CAutoSave::m_nDelay == 0 )
+		if (CAutoSave::m_nDelay == 0)
 		{
 			// Force minimal delay
-			SetDelay( 1 );
+			SetDelay(1);
 		}
 	}
 	else
 	{
-		SetDelay( 0 );
+		SetDelay(0);
 	}
 }
 //-------------------------------------------------------------------------
@@ -85,11 +85,11 @@ UInt32 CAutoSave::GetDelay()
 //-------------------------------------------------------------------------
 //-- Sets the Timer's delay, the number of minutes between
 //-- successive action events
-void CAutoSave::SetDelay( UInt32 nDelay )
+void CAutoSave::SetDelay(UInt32 nDelay)
 {
 	CAutoSave::m_nDelay = nDelay;
 
-	CRegistry::Set( "AutoSave", m_nDelay );
+	CRegistry::Set("AutoSave", m_nDelay);
 }
 //-------------------------------------------------------------------------
 
@@ -102,9 +102,9 @@ void CAutoSave::SetDelay( UInt32 nDelay )
 //-- to its listener window loop
 void CAutoSave::Start()
 {
-	if( IsEnabled() )
+	if (IsEnabled())
 	{
-		::SetTimer( AfxGetMainWnd()->m_hWnd, M_NID, m_nDelay * 60 * 1000 , NULL );
+		::SetTimer(AfxGetMainWnd()->m_hWnd, M_NID, m_nDelay * 60 * 1000, NULL);
 	}
 }
 //-------------------------------------------------------------------------
@@ -112,6 +112,6 @@ void CAutoSave::Start()
 //-- to its listener window
 void CAutoSave::Stop()
 {
-	::KillTimer( AfxGetMainWnd()->m_hWnd, M_NID );
+	::KillTimer(AfxGetMainWnd()->m_hWnd, M_NID);
 }
 //-------------------------------------------------------------------------

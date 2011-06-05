@@ -11,9 +11,8 @@
 #include "tinycad.h"
 #include "assert.h"
 
-
 BEGIN_MESSAGE_MAP(CDlgColours, CDialog)
-	//{{AFX_MSG_MAP(CDlgColours)
+//{{AFX_MSG_MAP(CDlgColours)
 	ON_BN_CLICKED(IDC_COL_BUS, OnColBus)
 	ON_BN_CLICKED(IDC_COL_JUNCTION, OnColJunction)
 	ON_BN_CLICKED(IDC_COL_NOCONNECT, OnColNoconnect)
@@ -32,20 +31,20 @@ END_MESSAGE_MAP()
 
 //-------------------------------------------------------------------------
 CDlgColours::CDlgColours( CUserColor& oColor )
-: super( CDlgColours::IDD, NULL ), m_oColorRef( oColor )
+: super( CDlgColours::IDD, NULL ), m_oColorRef ( oColor )
 {
 	m_oColor = CUserColor( m_oColorRef );
 
 	// Sets all custom colors to black
 	memset( m_oaCustomColors, 0, sizeof(m_oaCustomColors) );
-	
-	m_id_map[ IDC_COL_BUS ] 		= CUserColor::BUS;
-	m_id_map[ IDC_COL_JUNCTION ] 	= CUserColor::JUNCTION;
-	m_id_map[ IDC_COL_NOCONNECT ] 	= CUserColor::NOCONNECT;
-	m_id_map[ IDC_COL_PIN ] 		= CUserColor::PIN;
-	m_id_map[ IDC_COL_POWER ] 		= CUserColor::POWER;
-	m_id_map[ IDC_COL_WIRE ] 		= CUserColor::WIRE;
-	m_id_map[ IDC_COL_BACKGROUND ] 	= CUserColor::BACKGROUND;
+
+	m_id_map[ IDC_COL_BUS ] = CUserColor::BUS;
+	m_id_map[ IDC_COL_JUNCTION ] = CUserColor::JUNCTION;
+	m_id_map[ IDC_COL_NOCONNECT ] = CUserColor::NOCONNECT;
+	m_id_map[ IDC_COL_PIN ] = CUserColor::PIN;
+	m_id_map[ IDC_COL_POWER ] = CUserColor::POWER;
+	m_id_map[ IDC_COL_WIRE ] = CUserColor::WIRE;
+	m_id_map[ IDC_COL_BACKGROUND ] = CUserColor::BACKGROUND;
 }
 //-------------------------------------------------------------------------
 
@@ -56,83 +55,83 @@ CDlgColours::CDlgColours( CUserColor& oColor )
 //-------------------------------------------------------------------------
 void CDlgColours::OnColBackground()
 {
-	EditColor( CUserColor::BACKGROUND );
+	EditColor(CUserColor::BACKGROUND);
 }
 //-------------------------------------------------------------------------
 void CDlgColours::OnColBus()
 {
-	EditColor( CUserColor::BUS );
+	EditColor(CUserColor::BUS);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnColJunction() 
+void CDlgColours::OnColJunction()
 {
-	EditColor( CUserColor::JUNCTION );
+	EditColor(CUserColor::JUNCTION);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnColNoconnect() 
+void CDlgColours::OnColNoconnect()
 {
-	EditColor( CUserColor::NOCONNECT );
+	EditColor(CUserColor::NOCONNECT);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnColPin() 
+void CDlgColours::OnColPin()
 {
-	EditColor( CUserColor::PIN );
+	EditColor(CUserColor::PIN);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnColPower() 
+void CDlgColours::OnColPower()
 {
-	EditColor( CUserColor::POWER );
+	EditColor(CUserColor::POWER);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnColWire() 
+void CDlgColours::OnColWire()
 {
-	EditColor( CUserColor::WIRE );
+	EditColor(CUserColor::WIRE);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnDrawItem( int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct )
+void CDlgColours::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	COLORREF 	crButton = m_oColor.Get( m_id_map[ nIDCtl ] );
+	COLORREF crButton = m_oColor.Get(m_id_map[nIDCtl]);
 	CDC dc;
-	CBrush 		brush( crButton );
+	CBrush brush(crButton);
 
-	dc.Attach( lpDrawItemStruct->hDC );
-	dc.SelectStockObject( BLACK_PEN );
-	dc.SelectObject( &brush );
-	dc.Rectangle( &lpDrawItemStruct->rcItem );
+	dc.Attach(lpDrawItemStruct->hDC);
+	dc.SelectStockObject(BLACK_PEN);
+	dc.SelectObject(&brush);
+	dc.Rectangle(&lpDrawItemStruct->rcItem);
 	dc.Detach();
-	
-	super::OnDrawItem( nIDCtl, lpDrawItemStruct );
+
+	super::OnDrawItem(nIDCtl, lpDrawItemStruct);
 }
 //-------------------------------------------------------------------------
 //-- Bring up the colour dialogue
-void CDlgColours::EditColor( int nID )
+void CDlgColours::EditColor(int nID)
 {
 	CHOOSECOLOR oDlg;
 
-	memset( &oDlg, 0, sizeof(oDlg) );
+	memset(&oDlg, 0, sizeof (oDlg));
 
-	oDlg.lStructSize	= sizeof( oDlg );
-	oDlg.hwndOwner		= m_hWnd;
-	oDlg.rgbResult		= m_oColor.Get( nID );
-	oDlg.Flags			= CC_ANYCOLOR | CC_RGBINIT;
-	oDlg.lpCustColors	= m_oaCustomColors;
+	oDlg.lStructSize = sizeof (oDlg);
+	oDlg.hwndOwner = m_hWnd;
+	oDlg.rgbResult = m_oColor.Get(nID);
+	oDlg.Flags = CC_ANYCOLOR | CC_RGBINIT;
+	oDlg.lpCustColors = m_oaCustomColors;
 
-	ChooseColor( &oDlg );
+	ChooseColor(&oDlg);
 
-	m_oColor.Set( nID, oDlg.rgbResult );
+	m_oColor.Set(nID, oDlg.rgbResult);
 
-		RedrawWindow();
+	RedrawWindow();
 }
 //-------------------------------------------------------------------------
 void CDlgColours::OnOK()
 {
-	m_oColorRef = CUserColor( m_oColor );
+	m_oColorRef = CUserColor(m_oColor);
 	m_oColorRef.WriteRegistry();
 
-	EndDialog( IDOK );
+	EndDialog(IDOK);
 }
 //-------------------------------------------------------------------------
-void CDlgColours::OnReset() 
+void CDlgColours::OnReset()
 {
 	m_oColor.Init();
 	RedrawWindow();

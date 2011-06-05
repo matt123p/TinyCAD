@@ -19,47 +19,60 @@
 //*************************************************************************
 
 // The fill style type
-typedef	hRESOURCE	hMETAFILE;
+typedef hRESOURCE hMETAFILE;
 
 //=========================================================================
-class ListOfMetaFiles
-: public CDocResource
+class ListOfMetaFiles: public CDocResource
 {
 	typedef CDocResource super;
 
 	// The Fill style this describes
-	private:	CImage*		m_pImage;
+private:
+	CImage* m_pImage;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public: 					ListOfMetaFiles();
-	public: 					ListOfMetaFiles( const ListOfMetaFiles& o );
-	public: 					ListOfMetaFiles( CImage* s );
-	public: 					~ListOfMetaFiles();
-	private:		void		Init( CImage* s );
+public:
+	ListOfMetaFiles();
+public:
+	ListOfMetaFiles(const ListOfMetaFiles& o);
+public:
+	ListOfMetaFiles(CImage* s);
+public:
+	~ListOfMetaFiles();
+private:
+	void Init(CImage* s);
 
 	//=====================================================================
 	//== accessor/mutator                                                ==
 	//=====================================================================
 	// Get the data associated with this resource
-	public:			CImage* GetImage() const;
+public:
+	CImage* GetImage() const;
 
 	//=====================================================================
 	//== serialization                                                   ==
 	//=====================================================================
-	public:	virtual	void		ReadNative( CStream& oStream );
-	public:	virtual	void		Read( CXMLReader& xml, hMETAFILE& nID );
-	public:	virtual	void		Write( CXMLWriter& xml ) const;
+public:
+	virtual void ReadNative(CStream& oStream);
+public:
+	virtual void Read(CXMLReader& xml, hMETAFILE& nID);
+public:
+	virtual void Write(CXMLWriter& xml) const;
 
-	public:	virtual void 		LoadItem(CTinyCadDoc*, CStream&, hRESOURCE );
-	public:	virtual void 		SaveItemXML( CTinyCadDoc*, CXMLWriter& xml );
-	public:	virtual void 		LoadItemXML(CTinyCadDoc*, CXMLReader& xml );
+public:
+	virtual void LoadItem(CTinyCadDoc*, CStream&, hRESOURCE);
+public:
+	virtual void SaveItemXML(CTinyCadDoc*, CXMLWriter& xml);
+public:
+	virtual void LoadItemXML(CTinyCadDoc*, CXMLReader& xml);
 
 	//=====================================================================
 	//== Comparision                                                     ==
 	//=====================================================================
 	//-- Compare this resource with another resource of the same type
-	public: virtual	BOOL 		Compare( CDocResource* );
+public:
+	virtual BOOL Compare(CDocResource*);
 };
 //=========================================================================

@@ -1,0 +1,55 @@
+Changes from TinyCAD 2.80.02.463 Production Release:
+
+New Feature #3043277 - Show '*' in title bar when document has been changed.
+
+New Feature #3062572 - Auto DRC before netlist generation.
+
+New Feature #3001869 - Add DRC check for unplaced multiple gates This DRC check is active when the "Unconnected nets" option is selected. In the ERC list it is reported as: "Not all parts in this package are in this design".
+
+New Feature #3121004 - Single key Rotate and Duplicate - When a symbol or group of objects is selected, it is now possible to Rotate, Flip and Duplicate with a single keystroke. The recognized keys are: R, L, F and U for Right,Left,Flip and Duplicate respectively.
+
+New Feature #3121047 - Keep symbol options dialog open - When TinyCAD looses focus, it now keeps the tool dialog open. This allows convenient switching between applications without having to reselect the object again.
+
+New Feature #3121306 - Spreadsheet compatible BOM - New 'speadsheet compatible CSV' file type in the "Create Parts List" function.
+
+New Feature #3089316 - 'symbol origin' marker.  The symbol origin is used as an anchor when changing the part nr, showing power pins and when replacing the symbol.
+
+New Feature #2998184 - Value parameter in PADS-PCB Netlist.
+
+Bug Fix #3097650 - library symbol picker: the filtering made case-insensitive.
+
+Bug Fix #3089308 - Prevent writing '1.#QNAN' into the dsn file at node TinyCAD/SYMBOLDEF/FIELD/POS. This anomaly was caused by the solution for "hidden power pins bug".
+
+Bug Fix #3067069 - Improvement to the DEL key functionality. Allow all common cut/copy/paste/delete/undo/redo keyboard shortcuts to be usable in a dialog.
+
+Bug Fix #3103931 - Symbol parameter fields too small in the symbol property dialogs.
+
+Bug Fix #3112030 - Attribute edit box stays visible - When editing an attribute on the "Update library symbol" dialog, and then switch to the 'SPICE' tab, the attribute edit box stays visible.
+
+Bug Fix #3089316 - Improved symbol 'anchor' handling when the symbol has no explicit origin marker.
+
+Bug Fix #3109743 - Improved "not" bar position for labels.
+
+Bug Fix #3125062 - Dr Watson crash on generate XML netlist.
+
+Bug Fix #3105141 - Crash after DRC correction and recheck.
+
+Bug Fix #3087569 - No prompt to "save changes" after editing "Design Details".
+
+Bug Fix #3106824 - Can't undo network wire color change.
+
+Bug Fix #3046032 - refdes default Visibility follows Name setting.
+
+Bug Fix #2710265 - Ampersand in filenames gets turned into _ in the title (design details) block.
+
+The following fixes have no Tracker#
+Bug Fix - Improved ruler markings readability.
+Bug Fix - Incorrect grid display near 0,0 position.
+Bug Fix - Reference generator didn't use all parts of a symbol.
+Bug Fix - The symbol's  'NAME type' and 'REF type' where always read from file as '0'.
+Bug Fix - Scaled+mirrored symbols with pins did not snap to the correct pin's hot-spot position.
+Bug Fix - Replacing a symbol did not correctly refresh the display.
+Bug Fix - Copying to and from an Hierarchical Symbol sheet gives error: "This file was not created by TinyCAD".
+Bug Fix - Ampersand gets turned into _ on all symbol property dialogs.
+Bug Fix - Ampersand gets turned into _ on sheet name tab.
+Bug Fix - Refresh display problem of top symbol in library symbol edit list when scrolling up.

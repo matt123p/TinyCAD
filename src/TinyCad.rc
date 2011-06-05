@@ -111,6 +111,9 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Copy to...\tCtrl+E",          ID_EDIT_COPYTO
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
@@ -139,7 +142,7 @@ BEGIN
         MENUITEM "&Generate Symbol References...", IDM_SPECIALANNOTATE
         MENUITEM "Create &Parts List...",       IDM_SPECIALBOM
         MENUITEM SEPARATOR
-        MENUITEM "Create Spice Net List",       ID_SPECIAL_CREATESPICEFILE
+        MENUITEM "Create Spice Net List...",    ID_SPECIAL_CREATESPICEFILE
         MENUITEM SEPARATOR
         MENUITEM "Insert another design as symbol...", IDM_TOOLHIERARCHICAL
         MENUITEM "Add hierarchical symbol",     32867
@@ -297,6 +300,7 @@ BEGIN
     VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY, NOINVERT
     VK_F9,          IDM_BUSBACK,            VIRTKEY, NOINVERT
     VK_F8,          IDM_BUSSLASH,           VIRTKEY, NOINVERT
+    "A",            IDM_EDITSELECTALL,      VIRTKEY, CONTROL, NOINVERT
     "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT, NOINVERT
     VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY, NOINVERT
@@ -332,9 +336,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPT
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1994-2010 Matt Pyne",IDC_STATIC,39,48,127,8
+    LTEXT           "Copyright (C) 1994-2011 Matt Pyne",IDC_STATIC,39,48,127,8
     DEFPUSHBUTTON   "OK",IDOK,212,241,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,39,247,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
@@ -865,8 +869,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,80,1,0
- PRODUCTVERSION 2,80,1,0
+ FILEVERSION 2,80,4,0
+ PRODUCTVERSION 2,80,4,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -884,12 +888,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 80, 1, 0"
+            VALUE "FileVersion", "2, 80, 4, 0"
             VALUE "InternalName", "TinyCAD"
             VALUE "LegalCopyright", "Copyright (C) 2002 - 2010 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 80, 1, 0"
+            VALUE "ProductVersion", "2, 80, 4, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1127,6 +1131,7 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
@@ -1279,6 +1284,7 @@ BEGIN
         MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
         MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
         MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
         MENUITEM SEPARATOR
@@ -1856,6 +1862,11 @@ BEGIN
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
     IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITSELECTALL       "Select all objects\nSelect All"
 END
 
 STRINGTABLE 

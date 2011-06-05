@@ -15,15 +15,16 @@
 //*************************************************************************
 
 //=========================================================================
-class CDlgAbout
-: public CDialog
+class CDlgAbout: public CDialog
 {
 	typedef CDialog super;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
-	public:						CDlgAbout();
-	protected:	virtual	BOOL	OnInitDialog();
+public:
+	CDlgAbout();
+protected:
+	virtual BOOL OnInitDialog();
 };
 //=========================================================================

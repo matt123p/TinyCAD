@@ -20,14 +20,14 @@ ListOfFillStyles::ListOfFillStyles()
 	Init();
 }
 //-------------------------------------------------------------------------
-ListOfFillStyles::ListOfFillStyles( Int32 nIndex, COLORREF crFill )
+ListOfFillStyles::ListOfFillStyles(Int32 nIndex, COLORREF crFill)
 {
-	Init( nIndex, crFill );
+	Init(nIndex, crFill);
 }
 //-------------------------------------------------------------------------
-ListOfFillStyles::ListOfFillStyles( FillStyle oStyle )
+ListOfFillStyles::ListOfFillStyles(FillStyle oStyle)
 {
-	Init( oStyle.Index, oStyle.Colour );
+	Init(oStyle.Index, oStyle.Colour);
 }
 //-------------------------------------------------------------------------
 ListOfFillStyles::~ListOfFillStyles()
@@ -37,13 +37,13 @@ ListOfFillStyles::~ListOfFillStyles()
 //-- The default line style
 void ListOfFillStyles::Init()
 {
-	Init( -1, cBLACK );
+	Init(-1, cBLACK);
 }
 //-------------------------------------------------------------------------
-void ListOfFillStyles::Init( Int32 nIndex, COLORREF crFill )
+void ListOfFillStyles::Init(Int32 nIndex, COLORREF crFill)
 {
-	m_oFillStyle.Index		= nIndex;
-	m_oFillStyle.Colour 	= crFill;
+	m_oFillStyle.Index = nIndex;
+	m_oFillStyle.Colour = crFill;
 }
 //-------------------------------------------------------------------------
 
@@ -63,65 +63,65 @@ FillStyle* ListOfFillStyles::GetFillStylePtr()
 //=========================================================================
 
 //-------------------------------------------------------------------------
-void ListOfFillStyles::ReadNative( CStream& oStream )
+void ListOfFillStyles::ReadNative(CStream& oStream)
 {
 	Init();
 
-	oStream.Read( &m_oFillStyle, sizeof(FillStyle) );
+	oStream.Read(&m_oFillStyle, sizeof(FillStyle));
 }
 //-------------------------------------------------------------------------
-void ListOfFillStyles::Read( CXMLReader& xml, hFILL& nID )
+void ListOfFillStyles::Read(CXMLReader& xml, hFILL& nID)
 {
 	CString name;
 
 	Init();
 
-	xml.getAttribute( _T("id"), nID );
+	xml.getAttribute(_T("id"), nID);
 	xml.intoTag();
 
-	while (xml.nextTag( name ))
+	while (xml.nextTag(name))
 	{
 		if (name == "INDEX")
 		{
-			xml.getChildData( m_oFillStyle.Index );
+			xml.getChildData(m_oFillStyle.Index);
 		}
 		else if (name == "COLOR")
 		{
-			xml.getChildData( m_oFillStyle.Colour );
+			xml.getChildData(m_oFillStyle.Colour);
 		}
 	}
 
 	xml.outofTag();
 }
 //-------------------------------------------------------------------------
-void ListOfFillStyles::Write( CXMLWriter& xml ) const
+void ListOfFillStyles::Write(CXMLWriter& xml) const
 {
-	xml.addTag( _T("INDEX"), m_oFillStyle.Index );
-	xml.addTag( _T("COLOR"), m_oFillStyle.Colour );
+	xml.addTag(_T("INDEX"), m_oFillStyle.Index);
+	xml.addTag(_T("COLOR"), m_oFillStyle.Colour);
 }
 //-------------------------------------------------------------------------
-void ListOfFillStyles::SaveItemXML( CTinyCadDoc*, CXMLWriter& xml)
+void ListOfFillStyles::SaveItemXML(CTinyCadDoc*, CXMLWriter& xml)
 {
-	Write( xml );
+	Write(xml);
 }
 //-------------------------------------------------------------------------
 void ListOfFillStyles::LoadItemXML(CTinyCadDoc*, CXMLReader &xml)
 {
-	ListOfFillStyles	oFillStyle;
-	hFILL				nID;
+	ListOfFillStyles oFillStyle;
+	hFILL nID;
 
-	oFillStyle.Read( xml, nID );
+	oFillStyle.Read(xml, nID);
 
-	Add( new ListOfFillStyles(oFillStyle), nID );
+	Add(new ListOfFillStyles(oFillStyle), nID);
 }
 //-------------------------------------------------------------------------
-void ListOfFillStyles::LoadItem( CTinyCadDoc*, CStream& oStream, hRESOURCE n )
+void ListOfFillStyles::LoadItem(CTinyCadDoc*, CStream& oStream, hRESOURCE n)
 {
 	ListOfFillStyles oStyle;
 
-	oStyle.ReadNative( oStream );
+	oStyle.ReadNative(oStream);
 
-	Add( new ListOfFillStyles(oStyle), n );
+	Add(new ListOfFillStyles(oStyle), n);
 }
 //-------------------------------------------------------------------------
 
@@ -130,11 +130,10 @@ void ListOfFillStyles::LoadItem( CTinyCadDoc*, CStream& oStream, hRESOURCE n )
 //=========================================================================
 
 //-------------------------------------------------------------------------
-BOOL ListOfFillStyles::Compare( CDocResource* o )
+BOOL ListOfFillStyles::Compare(CDocResource* o)
 {
-	#define  pFillStyle (((ListOfFillStyles *)o)->m_oFillStyle)
+#define  pFillStyle (((ListOfFillStyles *)o)->m_oFillStyle)
 
-	return pFillStyle.Colour    == m_oFillStyle.Colour
-		&& pFillStyle.Index		== m_oFillStyle.Index;
+	return pFillStyle.Colour == m_oFillStyle.Colour && pFillStyle.Index == m_oFillStyle.Index;
 }
 //-------------------------------------------------------------------------

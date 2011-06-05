@@ -9,36 +9,36 @@
 #include "stdafx.h"
 #include "ListOfFonts.h"
 
-const CString 	ListOfFonts::DEFAULT_FONT 	= "Arial";
-const Int32 	ListOfFonts::TEXT_HEIGHT 	= -13;
-const Int32 	ListOfFonts::RULE_HEIGHT 	= -10;
-const Int32 	ListOfFonts::PIN_HEIGHT 	= -10;
+const CString ListOfFonts::DEFAULT_FONT = "Arial";
+const Int32 ListOfFonts::TEXT_HEIGHT = -13;
+const Int32 ListOfFonts::RULE_HEIGHT = -10;
+const Int32 ListOfFonts::PIN_HEIGHT = -10;
 
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
 //=========================================================================
 
 //-------------------------------------------------------------------------
-ListOfFonts::ListOfFonts()
-: super()
+ListOfFonts::ListOfFonts() :
+	super()
 {
 	Init();
 }
 //-------------------------------------------------------------------------
-ListOfFonts::ListOfFonts( const ListOfFonts& oFont )
-: super()
+ListOfFonts::ListOfFonts(const ListOfFonts& oFont) :
+	super()
 {
-	Init( oFont.GetFont() );
+	Init(oFont.GetFont());
 }
 //-------------------------------------------------------------------------
-ListOfFonts::ListOfFonts( LOGFONT oFont )
-: super()
+ListOfFonts::ListOfFonts(LOGFONT oFont) :
+	super()
 {
-	Init( oFont );
+	Init(oFont);
 }
 //-------------------------------------------------------------------------
-ListOfFonts::ListOfFonts( Int32 nHeight, bool bIsItalic )
-: super()
+ListOfFonts::ListOfFonts(Int32 nHeight, bool bIsItalic) :
+	super()
 {
 	Init();
 
@@ -52,13 +52,13 @@ ListOfFonts::~ListOfFonts()
 //-------------------------------------------------------------------------
 void ListOfFonts::Init()
 {
-	Init( ListOfFonts::GetDefaultFont() );
+	Init(ListOfFonts::GetDefaultFont());
 }
 //-------------------------------------------------------------------------
-void ListOfFonts::Init( LOGFONT oFont )
+void ListOfFonts::Init(LOGFONT oFont)
 {
 	// Set only relevant parts
-	memcpy( &m_oFont, &oFont, sizeof( oFont ) );
+	memcpy(&m_oFont, &oFont, sizeof (oFont));
 }
 //-------------------------------------------------------------------------
 
@@ -82,30 +82,30 @@ LOGFONT* ListOfFonts::GetFontPtr()
 	return &m_oFont;
 }
 //-------------------------------------------------------------------------
-LOGFONT	ListOfFonts::GetDefaultFont()
+LOGFONT ListOfFonts::GetDefaultFont()
 {
 	LOGFONT oReturn;
 
-	memset( &oReturn, 0, sizeof(LOGFONT) );
+	memset(&oReturn, 0, sizeof(LOGFONT));
 
-  	oReturn.lfHeight 			= ListOfFonts::TEXT_HEIGHT;
-  	oReturn.lfWidth 			= 0;
-  	oReturn.lfWeight 			= 400;
-  	oReturn.lfOrientation		= 0;
- 	oReturn.lfItalic	 		= FALSE;
- 	oReturn.lfUnderline 		= FALSE;
-  	oReturn.lfStrikeOut 		= FALSE;
-  	_tcscpy_s( oReturn.lfFaceName, ListOfFonts::DEFAULT_FONT );
+	oReturn.lfHeight = ListOfFonts::TEXT_HEIGHT;
+	oReturn.lfWidth = 0;
+	oReturn.lfWeight = 400;
+	oReturn.lfOrientation = 0;
+	oReturn.lfItalic = FALSE;
+	oReturn.lfUnderline = FALSE;
+	oReturn.lfStrikeOut = FALSE;
+	_tcscpy_s(oReturn.lfFaceName, ListOfFonts::DEFAULT_FONT);
 
-  	// default values will never change
-  	oReturn.lfEscapement 		= 0;
-  	oReturn.lfOutPrecision 		= OUT_DEFAULT_PRECIS;
-  	oReturn.lfClipPrecision 	= CLIP_DEFAULT_PRECIS | CLIP_LH_ANGLES;
-  	oReturn.lfCharSet 			= ANSI_CHARSET;
-  	oReturn.lfQuality 			= DEFAULT_QUALITY;
-  	oReturn.lfPitchAndFamily 	= DEFAULT_PITCH | FF_SWISS;
+	// default values will never change
+	oReturn.lfEscapement = 0;
+	oReturn.lfOutPrecision = OUT_DEFAULT_PRECIS;
+	oReturn.lfClipPrecision = CLIP_DEFAULT_PRECIS | CLIP_LH_ANGLES;
+	oReturn.lfCharSet = ANSI_CHARSET;
+	oReturn.lfQuality = DEFAULT_QUALITY;
+	oReturn.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS;
 
-  	return oReturn;
+	return oReturn;
 }
 //-------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ LOGFONT	ListOfFonts::GetDefaultFont()
 //=========================================================================
 
 //-------------------------------------------------------------------------
-void ListOfFonts::ReadNative( CStream& oStream )
+void ListOfFonts::ReadNative(CStream& oStream)
 {
 	Init();
 #ifdef UNICODE
@@ -125,39 +125,39 @@ void ListOfFonts::ReadNative( CStream& oStream )
 	int l = MultiByteToWideChar( CP_ACP, 0, in.lfFaceName, strlen( in.lfFaceName ), m_oFont.lfFaceName, sizeof( m_oFont.lfFaceName )/sizeof( wchar_t ) );
 	m_oFont.lfFaceName[ l ] = 0;
 #else
-	oStream.Read( &m_oFont, sizeof(LOGFONT) );
+	oStream.Read(&m_oFont, sizeof(LOGFONT));
 #endif
 	// Init unused parts of LOGFONT structure
-//  	m_oFont.lfEscapement 		= 0;
-//  	m_oFont.lfOutPrecision 		= OUT_DEFAULT_PRECIS;
-//  	m_oFont.lfClipPrecision 	= CLIP_DEFAULT_PRECIS | CLIP_LH_ANGLES;
-//  	m_oFont.lfCharSet 			= ANSI_CHARSET;
-//  	m_oFont.lfQuality 			= DEFAULT_QUALITY;
-//  	m_oFont.lfPitchAndFamily 	= DEFAULT_PITCH | FF_SWISS;
+	//  	m_oFont.lfEscapement 		= 0;
+	//  	m_oFont.lfOutPrecision 		= OUT_DEFAULT_PRECIS;
+	//  	m_oFont.lfClipPrecision 	= CLIP_DEFAULT_PRECIS | CLIP_LH_ANGLES;
+	//  	m_oFont.lfCharSet 			= ANSI_CHARSET;
+	//  	m_oFont.lfQuality 			= DEFAULT_QUALITY;
+	//  	m_oFont.lfPitchAndFamily 	= DEFAULT_PITCH | FF_SWISS;
 }
 //-------------------------------------------------------------------------
-void ListOfFonts::Write( CXMLWriter& xml ) const
+void ListOfFonts::Write(CXMLWriter& xml) const
 {
-	xml.addTag( _T("HEIGHT"), 		m_oFont.lfHeight );
-	xml.addTag( _T("WIDTH"), 		m_oFont.lfWidth );
-  	xml.addTag( _T("WEIGHT"), 		m_oFont.lfWeight );
-  	xml.addTag( _T("ITALIC"), 		m_oFont.lfItalic );
-  	xml.addTag( _T("UNDERLINE"), 	m_oFont.lfUnderline );
-  	xml.addTag( _T("STRIKEOUT"), 	m_oFont.lfStrikeOut );
-  	xml.addTag( _T("CHARSET"), 		m_oFont.lfCharSet );
-  	xml.addTag( _T("FACENAME"), 	m_oFont.lfFaceName );
+	xml.addTag(_T("HEIGHT"), m_oFont.lfHeight);
+	xml.addTag(_T("WIDTH"), m_oFont.lfWidth);
+	xml.addTag(_T("WEIGHT"), m_oFont.lfWeight);
+	xml.addTag(_T("ITALIC"), m_oFont.lfItalic);
+	xml.addTag(_T("UNDERLINE"), m_oFont.lfUnderline);
+	xml.addTag(_T("STRIKEOUT"), m_oFont.lfStrikeOut);
+	xml.addTag(_T("CHARSET"), m_oFont.lfCharSet);
+	xml.addTag(_T("FACENAME"), m_oFont.lfFaceName);
 }
 //-------------------------------------------------------------------------
-void ListOfFonts::Read( CXMLReader& xml, hFONT& nID )
+void ListOfFonts::Read(CXMLReader& xml, hFONT& nID)
 {
 	CString name;
 
 	Init();
 
-	xml.getAttribute( _T("id"), nID );
+	xml.getAttribute(_T("id"), nID);
 	xml.intoTag();
 
-	while (xml.nextTag( name ))
+	while (xml.nextTag(name))
 	{
 		if (name == "HEIGHT")
 		{
@@ -191,7 +191,7 @@ void ListOfFonts::Read( CXMLReader& xml, hFONT& nID )
 		{
 			CString s;
 			xml.getChildData(s);
-			_tcscpy_s(m_oFont.lfFaceName, s );
+			_tcscpy_s(m_oFont.lfFaceName, s);
 		}
 	}
 
@@ -202,24 +202,24 @@ void ListOfFonts::LoadItem(CTinyCadDoc *pDesign, CStream& oStream, hRESOURCE n)
 {
 	ListOfFonts oFont;
 
-	oFont.ReadNative( oStream );
+	oFont.ReadNative(oStream);
 
-	Add( new ListOfFonts(oFont), n );
+	Add(new ListOfFonts(oFont), n);
 }
 //-------------------------------------------------------------------------
-void ListOfFonts::SaveItemXML( CTinyCadDoc *pDesign, CXMLWriter &xml)
+void ListOfFonts::SaveItemXML(CTinyCadDoc *pDesign, CXMLWriter &xml)
 {
-	Write( xml );
+	Write(xml);
 }
 //-------------------------------------------------------------------------
-void ListOfFonts::LoadItemXML( CTinyCadDoc* pDesign, CXMLReader& xml )
+void ListOfFonts::LoadItemXML(CTinyCadDoc* pDesign, CXMLReader& xml)
 {
-	hRESOURCE 		nID;
-	ListOfFonts		oFont;
+	hRESOURCE nID;
+	ListOfFonts oFont;
 
-	oFont.Read( xml, nID );
+	oFont.Read(xml, nID);
 
-	Add( new ListOfFonts(oFont), nID );
+	Add(new ListOfFonts(oFont), nID);
 }
 //-------------------------------------------------------------------------
 
@@ -228,9 +228,9 @@ void ListOfFonts::LoadItemXML( CTinyCadDoc* pDesign, CXMLReader& xml )
 //=========================================================================
 
 //-------------------------------------------------------------------------
-BOOL ListOfFonts::Compare( CDocResource* o )
+BOOL ListOfFonts::Compare(CDocResource* o)
 {
-	#define  pFont ((ListOfFonts *)o)->m_oFont
+#define  pFont ((ListOfFonts *)o)->m_oFont
 
 	BOOL  bReturn =	pFont.lfHeight    == m_oFont.lfHeight &&
 					pFont.lfWidth     == m_oFont.lfWidth &&

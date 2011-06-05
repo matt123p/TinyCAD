@@ -6,7 +6,6 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-
 // This file contains all the revision information for TinyCAD
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -92,15 +91,13 @@
 //  Mar 2003	Version 1.60.11
 //
 //		Bug fixes:	Printing lines is too thin bug fix
-//					Improved snaping when importing symbols so they always stay on grid
+//					Improved snapping when importing symbols so they always stay on grid
 //					Tooltips now working again...
 //
 //
 
 #define CLIPBOARD_FORMAT	_T("TinyCAD Design")	// The clipboard name for a tinycad copy
 #define CLIPBOARD_SY_FORMAT	_T("TinyCAD Symbol")	// The clipboard name for a tinycad library copy
-
 #define PIXELSPERMM			5					// How many pixels in each milimetre
 #define NormalGrid			100					// The normal grid spacing (in pixels)
 #define FineGrid			50					// The fine grid spacing (in pixels)
-

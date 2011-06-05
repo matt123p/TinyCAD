@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994-2004 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994-2004 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 // StreamClipboard.h: interface for the CStreamClipboard class.
 //
@@ -27,14 +27,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
 #include "Stream.h"
 
-class CStreamClipboard : public CStream  
+class CStreamClipboard: public CStream
 {
 protected:
-	CByteArray	m_Data;
-	int			m_read_location;
+	CByteArray m_Data;
+	int m_read_location;
 
 public:
 	CStreamClipboard();
@@ -53,8 +52,8 @@ public:
 	virtual void Close();
 
 	// The write operator
-	virtual void Write(const void* lpBuf, UINT nMax );
-	virtual UINT Read(void* lpBuf, UINT nMax );
+	virtual void Write(const void* lpBuf, UINT nMax);
+	virtual UINT Read(void* lpBuf, UINT nMax);
 
 	// Move back to the start of the stream
 	virtual void Seek(LONG pos);
@@ -62,28 +61,26 @@ public:
 	// Get the current position in the stream
 	virtual LONG GetPos();
 
-
 	////////////////////////////////////////////////////
 	// The default operators
 	//
-	template<class T> CStream &operator<<( const T& a )
+	template<class T> CStream &operator<<(const T& a)
 	{
-		Write( &a, sizeof(T) );
+		Write(&a, sizeof(T));
 		return *this;
 	}
 
-	template<class T> CStream &operator>>( T& a )
+	template<class T> CStream &operator>>(T& a)
 	{
-		Read( &a, sizeof(T) );
+		Read(&a, sizeof(T));
 		return *this;
 	}
-
 
 	////////////////////////////////////////////////////
 	// The CString operator
 	//
-	virtual CStream &operator<<( const CString s );
-	virtual CStream &operator>>( CString &s );
+	virtual CStream &operator<<(const CString s);
+	virtual CStream &operator>>(CString &s);
 };
 
 #endif // !defined(AFX_STREAMCLIPBOARD_H__5C823082_CFAD_4E46_84DF_AF879687A02F__INCLUDED_)

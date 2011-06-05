@@ -9,29 +9,32 @@
 #pragma once
 
 // when using screen dimensions, this is infinite
-const LONG INFINITY=0x7fff; // max short
+const LONG INFINITY = 0x7fff; // max short
 
 // useful size constants
 #define SIZEZERO		CSize(0,0)
 #define SIZEMAX		CSize(INFINITY,INFINITY)
 
 // handy functions to take the min or max of a CSize
-inline CSize minsize(CSize a, CSize b) {
-	return CSize(min((UINT)a.cx,(UINT)b.cx),min((UINT)a.cy,(UINT)b.cy));
+inline CSize minsize(CSize a, CSize b)
+{
+	return CSize(min((UINT) a.cx, (UINT) b.cx), min((UINT) a.cy, (UINT) b.cy));
 }
 
-inline CSize maxsize(CSize a, CSize b) {
-	return CSize(max((UINT)a.cx,(UINT)b.cx),max((UINT)a.cy,(UINT)b.cy));
+inline CSize maxsize(CSize a, CSize b)
+{
+	return CSize(max((UINT) a.cx, (UINT) b.cx), max((UINT) a.cy, (UINT) b.cy));
 }
 
 //////////////////
 // Size info about a rectangle/row/column
 //
-struct SIZEINFO {
-	SIZE szAvail;		// total size avail (passed)
-	SIZE szDesired;	// desired size: default=current
-	SIZE szMin;			// minimum size: default=SIZEZERO
-	SIZE szMax;			// maximum size: default=MAXSIZE
+struct SIZEINFO
+{
+	SIZE szAvail; // total size avail (passed)
+	SIZE szDesired; // desired size: default=current
+	SIZE szMin; // minimum size: default=SIZEZERO
+	SIZE szMax; // maximum size: default=MAXSIZE
 };
 
 // types of rectangles:
@@ -53,57 +56,153 @@ struct SIZEINFO {
 // WINRECT corresponds to a child rectangle/window. Each window that uses
 // WinMgr provides a table (C array) of these to describe its layout.
 //
-class WINRECT {
+class WINRECT
+{
 protected:
 	// pointers initialized by the window manager for easy traversing:
-	WINRECT* next;			// next at this level
-	WINRECT* prev;			// prev at this level
+	WINRECT* next; // next at this level
+	WINRECT* prev; // prev at this level
 
 	// data
-	CRect rc;				// current rectangle position/size
-	WORD  flags;			// flags (see above)
-	UINT	nID;				// window ID if this WINRECT represents a window
-	LONG	param;			// arg depends on type
+	CRect rc; // current rectangle position/size
+	WORD flags; // flags (see above)
+	UINT nID; // window ID if this WINRECT represents a window
+	LONG param; // arg depends on type
 
 public:
 	WINRECT(WORD f, UINT id, LONG p);
 
-	static WINRECT* InitMap(WINRECT* map, WINRECT* parent=NULL);
+	static WINRECT* InitMap(WINRECT* map, WINRECT* parent = NULL);
 
-	WINRECT* Prev()			{ return prev; }
-	WINRECT* Next()			{ return next; }
-	WINRECT* Children()		{ return IsGroup() ? this+1 : NULL; }
+	WINRECT* Prev()
+	{
+		return prev;
+	}
+	
+	WINRECT* Next()
+	{
+		return next;
+	}
+	
+	WINRECT* Children()
+	{
+		return IsGroup() ? this + 1 : NULL;
+	}
+	
 	WINRECT* Parent();
-	WORD GetFlags()			{ return flags; }
-	WORD SetFlags(WORD f)	{ return flags=f; }
-	LONG GetParam()			{ return param; }
-	LONG SetParam(LONG p)	{ return param=p; }
-	UINT GetID()				{ return nID; }
-	UINT SetID(UINT id)		{ return nID=id; }
-	CRect& GetRect()					{ return rc; }
-	void SetRect(const CRect& r)	{ rc = r; }
-	WORD Type() const			{ return flags & WRCF_TYPEMASK; }
-	WORD GroupType() const	{ return flags & WRCF_GROUPMASK; }
-	BOOL IsGroup() const		{ return GroupType() && GroupType()!=WRCF_ENDGROUP; }
-	BOOL IsEndGroup() const { return flags==0 || flags==WRCF_ENDGROUP; }
-	BOOL IsEnd() const		{ return flags==0; }
-	BOOL IsWindow() const	{ return nID>0; }
-	BOOL IsRowGroup()	const { return (flags & WRCF_GROUPMASK)==WRCF_ROWGROUP; }
-	void SetHeight(LONG h)	{ rc.bottom = rc.top + h; }
-	void SetWidth(LONG w)	{ rc.right = rc.left + w; }
-	LONG GetHeightOrWidth(BOOL bHeight) const {
+	WORD GetFlags()
+	{
+		return flags;
+	}
+	
+	WORD SetFlags(WORD f)
+	{
+		return flags = f;
+	}
+	
+	LONG GetParam()
+	{
+		return param;
+	}
+	
+	LONG SetParam(LONG p)
+	{
+		return param = p;
+	}
+	
+	UINT GetID()
+	{
+		return nID;
+	}
+	
+	UINT SetID(UINT id)
+	{
+		return nID = id;
+	}
+	
+	CRect& GetRect()
+	{
+		return rc;
+	}
+	
+	void SetRect(const CRect& r)
+	{
+		rc = r;
+	}
+	
+	WORD Type() const
+	{
+		return flags & WRCF_TYPEMASK;
+	}
+	
+	WORD GroupType() const
+	{
+		return flags & WRCF_GROUPMASK;
+	}
+	
+	BOOL IsGroup() const
+	{
+		return GroupType() && GroupType() != WRCF_ENDGROUP;
+	}
+	
+	BOOL IsEndGroup() const
+	{
+		return flags == 0 || flags == WRCF_ENDGROUP;
+	}
+	
+	BOOL IsEnd() const
+	{
+		return flags == 0;
+	}
+	
+	BOOL IsWindow() const
+	{
+		return nID > 0;
+	}
+	
+	BOOL IsRowGroup() const
+	{
+		return (flags & WRCF_GROUPMASK) == WRCF_ROWGROUP;
+	}
+	
+	void SetHeight(LONG h)
+	{
+		rc.bottom = rc.top + h;
+	}
+	
+	void SetWidth(LONG w)
+	{
+		rc.right = rc.left + w;
+	}
+	
+	LONG GetHeightOrWidth(BOOL bHeight) const
+	{
 		return bHeight ? rc.Height() : rc.Width();
 	}
-	void SetHeightOrWidth(LONG horw, BOOL bHeight) {
+	
+	void SetHeightOrWidth(LONG horw, BOOL bHeight)
+	{
 		bHeight ? SetHeight(horw) : SetWidth(horw);
 	}
+	
 	BOOL GetMargins(int& w, int& h);
 
 	// For TOFIT types, param is the TOFIT size, if nonzero. Used in dialogs,
 	// with CWinMgr::InitToFitSizeFromCurrent.
-	BOOL HasToFitSize()			{ return param != 0; }
-	SIZE GetToFitSize()			{ return CSize(LOWORD(param),HIWORD(param)); }
-	void SetToFitSize(SIZE sz)	{ param = MAKELONG(sz.cx,sz.cy); }
+	BOOL HasToFitSize()
+	{
+		return param != 0;
+	}
+	
+	SIZE GetToFitSize()
+	{
+		return CSize(LOWORD(param), HIWORD(param));
+	}
+	
+	void SetToFitSize(SIZE sz)
+	{
+		param = MAKELONG(sz.cx, sz.cy);
+	}
 };
 
 //////////////////
@@ -140,48 +239,71 @@ public:
 //   ..
 // }
 //
-class CWinGroupIterator {
+class CWinGroupIterator
+{
 protected:
-	WINRECT* pCur;	  // current entry
+	WINRECT* pCur; // current entry
 public:
-	CWinGroupIterator() { pCur = NULL; }
-	CWinGroupIterator& operator=(WINRECT* pg) {
+	CWinGroupIterator()
+	{
+		pCur = NULL;
+	}
+	CWinGroupIterator& operator=(WINRECT* pg)
+	{
 		ASSERT(pg->IsGroup()); // can only iterate a group!
 		pCur = pg->Children();
 		return *this;
 	}
-	operator WINRECT*()	{ return pCur; }
-	WINRECT* pWINRECT()	{ return pCur; }
-	WINRECT* Next()		{ return pCur = pCur ? pCur->Next() : NULL;}
+	operator WINRECT*()
+	{
+		return pCur;
+	}
+	WINRECT* pWINRECT()
+	{
+		return pCur;
+	}
+	WINRECT* Next()
+	{
+		return pCur = pCur ? pCur->Next() : NULL;
+	}
 };
 
 // Registered WinMgr message
 extern const UINT WM_WINMGR;
 
 // Notification struct, passed as LPARAM
-struct NMWINMGR : public NMHDR {
-	enum {								// notification codes:
-		GET_SIZEINFO = 1,				// WinMgr is requesting size info
-		SIZEBAR_MOVED,					// user moved sizer bar
+struct NMWINMGR: public NMHDR
+{
+	enum
+	{ // notification codes:
+		GET_SIZEINFO = 1, // WinMgr is requesting size info
+		SIZEBAR_MOVED,
+	// user moved sizer bar
 	};
 
 	// each notification code has its own part of union
-	union {
-		SIZEINFO sizeinfo;	// used for GET_SIZEINFO
-		struct {					// used for SIZEBAR_MOVED
-			POINT ptMoved;		//  distance moved (x or y = zero)
+	union
+	{
+		SIZEINFO sizeinfo; // used for GET_SIZEINFO
+		struct
+		{ // used for SIZEBAR_MOVED
+			POINT ptMoved; //  distance moved (x or y = zero)
 		} sizebar;
 	};
 
 	// ctor: initialize to zeroes
-	NMWINMGR() { memset(this,0,sizeof(NMWINMGR)); }
+	NMWINMGR()
+	{
+		memset(this, 0, sizeof(NMWINMGR));
+	}
 };
 
 ///////////////////
 // Window manager. This class calculates all the sizes and positions of the
 // rectangles in the window map.
 //
-class CWinMgr : public CObject {
+class CWinMgr: public CObject
+{
 public:
 	CWinMgr(WINRECT* map);
 	virtual ~CWinMgr();
@@ -190,10 +312,11 @@ public:
 	virtual void SetWindowPositions(CWnd* pWnd); // set window posns from map
 
 	// get min/max/desired size of a rectangle
-	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, CWnd* pWnd=NULL);
+	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, CWnd* pWnd = NULL);
 
 	// calc layout using client area as total area
-	void CalcLayout(CWnd* pWnd) {
+	void CalcLayout(CWnd* pWnd)
+	{
 		ASSERT(pWnd);
 		CRect rcClient;
 		pWnd->GetClientRect(&rcClient);
@@ -201,25 +324,35 @@ public:
 	}
 
 	// calc layout using cx, cy (for OnSize)
-	void CalcLayout(int cx, int cy, CWnd* pWnd=NULL) {
-		CalcLayout(CRect(0,0,cx,cy), pWnd);
+	void CalcLayout(int cx, int cy, CWnd* pWnd = NULL)
+	{
+		CalcLayout(CRect(0, 0, cx, cy), pWnd);
 	}
 
 	// calc layout using given rect as total area
-	void CalcLayout(CRect rcTotal, CWnd* pWnd=NULL) {
+	void CalcLayout(CRect rcTotal, CWnd* pWnd = NULL)
+	{
 		ASSERT(m_map);
 		m_map->SetRect(rcTotal);
 		CalcGroup(m_map, pWnd);
 	}
 
 	// Move rectangle vertically or horizontally. Used with sizer bars.
-	void MoveRect(int nID, CPoint ptMove, CWnd* pParentWnd) {
+	void MoveRect(int nID, CPoint ptMove, CWnd* pParentWnd)
+	{
 		MoveRect(FindRect(nID), ptMove, pParentWnd);
 	}
 	void MoveRect(WINRECT* pwrcMove, CPoint ptMove, CWnd* pParentWnd);
 
-	CRect GetRect(UINT nID)						 { return FindRect(nID)->GetRect(); }
-	void SetRect(UINT nID, const CRect& rc) { FindRect(nID)->SetRect(rc); }
+	CRect GetRect(UINT nID)
+	{
+		return FindRect(nID)->GetRect();
+	}
+	
+	void SetRect(UINT nID, const CRect& rc)
+	{
+		FindRect(nID)->SetRect(rc);
+	}
 
 	// get WINRECT corresponding to ID
 	WINRECT* FindRect(UINT nID);
@@ -231,50 +364,56 @@ public:
 	// set TOFIT size for all windows from current window sizes
 	void InitToFitSizeFromCurrent(CWnd* pWnd);
 
-	void TRACEDump() const { TRACEDump(m_map); }
+	void TRACEDump() const
+	{
+		TRACEDump(m_map);
+	}
+	
 	void TRACEDump(WINRECT* map) const;
 
 protected:
-	WINRECT*	m_map;			// THE window map
+	WINRECT* m_map; // THE window map
 
-	int  CountWindows();
+	int CountWindows();
 	BOOL SendGetSizeInfo(SIZEINFO& szi, CWnd* pWnd, UINT nID);
 
 	// you can override to do wierd stuff or fix bugs
 	virtual void CalcGroup(WINRECT* group, CWnd* pWnd);
-	virtual void AdjustSize(WINRECT* pEntry, BOOL bRow,
-		int& hwRemaining, CWnd* pWnd);
-	virtual void PositionRects(WINRECT* pGroup,
-		const CRect& rcTotal,BOOL bRow);
+	virtual void AdjustSize(WINRECT* pEntry, BOOL bRow, int& hwRemaining, CWnd* pWnd);
+	virtual void PositionRects(WINRECT* pGroup, const CRect& rcTotal, BOOL bRow);
 
 private:
-	CWinMgr() { ASSERT(FALSE); } // no default constructor
+	CWinMgr()
+	{
+		ASSERT( FALSE);
+	} // no default constructor
 };
 
 //////////////////
 // Sizer bar (splitter) lets users adjust the size of two siblings.
 // See DopeyEdit for how to use.
 //
-class CSizerBar : public CStatic {
+class CSizerBar: public CStatic
+{
 public:
 	CSizerBar();
 	virtual ~CSizerBar();
-	BOOL Create(DWORD dwStyle,				 // window styles
-		CWnd* pParentWnd,						 // parent window
-		CWinMgr& wmgr,							 // window manger
-		UINT nID,								 // ID of sizer bar
-		const RECT& rc = CRect(0,0,0,0)); // initial rectangle
+	BOOL Create(DWORD dwStyle, // window styles
+	    CWnd* pParentWnd, // parent window
+	    CWinMgr& wmgr, // window manger
+	    UINT nID, // ID of sizer bar
+	    const RECT& rc = CRect(0, 0, 0, 0)); // initial rectangle
 
 protected:
-	CWinMgr* m_pWinMgr;			// window manager
-	BOOL		m_bHorz;				// horizontal bar; else vertical
-	BOOL		m_bDragging;		// in drag mode?
-	CPoint	m_ptPrevious;		// previous mouse pos during dragging
-	HWND		m_hwndPrevFocus;	// to restore after dragging
+	CWinMgr* m_pWinMgr; // window manager
+	BOOL m_bHorz; // horizontal bar; else vertical
+	BOOL m_bDragging; // in drag mode?
+	CPoint m_ptPrevious; // previous mouse pos during dragging
+	HWND m_hwndPrevFocus; // to restore after dragging
 
 	// helpers
-	void CancelDrag();					 // cancel drag mode
-	BOOL IsHorizontal();					 // is bar horizontal?
+	void CancelDrag(); // cancel drag mode
+	BOOL IsHorizontal(); // is bar horizontal?
 	void NotifyMoved(CPoint ptDelta); // send move notification to parent
 
 	// MFC overrides & message handlers
@@ -296,13 +435,14 @@ protected:
 // give your window map to constructor. Otherwise (if you don't derive from
 // CSizeableDlg), mimic OnInitDialog, OnSize, OnGetMinMaxInfo.
 //
-class CSizeableDlg : public CDialog {
+class CSizeableDlg: public CDialog
+{
 public:
 	CSizeableDlg(UINT nID, CWnd* pParent, WINRECT* pWinMap);
 	~CSizeableDlg();
 
 protected:
-	CWinMgr m_winMgr;	  // window manager
+	CWinMgr m_winMgr; // window manager
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);

@@ -22,11 +22,10 @@ class CMonitor;
 
 // CMonitorDC command target
 
-class CMonitorDC : public CDC
+class CMonitorDC: public CDC
 {
 public:
-	CMonitorDC( CMonitor* pMonitor );
+	CMonitorDC(CMonitor* pMonitor);
 	virtual ~CMonitorDC();
 };
-
 

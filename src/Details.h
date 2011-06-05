@@ -15,131 +15,84 @@
 //=========================================================================
 class CDetails
 {
-	//--
-	private:	static const int	M_NBOXWIDTH;
-
-	//--
-	private:	static const int	M_NLINEHEIGHT;
-
-	//--
-	private:	static const int	M_NRULERHEIGHT;
-
+private:
+	static const int M_NBOXWIDTH;
+	static const int M_NLINEHEIGHT;
+	static const int M_NRULERHEIGHT;
 	//-- How many pixels in each milimetre
-	private:	static const int	M_NPIXELSPERMM;
-
+	static const int M_NPIXELSPERMM;
 	//-- The default size of the page
-	public:		static const CSize	M_SZMAX;
-	
+public:
+	static const CSize M_SZMAX;
 	// The size of the page
-	public:	CSize			m_szPage;
-
+	CSize m_szPage;
 	//-- Do we display the details box?
-	public:	bool			m_bIsVisible;
-
+	bool m_bIsVisible;
 	//-- Do we show the rulers at the side of the page?
-	public:	bool			m_bHasRulers;
-
+	bool m_bHasRulers;
 	//-- How many divisions in the horizontal ruler?
-	public:	int				m_iHorizRulerSize;
-
+	int m_iHorizRulerSize;
 	//-- How many divisions in the vertical ruler?
-	public:	int				m_iVertRulerSize;
-
-
+	int m_iVertRulerSize;
 	//-- The date when this design was last edited/saved
-	public:	CString			m_szLastChange;
-
+	CString m_szLastChange;
 	//-- The title of this design
-	public:	CString			m_sTitle;
-
+	CString m_sTitle;
 	//-- The author of this design
-	public:	CString			m_sAuthor;
-
+	CString m_sAuthor;
 	//-- The revision code of this design
-	public:	CString			m_sRevision;
-
+	CString m_sRevision;
 	//-- The document number of this design
-	public:	CString			m_sDocNo;
-
+	CString m_sDocNo;
 	//-- The organisation which designed this design
-	public:	CString			m_sOrg;
-
+	CString m_sOrg;
 	//-- The number of sheets in this design
-	public:	CString			m_sSheets;
+	CString m_sSheets;
+	CDetails();
+	~CDetails();
 
-	//---------------------------------------------------------------------
-	public:					CDetails();
-	public:					~CDetails();
+private:
+	void Init();
 
-	//---------------------------------------------------------------------
-	private:	void		Init();
-	//---------------------------------------------------------------------
-	public:		void		Reset();
-	//---------------------------------------------------------------------
-	public:		void		Read( CStream& oArchive );
-	//---------------------------------------------------------------------
-	public:		void		ReadEx( CStream& oArchive );
-	//---------------------------------------------------------------------
-	public:		void		ReadXML( CXMLReader& xml, TransformSnap& oSnap );
-	//---------------------------------------------------------------------
-	public:		void		WriteXML( CXMLWriter& xml ) const;
-	//---------------------------------------------------------------------
+public:
+	void Reset();
+	void Read(CStream& oArchive);
+	void ReadEx(CStream& oArchive);
+	void ReadXML(CXMLReader& xml, TransformSnap& oSnap);
+	void WriteXML(CXMLWriter& xml) const;
+
 	//-- Draw the details box
-	private:	void		DisplayBox( CContext & dc, COption& oOption, CString sPathName ) const;
-	//---------------------------------------------------------------------
-	private:	void		DisplayRulers( CContext & dc, COption& oOption ) const;
-	//---------------------------------------------------------------------
-	public:		void		Display( CContext & dc, COption& oOption, CString sPathName ) const;
-	//---------------------------------------------------------------------
-	public:		bool		IsVisible() const;
-	//---------------------------------------------------------------------
-	public:		bool		HasRulers() const;
-	//---------------------------------------------------------------------
-	public:		bool		IsPortrait() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetLastChange() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetTitle() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetAuthor() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetRevision() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetDocumentNumber() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetOrganisation() const;
-	//---------------------------------------------------------------------
-	public:		CString		GetSheets() const;
-	//---------------------------------------------------------------------
-	public:		CPoint		GetPageBoundsAsPoint() const;
-	//---------------------------------------------------------------------
-	public:		CDPoint		GetOverlap() const;
-	//---------------------------------------------------------------------
-	public:		CRect		GetPageBoundsAsRect() const;
-	//---------------------------------------------------------------------
- 	public:		void		SetVisible( bool bIsVisible );
-	//---------------------------------------------------------------------
-	public:		void		SetRulers( bool bHasRulers, int v, int h );
-	//---------------------------------------------------------------------
-	public:		void		SetLastChange( const TCHAR* szLastChange );
-	//---------------------------------------------------------------------
-	public:		void		SetTitle( CString sTitle );
-	//---------------------------------------------------------------------
-	public:		void		SetAuthor( CString sAuthor );
-	//---------------------------------------------------------------------
-	public:		void		SetRevision( CString sRevision );
-	//---------------------------------------------------------------------
-	public:		void		SetDocumentNumber( CString sDocNo );
-	//---------------------------------------------------------------------
-	public:		void		SetOrganisation( CString sOrganisation );
-	//---------------------------------------------------------------------
-	public:		void		SetSheets( CString sSheets );
-	//---------------------------------------------------------------------
+private:
+	void DisplayBox(CContext & dc, COption& oOption, CString sPathName) const;
+	void DisplayRulers(CContext & dc, COption& oOption) const;
+
+public:
+	void Display(CContext & dc, COption& oOption, CString sPathName) const;
+	bool IsVisible() const;
+	bool HasRulers() const;
+	bool IsPortrait() const;
+	CString GetLastChange() const;
+	CString GetTitle() const;
+	CString GetAuthor() const;
+	CString GetRevision() const;
+	CString GetDocumentNumber() const;
+	CString GetOrganisation() const;
+	CString GetSheets() const;
+	CPoint GetPageBoundsAsPoint() const;
+	CDPoint GetOverlap() const;
+	CRect GetPageBoundsAsRect() const;
+	void SetVisible(bool bIsVisible);
+	void SetRulers(bool bHasRulers, int v, int h);
+	void SetLastChange(const TCHAR* szLastChange);
+	void SetTitle(CString sTitle);
+	void SetAuthor(CString sAuthor);
+	void SetRevision(CString sRevision);
+	void SetDocumentNumber(CString sDocNo);
+	void SetOrganisation(CString sOrganisation);
+	void SetSheets(CString sSheets);
 	//-- Set the page boundries from a CPoint
-	public:		void		SetPageBounds( CPoint ptBounds );
-	//---------------------------------------------------------------------
+	void SetPageBounds(CPoint ptBounds);
 	//-- Update the page boundries etc, using a printer device context
-	public:		void		SetPageBounds( PRINTDLG& pd );
-	//---------------------------------------------------------------------
+	void SetPageBounds(PRINTDLG& pd);
 };
 //=========================================================================

@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002,2003 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002,2003 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 // OptionsSheets.h : header file
 //
@@ -28,20 +28,23 @@
 
 class CTinyCadDoc;
 
-class COptionsGrid : public CPropertyPage
+class COptionsGrid: public CPropertyPage
 {
-	DECLARE_DYNCREATE(COptionsGrid)
+	DECLARE_DYNCREATE( COptionsGrid)
 
-// Construction
+	// Construction
 public:
 	COptionsGrid();
 	~COptionsGrid();
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(COptionsGrid)
-	enum { IDD = IDD_GRID };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	enum
+	{
+		IDD = IDD_GRID
+	};
+	// NOTE - ClassWizard will add data members here.
+	//    DO NOT EDIT what you see in these blocks of generated code !
 	//}}AFX_DATA
 
 	CTinyCadDoc *GetDocument();
@@ -50,18 +53,18 @@ public:
 	double Grid;
 	BOOL ShowGrid;
 	BOOL SnapGrid;
-	int	Units;
+	int Units;
 
-// Overrides
+	// Overrides
 	// ClassWizard generate virtual function overrides
 	//{{AFX_VIRTUAL(COptionsGrid)
-	public:
+public:
 	virtual BOOL OnApply();
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 	// Generated message map functions
 	//{{AFX_MSG(COptionsGrid)
@@ -73,45 +76,47 @@ protected:
 
 };
 
-
 /////////////////////////////////////////////////////////////////////////////
 // COptionsAutosnap dialog
 
-class COptionsAutosnap : public CPropertyPage
+class COptionsAutosnap: public CPropertyPage
 {
-	DECLARE_DYNCREATE(COptionsAutosnap)
+	DECLARE_DYNCREATE( COptionsAutosnap)
 
-// Construction
+	// Construction
 public:
 	COptionsAutosnap();
 	~COptionsAutosnap();
 
 	CTinyCadDoc *GetDocument();
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(COptionsAutosnap)
-	enum { IDD = IDD_AUTOSNAP };
-	CEdit	m_Range_Ctrl;
-	BOOL	m_Autodrag_Enable;
-	BOOL	m_Autosnap_Enable;
-	int		m_Autosnap_Range;
-	CString	m_Units;
-	BOOL	m_Autojunc_Enable;
+	enum
+	{
+		IDD = IDD_AUTOSNAP
+	};
+	CEdit m_Range_Ctrl;
+	BOOL m_Autodrag_Enable;
+	BOOL m_Autosnap_Enable;
+	int m_Autosnap_Range;
+	CString m_Units;
+	BOOL m_Autojunc_Enable;
 	//}}AFX_DATA
 
-	int		Units;
+	int Units;
 
-// Overrides
+	// Overrides
 	// ClassWizard generate virtual function overrides
 	//{{AFX_VIRTUAL(COptionsAutosnap)
-	public:
+public:
 	virtual BOOL OnApply();
 	virtual BOOL OnSetActive();
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 	// Generated message map functions
 	//{{AFX_MSG(COptionsAutosnap)
@@ -124,50 +129,56 @@ protected:
 //=========================================================================
 
 
-
 //*************************************************************************
 //*                                                                       *
 //*                                                                       *
 //*                                                                       *
 //*************************************************************************
-class COptionsAutoSave
-: public CPropertyPage
+class COptionsAutoSave: public CPropertyPage
 {
-	DECLARE_DYNCREATE( COptionsAutoSave )
+	DECLARE_DYNCREATE( COptionsAutoSave)
 
 	typedef CPropertyPage super;
 
-	enum { IDD = IDD_AUTOSAVE };
+	enum
+	{
+		IDD = IDD_AUTOSAVE
+	};
 
 	//-- Time in minutes between autosave events
-	private:	int					m_nDelay;
+private:
+	int m_nDelay;
 
 	//-- Indicates if autobackup is enabled
-	private:	BOOL				m_bIsEnabled;
+	BOOL m_bIsEnabled;
 
 	//-- spinbutton for altering m_nDelay in the range
 	//-- between 1 and 60 minutes
-	private:	CSpinButtonCtrl*	m_spnDelay;
+	CSpinButtonCtrl* m_spnDelay;
 
 	//-- Checkbox control for changing m_bIsAutoSave
-	private:	CButton*			m_btnSave;
+	CButton* m_btnSave;
 
 	//-- Label control for displaying m_nDelay value
-	private:	CEdit*				m_wndBuddy;
+	CEdit* m_wndBuddy;
 
 	//=====================================================================
 	//== constructor/destructor/initializing                             ==
 	//=====================================================================
-	public: 						COptionsAutoSave();
-	protected:	virtual BOOL 		OnInitDialog();
+public:
+	COptionsAutoSave();
+protected:
+	virtual BOOL OnInitDialog();
 
 	//=====================================================================
 	//== Message handling                                                ==
 	//=====================================================================
-	private:	void 				OnChange();
+private:
+	void OnChange();
 
 	//-- Handels OK and APPLY button, but no Escape
-	public:		virtual BOOL 		OnApply();
+public:
+	virtual BOOL OnApply();
 
 	DECLARE_MESSAGE_MAP()
 };

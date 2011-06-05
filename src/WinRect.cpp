@@ -7,7 +7,6 @@
 #include "StdAfx.h"
 #include "WinMgr.h"
 
-
 //////////////////
 // Construct from args
 //
@@ -27,11 +26,12 @@ WINRECT::WINRECT(WORD f, UINT id, LONG p)
 WINRECT* WINRECT::Parent()
 {
 	WINRECT* pEntry;
-	for (pEntry=this; pEntry->Prev(); pEntry=pEntry->Prev()) {
+	for (pEntry = this; pEntry->Prev(); pEntry = pEntry->Prev())
+	{
 		; // go backwards to the end
 	}
 	// the entry before the first child is the group
-	WINRECT *parent = pEntry-1;
+	WINRECT *parent = pEntry - 1;
 	ASSERT(parent->IsGroup());
 	return parent;
 }
@@ -41,12 +41,13 @@ WINRECT* WINRECT::Parent()
 //
 BOOL WINRECT::GetMargins(int& w, int& h)
 {
-	if (IsGroup()) {
-		w=(short)LOWORD(param);
-		h=(short)HIWORD(param);
+	if (IsGroup())
+	{
+		w = (short) LOWORD(param);
+		h = (short) HIWORD(param);
 		return TRUE;
 	}
-	w=h=0;
+	w = h = 0;
 	return FALSE;
 }
 
@@ -58,17 +59,18 @@ WINRECT* WINRECT::InitMap(WINRECT* pWinMap, WINRECT* parent)
 {
 	ASSERT(pWinMap);
 
-	WINRECT* pwrc = pWinMap;  // current table entry
-	WINRECT* prev = NULL;	  // previous entry starts out none
+	WINRECT* pwrc = pWinMap; // current table entry
+	WINRECT* prev = NULL; // previous entry starts out none
 
-	while (!pwrc->IsEndGroup()) {
-		pwrc->prev=prev;
-		pwrc->next=NULL;
-		if (prev)
-			prev->next = pwrc;
+	while (!pwrc->IsEndGroup())
+	{
+		pwrc->prev = prev;
+		pwrc->next = NULL;
+		if (prev) prev->next = pwrc;
 		prev = pwrc;
-		if (pwrc->IsGroup()) {
-			pwrc = InitMap(pwrc+1,pwrc); // recurse! Returns end-of-grp
+		if (pwrc->IsGroup())
+		{
+			pwrc = InitMap(pwrc + 1, pwrc); // recurse! Returns end-of-grp
 			ASSERT(pwrc->IsEndGroup());
 		}
 		pwrc++;

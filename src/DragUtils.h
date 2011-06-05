@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002-2005 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002-2005 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 // DragUtils.h: interface for the CDragUtils class.
 //
@@ -27,34 +27,33 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
 #include "JunctionUtils.h"
 
 class CDrawingObject;
 class CTinyCadDoc;
 
-class CDragUtils  
+class CDragUtils
 {
 protected:
 	struct dragWire
 	{
-		BOOL			m_MoveA;
-		BOOL			m_MoveB;
+		BOOL m_MoveA;
+		BOOL m_MoveB;
 		CDrawingObject* m_Object;
 
 		CDrawingObject* m_Attached_LineA;
-		double			m_Distance_AlongA;
+		double m_Distance_AlongA;
 
 		CDrawingObject* m_Attached_LineB;
-		double			m_Distance_AlongB;
+		double m_Distance_AlongB;
 
-		BOOL			m_Done_A;
-		BOOL			m_Done_B;
+		BOOL m_Done_A;
+		BOOL m_Done_B;
 
-		BOOL			m_Lock_Horiz;
-		BOOL			m_Lock_Vert;
+		BOOL m_Lock_Horiz;
+		BOOL m_Lock_Vert;
 
-		dragWire( CDrawingObject *o, BOOL MoveA = FALSE, BOOL MoveB = FALSE)
+		dragWire(CDrawingObject *o, BOOL MoveA = FALSE, BOOL MoveB = FALSE)
 		{
 			m_Object = o;
 			m_MoveA = MoveA;
@@ -84,7 +83,6 @@ protected:
 					m_Done_A = TRUE;
 				}
 			}
-			
 
 			if (m_Lock_Vert)
 			{
@@ -101,32 +99,31 @@ protected:
 			}
 		}
 
-		bool operator<( const dragWire &b ) const
+		bool operator<(const dragWire &b) const
 		{
 			return m_Object < b.m_Object;
 		}
 
-		bool operator==( const dragWire &b ) const
+		bool operator==(const dragWire &b) const
 		{
 			return m_Object == b.m_Object;
 		}
 	};
 
 	typedef std::vector<dragWire> wireCollection;
-	wireCollection  m_draggedWires;
+	wireCollection m_draggedWires;
 
 	typedef std::set<CDrawingObject *> discardCollection;
-	discardCollection	m_discards;
+	discardCollection m_discards;
 
-
-	void AddWiresAtPoint( CDPoint p );
-	void AddWireToCollection( dragWire n );
-	void AddAttachedObjects( CDrawingObject *wire, BOOL wire_move_a, BOOL wire_move_b );
-	void MoveAttachedObjects( CDrawingObject *wire );
+	void AddWiresAtPoint(CDPoint p);
+	void AddWireToCollection(dragWire n);
+	void AddAttachedObjects(CDrawingObject *wire, BOOL wire_move_a, BOOL wire_move_b);
+	void MoveAttachedObjects(CDrawingObject *wire);
 	void DisplayDraggedWires();
 
 	// Our current design that this object manipulates
-	CTinyCadDoc	*m_pDesign;					
+	CTinyCadDoc *m_pDesign;
 
 	// Have we started?
 	BOOL m_started;
@@ -141,26 +138,29 @@ protected:
 	void Clean();
 
 	// Our junction utils
-	CJunctionUtils	m_j;
+	CJunctionUtils m_j;
 
 public:
-	CDragUtils& operator=( const CDragUtils &o )
+	CDragUtils& operator=(const CDragUtils &o)
 	{
 		// Don't do this!
-		ASSERT( FALSE );
+		ASSERT( FALSE);
 		return *this;
 	}
 
-	CDragUtils( CTinyCadDoc* pDesign );
+	CDragUtils(CTinyCadDoc* pDesign);
 	virtual ~CDragUtils();
 
-	void Begin( CDPoint a, CDPoint b );
-	void Drag( CDPoint r );
-	void Move( CDPoint r );
-	void End( bool no_clean );
-	void MergeLinePoint( CDrawingObject *p );
+	void Begin(CDPoint a, CDPoint b);
+	void Drag(CDPoint r);
+	void Move(CDPoint r);
+	void End(bool no_clean);
+	void MergeLinePoint(CDrawingObject *p);
 
-	BOOL Started() { return m_started; }
+	BOOL Started()
+	{
+		return m_started;
+	}
 };
 
 #endif // !defined(AFX_DRAGUTILS_H__E6C77B92_5C1E_4F7B_8367_6349A36C01D5__INCLUDED_)

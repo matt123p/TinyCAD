@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #include "stdafx.h"
 #include "tinycad.h"
@@ -40,29 +40,27 @@ CLibraryDb::~CLibraryDb()
 
 }
 
-
 // Attach this library to a file
 void CLibraryDb::Attach(const TCHAR *filename)
 {
-	m_name=filename;
-
+	m_name = filename;
 
 	try
 	{
 		if (!m_database.IsOpen())
 		{
-			m_database.Open( m_name + ".mdb" );
+			m_database.Open(m_name + ".mdb");
 		}
 
 		// Now read the Symbols from this database
-		CDbLibNameSet name_set( &m_database );
+		CDbLibNameSet name_set(&m_database);
 		name_set.Open();
 
 		while (!name_set.IsEOF())
 		{
 
 			// Is this a new symbol?
-			bool is_new = m_Symbols.find( name_set.m_SymbolID ) == m_Symbols.end();
+			bool is_new = m_Symbols.find(name_set.m_SymbolID) == m_Symbols.end();
 			CLibraryStoreNameSet &nwSymbol = m_Symbols[name_set.m_SymbolID];
 
 			if (is_new)
@@ -71,7 +69,7 @@ void CLibraryDb::Attach(const TCHAR *filename)
 				nwSymbol.Blank();
 				nwSymbol.lib = this;
 				nwSymbol.FilePos = name_set.m_SymbolID;
-				nwSymbol.ppp = static_cast<BYTE>(name_set.m_ppp);
+				nwSymbol.ppp = static_cast<BYTE> (name_set.m_ppp);
 			}
 
 			if (name_set.m_Type == 0)
@@ -81,69 +79,65 @@ void CLibraryDb::Attach(const TCHAR *filename)
 				r.NameID = name_set.m_NameID;
 				r.reference = name_set.m_Reference;
 				r.description = name_set.m_Description;
-				r.name_type = static_cast<SymbolFieldType>(name_set.m_ShowName);
-				r.ref_type = static_cast<SymbolFieldType>(name_set.m_ShowRef);
+				r.name_type = static_cast<SymbolFieldType> (name_set.m_ShowName);
+				r.ref_type = static_cast<SymbolFieldType> (name_set.m_ShowRef);
 
 				if (is_new)
 				{
 					recordCollection records;
-					records.push_back( r );
-					nwSymbol.SetRecords( records );
+					records.push_back(r);
+					nwSymbol.SetRecords(records);
 				}
 				else
 				{
-					nwSymbol.PushBackRecord( r );
+					nwSymbol.PushBackRecord(r);
 				}
-
 
 				// Now add to our map of m_Symbols
 				// m_Symbols[ r.name ] = nwSymbol;
 			}
-			
+
 			name_set.MoveNext();
 		}
-	}
-	catch( CException *e)
+	} catch (CException *e)
 	{
 		CString s;
 		CString msg;
-		e->GetErrorMessage( msg.GetBuffer(256), 256, NULL );
+		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot open library %s.\r\n%s"),
-			m_name, msg );
-		AfxMessageBox( s );
+		s.Format(_T("Cannot open library %s.\r\n%s"), m_name, msg);
+		AfxMessageBox(s);
 		e->Delete();
 		return;
 	}
 }
 
-
 // Write a symbol to this library
-void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document )
+void CLibraryDb::Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document)
 {
 	// Set the busy cursor
-	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_WAIT ) );
+	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_WAIT));
 
 	// First clear out all of the old names...
 	if (nwSymbol->FilePos != -1)
 	{
-		CDbLibNameSet name_set( &m_database );
-		name_set.m_strFilter.Format(_T("[SymbolID]=%d"),nwSymbol->FilePos);
+		CDbLibNameSet name_set(&m_database);
+		name_set.m_strFilter.Format(_T("[SymbolID]=%d"), nwSymbol->FilePos);
 		name_set.Open();
 
 		CString sql;
 		while (!name_set.IsEOF())
 		{
-			sql.Format( _T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID );
-			m_database.Execute( sql );
+			sql.Format(_T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID);
+			m_database.Execute(sql);
 			name_set.Delete();
 			name_set.MoveNext();
 		}
 	}
 
 	// Write the symbol data into the methods file
-	CStreamDb stream( &m_database, FALSE, nwSymbol->FilePos, nwSymbol->orientation );
-	CXMLWriter xml( &stream );
+	CStreamDb stream(&m_database, FALSE, nwSymbol->FilePos, nwSymbol->orientation);
+	CXMLWriter xml(&stream);
 	document.SaveXML(xml);
 	stream.Flush();
 
@@ -151,12 +145,12 @@ void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &
 	nwSymbol->FilePos = stream.m_set.m_SymbolID;
 
 	// Do this for each of the names in the symbol set
-	for (int i =0; i < nwSymbol->GetNumRecords(); i++)
+	for (int i = 0; i < nwSymbol->GetNumRecords(); i++)
 	{
-		CSymbolRecord &r = nwSymbol->GetRecord( i );
+		CSymbolRecord &r = nwSymbol->GetRecord(i);
 
 		// Write back the name...
-		CDbLibNameSet name_set( &m_database );
+		CDbLibNameSet name_set(&m_database);
 
 		name_set.Open();
 		name_set.AddNew();
@@ -166,9 +160,9 @@ void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &
 		name_set.m_Type = 0;
 		name_set.m_Reference = r.reference;
 		name_set.m_ppp = nwSymbol->ppp;
-		name_set.m_Description = r.description ;
-		name_set.m_ShowName = static_cast<int>(r.name_type);
-		name_set.m_ShowRef = static_cast<int>(r.ref_type);
+		name_set.m_Description = r.description;
+		name_set.m_ShowName = static_cast<int> (r.name_type);
+		name_set.m_ShowRef = static_cast<int> (r.ref_type);
 
 		name_set.Update();
 
@@ -177,11 +171,11 @@ void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &
 
 		// First delete the old attributes
 		CString sql;
-		sql.Format( _T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID );
-		m_database.Execute( sql );
+		sql.Format(_T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID);
+		m_database.Execute(sql);
 
 		// Now write back the attributes...
-		CDbAttributeSet attr_set( &m_database );
+		CDbAttributeSet attr_set(&m_database);
 		attr_set.Open();
 		std::vector<CSymbolField>::iterator it = r.fields.begin();
 		while (it != r.fields.end())
@@ -190,9 +184,9 @@ void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &
 			attr_set.m_NameID = name_set.m_NameID;
 			attr_set.m_AttName = (*it).field_name;
 			attr_set.m_AttValue = (*it).field_default;
-			attr_set.m_DisplayFlags = static_cast<int>((*it).field_type);
+			attr_set.m_DisplayFlags = static_cast<int> ( (*it).field_type);
 			attr_set.Update();
-			++ it;
+			++it;
 		}
 	}
 
@@ -202,42 +196,40 @@ void CLibraryDb::Store( CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &
 	// Re-load the library now it has changed
 	ReRead();
 
-	SetCursor( AfxGetApp()->LoadStandardCursor( IDC_ARROW ) );
+	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_ARROW));
 }
 
 // Delete a symbol from the database
-void CLibraryDb::DeleteSymbol( int SymbolID )
+void CLibraryDb::DeleteSymbol(int SymbolID)
 {
 	// Build a deletion list...
-	CDbLibNameSet name_set( &m_database );
-	name_set.m_strFilter.Format(_T("[SymbolID]=%d"),SymbolID);
+	CDbLibNameSet name_set(&m_database);
+	name_set.m_strFilter.Format(_T("[SymbolID]=%d"), SymbolID);
 	name_set.Open();
 
 	CString sql;
 	while (!name_set.IsEOF())
 	{
-		sql.Format( _T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID );
-		m_database.Execute( sql );
+		sql.Format(_T("DELETE FROM [Attribute] WHERE [NameID]=%d"), name_set.m_NameID);
+		m_database.Execute(sql);
 		name_set.Delete();
 		name_set.MoveNext();
 	}
 
 	// delete this name...
-	sql.Format( _T("DELETE FROM [Symbol] WHERE [SymbolID]=%d"), SymbolID );
-	m_database.Execute( sql );
+	sql.Format(_T("DELETE FROM [Symbol] WHERE [SymbolID]=%d"), SymbolID);
+	m_database.Execute(sql);
 }
 
 // Delete a symbol from this library
-void CLibraryDb::DeleteSymbol( CLibraryStoreNameSet &symbol )
+void CLibraryDb::DeleteSymbol(CLibraryStoreNameSet &symbol)
 {
 	// Delete the symbol from this library...
-	DeleteSymbol( symbol.FilePos );
+	DeleteSymbol(symbol.FilePos);
 
 	// Now re-read with the changes...
 	ReRead();
 }
-
-
 
 #if 0
 // Write back a symbol collection and rebuild methods file
@@ -253,8 +245,8 @@ void CLibraryDb::SaveSymbolCollection( symbolCollection &temp_m_Symbols )
 	while (!name_set.IsEOF())
 	{
 		// Find this name in the set...
-	    symbolCollection::iterator it = temp_m_Symbols.begin();
-	    while (it != temp_m_Symbols.end()) 
+		symbolCollection::iterator it = temp_m_Symbols.begin();
+		while (it != temp_m_Symbols.end())
 		{
 			CLibraryStoreNameSet& thisSymbol = it->second;
 
@@ -272,7 +264,7 @@ void CLibraryDb::SaveSymbolCollection( symbolCollection &temp_m_Symbols )
 					name_set.m_Type = 0;
 					name_set.m_Reference = r.reference;
 					name_set.m_ppp = thisSymbol.ppp;
-					name_set.m_Description = r.description ;
+					name_set.m_Description = r.description;
 					name_set.m_ShowName = static_cast<int>(r.name_type);
 					name_set.m_ShowRef = static_cast<int>(r.ref_type);
 					name_set.Update();
@@ -289,7 +281,6 @@ void CLibraryDb::SaveSymbolCollection( symbolCollection &temp_m_Symbols )
 			// No, so tag it for deletion delete it...
 			del_set.insert( name_set.m_SymbolID );
 		}
-
 
 		name_set.MoveNext();
 	}
@@ -312,7 +303,7 @@ void CLibraryDb::OnIdle()
 }
 
 // Get the Archive to load from
-CStream *CLibraryDb::GetMethodArchive( CLibraryStoreNameSet *symbol)
+CStream *CLibraryDb::GetMethodArchive(CLibraryStoreNameSet *symbol)
 {
 	// Is this a brand new symbol?
 	if (symbol->FilePos == -1)
@@ -322,23 +313,23 @@ CStream *CLibraryDb::GetMethodArchive( CLibraryStoreNameSet *symbol)
 
 	// Now get the attributes
 	// Do this for each of the names in the symbol set
-	for (int i =0; i < symbol->GetNumRecords(); i++)
+	for (int i = 0; i < symbol->GetNumRecords(); i++)
 	{
-		CSymbolRecord &r = symbol->GetRecord( i );
+		CSymbolRecord &r = symbol->GetRecord(i);
 
 		if (!r.fields_loaded)
 		{
-			CDbAttributeSet attr_set( &m_database );
-			attr_set.m_strFilter.Format(_T("[NameID]=%d"),r.NameID);
+			CDbAttributeSet attr_set(&m_database);
+			attr_set.m_strFilter.Format(_T("[NameID]=%d"), r.NameID);
 			attr_set.Open();
-			r.fields.erase( r.fields.begin(), r.fields.end() );
+			r.fields.erase(r.fields.begin(), r.fields.end());
 			while (!attr_set.IsEOF())
 			{
 				CSymbolField field;
 				field.field_name = attr_set.m_AttName;
 				field.field_default = attr_set.m_AttValue;
-				field.field_type = static_cast<SymbolFieldType>(attr_set.m_DisplayFlags);
-				r.fields.push_back( field );
+				field.field_type = static_cast<SymbolFieldType> (attr_set.m_DisplayFlags);
+				r.fields.push_back(field);
 
 				attr_set.MoveNext();
 			}
@@ -347,13 +338,13 @@ CStream *CLibraryDb::GetMethodArchive( CLibraryStoreNameSet *symbol)
 		}
 	}
 
-	return new CStreamDb( &m_database, TRUE, symbol->FilePos );
+	return new CStreamDb(&m_database, TRUE, symbol->FilePos);
 }
 
 // Create a new library database
-bool CLibraryDb::Create( const TCHAR *filename )
+bool CLibraryDb::Create(const TCHAR *filename)
 {
-	m_name=filename;
+	m_name = filename;
 
 	// Now create the database
 	try
@@ -363,17 +354,15 @@ bool CLibraryDb::Create( const TCHAR *filename )
 			m_database.Close();
 		}
 
-		m_database.Create( m_name + ".mdb" );
-	}
-	catch( CException *e)
+		m_database.Create(m_name + ".mdb");
+	} catch (CException *e)
 	{
 		CString s;
 		CString msg;
-		e->GetErrorMessage( msg.GetBuffer(256), 256, NULL );
+		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot create library %s.\r\n%s"),
-			m_name, msg );
-		AfxMessageBox( s );
+		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		AfxMessageBox(s);
 		e->Delete();
 		return false;
 	}
@@ -383,17 +372,17 @@ bool CLibraryDb::Create( const TCHAR *filename )
 	{
 		/////////////////////// NAME TABLE /////////////////////// 
 
-		CDaoTableDef name_table( &m_database );
-		name_table.Create( _T("Name") );
-		name_table.CreateField(_T("NameID"), dbLong, 0, dbAutoIncrField );
-		name_table.CreateField(_T("Name"), dbText, 128 );
-		name_table.CreateField(_T("SymbolID"), dbLong, 0 );
-		name_table.CreateField(_T("Type"), dbLong, 0 );
-		name_table.CreateField(_T("Reference"), dbText, 255 );
-		name_table.CreateField(_T("ppp"), dbLong, 0 );
-		name_table.CreateField(_T("Description"), dbText, 255 );
-		name_table.CreateField(_T("ShowName"), dbLong, 0 );
-		name_table.CreateField(_T("ShowRef"), dbLong, 0 );
+		CDaoTableDef name_table(&m_database);
+		name_table.Create(_T("Name"));
+		name_table.CreateField(_T("NameID"), dbLong, 0, dbAutoIncrField);
+		name_table.CreateField(_T("Name"), dbText, 128);
+		name_table.CreateField(_T("SymbolID"), dbLong, 0);
+		name_table.CreateField(_T("Type"), dbLong, 0);
+		name_table.CreateField(_T("Reference"), dbText, 255);
+		name_table.CreateField(_T("ppp"), dbLong, 0);
+		name_table.CreateField(_T("Description"), dbText, 255);
+		name_table.CreateField(_T("ShowName"), dbLong, 0);
+		name_table.CreateField(_T("ShowRef"), dbLong, 0);
 
 		// Now create the primary key (what an effort!)
 		CDaoIndexInfo name_index;
@@ -412,24 +401,21 @@ bool CLibraryDb::Create( const TCHAR *filename )
 		name_index.m_bRequired = FALSE;
 		name_index.m_bForeign = FALSE;
 		name_index.m_lDistinctCount = 0;
-		
-		name_table.CreateIndex( name_index );
+
+		name_table.CreateIndex(name_index);
 
 		// Now add the table to the database..
 		name_table.Append();
 
+		/////////////////////// ATTRIBUTE TABLE ///////////////////////
 
-
-
-		/////////////////////// ATTRIBUTE TABLE /////////////////////// 
-		
-		CDaoTableDef attr_table( &m_database );
-		attr_table.Create( _T("Attribute") );
-		attr_table.CreateField(_T("AttributeID"), dbLong, 0, dbAutoIncrField );
-		attr_table.CreateField(_T("NameID"), dbLong, 0 );
-		attr_table.CreateField(_T("AttName"), dbText, 64 );
-		attr_table.CreateField(_T("AttValue"), dbMemo, 0 );	// Note: change to v2 of library!
-		attr_table.CreateField(_T("ShowAtt"), dbLong, 0 );
+		CDaoTableDef attr_table(&m_database);
+		attr_table.Create(_T("Attribute"));
+		attr_table.CreateField(_T("AttributeID"), dbLong, 0, dbAutoIncrField);
+		attr_table.CreateField(_T("NameID"), dbLong, 0);
+		attr_table.CreateField(_T("AttName"), dbText, 64);
+		attr_table.CreateField(_T("AttValue"), dbMemo, 0); // Note: change to v2 of library!
+		attr_table.CreateField(_T("ShowAtt"), dbLong, 0);
 
 		// Now create the primary key (what an effort!)
 		CDaoIndexInfo attr_index;
@@ -448,23 +434,21 @@ bool CLibraryDb::Create( const TCHAR *filename )
 		attr_index.m_bRequired = FALSE;
 		attr_index.m_bForeign = FALSE;
 		attr_index.m_lDistinctCount = 0;
-		
-		attr_table.CreateIndex( attr_index );
+
+		attr_table.CreateIndex(attr_index);
 
 		// Now add the table to the database..
 		attr_table.Append();
 
+		/////////////////////// SYMBOL TABLE ///////////////////////
 
-
-		/////////////////////// SYMBOL TABLE /////////////////////// 
-		
-		CDaoTableDef symbol_table( &m_database );
-		symbol_table.Create( _T("Symbol") );
-		symbol_table.CreateField(_T("SymbolID"), dbLong, 0, dbAutoIncrField );
-		symbol_table.CreateField(_T("Data"), dbLongBinary, 0 );
-		symbol_table.CreateField(_T("DrawRotate"), dbLong, 0 );
-		symbol_table.CreateField(_T("DefRotate"), dbLong, 0 );
-		symbol_table.CreateField(_T("Type"), dbLong, 0 );
+		CDaoTableDef symbol_table(&m_database);
+		symbol_table.Create(_T("Symbol"));
+		symbol_table.CreateField(_T("SymbolID"), dbLong, 0, dbAutoIncrField);
+		symbol_table.CreateField(_T("Data"), dbLongBinary, 0);
+		symbol_table.CreateField(_T("DrawRotate"), dbLong, 0);
+		symbol_table.CreateField(_T("DefRotate"), dbLong, 0);
+		symbol_table.CreateField(_T("Type"), dbLong, 0);
 
 		// Now create the primary key (what an effort!)
 		CDaoIndexInfo symbol_index;
@@ -483,22 +467,19 @@ bool CLibraryDb::Create( const TCHAR *filename )
 		symbol_index.m_bRequired = FALSE;
 		symbol_index.m_bForeign = FALSE;
 		symbol_index.m_lDistinctCount = 0;
-		
-		symbol_table.CreateIndex( symbol_index );
+
+		symbol_table.CreateIndex(symbol_index);
 
 		// Now add the table to the database..
 		symbol_table.Append();
 
+		/////////////////////// PROPERTY TABLE ///////////////////////
 
-
-
-		/////////////////////// PROPERTY TABLE /////////////////////// 
-		
-		CDaoTableDef prop_table( &m_database );
-		prop_table.Create( _T("Property") );
-		prop_table.CreateField(_T("PropertyID"), dbLong, 0, dbAutoIncrField );
-		prop_table.CreateField(_T("Name"), dbText, 64 );
-		prop_table.CreateField(_T("Value"), dbText, 255 );
+		CDaoTableDef prop_table(&m_database);
+		prop_table.Create(_T("Property"));
+		prop_table.CreateField(_T("PropertyID"), dbLong, 0, dbAutoIncrField);
+		prop_table.CreateField(_T("Name"), dbText, 64);
+		prop_table.CreateField(_T("Value"), dbText, 255);
 
 		// Now create the primary key (what an effort!)
 		CDaoIndexInfo prop_index;
@@ -517,27 +498,23 @@ bool CLibraryDb::Create( const TCHAR *filename )
 		prop_index.m_bRequired = FALSE;
 		prop_index.m_bForeign = FALSE;
 		prop_index.m_lDistinctCount = 0;
-		
-		prop_table.CreateIndex( prop_index );
+
+		prop_table.CreateIndex(prop_index);
 
 		// Now add the table to the database..
 		prop_table.Append();
-	
 
-	}
-	catch( CException *e)
+	} catch (CException *e)
 	{
 		CString s;
 		CString msg;
-		e->GetErrorMessage( msg.GetBuffer(256), 256, NULL );
+		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot create library %s.\r\n%s"),
-			m_name, msg );
-		AfxMessageBox( s );
+		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		AfxMessageBox(s);
 		e->Delete();
 		return false;
 	}
-
 
 	return true;
 }
@@ -548,33 +525,32 @@ BOOL CLibraryDb::MustUpgrade()
 	return FALSE;
 }
 
-
 // Upgrade to the latest version of the library system
 BOOL CLibraryDb::Upgrade(CLibraryStore *NewLib)
 {
 	// Create the new library
-	if (!NewLib->Create( m_name ))
+	if (!NewLib->Create(m_name))
 	{
 		return FALSE;
 	}
 
-	CTinyCadApp::SetLockOutSymbolRedraw( true );
+	CTinyCadApp::SetLockOutSymbolRedraw(true);
 
 	// Now copy our symbols into the new library
-	for( symbolCollection::iterator i = m_Symbols.begin(); i != m_Symbols.end(); i++ ) 
+	for (symbolCollection::iterator i = m_Symbols.begin(); i != m_Symbols.end(); i++)
 	{
 		CLibraryStoreNameSet thisSymbol = i->second;
 		// Read the methods file into this design
 		CTinyCadMultiSymbolDoc tmp_design(this, thisSymbol);
 
 		// Write this symbol into the new library
-		NewLib->Store( &thisSymbol, tmp_design );
+		NewLib->Store(&thisSymbol, tmp_design);
 
 		// Now remove this design from memory
 		tmp_design.GetActiveSheet()->SelectDelete();
-	}  
+	}
 
-	CTinyCadApp::SetLockOutSymbolRedraw( false );
+	CTinyCadApp::SetLockOutSymbolRedraw(false);
 
 	// Now rename the old library file out of the way of
 	try
@@ -584,14 +560,12 @@ BOOL CLibraryDb::Upgrade(CLibraryStore *NewLib)
 			m_database.Close();
 		}
 
-		CFile::Remove( m_name + ".mdb.old" );
-	}
-	catch (...)
+		CFile::Remove(m_name + ".mdb.old");
+	} catch (...)
 	{
 	}
 
-	CFile::Rename( m_name + ".mdb", m_name + ".mdb.old" );
-
+	CFile::Rename(m_name + ".mdb", m_name + ".mdb.old");
 
 	return TRUE;
 }

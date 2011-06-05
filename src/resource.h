@@ -547,7 +547,9 @@
 #define IDM_OPTIONS_TOGGLE_UNITS        32886
 #define IDM_TOGGLE_GRIDSIZE             32888
 #define ID_HELP_OPENTINYCADUSERMANUAL   32894
-#define IDM_TOOLNOTE                    32895
+#define IDM_EDITSELECTALL               32895
+#define IDM_TOOLORIGIN                  32896
+#define IDM_TOOLNOTE                    32897
 #define IDC_SCALING                     40000
 #define ID_CONTEXT_COPY_TO              65535
 
@@ -557,7 +559,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        168
-#define _APS_NEXT_COMMAND_VALUE         32896
+#define _APS_NEXT_COMMAND_VALUE         32898
 #define _APS_NEXT_CONTROL_VALUE         1569
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

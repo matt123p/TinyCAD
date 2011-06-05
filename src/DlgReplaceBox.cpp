@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994/1995/2002-2005 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994/1995/2002-2005 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 // DlgReplaceBox.cpp : implementation file
 //
 
@@ -29,24 +29,21 @@
 #include "TinyCadDoc.h"
 #include "Registry.h"
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CDlgReplaceBox dialog
 
 
-CDlgReplaceBox::CDlgReplaceBox(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgReplaceBox::IDD, pParent)
-	, m_keep_old_fields(FALSE)
+CDlgReplaceBox::CDlgReplaceBox(CWnd* pParent /*=NULL*/) :
+	CDialog(CDlgReplaceBox::IDD, pParent), m_keep_old_fields(FALSE)
 {
 	//{{AFX_DATA_INIT(CDlgReplaceBox)
 	m_search_string = _T("");
 	m_all_symbols = -1;
 	//}}AFX_DATA_INIT
 	m_Symbol = NULL;
-	m_all_symbols = CRegistry::GetInt( "ReplaceDefault", 0 );
-	m_keep_old_fields = CRegistry::GetInt( "KeepOldFields", 0 );
+	m_all_symbols = CRegistry::GetInt("ReplaceDefault", 0);
+	m_keep_old_fields = CRegistry::GetInt("KeepOldFields", 0);
 }
-
 
 void CDlgReplaceBox::DoDataExchange(CDataExchange* pDX)
 {
@@ -59,7 +56,6 @@ void CDlgReplaceBox::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 	DDX_Check(pDX, IDC_CHECK1, m_keep_old_fields);
 }
-
 
 BEGIN_MESSAGE_MAP(CDlgReplaceBox, CDialog)
 	//{{AFX_MSG_MAP(CDlgReplaceBox)
@@ -74,122 +70,116 @@ END_MESSAGE_MAP()
 // CDlgReplaceBox message handlers
 
 
-BOOL CDlgReplaceBox::OnInitDialog() 
+BOOL CDlgReplaceBox::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	BuildSearchList();
-	m_List.SetCurSel( 0 );
+	m_List.SetCurSel(0);
 	OnSelchangeList();
-	
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+
+	return TRUE; // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
-
-void CDlgReplaceBox::OnChangeSearchString() 
+void CDlgReplaceBox::OnChangeSearchString()
 {
 	// TODO: If this is a RICHEDIT control, the control will not
 	// send this notification unless you override the CDialog::OnInitDialog()
 	// function and call CRichEditCtrl().SetEventMask()
 	// with the ENM_CHANGE flag ORed into the mask.
-	
-	UpdateData( TRUE );
+
+	UpdateData(TRUE);
 	BuildSearchList();
 }
 
-
-void CDlgReplaceBox::OnDblclkList() 
+void CDlgReplaceBox::OnDblclkList()
 {
-	EndDialog( IDOK );
+	EndDialog(IDOK);
 }
 
-void CDlgReplaceBox::OnSelchangeList() 
+void CDlgReplaceBox::OnSelchangeList()
 {
-	CListBox*	theListBox 	= (CListBox*) GetDlgItem( FINDGET_LIST );
-	int			WhichItem 	= theListBox->GetCurSel();
+	CListBox* theListBox = (CListBox*) GetDlgItem(FINDGET_LIST);
+	int WhichItem = theListBox->GetCurSel();
 
- 	if (WhichItem != LB_ERR)
+	if (WhichItem != LB_ERR)
 	{
-		m_Symbol = static_cast<CLibraryStoreSymbol *>(theListBox->GetItemDataPtr( WhichItem ));
-		GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
-	}		
+		m_Symbol = static_cast<CLibraryStoreSymbol *> (theListBox->GetItemDataPtr(WhichItem));
+		GetDlgItem(IDC_SHOW_SYMBOL)->RedrawWindow();
+	}
 }
-
 
 void CDlgReplaceBox::BuildSearchList()
 {
 	// Build the list box
-	CListBox* theListBox = (CListBox*) GetDlgItem( FINDGET_LIST );
+	CListBox* theListBox = (CListBox*) GetDlgItem(FINDGET_LIST);
 	theListBox->ResetContent();
 
 	// Ensure the string is in Lower case for searching
 	m_search_string.MakeLower();
 
-	CLibraryCollection::FillMatchingSymbols( theListBox, m_search_string, NULL );
+	CLibraryCollection::FillMatchingSymbols(theListBox, m_search_string, NULL);
 
 	// Try and find the selected symbol in the list
 	int i;
 	for (i = 0; i < theListBox->GetCount(); i++)
 	{
-		if (theListBox->GetItemDataPtr( i ) == m_Symbol)
+		if (theListBox->GetItemDataPtr(i) == m_Symbol)
 		{
-			theListBox->SetCurSel( i );
+			theListBox->SetCurSel(i);
 			break;
 		}
 	}
 	if (i == theListBox->GetCount())
 	{
 		m_Symbol = NULL;
-		GetDlgItem( IDC_SHOW_SYMBOL )->RedrawWindow();
+		GetDlgItem(IDC_SHOW_SYMBOL)->RedrawWindow();
 	}
 }
 
-void CDlgReplaceBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct) 
+void CDlgReplaceBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	CDC dc;
-	dc.Attach( lpDrawItemStruct->hDC );
+	dc.Attach(lpDrawItemStruct->hDC);
 
-
-	dc.SelectStockObject( WHITE_BRUSH );
-	dc.Rectangle( &lpDrawItemStruct->rcItem );
+	dc.SelectStockObject(WHITE_BRUSH);
+	dc.Rectangle(&lpDrawItemStruct->rcItem);
 
 	if (m_Symbol != NULL)
 	{
 		Transform transform;
-		CContext q( &dc, transform );
+		CContext q(&dc, transform);
 
 		// Now access the symbol and draw it next to the name
 		CDPoint p;
 		CTinyCadDoc doc;
-		CDesignFileSymbol *pSymbol = m_Symbol->GetDesignSymbol( &doc );
+		CDesignFileSymbol *pSymbol = m_Symbol->GetDesignSymbol(&doc);
 
 		// Determine the rotation
 		int orientation = m_Symbol->m_pParent->orientation;
 
-
 		drawingCollection method;
 		if (pSymbol)
 		{
-			pSymbol->GetMethod( 0, false, method );
-			p = pSymbol->GetTr( 0, false );
+			pSymbol->GetMethod(0, false, method);
+			p = pSymbol->GetTr(0, false);
 		}
 		else
 		{
-			p = CDPoint(-75,-15);
+			p = CDPoint(-75, -15);
 		}
 
 		switch (orientation)
 		{
-		case 2:
+			case 2:
 			{
 				CDPoint q = p;
 				p.x = q.y;
 				p.y = q.x;
 			}
-			break;
-		case 3:
+				break;
+			case 3:
 			{
 				CDPoint q = p;
 				p.x = q.y;
@@ -202,56 +192,54 @@ void CDlgReplaceBox::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		// Determine the zoom factor
 		double zoom = min( (width * 75) / fabs(p.x), (height*75)/fabs(p.y) );
 		zoom = min( zoom, 100 );
-		q.SetZoomFactor( zoom / 100.0 );
+		q.SetZoomFactor(zoom / 100.0);
 
-		height = static_cast<int>((height * 100) / zoom);
-		width = static_cast<int>((width * 100) / zoom);
+		height = static_cast<int> ( (height * 100) / zoom);
+		width = static_cast<int> ( (width * 100) / zoom);
 
 		// Draw the name
 		q.SetTextAlign(TA_LEFT | TA_BOTTOM | TA_NOUPDATECP);
-		q.SetBkMode( TRANSPARENT );
+		q.SetBkMode(TRANSPARENT);
 
 		// Now display the symbol
 		CDPoint old;
 
 		switch (orientation)
 		{
-		case 2:
-			old = q.SetTRM( CDPoint((width-p.x)/2, (height - p.y)/2) , CDPoint(0,0), orientation );
-			break;
-		case 3:
-			old = q.SetTRM( CDPoint(width / 2 + p.x/2, (height-p.y)/2) , CDPoint(0,0), orientation );
-			break;
-		default:
-			old = q.SetTRM( CDPoint((width-p.x)/2, (height-p.y)/2) , CDPoint(0,0), orientation );
-			break;
+			case 2:
+				old = q.SetTRM(CDPoint( (width - p.x) / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
+			case 3:
+				old = q.SetTRM(CDPoint(width / 2 + p.x / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
+			default:
+				old = q.SetTRM(CDPoint( (width - p.x) / 2, (height - p.y) / 2), CDPoint(0, 0), orientation);
+				break;
 		}
 		if (pSymbol)
 		{
 			drawingIterator paint_it = method.begin();
 			while (paint_it != method.end())
 			{
-				(*paint_it)->Paint( q, draw_normal );
-				++ paint_it;
+				(*paint_it)->Paint(q, draw_normal);
+				++paint_it;
 			}
 
 			delete pSymbol;
 		}
 
-		q.EndTRM( old );
+		q.EndTRM(old);
 	}
-
 
 	dc.Detach();
 
 	// CInitDialogBar::OnDrawItem(nIDCtl, lpDrawItemStruct);
 }
 
-
-void CDlgReplaceBox::OnOK() 
+void CDlgReplaceBox::OnOK()
 {
-	UpdateData( TRUE );
-	CRegistry::Set( "ReplaceDefault", m_all_symbols  );
-	CRegistry::Set( "KeepOldFields", m_keep_old_fields );
+	UpdateData(TRUE);
+	CRegistry::Set("ReplaceDefault", m_all_symbols);
+	CRegistry::Set("KeepOldFields", m_keep_old_fields);
 	CDialog::OnOK();
 }

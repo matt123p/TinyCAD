@@ -1,21 +1,21 @@
 /*
-	TinyCAD program for schematic capture
-	Copyright 1994-2004 Matt Pyne.
+ TinyCAD program for schematic capture
+ Copyright 1994-2004 Matt Pyne.
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 // StreamMemory.cpp: implementation of the CStreamMemory class.
 //
@@ -25,7 +25,6 @@
 #include "tinycad.h"
 #include "StreamMemory.h"
 
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -33,7 +32,7 @@
 CStreamMemory::CStreamMemory()
 {
 	m_read_location = 0;
-	m_Data.SetSize(0, 8 * 1024 );
+	m_Data.SetSize(0, 8 * 1024);
 }
 
 CStreamMemory::~CStreamMemory()
@@ -44,7 +43,7 @@ CStreamMemory::~CStreamMemory()
 // Write this data to memory
 CByteArray &CStreamMemory::GetByteArray() const
 {
-	return (CByteArray &)m_Data;
+	return (CByteArray &) m_Data;
 }
 
 // Flush this stream
@@ -57,8 +56,6 @@ LONG CStreamMemory::GetPos()
 {
 	return m_read_location;
 }
-
-
 
 // Flush this stream
 void CStreamMemory::Flush()
@@ -73,29 +70,29 @@ void CStreamMemory::Close()
 }
 
 // The write operator
-void CStreamMemory::Write(const void* lpBuf, UINT nMax )
+void CStreamMemory::Write(const void* lpBuf, UINT nMax)
 {
-	const char *c = static_cast<const char*>(lpBuf);
+	const char *c = static_cast<const char*> (lpBuf);
 	while (nMax > 0)
 	{
-		m_Data.Add( *c );
-		c ++;
-		nMax --;
+		m_Data.Add(*c);
+		c++;
+		nMax--;
 	}
 }
 
-UINT CStreamMemory::Read(void* lpBuf, UINT nMax )
+UINT CStreamMemory::Read(void* lpBuf, UINT nMax)
 {
 	int size = m_Data.GetSize();
 	int r = 0;
-	char *c = static_cast<char*>(lpBuf);
+	char *c = static_cast<char*> (lpBuf);
 	while (m_read_location < size && nMax > 0)
 	{
-		*c = m_Data.GetAt( m_read_location );
-		m_read_location ++;
-		nMax --;
-		r ++;
-		c ++;
+		*c = m_Data.GetAt(m_read_location);
+		m_read_location++;
+		nMax--;
+		r++;
+		c++;
 	}
 
 	return r;
@@ -104,25 +101,25 @@ UINT CStreamMemory::Read(void* lpBuf, UINT nMax )
 ////////////////////////////////////////////////////
 // The CString operator
 //
-CStream &CStreamMemory::operator<<( const CString s )
+CStream &CStreamMemory::operator<<(const CString s)
 {
 	// First write out the number of bytes in the string
 	int len = s.GetLength();
 	(*this) << len;
 
 	// Now write the data...
-	Write( s, len );
+	Write(s, len);
 
 	return *this;
 }
 
-CStream &CStreamMemory::operator>>( CString &s )
+CStream &CStreamMemory::operator>>(CString &s)
 {
 	// First read the number of bytes for the string
 	int len = 0;
 	s = "";
 
-	if (Read(&len,sizeof(len)) != sizeof(len))
+	if (Read(&len, sizeof (len)) != sizeof (len))
 	{
 		return *this;
 	}
@@ -133,12 +130,11 @@ CStream &CStreamMemory::operator>>( CString &s )
 		return *this;
 	}
 
-
 	// Now read in the data
 	if (len != 0)
 	{
-		TCHAR *buf = s.GetBuffer( len + 1 );
-		Read( buf, len );
+		TCHAR *buf = s.GetBuffer(len + 1);
+		Read(buf, len);
 		buf[len] = 0;
 		s.ReleaseBuffer();
 	}
@@ -146,13 +142,13 @@ CStream &CStreamMemory::operator>>( CString &s )
 	return *this;
 }
 
- // Compare two objects for equality
-bool CStreamMemory::operator==( const CStreamMemory &stream ) const
+// Compare two objects for equality
+bool CStreamMemory::operator==(const CStreamMemory &stream) const
 {
 	CByteArray &data = stream.GetByteArray();
 	if (m_Data.GetSize() == data.GetSize())
 	{
-		if ( memcmp(m_Data.GetData(), data.GetData(), m_Data.GetSize()) == 0)
+		if (memcmp(m_Data.GetData(), data.GetData(), m_Data.GetSize()) == 0)
 		{
 			return true;
 		}
@@ -161,7 +157,7 @@ bool CStreamMemory::operator==( const CStreamMemory &stream ) const
 	return false;
 }
 
-bool CStreamMemory::operator!=( const CStreamMemory &stream ) const
+bool CStreamMemory::operator!=(const CStreamMemory &stream) const
 {
-	return !(*this == stream);
+	return ! (*this == stream);
 }
