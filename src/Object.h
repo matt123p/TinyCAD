@@ -783,6 +783,65 @@ public:
 	}
 };
 
+class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
+{
+	WORD Style;
+	WORD Fill;
+	WORD Font;
+	BOOL m_re_edit;
+	ObjType m_type;
+	CString m_note_text;	//actual text is stored here
+	CDRect m_note_area;		//reduced area that the text is displayed in
+
+	double EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside);
+
+public:
+	virtual double DistanceFromPoint(CDPoint p);
+	BOOL PointInEllipse(CDPoint p);
+	virtual ObjType GetType();
+	virtual void TagResources();
+	virtual void Paint(CContext &, paint_options);
+	virtual CDrawingObject* Store();
+
+	void OldLoad(CStream &, int);
+	void OldLoad2(CStream &);
+	virtual void Load(CStream &);
+
+	virtual void SaveXML(CXMLWriter &xml);
+	virtual void LoadXML(CXMLReader &xml);
+	static const TCHAR* GetXMLTag();
+
+	virtual void NewOptions();
+	virtual BOOL IsInside(double left, double right, double top, double bottom);
+	virtual BOOL RButtonDown(CDPoint, CDPoint);
+	virtual CString GetName() const;
+	virtual void BeginEdit(BOOL re_edit);
+	virtual void EndEdit();
+	virtual BOOL CanEdit()
+	{
+		return TRUE;
+	}
+	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
+	virtual void LButtonDown(CDPoint, CDPoint);
+//	bool IsSquare()
+//	{
+//		return m_type == xSquareEx3;
+//	}
+//	
+//	bool HasNoteText() 
+//	{
+//		return m_type == xNoteText;
+//	}
+	
+	// This is used for the construction of this object
+	CDrawNoteText(CTinyCadDoc *pDesign, ObjType type);
+
+	virtual int getMenuID() 
+	{
+		return IDM_TOOLNOTE;
+	}
+};
+
 class CDrawError: public CDrawingObject
 {
 	int ErrorNumber;

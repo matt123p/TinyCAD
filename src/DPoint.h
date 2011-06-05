@@ -52,6 +52,16 @@ public:
 		return ! (_isnan(x) || _isnan(y));
 	}
 
+	void ForceLargerSize() {
+		if (x > y) y = x;
+		else x = y;
+	}
+
+	void ForceMinSize(double size) {
+		if (x < size) x = size;
+		if (y < size) y = size;
+	}
+
 	CDPoint()
 	{
 		// Initialize with not-a-number

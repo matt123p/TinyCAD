@@ -48,6 +48,7 @@ public:
 	// Inflate rectangle's width and height by
 	// size.cx units to the left and right ends of the rectangle
 	// and size.cy units to the top and bottom.
+	// For deflation, use negative size value.
 	void InflateRect(CDSize size);
 	void InflateRect(double l, double t, double r, double b);
 

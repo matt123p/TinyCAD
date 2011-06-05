@@ -36,7 +36,7 @@
 #include "FolderFrame.h"
 #include "drawhierarchicalsymbol.h"
 
-#define STRLEN	256
+#define STRLEN		2048		//TinyCAD limits strings to this length, including multi-line strings.  This could stand being improved to eliminate the length limit.  Prior to 2.80.04, this was 256.
 
 class Centre;
 class CDlgPositionBox;

@@ -26,7 +26,7 @@
 
 #include <map>
 
-#define STRLEN		256
+#define STRLEN		2048		//TinyCAD limits strings to this length, including multi-line strings.  This could stand being improved to eliminate the length limit.  Prior to 2.80.04, this was 256.
 
 #define MAX_FONTS	8
 #define MAX_PENS	20
@@ -465,6 +465,24 @@ public:
 	{
 		CRect q = m_Transform.Scale(r);
 		m_pDC->Rectangle(q.left, q.top, q.right + 1, q.bottom + 1);
+	}
+	void RoundRect(CDRect r, CDPoint radius)
+	{
+		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
+		CRect q = m_Transform.Scale(r);
+		CPoint qRadius = m_Transform.Scale(radius);	//This returns the location of the radius point on the screen, not exactly the same as the scaled radius
+		CPoint qRef = m_Transform.Scale(CDPoint(0,0));
+		qRadius -= qRef;	//so convert it to a relative point
+		m_pDC->RoundRect(q, qRadius);
+	}
+	void RoundRect1(CDRect r, CDPoint radius)
+	{
+		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
+		CRect q = m_Transform.Scale(r);
+		CPoint qRadius = m_Transform.Scale(radius);
+		CPoint qRef = m_Transform.Scale(CDPoint(0,0));
+		qRadius -= qRef;
+		m_pDC->RoundRect(q.left, q.top, q.right + 1, q.bottom + 1, qRadius.x, qRadius.y);
 	}
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p)

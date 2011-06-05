@@ -27,29 +27,31 @@
 #include "LineUtils.h"
 #include <math.h>
 
-// The Rectangle Class //
+// The NoteText Class //
 
 // The Constructor
-CDrawSquare::CDrawSquare(CTinyCadDoc *pDesign, ObjType type) :
+CDrawNoteText::CDrawNoteText(CTinyCadDoc *pDesign, ObjType type) :
 	CDrawRectOutline(pDesign)
 {
 	m_type = type;
 	m_segment = 1;
 	Style = m_pDesign->GetOptions()->GetCurrentStyle(GetType());
 	Fill = m_pDesign->GetOptions()->GetCurrentFillStyle(GetType());
+	Font = m_pDesign->GetOptions()->GetCurrentFont(GetType());
+	m_note_text = _T("Default sample text\nwith multiple lines.\nAnd a 3rd line.\nAnd a 4th extra long line.");		//Default text for the note.
 }
 
-ObjType CDrawSquare::GetType()
+ObjType CDrawNoteText::GetType()
 {
 	return m_type;
 }
 
-CString CDrawSquare::GetName() const
+CString CDrawNoteText::GetName() const
 {
-	return "Rectangle";
+	return "NoteText";
 }
 
-void CDrawSquare::BeginEdit(BOOL re_edit)
+void CDrawNoteText::BeginEdit(BOOL re_edit)
 {
 	m_segment = 1;
 
@@ -63,7 +65,7 @@ void CDrawSquare::BeginEdit(BOOL re_edit)
 	}
 }
 
-void CDrawSquare::EndEdit()
+void CDrawNoteText::EndEdit()
 {
 	Display();
 	if (m_re_edit)
@@ -74,7 +76,7 @@ void CDrawSquare::EndEdit()
 }
 
 // Place the object into the design
-void CDrawSquare::LButtonDown(CDPoint p, CDPoint s)
+void CDrawNoteText::LButtonDown(CDPoint p, CDPoint s)
 {
 	// New undo level for each placement...
 	m_pDesign->BeginNewChangeSet();
@@ -102,7 +104,7 @@ void CDrawSquare::LButtonDown(CDPoint p, CDPoint s)
 	}
 }
 
-void CDrawSquare::LButtonUp(CDPoint p, CDPoint)
+void CDrawNoteText::LButtonUp(CDPoint p, CDPoint)
 {
 	// If the user has made a significant movement,
 	// then consider this a placement....
@@ -125,13 +127,13 @@ void CDrawSquare::LButtonUp(CDPoint p, CDPoint)
 	}
 }
 
-void CDrawSquare::TagResources()
+void CDrawNoteText::TagResources()
 {
 	m_pDesign->GetOptions()->TagStyle(Style);
 	m_pDesign->GetOptions()->TagFillStyle(Fill);
 }
 
-BOOL CDrawSquare::RButtonDown(CDPoint p, CDPoint s)
+BOOL CDrawNoteText::RButtonDown(CDPoint p, CDPoint s)
 {
 	BOOL r = !m_segment;
 
@@ -141,45 +143,32 @@ BOOL CDrawSquare::RButtonDown(CDPoint p, CDPoint s)
 	return r;
 }
 
-const TCHAR* CDrawSquare::GetXMLTag( BOOL isSquare, BOOL hasNoteText )
+const TCHAR* CDrawNoteText::GetXMLTag( BOOL isSquare, BOOL hasNoteText )
 {
-	if (isSquare)
-	{
-		return _T("RECTANGLE");
-	}
-	else if (hasNoteText)
-	{
-		return _T("NOTE_TEXT");
-	}
-	else
-	{
-		return _T("ELLIPSE");
-	}
+	return _T("NOTE_TEXT");
 }
 
 // Load and save to an XML file
-void CDrawSquare::SaveXML(CXMLWriter &xml)
+void CDrawNoteText::SaveXML(CXMLWriter &xml)
 {
-	xml.addTag(GetXMLTag(IsSquare(), HasNoteText()));
+	xml.addTag(GetXMLTag());
 
 	xml.addAttribute(_T("a"), CDPoint(m_point_a));
 	xml.addAttribute(_T("b"), CDPoint(m_point_b));
 	xml.addAttribute(_T("style"), Style);
 	xml.addAttribute(_T("fill"), Fill);
-	if (HasNoteText()) {
-		xml.addAttribute(_T("note_text"), NoteText);
-	}
+	xml.addAttribute(_T("note_text"), m_note_text);
 
 	xml.closeTag();
 }
 
-void CDrawSquare::LoadXML(CXMLReader &xml)
+void CDrawNoteText::LoadXML(CXMLReader &xml)
 {
 	xml.getAttribute(_T("a"), m_point_a);
 	xml.getAttribute(_T("b"), m_point_b);
 	xml.getAttribute(_T("style"), Style);
 	xml.getAttribute(_T("fill"), Fill);
-
+	xml.getAttribute(_T("note_text"), m_note_text);
 	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
 
 	// Calculate the Style nr here
@@ -193,7 +182,7 @@ void CDrawSquare::LoadXML(CXMLReader &xml)
 }
 
 // Load the rectange from a file
-void CDrawSquare::Load(CStream& archive)
+void CDrawNoteText::Load(CStream& archive)
 {
 	// Load the version number
 	WORD version;
@@ -208,52 +197,53 @@ void CDrawSquare::Load(CStream& archive)
 	Fill = m_pDesign->GetOptions()->GetNewFillStyleNumber(Fill);
 }
 
-// Load the rectange from a file
-void CDrawSquare::OldLoad2(CStream& archive)
-{
-	m_point_a = ReadPoint(archive);
-	m_point_b = ReadPoint(archive);
-
-	archive >> Style;
-	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
-	Fill = fsNONE;
-}
-
-// The old version of this load
-void CDrawSquare::OldLoad(CStream& archive, int tp)
-{
-	BYTE LineThickness = 1;
-	m_point_a = ReadPoint(archive);
-	m_point_b = ReadPoint(archive);
-
-	if (tp == xSquareEx)
-	{
-		archive >> LineThickness;
-	}
-
-	LineStyle l;
-	l.Colour = cBLACK;
-	l.Style = PS_SOLID;
-	l.Thickness = LineThickness;
-	Style = m_pDesign->GetOptions()->AddStyle(&l);
-	Fill = fsNONE;
-}
+// Load the rectangle from a file
+//void CDrawNoteText::OldLoad2(CStream& archive)
+//{
+//	m_point_a = ReadPoint(archive);
+//	m_point_b = ReadPoint(archive);
+//
+//	archive >> Style;
+//	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
+//	Fill = fsNONE;
+//}
+//
+//// The old version of this load
+//void CDrawNoteText::OldLoad(CStream& archive, int tp)
+//{
+//	BYTE LineThickness = 1;
+//	m_point_a = ReadPoint(archive);
+//	m_point_b = ReadPoint(archive);
+//
+//	if (tp == xSquareEx)
+//	{
+//		archive >> LineThickness;
+//	}
+//
+//	LineStyle l;
+//	l.Colour = cBLACK;
+//	l.Style = PS_SOLID;
+//	l.Thickness = LineThickness;
+//	Style = m_pDesign->GetOptions()->AddStyle(&l);
+//	Fill = fsNONE;
+//}
 
 // Change the setting due to the current options
-void CDrawSquare::NewOptions()
+void CDrawNoteText::NewOptions()
 {
 	Display();
 	Style = m_pDesign->GetOptions()->GetCurrentStyle(GetType());
 	Fill = m_pDesign->GetOptions()->GetCurrentFillStyle(GetType());
+	Font = m_pDesign->GetOptions()->GetCurrentFont(GetType());
 	Display();
 }
 
-BOOL CDrawSquare::PointInEllipse(CDPoint p)
+BOOL CDrawNoteText::PointInEllipse(CDPoint p)
 {
 	return TRUE;
 }
 
-double CDrawSquare::EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside)
+double CDrawNoteText::EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside)
 {
 
 	// Determine the distance of this point to the
@@ -278,7 +268,7 @@ double CDrawSquare::EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside)
 	return abs(d - 1.0) * sqrt(da * da + db * db);
 }
 
-double CDrawSquare::DistanceFromPoint(CDPoint p)
+double CDrawNoteText::DistanceFromPoint(CDPoint p)
 {
 
 	if (IsSquare() || HasNoteText())
@@ -326,7 +316,7 @@ double CDrawSquare::DistanceFromPoint(CDPoint p)
 	}
 }
 
-BOOL CDrawSquare::IsInside(double left, double right, double top, double bottom)
+BOOL CDrawNoteText::IsInside(double left, double right, double top, double bottom)
 {
 	// Use fast cut-off to see if the bounding box is inside the intersection box
 	if ( (m_point_a.x<left && m_point_b.x<=left) || (m_point_a.x>right && m_point_b.x>=right)
@@ -335,68 +325,31 @@ BOOL CDrawSquare::IsInside(double left, double right, double top, double bottom)
 		return FALSE;
 	}
 
-	if (IsSquare() || HasNoteText())
-	{
-		if (Fill != fsNONE || (left==right && top==bottom) || HasNoteText())
-		{
-			// Filled rectangle
-			return TRUE;
-		}
-		else
-		{
-			CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
-			CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
-			CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
-			CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
-			return l1.IsInside(left,right,top,bottom)
-				|| l2.IsInside(left,right,top,bottom)
-				|| l3.IsInside(left,right,top,bottom)
-				|| l4.IsInside(left,right,top,bottom);
-		}
-	}
-	else
-	{
-		// Determine if the ellipse is entirely inside the
-		// rectangle...
-		CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
-		r.NormalizeRect();
-		if (r.left >= left && r.right <= right && 
-		    r.top >= top && r.bottom <= bottom)
-		{
-			return TRUE;
-		}
-
-		// Ok does one of the lines cut the ellipse?
-		CDPoint l1p, l2p, l3p, l4p;
-
-		CLineUtils l1(CDPoint(left, top), CDPoint(right, top));
-		CLineUtils l2(CDPoint(right, top), CDPoint(right, bottom));
-		CLineUtils l3(CDPoint(right, bottom), CDPoint(left, bottom));
-		CLineUtils l4(CDPoint(left, bottom), CDPoint(left, top));
-		CDPoint c = CDPoint( (m_point_a.x + m_point_b.x) / 2, (m_point_a.y + m_point_b.y) / 2);
-
-		l1.DistanceFromPoint(c, l1p);
-		l2.DistanceFromPoint(c, l2p);
-		l3.DistanceFromPoint(c, l3p);
-		l4.DistanceFromPoint(c, l4p);
-
-		// Are any of these points inside the ellipse?
-		BOOL r1, r2, r3, r4;
-		EllipseDistanceFromPoint(l1p, r1);
-		EllipseDistanceFromPoint(l2p, r2);
-		EllipseDistanceFromPoint(l3p, r3);
-		EllipseDistanceFromPoint(l4p, r4);
-
-		return r1 || r2 || r3 || r4;
-	}
+//	if (Fill != fsNONE || (left==right && top==bottom) || HasNoteText())
+//	{
+//		// Filled rectangle
+	return TRUE;
+//	}
+//	else
+//	{
+//		CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
+//		CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
+//		CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
+//		CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
+//		return l1.IsInside(left,right,top,bottom)
+//			|| l2.IsInside(left,right,top,bottom)
+//			|| l3.IsInside(left,right,top,bottom)
+//			|| l4.IsInside(left,right,top,bottom);
+//	}
 }
 
-void CDrawSquare::Paint(CContext &dc, paint_options options)
+void CDrawNoteText::Paint(CContext &dc, paint_options options)
 {
 
 	CDPoint sma = m_point_a;
 	CDPoint smb = m_point_b;
 
+	//Establish context for this dc
 	if (Fill != fsNONE && options != draw_selectable)
 	{
 		dc.SelectBrush(m_pDesign->GetOptions()->GetFillStyle(Fill));
@@ -407,78 +360,68 @@ void CDrawSquare::Paint(CContext &dc, paint_options options)
 	}
 	dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
 	dc.SetROP2(R2_COPYPEN);
+	dc.SelectFont(m_pDesign->GetOptions()->GetFont(Font), options);
 
-	if (IsSquare())
-	{
-		dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
-	}
-	else if (HasNoteText())
-	{
-		CDRect r;
+	CDRect r;
 
-		r.left = sma.x;
-		r.right = smb.x;
-		r.top = sma.y;
-		r.bottom = smb.y;
-		r.NormalizeRect();	//This is the rectangle that the text will actually be drawn in
+	r.left = sma.x;
+	r.right = smb.x;
+	r.top = sma.y;
+	r.bottom = smb.y;
+	r.NormalizeRect();	//This is the rectangle that the text will actually be drawn in
 
-		//Form a larger decorative double rectangle around the text and draw it.
-		//This also provides a clear margin for the text.
-		//The size of the decorative border must be enough larger than the radius selected for the rounded rectangle that the
-		//text doesn't display on top of the radiused corners.
-		//Also, the Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
-		CDSize innerBorderRectangleDelta;
-		innerBorderRectangleDelta.cx = r.Width() * 0.02;	//2% wider than the text box
-		innerBorderRectangleDelta.cy = r.Height() * 0.02;	//2% taller than the text box
+	//Form a larger decorative double rectangle around the text and draw it.
+	//This also provides a clear margin for the text.
+	//The size of the decorative border must be enough larger than the radius selected for the rounded rectangle that the
+	//text doesn't display on top of the radiused corners.
+	//Also, the Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
+	CDSize innerBorderRectangleDelta;
+	innerBorderRectangleDelta.cx = r.Width() * 0.02;	//2% wider than the text box
+	innerBorderRectangleDelta.cy = r.Height() * 0.02;	//2% taller than the text box
 
-		innerBorderRectangleDelta.ForceLargerSize();	//Enlarge the delta size to the larger of the width or height
-		innerBorderRectangleDelta.ForceMinSize(5);	//but not smaller than this amount
+	innerBorderRectangleDelta.ForceLargerSize();	//Enlarge the delta size to the larger of the width or height
+	innerBorderRectangleDelta.ForceMinSize(5);	//but not smaller than this amount
 
-		CDSize outerBorderRectangleDelta=innerBorderRectangleDelta;
-		outerBorderRectangleDelta += CDSize(5,5);
-		CDRect border;
-		
-		//Draw the outer most nested rectangle as a flourish
-		border=r;
-		border.InflateRect(outerBorderRectangleDelta);
+	CDSize outerBorderRectangleDelta=innerBorderRectangleDelta;
+	outerBorderRectangleDelta += CDSize(5,5);
+	CDRect border;
+	
+	//Draw the outer most nested rectangle as a flourish
+	border=r;
+	border.InflateRect(outerBorderRectangleDelta);
 //		dc.Rectangle(border);
 
-		//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
-		CDPoint radius;
-		radius.x = border.Width() * 0.1;
-		radius.y = border.Height() * 0.1;
-		radius.ForceLargerSize();
-		dc.RoundRect(border, radius);
+	//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
+	CDPoint radius;
+	radius.x = border.Width() * 0.1;
+	radius.y = border.Height() * 0.1;
+	radius.ForceLargerSize();
+	dc.RoundRect(border, radius);
 
-		//Draw the inner most nested rectangle as a flourish
-		border = r;
-		border.InflateRect(innerBorderRectangleDelta);
+	//Draw the inner most nested rectangle as a flourish
+	border = r;
+	border.InflateRect(innerBorderRectangleDelta);
 //		dc.Rectangle(border);
-		radius.x = border.Width() * 0.1;
-		radius.y = border.Height() * 0.1;
-		radius.ForceLargerSize();
-		//TRACE("left=%f, right=%f, Width=%f, radius.x=%f, bottom=%f, top=%f, Height=%f, radius.y=%f\n", border.left, border.right, border.Width(), radius.x, border.bottom, border.top, border.Height(), radius.y);
-		dc.RoundRect(border, radius);
+	radius.x = border.Width() * 0.1;
+	radius.y = border.Height() * 0.1;
+	radius.ForceLargerSize();
+	//TRACE("left=%f, right=%f, Width=%f, radius.x=%f, bottom=%f, top=%f, Height=%f, radius.y=%f\n", border.left, border.right, border.Width(), radius.x, border.bottom, border.top, border.Height(), radius.y);
+	dc.RoundRect(border, radius);
 
-		//Now draw the text itself - this is just sample code waiting for full integration with user specified text!
-		dc.SetTextColor(cBLUE);	//force color for now
-		int backgroundMode = dc.GetBkMode();	//Save the current background mode
-		dc.SetBkMode(TRANSPARENT);
-		dc.DrawText(CString("Sample Text\nwith multiple lines.\nAnd a 3rd line.\nAnd a 4th extra long line."), r);	//Now draw the note text on top of the inner rectangle
-		dc.SetBkMode(backgroundMode);	//Restore the previous background mode
-	}
-	else	//Must be an ellipse
-	{
-		dc.Ellipse(CDRect(sma.x, sma.y, smb.x, smb.y));
-	}
+	//Now draw the text itself - this is just sample code waiting for full integration with user specified text!
+	dc.SetTextColor(cBLUE);	//force color for now
+	int backgroundMode = dc.GetBkMode();	//Save the current background mode
+	dc.SetBkMode(TRANSPARENT);
+	dc.DrawText(m_note_text, r);	//Now draw the note text on top of the inner rectangle
+	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
 }
 
-// Store the rectangle in the drawing
-CDrawingObject *CDrawSquare::Store()
+// Store the NoteText in the drawing
+CDrawingObject *CDrawNoteText::Store()
 {
-	CDrawSquare *NewObject;
+	CDrawNoteText *NewObject;
 
-	NewObject = new CDrawSquare(m_pDesign, m_type);
+	NewObject = new CDrawNoteText(m_pDesign, m_type);
 	*NewObject = *this;
 
 	m_pDesign->Add(NewObject);
@@ -487,4 +430,3 @@ CDrawingObject *CDrawSquare::Store()
 
 	return NewObject;
 }
-
