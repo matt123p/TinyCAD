@@ -1353,6 +1353,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DrawNoteText.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DrawOrigin.cpp"
 				>
 				<FileConfiguration

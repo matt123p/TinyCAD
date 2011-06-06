@@ -143,7 +143,7 @@ BOOL CDrawNoteText::RButtonDown(CDPoint p, CDPoint s)
 	return r;
 }
 
-const TCHAR* CDrawNoteText::GetXMLTag( BOOL isSquare, BOOL hasNoteText )
+const TCHAR* CDrawNoteText::GetXMLTag()
 {
 	return _T("NOTE_TEXT");
 }
@@ -271,49 +271,29 @@ double CDrawNoteText::EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside)
 double CDrawNoteText::DistanceFromPoint(CDPoint p)
 {
 
-	if (IsSquare() || HasNoteText())
+	// Always treat NoteText as if it is filled whether it is or not
+	if (IsInside(p.x, p.x, p.y, p.y))
 	{
-		// Are we filled?
-		if (Fill != fsNONE || HasNoteText())	//note text is treated as if the rectangle is filled
-		{
-			if (IsInside(p.x, p.x, p.y, p.y))
-			{
-				return 0.0;
-			}
-		}
-
-		// Ok, so check for distance from one of our lines...
-		double distance = 100.0;
-
-		CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
-		CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
-		CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
-		CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
-
-		CDPoint d;
-		distance = min( distance, l1.DistanceFromPoint( p, d ) );
-		distance = min( distance, l2.DistanceFromPoint( p, d ) );
-		distance = min( distance, l3.DistanceFromPoint( p, d ) );
-		distance = min( distance, l4.DistanceFromPoint( p, d ) );
-
-		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
-		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
-		return distance - width;
+		return 0.0;
 	}
-	else
-	{
-		BOOL r;
-		double distance = EllipseDistanceFromPoint(p, r);
-		// Inside filled ellipse?
-		if (r && Fill != fsNONE)
-		{
-			return 0.0;
-		}
 
-		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
-		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
-		return distance - width;
-	}
+	// Ok, so check for distance from one of our lines...
+	double distance = 100.0;
+
+	CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
+	CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
+	CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
+	CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
+
+	CDPoint d;
+	distance = min( distance, l1.DistanceFromPoint( p, d ) );
+	distance = min( distance, l2.DistanceFromPoint( p, d ) );
+	distance = min( distance, l3.DistanceFromPoint( p, d ) );
+	distance = min( distance, l4.DistanceFromPoint( p, d ) );
+
+	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+	double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
+	return distance - width;
 }
 
 BOOL CDrawNoteText::IsInside(double left, double right, double top, double bottom)
@@ -325,22 +305,7 @@ BOOL CDrawNoteText::IsInside(double left, double right, double top, double botto
 		return FALSE;
 	}
 
-//	if (Fill != fsNONE || (left==right && top==bottom) || HasNoteText())
-//	{
-//		// Filled rectangle
 	return TRUE;
-//	}
-//	else
-//	{
-//		CLineUtils l1(CDPoint(m_point_a.x, m_point_a.y), CDPoint(m_point_b.x, m_point_a.y));
-//		CLineUtils l2(CDPoint(m_point_b.x, m_point_a.y), CDPoint(m_point_b.x, m_point_b.y));
-//		CLineUtils l3(CDPoint(m_point_b.x, m_point_b.y), CDPoint(m_point_a.x, m_point_b.y));
-//		CLineUtils l4(CDPoint(m_point_a.x, m_point_b.y), CDPoint(m_point_a.x, m_point_a.y));
-//		return l1.IsInside(left,right,top,bottom)
-//			|| l2.IsInside(left,right,top,bottom)
-//			|| l3.IsInside(left,right,top,bottom)
-//			|| l4.IsInside(left,right,top,bottom);
-//	}
 }
 
 void CDrawNoteText::Paint(CContext &dc, paint_options options)
@@ -360,7 +325,9 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	}
 	dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
 	dc.SetROP2(R2_COPYPEN);
-	dc.SelectFont(m_pDesign->GetOptions()->GetFont(Font), options);
+
+	LOGFONT& lf = *(m_pDesign->GetOptions()->GetFont(Font));
+	dc.SelectFont(lf, options);
 
 	CDRect r;
 

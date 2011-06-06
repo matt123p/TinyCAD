@@ -342,7 +342,7 @@ BOOL CTinyCadDoc::ReadFile(CStream &theArchive, BOOL Details, drawingCollection 
 					obj = new CDrawSquare(this, xSquareEx3);
 					break;
 				case xNoteText:
-					obj = new CDrawSquare(this,xNoteText);
+					obj = new CDrawNoteText(this,xNoteText);
 					break;
 				case xArc:
 				case xArcEx:
@@ -593,15 +593,15 @@ BOOL CTinyCadDoc::ReadFileXML(CXMLReader &xml, BOOL Details, drawingCollection &
 			{
 				obj = new CDrawRuler(this, FALSE);
 			}
-			else if (name == CDrawSquare::GetXMLTag( TRUE, FALSE ))
+			else if (name == CDrawSquare::GetXMLTag( TRUE ))
 				{
 					obj = new CDrawSquare(this, xSquareEx3);
 				}
-			else if (name == CDrawSquare::GetXMLTag( FALSE, TRUE ))
+			else if (name == CDrawNoteText::GetXMLTag())
 			{
-				obj = new CDrawSquare(this, xNoteText);
+				obj = new CDrawNoteText(this, xNoteText);
 			}
-			else if (name == CDrawSquare::GetXMLTag( FALSE, FALSE ))
+			else if (name == CDrawSquare::GetXMLTag( FALSE ))
 			{
 				obj = new CDrawSquare(this, xCircleEx3);
 			}

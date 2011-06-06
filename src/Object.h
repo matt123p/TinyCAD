@@ -726,13 +726,12 @@ public:
 
 ////// These are the annotation objects //////
 
-class CDrawSquare : public CDrawRectOutline		//Used to draw rectangles/squares, circles/ellipses, rectangles with multi-line text (notes)
+class CDrawSquare : public CDrawRectOutline		//Used to draw rectangles/squares, circles/ellipses
 {
 	WORD Style;
 	WORD Fill;
 	BOOL m_re_edit;
 	ObjType m_type;
-	CString NoteText;
 
 	double EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside);
 
@@ -750,7 +749,7 @@ public:
 
 	virtual void SaveXML(CXMLWriter &xml);
 	virtual void LoadXML(CXMLReader &xml);
-	static const TCHAR* GetXMLTag( BOOL isSquare, BOOL hasNoteText );
+	static const TCHAR* GetXMLTag( BOOL isSquare);
 
 	virtual void NewOptions();
 	virtual BOOL IsInside(double left, double right, double top, double bottom);
@@ -769,17 +768,12 @@ public:
 		return m_type == xSquareEx3;
 	}
 	
-	bool HasNoteText() 
-	{
-		return m_type == xNoteText;
-	}
-	
 	// This is used for the construction of this object
 	CDrawSquare(CTinyCadDoc *pDesign, ObjType type);
 
 	virtual int getMenuID() 
 	{
-		return IsSquare() ? IDM_TOOLSQUARE : (HasNoteText() ? IDM_TOOLNOTE : IDM_TOOLCIRCLE);
+		return IsSquare() ? IDM_TOOLSQUARE : IDM_TOOLCIRCLE;
 	}
 };
 
@@ -823,15 +817,6 @@ public:
 	}
 	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
 	virtual void LButtonDown(CDPoint, CDPoint);
-//	bool IsSquare()
-//	{
-//		return m_type == xSquareEx3;
-//	}
-//	
-//	bool HasNoteText() 
-//	{
-//		return m_type == xNoteText;
-//	}
 	
 	// This is used for the construction of this object
 	CDrawNoteText(CTinyCadDoc *pDesign, ObjType type);
