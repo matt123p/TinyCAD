@@ -302,13 +302,6 @@ double CDrawSquare::DistanceFromPoint(CDPoint p)
 		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
 		return distance - width;
-		//
-		//if (distance <= width)
-		//{
-		//	return distance - width;
-		//}
-		//
-		//return distance;
 	}
 	else
 	{
@@ -323,17 +316,7 @@ double CDrawSquare::DistanceFromPoint(CDPoint p)
 		LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 		double width = min(0, theStyle->Thickness);// + (10 / (m_pDesign->GetTransform().GetZoomFactor()));
 		return distance - width;
-
-		// On the ellipse?
-		//if (distance <= width)
-		//{
-		//	return distance - width;
-		//}
-		//
-		//return distance;
 	}
-
-	//return 100.0;
 }
 
 BOOL CDrawSquare::IsInside(double left, double right, double top, double bottom)
@@ -366,8 +349,7 @@ BOOL CDrawSquare::IsInside(double left, double right, double top, double bottom)
 	}
 	else
 	{
-		// Determine the ellipse is entirely inside the
-		// rectangle...
+		// Determine if the ellipse is entirely inside the rectangle...
 		CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
 		r.NormalizeRect();
 		if (r.left >= left && r.right <= right && 
@@ -422,7 +404,7 @@ void CDrawSquare::Paint(CContext &dc, paint_options options)
 	{
 		dc.Rectangle(CDRect(sma.x, sma.y, smb.x, smb.y));
 	}
-	else
+	else	//Must be an ellipse
 	{
 		dc.Ellipse(CDRect(sma.x, sma.y, smb.x, smb.y));
 	}

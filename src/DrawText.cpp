@@ -39,7 +39,7 @@ BOOL CDrawText::CanEdit()
 	return TRUE;
 }
 
-// Look for a seach string in the object
+// Look for a search string in the object
 CString CDrawText::Find(const TCHAR *theSearchString)
 {
 	CString HoldString;

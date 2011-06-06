@@ -245,7 +245,7 @@ void CDrawMethod::ReplaceSymbol(hSYMBOL old_symbol, hSYMBOL new_symbol, bool kee
 	Display();
 }
 
-// Look for a seach string in the object
+// Look for a search string in the object
 CString CDrawMethod::Find(const TCHAR *theSearchString)
 {
 	CString HoldString;

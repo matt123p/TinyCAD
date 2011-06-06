@@ -152,7 +152,7 @@ BOOL CDrawPower::IsInside(double left, double right, double top, double bottom)
          || l.IsInside(left,right,top,bottom);
 }
 
-// Look for a seach string in the object
+// Look for a search string in the object
 CString CDrawPower::Find(const TCHAR *theSearchString)
 {
 	CString HoldString;
