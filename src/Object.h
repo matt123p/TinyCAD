@@ -779,15 +779,29 @@ public:
 
 class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
 {
-	WORD Style;
-	WORD Fill;
-	WORD Font;
+	WORD Style;		//Enclosing rectangle style
+	WORD Fill;		//Enclosing rectangle fill
+	hFONT FontStyle;	//The font style
+	COLORREF FontColour;	//The font colour
+
+	//These are text formatting related:
+	double original_width;
+	double original_box_width;
+	double target_box_width;
+
+	double tab_width;	//Uses logical units, not pixels
+
 	BOOL m_re_edit;
 	ObjType m_type;
-	CString m_note_text;	//actual text is stored here
+
+	CString str;	//actual note text is stored here
+	BYTE dir;	//note text has a direction, but we may not implement rotated note text or perhaps implement only a subset of the directions such as horizontal and vertical
 	CDRect m_note_area;		//reduced area that the text is displayed in
 
 	double EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside);
+
+	void SetScalingWidths();
+	void CalcLayout();
 
 public:
 	virtual double DistanceFromPoint(CDPoint p);
@@ -797,34 +811,32 @@ public:
 	virtual void Paint(CContext &, paint_options);
 	virtual CDrawingObject* Store();
 
-	void OldLoad(CStream &, int);
-	void OldLoad2(CStream &);
 	virtual void Load(CStream &);
-
 	virtual void SaveXML(CXMLWriter &xml);
 	virtual void LoadXML(CXMLReader &xml);
 	static const TCHAR* GetXMLTag();
 
 	virtual void NewOptions();
 	virtual BOOL IsInside(double left, double right, double top, double bottom);
-	virtual BOOL RButtonDown(CDPoint, CDPoint);
+	CString Find(const TCHAR *); // Does this string match this text?
 	virtual CString GetName() const;
 	virtual void BeginEdit(BOOL re_edit);
 	virtual void EndEdit();
-	virtual BOOL CanEdit()
-	{
-		return TRUE;
-	}
+	virtual BOOL CanEdit();
 	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
 	virtual void LButtonDown(CDPoint, CDPoint);
-	
+	virtual BOOL RButtonDown(CDPoint, CDPoint);
+
 	// This is used for the construction of this object
 	CDrawNoteText(CTinyCadDoc *pDesign, ObjType type);
-
+	virtual ~CDrawNoteText()
+	{
+	}
 	virtual int getMenuID() 
 	{
 		return IDM_TOOLNOTE;
 	}
+	BOOL IsEmpty();
 };
 
 class CDrawError: public CDrawingObject

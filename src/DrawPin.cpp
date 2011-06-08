@@ -232,7 +232,7 @@ CString CDrawPin::GetName() const
 	return _T("Pin");
 }
 
-// Look for a seach m_string in the object
+// Look for a search m_string in the object
 CString CDrawPin::Find(const TCHAR *theSearchm_string)
 {
 	CString Holdm_string;

@@ -568,12 +568,9 @@ void CContext::DrawText(const TCHAR *t, CDRect r)
 	SelectFontNow(false);
 	CRect q = m_Transform.Scale(r);
 
-	//Must add code to scale the text here - presently, it is of fixed size relative 
-	//to its original scale factor at the time that it was created!
-
 	//Documentation for DrawText can be found at http://msdn.microsoft.com/en-us/library/dd162498.aspx
 
-	m_pDC->DrawTextW(t, q, DT_EDITCONTROL|DT_EXPANDTABS|DT_WORDBREAK|DT_WORD_ELLIPSIS|DT_END_ELLIPSIS);
+	m_pDC->DrawTextW(t, q, DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
 }
 
 // Display text on the screen without kerning
