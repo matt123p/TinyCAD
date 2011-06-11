@@ -441,6 +441,7 @@
 #define IDD_WIRE                        1548
 #define IDD_LINE                        1548
 #define IDC_LABEL_DIR4                  1549
+#define IDD_TOOLNOTETEXT                1549
 #define IDC_ENTIRE_NET                  1551
 #define IDC_DEFAULT_STYLE               1552
 #define IDC_CHECK1                      1553
@@ -451,6 +452,12 @@
 #define ERC_NONCASEDISTINCT             1565
 #define ERC_UNASSIGNEDREFDES            1566
 #define IDC_SYMBOL_TREE                 1567
+#define IDC_NOTETEXT_TABSPACING         1570
+#define IDC_UNITSTRING                  1571
+#define IDC_NOTETEXT_ROUNDEDRECT        1574
+#define IDC_NOTETEXT_RECTANGLE          1575
+#define TEXTBOXL_UP                     1577
+#define IDC_NOTETEXT_NOBORDER           1579
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -549,7 +556,7 @@
 #define ID_HELP_OPENTINYCADUSERMANUAL   32894
 #define IDM_EDITSELECTALL               32895
 #define IDM_TOOLORIGIN                  32896
-#define IDM_TOOLNOTE                    32897
+#define IDM_TOOLNOTETEXT                32897
 #define IDC_SCALING                     40000
 #define ID_CONTEXT_COPY_TO              65535
 
@@ -558,9 +565,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        168
+#define _APS_NEXT_RESOURCE_VALUE        169
 #define _APS_NEXT_COMMAND_VALUE         32898
-#define _APS_NEXT_CONTROL_VALUE         1569
+#define _APS_NEXT_CONTROL_VALUE         1580
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

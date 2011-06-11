@@ -58,7 +58,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
-	ON_UPDATE_COMMAND_UI(IDM_TOOLNOTE, OnUpdateToolNoteText)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLNOTETEXT, OnUpdateNoteTextText)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLTEXT, OnUpdateTooltext)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLWIRE, OnUpdateToolwire)
 	ON_UPDATE_COMMAND_UI(IDM_VIEWCENTRE, OnUpdateViewcentre)
@@ -188,7 +188,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_TOOLARC, OnSelectArc )
 	ON_COMMAND( IDM_TOOLSQUARE, OnSelectSquare )
 	ON_COMMAND( IDM_TOOLCIRCLE, OnSelectCircle )
-	ON_COMMAND( IDM_TOOLNOTE, OnSelectNoteText )
+	ON_COMMAND( IDM_TOOLNOTETEXT, OnSelectNoteText )
 	ON_COMMAND( IDM_TOOLTEXT, OnSelectText )
 	ON_COMMAND( IDM_TOOLGET, OnSelectGet )
 	ON_COMMAND( IDC_SHOW_SYMBOL, OnSelectGet )
@@ -1112,7 +1112,7 @@ void CTinyCadView::OnUpdateToolsquare(CCmdUI* pCmdUI)
 	}
 }
 
-void CTinyCadView::OnUpdateToolNoteText(CCmdUI* pCmdUI) 
+void CTinyCadView::OnUpdateNoteTextText(CCmdUI* pCmdUI) 
 {
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)	
@@ -1367,6 +1367,7 @@ void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI)
 			|| type == xPower
 			|| type == xText || type == xTextEx || type == xTextEx2
 			|| type == xBusName || type == xBusNameEx
+			|| type == xNoteText	//not sure if this belongs here or not - djl
 			|| type == xBusSlash
 			;
 
@@ -1412,8 +1413,11 @@ void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* p
 	}
 	if (!bActivate)
 	{
-		CDrawingObject* obj = GetCurrentDocument()->GetEdit();
+		CDrawingObject* obj;
+		obj = GetCurrentDocument()->GetEdit();
 		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
+		//assert(!obj);
+		TRACE("CTinyCadView::OnActivateView() - obj is %S, obj->GetType() = %d\n", obj ? "True":"False", obj ? obj->GetType(): -1);
 		if (obj && obj->GetType() != xEditItem)
 		{
 			// Get rid of any drawing tool at this moment
@@ -1663,6 +1667,7 @@ void CTinyCadView::ChangeDir(int dir)
 	      || type == xPower
 	      || type == xText || type == xTextEx || type == xTextEx2
 	      || type == xBusName || type == xBusNameEx
+		  || type == xNoteText		//not sure if this belongs here or not - djl
 	      || type == xBusSlash
 		  )
 	{

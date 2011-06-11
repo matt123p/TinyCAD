@@ -353,11 +353,13 @@ public:
 };
 
 class CEditDlgTextEdit;
+class CEditDlgNoteText;
 
 class CDrawText: public CDrawRectOutline
 {
 
 	friend CEditDlgTextEdit;
+	friend CEditDlgNoteText;
 
 	// The font style
 	hFONT FontStyle;
@@ -779,11 +781,13 @@ public:
 
 class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
 {
+//protected:
 	WORD Style;		//Enclosing rectangle style
 	WORD Fill;		//Enclosing rectangle fill
 	hFONT FontStyle;	//The font style
+public:
 	COLORREF FontColour;	//The font colour
-
+protected:
 	//These are text formatting related:
 	double original_width;
 	double original_box_width;
@@ -834,7 +838,7 @@ public:
 	}
 	virtual int getMenuID() 
 	{
-		return IDM_TOOLNOTE;
+		return IDM_TOOLNOTETEXT;
 	}
 	BOOL IsEmpty();
 };

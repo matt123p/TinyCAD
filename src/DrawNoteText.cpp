@@ -174,32 +174,27 @@ void CDrawNoteText::BeginEdit(BOOL re_edit)
 {
 	m_segment = 1;
 
-	if (m_type != xNoteText) 	//DEBUG only!!!
-	{
-		TRACE("WARNING:  Setting m_type=xNoteText in CDrawNoteText::BeginEdit().  Currently, m_type=%ld\n",m_type);
-		m_type = xNoteText;
-	}
-
 	m_pDesign->GetOptions()->SetCurrentStyle(GetType(), Style);
 	m_pDesign->GetOptions()->SetCurrentFillStyle(GetType(), Fill);
-	TRACE("CDrawNoteText::BeginEdit() - For type=%d, set current fill style to 0x%08LX\n", GetType(), Fill);
 	m_pDesign->GetOptions()->SetCurrentFont(GetType(), FontStyle);
+	TRACE("CDrawNoteText::BeginEdit() - For type=%d, set current fill style to 0x%08LX\n", GetType(), Fill);
 	SetScalingWidths();
 
 	m_re_edit = re_edit;
 	if (re_edit)
-	{
-		TRACE("CDrawnoteText::BeginEdit() - This dialog box hasn't been implemented yet - using rectangle edit dialog\n");
-		g_EditToolBar.m_PolygonEdit.Open(m_pDesign, this);
+	{	//This code is executed if a NoteText object already exists and it is selected, thus allowing "re-editing" of the object
+		//TRACE("CDrawnoteText::BeginEdit() - This dialog box hasn't been implemented yet - using rectangle edit dialog\n");
+		g_EditToolBar.m_NoteTextEdit.Open(m_pDesign, this);
 	}
 }
 
 void CDrawNoteText::EndEdit()
 {
+	TRACE("CDrawNoteText::EndEdit()\n");
 	Display();
 	if (m_re_edit)
 	{
-		g_EditToolBar.m_PolygonEdit.Close();
+		g_EditToolBar.m_NoteTextEdit.Close();
 	}
 
 }
@@ -346,7 +341,6 @@ double CDrawNoteText::DistanceFromPoint(CDPoint p)
 
 void CDrawNoteText::CalcLayout()
 {
-	//djl - This function must be modified to use multi-line text functionality!!!  It is still set for a single line text label.
 	CDSize size = m_pDesign->GetTextExtent(str, FontStyle);
 
 	if (original_width == 0)
@@ -359,25 +353,16 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 {
 	CalcLayout();
 
-	//CDPoint sma = m_point_a;
-	//CDPoint smb = m_point_b;
-
-	//TRACE("CDrawNoteText::Paint() - Selecting brush type;  paint options=%d\n", options);
 	//Establish context for this dc
 	if (Fill != fsNONE && options != draw_selectable)
 	{	//Select a brush that is appropriate for filled rectangles.  If the mouse is hovering over the rectangle, then it is "selectable" and the rectangle will be drawn as unfilled.
-
-		//TRACE("CDrawNoteText::Paint() - Selecting brush based on Fill=0x%08LX, GetFillStyle(Fill)=0x%08LX, GetType()=%d, paint options=%d\n", Fill, m_pDesign->GetOptions()->GetFillStyle(Fill), GetType(), options);
 		dc.SelectBrush(m_pDesign->GetOptions()->GetFillStyle(Fill));
 	}
 	else
 	{	//Select a brush that is appropriate for non-filled rectangles or for rectangles that are "selectable"
-		//TRACE("CDrawNoteText::Paint() - Selecting default HOLLOW_BRUSH.  Fill=0x%08LX, GetFillStyle(Fill)=0x%08LX, GetType()=%d, paint options=%d\n", Fill, m_pDesign->GetOptions()->GetFillStyle(Fill), GetType(), options);
 		dc.SelectBrush();
 	}
-	//TRACE("                         Current brush type=0x%08LX\n", dc.GetCurrentBrush()->GetObjectType());
 
-	//TRACE("CDrawNoteText::Paint() - Selecting pen\n");
 	dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);	//SelectPen takes care of the Paint options regarding selected, selectable, or normal
 
 	CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
@@ -409,7 +394,6 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	radius.x = border.Width() * 0.1;
 	radius.y = border.Height() * 0.1;
 	radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-	//TRACE("Drawing outer rectangle\n");
 	dc.RoundRect(border, radius);
 
 	//Draw the innermost nested rectangle as a flourish
@@ -419,8 +403,6 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	radius.x = border.Width() * 0.1;
 	radius.y = border.Height() * 0.1;
 	radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-	//TRACE("left=%f, right=%f, Width=%f, radius.x=%f, bottom=%f, top=%f, Height=%f, radius.y=%f\n", border.left, border.right, border.Width(), radius.x, border.bottom, border.top, border.Height(), radius.y);
-	//TRACE("Drawing inner rectangle\n");
 	dc.RoundRect(border, radius);
 
 	//Now draw the text itself
@@ -431,11 +413,9 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	//	CDSize size = dc.GetTextExtent(str);
 
 	dc.SetTextColor(FontColour);
-	//TRACE("CDrawNoteText::Paint() - Drawing text with color=0x%08LX\n", FontColour);
 	int backgroundMode = dc.GetBkMode();	//Save the current background mode
 	dc.SetBkMode(TRANSPARENT);
 
-	//TRACE("Drawing the text\n");
 	dc.DrawText(str, r);	//Now draw the note text on top of the inner rectangle
 	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
 }

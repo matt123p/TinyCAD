@@ -181,7 +181,7 @@ protected:
 	afx_msg void OnUpdateToolpolygon(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpower(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolsquare(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateToolNoteText(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateNoteTextText(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTooltext(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolwire(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewcentre(CCmdUI* pCmdUI);

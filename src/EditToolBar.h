@@ -36,6 +36,7 @@
 #include "EditDlgPinEdit.h"
 #include "EditDlgDrawPolyEdit.h"
 #include "EditDlgHierarchicalEdit.h"
+#include "EditDlgNoteText.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CEditToolbar window
@@ -73,13 +74,13 @@ public:
 	CEditDlgPowerEdit			m_PowerEdit;			//Used to edit power and ground objects
 	CEditDlgPinEdit				m_PinEdit;				//Used to edit the pins of a symbol
 	CEditDlgDrawLineEdit		m_DrawLineEdit;			//Used to edit net connection lines
-	CEditDlgDrawPolyEdit		m_DrawPolyEdit;			//Used to edit annotation polygons
+	CEditDlgDrawPolyEdit		m_DrawPolyEdit;			//Used to edit while creating annotation polygons
 	CEditDlgMethodEdit			m_MethodEdit;			//Used to edit symbols
 	CEditDlgRotateBox			m_RotateBox;			//Used to edit the rotation of an object
 	CEditDlgLine				m_LineEdit;				//Used to edit annotation lines (i.e., graphical lines)
-	CEditDlgPolygon				m_PolygonEdit;			//Used to edit annotation polygons also?!!
+	CEditDlgPolygon				m_PolygonEdit;			//Used to edit already existing annotation polygons
 	CEditDlgHierarchicalEdit	m_HierarchicalEdit;		//Used to edit hierarchical symbols
-
+	CEditDlgNoteText			m_NoteTextEdit;				//Used to edit multi-line NoteText
 	void changeSelected(CDrawingObject *previous, CDrawingObject *pObject);
 
 	// Generated message map functions
