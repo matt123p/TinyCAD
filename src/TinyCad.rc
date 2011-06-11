@@ -883,10 +883,10 @@ BEGIN
     GROUPBOX        "Text Characteristics",IDC_STATIC,315,0,114,42
     CONTROL         "Rectangle",IDC_NOTETEXT_RECTANGLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,11,46,10
     CONTROL         "Rounded Rect",IDC_NOTETEXT_ROUNDEDRECT,"Button",BS_AUTORADIOBUTTON,59,11,55,10
-    LISTBOX         IDC_NOTETEXT_TABSPACING,266,8,21,12,LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Units",IDC_UNITSTRING,291,11,17,8
     LTEXT           "Tab Stops",IDC_STATIC,230,11,33,8
     CONTROL         "None",IDC_NOTETEXT_NOBORDER,"Button",BS_AUTORADIOBUTTON,118,11,29,10
+    EDITTEXT        IDC_EDIT_TABSIZE,267,8,22,13,ES_AUTOHSCROLL | ES_NUMBER
 END
 
 
@@ -1999,9 +1999,13 @@ BEGIN
     IDM_TOOLLINE            "Line annotations\nLine"
     IDM_TOOLCIRCLE          "Ellipse annotations\nEllipse"
     IDM_TOOLSQUARE          "Rectangle annotations\nRectangle"
-    IDM_TOOLNOTETEXT        "Multi-Line Text annotations\nNote"
     IDM_EDITDELITEM         "Delete items\nDelete (DEL)"
     IDM_EDITEDIT            "Edit items\nEdit (ESC)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_TOOLNOTETEXT        "Multi-Line Text annotations\nNote"
 END
 
 STRINGTABLE 
