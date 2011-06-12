@@ -20,6 +20,9 @@ BEGIN_MESSAGE_MAP(CDlgColours, CDialog)
 	ON_BN_CLICKED(IDC_COL_POWER, OnColPower)
 	ON_BN_CLICKED(IDC_COL_WIRE, OnColWire)
 	ON_BN_CLICKED(IDC_COL_BACKGROUND, OnColBackground )
+	ON_BN_CLICKED(IDC_COL_NOTETEXT_FILL, OnColNoteTextFill )
+	ON_BN_CLICKED(IDC_COL_NOTETEXT_LINE, OnColNoteTextLine )
+	ON_BN_CLICKED(IDC_COL_NOTETEXT_TEXT, OnColNoteTextText )
 	ON_WM_DRAWITEM()
 	ON_BN_CLICKED(IDC_RESET, OnReset)
 	//}}AFX_MSG_MAP
@@ -45,6 +48,9 @@ CDlgColours::CDlgColours( CUserColor& oColor )
 	m_id_map[ IDC_COL_POWER ] = CUserColor::POWER;
 	m_id_map[ IDC_COL_WIRE ] = CUserColor::WIRE;
 	m_id_map[ IDC_COL_BACKGROUND ] = CUserColor::BACKGROUND;
+	m_id_map[ IDC_COL_NOTETEXT_FILL ] = CUserColor::NOTETEXT_FILL;
+	m_id_map[ IDC_COL_NOTETEXT_LINE ] = CUserColor::NOTETEXT_LINE;
+	m_id_map[ IDC_COL_NOTETEXT_TEXT ] = CUserColor::NOTETEXT_TEXT;
 }
 //-------------------------------------------------------------------------
 
@@ -86,6 +92,21 @@ void CDlgColours::OnColPower()
 void CDlgColours::OnColWire()
 {
 	EditColor(CUserColor::WIRE);
+}
+//-------------------------------------------------------------------------
+void CDlgColours::OnColNoteTextFill()
+{
+	EditColor(CUserColor::NOTETEXT_FILL);
+}
+//-------------------------------------------------------------------------
+void CDlgColours::OnColNoteTextLine()
+{
+	EditColor(CUserColor::NOTETEXT_LINE);
+}
+//-------------------------------------------------------------------------
+void CDlgColours::OnColNoteTextText()
+{
+	EditColor(CUserColor::NOTETEXT_TEXT);
 }
 //-------------------------------------------------------------------------
 void CDlgColours::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)

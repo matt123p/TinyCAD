@@ -335,13 +335,17 @@
 #define IDC_COL_JUNCTION                1050
 #define IDC_COL_NOCONNECT               1051
 #define IDC_COL_PIN                     1052
+#define IDC_COL_NOTETEXT_TEXT           1053
 #define IDC_COL_POWER                   1054
 #define IDC_COL_BUS                     1055
 #define IDC_RESET                       1056
 #define IDC_IMPORT                      1057
 #define IDC_COL_BACKGROUND              1057
 #define IDC_EXPORT                      1058
+#define IDC_COL_NOTETEXT_FILL           1058
 #define IDC_LIST_NAMES                  1059
+#define IDC_COL_BUS2                    1059
+#define IDC_COL_NOTETEXT_LINE           1059
 #define IDC_AUTOSAVE_TIMESPAN           1061
 #define IDC_AUTOSAVE_ENABLE             1061
 #define IDC_AUTOSAVE_BUDDY              1063

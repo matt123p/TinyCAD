@@ -69,6 +69,9 @@ protected:
 	afx_msg void OnColPin();
 	afx_msg void OnColPower();
 	afx_msg void OnColWire();
+	afx_msg void OnColNoteTextFill();
+	afx_msg void OnColNoteTextLine();
+	afx_msg void OnColNoteTextText();
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 	afx_msg void OnReset();
 	afx_msg void OnColBackground();

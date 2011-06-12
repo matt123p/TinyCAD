@@ -183,17 +183,15 @@ void CDrawNoteText::BeginEdit(BOOL re_edit)
 	m_re_edit = re_edit;
 	if (re_edit)
 	{	//This code is executed if a NoteText object already exists and it is selected, thus allowing "re-editing" of the object
-		//TRACE("CDrawnoteText::BeginEdit() - This dialog box hasn't been implemented yet - using rectangle edit dialog\n");
 		g_EditToolBar.m_NoteTextEdit.Open(m_pDesign, this);
 	}
 }
 
 void CDrawNoteText::EndEdit()
 {
-	TRACE("CDrawNoteText::EndEdit()\n");
 	Display();
 	if (m_re_edit)
-	{
+	{	//This code is executed if a NoteText object already exists and it is selected, thus allowing "re-editing" of the object
 		g_EditToolBar.m_NoteTextEdit.Close();
 	}
 
@@ -265,19 +263,26 @@ BOOL CDrawNoteText::RButtonDown(CDPoint p, CDPoint s)
 CDrawNoteText::CDrawNoteText(CTinyCadDoc *pDesign, ObjType type) :
 	CDrawRectOutline(pDesign)
 {
-	m_type = type = xNoteText;
+	//m_type = type = xNoteText;
+	m_type = type;
 	dir = 3;
-	str = _T("Line1:  Default sample text\nLine2:  with multiple lines.\nLine3:  And a 3rd line.\nLine4:  And\ta\t4th\tline\twith\ttabs\nAnd a 4th extra long line - the red fox jumped over the old bridge.");		//Default text for the note.
+	str = _T("Note");		//Default text for the note so that a new note doesn't get lost.
 	m_segment = 0;
 	m_point_a = m_point_b = CDPoint(0, 0);
 	original_width = 0;
 	original_box_width = 0;
 	target_box_width = 0;
 	FontStyle = m_pDesign->GetOptions()->GetCurrentFont(GetType());
-	FontColour = m_pDesign->GetOptions()->GetUserColor().Get(CUserColor::LABEL);
-	Fill = m_pDesign->GetOptions()->GetCurrentFillStyle(GetType());
-	Style = m_pDesign->GetOptions()->GetCurrentStyle(GetType());
-	TRACE("CDrawNoteText::CDrawNoteText():  Constructor initiated for type=%d.  Fill=0x%08LX\n", m_type, Fill);
+	FontColour = m_pDesign->GetOptions()->GetUserColor().Get(CUserColor::NOTETEXT_TEXT);
+
+	//There isn't a "UserFill", only "UserColor"'s so we must make a fill style that lets us specify the user's preferred default color choice for the background fill.
+	FillStyle tempFill;
+	tempFill.Index = 0;	//solid fill with a default color of black (taken from criminally cryptic comment in FillStyle)
+	tempFill.Colour = m_pDesign->GetOptions()->GetUserColor().Get(CUserColor::NOTETEXT_FILL);	//get the user's preferred notetext background fill color
+	Fill = m_pDesign->GetOptions()->AddFillStyle(&tempFill);	//Add the newly created style, if it is unique and not already added
+	m_pDesign->GetOptions()->SetCurrentFillStyle(GetType(), Fill);	//Set the current fill style to this new style
+
+	Style = m_pDesign->GetOptions()->GetCurrentStyle(GetType());	//Line style
 }
 
 // Change the setting due to the current options
