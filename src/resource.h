@@ -454,10 +454,10 @@
 #define IDC_SYMBOL_TREE                 1567
 #define IDC_NOTETEXT_TABSPACING         1570
 #define IDC_UNITSTRING                  1571
+#define IDC_NOTETEXT_RECTANGLE          1573
 #define IDC_NOTETEXT_ROUNDEDRECT        1574
-#define IDC_NOTETEXT_RECTANGLE          1575
+#define IDC_NOTETEXT_NOBORDER           1575
 #define TEXTBOXL_UP                     1577
-#define IDC_NOTETEXT_NOBORDER           1579
 #define IDC_EDIT1                       1580
 #define IDC_EDIT_TABSIZE                1580
 #define IDC_ZOOMCURSOR                  30988

@@ -781,6 +781,7 @@ public:
 
 class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
 {
+	friend CEditDlgNoteText;	//Used to edit this object
 //protected:
 	WORD Style;		//Enclosing rectangle style
 	WORD Fill;		//Enclosing rectangle fill
@@ -792,7 +793,6 @@ protected:
 	double original_width;
 	double original_box_width;
 	double target_box_width;
-
 	double tab_width;	//Uses logical units, not pixels
 
 	BOOL m_re_edit;
@@ -808,6 +808,11 @@ protected:
 	void CalcLayout();
 
 public:
+	enum BorderStyle {
+		BS_Rectangle=0,
+		BS_RoundedRectangle,
+		BS_NoBorder
+	} m_border_style;
 	virtual double DistanceFromPoint(CDPoint p);
 	BOOL PointInEllipse(CDPoint p);
 	virtual ObjType GetType();

@@ -101,6 +101,8 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	CString s;
 	s.Format(_T("%d"), m_lStyle.Thickness);
 	m_Line_Thickness.SetWindowText(s);
+	
+	SetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawNoteText*> (getObject())->str);
 }
 
 void CEditDlgNoteText::OnSelchangeIndex()
@@ -290,9 +292,8 @@ void CEditDlgNoteText::OnChange()
 	getObject()->Display();
 
 	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
-	static_cast<CDrawText*> (getObject())->str = str;
-	if (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) static_cast<CDrawText*> (getObject())->dir = 3;
-	else static_cast<CDrawText*> (getObject())->dir = 0;
+	static_cast<CDrawNoteText*> (getObject())->str = str;
+	static_cast<CDrawNoteText*> (getObject())->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
 
 	getObject()->NewOptions();
 }
@@ -325,8 +326,16 @@ BEGIN_MESSAGE_MAP(CEditDlgNoteText, CDialog)
 	ON_EN_CHANGE(TEXTBOX_TEXT, OnChange)
 	ON_BN_CLICKED(TEXTBOX_LEFT, OnChange)
 	ON_BN_CLICKED(TEXTBOX_UP,OnChange)
+	ON_BN_CLICKED(IDC_NOTETEXT_RECTANGLE, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
+	ON_BN_CLICKED(IDC_NOTETEXT_ROUNDEDRECT, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
+	ON_BN_CLICKED(IDC_NOTETEXT_NOBORDER, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
 // CEditDlgNoteText message handlers
+
+void CEditDlgNoteText::OnBnClickedNotetextBorderStyle()
+{
+	static_cast<CDrawNoteText*> (getObject())->m_border_style = static_cast<CDrawNoteText::BorderStyle> (GetCheckedRadioButton(IDC_NOTETEXT_RECTANGLE, IDC_NOTETEXT_NOBORDER) - IDC_NOTETEXT_RECTANGLE);	//get offset of the radio button sequence
+}

@@ -387,37 +387,53 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	//Draw the outermost nested rectangle as a flourish
 	border=r;
 	border.InflateRect(outerBorderRectangleDelta);
-	//dc.Rectangle(border);
-
-	//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
 	CDPoint radius;
-	radius.x = border.Width() * 0.1;
-	radius.y = border.Height() * 0.1;
-	radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-	dc.RoundRect(border, radius);
+	if (m_border_style == BS_Rectangle) {
+		dc.Rectangle(border);
+	}
+	else if (m_border_style == BS_RoundedRectangle) {
+		//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
+		radius.x = border.Width() * 0.1;
+		radius.y = border.Height() * 0.1;
+		radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
+		dc.RoundRect(border, radius);
+	}
+	else
+	{		//Draw no border at all, but keep the fill property
+		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
+		//dc.Rectangle(border);
+		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
+	}
 
 	//Draw the innermost nested rectangle as a flourish
 	border = r;
 	border.InflateRect(innerBorderRectangleDelta);
-	//dc.Rectangle(border);
-	radius.x = border.Width() * 0.1;
-	radius.y = border.Height() * 0.1;
-	radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-	dc.RoundRect(border, radius);
+	if (m_border_style == BS_Rectangle) {
+		dc.Rectangle(border);
+	}
+	else if (m_border_style == BS_RoundedRectangle) {
+		radius.x = border.Width() * 0.1;
+		radius.y = border.Height() * 0.1;
+		radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
+		dc.RoundRect(border, radius);
+	}
+	else
+	{		//Draw no border at all, but keep the fill property
+		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
+		//dc.Rectangle(border);
+		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
+	}
 
 	//Now draw the text itself
 	dc.SetROP2(R2_COPYPEN);	//Select the desired raster operation
 	dc.SelectFont(*m_pDesign->GetOptions()->GetFont(FontStyle), dir);
 
-	//The next statement may not be required - it seemed to affect zooming for a while, but doesn't any longer
-	//	CDSize size = dc.GetTextExtent(str);
-
 	dc.SetTextColor(FontColour);
-	int backgroundMode = dc.GetBkMode();	//Save the current background mode
+//	int backgroundMode = dc.GetBkMode();	//Save the current background mode
 	dc.SetBkMode(TRANSPARENT);
 
 	dc.DrawText(str, r);	//Now draw the note text on top of the inner rectangle
-	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
+//	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
 }
 
 // Store the NoteText in the drawing
