@@ -344,7 +344,6 @@
 #define IDC_EXPORT                      1058
 #define IDC_COL_NOTETEXT_FILL           1058
 #define IDC_LIST_NAMES                  1059
-#define IDC_COL_BUS2                    1059
 #define IDC_COL_NOTETEXT_LINE           1059
 #define IDC_AUTOSAVE_TIMESPAN           1061
 #define IDC_AUTOSAVE_ENABLE             1061
@@ -461,9 +460,9 @@
 #define IDC_NOTETEXT_RECTANGLE          1573
 #define IDC_NOTETEXT_ROUNDEDRECT        1574
 #define IDC_NOTETEXT_NOBORDER           1575
-#define TEXTBOXL_UP                     1577
 #define IDC_EDIT1                       1580
 #define IDC_EDIT_TABSIZE                1580
+#define IDC_NOTETEXT_TABWIDTH           1580
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990

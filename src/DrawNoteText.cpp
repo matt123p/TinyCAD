@@ -82,6 +82,7 @@ void CDrawNoteText::SaveXML(CXMLWriter &xml)
 	xml.addAttribute(_T("fill"), Fill);
 	xml.addAttribute(_T("font"), FontStyle);
 	xml.addAttribute(_T("color"), FontColour);
+	xml.addAttribute(_T("border_style"), m_border_style);
 	xml.addChildData(str);
 
 	xml.closeTag();
@@ -96,6 +97,11 @@ void CDrawNoteText::LoadXML(CXMLReader &xml)
 	xml.getAttribute(_T("fill"), Fill);
 	xml.getAttribute(_T("font"), FontStyle);
 	xml.getAttribute(_T("color"), FontColour);
+
+	int temp;	//xml reader doesn't like enums, so read border style as an int
+	xml.getAttribute(_T("border_style"), temp);
+	m_border_style = static_cast<BorderStyle>(temp);
+
 	xml.getChildData(str);
 	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
 
@@ -123,14 +129,14 @@ void CDrawNoteText::Load(CStream& archive)
 	m_point_a = ReadPoint(archive);
 	m_point_b = ReadPoint(archive);
 
-	archive >> dir >> Style >> Fill >> FontStyle >> FontColour;
+	archive >> dir >> Style >> Fill >> FontStyle >> FontColour >> m_border_style;
 
 	// Convert the font number, font colour, and fill styles over from externally stored numbers to actual internal in-use numbers
 	FontStyle = m_pDesign->GetOptions()->GetNewFontNumber(FontStyle);
 	Style = m_pDesign->GetOptions()->GetNewStyleNumber(Style);
 	Fill = m_pDesign->GetOptions()->GetNewFillStyleNumber(Fill);
 
-	TRACE("CDrawNoteText::Load() - GetNewFillStyleNumber=0x%08X\n", Fill);
+	//TRACE("CDrawNoteText::Load() - GetNewFillStyleNumber=0x%08X\n", Fill);
 	CDSize size = m_pDesign->GetTextExtent(str, FontStyle);
 
 	if (dir >= 2)
@@ -177,7 +183,7 @@ void CDrawNoteText::BeginEdit(BOOL re_edit)
 	m_pDesign->GetOptions()->SetCurrentStyle(GetType(), Style);
 	m_pDesign->GetOptions()->SetCurrentFillStyle(GetType(), Fill);
 	m_pDesign->GetOptions()->SetCurrentFont(GetType(), FontStyle);
-	TRACE("CDrawNoteText::BeginEdit() - For type=%d, set current fill style to 0x%08LX\n", GetType(), Fill);
+	//TRACE("CDrawNoteText::BeginEdit() - For type=%d, set current fill style to 0x%08LX\n", GetType(), Fill);
 	SetScalingWidths();
 
 	m_re_edit = re_edit;
@@ -266,7 +272,7 @@ CDrawNoteText::CDrawNoteText(CTinyCadDoc *pDesign, ObjType type) :
 	//m_type = type = xNoteText;
 	m_type = type;
 	dir = 3;
-	str = _T("Note");		//Default text for the note so that a new note doesn't get lost.
+	str = _T("Note");		//Default text for the note so that a new note doesn't get visually lost.
 	m_segment = 0;
 	m_point_a = m_point_b = CDPoint(0, 0);
 	original_width = 0;
@@ -274,6 +280,8 @@ CDrawNoteText::CDrawNoteText(CTinyCadDoc *pDesign, ObjType type) :
 	target_box_width = 0;
 	FontStyle = m_pDesign->GetOptions()->GetCurrentFont(GetType());
 	FontColour = m_pDesign->GetOptions()->GetUserColor().Get(CUserColor::NOTETEXT_TEXT);
+	m_tab_width_in_mm = 5;		//This sets the default tab width.  mm only is presently implemented, but with a little work, this could automatically change from mm to inches and back.
+	m_border_style = BS_RoundedRectangle;	//This sets the default border style
 
 	//There isn't a "UserFill", only "UserColor"'s so we must make a fill style that lets us specify the user's preferred default color choice for the background fill.
 	FillStyle tempFill;

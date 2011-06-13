@@ -21,6 +21,7 @@
 #define __DIAG_H__
 
 #define SIZESTRING 254
+#define SIZENOTETEXT 8192
 
 #include "TinyCadDoc.h"
 

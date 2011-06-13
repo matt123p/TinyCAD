@@ -797,7 +797,7 @@ protected:
 
 	BOOL m_re_edit;
 	ObjType m_type;
-
+	int m_tab_width_in_mm;
 	CString str;	//actual note text is stored here
 	BYTE dir;	//note text has a direction, but we may not implement rotated note text or perhaps implement only a subset of the directions such as horizontal and vertical
 	CDRect m_note_area;		//reduced area that the text is displayed in

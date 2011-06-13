@@ -65,6 +65,8 @@ void CEditDlgNoteText::Create()
 
 void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
+	CDrawNoteText *noteText = static_cast<CDrawNoteText *> (pObject);
+
 	Show(pDesign, pObject);
 
 
@@ -101,8 +103,38 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	CString s;
 	s.Format(_T("%d"), m_lStyle.Thickness);
 	m_Line_Thickness.SetWindowText(s);
+
+	//transfer the tab widths
+	s.Format(_T("%d"), noteText->m_tab_width_in_mm);
+	m_tab_width.SetWindowText(s);
 	
-	SetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawNoteText*> (getObject())->str);
+	//transfer the note text itself
+	SetDlgItemText(TEXTBOX_TEXT, noteText->str);
+
+	//and the direction of the text
+	m_text_dir_up.SetCheck( noteText->dir == 0 ? BST_CHECKED: BST_UNCHECKED);
+	m_text_dir_right.SetCheck( noteText->dir == 3 ? BST_CHECKED: BST_UNCHECKED);
+
+	//transfer the border style of the enclosing background rectangle.
+	switch(noteText->m_border_style)
+	{
+		case CDrawNoteText::BS_Rectangle:
+			m_border_style_rectangular.SetCheck(BST_CHECKED);
+			m_border_style_roundedRect.SetCheck(BST_UNCHECKED);
+			m_border_style_noBorder.SetCheck(BST_UNCHECKED);
+			break;
+		case CDrawNoteText::BS_RoundedRectangle:
+			m_border_style_rectangular.SetCheck(BST_UNCHECKED);
+			m_border_style_roundedRect.SetCheck(BST_CHECKED);
+			m_border_style_noBorder.SetCheck(BST_UNCHECKED);
+			break;
+		default:
+		case CDrawNoteText::BS_NoBorder:
+			m_border_style_rectangular.SetCheck(BST_UNCHECKED);
+			m_border_style_roundedRect.SetCheck(BST_UNCHECKED);
+			m_border_style_noBorder.SetCheck(BST_CHECKED);
+			break;
+	}
 }
 
 void CEditDlgNoteText::OnSelchangeIndex()
@@ -284,18 +316,21 @@ void CEditDlgNoteText::OnTextFont()
 
 void CEditDlgNoteText::OnChange()
 {
-	TCHAR str[SIZESTRING];
+	CDrawNoteText *noteText = static_cast<CDrawNoteText*> (getObject());	//get a pointer to the NoteText object being changed
+	TCHAR str[SIZENOTETEXT];	//This method of buffering the string forces a fixed length on the contents - this could stand some improvement, although I set the string length to 8K bytes (4K Unicode characters)
+
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
 
 	if (stop) return;
 
-	getObject()->Display();
+	noteText->Display();
 
-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
-	static_cast<CDrawNoteText*> (getObject())->str = str;
-	static_cast<CDrawNoteText*> (getObject())->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
+	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));	//Need to check for exceptions here caused by strings being too long
+	noteText->str = str;
 
-	getObject()->NewOptions();
+	noteText->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
+
+	noteText->NewOptions();
 }
 
 void CEditDlgNoteText::DoDataExchange(CDataExchange* pDX)
@@ -308,6 +343,12 @@ void CEditDlgNoteText::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, LINETHICKBOX_THICKNESS, m_Line_Thickness);
 	DDX_Control(pDX, IDC_INDEX, m_Fill_Index);
 	DDX_Control(pDX, LINETHICKBOX_STYLE, m_Line_Style);
+	DDX_Control(pDX, IDC_NOTETEXT_RECTANGLE, m_border_style_rectangular);
+	DDX_Control(pDX, IDC_NOTETEXT_ROUNDEDRECT, m_border_style_roundedRect);
+	DDX_Control(pDX, IDC_NOTETEXT_NOBORDER, m_border_style_noBorder);
+	DDX_Control(pDX, IDC_NOTETEXT_TABWIDTH, m_tab_width);
+	DDX_Control(pDX, TEXTBOX_LEFT, m_text_dir_right);
+	DDX_Control(pDX, TEXTBOX_UP, m_text_dir_up);
 	//}}AFX_DATA_MAP
 }
 

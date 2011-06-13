@@ -23,35 +23,6 @@
 
 // CEditDlgNoteText dialog
 
-
-//IDD_TOOLNOTETEXT DIALOGEX 4, 16, 432, 151
-//STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
-//FONT 8, "MS Shell Dlg", 0, 0, 0x0
-//BEGIN
-//    PUSHBUTTON      "Colour",IDC_FILL_COLOUR,163,24,50,14
-//    COMBOBOX        IDC_INDEX,221,25,87,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-//    CONTROL         "Background Fill",IDC_FILL,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,165,10,63,10
-//    COMBOBOX        LINETHICKBOX_STYLE,105,25,45,42,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
-//    EDITTEXT        LINETHICKBOX_THICKNESS,67,24,31,14,ES_AUTOHSCROLL
-//    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,91,24,11,14
-//    PUSHBUTTON      "Colour",IDC_LINE_COLOUR,9,24,50,14
-//    EDITTEXT        TEXTBOX_TEXT,6,47,423,100,ES_MULTILINE | WS_VSCROLL | WS_HSCROLL | WS_GROUP
-//    PUSHBUTTON      "Font",IDC_TEXT_FONT,321,24,50,14
-//    PUSHBUTTON      "Colour",IDC_TEXT_COLOUR,373,24,50,14
-//    CONTROL         "Right",TEXTBOX_LEFT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,322,10,31,10
-//    CONTROL         "Up",TEXTBOXL_UP,"Button",BS_AUTORADIOBUTTON,374,10,24,10
-//    GROUPBOX        "Border Style",IDC_STATIC,5,0,150,41/
-//    GROUPBOX        "Rectangle",IDC_STATIC,157,0,155,41
-//    GROUPBOX        "Text Characteristics",IDC_STATIC,315,0,114,42
-//    CONTROL         "Rectangle",IDC_NOTETEXT_RECTANGLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,11,46,10
-//    CONTROL         "Rounded Rect",IDC_NOTETEXT_ROUNDEDRECT,"Button",BS_AUTORADIOBUTTON,59,11,55,10
-//    LISTBOX         IDC_NOTETEXT_TABSPACING,266,8,21,12,LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
-//    LTEXT           "Units",IDC_UNITSTRING,291,11,17,8
-//    LTEXT           "Tab Stops",IDC_STATIC,230,11,33,8
-//    CONTROL         "None",IDC_NOTETEXT_NOBORDER,"Button",BS_AUTORADIOBUTTON,118,11,29,10
-//END
-
-
 //class CEditDlgNoteText : public CDialog
 class CEditDlgNoteText : public CEditDlg
 {
@@ -76,6 +47,12 @@ public:
 	CEdit m_Line_Thickness;
 	CComboBox m_Fill_Index;
 	CComboBox m_Line_Style;
+	CButton m_border_style_rectangular;
+	CButton m_border_style_roundedRect;
+	CButton m_border_style_noBorder;
+	CEdit m_tab_width;
+	CButton m_text_dir_up;
+	CButton m_text_dir_right;
 
 protected:
 	LineStyle m_lStyle;	//Line style

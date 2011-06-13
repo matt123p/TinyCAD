@@ -1367,7 +1367,7 @@ void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI)
 			|| type == xPower
 			|| type == xText || type == xTextEx || type == xTextEx2
 			|| type == xBusName || type == xBusNameEx
-			|| type == xNoteText	//not sure if this belongs here or not - djl
+//			|| type == xNoteText	//not sure if this belongs here or not - djl
 			|| type == xBusSlash
 			;
 
@@ -1667,7 +1667,7 @@ void CTinyCadView::ChangeDir(int dir)
 	      || type == xPower
 	      || type == xText || type == xTextEx || type == xTextEx2
 	      || type == xBusName || type == xBusNameEx
-		  || type == xNoteText		//not sure if this belongs here or not - djl
+//		  || type == xNoteText		//not sure if this belongs here or not - djl
 	      || type == xBusSlash
 		  )
 	{
