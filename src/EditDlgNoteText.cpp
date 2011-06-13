@@ -118,6 +118,7 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	//transfer the border style of the enclosing background rectangle.
 	switch(noteText->m_border_style)
 	{
+		default:
 		case CDrawNoteText::BS_Rectangle:
 			m_border_style_rectangular.SetCheck(BST_CHECKED);
 			m_border_style_roundedRect.SetCheck(BST_UNCHECKED);
@@ -128,7 +129,6 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 			m_border_style_roundedRect.SetCheck(BST_CHECKED);
 			m_border_style_noBorder.SetCheck(BST_UNCHECKED);
 			break;
-		default:
 		case CDrawNoteText::BS_NoBorder:
 			m_border_style_rectangular.SetCheck(BST_UNCHECKED);
 			m_border_style_roundedRect.SetCheck(BST_UNCHECKED);
