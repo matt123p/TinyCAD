@@ -552,7 +552,7 @@ void CEditDlgHierarchicalEdit::OnDelete()
 
 void CEditDlgHierarchicalEdit::OnBnClickedDesign()
 {
-	// All the user to change the design associated with
+	// Allow the user to change the design associated with
 	// this symbol
 	CDrawHierarchicalSymbol *pMethod = static_cast<CDrawHierarchicalSymbol*> (getObject());
 	if (pMethod->SelectFile())

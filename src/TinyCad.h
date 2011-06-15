@@ -25,6 +25,72 @@
 
 #include "resource.h"
 #include "LibraryStore.h"
+//
+//This is a minor command line parser support class
+//It allows us to define custom command line arguments that can be passed in when TinyCAD is started
+//Possible extensions include 
+//	1.  Generate a SPICE netlist
+//	2.  Generate an XML netlist
+//	3.  Anything else that you think that you might want to access from a build script or automation script
+//
+	
+class CTinyCadCommandLineInfo : public CCommandLineInfo
+{
+
+	//for convenience maintain 3 variables to indicate the param passed. 
+	BOOL m_bExport;       //for /e	Printing from explorer context menu??
+	BOOL m_bOpen;         //for /o	This covers double clicking a TinyCAD .dsn file
+	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
+	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
+
+	//public methods for checking these.
+public:
+	CTinyCadCommandLineInfo()
+	{
+		m_bExport = m_bOpen = m_bGenerateSpiceFile = m_bGenerateXMLNetlistFile = FALSE;
+	}
+
+	BOOL IsExport() 
+	{
+		return m_bExport;
+	};
+
+	BOOL IsOpen() 
+	{
+		return m_bOpen;
+	};
+
+	BOOL IsGenerateSpiceFile()
+	{
+		return m_bGenerateSpiceFile;
+	};
+
+	BOOL IsGenerateXMLNetlistFile()
+	{
+		return m_bGenerateXMLNetlistFile;
+	};
+	 
+	virtual void ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast)
+	{
+		if (0 == strcmp(pszParam, "/o"))
+		{
+			m_bOpen = TRUE;
+		} 
+		else if (0 == strcmp(pszParam, "/e"))
+		{
+			m_bExport = TRUE;
+		}
+		else if (0 == strcmp(pszParam, "/s"))
+		{
+			m_bGenerateSpiceFile = TRUE;
+		}
+		else if (0 == strcmp(pszParam, "/x"))
+		{
+			m_bGenerateXMLNetlistFile = TRUE;
+		}
+	}
+};
+
 
 //*************************************************************************
 //*                                                                       *
@@ -52,7 +118,7 @@ private:
 	static bool m_LockOutSymbolRedraw;
 
 	// The list of colours used in the colour selection dialogue
-	static COLORREF m_colours[16];
+	static COLORREF m_colours[16];	//These are the 16 different custom colors defined by the user.  TinyCAD presently doesn't save and restore these from the registry and needs to! - djl 06/15/2011
 
 	// Handle to accelerator table
 	static HACCEL m_hAccelTable;

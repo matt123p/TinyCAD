@@ -161,15 +161,36 @@ BOOL CTinyCadApp::InitInstance()
 	m_pMainWnd->DragAcceptFiles();
 
 	// Enable DDE Execute open
-	EnableShellOpen();
+	EnableShellOpen();	//djl - we may have to disable Shell open to fix the 8.3 filename issue - see below
 	RegisterShellFileTypes(TRUE);
 
+	//ParseCommandLine(cmdInfo);
+
 	// Parse command line for standard shell commands, DDE, file open
-	CCommandLineInfo cmdInfo;
+	CTinyCadCommandLineInfo cmdInfo;
+	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
 	ParseCommandLine(cmdInfo);
 
-	// Dispatch commands specified on the command line
-	if (!ProcessShellCommand(cmdInfo)) return FALSE;
+	if (cmdInfo.IsOpen())
+	{
+		//Don't run the standard open command here - it will open the file using an old fashioned DOS 8.3 filename
+		//Instead, invoke the standard TinyCAD open method
+	}
+	else
+	{
+		// Dispatch all other (i.e., non-TinyCAD custom) commands specified on the command line
+		if (!ProcessShellCommand(cmdInfo)) return FALSE;
+	}
+
+	if(cmdInfo.IsGenerateSpiceFile())
+	{	//This is a TinyCAD specific custom command line argument
+		//Run spice netlister here!
+	}
+
+	if(cmdInfo.IsGenerateXMLNetlistFile())
+	{	//This is a TinyCAD specific custom command line argument
+		//Run XML netlister here!
+	}
 
 	if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
 	{
