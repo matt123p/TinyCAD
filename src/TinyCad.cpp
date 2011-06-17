@@ -322,7 +322,7 @@ CString CTinyCadApp::GetMainDir()
 	CString sReturn;
 	TCHAR theBuffer[1024];
 	DWORD theBytes = GetModuleFileName(NULL, theBuffer, sizeof (theBuffer) - 1);
-	//TRACE("GetModuleFileName returned \"%S\"\n",theBuffer);
+	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n",theBuffer);
 	if (theBytes != 0)
 	{
 		TCHAR* thePtr = theBuffer + theBytes;
@@ -337,6 +337,19 @@ CString CTinyCadApp::GetMainDir()
 	}
 
 	return sReturn;
+}
+
+CString CTinyCadApp::GetLongFileName(CString shortFilename)
+{
+	//This function returns the newer format long filename (i.e., non-DOS 8.3 format) from a short file name.
+	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
+	//I presume that it looks in the current directory, but I am not sure about that.
+	TCHAR fullPathname[1024];
+	TCHAR *nameSegmentPtr;	//This will be given an address that points into the fullPathname buffer
+
+	DWORD count = GetFullPathName(shortFilename, sizeof (fullPathname) - 1, fullPathname, &nameSegmentPtr);
+	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned \"%S\" and \"%S\" (length=%ld)\n", fullPathname, nameSegmentPtr, count);
+	return CString(nameSegmentPtr);
 }
 //-------------------------------------------------------------------------
 
@@ -452,6 +465,7 @@ void CTinyCadApp::EditSymbol(CLibraryStore* pLib, CLibraryStoreNameSet &symbol)
 // Edit a text file using the doc/view
 void CTinyCadApp::EditTextFile(const TCHAR *filename)
 {
+	TRACE("CTinyCADApp::EditTextFile(\"%S\")\n", filename);
 	CTextEditDoc *pDoc = static_cast<CTextEditDoc *> (m_pTxtTemplate->CreateNewDocument());
 	if (pDoc != NULL)
 	{
@@ -468,8 +482,11 @@ void CTinyCadApp::EditTextFile(const TCHAR *filename)
 
 //-------------------------------------------------------------------------
 // Edit a design file using the doc/view
+// djl - I think this should also be used to open TinyCAD documents when intercepting the Shell Open command line option
+//
 void CTinyCadApp::EditDesign(const TCHAR *filename)
 {
+	TRACE("CTinyCADApp::EditDesign(\"%S\")\n", filename);
 	AfxGetApp()->OpenDocumentFile(filename);
 }
 
@@ -486,7 +503,7 @@ void CTinyCadApp::EditLibrary(CLibraryStore* pLib)
 		{
 			POSITION v = t->GetFirstViewPosition();
 
-			// Active it's views
+			// Activate it's views
 			while (v != NULL)
 			{
 				CView* pView = t->GetNextView(v);

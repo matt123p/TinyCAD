@@ -37,7 +37,7 @@
 class CTinyCadCommandLineInfo : public CCommandLineInfo
 {
 
-	//for convenience maintain 3 variables to indicate the param passed. 
+	//for convenience maintain 4 variables to indicate the param passed. 
 	BOOL m_bExport;       //for /e	Printing from explorer context menu??
 	BOOL m_bOpen;         //for /o	This covers double clicking a TinyCAD .dsn file
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
@@ -75,18 +75,26 @@ public:
 		if (0 == strcmp(pszParam, "/o"))
 		{
 			m_bOpen = TRUE;
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /o (Open)\n");
 		} 
 		else if (0 == strcmp(pszParam, "/e"))
 		{
 			m_bExport = TRUE;
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /e (eXport)\n");
 		}
 		else if (0 == strcmp(pszParam, "/s"))
 		{
 			m_bGenerateSpiceFile = TRUE;
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
 		}
 		else if (0 == strcmp(pszParam, "/x"))
 		{
 			m_bGenerateXMLNetlistFile = TRUE;
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
+		}
+		else
+		{
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  No special command line options found in command line string=\"%s\"\n", pszParam);
 		}
 	}
 };
@@ -142,6 +150,7 @@ public:
 	static CString GetReleaseType();
 	static CString GetName();
 	static CString GetMainDir();
+	static CString GetLongFileName(CString filename);	//Gets the long (i.e., non-DOS 8.3) filename
 
 	//=====================================================================
 	//== mutator                                                         ==
