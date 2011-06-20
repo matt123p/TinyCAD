@@ -95,6 +95,7 @@ bool CTinyCadApp::m_translateAccelerator = false;
 //=========================================================================
 BOOL CTinyCadApp::InitInstance()
 {
+
 	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// InitCommonControls() is required on Windows XP if an application
@@ -167,29 +168,32 @@ BOOL CTinyCadApp::InitInstance()
 	//ParseCommandLine(cmdInfo);
 
 	// Parse command line for standard shell commands, DDE, file open
-	CTinyCadCommandLineInfo cmdInfo;
+	CTinyCadCommandLineInfo cmdInfo;	//This is the TinyCAD overridden command line parser class
 	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
-	ParseCommandLine(cmdInfo);
+	ParseCommandLine(cmdInfo);	//This parses all of the options on the command line
 
-	if (cmdInfo.IsOpen())
+	if (cmdInfo.IsShellOpen())
 	{
 		//Don't run the standard open command here - it will open the file using an old fashioned DOS 8.3 filename
 		//Instead, invoke the standard TinyCAD open method
+		TRACE("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
 	}
-	else
-	{
-		// Dispatch all other (i.e., non-TinyCAD custom) commands specified on the command line
-		if (!ProcessShellCommand(cmdInfo)) return FALSE;
-	}
+
+	// Dispatch all other (i.e., non-TinyCAD custom) commands specified on the command line
+	BOOL successful = ProcessShellCommand(cmdInfo);
+	TRACE("CTinyCad::InitInstance() received %s Shell command=%d.  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
+	if (!successful) return FALSE;
 
 	if(cmdInfo.IsGenerateSpiceFile())
 	{	//This is a TinyCAD specific custom command line argument
 		//Run spice netlister here!
+		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
 	}
 
 	if(cmdInfo.IsGenerateXMLNetlistFile())
 	{	//This is a TinyCAD specific custom command line argument
 		//Run XML netlister here!
+		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
 	}
 
 	if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
@@ -262,7 +266,8 @@ CString CTinyCadApp::GetVersion()
 	VS_FIXEDFILEINFO* pFixedInfo;
 	UINT uVersionLen;
 
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
+	GetModuleFileName(NULL, szModulePath, MAX_PATH-1);
+	TRACE("CTinyCadApp::GetVersion() - szModulePath=\"%S\"\n", szModulePath);
 	dwSize = GetFileVersionInfoSize(szModulePath, &dwZero);
 
 	if (dwSize > 0)
@@ -322,7 +327,7 @@ CString CTinyCadApp::GetMainDir()
 	CString sReturn;
 	TCHAR theBuffer[1024];
 	DWORD theBytes = GetModuleFileName(NULL, theBuffer, sizeof (theBuffer) - 1);
-	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n",theBuffer);
+	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", theBuffer);
 	if (theBytes != 0)
 	{
 		TCHAR* thePtr = theBuffer + theBytes;
@@ -339,17 +344,28 @@ CString CTinyCadApp::GetMainDir()
 	return sReturn;
 }
 
-CString CTinyCadApp::GetLongFileName(CString shortFilename)
+CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 {
 	//This function returns the newer format long filename (i.e., non-DOS 8.3 format) from a short file name.
 	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
 	//I presume that it looks in the current directory, but I am not sure about that.
 	TCHAR fullPathname[1024];
-	TCHAR *nameSegmentPtr;	//This will be given an address that points into the fullPathname buffer
+	TCHAR *pFullPathname = fullPathname;
+//	TCHAR **nameSegmentPtr=&pFullPathname;	//This will be given an address that points into the fullPathname buffer
+//	LPWSTR *nameSegmentPtr=&pFullPathname;
+	CString sTemp = shortFilename;
+//	DWORD count = GetFullPathName(sTemp, sizeof (fullPathname) - 1, fullPathname, nameSegmentPtr);
+//	DWORD count = GetShortPathName(sTemp, fullPathname, sizeof (fullPathname) - 1);
+	DWORD count = GetLongPathName(sTemp, fullPathname, sizeof (fullPathname) - 1);
 
-	DWORD count = GetFullPathName(shortFilename, sizeof (fullPathname) - 1, fullPathname, &nameSegmentPtr);
-	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned \"%S\" and \"%S\" (length=%ld)\n", fullPathname, nameSegmentPtr, count);
-	return CString(nameSegmentPtr);
+//	if (nameSegmentPtr == NULL || *nameSegmentPtr == 0) {
+//		*nameSegmentPtr = fullPathname;
+//	}
+//	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned \"%S\" and \"%S\" (length=%ld)\n", fullPathname, *nameSegmentPtr, count);
+	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned.\n");
+	if (count == 0) return shortFilename;	//error during GetLongPathName()
+	return CString(fullPathname);
+//	return CString(*nameSegmentPtr);
 }
 //-------------------------------------------------------------------------
 
@@ -482,7 +498,6 @@ void CTinyCadApp::EditTextFile(const TCHAR *filename)
 
 //-------------------------------------------------------------------------
 // Edit a design file using the doc/view
-// djl - I think this should also be used to open TinyCAD documents when intercepting the Shell Open command line option
 //
 void CTinyCadApp::EditDesign(const TCHAR *filename)
 {

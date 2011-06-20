@@ -36,10 +36,25 @@
 	
 class CTinyCadCommandLineInfo : public CCommandLineInfo
 {
+	//Documentation on the contents of Window's Shell command line standard definitions 
+	//can be found here:  http://msdn.microsoft.com/en-us/library/zaydx040(VS.80).aspx
+	//			enum {
+	//			   FileNew,
+	//			   FileOpen,
+	//			   FilePrint,
+	//			   FilePrintTo,
+	//			   FileDDE,
+	//			   FileNothing = -1
+	//			} m_nShellCommand;
+	//			For a brief description of these values, see the following list. 
+	//			CCommandLineInfo::FileNew   Indicates that no filename was found on the command line.
+	//			CCommandLineInfo::FileOpen   Indicates that a filename was found on the command line and that none of the following flags were found on the command line: /p, /pt, /dde.
+	//			CCommandLineInfo::FilePrint   Indicates that the /p flag was found on the command line.
+	//			CCommandLineInfo::FilePrintTo   Indicates that the /pt flag was found on the command line.
+	//			CCommandLineInfo::FileDDE   Indicates that the /dde flag was found on the command line.
+	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinApp derived classes.
 
 	//for convenience maintain 4 variables to indicate the param passed. 
-	BOOL m_bExport;       //for /e	Printing from explorer context menu??
-	BOOL m_bOpen;         //for /o	This covers double clicking a TinyCAD .dsn file
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
 	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
 
@@ -47,42 +62,27 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 public:
 	CTinyCadCommandLineInfo()
 	{
-		m_bExport = m_bOpen = m_bGenerateSpiceFile = m_bGenerateXMLNetlistFile = FALSE;
+		m_bGenerateSpiceFile = m_bGenerateXMLNetlistFile = FALSE;
 	}
 
-	BOOL IsExport() 
+	BOOL IsShellOpen() 
 	{
-		return m_bExport;
-	};
-
-	BOOL IsOpen() 
-	{
-		return m_bOpen;
-	};
+		return this->m_strFileName.GetLength() != 0;	//there is no flag for passing a file name on the command line with no other conflicting options.
+	}
 
 	BOOL IsGenerateSpiceFile()
 	{
 		return m_bGenerateSpiceFile;
-	};
+	}
 
 	BOOL IsGenerateXMLNetlistFile()
 	{
 		return m_bGenerateXMLNetlistFile;
-	};
+	}
 	 
 	virtual void ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast)
 	{
-		if (0 == strcmp(pszParam, "/o"))
-		{
-			m_bOpen = TRUE;
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /o (Open)\n");
-		} 
-		else if (0 == strcmp(pszParam, "/e"))
-		{
-			m_bExport = TRUE;
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /e (eXport)\n");
-		}
-		else if (0 == strcmp(pszParam, "/s"))
+		if (0 == strcmp(pszParam, "/s"))
 		{
 			m_bGenerateSpiceFile = TRUE;
 			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
@@ -94,7 +94,7 @@ public:
 		}
 		else
 		{
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  No special command line options found in command line string=\"%s\"\n", pszParam);
+			TRACE("CTinyCadCommandLineInfo::ParseParam():  No special command line options found in command line parameter string=\"%s\"\n", pszParam);
 		}
 	}
 };
