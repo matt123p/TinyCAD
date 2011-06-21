@@ -174,12 +174,19 @@ BOOL CTinyCadApp::InitInstance()
 
 	if (cmdInfo.IsShellOpen())
 	{
-		//Don't run the standard open command here - it will open the file using an old fashioned DOS 8.3 filename
-		//Instead, invoke the standard TinyCAD open method
+		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
+		//Lookup the long version of this filename in the current working directory and then open the long version of the filename.
 		TRACE("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
+		if (IsWinNT()) 
+		{	//The following Windows API function is only present in WinNT and newer systems
+
+			CString longName = GetLongFileName(cmdInfo.m_strFileName);	//Convert potential DOS 8.3 short file name into a long file name
+			cmdInfo.m_strFileName = longName;	//Replace the short filename with the long filename
+			TRACE("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
+		}
 	}
 
-	// Dispatch all other (i.e., non-TinyCAD custom) commands specified on the command line
+	// Now dispatch all non-TinyCAD custom commands specified on the command line
 	BOOL successful = ProcessShellCommand(cmdInfo);
 	TRACE("CTinyCad::InitInstance() received %s Shell command=%d.  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
 	if (!successful) return FALSE;
@@ -348,24 +355,13 @@ CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 {
 	//This function returns the newer format long filename (i.e., non-DOS 8.3 format) from a short file name.
 	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
-	//I presume that it looks in the current directory, but I am not sure about that.
-	TCHAR fullPathname[1024];
-	TCHAR *pFullPathname = fullPathname;
-//	TCHAR **nameSegmentPtr=&pFullPathname;	//This will be given an address that points into the fullPathname buffer
-//	LPWSTR *nameSegmentPtr=&pFullPathname;
+	//It looks in the current working directory, so this must be set appropriately.
+	TCHAR longFilename[MAX_PATH];
+	TCHAR *pFullPathname = longFilename;
 	CString sTemp = shortFilename;
-//	DWORD count = GetFullPathName(sTemp, sizeof (fullPathname) - 1, fullPathname, nameSegmentPtr);
-//	DWORD count = GetShortPathName(sTemp, fullPathname, sizeof (fullPathname) - 1);
-	DWORD count = GetLongPathName(sTemp, fullPathname, sizeof (fullPathname) - 1);
-
-//	if (nameSegmentPtr == NULL || *nameSegmentPtr == 0) {
-//		*nameSegmentPtr = fullPathname;
-//	}
-//	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned \"%S\" and \"%S\" (length=%ld)\n", fullPathname, *nameSegmentPtr, count);
-	TRACE("CTinyCadApp::GetLongTinyCadDesignFileName() returned.\n");
-	if (count == 0) return shortFilename;	//error during GetLongPathName()
-	return CString(fullPathname);
-//	return CString(*nameSegmentPtr);
+	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
+	if (count == 0 || longFilename[0] == 0) return CString(shortFilename);	//error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation
+	else return CString(longFilename);
 }
 //-------------------------------------------------------------------------
 

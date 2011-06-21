@@ -71,21 +71,9 @@ void CChildFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
 	{
 		CDocument* pDoc = GetActiveDocument();
 		CString csText;
-		CString longName = "";
 		if (pDoc == NULL) csText = m_strTitle;
 		else {
 			csText = pDoc->GetTitle();
-			TRACE("CChildFrame::OnUpdateFrameTitle - child frame title=\"%S\"\n", csText);
-		
-			CTinyCadApp *theApp = static_cast<CTinyCadApp *>(AfxGetApp());
-			CString sTemp = csText;
-			longName = theApp->GetLongFileName(sTemp);	//Convert potential DOS 8.3 short file name into a long file name
-			TRACE("CChildFrame::OnUpdateFrameTitle - long file name=\"%S\"\n", longName);
-			csText += _T(" - \"") + longName + _T("\"");	//Used for debugging only!
-			if (!csText.CompareNoCase(longName)) {
-				//only set the title if it has changed, or it will trigger another change!
-				pDoc->SetTitle(longName);	//force the window to display the long name rather than the potential DOS 8.3 short name
-			}
 		}
 
 		if (m_nWindow > 0) csText.Format(_T("%s: %d"), csText, m_nWindow);
