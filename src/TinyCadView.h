@@ -227,7 +227,6 @@ protected:
 	afx_msg void OnUpdateContextZorderBringtofront(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateContextZorderSendtoback(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditduplicate(CCmdUI* pCmdUI);
-	afx_msg void OnSpecialCreatespicefile();
 	afx_msg void OnUpdateEditCopyto(CCmdUI* pCmdUI);
 	afx_msg void OnEditCopyto();
 	afx_msg void OnContextMakehorizontal();
@@ -301,9 +300,12 @@ protected:
 	afx_msg void OnSelectGet();
 
 	// The Special Menu
+public:	//The following 3 commands have convenience functionality added to the ERCListBox object, thus need public visibility
 	afx_msg void OnSpecialAnnotate();
-	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialNet();
+	afx_msg void OnSpecialCreatespicefile();
+protected:
+	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialCheck();
 
 	// The Repeat Menu

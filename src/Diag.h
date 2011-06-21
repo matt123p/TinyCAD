@@ -20,6 +20,10 @@
 #ifndef __DIAG_H__
 #define __DIAG_H__
 
+
+//This file, diag.h, is somewhat misnamed and contains mostly minor dialog classes.
+//It should more aptly be named dialog.h or DlgMisc.h
+
 #define SIZESTRING 254
 #define SIZENOTETEXT 8192
 
@@ -104,6 +108,9 @@ public:
 
 	DECLARE_MESSAGE_MAP()
 	virtual void OnCancel();
+	afx_msg void OnBnClickedButtonAnnotate();
+	afx_msg void OnBnClickedButtonPcbNetlist();
+	afx_msg void OnBnClickedButtonSpiceNetlist();
 };
 
 ////////// The rebar edit dialogs //////////

@@ -34,6 +34,9 @@ BEGIN_MESSAGE_MAP( CDlgERCListBox, CDialog )
 	ON_LBN_SELCHANGE(ERCLIST_LIST , OnClick )
 	ON_BN_CLICKED(IDOK , Close )
 	ON_BN_CLICKED(IDOK2 , ReCheck )
+	ON_BN_CLICKED(IDC_BUTTON_ANNOTATE, &CDlgERCListBox::OnBnClickedButtonAnnotate)
+	ON_BN_CLICKED(IDC_BUTTON_PCB_NETLIST, &CDlgERCListBox::OnBnClickedButtonPcbNetlist)
+	ON_BN_CLICKED(IDC_BUTTON_SPICE_NETLIST, &CDlgERCListBox::OnBnClickedButtonSpiceNetlist)
 END_MESSAGE_MAP()
 
 CDlgERCListBox::CDlgERCListBox()
@@ -176,4 +179,19 @@ void CDlgERCListBox::OnClick()
 		++ it;
 		}
 	}
+}
+
+void CDlgERCListBox::OnBnClickedButtonAnnotate()
+{
+	m_pView->OnSpecialAnnotate();
+}
+
+void CDlgERCListBox::OnBnClickedButtonPcbNetlist()
+{
+	m_pView->OnSpecialNet();
+}
+
+void CDlgERCListBox::OnBnClickedButtonSpiceNetlist()
+{
+	m_pView->OnSpecialCreatespicefile();
 }

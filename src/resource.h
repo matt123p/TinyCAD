@@ -463,6 +463,10 @@
 #define IDC_EDIT1                       1580
 #define IDC_EDIT_TABSIZE                1580
 #define IDC_NOTETEXT_TABWIDTH           1580
+#define IDC_BUTTON_ANNOTATE             1581
+#define IDC_BUTTON_PCB_NETLIST          1582
+#define IDC_BUTTON3                     1583
+#define IDC_BUTTON_SPICE_NETLIST        1583
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -572,7 +576,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        169
 #define _APS_NEXT_COMMAND_VALUE         32898
-#define _APS_NEXT_CONTROL_VALUE         1581
+#define _APS_NEXT_CONTROL_VALUE         1584
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif
