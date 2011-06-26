@@ -119,7 +119,7 @@ void CDrawNoteText::LoadXML(CXMLReader &xml)
 	CalcLayout();
 }
 
-// Load the rectangle from a file
+// Load the note text object from a file
 void CDrawNoteText::Load(CStream& archive)
 {
 	// Load the version number
@@ -378,62 +378,56 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 
 	dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);	//SelectPen takes care of the Paint options regarding selected, selectable, or normal
 
-	CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
-	r.NormalizeRect();	//This is the rectangle that the text will actually be drawn in
+	CDRect outerBorderRectangle(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
+	outerBorderRectangle.NormalizeRect();
 
-	//Form a larger decorative double rectangle around the text and draw it.
-	//This also provides a clear margin for the text.
-	//The size of the decorative border must be enough larger than the radius selected for the rounded rectangle that the
-	//text doesn't display on top of the radiused corners.
-	//Also, the Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
-	CDSize innerBorderRectangleDelta;
-	innerBorderRectangleDelta.cx = r.Width() * 0.01;	//2% wider than the text box
-	innerBorderRectangleDelta.cy = r.Height() * 0.01;	//2% taller than the text box
+	//Form a decorative double rectangle around the text and draw it.
+	//The Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
+	CDPoint radius(5,5);	//When drawing rounded rectangles, set the radius equal to the rectangle reduction size
+	CDSize rectangleReductionDelta(-5,-5);	//inner border is 5 pixels smaller than outer border.  This is also used to form the text drawing area.
 
-	innerBorderRectangleDelta.ForceLargerSize();	//Enlarge the delta size to the larger of the width or height
-	innerBorderRectangleDelta.ForceMinSize(3);	//but not smaller than this amount
+	CDRect innerBorderRectangle = outerBorderRectangle;
+	innerBorderRectangle.InflateRect(rectangleReductionDelta);
+	CDRect tempRect = innerBorderRectangle;
+	if (!innerBorderRectangle.IsNormalized()) 
+	{	//Can't make inner border rectangle so much smaller that it no longer forms a normalized rectangle
+		innerBorderRectangle = outerBorderRectangle;
+	}
 
-	CDSize outerBorderRectangleDelta=innerBorderRectangleDelta;
-	outerBorderRectangleDelta += CDSize(3,3);
-	CDRect border;
-	
-	//Draw the outermost nested rectangle as a flourish
-	border=r;
-	border.InflateRect(outerBorderRectangleDelta);
-	CDPoint radius;
+	CDRect textRectangle = innerBorderRectangle;
+	textRectangle.InflateRect(rectangleReductionDelta);
+	if (!textRectangle.IsNormalized()) 
+	{	//Can't make text border rectangle so much smaller that it no longer forms a normalized rectangle
+		textRectangle = innerBorderRectangle;
+	}
+
 	if (m_border_style == BS_Rectangle) {
-		dc.Rectangle(border);
+		dc.Rectangle(outerBorderRectangle);
 	}
 	else if (m_border_style == BS_RoundedRectangle) {
 		//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
-		radius.x = border.Width() * 0.1;
-		radius.y = border.Height() * 0.1;
-		radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-		dc.RoundRect(border, radius);
+		dc.RoundRect(outerBorderRectangle, radius);
 	}
 	else
-	{		//Draw no border at all, but keep the fill property
+	{	//djl - had trouble getting this to work, but original code is here for future efforts	
+		//Draw no border at all, but keep the fill property by drawing rectangle with an invisible pen
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
-		//dc.Rectangle(border);
+		//dc.Rectangle(outerBorderRectangle);
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
 	}
 
 	//Draw the innermost nested rectangle as a flourish
-	border = r;
-	border.InflateRect(innerBorderRectangleDelta);
 	if (m_border_style == BS_Rectangle) {
-		dc.Rectangle(border);
+		dc.Rectangle(innerBorderRectangle);
 	}
 	else if (m_border_style == BS_RoundedRectangle) {
-		radius.x = border.Width() * 0.1;
-		radius.y = border.Height() * 0.1;
-		radius.ForceLargerSize();	//Select the larger of width or height and set both to that value
-		dc.RoundRect(border, radius);
+		dc.RoundRect(innerBorderRectangle, radius);
 	}
 	else
-	{		//Draw no border at all, but keep the fill property
+	{	//djl - had trouble getting this to work, but original code is here for future efforts	
+		//Draw no border at all, but keep the fill property by drawing rectangle with an invisible pen
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
-		//dc.Rectangle(border);
+		//dc.Rectangle(innerBorderRectangle);
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
 	}
 
@@ -442,11 +436,11 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	dc.SelectFont(*m_pDesign->GetOptions()->GetFont(FontStyle), dir);
 
 	dc.SetTextColor(FontColour);
-//	int backgroundMode = dc.GetBkMode();	//Save the current background mode
+	int backgroundMode = dc.GetBkMode();	//Save the current background mode
 	dc.SetBkMode(TRANSPARENT);
 
-	dc.DrawText(str, r);	//Now draw the note text on top of the inner rectangle
-//	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
+	dc.DrawText(str, textRectangle);	//Now draw the note text on top of the inner rectangle
+	dc.SetBkMode(backgroundMode);	//Restore the previous background mode
 }
 
 // Store the NoteText in the drawing

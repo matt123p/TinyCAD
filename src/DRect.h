@@ -52,7 +52,8 @@ public:
 	void InflateRect(CDSize size);
 	void InflateRect(double l, double t, double r, double b);
 
-	void NormalizeRect();
+	void NormalizeRect();	//Forces rectangle into normalized form
+	BOOL IsNormalized();	//Detects if rectangle is normalized or not
 
 	// set this rectangle to intersection of two others
 	// BOOL IntersectRect(LPCRECT lpRect1, LPCRECT lpRect2) ;
