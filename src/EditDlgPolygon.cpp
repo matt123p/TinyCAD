@@ -223,23 +223,37 @@ void CEditDlgPolygon::OnChangeThickness()
 {
 	if (m_pDesign)
 	{
-		CString s, s2;
+		CString s, s2, s_saved;
 		m_Line_Thickness.GetWindowText(s);
+		s_saved = s;
+
+		if (!s) 
+		{	//Check for a NULL string
+			s = _T("1");
+			m_lStyle.Thickness = 1;
+			s_saved = _T("");	//force them to be different
+		}
+
+		if (s.IsEmpty()) 
+		{	//Check for an empty string
+			m_lStyle.Thickness = 1;
+			s = _T("1");
+		}
+
 		m_lStyle.Thickness = _tstoi(s);
 		if (m_lStyle.Thickness < 1)
-		{
+		{	//Check for zero or a negative number
 			m_lStyle.Thickness = 1;
 		}
 
 		s2.Format(_T("%d"), m_lStyle.Thickness);
-		if (s2 != s)
+		if (s2 != s_saved)
 		{
-			m_Line_Thickness.SetWindowText(s);
+			m_Line_Thickness.SetWindowText(s2);
 		}
 
 		UpdateOptions();
 	}
-
 }
 
 void CEditDlgPolygon::UpdateOptions()

@@ -1366,7 +1366,7 @@ CDrawingObject* CTinyCadDoc::GetSelectable()
 #if 0
 BOOL CTinyCadDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
-	// Is this a emf file?
+	// Is this an emf file?
 	CString path = lpszPathName;
 	CString extension;
 	int brk = path.ReverseFind('.');
