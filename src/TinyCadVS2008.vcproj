@@ -69,11 +69,12 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4100"
 				UseFullPaths="true"
 			/>
 			<Tool
@@ -1365,6 +1366,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DrawNoteText.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DrawOrigin.cpp"
 				>
 				<FileConfiguration
@@ -1673,6 +1678,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\EditDlgNoteText.cpp"
+				>
 			</File>
 			<File
 				RelativePath="EditDlgPinEdit.cpp"
@@ -3625,6 +3634,10 @@
 			</File>
 			<File
 				RelativePath="EditDlgMethodEdit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EditDlgNoteText.h"
 				>
 			</File>
 			<File
