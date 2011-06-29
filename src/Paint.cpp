@@ -179,7 +179,7 @@ void CTinyCadView::OnDraw(CDC* pDC)
 
 		// if necessary turn back on the current object to be edited
 		if (GetCurrentDocument()->GetEdit() != NULL) {
-			TRACE("TinyCadView::GetCurrentDocument->GetEdit->Paint(dc, draw_selected=%d)\n",draw_selected);
+			//ATLTRACE2("TinyCadView::GetCurrentDocument->GetEdit->Paint(dc, draw_selected=%d)\n",draw_selected);
 			GetCurrentDocument()->GetEdit()->Paint(dc, draw_selected);
 		}
 
