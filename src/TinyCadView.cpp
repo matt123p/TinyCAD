@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLNOTETEXT, OnUpdateNoteTextText)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLTEXT, OnUpdateTooltext)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLWIRE, OnUpdateToolwire)
 	ON_UPDATE_COMMAND_UI(IDM_VIEWCENTRE, OnUpdateViewcentre)
@@ -187,6 +188,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_TOOLARC, OnSelectArc )
 	ON_COMMAND( IDM_TOOLSQUARE, OnSelectSquare )
 	ON_COMMAND( IDM_TOOLCIRCLE, OnSelectCircle )
+	ON_COMMAND( IDM_TOOLNOTETEXT, OnSelectNoteText )
 	ON_COMMAND( IDM_TOOLTEXT, OnSelectText )
 	ON_COMMAND( IDM_TOOLGET, OnSelectGet )
 	ON_COMMAND( IDC_SHOW_SYMBOL, OnSelectGet )
@@ -1110,6 +1112,15 @@ void CTinyCadView::OnUpdateToolsquare(CCmdUI* pCmdUI)
 	}
 }
 
+void CTinyCadView::OnUpdateNoteTextText(CCmdUI* pCmdUI) 
+{
+	CDrawingObject *q = GetCurrentDocument()->GetEdit();
+	if (q)	
+	{
+		pCmdUI->SetCheck( q->getMenuID() == pCmdUI->m_nID );
+	}
+}
+
 void CTinyCadView::OnUpdateTooltext(CCmdUI* pCmdUI)
 {
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
@@ -1356,6 +1367,7 @@ void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI)
 			|| type == xPower
 			|| type == xText || type == xTextEx || type == xTextEx2
 			|| type == xBusName || type == xBusNameEx
+//			|| type == xNoteText	//not sure if this belongs here or not - djl
 			|| type == xBusSlash
 			;
 
@@ -1388,9 +1400,9 @@ BOOL CTinyCadView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
-	//TRACE3("OnActivateView bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
+	//ATLTRACE2("CTinyCadView::OnActivateView() - bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
 	if (bActivate)
-	{
+	{	//Activate this view
 		// When switching to a different view then
 		// get rid of any drawing tool on the current view
 		if (g_currentview != this && g_currentview != NULL)
@@ -1399,13 +1411,21 @@ void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* p
 		}
 		g_currentview = this;
 	}
+
 	if (!bActivate)
-	{
-		CDrawingObject* obj = GetCurrentDocument()->GetEdit();
+	{	//Deactivate this view
+		CDrawingObject* obj;
+		obj = GetCurrentDocument()->GetEdit();
+		//ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  obj is %s, obj->GetType() = %d\n", 
+		//	(obj ? "valid":"NULL"),
+		//	(obj ? obj->GetType() : -1));
+
 		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
 		if (obj && obj->GetType() != xEditItem)
 		{
 			// Get rid of any drawing tool at this moment
+			ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  Getting rid of any active drawing tools.\n");
+
 			GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 		}
 	}
@@ -1652,6 +1672,7 @@ void CTinyCadView::ChangeDir(int dir)
 	      || type == xPower
 	      || type == xText || type == xTextEx || type == xTextEx2
 	      || type == xBusName || type == xBusNameEx
+//		  || type == xNoteText		//not sure if this belongs here or not - djl
 	      || type == xBusSlash
 		  )
 	{

@@ -1353,6 +1353,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DrawNoteText.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DrawOrigin.cpp"
 				>
 				<FileConfiguration
@@ -1661,6 +1665,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\EditDlgNoteText.cpp"
+				>
 			</File>
 			<File
 				RelativePath="EditDlgPinEdit.cpp"
@@ -3616,6 +3624,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EditDlgNoteText.h"
+				>
+			</File>
+			<File
 				RelativePath="EditDlgPinEdit.h"
 				>
 			</File>
@@ -3925,6 +3937,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\bitmap2.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\bitmap3.bmp"
+				>
+			</File>
+			<File
 				RelativePath="CAD.ICO"
 				>
 			</File>
@@ -3950,6 +3970,10 @@
 			</File>
 			<File
 				RelativePath="res\idr_main.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\LGPLV3.bmp"
 				>
 			</File>
 			<File

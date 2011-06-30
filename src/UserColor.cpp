@@ -24,6 +24,9 @@ const int CUserColor::POWER = 6;
 const int CUserColor::PIN = 7;
 const int CUserColor::HIDDEN_PIN = 8;
 const int CUserColor::BACKGROUND = 9;
+const int CUserColor::NOTETEXT_FILL = 10;
+const int CUserColor::NOTETEXT_LINE = 11;
+const int CUserColor::NOTETEXT_TEXT = 12;
 
 TNamesMap CUserColor::m_colNames;
 
@@ -64,6 +67,9 @@ void CUserColor::Init()
 	m_colNames[PIN] = "COLOR_PIN";
 	m_colNames[HIDDEN_PIN] = "COLOR_HIDDEN_PIN";
 	m_colNames[BACKGROUND] = "COLOR_BACKGROUND";
+	m_colNames[NOTETEXT_FILL] = "COLOR_NOTETEXT_FILL";
+	m_colNames[NOTETEXT_LINE] = "COLOR_NOTETEXT_LINE";
+	m_colNames[NOTETEXT_TEXT] = "COLOR_NOTETEXT_TEXT";
 
 	m_colColorRef.clear();
 	m_colColorRef[WIRE] = cBLUE;
@@ -75,6 +81,9 @@ void CUserColor::Init()
 	m_colColorRef[PIN] = RGB(192,64,64);
 	m_colColorRef[HIDDEN_PIN] = RGB(32,128,32);
 	m_colColorRef[BACKGROUND] = RGB(255,255,255);
+	m_colColorRef[NOTETEXT_FILL] = RGB(255,255,175);	//very light yellow
+	m_colColorRef[NOTETEXT_LINE] = cBLUE;
+	m_colColorRef[NOTETEXT_TEXT] = cBLUE;
 }
 //-------------------------------------------------------------------------
 

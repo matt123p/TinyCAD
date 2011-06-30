@@ -36,7 +36,7 @@
 #include "FolderFrame.h"
 #include "drawhierarchicalsymbol.h"
 
-#define STRLEN	256
+#define STRLEN		2048		//TinyCAD limits strings to this length, including multi-line strings.  This could stand being improved to eliminate the length limit.  Prior to 2.80.04, this was 256.
 
 class Centre;
 class CDlgPositionBox;
@@ -181,6 +181,7 @@ protected:
 	afx_msg void OnUpdateToolpolygon(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolpower(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolsquare(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateNoteTextText(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTooltext(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateToolwire(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewcentre(CCmdUI* pCmdUI);
@@ -226,7 +227,6 @@ protected:
 	afx_msg void OnUpdateContextZorderBringtofront(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateContextZorderSendtoback(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditduplicate(CCmdUI* pCmdUI);
-	afx_msg void OnSpecialCreatespicefile();
 	afx_msg void OnUpdateEditCopyto(CCmdUI* pCmdUI);
 	afx_msg void OnEditCopyto();
 	afx_msg void OnContextMakehorizontal();
@@ -294,14 +294,18 @@ protected:
 	afx_msg void OnSelectArc();
 	afx_msg void OnSelectSquare() { GetCurrentDocument()->SelectObject(new CDrawSquare(GetCurrentDocument(),xSquareEx3)); }
 	afx_msg void OnSelectCircle() { GetCurrentDocument()->SelectObject(new CDrawSquare(GetCurrentDocument(),xCircleEx3)); }
+	afx_msg void OnSelectNoteText() { GetCurrentDocument()->SelectObject(new CDrawNoteText(GetCurrentDocument(),xNoteText)); }
 	afx_msg void OnSelectText() { GetCurrentDocument()->SelectObject(new CDrawText(GetCurrentDocument(),xTextEx2)); }
 	afx_msg void OnViewCentre() { GetCurrentDocument()->SelectObject(new CDrawCentre(GetCurrentDocument())); }
 	afx_msg void OnSelectGet();
 
 	// The Special Menu
+public:	//The following 3 commands have convenience functionality added to the ERCListBox object, thus need public visibility
 	afx_msg void OnSpecialAnnotate();
-	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialNet();
+	afx_msg void OnSpecialCreatespicefile();
+protected:
+	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialCheck();
 
 	// The Repeat Menu

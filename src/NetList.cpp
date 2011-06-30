@@ -185,7 +185,6 @@ int CNetList::Add(CNetListNode &ins)
 	{
 		/// Is this node already in the tree?
 		int found = m_nodes[ins.m_a];
-
 		/// No, so we can add without checking for prior connections...
 		if (found != 0)
 		{
@@ -205,7 +204,6 @@ int CNetList::Add(CNetListNode &ins)
 	{
 		/// Is this node already in the tree?
 		int found = m_nodes[ins.m_a];
-
 		/// If this node was already found, but with a different netlist
 		/// number, then first we must join the two netlists together
 		if (found != 0 && found != ins.m_NetList)
@@ -1115,7 +1113,7 @@ void CNetList::MakeNetForSheet(fileCollection &imports, int import_index, int sh
 							// Hidden power pins will get an uninitialized CDPoint node point.
 							// The Add method will never connect to any other uninitialized CDPoint node point
 							// and thus hidden power pins will correctly never connect to anything by their node coordinate.
-							CNetListNode n(file_index_id, sheetOneIndexed, thePin, CDPoint());
+							CNetListNode n(file_index_id, sheetOneIndexed, thePin, CDPoint() );
 							// Set netlist label name to invisible symbol power pin name
 //							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
 //								n.m_NetList,

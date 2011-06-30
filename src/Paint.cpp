@@ -178,7 +178,10 @@ void CTinyCadView::OnDraw(CDC* pDC)
 		}
 
 		// if necessary turn back on the current object to be edited
-		if (GetCurrentDocument()->GetEdit() != NULL) GetCurrentDocument()->GetEdit()->Paint(dc, draw_selected);
+		if (GetCurrentDocument()->GetEdit() != NULL) {
+			//ATLTRACE2("TinyCadView::GetCurrentDocument->GetEdit->Paint(dc, draw_selected=%d)\n",draw_selected);
+			GetCurrentDocument()->GetEdit()->Paint(dc, draw_selected);
+		}
 
 		// Draw the design details
 		GetCurrentDocument()->Display(dc);

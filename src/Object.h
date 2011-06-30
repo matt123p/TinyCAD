@@ -353,11 +353,13 @@ public:
 };
 
 class CEditDlgTextEdit;
+class CEditDlgNoteText;
 
 class CDrawText: public CDrawRectOutline
 {
 
 	friend CEditDlgTextEdit;
+	friend CEditDlgNoteText;
 
 	// The font style
 	hFONT FontStyle;
@@ -726,7 +728,7 @@ public:
 
 ////// These are the annotation objects //////
 
-class CDrawSquare: public CDrawRectOutline
+class CDrawSquare : public CDrawRectOutline		//Used to draw rectangles/squares, circles/ellipses
 {
 	WORD Style;
 	WORD Fill;
@@ -749,7 +751,7 @@ public:
 
 	virtual void SaveXML(CXMLWriter &xml);
 	virtual void LoadXML(CXMLReader &xml);
-	static const TCHAR* GetXMLTag(BOOL isSquare);
+	static const TCHAR* GetXMLTag( BOOL isSquare);
 
 	virtual void NewOptions();
 	virtual BOOL IsInside(double left, double right, double top, double bottom);
@@ -767,14 +769,83 @@ public:
 	{
 		return m_type == xSquareEx3;
 	}
-
+	
 	// This is used for the construction of this object
 	CDrawSquare(CTinyCadDoc *pDesign, ObjType type);
 
-	virtual int getMenuID()
+	virtual int getMenuID() 
 	{
 		return IsSquare() ? IDM_TOOLSQUARE : IDM_TOOLCIRCLE;
 	}
+};
+
+class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
+{
+	friend CEditDlgNoteText;	//Used to edit this object
+//protected:
+	WORD Style;		//Enclosing rectangle style
+	WORD Fill;		//Enclosing rectangle fill
+	hFONT FontStyle;	//The font style
+public:
+	COLORREF FontColour;	//The font colour
+protected:
+	//These are text formatting related:
+	double original_width;
+	double original_box_width;
+	double target_box_width;
+	double tab_width;	//Uses logical units, not pixels
+
+	BOOL m_re_edit;
+	ObjType m_type;
+	int m_tab_width_in_mm;
+	CString str;	//actual note text is stored here
+	BYTE dir;	//note text has a direction, but we may not implement rotated note text or perhaps implement only a subset of the directions such as horizontal and vertical
+	CDRect m_note_area;		//reduced area that the text is displayed in
+
+	double EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside);
+
+	void SetScalingWidths();
+	void CalcLayout();
+
+public:
+	enum BorderStyle {
+		BS_Rectangle=0,
+		BS_RoundedRectangle,
+		BS_NoBorder
+	} m_border_style;
+	virtual double DistanceFromPoint(CDPoint p);
+	BOOL PointInEllipse(CDPoint p);
+	virtual ObjType GetType();
+	virtual void TagResources();
+	virtual void Paint(CContext &, paint_options);
+	virtual CDrawingObject* Store();
+
+	virtual void Load(CStream &);
+	virtual void SaveXML(CXMLWriter &xml);
+	virtual void LoadXML(CXMLReader &xml);
+	static const TCHAR* GetXMLTag();
+
+	virtual void NewOptions();
+	virtual BOOL IsInside(double left, double right, double top, double bottom);
+	CString Find(const TCHAR *); // Does this string match this text?
+	virtual CString GetName() const;
+	virtual void BeginEdit(BOOL re_edit);
+	virtual void EndEdit();
+	virtual BOOL CanEdit();
+	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
+	virtual void LButtonDown(CDPoint, CDPoint);
+	virtual BOOL RButtonDown(CDPoint, CDPoint);
+
+	// This is used for the construction of this object
+	CDrawNoteText(CTinyCadDoc *pDesign, ObjType type);
+	virtual ~CDrawNoteText()
+	{
+	}
+	virtual int getMenuID() 
+	{
+		return IDM_TOOLNOTETEXT;
+	}
+	BOOL IsEmpty();
 };
 
 class CDrawError: public CDrawingObject

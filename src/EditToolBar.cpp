@@ -58,6 +58,7 @@ void CEditToolbar::Create(CWnd *pParent)
 	rect.left = rect.right - 240;
 	CWnd::CreateEx(WS_EX_TOOLWINDOW, s, _T("Tool"), WS_POPUP | WS_BORDER | WS_CAPTION, rect, pParent, NULL);
 
+	//Every tool editor dialog must be created here.
 	m_NoTool.Create();
 	m_TextEdit.Create();
 	m_LabelEdit.Create();
@@ -70,6 +71,7 @@ void CEditToolbar::Create(CWnd *pParent)
 	m_LineEdit.Create();
 	m_PolygonEdit.Create();
 	m_HierarchicalEdit.Create();
+	m_NoteTextEdit.Create();
 
 	setDlg(&m_NoTool);
 	ShowWindow(SW_SHOW);

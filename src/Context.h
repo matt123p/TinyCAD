@@ -26,7 +26,7 @@
 
 #include <map>
 
-#define STRLEN		256
+#define STRLEN		2048		//TinyCAD limits strings to this length, including multi-line strings.  This could stand being improved to eliminate the length limit.  Prior to 2.80.04, this was 256.
 
 #define MAX_FONTS	8
 #define MAX_PENS	20
@@ -161,7 +161,8 @@ public:
 	// Convert from internal coord into window coords
 	CPoint Scale(CDPoint) const;
 	double doubleScale(double a) const;
-	CRect Scale(CDRect r) const ;
+	CRect Scale(CDRect r) const;
+	int Scale(double dist) const;
 
 	// Convert from window coords into internal coords
 	CDPoint DeScale(TransformSnap &s, CPoint p) const;
@@ -229,7 +230,7 @@ inline bool operator<(const LOGFONT&a, const LOGFONT&b)
 	return false;
 }
 
-// The Context class, a sort of extented DC
+// The Context class, a sort of extended DC
 class CContext
 {
 
@@ -376,6 +377,10 @@ public:
 		m_pDC->SelectStockObject(HOLLOW_BRUSH);
 		return TRUE;
 	}
+	CBrush* GetCurrentBrush()
+	{
+		return m_pDC->GetCurrentBrush();
+	}
 	BOOL SelectFont(LOGFONT &lf, int Rotation);
 
 	// Change the parameters
@@ -466,6 +471,34 @@ public:
 		CRect q = m_Transform.Scale(r);
 		m_pDC->Rectangle(q.left, q.top, q.right + 1, q.bottom + 1);
 	}
+	CPoint GetRelativeDistance(CDPoint dist) {	//Convert the CDPoint x,y distances in logical coordinates to CPoint distances in physical coordinates
+		CPoint qDist = m_Transform.Scale(dist);	//This returns the pixel location of the dist point on the screen
+		CPoint qRef = m_Transform.Scale(CDPoint(0,0));	//This returns the pixel location of logical coordinate 0,0
+		qDist -= qRef;	//Convert dist to a relative point.  This point represents the length and height in pixels of the original distance in logical coordinates
+		return qDist;
+	}
+	int GetRelativeDistance(double dist) {	//Convert an x coordinate distance in logical coordinates to an int distance in physical coordinates
+		return m_Transform.Scale(dist);
+	}
+	void RoundRect(CDRect r, CDPoint radius)
+	{
+		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
+		CRect q = m_Transform.Scale(r);
+		//CPoint qRadius = m_Transform.Scale(radius);	//This returns the location of the radius point on the screen, not exactly the same as the scaled radius
+		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
+		//qRadius -= qRef;	//so convert it to a relative point
+		m_pDC->RoundRect(q, GetRelativeDistance(radius));
+	}
+	void RoundRect1(CDRect r, CDPoint radius)
+	{
+		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
+		CRect q = m_Transform.Scale(r);
+		//CPoint qRadius = m_Transform.Scale(radius);
+		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
+		//qRadius -= qRef;
+		CPoint qRadius = GetRelativeDistance(radius);
+		m_pDC->RoundRect(q.left, q.top, q.right + 1, q.bottom + 1, qRadius.x, qRadius.y);
+	}
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p)
 	{
@@ -485,8 +518,13 @@ public:
 	void TextOut(CString, CDPoint, paint_options, int = 3);
 	void TextOut(double x, double y, const TCHAR *t);
 	void TextOut(double x, double y, int width, const TCHAR *t);
+	void DrawText(const TCHAR *t, CDRect r);	//Draws multi-line text inside a rectangular area
 	CDSize GetTextExtent(CString s);
 	void SelectDefault();
+	int GetBkMode()
+	{
+		return m_pDC->GetBkMode();
+	}
 };
 
 #endif
