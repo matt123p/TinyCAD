@@ -1400,7 +1400,7 @@ BOOL CTinyCadView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
-	ATLTRACE2("CTinyCadView::OnActivateView() - bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
+	//ATLTRACE2("CTinyCadView::OnActivateView() - bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
 	if (bActivate)
 	{	//Activate this view
 		// When switching to a different view then
@@ -1416,11 +1416,11 @@ void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* p
 	{	//Deactivate this view
 		CDrawingObject* obj;
 		obj = GetCurrentDocument()->GetEdit();
-		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
-		ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  obj is %s, obj->GetType() = %d\n", 
-			(obj ? "valid":"NULL"),
-			(obj ? obj->GetType() : -1));
+		//ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  obj is %s, obj->GetType() = %d\n", 
+		//	(obj ? "valid":"NULL"),
+		//	(obj ? obj->GetType() : -1));
 
+		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
 		if (obj && obj->GetType() != xEditItem)
 		{
 			// Get rid of any drawing tool at this moment

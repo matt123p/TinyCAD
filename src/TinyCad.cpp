@@ -95,6 +95,7 @@ bool CTinyCadApp::m_translateAccelerator = false;
 //=========================================================================
 BOOL CTinyCadApp::InitInstance()
 {
+
 	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// InitCommonControls() is required on Windows XP if an application
@@ -161,15 +162,46 @@ BOOL CTinyCadApp::InitInstance()
 	m_pMainWnd->DragAcceptFiles();
 
 	// Enable DDE Execute open
-	EnableShellOpen();
+	EnableShellOpen();	//djl - we may have to disable Shell open to fix the 8.3 filename issue - see below
 	RegisterShellFileTypes(TRUE);
 
-	// Parse command line for standard shell commands, DDE, file open
-	CCommandLineInfo cmdInfo;
-	ParseCommandLine(cmdInfo);
+	//ParseCommandLine(cmdInfo);
 
-	// Dispatch commands specified on the command line
-	if (!ProcessShellCommand(cmdInfo)) return FALSE;
+	// Parse command line for standard shell commands, DDE, file open
+	CTinyCadCommandLineInfo cmdInfo;	//This is the TinyCAD overridden command line parser class
+	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
+	ParseCommandLine(cmdInfo);	//This parses all of the options on the command line
+
+	if (cmdInfo.IsShellOpen())
+	{
+		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
+		//Lookup the long version of this filename in the current working directory and then open the long version of the filename.
+		TRACE("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
+		if (IsWinNT()) 
+		{	//The following Windows API function is only present in WinNT and newer systems
+
+			CString longName = GetLongFileName(cmdInfo.m_strFileName);	//Convert potential DOS 8.3 short file name into a long file name
+			cmdInfo.m_strFileName = longName;	//Replace the short filename with the long filename
+			TRACE("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
+		}
+	}
+
+	// Now dispatch all non-TinyCAD custom commands specified on the command line
+	BOOL successful = ProcessShellCommand(cmdInfo);
+	TRACE("CTinyCad::InitInstance() received %s Shell command=%d.  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
+	if (!successful) return FALSE;
+
+	if(cmdInfo.IsGenerateSpiceFile())
+	{	//This is a TinyCAD specific custom command line argument
+		//Run spice netlister here!
+		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
+	}
+
+	if(cmdInfo.IsGenerateXMLNetlistFile())
+	{	//This is a TinyCAD specific custom command line argument
+		//Run XML netlister here!
+		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
+	}
 
 	if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
 	{
@@ -241,7 +273,8 @@ CString CTinyCadApp::GetVersion()
 	VS_FIXEDFILEINFO* pFixedInfo;
 	UINT uVersionLen;
 
-	GetModuleFileName(NULL, szModulePath, MAX_PATH);
+	GetModuleFileName(NULL, szModulePath, MAX_PATH-1);
+	TRACE("CTinyCadApp::GetVersion() - szModulePath=\"%S\"\n", szModulePath);
 	dwSize = GetFileVersionInfoSize(szModulePath, &dwZero);
 
 	if (dwSize > 0)
@@ -301,7 +334,7 @@ CString CTinyCadApp::GetMainDir()
 	CString sReturn;
 	TCHAR theBuffer[1024];
 	DWORD theBytes = GetModuleFileName(NULL, theBuffer, sizeof (theBuffer) - 1);
-	//TRACE("GetModuleFileName returned \"%S\"\n",theBuffer);
+	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", theBuffer);
 	if (theBytes != 0)
 	{
 		TCHAR* thePtr = theBuffer + theBytes;
@@ -316,6 +349,19 @@ CString CTinyCadApp::GetMainDir()
 	}
 
 	return sReturn;
+}
+
+CString CTinyCadApp::GetLongFileName(const CString shortFilename)
+{
+	//This function returns the newer format long filename (i.e., non-DOS 8.3 format) from a short file name.
+	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
+	//It looks in the current working directory, so this must be set appropriately.
+	TCHAR longFilename[MAX_PATH];
+	TCHAR *pFullPathname = longFilename;
+	CString sTemp = shortFilename;
+	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
+	if (count == 0 || longFilename[0] == 0) return CString(shortFilename);	//error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation
+	else return CString(longFilename);
 }
 //-------------------------------------------------------------------------
 
@@ -431,6 +477,7 @@ void CTinyCadApp::EditSymbol(CLibraryStore* pLib, CLibraryStoreNameSet &symbol)
 // Edit a text file using the doc/view
 void CTinyCadApp::EditTextFile(const TCHAR *filename)
 {
+	TRACE("CTinyCADApp::EditTextFile(\"%S\")\n", filename);
 	CTextEditDoc *pDoc = static_cast<CTextEditDoc *> (m_pTxtTemplate->CreateNewDocument());
 	if (pDoc != NULL)
 	{
@@ -447,8 +494,10 @@ void CTinyCadApp::EditTextFile(const TCHAR *filename)
 
 //-------------------------------------------------------------------------
 // Edit a design file using the doc/view
+//
 void CTinyCadApp::EditDesign(const TCHAR *filename)
 {
+	TRACE("CTinyCADApp::EditDesign(\"%S\")\n", filename);
 	AfxGetApp()->OpenDocumentFile(filename);
 }
 
@@ -465,7 +514,7 @@ void CTinyCadApp::EditLibrary(CLibraryStore* pLib)
 		{
 			POSITION v = t->GetFirstViewPosition();
 
-			// Active it's views
+			// Activate it's views
 			while (v != NULL)
 			{
 				CView* pView = t->GetNextView(v);

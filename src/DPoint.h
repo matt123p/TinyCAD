@@ -65,8 +65,8 @@ public:
 	CDPoint()
 	{
 		// Initialize with not-a-number
-		x = std::numeric_limits<long double>::quiet_NaN();
-		y = std::numeric_limits<long double>::quiet_NaN();
+		x = std::numeric_limits<double>::quiet_NaN();
+		y = std::numeric_limits<double>::quiet_NaN();
 	}
 
 	CDPoint(double ix, double iy)
