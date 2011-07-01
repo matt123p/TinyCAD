@@ -69,7 +69,7 @@ void CDrawText::CalcLayout()
 
 }
 
-int CDrawText::getMenuID()
+UINT CDrawText::getMenuID()
 {
 	switch (xtype)
 	{
@@ -85,7 +85,7 @@ int CDrawText::getMenuID()
 			return IDM_TOOLBUSNAME;
 	}
 
-	return -1;
+	return static_cast<UINT>(-1);
 }
 
 const TCHAR* CDrawText::GetXMLTag(ObjType t)

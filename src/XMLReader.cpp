@@ -377,7 +377,7 @@ bool CXMLReader::closeTag()
 		}
 	}
 
-	return true;
+	//return true;
 }
 
 // Find the next peer tag of this tag

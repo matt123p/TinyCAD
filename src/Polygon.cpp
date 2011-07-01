@@ -585,7 +585,7 @@ CString CDrawPolygon::GetName() const
 	return "Polygon";
 }
 
-int CDrawPolygon::getMenuID()
+UINT CDrawPolygon::getMenuID()
 {
 	return IDM_TOOLPOLYGON;
 }
@@ -677,7 +677,7 @@ ObjType CDrawPolygon::GetType()
 
 void CDrawPolygon::Display(BOOL erase)
 {
-	LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
+	//LineStyle *theStyle = m_pDesign->GetOptions()->GetStyle(Style);
 	//int width = max(2,theStyle->Thickness) * 2;
 
 	CDRect r(min(m_point_a.x,m_point_b.x), min(m_point_a.y,m_point_b.y), max(m_point_a.x,m_point_b.x), max(m_point_a.y,m_point_b.y));

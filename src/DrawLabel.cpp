@@ -61,7 +61,7 @@ void CDrawLabel::NewOptions()
 	Display();
 }
 
-int CDrawLabel::getMenuID()
+UINT CDrawLabel::getMenuID()
 {
 	//		case xLabelEx2:
 	return IDM_TOOLLABEL;

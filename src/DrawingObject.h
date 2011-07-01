@@ -173,9 +173,9 @@ public:
 	virtual BOOL IsConstruction();
 	virtual BOOL IsEmpty();
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
-		return -1;
+		return static_cast<UINT>(-1);
 	}
 
 	virtual bool operator==(const CDrawingObject &obj) const; // Compare two objects for equality
