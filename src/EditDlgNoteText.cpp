@@ -105,7 +105,7 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	m_Line_Thickness.SetWindowText(s);
 
 	//transfer the tab widths
-	s.Format(_T("%d"), noteText->m_tab_width_in_mm);
+	s.Format(_T("%d"), noteText->m_tab_width_in_avg_char_widths);
 	m_tab_width.SetWindowText(s);
 	
 	//transfer the note text itself
@@ -385,6 +385,7 @@ BEGIN_MESSAGE_MAP(CEditDlgNoteText, CDialog)
 	ON_BN_CLICKED(IDC_NOTETEXT_ROUNDEDRECT, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
 	ON_BN_CLICKED(IDC_NOTETEXT_NOBORDER, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
 	//}}AFX_MSG_MAP
+	ON_EN_CHANGE(IDC_NOTETEXT_TABWIDTH, &CEditDlgNoteText::OnEnChangeNotetextTabwidth)
 END_MESSAGE_MAP()
 
 
@@ -394,4 +395,50 @@ void CEditDlgNoteText::OnBnClickedNotetextBorderStyle()
 {
 	static_cast<CDrawNoteText*> (getObject())->m_border_style = static_cast<CDrawNoteText::BorderStyle> (GetCheckedRadioButton(IDC_NOTETEXT_RECTANGLE, IDC_NOTETEXT_NOBORDER) - IDC_NOTETEXT_RECTANGLE);	//get offset of the radio button sequence
 	UpdateOptions();
+}
+
+void CEditDlgNoteText::OnEnChangeNotetextTabwidth()
+{
+	if (m_pDesign)
+	{
+		CDrawNoteText *noteText = static_cast<CDrawNoteText*> (getObject());	//get a pointer to the NoteText object being changed
+		CString s, s2, s_saved;
+
+		m_tab_width.GetWindowText(s);
+		s_saved = s;
+
+		//For safety, limit the value of tab width to 1..99 characters.  Dialog item is already limited to only numeric digits
+
+		if (!s) 
+		{	//Check for a NULL string
+			s = _T("1");
+			noteText->m_tab_width_in_avg_char_widths = 1;
+			s_saved = _T("");	//force them to be different
+		}
+
+		if (s.IsEmpty()) 
+		{	//Check for an empty string
+			noteText->m_tab_width_in_avg_char_widths = 1;
+			s = _T("1");
+		}
+
+		noteText->m_tab_width_in_avg_char_widths = _tstoi(s);
+		if (noteText->m_tab_width_in_avg_char_widths < 1)
+		{	//Check for zero or a negative number
+			noteText->m_tab_width_in_avg_char_widths = 1;
+		}
+		else if (noteText->m_tab_width_in_avg_char_widths > 99)
+		{
+			noteText->m_tab_width_in_avg_char_widths = 99;
+		}
+
+		s2.Format(_T("%d"), noteText->m_tab_width_in_avg_char_widths);
+		if (s2 != s_saved)
+		{
+			m_tab_width.SetWindowText(s2);
+		}
+
+		UpdateOptions();
+	}
+
 }

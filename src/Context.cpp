@@ -560,8 +560,24 @@ CDSize CContext::GetTextExtent(CString s)
 	return CDSize(r.cx / m_datum_scaling, r.cy / m_datum_scaling);
 }
 
+// Extended display text on the screen inside the specified rectangle with word wrapping features.
+// Overbars and kerning are not implemented here.  Tab stops are definable and other
+// advanced formatting methods are possible.
+void CContext::DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams)
+{
+	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
+	SelectFontNow(false);
+	CRect q = m_Transform.Scale(r);
+
+	//Documentation for DrawTextEx can be found at http://msdn.microsoft.com/en-us/library/7dfdzwya(VS.80).aspx
+	//DWORD alignment = m_pDC->GetTextAlign();
+	//alignment |= TA_LEFT | TA_TOP | TA_NOUPDATECP;	//These flags are required for DrawTextEx to implement its extended formatting capability
+	//m_pDC->SetTextAlign(alignment);
+	m_pDC->DrawTextEx(t, q, DT_LEFT|DT_EXPANDTABS|DT_TABSTOP|DT_WORDBREAK, lpDTParams);
+}
+
 // Display text on the screen inside the specified rectangle with word wrapping features.
-// Overbars and kerning are not implemented here.
+// Overbars and kerning are not implemented here.  Tab stops are fixed at the Windows default.
 void CContext::DrawText(const TCHAR *t, CDRect r)
 {
 	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
@@ -570,7 +586,7 @@ void CContext::DrawText(const TCHAR *t, CDRect r)
 
 	//Documentation for DrawText can be found at http://msdn.microsoft.com/en-us/library/dd162498.aspx
 
-	m_pDC->DrawTextW(t, q, DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
+	m_pDC->DrawText(t, q, DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
 }
 
 // Display text on the screen without kerning
@@ -807,7 +823,7 @@ CDRect CContext::GetUpdateRegion()
 
 void CContext::PaintConnectPoint(CDPoint dp)
 {
-	// Draw a nice circle to show the stickness...
+	// Draw a nice circle to show the stickiness...
 	SelectBrush();
 
 	// Descale before drawing

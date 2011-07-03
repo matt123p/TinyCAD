@@ -518,7 +518,8 @@ public:
 	void TextOut(CString, CDPoint, paint_options, int = 3);
 	void TextOut(double x, double y, const TCHAR *t);
 	void TextOut(double x, double y, int width, const TCHAR *t);
-	void DrawText(const TCHAR *t, CDRect r);	//Draws multi-line text inside a rectangular area
+	void DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams);	//Draws flowing multi-line text inside a rectangular area with extended formatting options
+	void DrawText(const TCHAR *t, CDRect r);	//Draws flowing multi-line text inside a rectangular area
 	CDSize GetTextExtent(CString s);
 	void SelectDefault();
 	int GetBkMode()

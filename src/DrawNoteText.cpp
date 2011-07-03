@@ -282,7 +282,7 @@ CDrawNoteText::CDrawNoteText(CTinyCadDoc *pDesign, ObjType type) :
 	FontStyle = m_pDesign->GetOptions()->GetCurrentFont(GetType());
 	FontColour = m_pDesign->GetOptions()->GetUserColor().Get(CUserColor::NOTETEXT_TEXT);
 
-	m_tab_width_in_mm = 5;		//This sets the default tab width.  mm only is presently implemented, but with a little work, this could automatically change from mm to inches and back.
+	m_tab_width_in_avg_char_widths = 4;		//This sets the default tab width in average character width units.
 	m_border_style = BS_RoundedRectangle;	//This sets the default border style
 
 	//There isn't a "UserFill", only "UserColor"'s so we must make a fill style that lets us specify the user's preferred default color choice for the background fill.
@@ -445,8 +445,8 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 #else
 	//Form a decorative single line rectangle around the text and draw it.
 	//The Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
-	CDPoint radius(10,10);	//Used to draw rounded rectangles
-	CDSize rectangleReductionDelta(-3,-3);	//text drawing area is 3 pixels smaller than outer border.
+	CDPoint radius(10,10);	//Used to draw rounded rectangles with radius in units of pixels
+	CDSize rectangleReductionDelta(-3,-3);	//text drawing area is 3 pixels smaller than outer border in y direction.  x direction is controlled by left and right margins.
 
 	CDRect textRectangle = outerBorderRectangle;
 	textRectangle.InflateRect(rectangleReductionDelta);
@@ -463,7 +463,7 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 		dc.RoundRect(outerBorderRectangle, radius);
 	}
 	else
-	{	//djl - had trouble getting this to work, but original code is here for future efforts.  The problem seems to be that NULL_PEN cannot be directly used as a style.  Must create a line style that uses the NULL pen instead.
+	{	//djl - had trouble getting this to work, but original code is here for future efforts.  The problem seems to be that NULL_PEN cannot be directly used as a style.  Must create a line style that uses the NULL_PEN pen instead.
 		//Draw no border at all, but keep the fill property by drawing rectangle with an invisible pen
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
 		//dc.Rectangle(outerBorderRectangle);
@@ -477,8 +477,14 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 
 	dc.SetTextColor(FontColour);
 	dc.SetBkMode(TRANSPARENT);
+	DRAWTEXTPARAMS formatOptions;
+	formatOptions.cbSize = sizeof(DRAWTEXTPARAMS);
+	formatOptions.iLeftMargin = 0;
+	formatOptions.iRightMargin = 0;
+	formatOptions.iTabLength = m_tab_width_in_avg_char_widths;
+	formatOptions.uiLengthDrawn = 0;
 
-	dc.DrawText(str, textRectangle);	//Now draw the note text on top of the inner rectangle
+	dc.DrawTextEx(str, textRectangle, &formatOptions);	//Now draw the note text on top of the inner rectangle
 }
 
 // Store the NoteText in the drawing
