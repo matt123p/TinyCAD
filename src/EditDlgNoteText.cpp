@@ -69,7 +69,6 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 	Show(pDesign, pObject);
 
-
 	// Get the current style
 	hFILL fill = m_pDesign->GetOptions()->GetCurrentFillStyle(getObject()->GetType());
 	m_fStyle = *m_pDesign->GetOptions()->GetFillStyle(fill);
