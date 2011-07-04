@@ -432,6 +432,15 @@
     <ClCompile Include="XMLWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrawOrigin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditDlgNoteText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawNoteText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TinyCad.rc">
@@ -768,6 +777,9 @@
     </ClInclude>
     <ClInclude Include="DocResource.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditDlgNoteText.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
