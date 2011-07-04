@@ -517,7 +517,7 @@ void CNetList::Link(linkCollection& nets)
 		while (ni != n.m_nets.end()) //this loop traverses a collection of nets originally found on a single sheet
 		{
 			nodeVector &v = (*ni).second;
-			int old_netlist = (*ni).first; //Uncomment for debugging the netlist!
+			//int old_netlist = (*ni).first; //Uncomment for debugging the netlist!
 			int new_netlist = 0;
 
 //			TRACE("\n    ==>Linker pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
@@ -1139,12 +1139,18 @@ void CNetList::MakeNetForSheet(fileCollection &imports, int import_index, int sh
 			}
 				break;
 			case xNoConnect:
-				Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a));
-//			TRACE("Found xNoConnect at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				{
+					CNetListNode newNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a);
+					Add(newNode);
+//					TRACE("Found xNoConnect at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				}
 				break;
 			case xJunction:
-				Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a));
-//			TRACE("Found xJunction at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				{
+					CNetListNode newNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a);
+					Add(newNode);
+//					TRACE("Found xJunction at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				}
 				break;
 			case xPower:
 			{

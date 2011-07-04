@@ -384,7 +384,7 @@ CString CDrawLine::GetName() const
 	}
 }
 
-int CDrawLine::getMenuID()
+UINT CDrawLine::getMenuID()
 {
 	switch (xtype)
 	{

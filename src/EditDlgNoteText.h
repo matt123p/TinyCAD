@@ -51,8 +51,8 @@ public:
 	CButton m_border_style_roundedRect;
 	CButton m_border_style_noBorder;
 	CEdit m_tab_width;
-	CButton m_text_dir_up;
-	CButton m_text_dir_right;
+	//CButton m_text_dir_up;
+	//CButton m_text_dir_right;
 
 protected:
 	LineStyle m_lStyle;	//Line style
@@ -80,4 +80,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedNotetextBorderStyle();
+	afx_msg void OnEnChangeNotetextTabwidth();
 };

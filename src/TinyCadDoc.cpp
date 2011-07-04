@@ -1295,7 +1295,7 @@ CDSize CTinyCadDoc::GetTextExtent(const TCHAR *str, int style)
 {
 	Transform dummy;
 	CContext dc(AfxGetMainWnd(), dummy);
-	dc.SelectFont(*GetOptions()->GetFont(style), 0);
+	dc.SelectFont(*GetOptions()->GetFont(static_cast<hFONT>(style)), 0);
 	return dc.GetTextExtent(str);
 }
 

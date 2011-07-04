@@ -257,7 +257,7 @@ void CDrawOrigin::NotifyEdit(int action)
 					// The origin must behave like a singleton
 					// So invalidate all other occurences of the origin object
 					// by setting their origin point (m_point_a) to 'nothing'
-					CDrawingObject *origin = NULL;
+					//CDrawingObject *origin = NULL;
 					for (drawingIterator it = m_pDesign->GetDrawingBegin(); it != m_pDesign->GetDrawingEnd(); it++)
 					{
 						CDrawingObject *obj = *it;

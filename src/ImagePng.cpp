@@ -459,7 +459,8 @@ bool CImagePNG::Read(CDC &ref_dc, const unsigned char *buf, int size)
 	 * png_read_image().  To see how to handle interlacing passes,
 	 * see the png_read_row() method below:
 	 */
-	int number_passes = png_set_interlace_handling(png_ptr);
+	//int number_passes = 
+		png_set_interlace_handling(png_ptr);
 
 	/* Optional call to gamma correct and add the background to the palette
 	 * and update info structure.  REQUIRED if you are expecting libpng to
@@ -713,7 +714,8 @@ void CImagePNG::CreateOutputBitmap(CBitmap &output, CDC &dc)
 
 	unsigned char *ScreenBuffer = NULL;
 	HBITMAP hb = CreateDIBSection(dc.m_hDC, &q.bi, DIB_RGB_COLORS, (void**) &ScreenBuffer, NULL, 0);
-	int e = GetLastError();
+	//int e = 
+		GetLastError();
 	output.Attach(hb);
 
 	unsigned char *Ptr = m_output_bits;
@@ -765,9 +767,9 @@ void CImagePNG::QuantizeBuffer(CBitmap &output, CDC &dc)
 
 	for (i = 0; i < COLOR_ARRAY_SIZE; i++)
 	{
-		ColorArrayEntries[i].RGB[0] = i >> (2 * BITS_PER_PRIM_COLOR);
-		ColorArrayEntries[i].RGB[1] = (i >> BITS_PER_PRIM_COLOR) & MAX_PRIM_COLOR;
-		ColorArrayEntries[i].RGB[2] = i & MAX_PRIM_COLOR;
+		ColorArrayEntries[i].RGB[0] = static_cast<unsigned char>(i >> (2 * BITS_PER_PRIM_COLOR));
+		ColorArrayEntries[i].RGB[1] = static_cast<unsigned char>((i >> BITS_PER_PRIM_COLOR) & MAX_PRIM_COLOR);
+		ColorArrayEntries[i].RGB[2] = static_cast<unsigned char>(i & MAX_PRIM_COLOR);
 		ColorArrayEntries[i].Count = 0;
 	}
 

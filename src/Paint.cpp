@@ -33,7 +33,7 @@
 
 void CTinyCadView::OnDraw(CDC* pDC)
 {
-	CTinyCadDoc* pDoc = GetCurrentDocument();
+	//CTinyCadDoc* pDoc = GetCurrentDocument();
 	CDC BitmapDC;
 	CBitmap *old_bitmap = NULL;
 
@@ -65,7 +65,8 @@ void CTinyCadView::OnDraw(CDC* pDC)
 
 		if (osb)
 		{
-			dc.SetPixelOffset(CPoint(-client.left, -client.top));
+			CPoint point = CPoint(-client.left, -client.top);
+			dc.SetPixelOffset(point);
 		}
 
 		if (pDC->IsPrinting())

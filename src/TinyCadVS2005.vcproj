@@ -65,11 +65,12 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4100"
 				UseFullPaths="true"
 			/>
 			<Tool
@@ -182,10 +183,11 @@
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				CompileAs="0"
+				DisableSpecificWarnings="4100"
 				UseFullPaths="true"
 			/>
 			<Tool
