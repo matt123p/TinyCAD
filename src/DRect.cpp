@@ -69,7 +69,8 @@ void CDRect::InflateRect(CDSize size)
 }
 
 void CDRect::InflateRect(double l, double t, double r, double b)
-{
+{	//Note:  This operation can result in a denormalized rectangle when inflating a 
+	//rectangle by a negative size that exceeds the width or height of the original rectangle.
 	left -= l;
 	right += r;
 	top -= t;
@@ -90,6 +91,22 @@ void CDRect::NormalizeRect()
 		bottom = top;
 		top = s;
 	}
+}
+
+//Detect if a rectangle is in unnormalized form - useful when reducing 
+//the size of very small rectangles when the reduction results in the
+//creation of a denormalized rectangle
+BOOL CDRect::IsNormalized()
+{
+	if (right < left)
+	{
+		return FALSE;
+	}
+	if (bottom < top)
+	{
+		return FALSE;
+	}
+	return TRUE;
 }
 
 // Operators returning CRect values

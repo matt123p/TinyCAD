@@ -40,6 +40,9 @@ public:
 	static const int PIN;
 	static const int HIDDEN_PIN;
 	static const int BACKGROUND;
+	static const int NOTETEXT_FILL;
+	static const int NOTETEXT_LINE;
+	static const int NOTETEXT_TEXT;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==

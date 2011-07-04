@@ -317,7 +317,8 @@ void CBOMGenerator::WriteToXls(FILE *fout)
 	bomCollection::iterator itx = m_methods.begin();
 	CString LastRef = "";
 	CString LastName = "";
-	int Xpos = 0, pieces = 0;
+	//int Xpos = 0;
+	int pieces = 0;
 	while (itx != m_methods.end())
 	{
 		const BomSort::BomObject *pBomObject = & (*itx);

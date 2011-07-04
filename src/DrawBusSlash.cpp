@@ -87,7 +87,7 @@ ObjType CDrawBusSlash::GetType()
 	return xBusSlash;
 }
 
-int CDrawBusSlash::getMenuID()
+UINT CDrawBusSlash::getMenuID()
 {
 	switch (theDir)
 	{

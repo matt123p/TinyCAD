@@ -141,7 +141,7 @@ BOOL CDrawSquare::RButtonDown(CDPoint p, CDPoint s)
 	return r;
 }
 
-const TCHAR* CDrawSquare::GetXMLTag(BOOL isSquare)
+const TCHAR* CDrawSquare::GetXMLTag( BOOL isSquare)
 {
 	if (isSquare)
 	{
@@ -330,7 +330,7 @@ BOOL CDrawSquare::IsInside(double left, double right, double top, double bottom)
 
 	if (IsSquare())
 	{
-		if (Fill != fsNONE || (left == right && top == bottom))
+		if (Fill != fsNONE || (left==right && top==bottom))
 		{
 			// Filled rectangle
 			return TRUE;
@@ -402,7 +402,7 @@ void CDrawSquare::Paint(CContext &dc, paint_options options)
 
 	if (IsSquare())
 	{
-		dc.Rectangle(CDRect(sma.x, sma.y, smb.x, smb.y));
+		dc.Rectangle(CDRect(sma.x,sma.y,smb.x,smb.y));
 	}
 	else	//Must be an ellipse
 	{
@@ -424,4 +424,3 @@ CDrawingObject *CDrawSquare::Store()
 
 	return NewObject;
 }
-

@@ -52,11 +52,21 @@ public:
 		return ! (_isnan(x) || _isnan(y));
 	}
 
+	void ForceLargerSize() {
+		if (x > y) y = x;
+		else x = y;
+	}
+
+	void ForceMinSize(double size) {
+		if (x < size) x = size;
+		if (y < size) y = size;
+	}
+
 	CDPoint()
 	{
 		// Initialize with not-a-number
-		x = std::numeric_limits<long double>::quiet_NaN();
-		y = std::numeric_limits<long double>::quiet_NaN();
+		x = std::numeric_limits<double>::quiet_NaN();
+		y = std::numeric_limits<double>::quiet_NaN();
 	}
 
 	CDPoint(double ix, double iy)

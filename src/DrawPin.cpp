@@ -660,7 +660,7 @@ void IncrementNumber(CString &number, int increment)
 		if (lastpos >= 0)
 		{
 			TCHAR ch = number.GetAt(lastpos);
-			ch += increment;
+			ch = ch + static_cast<TCHAR>(increment);
 			if (ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z')
 			{
 				number.SetAt(lastpos, ch);

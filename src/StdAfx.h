@@ -116,7 +116,7 @@ typedef int errno_t; /* VS2003 doesn't yet support the errno_t type so represent
 //This will disable the warnings, for now
 #define _AFX_DISABLE_DEPRECATED 1
 //#define _AFX_NO_DEBUG_CRT	// Turn off debugging for AFX - AFX will run as if in Release mode
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+//#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 #include <afxdisp.h>        // MFC Automation classes

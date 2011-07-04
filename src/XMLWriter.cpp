@@ -368,7 +368,7 @@ void CXMLWriter::addChildDataUUencode(BYTE *data, UINT size)
 		// 1 (up to) 45 character line
 		int line_size = min(size - i, 45);
 		int p = 0;
-		c[p++] = ENC(line_size);
+		c[p++] = static_cast<TCHAR>(ENC(line_size));
 
 		while (line_size > 0)
 		{
@@ -390,10 +390,10 @@ void CXMLWriter::addChildDataUUencode(BYTE *data, UINT size)
 			}
 
 			// output one group of 3 bytes as 4 chars
-			c[p++] = ENC( i0 >> 2 );
-			c[p++] = ENC( (i0 << 4) & 060 | (i1 >> 4) & 017 );
-			c[p++] = ENC( (i1 << 2) & 074 | (i2 >> 6) & 03 );
-			c[p++] = ENC( i2 & 077 );
+			c[p++] = static_cast<TCHAR>(ENC( i0 >> 2 ));
+			c[p++] = static_cast<TCHAR>(ENC( (i0 << 4) & 060 | (i1 >> 4) & 017 ));
+			c[p++] = static_cast<TCHAR>(ENC( (i1 << 2) & 074 | (i2 >> 6) & 03 ));
+			c[p++] = static_cast<TCHAR>(ENC( i2 & 077 ));
 
 			line_size -= 3;
 		}

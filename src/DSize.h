@@ -30,4 +30,24 @@ public:
 	CDSize(void);
 	CDSize(double x, double y);
 	~CDSize(void);
+	void InflateSize(double delta) {
+		cx += delta;
+		cy += delta;
+	}
+	void ForceLargerSize() {
+		if (cx > cy) cy = cx;
+		else cx = cy;
+	}
+	void ForceMinSize(double size) {
+		if (cx < size) cx = size;
+		if (cy < size) cy = size;
+	}
+
+	CDSize& operator+=(CDSize a)
+	{
+		cx += a.cx;
+		cy += a.cy;
+		return *this;
+	}
+
 };

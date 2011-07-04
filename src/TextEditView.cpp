@@ -164,7 +164,7 @@ void CTextEditView::OnDraw(CDC* pDC)
 
 void CTextEditView::printPage(CDC *pDC, bool print)
 {
-	CTextEditDoc* pDoc = static_cast<CTextEditDoc*> (GetDocument());
+	//CTextEditDoc* pDoc = static_cast<CTextEditDoc*> (GetDocument());
 
 	// Get the height of the screen
 	int height = pDC->GetDeviceCaps(VERTRES);

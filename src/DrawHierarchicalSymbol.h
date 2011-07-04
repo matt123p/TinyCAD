@@ -48,7 +48,7 @@ public:
 	virtual CDrawingObject* Store();
 
 	virtual ObjType GetType(); // Get this object's type
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual int GetContextMenu();
 	virtual void ContextMenu(CDPoint p, UINT id);
 

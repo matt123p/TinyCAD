@@ -91,6 +91,11 @@ inline int Transform::ScaleY(double a) const
 		+ pixel_offset.y; 
 }
 
+inline int Transform::Scale(double dist) const
+{
+	return ScaleX(dist);
+}
+
 inline double Transform::doubleScale(double a) const
 {
 	return a * m_zoom;

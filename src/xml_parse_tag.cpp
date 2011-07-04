@@ -463,7 +463,7 @@ CString xml_parse_tag::read_entity(CXMLReader *s)
 		}
 		else
 		{
-			c[0] = _tstoi(static_cast<const xml_char_t *> (q) + 1);
+			c[0] = static_cast<xml_char_t>(_tstoi(static_cast<const xml_char_t *> (q) + 1));
 		}
 		return c;
 	}

@@ -187,7 +187,7 @@ void CTinyCadMultiDoc::InsertSheet(int i, CTinyCadDoc *pDoc)
 	{
 		m_sheets.insert(it, pDoc);
 	}
-	else if (i != m_sheets.size())
+	else if (i != static_cast<int>(m_sheets.size()))
 	{
 		m_sheets.insert(it + i + 1, pDoc);
 	}

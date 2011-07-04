@@ -336,7 +336,7 @@ BOOL COptionsAutoSave::OnApply()
 	OnChange();
 
 	CAutoSave::SetDelay(m_nDelay);
-	CAutoSave::SetEnabled(m_bIsEnabled);
+	CAutoSave::SetEnabled(static_cast<boolean>(m_bIsEnabled));
 	CAutoSave::Stop();
 	CAutoSave::Start();
 

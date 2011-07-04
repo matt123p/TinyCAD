@@ -185,7 +185,6 @@ int CNetList::Add(CNetListNode &ins)
 	{
 		/// Is this node already in the tree?
 		int found = m_nodes[ins.m_a];
-
 		/// No, so we can add without checking for prior connections...
 		if (found != 0)
 		{
@@ -205,7 +204,6 @@ int CNetList::Add(CNetListNode &ins)
 	{
 		/// Is this node already in the tree?
 		int found = m_nodes[ins.m_a];
-
 		/// If this node was already found, but with a different netlist
 		/// number, then first we must join the two netlists together
 		if (found != 0 && found != ins.m_NetList)
@@ -519,7 +517,7 @@ void CNetList::Link(linkCollection& nets)
 		while (ni != n.m_nets.end()) //this loop traverses a collection of nets originally found on a single sheet
 		{
 			nodeVector &v = (*ni).second;
-			int old_netlist = (*ni).first; //Uncomment for debugging the netlist!
+			//int old_netlist = (*ni).first; //Uncomment for debugging the netlist!
 			int new_netlist = 0;
 
 //			TRACE("\n    ==>Linker pass 1:  Traversing node in netlist:  node old_netlist = %d, node new_netlist = %d\n", old_netlist, new_netlist);
@@ -1115,7 +1113,7 @@ void CNetList::MakeNetForSheet(fileCollection &imports, int import_index, int sh
 							// Hidden power pins will get an uninitialized CDPoint node point.
 							// The Add method will never connect to any other uninitialized CDPoint node point
 							// and thus hidden power pins will correctly never connect to anything by their node coordinate.
-							CNetListNode n(file_index_id, sheetOneIndexed, thePin, CDPoint());
+							CNetListNode n(file_index_id, sheetOneIndexed, thePin, CDPoint() );
 							// Set netlist label name to invisible symbol power pin name
 //							TRACE("  ==>Found a power pin in this symbol.  Setting netlist %d's label to power pin name=[\"%S\"]\n",
 //								n.m_NetList,
@@ -1141,12 +1139,18 @@ void CNetList::MakeNetForSheet(fileCollection &imports, int import_index, int sh
 			}
 				break;
 			case xNoConnect:
-				Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a));
-//			TRACE("Found xNoConnect at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				{
+					CNetListNode newNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a);
+					Add(newNode);
+//					TRACE("Found xNoConnect at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				}
 				break;
 			case xJunction:
-				Add(CNetListNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a));
-//			TRACE("Found xJunction at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				{
+					CNetListNode newNode(file_index_id, sheetOneIndexed, ObjPtr, ObjPtr->m_point_a);
+					Add(newNode);
+//					TRACE("Found xJunction at (%g,%g).\n",ObjPtr->m_point_a.x, ObjPtr->m_point_a.y);
+				}
 				break;
 			case xPower:
 			{

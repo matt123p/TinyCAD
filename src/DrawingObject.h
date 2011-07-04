@@ -40,46 +40,47 @@ enum paint_options
 // The different types of object
 enum ObjType {
 	xEndFile = 0,
-	xNoDraw,
-	xAnnotation,
-	xDesignInformation,
-	xIndexInformation,
-	xSymbol,
-	xError,
-	xFont,
-	xSymbolEx,
-	xLayerOld,
-	xLineStyle,
-	xFillStyle,
-	xLayer,
-	xLayerTable,
-	xSymbolEx2,
+	xNoDraw = 1,
+	xAnnotation = 2,
+	xDesignInformation = 3,
+	xIndexInformation = 4,
+	xSymbol = 5,
+	xError = 6,
+	xFont = 7,
+	xSymbolEx = 8,
+	xLayerOld = 9,
+	xLineStyle = 10,
+	xFillStyle = 11,
+	xLayer = 12,
+	xLayerTable = 13,
+	xSymbolEx2 = 14,
 
 	xBusName = 15,
-	xNoConnect = 16, xJunction, xLabel, xWire, xBus, xMethod,
-	xPower, xPin, xBusSlash, xLabelEx, xMethodEx, xMethodEx2, xPinEx,
+	xNoConnect = 16, xJunction = 17, xLabel = 18, xWire = 19, xBus = 20, xMethod = 21,
+	xPower = 22, xPin = 23, xBusSlash = 24, xLabelEx = 25, xMethodEx = 26, xMethodEx2 = 27, xPinEx = 28,
 	xOrigin,
 
-	xLine = 32, xDash, xText, xCircle, xSquare, xArc, xLineEx, xTextEx,
-	xCircleEx, xSquareEx, xArcEx,
+	xLine = 32, xDash = 33, xText = 34, xCircle = 35, xSquare = 36, xArc = 37, xLineEx = 38, xTextEx = 39,
+	xCircleEx = 40, xSquareEx = 41, xArcEx = 42,
 
-	xLineEx2, xCircleEx2, xSquareEx2, xArcEx2, xMetaFile,
+	xLineEx2 = 43, xCircleEx2 = 44, xSquareEx2 = 45, xArcEx2 = 46, xMetaFile = 47, 
 
-	xTag = 48, xRuler, xMethodEx3, xPolygon,
+	xTag  = 48, xRuler = 49, xMethodEx3 = 50, xPolygon = 51,
+	xNoteText = 64,
 
 	xEditItem = 128, 
-	xDesignInformation2,
-	xMetaFiles,
-	xOptions,
-	xSymbols, xSymbolMethod, xSymbolDelete,
-	xCircleEx3,
-	xSquareEx3,
-	xTextEx2,
-	xLabelEx2,
-	xBusNameEx,
-	xImage,
-	xHierarchicalSymbol,
-	xRefPoint,
+	xDesignInformation2 = 129,
+	xMetaFiles = 130,
+	xOptions = 131,
+	xSymbols = 132, xSymbolMethod = 133, xSymbolDelete = 134,
+	xCircleEx3 = 135,
+	xSquareEx3 = 136,
+	xTextEx2 = 137,
+	xLabelEx2 = 138,
+	xBusNameEx = 139,
+	xImage = 140,
+	xHierarchicalSymbol = 141,
+	xRefPoint = 142,
 
 	// the value for undefined
 	xNULL = 255
@@ -172,9 +173,9 @@ public:
 	virtual BOOL IsConstruction();
 	virtual BOOL IsEmpty();
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
-		return -1;
+		return static_cast<UINT>(-1);
 	}
 
 	virtual bool operator==(const CDrawingObject &obj) const; // Compare two objects for equality

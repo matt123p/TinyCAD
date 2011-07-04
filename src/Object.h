@@ -122,7 +122,7 @@ public:
 	virtual void NewOptions();
 	virtual CString GetName() const;
 	virtual void TagResources();
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 
 	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
 	virtual BOOL CanControlAspect(); // If the user holds down ctrl, can should we fix the aspect ratio?
@@ -196,7 +196,7 @@ public:
 	virtual void NewOptions();
 	virtual CString GetName() const;
 	virtual void TagResources();
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual BOOL CanEdit()
 	{
 		return TRUE;
@@ -239,7 +239,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint);
 	virtual ObjType GetType(); // Get this object's type
 	virtual CString GetName() const;
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLJUNC;
 	}
@@ -268,7 +268,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint);
 	virtual ObjType GetType(); // Get this object's type
 	virtual CString GetName() const;
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual void Display(BOOL erase = TRUE);
 
 	// Extract the netlist/active points from this object
@@ -300,7 +300,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint);
 	virtual ObjType GetType(); // Get this object's type
 	virtual CString GetName() const;
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLCONNECT;
 	}
@@ -338,7 +338,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint);
 	virtual ObjType GetType(); // Get this object's type
 	virtual CString GetName() const;
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLORIGIN;
 	}
@@ -353,11 +353,13 @@ public:
 };
 
 class CEditDlgTextEdit;
+class CEditDlgNoteText;
 
 class CDrawText: public CDrawRectOutline
 {
 
 	friend CEditDlgTextEdit;
+	friend CEditDlgNoteText;
 
 	// The font style
 	hFONT FontStyle;
@@ -408,7 +410,7 @@ public:
 	void NewFont(LOGFONT *); // Change the font
 	virtual void NewOptions();
 
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual void MoveField(int w, CDPoint r);
 
 	// These are used for the construction of this object
@@ -509,7 +511,7 @@ public:
 	void NewFont(LOGFONT *); // Change the font
 	virtual void NewOptions();
 
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual void MoveField(int w, CDPoint r);
 
 	// These are used for the construction of this object
@@ -568,7 +570,7 @@ public:
 	}
 	CString Find(const TCHAR *);
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLPOWER;
 	}
@@ -668,7 +670,7 @@ public:
 	
 	static const TCHAR *GetElectricalTypeName(int etype);
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_LIBPIN;
 	}
@@ -718,7 +720,7 @@ public:
 	CDrawMetaFile(CTinyCadDoc *pDesign);
 	virtual ~CDrawMetaFile();
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLSQUARE;
 	}
@@ -726,7 +728,7 @@ public:
 
 ////// These are the annotation objects //////
 
-class CDrawSquare: public CDrawRectOutline
+class CDrawSquare : public CDrawRectOutline		//Used to draw rectangles/squares, circles/ellipses
 {
 	WORD Style;
 	WORD Fill;
@@ -749,7 +751,7 @@ public:
 
 	virtual void SaveXML(CXMLWriter &xml);
 	virtual void LoadXML(CXMLReader &xml);
-	static const TCHAR* GetXMLTag(BOOL isSquare);
+	static const TCHAR* GetXMLTag( BOOL isSquare);
 
 	virtual void NewOptions();
 	virtual BOOL IsInside(double left, double right, double top, double bottom);
@@ -767,14 +769,83 @@ public:
 	{
 		return m_type == xSquareEx3;
 	}
-
+	
 	// This is used for the construction of this object
 	CDrawSquare(CTinyCadDoc *pDesign, ObjType type);
 
-	virtual int getMenuID()
+	virtual UINT getMenuID() 
 	{
 		return IsSquare() ? IDM_TOOLSQUARE : IDM_TOOLCIRCLE;
 	}
+};
+
+class CDrawNoteText : public CDrawRectOutline		//Used to create rectangular notes with multi-line text
+{
+	friend CEditDlgNoteText;	//Used to edit this object
+//protected:
+	WORD Style;		//Enclosing rectangle style
+	WORD Fill;		//Enclosing rectangle fill
+	hFONT FontStyle;	//The font style
+public:
+	COLORREF FontColour;	//The font colour
+protected:
+	//These are text formatting related:
+	double original_width;
+	double original_box_width;
+	double target_box_width;
+	double tab_width;	//Uses units of average character width, according to MFC documentation
+
+	BOOL m_re_edit;
+	ObjType m_type;
+	int m_tab_width_in_avg_char_widths;
+	CString str;	//actual note text is stored here
+	BYTE dir;	//note text has a direction, but we may not implement rotated note text or perhaps implement only a subset of the directions such as horizontal and vertical
+	CDRect m_note_area;		//reduced area that the text is displayed in
+
+	double EllipseDistanceFromPoint(CDPoint p, BOOL &IsInside);
+
+	void SetScalingWidths();
+	void CalcLayout();
+
+public:
+	enum BorderStyle {
+		BS_Rectangle=0,
+		BS_RoundedRectangle,
+		BS_NoBorder
+	} m_border_style;
+	virtual double DistanceFromPoint(CDPoint p);
+	BOOL PointInEllipse(CDPoint p);
+	virtual ObjType GetType();
+	virtual void TagResources();
+	virtual void Paint(CContext &, paint_options);
+	virtual CDrawingObject* Store();
+
+	virtual void Load(CStream &);
+	virtual void SaveXML(CXMLWriter &xml);
+	virtual void LoadXML(CXMLReader &xml);
+	static const TCHAR* GetXMLTag();
+
+	virtual void NewOptions();
+	virtual BOOL IsInside(double left, double right, double top, double bottom);
+	CString Find(const TCHAR *); // Does this string match this text?
+	virtual CString GetName() const;
+	virtual void BeginEdit(BOOL re_edit);
+	virtual void EndEdit();
+	virtual BOOL CanEdit();
+	virtual void LButtonUp(CDPoint, CDPoint); // The user has released the left hand button
+	virtual void LButtonDown(CDPoint, CDPoint);
+	virtual BOOL RButtonDown(CDPoint, CDPoint);
+
+	// This is used for the construction of this object
+	CDrawNoteText(CTinyCadDoc *pDesign, ObjType type);
+	virtual ~CDrawNoteText()
+	{
+	}
+	virtual UINT getMenuID() 
+	{
+		return IDM_TOOLNOTETEXT;
+	}
+	BOOL IsEmpty();
 };
 
 class CDrawError: public CDrawingObject
@@ -873,7 +944,7 @@ public:
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual CDrawingObject* Store();
 	virtual CString GetName() const;
-	virtual int getMenuID();
+	virtual UINT getMenuID();
 	virtual int SetCursorEdit(CDPoint p);
 
 	virtual BOOL IsConstruction();
@@ -898,7 +969,7 @@ public:
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 
 	virtual int SetCursor(CDPoint p);
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_EDITMOVE;
 	}
@@ -919,7 +990,7 @@ public:
 	virtual void ChangeDir(int);
 
 	virtual int SetCursor(CDPoint p);
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_EDITROTATE;
 	}
@@ -939,7 +1010,7 @@ public:
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 
 	virtual int SetCursor(CDPoint p);
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_EDITDUP;
 	}
@@ -959,7 +1030,7 @@ public:
 	virtual BOOL RButtonDown(CDPoint, CDPoint);
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual int SetCursor(CDPoint p);
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_EDITDRAG;
 	}
@@ -976,7 +1047,7 @@ public:
 	virtual void Move(CDPoint, CDPoint no_snap_p);
 	virtual void Import();
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_FILEIMPORT;
 	}
@@ -1022,7 +1093,7 @@ public:
 	virtual void ContextMenu(CDPoint p, UINT id);
 	virtual void ChangeDir(int NewDir);
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_EDITEDIT;
 	}
@@ -1218,7 +1289,7 @@ public:
 	{
 	}
 
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLGET;
 	}
@@ -1244,7 +1315,7 @@ public:
 	{
 		return 9;
 	}
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
 		return IDM_VIEWCENTRE;
 	}
@@ -1272,9 +1343,9 @@ public:
 	{
 		return 10;
 	}
-	virtual int getMenuID()
+	virtual UINT getMenuID()
 	{
-		return -1;
+		return static_cast<UINT>(-1);
 	}
 };
 

@@ -237,7 +237,7 @@ void CEditDlgMethodEdit::OnChangePart()
 	TCHAR str[SIZESTRING];
 
 	GetDlgItemText(METHODBOX_PPP, str, sizeof (str));
-	str[0] = toupper(str[0]);
+	str[0] = static_cast<TCHAR>(toupper(str[0]));
 	// Is this a correct device letter?
 	if (str[0] != 0)
 	{

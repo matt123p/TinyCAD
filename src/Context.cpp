@@ -33,6 +33,7 @@
 // The constructor
 CContext::CContext(CWnd *NewWindow, Transform NewTransform)
 {
+	//TRACE("CContext constructor\n");
 	m_pWnd = NewWindow;
 
 	m_pDC = new CClientDC(m_pWnd);
@@ -470,7 +471,7 @@ void CContext::QuaterArc(CDPoint da, CDPoint db)
 
 	CPoint Mid = CPoint(theRect.left + (theRect.right - theRect.left) / 2, theRect.top + (theRect.bottom - theRect.top) / 2);
 
-	double PI = 3.14159;
+	double PI = 3.1415926535897932384626433832795;	//Extent of accuracy is dependent only on how far you permit zooms to go
 
 	double ra = atan2((double) (a.x - Mid.x), (double) (a.y - Mid.y));
 	double rb = atan2((double) (b.x - Mid.x), (double) (b.y - Mid.y));
@@ -559,17 +560,51 @@ CDSize CContext::GetTextExtent(CString s)
 	return CDSize(r.cx / m_datum_scaling, r.cy / m_datum_scaling);
 }
 
+// Extended display text on the screen inside the specified rectangle with word wrapping features.
+// Overbars and kerning are not implemented here.  Tab stops are definable and other
+// advanced formatting methods are possible.
+void CContext::DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams)
+{
+	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
+	SelectFontNow(false);
+	CRect q = m_Transform.Scale(r);
+
+	//Documentation for DrawTextEx can be found at http://msdn.microsoft.com/en-us/library/7dfdzwya(VS.80).aspx
+	m_pDC->SetTextAlign(TA_LEFT | TA_TOP | TA_NOUPDATECP);
+	m_pDC->DrawTextEx(t, q, DT_EDITCONTROL|DT_TOP|DT_LEFT|DT_EXPANDTABS|DT_TABSTOP|DT_WORDBREAK, lpDTParams);
+}
+
+// Display text on the screen inside the specified rectangle with word wrapping features.
+// Overbars and kerning are not implemented here.  Tab stops are fixed at the Windows default.
+void CContext::DrawText(const TCHAR *t, CDRect r)
+{
+	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
+	SelectFontNow(false);
+	CRect q = m_Transform.Scale(r);
+
+	//Documentation for DrawText can be found at http://msdn.microsoft.com/en-us/library/dd162498.aspx
+
+	m_pDC->SetTextAlign(TA_LEFT | TA_TOP | TA_NOUPDATECP);
+	m_pDC->DrawText(t, q, DT_EDITCONTROL|DT_TOP|DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
+}
+
 // Display text on the screen without kerning
+// This is primarily used to display sheet format text, document format info text
 void CContext::TextOut(double x, double y, const TCHAR *t)
 {
+	//TRACE("CContext::TextOut() - no kerning or overbars:  \"%S\"\n", t);
 	SelectFontNow(false);
 	CPoint r = m_Transform.Scale(CDPoint(x, y));
 	m_pDC->TextOut(r.x, r.y, t);
 }
 
-// Display the text on the screen with kerning
+// Display the text on the screen with kerning and overbars.
+// This is used to display user entered annotation text (i.e., single line text strings), 
+// pin names and numbers, parameters, net labels, etc.
+// This is the primary method of displaying most text objects.
 void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
 {
+	//TRACE("CContext::TextOut() - implements kerning and overbars:  \"%S\"\n", text);
 	TCHAR BarString[STRLEN];
 	TCHAR TextString[STRLEN];
 
@@ -750,8 +785,12 @@ void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
 }
 
 // Text out with fixed width
+// This is used if a potentially long string must fit in a specific space on the screen.
+// For example, this is called to display the path name of the design file in the format annotations.
+// Only those trailing characters that fit in the specified width will be displayed.
 void CContext::TextOut(double x, double y, int width, const TCHAR *t)
 {
+	//TRACE("CContext::TextOut() - text with fixed width only:  \"%S\"\n", t);
 	// Force the selection of the font
 	SelectFontNow(false);
 
@@ -783,7 +822,7 @@ CDRect CContext::GetUpdateRegion()
 
 void CContext::PaintConnectPoint(CDPoint dp)
 {
-	// Draw a nice circle to show the stickness...
+	// Draw a nice circle to show the stickiness...
 	SelectBrush();
 
 	// Descale before drawing

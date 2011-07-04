@@ -171,7 +171,7 @@ void CTinyCadView::OnSpecialAnnotate()
 		} while (theASetup.all_sheets && sheet < GetDocument()->GetNumberOfSheets());
 	}
 
-	// Where there any missing symbols?
+	// Were there any missing symbols?
 	if (MissingSymbols) Message(IDS_MISSMETH, MB_ICONEXCLAMATION);
 
 	// Restore the correct cursor

@@ -225,7 +225,7 @@ CString CDrawRuler::GetName() const
 	return "Ruler";
 }
 
-int CDrawRuler::getMenuID()
+UINT CDrawRuler::getMenuID()
 {
 	return horiz ? ID_RULER_HORIZ : ID_RULER_VERT;
 }

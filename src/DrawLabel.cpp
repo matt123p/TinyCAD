@@ -61,7 +61,7 @@ void CDrawLabel::NewOptions()
 	Display();
 }
 
-int CDrawLabel::getMenuID()
+UINT CDrawLabel::getMenuID()
 {
 	//		case xLabelEx2:
 	return IDM_TOOLLABEL;
@@ -678,7 +678,7 @@ void CDrawLabel::Paint(CContext &dc, paint_options options)
 		}
 	}
 	else
-	{
+	{	//normal net label
 		dc.SetTextColor(FontColour);
 		dc.TextOut(str, m_point_a, options, dir);
 	}

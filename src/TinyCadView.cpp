@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOLYGON, OnUpdateToolpolygon)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLPOWER, OnUpdateToolpower)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLSQUARE, OnUpdateToolsquare)
+	ON_UPDATE_COMMAND_UI(IDM_TOOLNOTETEXT, OnUpdateNoteTextText)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLTEXT, OnUpdateTooltext)
 	ON_UPDATE_COMMAND_UI(IDM_TOOLWIRE, OnUpdateToolwire)
 	ON_UPDATE_COMMAND_UI(IDM_VIEWCENTRE, OnUpdateViewcentre)
@@ -187,6 +188,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND( IDM_TOOLARC, OnSelectArc )
 	ON_COMMAND( IDM_TOOLSQUARE, OnSelectSquare )
 	ON_COMMAND( IDM_TOOLCIRCLE, OnSelectCircle )
+	ON_COMMAND( IDM_TOOLNOTETEXT, OnSelectNoteText )
 	ON_COMMAND( IDM_TOOLTEXT, OnSelectText )
 	ON_COMMAND( IDM_TOOLGET, OnSelectGet )
 	ON_COMMAND( IDC_SHOW_SYMBOL, OnSelectGet )
@@ -345,7 +347,7 @@ BOOL CTinyCadView::DoPreparePrinting(CPrintInfo* pInfo)
 		DEVMODE *pdev_mode;
 		pdev_mode = dlg->GetDevMode();
 		pdev_mode->dmOrientation = GetCurrentDocument()->GetDetails().IsPortrait() ? DMORIENT_PORTRAIT : DMORIENT_LANDSCAPE;
-		pdev_mode->dmCopies = dlg->m_Copies;
+		pdev_mode->dmCopies = static_cast<short>(dlg->m_Copies);
 		GlobalUnlock(pdev_mode);
 
 		// call CreatePrinterDC if DC was not created by above
@@ -944,7 +946,7 @@ void CTinyCadView::OnUpdateRulerVert(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 
 }
@@ -959,7 +961,7 @@ void CTinyCadView::OnUpdateRulerHoriz(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -968,7 +970,7 @@ void CTinyCadView::OnUpdateEditedit(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -977,7 +979,7 @@ void CTinyCadView::OnUpdateBusback(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -986,7 +988,7 @@ void CTinyCadView::OnUpdateBusslash(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -995,7 +997,7 @@ void CTinyCadView::OnUpdateToolarc(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1004,7 +1006,7 @@ void CTinyCadView::OnUpdateToolbus(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1013,7 +1015,7 @@ void CTinyCadView::OnUpdateToolbusname(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1022,7 +1024,7 @@ void CTinyCadView::OnUpdateToolcircle(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1031,7 +1033,7 @@ void CTinyCadView::OnUpdateToolconnect(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 	pCmdUI->Enable(!GetCurrentDocument()->IsEditLibrary());
 }
@@ -1041,7 +1043,7 @@ void CTinyCadView::OnUpdateToolorigin(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 	pCmdUI->Enable(GetCurrentDocument()->IsEditLibrary());
 }
@@ -1051,7 +1053,7 @@ void CTinyCadView::OnUpdateToolget(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1060,7 +1062,7 @@ void CTinyCadView::OnUpdateTooljunc(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1069,7 +1071,7 @@ void CTinyCadView::OnUpdateToollabel(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1078,7 +1080,7 @@ void CTinyCadView::OnUpdateToolHierarchical(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 	pCmdUI->Enable(!GetCurrentDocument()->IsHierarchicalSymbol());
 }
@@ -1088,7 +1090,7 @@ void CTinyCadView::OnUpdateToolpolygon(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1097,7 +1099,7 @@ void CTinyCadView::OnUpdateToolpower(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1106,7 +1108,16 @@ void CTinyCadView::OnUpdateToolsquare(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
+	}
+}
+
+void CTinyCadView::OnUpdateNoteTextText(CCmdUI* pCmdUI) 
+{
+	CDrawingObject *q = GetCurrentDocument()->GetEdit();
+	if (q)	
+	{
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1115,7 +1126,7 @@ void CTinyCadView::OnUpdateTooltext(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1124,7 +1135,7 @@ void CTinyCadView::OnUpdateToolwire(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1133,7 +1144,7 @@ void CTinyCadView::OnUpdateViewcentre(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1142,7 +1153,7 @@ void CTinyCadView::OnUpdateEditdrag(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1151,7 +1162,7 @@ void CTinyCadView::OnUpdateEditdup(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 
 }
@@ -1161,7 +1172,7 @@ void CTinyCadView::OnUpdateEditrotate(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1170,7 +1181,7 @@ void CTinyCadView::OnUpdateEditmove(CCmdUI* pCmdUI)
 	CDrawingObject *q = GetCurrentDocument()->GetEdit();
 	if (q)
 	{
-		pCmdUI->SetCheck(q->getMenuID() == pCmdUI->m_nID);
+		pCmdUI->SetCheck(static_cast<int>(q->getMenuID() == pCmdUI->m_nID));
 	}
 }
 
@@ -1356,6 +1367,7 @@ void CTinyCadView::OnUpdateEditRotateLRF(CCmdUI* pCmdUI)
 			|| type == xPower
 			|| type == xText || type == xTextEx || type == xTextEx2
 			|| type == xBusName || type == xBusNameEx
+//			|| type == xNoteText	//not sure if this belongs here or not - djl
 			|| type == xBusSlash
 			;
 
@@ -1388,9 +1400,9 @@ BOOL CTinyCadView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
-	//TRACE3("OnActivateView bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
+	//ATLTRACE2("CTinyCadView::OnActivateView() - bActivate:%d, %x, %x\n", bActivate, pActivateView, g_currentview);
 	if (bActivate)
-	{
+	{	//Activate this view
 		// When switching to a different view then
 		// get rid of any drawing tool on the current view
 		if (g_currentview != this && g_currentview != NULL)
@@ -1399,13 +1411,21 @@ void CTinyCadView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* p
 		}
 		g_currentview = this;
 	}
+
 	if (!bActivate)
-	{
-		CDrawingObject* obj = GetCurrentDocument()->GetEdit();
+	{	//Deactivate this view
+		CDrawingObject* obj;
+		obj = GetCurrentDocument()->GetEdit();
+		//ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  obj is %s, obj->GetType() = %d\n", 
+		//	(obj ? "valid":"NULL"),
+		//	(obj ? obj->GetType() : -1));
+
 		// Don't get rid of edit tool, we want to keep the dialog open when switching applications
 		if (obj && obj->GetType() != xEditItem)
 		{
 			// Get rid of any drawing tool at this moment
+			ATLTRACE2("CTinyCadView::OnActivateView() - de-activating this View.  Getting rid of any active drawing tools.\n");
+
 			GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 		}
 	}
@@ -1652,6 +1672,7 @@ void CTinyCadView::ChangeDir(int dir)
 	      || type == xPower
 	      || type == xText || type == xTextEx || type == xTextEx2
 	      || type == xBusName || type == xBusNameEx
+//		  || type == xNoteText		//not sure if this belongs here or not - djl
 	      || type == xBusSlash
 		  )
 	{

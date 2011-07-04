@@ -46,7 +46,7 @@ CDrawHierarchicalSymbol::~CDrawHierarchicalSymbol(void)
 	clearSymbol();
 }
 
-int CDrawHierarchicalSymbol::getMenuID()
+UINT CDrawHierarchicalSymbol::getMenuID()
 {
 	return IDM_TOOLHIERARCHICAL;
 }
