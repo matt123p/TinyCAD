@@ -570,10 +570,8 @@ void CContext::DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams)
 	CRect q = m_Transform.Scale(r);
 
 	//Documentation for DrawTextEx can be found at http://msdn.microsoft.com/en-us/library/7dfdzwya(VS.80).aspx
-	//DWORD alignment = m_pDC->GetTextAlign();
-	//alignment |= TA_LEFT | TA_TOP | TA_NOUPDATECP;	//These flags are required for DrawTextEx to implement its extended formatting capability
-	//m_pDC->SetTextAlign(alignment);
-	m_pDC->DrawTextEx(t, q, DT_LEFT|DT_EXPANDTABS|DT_TABSTOP|DT_WORDBREAK, lpDTParams);
+	m_pDC->SetTextAlign(TA_LEFT | TA_TOP | TA_NOUPDATECP);
+	m_pDC->DrawTextEx(t, q, DT_EDITCONTROL|DT_TOP|DT_LEFT|DT_EXPANDTABS|DT_TABSTOP|DT_WORDBREAK, lpDTParams);
 }
 
 // Display text on the screen inside the specified rectangle with word wrapping features.
@@ -586,7 +584,8 @@ void CContext::DrawText(const TCHAR *t, CDRect r)
 
 	//Documentation for DrawText can be found at http://msdn.microsoft.com/en-us/library/dd162498.aspx
 
-	m_pDC->DrawText(t, q, DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
+	m_pDC->SetTextAlign(TA_LEFT | TA_TOP | TA_NOUPDATECP);
+	m_pDC->DrawText(t, q, DT_EDITCONTROL|DT_TOP|DT_LEFT|DT_EXPANDTABS|DT_WORDBREAK);
 }
 
 // Display text on the screen without kerning

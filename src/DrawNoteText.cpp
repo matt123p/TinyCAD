@@ -391,58 +391,6 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	CDRect outerBorderRectangle(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
 	outerBorderRectangle.NormalizeRect();
 
-#define NOTETEXT_DOUBLE_BORDER 0	//Set to 0 or 1.  Double lines work and are attractive, but take up more space on the schematic.
-#if NOTETEXT_DOUBLE_BORDER == 1
-	//Form a decorative double line rectangle around the text and draw it.
-	//The Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
-	CDPoint radius(5,5);	//When drawing rounded rectangles, set the radius equal to the rectangle reduction size
-	CDSize rectangleReductionDelta(-5,-5);	//inner border is 5 pixels smaller than outer border.  This is also used to form the text drawing area.
-
-	CDRect innerBorderRectangle = outerBorderRectangle;
-	innerBorderRectangle.InflateRect(rectangleReductionDelta);
-	CDRect tempRect = innerBorderRectangle;
-	if (!innerBorderRectangle.IsNormalized()) 
-	{	//Can't make inner border rectangle so much smaller that it no longer forms a normalized rectangle
-		innerBorderRectangle = outerBorderRectangle;
-	}
-
-	CDRect textRectangle = innerBorderRectangle;
-	textRectangle.InflateRect(rectangleReductionDelta);
-	if (!textRectangle.IsNormalized()) 
-	{	//Can't make text border rectangle so much smaller that it no longer forms a normalized rectangle
-		textRectangle = innerBorderRectangle;
-	}
-
-	if (m_border_style == BS_Rectangle) {
-		dc.Rectangle(outerBorderRectangle);
-	}
-	else if (m_border_style == BS_RoundedRectangle) {
-		//Set the radius of the rounded rectangle to 10% of the width and height of the rectangle
-		dc.RoundRect(outerBorderRectangle, radius);
-	}
-	else
-	{	//djl - had trouble getting this to work, but original code is here for future efforts.  The problem seems to be that NULL_PEN cannot be directly used as a style.  Must create a line style that uses the NULL pen instead.
-		//Draw no border at all, but keep the fill property by drawing rectangle with an invisible pen
-		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
-		//dc.Rectangle(outerBorderRectangle);
-		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
-	}
-
-	//Draw the innermost nested rectangle as a flourish
-	if (m_border_style == BS_Rectangle) {
-		dc.Rectangle(innerBorderRectangle);
-	}
-	else if (m_border_style == BS_RoundedRectangle) {
-		dc.RoundRect(innerBorderRectangle, radius);
-	}
-	else
-	{	//djl - had trouble getting this to work, but original code is here for future efforts.  The problem seems to be that NULL_PEN cannot be directly used as a style.  Must create a line style that uses the NULL pen instead.
-		//Draw no border at all, but keep the fill property by drawing rectangle with an invisible pen
-		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(NULL_PEN), options);
-		//dc.Rectangle(innerBorderRectangle);
-		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
-	}
-#else
 	//Form a decorative single line rectangle around the text and draw it.
 	//The Z aspect must be respected here, or filled backgrounds will overwrite objects so draw objects from largest to smallest in order.
 	CDPoint radius(10,10);	//Used to draw rounded rectangles with radius in units of pixels
@@ -469,7 +417,6 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 		//dc.Rectangle(outerBorderRectangle);
 		//dc.SelectPen(m_pDesign->GetOptions()->GetStyle(Style), options);
 	}
-#endif
 
 	//Now draw the text itself
 	dc.SetROP2(R2_COPYPEN);	//Select the desired raster operation
@@ -484,7 +431,7 @@ void CDrawNoteText::Paint(CContext &dc, paint_options options)
 	formatOptions.iTabLength = m_tab_width_in_avg_char_widths;
 	formatOptions.uiLengthDrawn = 0;
 
-	dc.DrawTextEx(str, textRectangle, &formatOptions);	//Now draw the note text on top of the inner rectangle
+	dc.DrawTextExW(str, textRectangle, &formatOptions);	//Now draw the note text on top of the border rectangle
 }
 
 // Store the NoteText in the drawing

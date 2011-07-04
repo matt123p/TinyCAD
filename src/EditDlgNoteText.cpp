@@ -112,8 +112,8 @@ void CEditDlgNoteText::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	SetDlgItemText(TEXTBOX_TEXT, noteText->str);
 
 	//and the direction of the text
-	m_text_dir_up.SetCheck( noteText->dir == 0 ? BST_CHECKED: BST_UNCHECKED);
-	m_text_dir_right.SetCheck( noteText->dir == 3 ? BST_CHECKED: BST_UNCHECKED);
+	//m_text_dir_up.SetCheck( noteText->dir == 0 ? BST_CHECKED: BST_UNCHECKED);
+	//m_text_dir_right.SetCheck( noteText->dir == 3 ? BST_CHECKED: BST_UNCHECKED);
 
 	//transfer the border style of the enclosing background rectangle.
 	switch(noteText->m_border_style)
@@ -342,7 +342,7 @@ void CEditDlgNoteText::OnChange()
 	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));	//Need to check for exceptions here caused by strings being too long
 	noteText->str = str;
 
-	noteText->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
+	//noteText->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
 
 	noteText->NewOptions();
 }
@@ -361,8 +361,6 @@ void CEditDlgNoteText::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_NOTETEXT_ROUNDEDRECT, m_border_style_roundedRect);
 	DDX_Control(pDX, IDC_NOTETEXT_NOBORDER, m_border_style_noBorder);
 	DDX_Control(pDX, IDC_NOTETEXT_TABWIDTH, m_tab_width);
-	DDX_Control(pDX, TEXTBOX_LEFT, m_text_dir_right);
-	DDX_Control(pDX, TEXTBOX_UP, m_text_dir_up);
 	//}}AFX_DATA_MAP
 }
 
@@ -379,8 +377,6 @@ BEGIN_MESSAGE_MAP(CEditDlgNoteText, CDialog)
 	ON_BN_CLICKED(IDC_TEXT_COLOUR, OnTextColour)
 	ON_BN_CLICKED(IDC_TEXT_FONT, OnTextFont)
 	ON_EN_CHANGE(TEXTBOX_TEXT, OnChange)
-	ON_BN_CLICKED(TEXTBOX_LEFT, OnChange)
-	ON_BN_CLICKED(TEXTBOX_UP,OnChange)
 	ON_BN_CLICKED(IDC_NOTETEXT_RECTANGLE, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
 	ON_BN_CLICKED(IDC_NOTETEXT_ROUNDEDRECT, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
 	ON_BN_CLICKED(IDC_NOTETEXT_NOBORDER, &CEditDlgNoteText::OnBnClickedNotetextBorderStyle)
