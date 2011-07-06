@@ -54,49 +54,17 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 	//			CCommandLineInfo::FileDDE   Indicates that the /dde flag was found on the command line.
 	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinApp derived classes.
 
-	//for convenience maintain 4 variables to indicate the param passed. 
+	//for convenience maintain a variable for each custom command line option to indicate the param passed. 
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
 	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
 
 	//public methods for checking these.
 public:
-	CTinyCadCommandLineInfo()
-	{
-		m_bGenerateSpiceFile = m_bGenerateXMLNetlistFile = FALSE;
-	}
-
-	BOOL IsShellOpen() 
-	{
-		return this->m_strFileName.GetLength() != 0;	//there is no flag for passing a file name on the command line with no other conflicting options.
-	}
-
-	BOOL IsGenerateSpiceFile()
-	{
-		return m_bGenerateSpiceFile;
-	}
-
-	BOOL IsGenerateXMLNetlistFile()
-	{
-		return m_bGenerateXMLNetlistFile;
-	}
-	 
-	virtual void ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast)
-	{
-		if (0 == strcmp(pszParam, "/s"))
-		{
-			m_bGenerateSpiceFile = TRUE;
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
-		}
-		else if (0 == strcmp(pszParam, "/x"))
-		{
-			m_bGenerateXMLNetlistFile = TRUE;
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
-		}
-		else
-		{
-			TRACE("CTinyCadCommandLineInfo::ParseParam():  No special command line options found in command line parameter string=\"%s\"\n", pszParam);
-		}
-	}
+	CTinyCadCommandLineInfo();	//Constructor
+	BOOL IsShellOpen();
+	BOOL IsGenerateSpiceFile();
+	BOOL IsGenerateXMLNetlistFile();
+	virtual void ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast);
 };
 
 

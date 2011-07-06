@@ -80,7 +80,6 @@ void CTinyCadView::OnSpecialNet()
 
 ////// Generate the SPICE output for this design //////
 
-
 void CTinyCadView::OnSpecialCreatespicefile()
 {
 	// Get rid of any drawing tool
@@ -121,6 +120,47 @@ void CTinyCadView::OnSpecialCreatespicefile()
 //	TRACE("Spice netlist file path = %S\n",dlg.GetPathName());
 	// Now open the Spice netlist for the user
 	CTinyCadApp::EditTextFile(dlg.GetPathName());
+}
+
+void CTinyCadView::CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString fileName)
+{	//This method is used to create a spice netlist file from a command line option.  All graphically oriented functionality is assumed to not exist and is avoided.
+
+//	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+
+	// Do ERC Check
+//	DoSpecialCheck(false);
+
+	// Get the file in which to save the network
+	TCHAR szFile[256];
+
+//	_tcscpy_s(szFile, GetDocument()->GetPathName());
+	_tcscpy_s(szFile, fileName);
+	TCHAR* ext = _tcsrchr(szFile, '.');
+	if (!ext)
+	{
+		_tcscpy_s(szFile, _T("output.net"));
+	}
+	else
+	{
+#ifdef USE_VS2003
+		_tcscpy(ext, _T(".net"));
+#else
+		size_t remaining_space = &szFile[255] - ext + 1;
+		_tcscpy_s(ext, remaining_space, _T(".net"));
+#endif
+	}
+
+	CFileDialog dlg(FALSE, _T("*.net"), szFile, OFN_HIDEREADONLY, _T("SPICE (*.net)|*.net|All files (*.*)|*.*||"), AfxGetMainWnd());
+
+	if (dlg.DoModal() != IDOK)
+	{
+		return;
+	}
+
+	// Generate the SPICE file
+	CNetList netlist;
+	netlist.WriteSpiceFile(pDesign, dlg.GetPathName());
+	TRACE("Spice netlist file path = %S\n",dlg.GetPathName());
 }
 
 ////// Check the design rules for this design //////

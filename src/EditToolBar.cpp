@@ -74,7 +74,14 @@ void CEditToolbar::Create(CWnd *pParent)
 	m_NoteTextEdit.Create();
 
 	setDlg(&m_NoTool);
-	ShowWindow(SW_SHOW);
+	if (static_cast<CTinyCadApp*>(AfxGetApp())->m_nCmdShow == SW_HIDE)
+	{	//TinyCAD is running a shell command line option - don't show the toolbar
+		ShowWindow(SW_HIDE);
+	}
+	else
+	{	//TinyCAD is running as an interactive app - process ShowWindow normally
+		ShowWindow(SW_SHOW);
+	}
 }
 
 void CEditToolbar::setDlg(CEditDlg *pWnd)
