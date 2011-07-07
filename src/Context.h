@@ -455,20 +455,26 @@ public:
 	// The drawing primitives
 	void Ellipse(CDRect r)
 	{
-		m_pDC->Ellipse(m_Transform.Scale(r));
+		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
+		m_pDC->Ellipse(q);
 	}
 	void Ellipse1(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Ellipse(q.left, q.top, q.right + 1, q.bottom + 1);
 	}
 	void Rectangle(CDRect r)
 	{
-		m_pDC->Rectangle(m_Transform.Scale(r));
+		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
+		m_pDC->Rectangle(q);
 	}
 	void Rectangle1(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Rectangle(q.left, q.top, q.right + 1, q.bottom + 1);
 	}
 	CPoint GetRelativeDistance(CDPoint dist) {	//Convert the CDPoint x,y distances in logical coordinates to CPoint distances in physical coordinates
@@ -484,6 +490,7 @@ public:
 	{
 		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
 		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
 		//CPoint qRadius = m_Transform.Scale(radius);	//This returns the location of the radius point on the screen, not exactly the same as the scaled radius
 		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
 		//qRadius -= qRef;	//so convert it to a relative point
@@ -493,6 +500,7 @@ public:
 	{
 		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
 		CRect q = m_Transform.Scale(r);
+		m_pDC->SetBrushOrg(q.TopLeft());
 		//CPoint qRadius = m_Transform.Scale(radius);
 		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
 		//qRadius -= qRef;
