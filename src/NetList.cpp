@@ -2308,7 +2308,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	CTime myTime = CTime::GetCurrentTime();
 
 	CString dateTime;
-	dateTime.Format(_T("%02d/%02d/%4d at %02d:%02d:%d GMT"),
+	dateTime.Format(_T("%02d/%02d/%04d at %02d:%02d:%02d GMT"),
 		myTime.GetMonth(), myTime.GetDay(), myTime.GetYear(),
 		myTime.GetHour(), myTime.GetMinute(), myTime.GetSecond());
 

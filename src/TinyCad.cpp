@@ -427,7 +427,6 @@ CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
 	//It looks in the current working directory, so this must be set appropriately.
 	TCHAR longFilename[MAX_PATH];
-	TCHAR *pFullPathname = longFilename;
 	CString sTemp = shortFilename;
 	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
 	if (count == 0 || longFilename[0] == 0) return CString(shortFilename);	//error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation
