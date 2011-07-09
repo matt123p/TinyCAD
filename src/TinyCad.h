@@ -64,7 +64,8 @@ public:
 	BOOL IsShellOpen();
 	BOOL IsGenerateSpiceFile();
 	BOOL IsGenerateXMLNetlistFile();
-	virtual void ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast);
+	virtual void ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast);
+	~CTinyCadCommandLineInfo();	//Destructor
 };
 
 

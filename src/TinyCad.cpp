@@ -47,12 +47,22 @@ CTinyCadRegistry * g_pRegistry = NULL;
 
 CTinyCadCommandLineInfo::CTinyCadCommandLineInfo()
 {	//Constructor
-	m_bGenerateSpiceFile = m_bGenerateXMLNetlistFile = TRUE;	//- djl -Change to FALSE when finished debugging!!!
+	m_bShowSplash = TRUE;
+	m_bRunEmbedded = FALSE;
+	m_bRunAutomated = FALSE;
+	m_nShellCommand = FileNew;
+
+	//call base class constructor!
+
+	m_bGenerateSpiceFile = FALSE;
+	m_bGenerateXMLNetlistFile = FALSE;
 }
+
+CTinyCadCommandLineInfo::~CTinyCadCommandLineInfo() {}
 
 BOOL CTinyCadCommandLineInfo::IsShellOpen() 
 {
-	return this->m_strFileName.GetLength() != 0;	//there is no flag for passing a file name on the command line with no other conflicting options.
+	return m_nShellCommand == FileOpen;	//This flag is parsed by the base class and is set to FileOpen solely if there is a file name on the command line and no other conflicting options.
 }
 
 BOOL CTinyCadCommandLineInfo::IsGenerateSpiceFile()
@@ -65,22 +75,34 @@ BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
 	return m_bGenerateXMLNetlistFile;
 }
 
-void CTinyCadCommandLineInfo::ParseParam(const char* pszParam, BOOL bFlag, BOOL bLast)
+void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast)
 {
-	if (0 == strcmp(pszParam, "/s"))
-	{
-		m_bGenerateSpiceFile = TRUE;
-		TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
-	}
-	else if (0 == strcmp(pszParam, "/x"))
-	{
-		m_bGenerateXMLNetlistFile = TRUE;
-		TRACE("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
+	if (bFlag)
+	{	//This is a command line option
+		const CStringA strParam(pszParam);
+
+		if (strParam == _T("s"))
+		{
+			m_bGenerateSpiceFile = TRUE;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
+		}
+		else if (strParam == _T("x"))
+		{
+			m_bGenerateXMLNetlistFile = TRUE;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
+		}
+		else
+		{
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found non-TinyCAD command line option \"/%S\"\n", pszParam);
+			ParseParamFlag(strParam.GetString());	//Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
+		}
 	}
 	else
-	{
-		TRACE("CTinyCadCommandLineInfo::ParseParam():  No special command line options found in command line parameter string=\"%s\"\n", pszParam);
+	{	//This is a command line parameter, not an option
+		ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line parameter=\"%S\" found.\n", pszParam);
+		ParseParamNotFlag(pszParam);	//Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
 	}
+	ParseLast(bLast);
 }
 
 
@@ -237,28 +259,8 @@ BOOL CTinyCadApp::InitInstance()
 
 	// Now dispatch all TinyCAD custom commands specified on the command line, including the DDE commands such as FileOpen, FilePrint, etc.
 	BOOL successful = ProcessShellCommand(cmdInfo);
-	TRACE("CTinyCad::InitInstance() received %s Shell command=%d.  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
+	ATLTRACE2("CTinyCad::InitInstance() received %s Shell command (numeric command = %d).  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
 	if (!successful) return FALSE;
-
-	/*
-	 * ShowWindow() Commands
-		#define SW_HIDE             0
-		#define SW_SHOWNORMAL       1
-		#define SW_NORMAL           1
-		#define SW_SHOWMINIMIZED    2
-		#define SW_SHOWMAXIMIZED    3
-		#define SW_MAXIMIZE         3
-		#define SW_SHOWNOACTIVATE   4
-		#define SW_SHOW             5
-		#define SW_MINIMIZE         6
-		#define SW_SHOWMINNOACTIVE  7
-		#define SW_SHOWNA           8
-		#define SW_RESTORE          9
-		#define SW_SHOWDEFAULT      10
-		#define SW_FORCEMINIMIZE    11
-		#define SW_MAX              11
-	 */
-
 
 	if(cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
 	{	//This is a TinyCAD specific custom command line argument
@@ -280,7 +282,7 @@ BOOL CTinyCadApp::InitInstance()
 		{	//Run XML netlister here!
 			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
 		}
-		//Now take an early exit - Taking this exit is causing 32 bytes of memory to be leaked for some reason - seems related to ipng.dll
+		//Now take an early exit - Taking this exit is causing about 8k bytes of memory to be leaked for some reason - seems related to ipng.dll
 		return FALSE;
 	}
 	else
