@@ -222,7 +222,9 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="DrawNoteText.cpp" />
     <ClCompile Include="DrawOrigin.cpp" />
+    <ClCompile Include="EditDlgNoteText.cpp" />
     <ClCompile Include="SQLite\CppSQLite3U.cpp" />
     <ClCompile Include="DbAttributeSet.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -1416,6 +1418,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="colour.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="EditDlgNoteText.h" />
     <ClInclude Include="SQLite\CppSQLite3U.h" />
     <ClInclude Include="DbAttributeSet.h" />
     <ClInclude Include="DbLibNameSet.h" />
