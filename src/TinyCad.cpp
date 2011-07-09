@@ -47,13 +47,6 @@ CTinyCadRegistry * g_pRegistry = NULL;
 
 CTinyCadCommandLineInfo::CTinyCadCommandLineInfo()
 {	//Constructor
-	m_bShowSplash = TRUE;
-	m_bRunEmbedded = FALSE;
-	m_bRunAutomated = FALSE;
-	m_nShellCommand = FileNew;
-
-	//call base class constructor!
-
 	m_bGenerateSpiceFile = FALSE;
 	m_bGenerateXMLNetlistFile = FALSE;
 }
