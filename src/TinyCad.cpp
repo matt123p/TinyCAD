@@ -45,6 +45,60 @@ static CWinApp theApp;
 
 CTinyCadRegistry * g_pRegistry = NULL;
 
+CTinyCadCommandLineInfo::CTinyCadCommandLineInfo()
+{	//Constructor
+	m_bGenerateSpiceFile = FALSE;
+	m_bGenerateXMLNetlistFile = FALSE;
+}
+
+CTinyCadCommandLineInfo::~CTinyCadCommandLineInfo() {}
+
+BOOL CTinyCadCommandLineInfo::IsShellOpen() 
+{
+	return m_nShellCommand == FileOpen;	//This flag is parsed by the base class and is set to FileOpen solely if there is a file name on the command line and no other conflicting options.
+}
+
+BOOL CTinyCadCommandLineInfo::IsGenerateSpiceFile()
+{
+	return m_bGenerateSpiceFile;
+}
+
+BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
+{
+	return m_bGenerateXMLNetlistFile;
+}
+
+void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast)
+{
+	if (bFlag)
+	{	//This is a command line option
+		const CStringA strParam(pszParam);
+
+		if (strParam == _T("s"))
+		{
+			m_bGenerateSpiceFile = TRUE;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
+		}
+		else if (strParam == _T("x"))
+		{
+			m_bGenerateXMLNetlistFile = TRUE;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
+		}
+		else
+		{
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found non-TinyCAD command line option \"/%S\"\n", pszParam);
+			ParseParamFlag(strParam.GetString());	//Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
+		}
+	}
+	else
+	{	//This is a command line parameter, not an option
+		ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line parameter=\"%S\" found.\n", pszParam);
+		ParseParamNotFlag(pszParam);	//Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
+	}
+	ParseLast(bLast);
+}
+
+
 //*************************************************************************
 //*                                                                       *
 //*                  Main application class                               *
@@ -145,6 +199,24 @@ BOOL CTinyCadApp::InitInstance()
 	RUNTIME_CLASS(CTextEditView));
 	AddDocTemplate(m_pTxtTemplate);
 
+	// Enable DDE Execute open
+	EnableShellOpen();
+	RegisterShellFileTypes(TRUE);
+
+	// Parse command line for standard shell commands, DDE, file open, but don't process the commands until later in this function after the windows have been created and opened in hidden mode
+	CTinyCadCommandLineInfo cmdInfo;	//This is the TinyCAD overridden command line parser class
+	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
+	ParseCommandLine(cmdInfo);	//This parses all of the options on the command line
+
+	if(cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
+	{	//This is a TinyCAD specific custom command line argument - hide all windows
+		m_nCmdShow = SW_HIDE;	//This flag will be explicitly checked by the NOTOOL window to see whether it should be shown or hidden
+	}
+	else if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
+	{
+		m_nCmdShow = SW_SHOWMAXIMIZED;
+	}
+
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) return FALSE;
@@ -161,17 +233,6 @@ BOOL CTinyCadApp::InitInstance()
 	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
 
-	// Enable DDE Execute open
-	EnableShellOpen();	//djl - we may have to disable Shell open to fix the 8.3 filename issue - see below
-	RegisterShellFileTypes(TRUE);
-
-	//ParseCommandLine(cmdInfo);
-
-	// Parse command line for standard shell commands, DDE, file open
-	CTinyCadCommandLineInfo cmdInfo;	//This is the TinyCAD overridden command line parser class
-	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
-	ParseCommandLine(cmdInfo);	//This parses all of the options on the command line
-
 	if (cmdInfo.IsShellOpen())
 	{
 		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
@@ -182,38 +243,48 @@ BOOL CTinyCadApp::InitInstance()
 
 			CString longName = GetLongFileName(cmdInfo.m_strFileName);	//Convert potential DOS 8.3 short file name into a long file name
 			cmdInfo.m_strFileName = longName;	//Replace the short filename with the long filename
-			TRACE("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
+			ATLTRACE2("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
+		}
+		else {
+			ATLTRACE2("CTinyCad::InitInstance():  This version of Windows is too old (i.e., is older than WinNT) to support the GetLongFileName() command - using the native file name instead: \"%S\".\n", cmdInfo.m_strFileName);
 		}
 	}
 
-	// Now dispatch all non-TinyCAD custom commands specified on the command line
+	// Now dispatch all TinyCAD custom commands specified on the command line, including the DDE commands such as FileOpen, FilePrint, etc.
 	BOOL successful = ProcessShellCommand(cmdInfo);
-	TRACE("CTinyCad::InitInstance() received %s Shell command=%d.  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
+	ATLTRACE2("CTinyCad::InitInstance() received %s Shell command (numeric command = %d).  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
 	if (!successful) return FALSE;
 
-	if(cmdInfo.IsGenerateSpiceFile())
+	if(cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
 	{	//This is a TinyCAD specific custom command line argument
-		//Run spice netlister here!
-		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
+		if(cmdInfo.IsGenerateSpiceFile())
+		{	//Run spice netlister here in hidden mode since this has been invoked from a command prompt
+			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
+
+			// The main window has been initialized, so show and update it in hidden display mode.
+			pMainFrame->ShowWindow(m_nCmdShow);
+			pMainFrame->UpdateWindow();
+
+			//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
+			POSITION localPosition = m_pDocTemplate->GetFirstDocPosition();	//The open design is the only design file in the template collection at this point
+			CTinyCadMultiDoc *pDesign = static_cast<CTinyCadMultiDoc *>(m_pDocTemplate->GetNextDoc(localPosition));
+
+			static_cast<CTinyCadView *>(pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName);	//create the spice file
+		}
+		else
+		{	//Run XML netlister here!
+			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
+		}
+		//Now take an early exit - Taking this exit is causing about 8k bytes of memory to be leaked for some reason - seems related to ipng.dll
+		return FALSE;
+	}
+	else
+	{	// The main window has been initialized, so show and update it.
+		pMainFrame->ShowWindow(m_nCmdShow);
+		pMainFrame->UpdateWindow();
 	}
 
-	if(cmdInfo.IsGenerateXMLNetlistFile())
-	{	//This is a TinyCAD specific custom command line argument
-		//Run XML netlister here!
-		TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
-	}
-
-	if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
-	{
-		m_nCmdShow = SW_SHOWMAXIMIZED;
-	}
-
-	// The main window has been initialized, so show and update it.
-	pMainFrame->ShowWindow(m_nCmdShow);
-	pMainFrame->UpdateWindow();
-
-	CAutoSave::Start();
-
+	CAutoSave::Start();		//Turn on the auto-save functionality
 	return TRUE;
 }
 //-------------------------------------------------------------------------
@@ -305,20 +376,19 @@ CString CTinyCadApp::GetReleaseType()
 	//committed to SVN present in the working copy that produced this build, then the results of this build cannot 
 	//be duplicated by anyone else so it will be described as an "Uncontrolled Release".
 
-	if (svn_modifications_postfix.Find('+') != -1)
-	{
+	if ((svn_modifications_postfix.Find('+') != -1) || (svn_wcrange.Find('-') != -1))
+	{	//Either modifications are present or the working copy contains mixed revisions - either way, this build is non-reproducable
 		return "Uncontrolled Release";
 	}
 
 	CString svn_url = SVN_WCURL;
 	if ( (svn_modifications_postfix.Find('-') != -1) || (svn_url.Find(_T("\\branches\\")) != -1) || (svn_url.Find(_T("/branches/")) != -1))
-	{
+	{	//Production releases are only made from the trunk or a tag, never from branches
 		return "Alpha Release";
 	}
 
-	//There is not presently a mechanism to automatically mark a release as an alpha or beta release
-	//although it would be nice if there was such a mechanism.
-	//	return "Alpha Release";
+	//There is not presently a mechanism to automatically mark a release as a beta release
+	//although it would be nice if there were such a mechanism.
 	//	return "Beta Release";
 	return "Production Release";
 }

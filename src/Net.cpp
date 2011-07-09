@@ -80,7 +80,6 @@ void CTinyCadView::OnSpecialNet()
 
 ////// Generate the SPICE output for this design //////
 
-
 void CTinyCadView::OnSpecialCreatespicefile()
 {
 	// Get rid of any drawing tool
@@ -121,6 +120,35 @@ void CTinyCadView::OnSpecialCreatespicefile()
 //	TRACE("Spice netlist file path = %S\n",dlg.GetPathName());
 	// Now open the Spice netlist for the user
 	CTinyCadApp::EditTextFile(dlg.GetPathName());
+}
+
+void CTinyCadView::CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString fileName)
+{	//This method is used to create a spice netlist file from a command line option.  All graphically oriented functionality is assumed to not exist and is avoided.
+	//Note:  ERC checks are not run in command line mode and all TinyCad windows have been forced to be invisible, so functionality should be added that would 
+	//       cause a window or dialog to be displayed.  The goal is to be able to run unattended from a DOS batch file or build script without any windows popping up unexpectedly.
+
+	TCHAR szFile[256];
+
+	_tcscpy_s(szFile, fileName);
+	TCHAR* ext = _tcsrchr(szFile, '.');
+	if (!ext)
+	{
+		_tcscpy_s(szFile, _T("output.net"));
+	}
+	else
+	{
+#ifdef USE_VS2003
+		_tcscpy(ext, _T(".net"));
+#else
+		size_t remaining_space = &szFile[255] - ext + 1;
+		_tcscpy_s(ext, remaining_space, _T(".net"));
+#endif
+	}
+	//ATLTRACE2("About to run Spice file generator against file name \"%S\" located in the current working directory.\n", szFile);
+
+	// Generate the SPICE file
+	CNetList netlist;
+	netlist.WriteSpiceFile(pDesign, szFile);
 }
 
 ////// Check the design rules for this design //////

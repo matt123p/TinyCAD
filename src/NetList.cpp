@@ -2304,8 +2304,16 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		return;
 	}
 
+	// Retrieve the current date and time
+	CTime myTime = CTime::GetCurrentTime();
+
+	CString dateTime;
+	dateTime.Format(_T("%02d/%02d/%4d at %02d:%02d:%d GMT"),
+		myTime.GetMonth(), myTime.GetDay(), myTime.GetYear(),
+		myTime.GetHour(), myTime.GetMinute(), myTime.GetSecond());
+
 	/// Output the standard header comment - expected on line 1 by some Spice engines
-	_ftprintf(theFile, _T("* Schematics Netlist *\n"));
+	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime);
 
 	createErrorFile(filename);
 
