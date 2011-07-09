@@ -117,7 +117,8 @@ void CNetList::createErrorFile(const TCHAR *filename)
 {
 	/// Open the filename for the results
 	m_err_filename = filename;
-	int brk = m_err_filename.ReverseFind('\\');
+//	int brk = m_err_filename.ReverseFind('\\');
+	int brk = m_err_filename.ReverseFind('.');
 	if (brk)
 	{
 		m_err_filename = m_err_filename.Left(brk);
@@ -2307,17 +2308,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	// Retrieve the current date and time
 	CTime myTime = CTime::GetCurrentTime();
 
-	CString dateTime;
-	dateTime.Format(_T("%02d/%02d/%04d at %02d:%02d:%02d GMT"),
-		myTime.GetMonth(), myTime.GetDay(), myTime.GetYear(),
-		myTime.GetHour(), myTime.GetMinute(), myTime.GetSecond());
-
-	/// Output the standard header comment - expected on line 1 by some Spice engines
+	CString dateTime = myTime.Format(_T("%x at %X %p %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
+	/// Output the standard header comment - expected on line 1 by some Spice engines.  Spice netlist files denote comments with an asterisk in column 1.
 	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime);
 
 	createErrorFile(filename);
 
-	_ftprintf(m_err_file, _T("Results of Spice file generation for %s\n\n"), pDesign->GetPathName());
+	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), pDesign->GetPathName());
 
 	/// Set the Busy icon
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_WAIT));
