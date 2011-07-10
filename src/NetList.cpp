@@ -30,6 +30,7 @@
 #include "diag.h"
 #include "LineUtils.h"
 #include "TinyCadMultiDoc.h"
+#include "MainFrm.h"
 
 #include <iostream>
 #include <fstream>
@@ -131,8 +132,15 @@ void CNetList::createErrorFile(const TCHAR *filename)
 	m_errors = 0;
 	if (!m_err_file)
 	{
-		Message(IDS_CANNOTOPEN);
-		return;
+		if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
+		{	//in console mode, also output the error message to stderr, wherever that might be pointed
+			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected and that sufficient permission is present for writing to this location.\n"), m_err_filename);
+		}
+		else
+		{
+			Message(IDS_CANNOTOPEN);
+			return;
+		}
 	}
 }
 
@@ -146,9 +154,19 @@ void CNetList::reopenErrorFile(bool force)
 	_ftprintf(m_err_file, _T("\n%d %s found\n"), m_errors, m_errors == 1 ? _T("error") : _T("errors"));
 	fclose(m_err_file);
 
-	if (force || (m_errors > 0))
+	if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
+	{	//in console mode, also output the error message to stderr, wherever that might be pointed
+		if (m_errors != 0) 
+		{
+			_ftprintf(stderr, _T("\n%d %s found\n"), m_errors, m_errors == 1 ? _T("error") : _T("errors"));
+		}
+	}
+	else
 	{
-		CTinyCadApp::EditTextFile(m_err_filename);
+		if (force || (m_errors > 0))
+		{
+			CTinyCadApp::EditTextFile(m_err_filename);
+		}
 	}
 }
 

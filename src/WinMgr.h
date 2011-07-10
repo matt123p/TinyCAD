@@ -38,9 +38,9 @@ struct SIZEINFO
 };
 
 // types of rectangles:
-#define	WRCT_END			0				// end of table
+#define	WRCT_END		0			// end of table
 #define	WRCT_FIXED		0x0001		// height/width is fixed
-#define	WRCT_PCT			0x0002		// height/width is percent of total
+#define	WRCT_PCT		0x0002		// height/width is percent of total
 #define	WRCT_REST		0x0003		// height/width is whatever remains
 #define	WRCT_TOFIT		0x0004		// height/width to fit contents
 #define	WRCF_TYPEMASK	0x000F
@@ -211,12 +211,12 @@ public:
 
 // Begin/end window map. 'name' can be anything you want
 #define BEGIN_WINDOW_MAP(name)	WINRECT name[] = {
-#define END_WINDOW_MAP()			WINRECT(WRCT_END,-1,0) }; 
+#define END_WINDOW_MAP()		WINRECT(WRCT_END,-1,0) }; 
 
 // Begin/end a group.
 // The first entry in your map must be BEGINROWS or BEGINCOLS.
 #define BEGINROWS(type,id,m)	WINRECT(WRCF_ROWGROUP|type,id,m),
-#define BEGINCOLS(type,id,m)  WINRECT(WRCF_COLGROUP|type,id,m),
+#define BEGINCOLS(type,id,m)	WINRECT(WRCF_COLGROUP|type,id,m),
 #define ENDGROUP()				WINRECT(WRCF_ENDGROUP,-1,0),
 
 // This macros is used only with BEGINGROWS or BEGINCOLS to specify margins
@@ -224,10 +224,10 @@ public:
 
 // Macros for primitive (non-group) entries.
 // val applies to height for a row entry; width for a column entry.
-#define RCFIXED(id,val)		WINRECT(WRCT_FIXED,id,val),
-#define RCPERCENT(id,val)	WINRECT(WRCT_PCT,id,val),
-#define RCREST(id)			WINRECT(WRCT_REST,id,0),
-#define RCTOFIT(id)			WINRECT(WRCT_TOFIT,id,0),
+#define RCFIXED(id,val)			WINRECT(WRCT_FIXED,id,val),
+#define RCPERCENT(id,val)		WINRECT(WRCT_PCT,id,val),
+#define RCREST(id)				WINRECT(WRCT_REST,id,0),
+#define RCTOFIT(id)				WINRECT(WRCT_TOFIT,id,0),
 #define RCSPACE(val)			RCFIXED(-1,val)
 
 //////////////////
@@ -399,10 +399,10 @@ public:
 	CSizerBar();
 	virtual ~CSizerBar();
 	BOOL Create(DWORD dwStyle, // window styles
-	    CWnd* pParentWnd, // parent window
-	    CWinMgr& wmgr, // window manger
-	    UINT nID, // ID of sizer bar
-	    const RECT& rc = CRect(0, 0, 0, 0)); // initial rectangle
+	CWnd* pParentWnd, // parent window
+	CWinMgr& wmgr, // window manger
+	UINT nID, // ID of sizer bar
+	const RECT& rc = CRect(0, 0, 0, 0)); // initial rectangle
 
 protected:
 	CWinMgr* m_pWinMgr; // window manager

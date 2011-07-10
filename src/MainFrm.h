@@ -75,6 +75,8 @@ public:
 	CLibraryStoreSymbol* GetSelectSymbol();
 	void ResetAllSymbols();
 	virtual LRESULT OnDDEExecute(WPARAM wParam, LPARAM lParam);
+	bool runAsConsoleApp;	//True if running without visible windows in order to process a command line argument from a build script or command prompt
+	int consoleAppRetCode;	//Only used if running as a console app
 
 	// Generated message map functions
 protected:

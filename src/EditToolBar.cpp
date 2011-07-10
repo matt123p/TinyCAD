@@ -27,6 +27,7 @@
 #include "TinyCadView.h"
 
 #include "EditToolbar.h"
+#include "MainFrm.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CEditToolbar
@@ -74,7 +75,8 @@ void CEditToolbar::Create(CWnd *pParent)
 	m_NoteTextEdit.Create();
 
 	setDlg(&m_NoTool);
-	if (static_cast<CTinyCadApp*>(AfxGetApp())->m_nCmdShow == SW_HIDE)
+
+	if (static_cast<CMainFrame*>(pParent->GetParentOwner())->runAsConsoleApp)	//Note:  It is too soon to be able to use AfxGetApp() so use pParent instead (same thing, but less obvious)
 	{	//TinyCAD is running a shell command line option - don't show the toolbar
 		ShowWindow(SW_HIDE);
 	}
