@@ -188,7 +188,7 @@
 				ProgramDataBaseFileName=".\Release/"
 				GenerateXMLDocumentationFiles="false"
 				BrowseInformation="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				CompileAs="0"
