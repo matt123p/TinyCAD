@@ -157,6 +157,7 @@ BOOL CTinyCadApp::InitInstance()
 	// visual styles.  Otherwise, any window creation will fail.
 	InitCommonControls();
 
+	// Now run the standard CWinApp initInstance() function
 	CWinApp::InitInstance();
 
 	// Initialize OLE libraries
@@ -208,7 +209,12 @@ BOOL CTinyCadApp::InitInstance()
 	//CCommandLineInfo cmdInfo;	//This is the standard MFC command line parser class
 	ParseCommandLine(cmdInfo);	//This parses all of the options on the command line
 
-	if(cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
+	// create main MDI Frame window
+	CMainFrame* pMainFrame = new CMainFrame;
+	pMainFrame->runAsConsoleApp = cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile();	//Check for all commands that need to run as a console app here
+	pMainFrame->consoleAppRetCode = -1;	//default value indicates failure - will be set to 0 or an exit code by any console app functions that are run.  Not used in GUI mode.
+
+	if (pMainFrame->runAsConsoleApp)
 	{	//This is a TinyCAD specific custom command line argument - hide all windows
 		m_nCmdShow = SW_HIDE;	//This flag will be explicitly checked by the NOTOOL window to see whether it should be shown or hidden
 	}
@@ -217,10 +223,9 @@ BOOL CTinyCadApp::InitInstance()
 		m_nCmdShow = SW_SHOWMAXIMIZED;
 	}
 
-	// create main MDI Frame window
-	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) return FALSE;
 	m_pMainWnd = pMainFrame;
+
 
 	//First free the string allocated by MFC at CWinApp startup.
 	//The string is allocated before InitInstance is called.
@@ -255,6 +260,9 @@ BOOL CTinyCadApp::InitInstance()
 	ATLTRACE2("CTinyCad::InitInstance() received %s Shell command (numeric command = %d).  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
 	if (!successful) return FALSE;
 
+	CTinyCadMultiDoc *pDesign=NULL;	//This will be used to hold the FileOpen document, if running as a console app.  Not used otherwise.
+	int retCode = pMainFrame->consoleAppRetCode;	//Save the return code so it can be used for console mode after the mainframe document is destroyed.
+
 	if(cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
 	{	//This is a TinyCAD specific custom command line argument
 		if(cmdInfo.IsGenerateSpiceFile())
@@ -267,7 +275,7 @@ BOOL CTinyCadApp::InitInstance()
 
 			//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
 			POSITION localPosition = m_pDocTemplate->GetFirstDocPosition();	//The open design is the only design file in the template collection at this point
-			CTinyCadMultiDoc *pDesign = static_cast<CTinyCadMultiDoc *>(m_pDocTemplate->GetNextDoc(localPosition));
+			pDesign = static_cast<CTinyCadMultiDoc *>(m_pDocTemplate->GetNextDoc(localPosition));
 
 			static_cast<CTinyCadView *>(pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName);	//create the spice file
 		}
@@ -275,16 +283,22 @@ BOOL CTinyCadApp::InitInstance()
 		{	//Run XML netlister here!
 			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
 		}
-		//Now take an early exit - Taking this exit is causing about 8k bytes of memory to be leaked for some reason - seems related to ipng.dll
-		return FALSE;
+		//Now take an early exit
+		ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
+
+		//Close opened document(s) and anything else created here in InitInstance that needs closing
+		pDesign->OnCloseDocument();
+
+		//Send the WinApp::run() loop a message to quit and also transfer the desired error code back to Windows.  A batch file running a console mode TinyCAD command will receive this code.
+		AfxPostQuitMessage(retCode);
 	}
 	else
 	{	// The main window has been initialized, so show and update it.
 		pMainFrame->ShowWindow(m_nCmdShow);
 		pMainFrame->UpdateWindow();
+		CAutoSave::Start();		//Turn on the auto-save functionality
 	}
 
-	CAutoSave::Start();		//Turn on the auto-save functionality
 	return TRUE;
 }
 //-------------------------------------------------------------------------
@@ -427,7 +441,6 @@ CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 	//It should work ok with a normal long filename also, if all you are trying to do is retrieve the full path.
 	//It looks in the current working directory, so this must be set appropriately.
 	TCHAR longFilename[MAX_PATH];
-	TCHAR *pFullPathname = longFilename;
 	CString sTemp = shortFilename;
 	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
 	if (count == 0 || longFilename[0] == 0) return CString(shortFilename);	//error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation

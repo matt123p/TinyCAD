@@ -30,6 +30,7 @@
 #include "diag.h"
 #include "LineUtils.h"
 #include "TinyCadMultiDoc.h"
+#include "MainFrm.h"
 
 #include <iostream>
 #include <fstream>
@@ -117,7 +118,8 @@ void CNetList::createErrorFile(const TCHAR *filename)
 {
 	/// Open the filename for the results
 	m_err_filename = filename;
-	int brk = m_err_filename.ReverseFind('\\');
+//	int brk = m_err_filename.ReverseFind('\\');
+	int brk = m_err_filename.ReverseFind('.');
 	if (brk)
 	{
 		m_err_filename = m_err_filename.Left(brk);
@@ -130,8 +132,15 @@ void CNetList::createErrorFile(const TCHAR *filename)
 	m_errors = 0;
 	if (!m_err_file)
 	{
-		Message(IDS_CANNOTOPEN);
-		return;
+		if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
+		{	//in console mode, also output the error message to stderr, wherever that might be pointed
+			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected and that sufficient permission is present for writing to this location.\n"), m_err_filename);
+		}
+		else
+		{
+			Message(IDS_CANNOTOPEN);
+			return;
+		}
 	}
 }
 
@@ -145,9 +154,19 @@ void CNetList::reopenErrorFile(bool force)
 	_ftprintf(m_err_file, _T("\n%d %s found\n"), m_errors, m_errors == 1 ? _T("error") : _T("errors"));
 	fclose(m_err_file);
 
-	if (force || (m_errors > 0))
+	if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
+	{	//in console mode, also output the error message to stderr, wherever that might be pointed
+		if (m_errors != 0) 
+		{
+			_ftprintf(stderr, _T("\n%d %s found\n"), m_errors, m_errors == 1 ? _T("error") : _T("errors"));
+		}
+	}
+	else
 	{
-		CTinyCadApp::EditTextFile(m_err_filename);
+		if (force || (m_errors > 0))
+		{
+			CTinyCadApp::EditTextFile(m_err_filename);
+		}
 	}
 }
 
@@ -1734,7 +1753,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 
 						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), Ref, Name);
 
-						/// Now write it it's "other" references
+						/// Now write it's "other" references
 						for (int i = 2; i < pMethod->GetFieldCount(); i++)
 						{
 							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), pMethod->GetFieldName(i), pMethod->GetField(i));
@@ -2307,17 +2326,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	// Retrieve the current date and time
 	CTime myTime = CTime::GetCurrentTime();
 
-	CString dateTime;
-	dateTime.Format(_T("%02d/%02d/%4d at %02d:%02d:%d GMT"),
-		myTime.GetMonth(), myTime.GetDay(), myTime.GetYear(),
-		myTime.GetHour(), myTime.GetMinute(), myTime.GetSecond());
-
-	/// Output the standard header comment - expected on line 1 by some Spice engines
+	CString dateTime = myTime.Format(_T("%x at %X %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
+	/// Output the standard header comment - expected on line 1 by some Spice engines.  Spice netlist files denote comments with an asterisk in column 1.
 	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime);
 
 	createErrorFile(filename);
 
-	_ftprintf(m_err_file, _T("Results of Spice file generation for %s\n\n"), pDesign->GetPathName());
+	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), pDesign->GetPathName());
 
 	/// Set the Busy icon
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_WAIT));

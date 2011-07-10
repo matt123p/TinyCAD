@@ -119,7 +119,7 @@ public:
 	static CString GetReleaseType();
 	static CString GetName();
 	static CString GetMainDir();
-	static CString GetLongFileName(CString filename);	//Gets the long (i.e., non-DOS 8.3) filename
+	static CString GetLongFileName(CString shortFilename);	//Gets the long (i.e., non-DOS 8.3) filename
 
 	//=====================================================================
 	//== mutator                                                         ==

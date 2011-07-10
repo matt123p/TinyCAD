@@ -63,6 +63,8 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
+	runAsConsoleApp = false;
+	consoleAppRetCode = 0;
 }
 
 CMainFrame::~CMainFrame()
@@ -165,9 +167,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	g_EditToolBar.Create(this);
 	GetWindowRect(m_oldRect);
 
-	// Now show the splash screen
 	new CDlgStartUpWindow(this);
-
 	return 0;
 }
 
