@@ -290,7 +290,7 @@ BOOL CTinyCadApp::InitInstance()
 		pDesign->OnCloseDocument();
 
 		//Send the WinApp::run() loop a message to quit and also transfer the desired error code back to Windows.  A batch file running a console mode TinyCAD command will receive this code.
-		AfxPostQuitMessage(retCode);	//This is not entirely necessary, but it is clean.  CWinApp::run() will close anyway when it sees that the mainframe pointer is NULL.
+		AfxPostQuitMessage(retCode);
 	}
 	else
 	{	// The main window has been initialized, so show and update it.

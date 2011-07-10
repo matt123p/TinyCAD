@@ -1753,7 +1753,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 
 						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), Ref, Name);
 
-						/// Now write it it's "other" references
+						/// Now write it's "other" references
 						for (int i = 2; i < pMethod->GetFieldCount(); i++)
 						{
 							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), pMethod->GetFieldName(i), pMethod->GetField(i));
@@ -2326,7 +2326,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	// Retrieve the current date and time
 	CTime myTime = CTime::GetCurrentTime();
 
-	CString dateTime = myTime.Format(_T("%x at %X %p %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
+	CString dateTime = myTime.Format(_T("%x at %X %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
 	/// Output the standard header comment - expected on line 1 by some Spice engines.  Spice netlist files denote comments with an asterisk in column 1.
 	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime);
 
