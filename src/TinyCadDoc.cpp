@@ -1346,7 +1346,7 @@ void CTinyCadDoc::SetSelectable(CDrawingObject *obj)
 	{
 		if (selectable)
 		{
-			selectable->Display(FALSE);
+			selectable->Display(FALSE);	//djl - something different is needed here - selectable can sometimes be uninitialized and cause an exception at this statement, but I don't how.
 		}
 
 		selectable = obj;

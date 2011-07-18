@@ -106,7 +106,7 @@ void CNetList::writeError(const _TCHAR *str, ...)
 
 	va_start( argptr, str );
 	_vsntprintf_s(buffer, sizeof (buffer), str, argptr);
-	_ftprintf(m_err_file, _T("%s"), buffer);
+	_ftprintf(m_err_file, _T("Netlist error #%d:  %s"), m_errors, buffer);
 }
 
 /**
@@ -134,7 +134,7 @@ void CNetList::createErrorFile(const TCHAR *filename)
 	{
 		if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
 		{	//in console mode, also output the error message to stderr, wherever that might be pointed
-			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected and that sufficient permission is present for writing to this location.\n"), m_err_filename);
+			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected or full and that sufficient permission is present for writing to this location.\n"), m_err_filename);
 		}
 		else
 		{
@@ -2372,18 +2372,49 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 				/// Yes, so update the pin allocations in the symbol map...
 				CNetListSymbol &symbol = symbols[theNode.m_reference];
 				symbol.m_reference_copy = theNode.m_reference; //a copy of this symbol's reference designator is kept for use in error messages that don't otherwise have access to the reference designator.
+				symbol.m_sheet = theNode.m_sheet;	//This variable doesn't ever seem to get initialized and the node pointer is not available everywhere that it is needed.
 
-				// store pin name to pin number mapping as well for use with advanced Spice netlists
+				// store pin name to pin number mapping as well for use with advanced Spice netlist macros
 				if (theNode.m_parent->GetType() == xPinEx)
 				{
 					CDrawPin *pPin = static_cast<CDrawPin *> (theNode.m_parent);
-					symbol.m_pin_name_map[pPin->GetPinName()] = pPin->GetNumber();
+					CString pinName = pPin->GetPinName();
+					CString pinNumber = pPin->GetNumber();
+
+					if (pinName == _T(""))
+					{
+						writeError(_T("%s: %s on sheet %d has a blank pin name.  Pin number = \"%s\"\n"), 
+							symbol.m_reference_copy, theNode.m_parent->GetName(), theNode.m_sheet, pinNumber);
+					}
+
+					if (pinNumber == _T(""))
+					{
+						writeError(_T("%s: %s on sheet %d has a blank pin number.  Pin name = \"%s\"\n"), 
+							symbol.m_reference_copy, theNode.m_parent->GetName(), theNode.m_sheet, pinName);
+					}
+
+					//Spice requires that pin names and pin numbers be unique within each symbol.  Detect duplicates here.
+					if (!symbol.m_pin_name_map.empty() && (symbol.m_pin_name_map.find(pinName) != symbol.m_pin_name_map.end()))
+					{	//Check for duplicate pin names
+						ATLTRACE2("Duplicate pin name found.  Pin number \"%S\" with pin name = \"%S\" on reference designator \"%S\" conflicts with another pin name of the same name\n",
+							pinNumber, pinName, symbol.m_reference_copy);
+						writeError(_T("%s: %s on sheet %d has a duplicate pin name.  Pin name = \"%s\", Pin number = \"%s\"\n"), 
+							symbol.m_reference_copy, theNode.m_parent->GetName(), theNode.m_sheet, pinName, pinNumber);
+					}
+					symbol.m_pin_name_map[pinName] = pinNumber;
+
+					if (!symbol.m_pins.empty() && (symbol.m_pins.find(pinNumber) != symbol.m_pins.end()))
+					{	//Check for duplicate pin numbers
+						ATLTRACE2("Duplicate pin number found.  Pin number \"%S\" with pin name = \"%S\" on reference designator \"%S\" conflicts with another pin with the same number\n",
+							pinNumber, pinName, symbol.m_reference_copy);
+						writeError(_T("%s: %s on sheet %d has a duplicate pin number.  Pin name = \"%s\", Pin number = \"%s\"\n"), 
+							symbol.m_reference_copy, theNode.m_parent->GetName(), theNode.m_sheet, pinName, pinNumber);
+					}
 				}
 
 				symbol.m_pins[theNode.m_pin] = theNode.m_NetList;
 				symbol.m_pMethod = theNode.m_pMethod;
 				symbol.setFileNameIndex(theNode.getFileNameIndex());
-				// this was missing in prior versions!
 			}
 
 			/// Does this node contain a label?
@@ -2544,7 +2575,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		}
 		else
 		{
-			_ftprintf(theFile, _T("NO_MODEL\n"));
+			_ftprintf(theFile, _T("NO_MODEL found on %s\n"), symbol.m_pMethod->GetRef());
 			writeError(_T("%s: %s on sheet %d has no model\n"), symbol.m_pMethod->GetRef(), symbol.m_pMethod->GetName(), sheet);
 		}
 		++sit;
@@ -2565,7 +2596,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_ARROW));
 	fclose(theFile);
 
-	reopenErrorFile(true);
+	reopenErrorFile(false);	//error file will be displayed only if errors are present
 }
 
 /**

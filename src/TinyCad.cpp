@@ -287,6 +287,8 @@ BOOL CTinyCadApp::InitInstance()
 		ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
 
 		//Close opened document(s) and anything else created here in InitInstance that needs closing
+		//Note:  If due to some unanticipated error in the netlist, a dialog box does manage to pop up, not closing it here will cause memory leaks.
+		//The only way to handle this properly is to either write a stand-alone command line program, or anticipate all of the possible errors, or simply accept that a memory leak will occur!
 		pDesign->OnCloseDocument();
 
 		//Send the WinApp::run() loop a message to quit and also transfer the desired error code back to Windows.  A batch file running a console mode TinyCAD command will receive this code.
@@ -842,14 +844,6 @@ bool CTinyCadApp::IsWinNT()
 #include "sstream"
 typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-
-//A few of the newer product enumeration members that aren't defined in VS2008
-#ifndef PRODUCT_PROFESSIONAL
-#define PRODUCT_PROFESSIONAL	0x00000030
-#endif
-#ifndef VER_SUITE_WH_SERVER
-#define VER_SUITE_WH_SERVER		0x00008000
-#endif
 
 //returns true if version is new enough to determine, false otherwise
 //returned version string str is always returned with a valid string regardless of return value of function
