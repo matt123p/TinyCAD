@@ -513,8 +513,24 @@ void CContext::Polyline(pointCollection &points, CDPoint offset, FillStyle *pSty
 	}
 	else
 	{
+		int brushorigin = 0;
+		// Find top-left point, which is set as brush origin.
+		// This is needed to work around a bug in the GDI hatch fill pattern.
+		for (int i=1; i < n; i++) 
+		{
+			if (lpPoints[i].x < lpPoints[brushorigin].x) 
+			{
+				brushorigin = i;
+			}
+			else if (lpPoints[i].x == lpPoints[brushorigin].x && 
+				lpPoints[i].y < lpPoints[brushorigin].y)
+			{
+				brushorigin = i;
+			}
+		}
+
 		SelectBrush(pStyle);
-		m_pDC->SetBrushOrg(lpPoints[0]);
+		m_pDC->SetBrushOrg(lpPoints[brushorigin]);
 		m_pDC->SetPolyFillMode(WINDING);
 		m_pDC->Polygon(lpPoints, n);
 	}

@@ -115,6 +115,7 @@ public:
 	//== accessor                                                        ==
 	//=====================================================================
 	static bool IsWinNT();
+	static bool GetWindowsVersionName(wchar_t* str, int bufferSize);
 	static CString GetVersion();
 	static CString GetReleaseType();
 	static CString GetName();
