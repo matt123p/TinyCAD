@@ -29,12 +29,18 @@ CDlgAbout::CDlgAbout() :
 //-------------------------------------------------------------------------
 BOOL CDlgAbout::OnInitDialog()
 {
+	wchar_t buffer[256];
 	super::OnInitDialog();
 
 	CString sVersion;
 	sVersion.Format(_T("%s %s %s"), CTinyCadApp::GetName(), CTinyCadApp::GetVersion(), CTinyCadApp::GetReleaseType());
-
 	GetDlgItem(IDC_VERSION)->SetWindowText(sVersion);
+
+	CString sWindowsVersion;
+	CTinyCadApp::GetWindowsVersionName(buffer, 256);
+	sWindowsVersion.Format(_T("Windows Version:  %s"), buffer);
+
+	GetDlgItem(IDC_WINDOWS_VERSION)->SetWindowText(sWindowsVersion);
 
 	return TRUE;
 }
