@@ -1,6 +1,6 @@
 /*
  TinyCAD program for schematic capture
- Copyright 1994/1995/2002 Matt Pyne.
+ Copyright 1994-2011 Matt Pyne.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -57,6 +57,16 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 	//for convenience maintain a variable for each custom command line option to indicate the param passed. 
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
 	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
+	BOOL m_bOutputDirectory;	//for --output_dir  This allows the user to specify an output directory separately from the input directory or the working directory
+	enum TCFlag 
+	{
+		TCFlag_Unknown=0,
+		TCFlag_OutputDirectory=1,
+		TCFlag_GenerateSpiceFile=2,
+		TCFlag_GenerateXMLNetListFile=3
+	};
+	TCFlag m_eLastFlag;
+	CString m_OutputDirectory;
 
 	//public methods for checking these.
 public:
@@ -64,6 +74,7 @@ public:
 	BOOL IsShellOpen();
 	BOOL IsGenerateSpiceFile();
 	BOOL IsGenerateXMLNetlistFile();
+	CString getOutputDirectory();
 	virtual void ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast);
 	~CTinyCadCommandLineInfo();	//Destructor
 };

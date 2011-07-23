@@ -49,6 +49,8 @@ CTinyCadCommandLineInfo::CTinyCadCommandLineInfo()
 { //Constructor
 	m_bGenerateSpiceFile = FALSE;
 	m_bGenerateXMLNetlistFile = FALSE;
+	m_eLastFlag=TCFlag_Unknown;
+	m_OutputDirectory = _T("");
 }
 
 CTinyCadCommandLineInfo::~CTinyCadCommandLineInfo()
@@ -70,33 +72,101 @@ BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
 	return m_bGenerateXMLNetlistFile;
 }
 
+CString CTinyCadCommandLineInfo::getOutputDirectory()
+{
+	return m_OutputDirectory;
+}
+
 void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast)
 {
 	if (bFlag)
-	{ //This is a command line option
-		const CStringA strParam(pszParam);
+	{ //This is a command line option (Windows calls them "flags")
+		const CString strParam(pszParam);
+		CString optionName, optionValue;
 
-		if (strParam == _T("s"))
+		//See if this option is of the form <option>=<string>
+		int index = strParam.Find(_T('='));
+		if (index >= 0)
 		{
-			m_bGenerateSpiceFile = TRUE;
-			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s (hijacked this one for generating Spice files)\n");
-		}
-		else if (strParam == _T("x"))
-		{
-			m_bGenerateXMLNetlistFile = TRUE;
-			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x (hijacked this one for generating XML netlist files)\n");
+			optionName = strParam.Left(index);
+			optionValue = strParam.Right(strParam.GetLength() - index - 1);
 		}
 		else
 		{
-			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found non-TinyCAD command line option \"/%S\"\n", pszParam);
-			ParseParamFlag(strParam.GetString()); //Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
+			optionName = strParam;
+			optionValue = _T("");
+		}
+
+		//Note that options have been stripped by Windows of the leading '/' or '-' that signifies that this is an option
+		if ((optionName.CompareNoCase(_T("s")) == 0) || (optionName.CompareNoCase(_T("-gen_spice_netlist")) == 0))
+		{
+			m_bGenerateSpiceFile = TRUE;
+			m_eLastFlag = TCFlag_GenerateSpiceFile;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s or --gen_spice_netlist\n");
+		}
+		else if ((optionName.CompareNoCase(_T("x")) == 0) || (optionName.CompareNoCase(_T("-gen_xml_netlist")) == 0))
+		{
+			m_bGenerateXMLNetlistFile = TRUE;
+			m_eLastFlag = TCFlag_GenerateXMLNetListFile;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x or --gen_xml_netlist\n");
+		}
+		else if (optionName.CompareNoCase(_T("-out_directory")) == 0)
+		{
+			m_bOutputDirectory = TRUE;
+			m_OutputDirectory = optionValue;
+			m_eLastFlag = TCFlag_OutputDirectory;
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option --output_dir=\"%S\"\n", pszParam);
+		}
+		else if ((optionName.CompareNoCase(_T("-help")) == 0) || (optionName.CompareNoCase(_T("h")) == 0) || (optionName.CompareNoCase(_T("?")) == 0))
+		{
+			fwprintf(stderr,_T("TinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
+			fwprintf(stderr,_T("Correct usage is:\n"));
+			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
+			fwprintf(stderr,_T("Optional command line options:\n"));
+			fwprintf(stderr,_T("\t/s                         Generate Spice netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t--gen_spice_netlist        Generate Spice netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n"));
+			fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
+			fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
+			fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
+			fwprintf(stderr,_T("\t/h                         Display this help information\n"));
+		}
+		else
+		{
+			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found non-TinyCAD command line option \"%S\"\n", pszParam);
+			m_eLastFlag = TCFlag_Unknown;
+			CStringA temp(pszParam);	//Convert TCHAR string to char string
+			ParseParamFlag(temp.GetString()); //Not one of TinyCad's - let the regular CCommandLineInfo object parse it.  This function expects a char string, not a TCHAR string.
 		}
 	}
 	else
-	{ //This is a command line parameter, not an option
-		ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line parameter=\"%S\" found.\n", pszParam);
-		ParseParamNotFlag(pszParam); //Not one of TinyCad's - let the regular CCommandLineInfo object parse it.
+	{ 
+		//This is a command line parameter, not an option flag.  However, it may "belong" to the last option flag parsed, or it may be a standalone parameter
+		//For example, an optional output directory may be specified as "--out_directory=somewhere", or as "--out_directory somewhere"
+		ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line parameter=\"%S\".\n", pszParam);
+		switch(m_eLastFlag)
+		{
+			case TCFlag_OutputDirectory:
+				if (m_OutputDirectory.IsEmpty()) m_OutputDirectory = pszParam;
+				else 
+				{
+					ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found unexpected command line parameter \"%S\" following option --out_directory\n", pszParam);
+				}
+				break;
+			case TCFlag_GenerateSpiceFile:
+			case TCFlag_GenerateXMLNetListFile:
+				ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found unexpected command line parameter \"%S\".  Discarding parameter and continuing.\n", pszParam);
+				break;
+			case TCFlag_Unknown:
+			default:
+				ParseParamNotFlag(pszParam); //Not one of TinyCad's - let the regular Windows CCommandLineInfo object parse it.
+				break;
+		}
 	}
+
+	//If bLast is true, then there are no more parameters on the command line.  A missing, but required parameter could be detected here, if needed.
 	ParseLast(bLast);
 }
 
