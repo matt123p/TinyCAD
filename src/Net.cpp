@@ -89,13 +89,13 @@ void CTinyCadView::OnSpecialCreatespicefile()
 	DoSpecialCheck(false);
 
 	// Get the file in which to save the network
-	TCHAR szFile[256];
+	TCHAR szFile[1024];
 
-	_tcscpy_s(szFile, GetDocument()->GetPathName());
+	_tcscpy_s(szFile, 1024, GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile, '.');
 	if (!ext)
 	{
-		_tcscpy_s(szFile, _T("output.net"));
+		_tcscpy_s(szFile, 1024, _T("output.net"));
 	}
 	else
 	{
@@ -122,33 +122,53 @@ void CTinyCadView::OnSpecialCreatespicefile()
 	CTinyCadApp::EditTextFile(dlg.GetPathName());
 }
 
-void CTinyCadView::CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString fileName)
+void CTinyCadView::CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString designFileName, CString outputDirectoryName)
 {	//This method is used to create a spice netlist file from a command line option.  All graphically oriented functionality is assumed to not exist and is avoided.
-	//Note:  ERC checks are not run in command line mode and all TinyCad windows have been forced to be invisible, so functionality should be added that would 
-	//       cause a window or dialog to be displayed.  The goal is to be able to run unattended from a DOS batch file or build script without any windows popping up unexpectedly.
+	//If the outputDirectoryName is empty, then the output files are stored in the same directory as the design file.
+	//Note:  ERC checks are not run in command line mode and all TinyCad windows have been forced to be invisible, so functionality should only be added that would 
+	//       not cause a window or dialog to be displayed.  The goal is to be able to run unattended from a DOS batch file or build script without any windows popping up unexpectedly.
 
-	TCHAR szFile[256];
+	CString netListFileName(designFileName);
 
-	_tcscpy_s(szFile, fileName);
-	TCHAR* ext = _tcsrchr(szFile, '.');
-	if (!ext)
+	int index = netListFileName.ReverseFind(_T('.'));
+	if (index >= 0)
 	{
-		_tcscpy_s(szFile, _T("output.net"));
+		netListFileName = netListFileName.Left(index);	//drop the extension and the period
 	}
-	else
+
+	index = netListFileName.ReverseFind(_T('\\'));
+
+	int baseNameLength = netListFileName.GetLength() - (index + 1);	//index + 1 will always be the number of characters up to and including the last backslash, even if no backslashes are present
+	if (baseNameLength == 0)
 	{
-#ifdef USE_VS2003
-		_tcscpy(ext, _T(".net"));
-#else
-		size_t remaining_space = &szFile[255] - ext + 1;
-		_tcscpy_s(ext, remaining_space, _T(".net"));
-#endif
+		//There is no file name present for some reason
+		netListFileName = _T("output");	//so make one up
 	}
-	//ATLTRACE2("About to run Spice file generator against file name \"%S\" located in the current working directory.\n", szFile);
+
+	index = netListFileName.ReverseFind(_T('\\'));	//index would still be valid unless the basename contained only a single backslash
+
+	//If an output directory path was specified, then insert it at the beginning of the base name
+	if (!outputDirectoryName.IsEmpty())
+	{
+		if (index >= 0)
+		{
+			netListFileName = netListFileName.Right(netListFileName.GetLength() - index - 1);	//drop any leading path information
+
+			//Make sure that output path contains one trailing backslash
+			outputDirectoryName.TrimRight(_T("\\"));	//Trim any trailing backslashes (should be 0 or 1 trailing backslashes)
+			outputDirectoryName += _T("\\");	//Add a single trailing backslash
+
+			netListFileName.Insert(0, outputDirectoryName);	//Then insert the specified path information at the beginning of the base file name
+		}
+	}
+
+	netListFileName += _T(".net");	//Now add the correct extension
+
+	ATLTRACE2("About to run Spice file generator against file name \"%S\" located in the current working directory.\n", netListFileName);
 
 	// Generate the SPICE file
 	CNetList netlist;
-	netlist.WriteSpiceFile(pDesign, szFile);
+	netlist.WriteSpiceFile(pDesign, netListFileName.GetString());
 }
 
 ////// Check the design rules for this design //////

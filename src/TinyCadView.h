@@ -304,7 +304,7 @@ public:	//The following 3 commands have convenience functionality added to the E
 	afx_msg void OnSpecialAnnotate();
 	afx_msg void OnSpecialNet();
 	afx_msg void OnSpecialCreatespicefile();
-	void CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString fileName);	//This supports creating a Spice netlist file from a command line option
+	void CommandPromptCreatespicefile(CTinyCadMultiDoc *pDesign, CString fileName, CString outputDirectoryName);	//This supports creating a Spice netlist file from a command line option
 protected:
 	afx_msg void OnSpecialBom();
 	afx_msg void OnSpecialCheck();

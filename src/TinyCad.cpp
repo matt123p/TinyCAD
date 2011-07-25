@@ -127,7 +127,7 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			fwprintf(stderr,_T("\t--gen_spice_netlist        Generate Spice netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
-			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n"));
+			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n\t                           A trailing '\\' is optional\n"));
 			fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
 			fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
 			fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
@@ -194,12 +194,15 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
 	ON_COMMAND(ID_HELP_GOTOTINYCADWEBSITE, OnHelpGototinycadwebsite)
 	ON_COMMAND(ID_HELP_HELP, OnHelpHelp)
 	ON_COMMAND(ID_HELP_EMAILFORSUPPORT, OnHelpEmailforsupport)
-	//}}AFX_MSG_MAP
+
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+
+	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 //=========================================================================
@@ -326,9 +329,24 @@ BOOL CTinyCadApp::InitInstance()
 	}
 
 	// Now dispatch all TinyCAD custom commands specified on the command line, including the DDE commands such as FileOpen, FilePrint, etc.
-	BOOL successful = ProcessShellCommand(cmdInfo);
+	BOOL successful = ProcessShellCommand(cmdInfo);	//This executes all standard shell commands and ignores any custom flags
 	ATLTRACE2("CTinyCad::InitInstance() received %s Shell command (numeric command = %d).  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
-	if (!successful) return FALSE;
+	
+	if (!successful)
+	{
+		if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
+		{
+			if ((cmdInfo.m_nShellCommand == cmdInfo.FileNew) || (cmdInfo.m_nShellCommand == cmdInfo.FileOpen))
+			{
+				TCHAR workingDirectory[1024];
+				workingDirectory[0] = _T('\0');
+				GetCurrentDirectory(1024, workingDirectory);	//This may cause an error on systems older than WinXP
+				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", cmdInfo.m_strFileName, workingDirectory);
+				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName, workingDirectory);
+			}
+		}
+		return FALSE;
+	}
 
 	CTinyCadMultiDoc *pDesign = NULL; //This will be used to hold the FileOpen document, if running as a console app.  Not used otherwise.
 	int retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
@@ -347,7 +365,7 @@ BOOL CTinyCadApp::InitInstance()
 			POSITION localPosition = m_pDocTemplate->GetFirstDocPosition(); //The open design is the only design file in the template collection at this point
 			pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
 
-			static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName); //create the spice file
+			static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
 		}
 		else
 		{ //Run XML netlister here!

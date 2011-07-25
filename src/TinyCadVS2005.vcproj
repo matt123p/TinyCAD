@@ -69,7 +69,7 @@
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
-				CompileAs="0"
+				CompileAs="2"
 				DisableSpecificWarnings="4100"
 				UseFullPaths="true"
 			/>
@@ -98,6 +98,7 @@
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				SubSystem="2"
+				OptimizeForWindows98="1"
 				EntryPointSymbol="wWinMainCRTStartup"
 				TargetMachine="1"
 			/>
@@ -186,7 +187,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
-				CompileAs="0"
+				CompileAs="2"
 				DisableSpecificWarnings="4100"
 				UseFullPaths="true"
 			/>
@@ -214,7 +215,9 @@
 				GenerateMapFile="true"
 				MapFileName="$(TargetDir)$(TargetName).map"
 				SubSystem="2"
+				OptimizeForWindows98="1"
 				EntryPointSymbol="wWinMainCRTStartup"
+				SetChecksum="true"
 				TargetMachine="1"
 			/>
 			<Tool
