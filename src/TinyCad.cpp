@@ -226,6 +226,10 @@ BOOL CTinyCadApp::InitInstance()
 
 	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	//djl - this next line doesn't work, presumably because this is not the console!
+	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() prior to InitCommonControls()\r\n"));
+	
+
 	// InitCommonControls() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -233,6 +237,9 @@ BOOL CTinyCadApp::InitInstance()
 
 	// Now run the standard CWinApp initInstance() function
 	CWinApp::InitInstance();
+
+	//djl - this next line doesn't work, presumably because this is not the console!
+	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() after call to CWinApp::InitInstance()\r\n"));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -331,7 +338,7 @@ BOOL CTinyCadApp::InitInstance()
 	// Now dispatch all TinyCAD custom commands specified on the command line, including the DDE commands such as FileOpen, FilePrint, etc.
 	BOOL successful = ProcessShellCommand(cmdInfo);	//This executes all standard shell commands and ignores any custom flags
 	ATLTRACE2("CTinyCad::InitInstance() received %s Shell command (numeric command = %d).  Filename=\"%S\"\n", successful ? "successful" : "unsuccessful", (int) cmdInfo.m_nShellCommand, cmdInfo.m_strFileName);
-	
+
 	if (!successful)
 	{
 		if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
