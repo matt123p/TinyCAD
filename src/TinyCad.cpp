@@ -36,6 +36,12 @@
 #include "TextEditDoc.h"
 #include "TextEditView.h"
 #include "BuildID.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <io.h>
+#include <iostream>
+#include <fstream>
+
 
 // NOTE: This is never compiled in.  It is used to 
 // make VS.NET recognise that this is an MFC project.
@@ -51,6 +57,8 @@ CTinyCadCommandLineInfo::CTinyCadCommandLineInfo()
 	m_bGenerateXMLNetlistFile = FALSE;
 	m_eLastFlag=TCFlag_Unknown;
 	m_OutputDirectory = _T("");
+	m_bConsoleIORequired = FALSE;
+	m_bConsoleAcquired = FALSE;
 }
 
 CTinyCadCommandLineInfo::~CTinyCadCommandLineInfo()
@@ -75,6 +83,88 @@ BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
 CString CTinyCadCommandLineInfo::getOutputDirectory()
 {
 	return m_OutputDirectory;
+}
+
+// RedirectIOToConsole() is adapted from the information provided at http://dslweb.nwnexus.com/~ast/dload/guicon.htm
+DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
+{
+	//This function is used to associate a console window with this process for command options that require a console
+	int hConHandle=0;
+	long lStdHandle=0;
+	CONSOLE_SCREEN_BUFFER_INFO coninfo;
+	FILE *fp=NULL;
+	DWORD retCode=0;
+
+	// Attach to an existing console, if one is present (only available in WinNT and newer).  Allocate a new console if unable to attach to an existing one.
+	if (CTinyCadApp::IsWinNT())
+	{
+		retCode = AttachConsole(ATTACH_PARENT_PROCESS);	//A Windows GUI app has already detached from the console, so it is necessary to reattach
+		if (retCode == 0)
+		{
+			DWORD errorCode = GetLastError();
+			//Note:  Error code==6 will be returned when running under the debugger because a parent console process already exists and you are not allowed to attach to it.  The code indicates an invalid handle was used.
+			ATLTRACE2(_T("CTinyCadCommandLineInfo::RedirectIOToConsole():  AttachConsole failed and returned code=%d.  The GetLastError() function returned %u\n"), retCode, errorCode);
+		}
+		else
+		{
+			fprintf(stdout,"Console is now re-attached\n");
+		}
+	}
+	else 
+	{
+		retCode = static_cast<DWORD>(0);
+		ATLTRACE2("CTinyCadCommandLineInfo::RedirectIOToConsole():  Unable to reattach the active console window because this version of Windows is too old.  Attempting to allocate a new console.\n");
+	}
+
+	if (retCode == 0)	//Reattach to existing console was not successful, for whatever reason
+	{
+		ATLTRACE2("Unable to attach to an existing console (error code = %d) - allocating a new one instead\n", retCode);
+		retCode = AllocConsole();
+		if (retCode == 0)
+		{
+			DWORD errorCode = GetLastError();
+			//errorCode == 5 is caused by trying to create a console while one already exists.
+			ATLTRACE2("Unable to allocate a new console (error code = %d, GetLastError() reports error = %u.\nThis can supposedly only be caused if the process already has a console as it is only allowed to have one.\n", retCode, errorCode);
+		}
+		else
+		{
+			// set the screen buffer to be big enough to let us scroll text, but don't override the user's choice if it is already large enough
+			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
+			short maxConsoleLines = 200;
+			coninfo.dwSize.Y = maxConsoleLines;
+			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
+		}
+	}
+
+	//A non-zero return code at this point means that a valid console has either been re-attached to, or created.
+	if (retCode != 0)
+	{
+		// redirect unbuffered STDOUT to the console
+		lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+		fp = _fdopen( hConHandle, "w" );
+		*stdout = *fp;
+		setvbuf( stdout, NULL, _IONBF, 0 );
+
+		// redirect unbuffered STDIN to the console
+		lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+		fp = _fdopen( hConHandle, "r" );
+		*stdin = *fp;
+		setvbuf( stdin, NULL, _IONBF, 0 );
+
+		// redirect unbuffered STDERR to the console
+		lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+		fp = _fdopen( hConHandle, "w" );
+		*stderr = *fp;
+		setvbuf( stderr, NULL, _IONBF, 0 );
+
+		// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog 
+		// point to console as well
+		std::ios::sync_with_stdio();
+	}
+	return retCode;
 }
 
 void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast)
@@ -102,12 +192,14 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 		{
 			m_bGenerateSpiceFile = TRUE;
 			m_eLastFlag = TCFlag_GenerateSpiceFile;
+			m_bConsoleIORequired = TRUE;
 			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /s or --gen_spice_netlist\n");
 		}
 		else if ((optionName.CompareNoCase(_T("x")) == 0) || (optionName.CompareNoCase(_T("-gen_xml_netlist")) == 0))
 		{
 			m_bGenerateXMLNetlistFile = TRUE;
 			m_eLastFlag = TCFlag_GenerateXMLNetListFile;
+			m_bConsoleIORequired = TRUE;
 			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option /x or --gen_xml_netlist\n");
 		}
 		else if (optionName.CompareNoCase(_T("-out_directory")) == 0)
@@ -115,10 +207,15 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			m_bOutputDirectory = TRUE;
 			m_OutputDirectory = optionValue;
 			m_eLastFlag = TCFlag_OutputDirectory;
+			m_bConsoleIORequired = TRUE;
 			ATLTRACE2("CTinyCadCommandLineInfo::ParseParam():  Found command line option --output_dir=\"%S\"\n", pszParam);
 		}
 		else if ((optionName.CompareNoCase(_T("-help")) == 0) || (optionName.CompareNoCase(_T("h")) == 0) || (optionName.CompareNoCase(_T("?")) == 0))
 		{
+			m_bConsoleIORequired = TRUE;
+			if (!m_bConsoleAcquired) {
+				m_bConsoleAcquired = RedirectIOToConsole();
+			}
 			fwprintf(stderr,_T("TinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
 			fwprintf(stderr,_T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
@@ -167,6 +264,10 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 	}
 
 	//If bLast is true, then there are no more parameters on the command line.  A missing, but required parameter could be detected here, if needed.
+	if (bLast && m_bConsoleIORequired && !m_bConsoleAcquired)
+	{
+		m_bConsoleAcquired = RedirectIOToConsole();
+	}
 	ParseLast(bLast);
 }
 
@@ -306,12 +407,11 @@ BOOL CTinyCadApp::InitInstance()
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) return FALSE;
 	m_pMainWnd = pMainFrame;
 
-	//First free the string allocated by MFC at CWinApp startup.
-	//The string is allocated before InitInstance is called.
-	free((void*) m_pszHelpFilePath);
+	//Set up the proper help file mode and strings
+	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinApp startup to avoid a memory leak.  The string is allocated before InitInstance is called.
 	//Change the name of the .HLP file.
 	//The CWinApp destructor will free the memory.
-	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.chm"));
+	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.chm"));	//Create the new help file path name
 	SetHelpMode(afxHTMLHelp);
 
 	// Enable drag/drop open
@@ -321,7 +421,7 @@ BOOL CTinyCadApp::InitInstance()
 	{
 		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
 		//Lookup the long version of this filename in the current working directory and then open the long version of the filename.
-		TRACE("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
+		ATLTRACE2("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
 		if (IsWinNT())
 		{ //The following Windows API function is only present in WinNT and newer systems
 
@@ -373,10 +473,12 @@ BOOL CTinyCadApp::InitInstance()
 			pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
 
 			static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
+			retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
 		}
 		else
 		{ //Run XML netlister here!
 			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
+			//retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
 		}
 		//Now take an early exit
 		ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");

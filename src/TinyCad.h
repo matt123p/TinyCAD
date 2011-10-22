@@ -74,8 +74,13 @@ public:
 	BOOL IsShellOpen();
 	BOOL IsGenerateSpiceFile();
 	BOOL IsGenerateXMLNetlistFile();
+	BOOL m_bConsoleIORequired;
+	BOOL m_bConsoleAcquired;
 	CString getOutputDirectory();
 	virtual void ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast);
+
+	DWORD RedirectIOToConsole();	//This function is used to associate a console window with this process for command options that require a console
+
 	~CTinyCadCommandLineInfo();	//Destructor
 };
 
