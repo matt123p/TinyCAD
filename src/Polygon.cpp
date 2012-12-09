@@ -413,15 +413,28 @@ void CDrawPolygon::FindNearestSegment(CDPoint p, int &line, int &handle)
 
 	int s = 0;
 	int h = 0;
-	CDPoint dla = m_points.back();
-	CDPoint la(static_cast<int> (dla.x), static_cast<int> (dla.y));
+	CDPoint dla;
+	CDPoint *la;
+
+	if (m_points.size() > 0)
+	{
+		dla = m_points.back();
+		la = new CDPoint(static_cast<int> (dla.x), static_cast<int> (dla.y));
+	}
+	else
+	{
+		line = 0;
+		handle = 0;
+		return;
+	}
+
 	pointCollection::iterator it = m_points.begin();
 	arcpointCollection::iterator itz = m_handles.begin();
 	while (it != m_points.end())
 	{
 		CDPoint a_np = *it + m_point_a;
 		CDPoint np(a_np.x, a_np.y);
-		CLineUtils l(la, np);
+		CLineUtils l(*la, np);
 		CDPoint loc_i;
 		double distance_i;
 
@@ -440,7 +453,7 @@ void CDrawPolygon::FindNearestSegment(CDPoint p, int &line, int &handle)
 			++itz;
 		}
 
-		la = np;
+		*la = np;
 		++it;
 	}
 
