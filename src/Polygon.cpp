@@ -1031,7 +1031,7 @@ void CDrawPolygon::FlatternPath()
 			m_points.push_back(CDPoint( (*it).x, (*it).y));
 		}
 
-		(*it).flattened_segment = m_points.size();
+		(*it).flattened_segment = (int) m_points.size();
 
 		last = *it;
 		++it;

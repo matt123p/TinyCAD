@@ -203,7 +203,7 @@ CSize CImageBitmap::GetSize(CDC &dc)
 }
 
 // Set the memory image data
-bool CImageBitmap::SetCompressedData(unsigned char *data, int size)
+bool CImageBitmap::SetCompressedData(unsigned char *data, size_t size)
 {
 	if (m_compressed_data)
 	{

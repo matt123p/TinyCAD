@@ -204,7 +204,7 @@ class CLibraryStoreSymbol: public CSymbolRecord
 {
 public:
 	CLibraryStoreNameSet* m_pParent;
-	int m_index;
+	size_t m_index;
 
 	CLibraryStoreSymbol();
 	~CLibraryStoreSymbol();

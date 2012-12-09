@@ -85,7 +85,7 @@ public:
 	void addTag(const xml_char_t *tag_name);
 	void addComment(const xml_char_t *comment);
 
-	void addChildDataUUencode(BYTE *data, UINT size);
+	void addChildDataUUencode(BYTE *data, size_t size);
 
 	int get_line_counter();
 

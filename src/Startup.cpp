@@ -46,7 +46,7 @@ CDlgStartUpWindow::CDlgStartUpWindow(CWnd *Parent)
 	CreateEx(0, theClass, _T("TinyCAD"), WS_POPUP | WS_VISIBLE, ClientRect.left, ClientRect.top, ClientRect.Width(), ClientRect.Height(), Parent->m_hWnd, NULL);
 
 	// Set a timer to destroy this window in TIME_OUT miliseconds time
-	timerID = SetTimer(1, TIME_OUT, NULL);
+	timerID = (int) SetTimer(1, TIME_OUT, NULL);
 }
 
 // The destructor (which gets rid of the Bitmap)

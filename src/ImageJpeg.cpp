@@ -87,7 +87,7 @@ METHODDEF(void) term_source(j_decompress_ptr cinfo)
 	/* no work necessary here */
 }
 
-void Read_JPEG_Mem(struct jpeg_source_mgr &jsrc, const unsigned char * buffer, unsigned long length)
+void Read_JPEG_Mem(struct jpeg_source_mgr &jsrc, const unsigned char * buffer, size_t length)
 {
 	// specify the data source
 	jsrc.init_source = init_source;
@@ -131,7 +131,7 @@ METHODDEF(void) my_error_exit(j_common_ptr cinfo)
 	longjmp(myerr->setjmp_buffer, 1);
 }
 
-bool CImageJpeg::Read(CDC &ref_dc, const unsigned char *buf, int size)
+bool CImageJpeg::Read(CDC &ref_dc, const unsigned char *buf, size_t size)
 {
 	/* This struct contains the JPEG decompression parameters and pointers to
 	 * working space (which is allocated as needed by the JPEG library).

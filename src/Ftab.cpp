@@ -474,7 +474,7 @@ int CFolderTabCtrl::AddItem(LPCTSTR lpszText)
 {
 	m_lsTabs.AddTail(new CFolderTab(lpszText));
 	RecomputeLayout();
-	return m_lsTabs.GetCount() - 1;
+	return (int) (m_lsTabs.GetCount() - 1);
 }
 
 //////////////////

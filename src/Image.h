@@ -39,7 +39,7 @@ public:
 	virtual void SaveXML(CXMLWriter &xml) = 0;
 
 	// Set the memory image data
-	virtual bool SetCompressedData(unsigned char *data, int size) = 0;
+	virtual bool SetCompressedData(unsigned char *data, size_t size) = 0;
 
 	// Draw this image on the screen
 	virtual void Paint(CDC &dc, CRect rect, int rotmir) = 0;

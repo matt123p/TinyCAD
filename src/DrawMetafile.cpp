@@ -107,7 +107,7 @@ bool CDrawMetaFile::setImageFile(const TCHAR *filename)
 
 	// Get the file length
 	fseek(fin, 0, SEEK_END);
-	int bytes = ftell(fin);
+	size_t bytes = (size_t) ftell(fin);
 	fseek(fin, 0, SEEK_SET);
 
 	// Read in the data

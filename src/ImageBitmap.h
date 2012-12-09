@@ -38,7 +38,7 @@ protected:
 
 	// The input compressed image
 	unsigned char* m_compressed_data;
-	int m_compressed_size;
+	size_t m_compressed_size;
 
 	// The size of the bitmap
 	int m_Bpp;
@@ -49,7 +49,7 @@ protected:
 	bool m_invalid_image;
 
 	// Read from a memory block
-	virtual bool Read(CDC &ref_dc, const unsigned char *buf, int size) = 0;
+	virtual bool Read(CDC &ref_dc, const unsigned char *buf, size_t size) = 0;
 
 public:
 	CImageBitmap();
@@ -62,7 +62,7 @@ public:
 	void Rotate(CDC &dc);
 
 	// Set the memory image data
-	virtual bool SetCompressedData(unsigned char *data, int size);
+	virtual bool SetCompressedData(unsigned char *data, size_t size);
 
 	// Write as an UUENCODE XML tag
 	virtual void SaveXML(CXMLWriter &xml);

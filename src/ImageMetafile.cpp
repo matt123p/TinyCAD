@@ -40,10 +40,10 @@ CImageMetafile::~CImageMetafile()
 }
 
 // Set the memory image data
-bool CImageMetafile::SetCompressedData(unsigned char *data, int size)
+bool CImageMetafile::SetCompressedData(unsigned char *data, size_t size)
 {
 	// Now create the new metafile
-	m_oMetaFile = SetEnhMetaFileBits(size, data);
+	m_oMetaFile = SetEnhMetaFileBits((UINT) size, data);
 
 	delete[] data;
 

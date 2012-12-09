@@ -59,7 +59,7 @@ BOOL CStreamClipboard::ReadFromClipboard(UINT ClipboardFormat)
 	HANDLE hmem = GetClipboardData(ClipboardFormat);
 	if (hmem)
 	{
-		int size = GlobalSize(hmem);
+		size_t size = GlobalSize(hmem);
 		void *data = GlobalLock(hmem);
 		m_Data.SetSize(size);
 		memcpy(m_Data.GetData(), data, size);
@@ -82,7 +82,7 @@ void CStreamClipboard::Seek(LONG pos)
 
 LONG CStreamClipboard::GetPos()
 {
-	return m_read_location;
+	return (LONG) m_read_location;
 }
 
 // Flush this stream
@@ -111,7 +111,7 @@ void CStreamClipboard::Write(const void* lpBuf, UINT nMax)
 
 UINT CStreamClipboard::Read(void* lpBuf, UINT nMax)
 {
-	int size = m_Data.GetSize();
+	size_t size = m_Data.GetSize();
 	int r = 0;
 	char *c = static_cast<char*> (lpBuf);
 	while (m_read_location < size && nMax > 0)

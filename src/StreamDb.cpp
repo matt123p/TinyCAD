@@ -100,7 +100,7 @@ void CStreamDb::Seek(LONG pos)
 
 LONG CStreamDb::GetPos()
 {
-	return m_read_location;
+	return static_cast<LONG> (m_read_location);
 }
 
 // Close this stream
@@ -125,7 +125,7 @@ void CStreamDb::Write(const void* lpBuf, UINT nMax)
 
 UINT CStreamDb::Read(void* lpBuf, UINT nMax)
 {
-	int size = m_set.m_Data.GetSize();
+	size_t size = m_set.m_Data.GetSize();
 	int r = 0;
 	char *c = static_cast<char*> (lpBuf);
 	while (m_read_location < size && nMax > 0)

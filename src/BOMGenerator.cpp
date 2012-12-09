@@ -65,12 +65,12 @@ void CBOMGenerator::GenerateBomForDesign(bool all_sheets, bool all_attr, bool pr
 	m_file_counter.reset();
 
 	CImportFile rootfile(pDesign);
-	GenerateBomForDesign(0, -1, rootfile, type);
+	GenerateBomForDesign(0, (size_t) -1, rootfile, type);
 }
 
-void CBOMGenerator::GenerateBomForDesign(int level, int parentPos, const CImportFile& impfile, int type)
+void CBOMGenerator::GenerateBomForDesign(int level, size_t parentPos, const CImportFile& impfile, int type)
 {
-	CollectionMemberReference<CImportFile*> cmrDefaultParent(m_imports, parentPos);
+	CollectionMemberReference<CImportFile*> cmrDefaultParent(m_imports, (int) parentPos);
 	CollectionMemberReference<CImportFile*> cmrParent;
 	CTinyCadMultiDoc* pDesign = static_cast<CTinyCadMultiDoc*> (impfile.getDesign());
 
@@ -104,7 +104,7 @@ void CBOMGenerator::GenerateBomForDesign(int level, int parentPos, const CImport
 				if (f->Load(pSymbol->GetFilename()))
 				{
 					m_imports.push_back(f);
-					int where = m_imports.size() - 1;
+					size_t where = m_imports.size() - 1;
 					GenerateBomForDesign(level + 1, where, *f, type);
 				}
 				else

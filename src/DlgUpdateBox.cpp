@@ -701,7 +701,7 @@ void CDlgUpdateBox::OnAddName()
 
 	// Now update the list box...
 	m_List_Names.AddString(r.name);
-	m_List_Names.SetCurSel(m_records.size() - 1);
+	m_List_Names.SetCurSel(((int) m_records.size()) - 1);
 
 	m_Delete_Name.EnableWindow(TRUE);
 }
@@ -718,9 +718,9 @@ void CDlgUpdateBox::OnDeleteName()
 	m_Delete_Name.EnableWindow(m_records.size() > 1);
 
 	// .. and reset the pointer
-	if (m_current_record > m_records.size() - 1)
+	if (m_current_record > ((unsigned int) m_records.size()) - 1)
 	{
-		m_current_record = m_records.size() - 1;
+		m_current_record = ((unsigned int) m_records.size()) - 1;
 	}
 
 	InitFromRecord();

@@ -180,7 +180,7 @@ void CLibraryStoreNameSet::Save(CStream &theArchive)
 	CSymbolRecord &r = GetRecord(0);
 
 	DWORD flags = r.name_type << 3 | r.ref_type;
-	DWORD number_of_fields = r.fields.size() | (flags << 16);
+	DWORD number_of_fields = (DWORD) (r.fields.size() | (flags << 16));
 	theArchive << r.name << r.description << r.reference << ppp << number_of_fields;
 
 	for (unsigned int i = 0; i < r.fields.size(); i++)
@@ -366,7 +366,7 @@ CLibraryStoreSymbol& CLibraryStoreNameSet::GetRecord(int index)
 
 int CLibraryStoreNameSet::GetNumRecords()
 {
-	return m_records.size();
+	return (int) m_records.size();
 }
 
 void CLibraryStoreNameSet::SetRecords(recordCollection& records)
@@ -398,7 +398,7 @@ CLibraryStoreSymbol::~CLibraryStoreSymbol()
 
 CDesignFileSymbol *CLibraryStoreSymbol::GetDesignSymbol(CTinyCadDoc *pDesign)
 {
-	return m_pParent->GetDesignSymbol(pDesign, m_index);
+	return m_pParent->GetDesignSymbol(pDesign, (int) m_index);
 }
 
 bool CLibraryStoreSymbol::IsMatching(const TCHAR * theString) const

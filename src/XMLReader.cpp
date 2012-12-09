@@ -96,7 +96,7 @@ void CXMLReader::SetCharset(const TCHAR* fromcode)
 
 #ifdef UNICODE
 	char fc[ 256 ];
-	int l = WideCharToMultiByte( CP_ACP, 0, fromcode, _tcslen( fromcode), fc, sizeof( fc ), NULL, NULL );
+	int l = WideCharToMultiByte( CP_ACP, 0, fromcode, _tcslen( fromcode), fc, static_cast<int> (sizeof( fc )), NULL, NULL );
 	fc[ l ] = 0;
 	m_charset_conv = iconv_open( "UCS-2-INTERNAL", fc );
 #else
@@ -200,7 +200,7 @@ void CXMLReader::child_data(const xml_char_t *in)
 
 	if (m_uu_data != NULL && m_uu_size > 0)
 	{
-		int l = _tcslen(in);
+		int l = (int) _tcslen(in);
 		while (l > 0)
 		{
 			uudecode(in[0]);

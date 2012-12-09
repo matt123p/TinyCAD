@@ -88,7 +88,7 @@ private:
 	bool m_hierarchical;
 	bool m_prefix_import;
 
-	void GenerateBomForDesign(int level, int parentPos, const CImportFile& pDesign, int type);
+	void GenerateBomForDesign(int level, size_t parentPos, const CImportFile& pDesign, int type);
 	void XInc(FILE *theFile, int &Xpos, int amount);
 
 public:

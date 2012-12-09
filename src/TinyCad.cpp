@@ -90,7 +90,7 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 {
 	//This function is used to associate a console window with this process for command options that require a console
 	int hConHandle=0;
-	long lStdHandle=0;
+	size_t lStdHandle=0;
 	CONSOLE_SCREEN_BUFFER_INFO coninfo;
 	FILE *fp=NULL;
 	DWORD retCode=0;
@@ -140,21 +140,21 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 	if (retCode != 0)
 	{
 		// redirect unbuffered STDOUT to the console
-		lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+		lStdHandle = (size_t) GetStdHandle(STD_OUTPUT_HANDLE);
 		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 		fp = _fdopen( hConHandle, "w" );
 		*stdout = *fp;
 		setvbuf( stdout, NULL, _IONBF, 0 );
 
 		// redirect unbuffered STDIN to the console
-		lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+		lStdHandle = (size_t) GetStdHandle(STD_INPUT_HANDLE);
 		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 		fp = _fdopen( hConHandle, "r" );
 		*stdin = *fp;
 		setvbuf( stdin, NULL, _IONBF, 0 );
 
 		// redirect unbuffered STDERR to the console
-		lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+		lStdHandle = (size_t) GetStdHandle(STD_ERROR_HANDLE);
 		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 		fp = _fdopen( hConHandle, "w" );
 		*stderr = *fp;

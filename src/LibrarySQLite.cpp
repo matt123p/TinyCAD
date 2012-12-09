@@ -128,7 +128,7 @@ void CLibrarySQLite::Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDo
 
 		CppSQLite3Statement stmt = m_database.compileStatement(_T(
 				"INSERT INTO [Symbol] ( [Data] ) VALUES (?)"));
-		stmt.bind(1, stream.GetByteArray().GetData(), stream.GetByteArray().GetSize());
+		stmt.bind(1, stream.GetByteArray().GetData(), (int) (stream.GetByteArray().GetSize()));
 		stmt.execDML();
 
 		// Clear out all of the old names...

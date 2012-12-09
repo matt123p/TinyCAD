@@ -52,7 +52,7 @@ void CTinyCadView::OnSpecialAnnotate()
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
 	// Do the dialog
-	int action = theDialog.DoModal();
+	size_t action = theDialog.DoModal();
 
 	if (action == IDC_REF_PAINTER)
 	{

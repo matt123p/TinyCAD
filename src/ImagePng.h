@@ -71,13 +71,13 @@ private:
 	struct png_buffer
 	{
 		const unsigned char* m_pData;
-		int m_size_left;
+		size_t m_size_left;
 	};
 
 	static void __cdecl user_read_function(png_structp png_ptr, png_bytep data, png_size_t length);
 
 	// Read from a memory block
-	virtual bool Read(CDC &ref_dc, const unsigned char *buf, int size);
+	virtual bool Read(CDC &ref_dc, const unsigned char *buf, size_t size);
 
 	// Write to a stream (either memory or file...)
 	void Save(CDC &ref_dc, void *io_ptr, void *write_data_fn, void *output_flush_fn);

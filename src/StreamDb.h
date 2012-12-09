@@ -33,7 +33,7 @@
 class CStreamDb: public CStream
 {
 protected:
-	int m_read_location;
+	size_t m_read_location;
 	BOOL m_read;
 	BOOL m_new;
 

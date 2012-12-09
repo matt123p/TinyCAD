@@ -54,7 +54,7 @@ void CStreamMemory::Seek(LONG pos)
 
 LONG CStreamMemory::GetPos()
 {
-	return m_read_location;
+	return static_cast<LONG> (m_read_location);
 }
 
 // Flush this stream
@@ -83,7 +83,7 @@ void CStreamMemory::Write(const void* lpBuf, UINT nMax)
 
 UINT CStreamMemory::Read(void* lpBuf, UINT nMax)
 {
-	int size = m_Data.GetSize();
+	size_t size = m_Data.GetSize();
 	int r = 0;
 	char *c = static_cast<char*> (lpBuf);
 	while (m_read_location < size && nMax > 0)

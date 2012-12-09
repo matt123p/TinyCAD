@@ -47,7 +47,7 @@ public:
 	virtual void Paint(CDC &dc, CRect r, int rotmir);
 
 	// Set the memory image data
-	virtual bool SetCompressedData(unsigned char *data, int size);
+	virtual bool SetCompressedData(unsigned char *data, size_t size);
 
 	// Get the type of this object
 	virtual CString GetType();

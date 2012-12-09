@@ -34,7 +34,7 @@ class CImageJpeg: public CImageBitmap
 protected:
 
 	// Read from a memory block
-	virtual bool Read(CDC &ref_dc, const unsigned char *buf, int size);
+	virtual bool Read(CDC &ref_dc, const unsigned char *buf, size_t size);
 
 public:
 	CImageJpeg();

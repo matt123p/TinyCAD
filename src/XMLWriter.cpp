@@ -268,7 +268,7 @@ CString CXMLWriter::makeString(const TCHAR *data)
 
 	r = data;
 	int i = 0;
-	int l = _tcslen(data);
+	int l = (int) _tcslen(data);
 	for (int p = 0; p < l; p++)
 	{
 		CString ins;
@@ -325,7 +325,7 @@ void CXMLWriter::SendString(const TCHAR *str)
 	size_t inbuf_size = size * sizeof(TCHAR);
 	char *out = m_conversion_buffer;
 	iconv(m_charset_conv, (const char**) &str, &inbuf_size, &out, &outbuf_size);
-	int converted_bytes_to_write = out - m_conversion_buffer;
+	int converted_bytes_to_write = (int) (out - m_conversion_buffer);
 
 	m_pOutput->Write(m_conversion_buffer, converted_bytes_to_write);
 	m_line_counter++;
@@ -338,7 +338,7 @@ void CXMLWriter::SendString(const TCHAR *str)
 //
 // Add child data but uuencode it first...
 //
-void CXMLWriter::addChildDataUUencode(BYTE *data, UINT size)
+void CXMLWriter::addChildDataUUencode(BYTE *data, size_t size)
 {
 	// Is there an open tag?
 	if (m_tags.size() == 0)
@@ -360,13 +360,13 @@ void CXMLWriter::addChildDataUUencode(BYTE *data, UINT size)
 	SendString(_T("\r\n"));
 
 	// Now send the data...
-	UINT i = 0;
+	size_t i = 0;
 	while (i < size)
 	{
 		TCHAR c[256];
 
 		// 1 (up to) 45 character line
-		int line_size = min(size - i, 45);
+		int line_size = min((int) (size - i), 45);
 		int p = 0;
 		c[p++] = static_cast<TCHAR>(ENC(line_size));
 

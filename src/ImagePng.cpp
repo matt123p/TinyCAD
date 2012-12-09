@@ -304,7 +304,7 @@ void __cdecl CImagePNG::user_read_function(png_structp png_ptr, png_bytep data, 
 {
 	png_buffer *reader = (png_buffer*) (png_ptr->io_ptr);
 
-	int bytes = length;
+	size_t bytes = length;
 	if (bytes > reader->m_size_left)
 	{
 		bytes = reader->m_size_left;
@@ -316,7 +316,7 @@ void __cdecl CImagePNG::user_read_function(png_structp png_ptr, png_bytep data, 
 }
 
 // Read from a memory block
-bool CImagePNG::Read(CDC &ref_dc, const unsigned char *buf, int size)
+bool CImagePNG::Read(CDC &ref_dc, const unsigned char *buf, size_t size)
 {
 	png_structp png_ptr;
 	png_infop info_ptr;

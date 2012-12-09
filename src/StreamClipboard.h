@@ -33,7 +33,7 @@ class CStreamClipboard: public CStream
 {
 protected:
 	CByteArray m_Data;
-	int m_read_location;
+	size_t m_read_location;
 
 public:
 	CStreamClipboard();

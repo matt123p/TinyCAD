@@ -465,10 +465,10 @@ void CLibraryView::OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo)
 	//const int text_spacing = 25;
 	//double current_y = 0;
 
-	int pages = (pDoc->m_SymbolMap.size() / m_symbols_per_print_page) + 1;
+	size_t pages = (pDoc->m_SymbolMap.size() / m_symbols_per_print_page) + 1;
 
 	pInfo->SetMinPage(1);
-	pInfo->SetMaxPage(pages);
+	pInfo->SetMaxPage((UINT) pages);
 
 	CScrollView::OnBeginPrinting(pDC, pInfo);
 }
@@ -500,10 +500,10 @@ CSize CLibraryView::GetDocSize()
 	//possibly result in a fractional block being displayed.
 
 	int block_height = GetSymbolBlockHeight();
-	int total_size = block_height * GetDocument()->m_SymbolMap.size();
+	size_t total_size = block_height * GetDocument()->m_SymbolMap.size();
 
 	//TRACE("CLibraryView::GetDocSize():  block_height = %d, total_size = %d\n", block_height, total_size);
-	return CSize(0, total_size);
+	return CSize(0, (int) total_size);
 }
 
 int CLibraryView::GetSymbolBlockHeight()

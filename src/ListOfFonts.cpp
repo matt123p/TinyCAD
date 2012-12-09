@@ -122,7 +122,7 @@ void ListOfFonts::ReadNative(CStream& oStream)
 	oStream.Read( &in, sizeof(LOGFONTA) );
 
 	memcpy( &m_oFont, &in, sizeof(LOGFONTA) );
-	int l = MultiByteToWideChar( CP_ACP, 0, in.lfFaceName, strlen( in.lfFaceName ), m_oFont.lfFaceName, sizeof( m_oFont.lfFaceName )/sizeof( wchar_t ) );
+	int l = MultiByteToWideChar( CP_ACP, 0, in.lfFaceName, strlen( in.lfFaceName ), m_oFont.lfFaceName, static_cast<int> (sizeof( m_oFont.lfFaceName )/sizeof( wchar_t )) );
 	m_oFont.lfFaceName[ l ] = 0;
 #else
 	oStream.Read(&m_oFont, sizeof(LOGFONT));

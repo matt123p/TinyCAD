@@ -929,7 +929,7 @@ void CNetList::MakeNet(CTinyCadMultiDoc *pDesign)
 	for (unsigned int ip = 0; ip < m_imports.size(); ++ip)
 	{
 		/// Now create the nets for it
-		int base = nets.size();
+		int base = (int) nets.size();
 		int newSheets = m_imports[ip]->getDesign()->GetNumberOfSheets();
 		nets.resize(base + newSheets);
 //		TRACE("Started with %d sheets, then added %d new sheets resulting in %d sheets total\n",
@@ -2002,7 +2002,7 @@ void to_utf8(const std::basic_string<TCHAR>& str, std::ofstream& outfile)
 		iconv(m_charset_conv, (const char**) &pstr, &inbuf_size, &out, &outbuf_size);
 
 		// Truncate buffer
-		int converted_bytes_to_write = out - m_conversion_buffer;
+		int converted_bytes_to_write = (int) (out - m_conversion_buffer);
 		outbuffer.resize(converted_bytes_to_write);
 
 		// output converted buffer

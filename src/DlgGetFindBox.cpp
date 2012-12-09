@@ -150,8 +150,8 @@ void CDlgGetFindBox::BuildTree()
 	// Add/filter MRU symbols
 	{
 		// Cleanup MRU
-		int nMRUCount = m_most_recently_used.size();
-		for (int i = 0; i < nMRUCount; i++)
+		size_t nMRUCount = m_most_recently_used.size();
+		for (size_t i = 0; i < nMRUCount; i++)
 		{
 			CLibraryStoreSymbol* pSymbol = m_most_recently_used[0];
 			m_most_recently_used.pop_front();
