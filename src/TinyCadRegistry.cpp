@@ -44,6 +44,8 @@ CTinyCadRegistry::~CTinyCadRegistry()
 //-- Write the initial data to the registry
 void CTinyCadRegistry::CreateDefaultEntries()
 {
+	TRACE("Virgin install detected:  CTinyCadRegistry::CreateDefaultEntries() is creating the very first registry entries for Tinycad\n");
+
 	// Save the page size setup
 	SetPageSize(CSize(297 * PIXELSPERMM, 210 * PIXELSPERMM));
 	SetMaximize(false);
@@ -51,7 +53,7 @@ void CTinyCadRegistry::CreateDefaultEntries()
 	// Search the default library directory for libraries
 	for (int l = 0; l < 3; l++)
 	{
-		CString sSearch = CTinyCadApp::GetMainDir() + "library\\";
+		CString sSearch = CTinyCadApp::GetDefaultLibraryDir() /* + "library\\" */;
 
 		if (l == 0)
 		{
@@ -76,8 +78,8 @@ void CTinyCadRegistry::CreateDefaultEntries()
 			{
 				// Add this library to the list of libraries in use
 				if (Libraries != "") Libraries += ",";
-				Libraries += CTinyCadApp::GetMainDir() + "library\\" + theFind.GetName();
-				// Remove the extension (of .idx)
+				Libraries += CTinyCadApp::GetDefaultLibraryDir() /* + "library\\" */ + theFind.GetName();
+				// Remove the extension (of .idx or .mdb or .TCLib)
 				Libraries = Libraries.Left(Libraries.ReverseFind('.'));
 			} while (theFind.FindNext());
 
@@ -85,7 +87,7 @@ void CTinyCadRegistry::CreateDefaultEntries()
 		}
 	}
 
-	// Finially place the association of this file and the design type
+	// Finally place the association of this file and the design type
 	super::Associate(".dsn", "TinyCAD design", "TinyCAD");
 }
 //-------------------------------------------------------------------------

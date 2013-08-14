@@ -621,6 +621,47 @@ CString CTinyCadApp::GetMainDir()
 	return sReturn;
 }
 
+CString CTinyCadApp::GetDefaultLibraryDir()
+{
+	/*
+	 * Gets the default location of the TinyCAD libraries.
+	 * In older versions of TinyCAD, the default libraries were kept in 
+	 * the installation directory (i.e., c:\Program Files\TinyCAD\libraries).  After Windows Vista
+	 * tightened up the access protections of files stored under c:\Program Files, it became 
+	 * necessary to move the default libraries to the My Documents area.
+	 * The My Documents path is found by concatenating the environment variable "USERPROFILE" contents with 
+	 *		Windows XP:  "\My Documents\TinyCAD\libraries"
+	 *		Windows Vista/7/8:  "\documents\TinyCAD\libraries"
+	*/
+	CString sReturn;
+	TCHAR szPath[MAX_PATH];
+
+	if(SUCCEEDED(SHGetFolderPath(NULL, 
+								 CSIDL_PERSONAL|CSIDL_FLAG_CREATE, 
+								 NULL, 
+								 0, 
+								 szPath))) 
+	{
+		TRACE("CTinyCadApp::GetLibraryDir() - SHGetFolderPath(CSIDL_PERSONAL) returned \"%S\"\n", szPath);
+		PathAppend(szPath, TEXT("TinyCAD\\library"));
+		TRACE("CTinyCadApp::GetLibraryDir() - concatenated string = \"%S\"\n", szPath);
+	}
+	else {	//May be pre- Windows XP - use the old method
+		TRACE("CTinyCadApp::GetLibraryDir() - SHGetFolderPath(CSIDL_PERSONAL) returned failure code\n");
+		szPath[0]='\0';
+
+		DWORD theBytes = GetModuleFileName(NULL, szPath, sizeof (szPath) - 1);
+		TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", szPath);
+		if (theBytes != 0)
+		{
+			PathAppend(szPath, TEXT("library"));
+		}
+	}
+	sReturn = CString(szPath) + "\\";
+
+	return sReturn;
+}
+
 CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 {
 	//This function returns the newer format long filename (i.e., non-DOS 8.3 format) from a short file name.
