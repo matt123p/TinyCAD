@@ -1,0 +1,14 @@
+====+  Parts List for C:\My Documents\COT Circuits\Focus Bipolar Motor Circuit.dsn  +====
+
+C9                            1   0.1
+BM1,BM2,BM3,BM4,J1,J2,J3
+P1-16,P1-17                   9   1 Pin Connector
+R39,R41                       2   220
+R46                           1   2K2
+Q15,Q16                       2   2N2222a
+R43,R44                       2   2k2
+D14                           1   3.9V
+R40,R42,R45                   3   4K7
+ISO11,ISO12                   2   4N26
+R47                           1   56k
+U7                            1   MC3479

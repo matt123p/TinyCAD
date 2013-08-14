@@ -1,0 +1,19 @@
+====+  Parts List for C:\My Documents\COT Circuits\Altitude Drive Circuit.dsn  +====
+
+C4,C6                         2   0.1
++12V,J1,J2,J3,J4,J5,J6,
+P1-2,P1-3,P1-4,P1-5,P3-1
+P3-2,P3-3,P3-4,P3-5,P3-6
+P3-7,P3-8,P3-9               20   1 Pin Connector
+D2,D3,D4,D5                   4   1N4004
+R12,R14,R17,R18               4   220
+R37                           1   2K2
+D13,D6                        2   30V
+R20,R21,R22,R23               4   470
+R16,R19                       2   4K7
+ISO3,ISO4,ISO5,ISO6           4   4N26
+R13,R15                       2   4k7
+U2,U3                         2   74LS08
+HS1,HS2,HS3,HS4,HS5,HS6       6   HEATSINK
+Q7,Q8                         2   MJE3055
+Q3,Q4,Q5,Q6                   4   TIP120

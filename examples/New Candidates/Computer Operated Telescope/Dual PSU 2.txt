@@ -1,0 +1,17 @@
+====+  Parts List for C:\My Documents\COT Circuits\Dual PSU 2.dsn  +====
+
+J3c,J3d,J4c,J4d,J5a,J5b       6   1 Pin Connector
+C2,C8                         2   100/25
+C3,C4,C5                      3   100n
+R2,R3,R4,R5                   4   10K
+R6,R7                         2   10k
+R1,R10,R8,R9                  4   1k
+D1                            1   1n4148
+Q1                            1   2N2222A
+U2,U3                         2   40106
+U1                            1   4093
+C10,C9                        2   4700/35
+C6,C7                         2   4n7
+Q2,Q3                         2   BUZ11
+D2,D3                         2   BYW29
+HS1,HS2,HS3,HS4               4   HEATSINK

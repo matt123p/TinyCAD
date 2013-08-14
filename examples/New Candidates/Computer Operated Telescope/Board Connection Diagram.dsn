@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD version 2.50.10
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<TinyCADSheets><TinyCAD><NAME>Sheet 1</NAME>
+<DETAILS><Size width='1430' height='1015'/>
+<GUIDES horiz='7' vert='5'/>
+<TITLE>Board Connection Diagram</TITLE>
+<AUTHOR>A Podmore</AUTHOR>
+<REVISION>1.0</REVISION>
+<DOCNUMBER></DOCNUMBER>
+<ORGANISATION></ORGANISATION>
+<SHEETS>1 of 1</SHEETS>
+<SHOWS>1</SHOWS>
+<DATE>3rd July 2005</DATE>
+<GRID spacing='100' snap='1'/>
+</DETAILS>
+<FONT id='3'><HEIGHT>-24</HEIGHT>
+<WIDTH>11</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='4'><HEIGHT>-16</HEIGHT>
+<WIDTH>7</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='5'><HEIGHT>-19</HEIGHT>
+<WIDTH>8</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='6'><HEIGHT>-16</HEIGHT>
+<WIDTH>8</WIDTH>
+<WEIGHT>700</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='14'><HEIGHT>-19</HEIGHT>
+<WIDTH>12</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='15'><HEIGHT>-16</HEIGHT>
+<WIDTH>7</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='2'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='5'><STYLE>0</STYLE>
+<COLOR>A00000</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='8'><STYLE>0</STYLE>
+<COLOR>404080</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='9'><STYLE>0</STYLE>
+<COLOR>0000FF</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='10'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='11'><STYLE>0</STYLE>
+<COLOR>4080FF</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='12'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='13'><STYLE>0</STYLE>
+<COLOR>0000FF</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='14'><STYLE>0</STYLE>
+<COLOR>00FF00</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='15'><STYLE>0</STYLE>
+<COLOR>00FFFF</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='16'><STYLE>0</STYLE>
+<COLOR>FF8000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='17'><STYLE>0</STYLE>
+<COLOR>0080FF</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='18'><STYLE>0</STYLE>
+<COLOR>15BFEA</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='19'><STYLE>0</STYLE>
+<COLOR>8080FF</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='20'><STYLE>0</STYLE>
+<COLOR>808000</COLOR>
+<THICKNESS>3</THICKNESS>
+</STYLE>
+<STYLE id='21'><STYLE>0</STYLE>
+<COLOR>408000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<OPTIONS><GRID>1</GRID>
+<UNITS>0</UNITS>
+<COLOR_WIRE>FF0000</COLOR_WIRE>
+<COLOR_BUS>0000FF</COLOR_BUS>
+<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+<COLOR_LABEL>208000</COLOR_LABEL>
+<COLOR_POWER>0000FF</COLOR_POWER>
+<COLOR_PIN>4040C0</COLOR_PIN>
+<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+<COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+</OPTIONS>
+<RECTANGLE a='36,26' b='76,60' style='2' fill='0'/>
+<RECTANGLE a='126,26' b='168,60' style='2' fill='0'/>
+<RECTANGLE a='212,26' b='244,60' style='2' fill='0'/>
+<RECTANGLE a='28,98' b='78,152' style='2' fill='0'/>
+<RECTANGLE a='124,98' b='172,152' style='2' fill='0'/>
+<RECTANGLE a='214,100' b='254,142' style='2' fill='0'/>
+<TEXT pos='44,44' direction='3' font='3' color='000000'>DUAL PSU</TEXT>
+<TEXT pos='132,44' direction='3' font='3' color='000000'>DUAL PSU 2</TEXT>
+<TEXT pos='216,38' direction='3' font='4' color='000000'>PARALLEL PORT</TEXT>
+<TEXT pos='224,44' direction='3' font='4' color='000000'>AND</TEXT>
+<TEXT pos='220,50' direction='3' font='4' color='000000'>HANDPAD </TEXT>
+<TEXT pos='220,54' direction='3' font='4' color='000000'>CONNECT</TEXT>
+<TEXT pos='30,128' direction='3' font='5' color='000000'>ALTITUDE DRIVE CIRCUIT</TEXT>
+<TEXT pos='126,128' direction='3' font='5' color='000000'>AZIMUTH DRIVE CIRCUIT</TEXT>
+<TEXT pos='220,120' direction='3' font='5' color='000000'>FOCUS BIPOLAR</TEXT>
+<TEXT pos='220,128' direction='3' font='5' color='000000'>MOTOR CIRCUIT</TEXT>
+<POLYGON pos='16,30' style='8' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='20,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='16,36' style='5' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='20,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='16,46' style='9' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='20,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='16,52' style='10' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='20,0' arc='0'/>
+</POLYGON>
+<TEXT pos='12,36' direction='3' font='5' color='000000'>240V MAINS</TEXT>
+<TEXT pos='10,52' direction='3' font='5' color='000000'>+12V BATTERY</TEXT>
+<POLYGON pos='76,32' style='9' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='50,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='76,36' style='10' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='50,0' arc='0'/>
+</POLYGON>
+<TEXT pos='92,32' direction='3' font='5' color='000000'>+12V</TEXT>
+<TEXT pos='94,40' direction='3' font='5' color='000000'>GND</TEXT>
+<POLYGON pos='76,42' style='11' fill='0'><POINT pos='0,4' arc='0'/>
+<POINT pos='44,4' arc='0'/>
+<POINT pos='44,22' arc='0'/>
+<POINT pos='96,22' arc='0'/>
+<POINT pos='96,0' arc='0'/>
+<POINT pos='136,0' arc='0'/>
+</POLYGON>
+<TEXT pos='198,42' direction='3' font='5' color='000000'>CPWR</TEXT>
+<POLYGON pos='76,46' style='10' fill='0'><POINT pos='0,4' arc='0'/>
+<POINT pos='40,4' arc='0'/>
+<POINT pos='40,22' arc='0'/>
+<POINT pos='100,22' arc='0'/>
+<POINT pos='100,0' arc='0'/>
+<POINT pos='136,0' arc='0'/>
+</POLYGON>
+<TEXT pos='198,46' direction='3' font='5' color='000000'>CGND</TEXT>
+<POLYGON pos='108,20' style='9' fill='0'><POINT pos='0,12' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='94,0' arc='0'/>
+<POINT pos='94,16' arc='0'/>
+<POINT pos='104,16' arc='0'/>
+</POLYGON>
+<POLYGON pos='90,16' style='10' fill='0'><POINT pos='0,20' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='116,0' arc='0'/>
+<POINT pos='116,16' arc='0'/>
+<POINT pos='122,16' arc='0'/>
+<POINT pos='122,16' arc='0'/>
+</POLYGON>
+<POLYGON pos='244,28' style='13' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='244,30' style='14' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='244,32' style='15' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='244,34' style='16' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='244,36' style='12' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<TEXT pos='254,34' direction='3' font='6' color='000000'>TO HANDPAD</TEXT>
+<POLYGON pos='118,54' style='16' fill='0'><POINT pos='6,56' arc='0'/>
+<POINT pos='0,56' arc='0'/>
+<POINT pos='0,40' arc='0'/>
+<POINT pos='130,40' arc='0'/>
+<POINT pos='130,0' arc='0'/>
+<POINT pos='126,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='116,52' style='15' fill='0'><POINT pos='8,60' arc='0'/>
+<POINT pos='0,60' arc='0'/>
+<POINT pos='0,38' arc='0'/>
+<POINT pos='136,38' arc='0'/>
+<POINT pos='136,0' arc='0'/>
+<POINT pos='128,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='112,50' style='14' fill='0'><POINT pos='12,66' arc='0'/>
+<POINT pos='0,66' arc='0'/>
+<POINT pos='0,36' arc='0'/>
+<POINT pos='144,36' arc='0'/>
+<POINT pos='144,0' arc='0'/>
+<POINT pos='132,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='108,48' style='13' fill='0'><POINT pos='16,72' arc='0'/>
+<POINT pos='0,72' arc='0'/>
+<POINT pos='0,34' arc='0'/>
+<POINT pos='152,34' arc='0'/>
+<POINT pos='152,0' arc='0'/>
+<POINT pos='136,0' arc='0'/>
+</POLYGON>
+<TEXT pos='146,86' direction='3' font='6' color='000000'>AZ A-D CONNECT</TEXT>
+<POLYGON pos='98,50' style='12' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,88' arc='0'/>
+<POINT pos='26,88' arc='0'/>
+<POINT pos='26,88' arc='0'/>
+</POLYGON>
+<POLYGON pos='102,46' style='17' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,86' arc='0'/>
+<POINT pos='22,86' arc='0'/>
+</POLYGON>
+<POLYGON pos='172,50' style='18' fill='0'><POINT pos='40,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+<POINT pos='8,58' arc='0'/>
+<POINT pos='0,58' arc='0'/>
+</POLYGON>
+<TEXT pos='196,50' direction='3' font='14' color='000000'>+5v</TEXT>
+<POLYGON pos='172,52' style='12' fill='0'><POINT pos='40,0' arc='0'/>
+<POINT pos='10,0' arc='0'/>
+<POINT pos='10,60' arc='0'/>
+<POINT pos='0,60' arc='0'/>
+</POLYGON>
+<TEXT pos='204,58' direction='3' font='5' color='000000'>GND</TEXT>
+<POLYGON pos='172,20' style='13' fill='0'><POINT pos='14,0' arc='0'/>
+<POINT pos='14,104' arc='0'/>
+<POINT pos='0,104' arc='0'/>
+<POINT pos='0,104' arc='0'/>
+</POLYGON>
+<POLYGON pos='168,32' style='19' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='20,0' arc='0'/>
+<POINT pos='20,100' arc='0'/>
+<POINT pos='4,100' arc='0'/>
+<POINT pos='4,100' arc='0'/>
+</POLYGON>
+<TEXT pos='176,138' direction='3' font='5' color='000000'>+24v</TEXT>
+<TEXT pos='170,32' direction='3' font='5' color='000000'>+24v</TEXT>
+<POLYGON pos='18,46' style='16' fill='0'><POINT pos='10,64' arc='0'/>
+<POINT pos='0,64' arc='0'/>
+<POINT pos='0,36' arc='0'/>
+<POINT pos='0,34' arc='0'/>
+<POINT pos='244,34' arc='0'/>
+<POINT pos='244,0' arc='0'/>
+<POINT pos='226,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='16,44' style='15' fill='0'><POINT pos='12,68' arc='0'/>
+<POINT pos='0,68' arc='0'/>
+<POINT pos='0,34' arc='0'/>
+<POINT pos='248,34' arc='0'/>
+<POINT pos='248,0' arc='0'/>
+<POINT pos='228,0' arc='0'/>
+<POINT pos='228,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='14,42' style='14' fill='0'><POINT pos='14,72' arc='0'/>
+<POINT pos='0,72' arc='0'/>
+<POINT pos='0,34' arc='0'/>
+<POINT pos='252,34' arc='0'/>
+<POINT pos='252,0' arc='0'/>
+<POINT pos='230,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='12,40' style='13' fill='0'><POINT pos='16,76' arc='0'/>
+<POINT pos='0,76' arc='0'/>
+<POINT pos='0,34' arc='0'/>
+<POINT pos='256,34' arc='0'/>
+<POINT pos='256,0' arc='0'/>
+<POINT pos='232,0' arc='0'/>
+</POLYGON>
+<TEXT pos='52,84' direction='3' font='6' color='000000'>ALT A-D CONNECT</TEXT>
+<POLYGON pos='4,46' style='17' fill='0'><POINT pos='78,0' arc='0'/>
+<POINT pos='78,18' arc='0'/>
+<POINT pos='0,18' arc='0'/>
+<POINT pos='0,88' arc='0'/>
+<POINT pos='24,88' arc='0'/>
+</POLYGON>
+<POLYGON pos='6,50' style='12' fill='0'><POINT pos='80,0' arc='0'/>
+<POINT pos='80,16' arc='0'/>
+<POINT pos='0,16' arc='0'/>
+<POINT pos='0,82' arc='0'/>
+<POINT pos='22,82' arc='0'/>
+</POLYGON>
+<TEXT pos='108,132' direction='3' font='6' color='000000'>CPWR</TEXT>
+<TEXT pos='12,138' direction='3' font='6' color='000000'>CPWR</TEXT>
+<TEXT pos='110,142' direction='3' font='6' color='000000'>CGND</TEXT>
+<TEXT pos='14,132' direction='3' font='6' color='000000'>CGND</TEXT>
+<TEXT pos='176,124' direction='3' font='6' color='000000'>+12v</TEXT>
+<TEXT pos='174,108' direction='3' font='6' color='000000'>+5v</TEXT>
+<TEXT pos='174,116' direction='3' font='6' color='000000'>GND</TEXT>
+<POLYGON pos='78,50' style='18' fill='0'><POINT pos='124,0' arc='0'/>
+<POINT pos='124,18' arc='0'/>
+<POINT pos='124,20' arc='0'/>
+<POINT pos='10,20' arc='0'/>
+<POINT pos='10,56' arc='0'/>
+<POINT pos='0,56' arc='0'/>
+</POLYGON>
+<POLYGON pos='78,52' style='12' fill='0'><POINT pos='126,0' arc='0'/>
+<POINT pos='126,20' arc='0'/>
+<POINT pos='12,20' arc='0'/>
+<POINT pos='12,62' arc='0'/>
+<POINT pos='0,62' arc='0'/>
+</POLYGON>
+<TEXT pos='80,106' direction='3' font='6' color='000000'>+5v</TEXT>
+<TEXT pos='80,114' direction='3' font='6' color='000000'>GND</TEXT>
+<POLYGON pos='78,32' style='19' fill='0'><POINT pos='110,0' arc='0'/>
+<POINT pos='118,0' arc='0'/>
+<POINT pos='118,122' arc='0'/>
+<POINT pos='8,122' arc='0'/>
+<POINT pos='8,108' arc='0'/>
+<POINT pos='0,108' arc='0'/>
+</POLYGON>
+<POLYGON pos='78,32' style='13' fill='0'><POINT pos='26,0' arc='0'/>
+<POINT pos='26,90' arc='0'/>
+<POINT pos='0,90' arc='0'/>
+</POLYGON>
+<TEXT pos='80,122' direction='3' font='6' color='000000'>+12v</TEXT>
+<TEXT pos='82,140' direction='3' font='6' color='000000'>+24v</TEXT>
+<TEXT pos='90,154' direction='3' font='5' color='000000'>OPTIONAL</TEXT>
+<TEXT pos='174,142' direction='3' font='5' color='000000'>OPTIONAL</TEXT>
+<POLYGON pos='220,60' style='20' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,40' arc='0'/>
+</POLYGON>
+<POLYGON pos='222,60' style='21' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,40' arc='0'/>
+</POLYGON>
+<TEXT pos='210,68' direction='3' font='15' color='000000'>P1-16</TEXT>
+<TEXT pos='224,68' direction='3' font='15' color='000000'>P1-17</TEXT>
+<POLYGON pos='202,20' style='13' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='76,0' arc='0'/>
+<POINT pos='76,86' arc='0'/>
+<POINT pos='52,86' arc='0'/>
+</POLYGON>
+<TEXT pos='262,106' direction='3' font='15' color='000000'>+12v</TEXT>
+<POLYGON pos='206,16' style='12' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='74,0' arc='0'/>
+<POINT pos='74,94' arc='0'/>
+<POINT pos='48,94' arc='0'/>
+</POLYGON>
+<TEXT pos='262,114' direction='3' font='15' color='000000'>GND</TEXT>
+<POLYGON pos='180,102' style='18' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='34,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='254,122' style='13' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='10,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='254,126' style='15' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='10,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='254,130' style='14' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='10,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='254,134' style='16' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='10,0' arc='0'/>
+</POLYGON>
+<TEXT pos='264,124' direction='3' font='15' color='000000'>BM1</TEXT>
+<TEXT pos='264,128' direction='3' font='15' color='000000'>BM2</TEXT>
+<TEXT pos='264,132' direction='3' font='15' color='000000'>BM3</TEXT>
+<TEXT pos='264,136' direction='3' font='15' color='000000'>BM4</TEXT>
+</TinyCAD>
+</TinyCADSheets>

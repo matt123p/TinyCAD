@@ -1,0 +1,3031 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD version 2.60.01
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<TinyCADSheets><TinyCAD><NAME>Sheet 1</NAME>
+<DETAILS><Size width='1485' height='1050'/>
+<GUIDES horiz='7' vert='5'/>
+<TITLE></TITLE>
+<AUTHOR></AUTHOR>
+<REVISION>1.0</REVISION>
+<DOCNUMBER></DOCNUMBER>
+<ORGANISATION></ORGANISATION>
+<SHEETS>1 of 1</SHEETS>
+<SHOWS>0</SHOWS>
+<DATE></DATE>
+<GRID spacing='50' snap='1'/>
+</DETAILS>
+<FONT id='0'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='1'><HEIGHT>-10</HEIGHT>
+<WIDTH>0</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='4'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='5'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='6'><HEIGHT>-8</HEIGHT>
+<WIDTH>4</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='7'><HEIGHT>-8</HEIGHT>
+<WIDTH>4</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='8'><HEIGHT>-8</HEIGHT>
+<WIDTH>4</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='9'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='10'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='11'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='12'><HEIGHT>-16</HEIGHT>
+<WIDTH>7</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='18'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='25'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='26'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='27'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='28'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='29'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='30'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='31'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='32'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='33'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='34'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='35'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='36'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='37'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='38'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='39'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='40'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='43'><HEIGHT>-27</HEIGHT>
+<WIDTH>12</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>255</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='44'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='45'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='46'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='47'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='48'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='49'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='51'><HEIGHT>-8</HEIGHT>
+<WIDTH>4</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='52'><HEIGHT>-8</HEIGHT>
+<WIDTH>4</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='0'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='2'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='3'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='4'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>4</THICKNESS>
+</STYLE>
+<STYLE id='5'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='6'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='7'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='8'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='18'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='19'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='22'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='23'><STYLE>1</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='24'><STYLE>1</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='27'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<STYLE id='30'><STYLE>4</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='32'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>2</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<FILL id='1'><INDEX>0</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<FILL id='2'><INDEX>0</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<FILL id='4'><INDEX>0</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<SYMBOLDEF id='1'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='2'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='3'><NAME type='0'>Switch slide 2way 1 pole</NAME>
+<REF type='0'>SW?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='100,70'/>
+<TinyCAD><ELLIPSE a='89.05,69.04' b='91.05,67.04' style='3' fill='1'/>
+<ELLIPSE a='93.05,69.04' b='95.05,67.04' style='3' fill='1'/>
+<ELLIPSE a='97.05,69.04' b='99.05,67.04' style='2' fill='0'/>
+<WIRE style='4' a='89.04,69.8' b='95.04,69.8'/>
+<PIN pos='90,68' which='5' elec='0' direction='2' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='98,68' which='5' elec='0' direction='3' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='94,68' which='5' elec='0' direction='0' part='0' number='3' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='4'><NAME type='0'>Capacitor non polar flip</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='92,78'/>
+<TinyCAD><RECTANGLE a='82.78,77.76' b='84.28,74.26' style='0' fill='1'/>
+<RECTANGLE a='85.02,77.76' b='86.52,74.26' style='0' fill='1'/>
+<PIN pos='84,76' which='5' elec='5' direction='2' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='91,76' which='5' elec='5' direction='2' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='5'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='6'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='7'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='8'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='9'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='10'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='11'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='12'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='13'><NAME type='0'>Capacitor- non polarised</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='74,79'/>
+<TinyCAD><RECTANGLE a='70.24,74.78' b='73.74,76.28' style='0' fill='1'/>
+<RECTANGLE a='70.24,77.02' b='73.74,78.52' style='0' fill='1'/>
+<PIN pos='72,75' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='72,78' which='5' elec='0' direction='1' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='14'><NAME type='0'>Capacitor- non polarised</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='74,79'/>
+<TinyCAD><RECTANGLE a='70.24,74.78' b='73.74,76.28' style='0' fill='1'/>
+<RECTANGLE a='70.24,77.02' b='73.74,78.52' style='0' fill='1'/>
+<PIN pos='72,75' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='72,78' which='5' elec='0' direction='1' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='15'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='16'><NAME type='0'>Conn Coaxial socket</NAME>
+<REF type='0'>CN?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='76,66'/>
+<TinyCAD><ELLIPSE a='76,66' b='72,62' style='2' fill='0'/>
+<PIN pos='74,66' which='5' elec='0' direction='1' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='74.87,64.75' b='73.22,63.2' style='3' fill='0'/>
+<PIN pos='74,64' which='5' elec='0' direction='3' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='17'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='18'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='19'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='20'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='21'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='22'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='23'><NAME type='0'>Graphic common3</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,78'/>
+<TinyCAD><PIN pos='94,74' which='5' elec='0' direction='0' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='94.52,74' b='92,75.6'/>
+<WIRE style='2' a='95.96,74.04' b='92.32,76.52'/>
+<WIRE style='2' a='93,73.96' b='91.96,74.6'/>
+<WIRE style='2' a='95.96,75.08' b='94.08,76.44'/>
+<WIRE style='2' a='96.08,76.08' b='95.6,76.48'/>
+<WIRE style='2' a='96,73.88' b='91.92,73.88'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='24'><NAME type='0'>Resistor box open bare</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,96'/>
+<TinyCAD><RECTANGLE a='82.85,94.04' b='85.2,86.04' style='2' fill='0'/>
+<PIN pos='84,86' which='5' elec='0' direction='0' part='0' number='1' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+<PIN pos='84,94' which='5' elec='0' direction='1' part='0' number='2' show='3' length='20' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='25'><NAME type='0'>Capacitor-Trimmer</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='19.98,30.2'/>
+<TinyCAD><RECTANGLE a='14.24,23.9' b='17.74,25.4' style='5' fill='2'/>
+<RECTANGLE a='14.28,26.02' b='17.78,27.52' style='0' fill='1'/>
+<WIRE style='2' a='13.36,28.28' b='18.8,23.04'/>
+<WIRE style='2' a='18.08,22.36' b='19.56,23.84'/>
+<PIN pos='15.98,24.2' which='5' elec='0' direction='0' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='16,27' which='5' elec='0' direction='1' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='26'><NAME type='0'>Switch A12 12way</NAME>
+<REF type='0'>SW?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,98'/>
+<TinyCAD><ELLIPSE a='94.05,53.04' b='96.05,51.04' style='3' fill='0'/>
+<ELLIPSE a='86.05,53.04' b='88.05,51.04' style='3' fill='0'/>
+<POLYGON pos='91.4,51' style='0' fill='1'><POINT pos='2.6,1' arc='0'/>
+<POINT pos='0.1,0' arc='0'/>
+<POINT pos='0.1,2' arc='0'/>
+<POINT pos='2.6,1' arc='0'/>
+</POLYGON>
+<WIRE style='2' a='88,52' b='92,52'/>
+<PIN pos='86,52' which='5' elec='0' direction='2' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='96,52' which='5' elec='0' direction='3' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,57.04' b='96.05,55.04' style='3' fill='0'/>
+<PIN pos='96,56' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,61.04' b='96.05,59.04' style='3' fill='0'/>
+<PIN pos='96,60' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,65.04' b='96.05,63.04' style='3' fill='0'/>
+<PIN pos='96,64' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,69.04' b='96.05,67.04' style='3' fill='0'/>
+<PIN pos='96,68' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,73.04' b='96.05,71.04' style='3' fill='0'/>
+<PIN pos='96,72' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,77.04' b='96.05,75.04' style='3' fill='0'/>
+<PIN pos='96,76' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,81.04' b='96.05,79.04' style='3' fill='0'/>
+<PIN pos='96,80' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,85.04' b='96.05,83.04' style='3' fill='0'/>
+<PIN pos='96,84' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,89.04' b='96.05,87.04' style='3' fill='0'/>
+<PIN pos='96,88' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,93.04' b='96.05,91.04' style='3' fill='0'/>
+<PIN pos='96,92' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,97.04' b='96.05,95.04' style='3' fill='0'/>
+<PIN pos='96,96' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='27'><NAME type='0'>Switch A12 12way</NAME>
+<REF type='0'>SW?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,98'/>
+<TinyCAD><ELLIPSE a='94.05,53.04' b='96.05,51.04' style='3' fill='0'/>
+<ELLIPSE a='86.05,53.04' b='88.05,51.04' style='3' fill='0'/>
+<POLYGON pos='91.4,51' style='0' fill='1'><POINT pos='2.6,1' arc='0'/>
+<POINT pos='0.1,0' arc='0'/>
+<POINT pos='0.1,2' arc='0'/>
+<POINT pos='2.6,1' arc='0'/>
+</POLYGON>
+<WIRE style='2' a='88,52' b='92,52'/>
+<PIN pos='86,52' which='5' elec='0' direction='2' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='96,52' which='5' elec='0' direction='3' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,57.04' b='96.05,55.04' style='3' fill='0'/>
+<PIN pos='96,56' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,61.04' b='96.05,59.04' style='3' fill='0'/>
+<PIN pos='96,60' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,65.04' b='96.05,63.04' style='3' fill='0'/>
+<PIN pos='96,64' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,69.04' b='96.05,67.04' style='3' fill='0'/>
+<PIN pos='96,68' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,73.04' b='96.05,71.04' style='3' fill='0'/>
+<PIN pos='96,72' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,77.04' b='96.05,75.04' style='3' fill='0'/>
+<PIN pos='96,76' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,81.04' b='96.05,79.04' style='3' fill='0'/>
+<PIN pos='96,80' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,85.04' b='96.05,83.04' style='3' fill='0'/>
+<PIN pos='96,84' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,89.04' b='96.05,87.04' style='3' fill='0'/>
+<PIN pos='96,88' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,93.04' b='96.05,91.04' style='3' fill='0'/>
+<PIN pos='96,92' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,97.04' b='96.05,95.04' style='3' fill='0'/>
+<PIN pos='96,96' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='28'><NAME type='0'>Switch A12 12way</NAME>
+<REF type='0'>SW?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,98'/>
+<TinyCAD><ELLIPSE a='94.05,53.04' b='96.05,51.04' style='3' fill='0'/>
+<ELLIPSE a='86.05,53.04' b='88.05,51.04' style='3' fill='0'/>
+<POLYGON pos='91.4,51' style='0' fill='1'><POINT pos='2.6,1' arc='0'/>
+<POINT pos='0.1,0' arc='0'/>
+<POINT pos='0.1,2' arc='0'/>
+<POINT pos='2.6,1' arc='0'/>
+</POLYGON>
+<WIRE style='2' a='88,52' b='92,52'/>
+<PIN pos='86,52' which='5' elec='0' direction='2' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='96,52' which='5' elec='0' direction='3' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,57.04' b='96.05,55.04' style='3' fill='0'/>
+<PIN pos='96,56' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,61.04' b='96.05,59.04' style='3' fill='0'/>
+<PIN pos='96,60' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,65.04' b='96.05,63.04' style='3' fill='0'/>
+<PIN pos='96,64' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,69.04' b='96.05,67.04' style='3' fill='0'/>
+<PIN pos='96,68' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,73.04' b='96.05,71.04' style='3' fill='0'/>
+<PIN pos='96,72' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,77.04' b='96.05,75.04' style='3' fill='0'/>
+<PIN pos='96,76' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,81.04' b='96.05,79.04' style='3' fill='0'/>
+<PIN pos='96,80' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,85.04' b='96.05,83.04' style='3' fill='0'/>
+<PIN pos='96,84' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,89.04' b='96.05,87.04' style='3' fill='0'/>
+<PIN pos='96,88' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,93.04' b='96.05,91.04' style='3' fill='0'/>
+<PIN pos='96,92' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,97.04' b='96.05,95.04' style='3' fill='0'/>
+<PIN pos='96,96' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='29'><NAME type='0'>Switch A12 12way</NAME>
+<REF type='0'>SW?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='98,98'/>
+<TinyCAD><ELLIPSE a='94.05,53.04' b='96.05,51.04' style='3' fill='0'/>
+<ELLIPSE a='86.05,53.04' b='88.05,51.04' style='3' fill='0'/>
+<POLYGON pos='91.4,51' style='0' fill='1'><POINT pos='2.6,1' arc='0'/>
+<POINT pos='0.1,0' arc='0'/>
+<POINT pos='0.1,2' arc='0'/>
+<POINT pos='2.6,1' arc='0'/>
+</POLYGON>
+<WIRE style='2' a='88,52' b='92,52'/>
+<PIN pos='86,52' which='5' elec='0' direction='2' part='0' number='1' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='96,52' which='5' elec='0' direction='3' part='0' number='2' show='3' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,57.04' b='96.05,55.04' style='3' fill='0'/>
+<PIN pos='96,56' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,61.04' b='96.05,59.04' style='3' fill='0'/>
+<PIN pos='96,60' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,65.04' b='96.05,63.04' style='3' fill='0'/>
+<PIN pos='96,64' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,69.04' b='96.05,67.04' style='3' fill='0'/>
+<PIN pos='96,68' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,73.04' b='96.05,71.04' style='3' fill='0'/>
+<PIN pos='96,72' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,77.04' b='96.05,75.04' style='3' fill='0'/>
+<PIN pos='96,76' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,81.04' b='96.05,79.04' style='3' fill='0'/>
+<PIN pos='96,80' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,85.04' b='96.05,83.04' style='3' fill='0'/>
+<PIN pos='96,84' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,89.04' b='96.05,87.04' style='3' fill='0'/>
+<PIN pos='96,88' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,93.04' b='96.05,91.04' style='3' fill='0'/>
+<PIN pos='96,92' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='94.05,97.04' b='96.05,95.04' style='3' fill='0'/>
+<PIN pos='96,96' which='5' elec='0' direction='3' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='30'><NAME type='0'>Conn GP3 box</NAME>
+<REF type='0'>CN?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='90,73'/>
+<TinyCAD><ELLIPSE a='87,69' b='89,71' style='3' fill='0'/>
+<WIRE style='2' a='87.24,70.64' b='86.52,71.4'/>
+<ELLIPSE a='87,65' b='89,67' style='3' fill='0'/>
+<WIRE style='2' a='88.76,65.44' b='89.52,64.68'/>
+<RECTANGLE a='86,63' b='90,73' style='6' fill='0'/>
+<PIN pos='88,65' which='5' elec='0' direction='0' part='0' number='1' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='88,71' which='5' elec='0' direction='1' part='0' number='2' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='87,66' which='5' elec='0' direction='2' part='0' number='3' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='87,70' which='5' elec='0' direction='2' part='0' number='4' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='89,66' which='5' elec='0' direction='3' part='0' number='5' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<PIN pos='89,70' which='5' elec='0' direction='3' part='0' number='6' show='1' length='25' number_pos='0' centre_name='0'></PIN>
+<WIRE style='2' a='88.76,69.44' b='89.52,68.68'/>
+<WIRE style='2' a='87.24,66.64' b='86.52,67.4'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='35'><NAME type='1'>Graphic arrow4</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,85'/>
+<TinyCAD><POLYGON pos='81,81' style='0' fill='1'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+<POINT pos='1,3' arc='0'/>
+<POINT pos='1,4' arc='0'/>
+<POINT pos='5,2' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='36'><NAME type='0'>Graphic arrow4</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,85'/>
+<TinyCAD><POLYGON pos='81,81' style='0' fill='1'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+<POINT pos='1,3' arc='0'/>
+<POINT pos='1,4' arc='0'/>
+<POINT pos='5,2' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='37'><NAME type='0'>Graphic arrow4</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,85'/>
+<TinyCAD><POLYGON pos='81,81' style='0' fill='1'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+<POINT pos='1,3' arc='0'/>
+<POINT pos='1,4' arc='0'/>
+<POINT pos='5,2' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='38'><NAME type='0'>Graphic arrow4</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<PPP>1</PPP>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>package name for PCB layout</DEFAULT>
+<FT>000001</FT>
+<VALUE></VALUE>
+<POS>0,0</POS>
+</FIELD>
+<REF_POINT power='0' part='0' pos='86,85'/>
+<TinyCAD><POLYGON pos='81,81' style='0' fill='1'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+<POINT pos='0,3' arc='0'/>
+<POINT pos='1,3' arc='0'/>
+<POINT pos='1,4' arc='0'/>
+<POINT pos='5,2' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+<POINT pos='1,1' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<OPTIONS><GRID>1</GRID>
+<UNITS>0</UNITS>
+<COLOR_WIRE>000000</COLOR_WIRE>
+<COLOR_BUS>0000FF</COLOR_BUS>
+<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+<COLOR_LABEL>208000</COLOR_LABEL>
+<COLOR_POWER>000000</COLOR_POWER>
+<COLOR_PIN>4040C0</COLOR_PIN>
+<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+<COLOR_BACKGROUND>D3F5FE</COLOR_BACKGROUND>
+</OPTIONS>
+<SYMBOL id='1' pos='22,40' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U1' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='2' pos='92,48' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U2' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='3' pos='38,36' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW1' show='1' pos='-11,-6'/>
+<FIELD type='1' description='Name' value='Switch slide 2way 1 pole' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<WIRE style='6' a='40,30' b='32,30'/>
+<WIRE style='6' a='32,30' b='32,34'/>
+<WIRE style='6' a='36,24' b='36,34'/>
+<WIRE style='32' a='30,24' b='25,24'/>
+<WIRE style='6' a='32,24' b='36,24'/>
+<SYMBOL id='4' pos='38,26' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C1' show='1' pos='-1.8,-1.6'/>
+<FIELD type='1' description='Name' value='Capacitor non polar flip' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<SYMBOL id='5' pos='48,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R1' show='1' pos='-5.2,1.6'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='7' pos='85,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R2' show='1' pos='-5.2,2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='8' pos='100,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R3' show='1' pos='-5.6,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='9' pos='114,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R4' show='1' pos='-6.1,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='8' pos='118,40' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R5' show='1' pos='-0.6,-2.4'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='6' pos='108,48' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U3' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='11' pos='120,48' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U4' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='88,30' b='92,30'/>
+<WIRE style='6' a='104,30' b='106,30'/>
+<WIRE style='8' a='114,30' b='116,30'/>
+<WIRE style='8' a='116,30' b='116,32'/>
+<WIRE style='6' a='116,40' b='116,44'/>
+<SYMBOL id='13' pos='106,40' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C2' show='1' pos='-5,-4'/>
+<FIELD type='1' description='Name' value='Capacitor- non polarised' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='104,39' b='104,44'/>
+<WIRE style='6' a='104,36' b='104,30'/>
+<WIRE style='6' a='100,30' b='104,30'/>
+<WIRE style='6' a='88.02,37.8' b='88,37.8'/>
+<WIRE style='6' a='88,37.8' b='88,44'/>
+<WIRE a='58.02,51.8' b='58,51.8'/>
+<SYMBOL id='15' pos='92,42' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C3' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='15' pos='100,28' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C4' show='1' pos='-5.2,-6.2'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='88,36' b='88,30'/>
+<WIRE style='6' a='85,30' b='88,30'/>
+<WIRE style='6' a='94,24' b='88,24'/>
+<WIRE style='6' a='88,24' b='88,30'/>
+<WIRE style='6' a='96.8,23.98' b='104,23.98'/>
+<WIRE style='6' a='104,23.98' b='104,30'/>
+<SYMBOL id='16' pos='20,32' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='CN1' show='1' pos='-6.8,2.8'/>
+<FIELD type='1' description='Name' value='Conn Coaxial socket' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<WIRE style='32' a='25,30' b='18,30'/>
+<WIRE style='6' a='18,36' b='18,32'/>
+<SYMBOL id='17' pos='92,68' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C5' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='18' pos='92,92' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C6' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='9' pos='100,60' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R6' show='1' pos='-8.3,-3.3'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='10' pos='100,84' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R7' show='1' pos='-7.4,-3.2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='14' pos='106,66' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C7' show='1' pos='-5,-4'/>
+<FIELD type='1' description='Name' value='Capacitor- non polarised' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='9' pos='112,68' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R8' show='1' pos='-0.2,-2.3'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='10' pos='112,92' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R9' show='1' pos='-0.6,-1.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='18' pos='100,56' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C8' show='1' pos='-5.8,-6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='8' a='94,52' b='88,52'/>
+<WIRE style='8' a='88,58' b='88,62'/>
+<WIRE style='8' a='92,58' b='88,58'/>
+<WIRE style='8' a='88,52' b='88,58'/>
+<WIRE style='6' a='100,58' b='104,58'/>
+<WIRE style='6' a='96.8,51.98' b='104,51.98'/>
+<WIRE style='6' a='104,58' b='104,62'/>
+<WIRE style='6' a='104,51.98' b='104,58'/>
+<WIRE style='6' a='110,58' b='110,60'/>
+<WIRE style='8' a='92,82' b='88,82'/>
+<SYMBOL id='19' pos='100,80' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C9' show='1' pos='-5.6,-5.8'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='8' a='94,76' b='88,76'/>
+<WIRE style='8' a='88,82' b='88,86'/>
+<WIRE style='8' a='88,76' b='88,82'/>
+<WIRE style='6' a='96.8,75.98' b='104,75.98'/>
+<WIRE style='6' a='104,75.98' b='104,82'/>
+<SYMBOL id='6' pos='92,98' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U5' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='11' pos='114,98' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U6' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='114,74' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U7' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='22' pos='108,74' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U8' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='23' pos='92,74' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U9' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='88.02,64.8' b='88,64.8'/>
+<WIRE style='6' a='88,64.8' b='88,70'/>
+<WIRE style='6' a='104,65' b='104,70'/>
+<WIRE style='6' a='110,68' b='110,70'/>
+<WIRE style='6' a='110,92' b='110,94'/>
+<WIRE style='6' a='88.02,88.8' b='88,94'/>
+<SYMBOL id='19' pos='197,68' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C10' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='20' pos='206,60' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R10' show='1' pos='-7.2,1.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='20' pos='213,68' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R11' show='1' pos='-7.7,0.9'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='6' a='198,58' b='193,58'/>
+<WIRE style='6' a='211,58' b='211,60'/>
+<SYMBOL id='21' pos='207,56' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C11' show='1' pos='-6,-6.6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='201,52' b='193,52'/>
+<WIRE style='6' a='193,58' b='193,62'/>
+<WIRE style='6' a='193,52' b='193,58'/>
+<WIRE style='6' a='203.8,51.98' b='211,51.98'/>
+<WIRE style='6' a='211,52' b='211,58'/>
+<WIRE style='6' a='206,58' b='211,58'/>
+<SYMBOL id='11' pos='197,74' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U10' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='215,74' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U11' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,68' b='211,70'/>
+<WIRE style='6' a='193,64.8' b='193,70'/>
+<SYMBOL id='21' pos='197,40' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C12' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='24' pos='205,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R12' show='1' pos='-6.2,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='24' pos='213,40' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R13' show='1' pos='-7.7,0.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,30' b='211,32'/>
+<SYMBOL id='25' pos='206,28' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C13' show='1' pos='-5.6,-6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='200,24' b='193,24'/>
+<WIRE style='6' a='193,30' b='193,34'/>
+<WIRE style='6' a='193,24' b='193,30'/>
+<WIRE style='6' a='202.8,23.98' b='211,23.98'/>
+<WIRE style='6' a='211,23.98' b='211,30'/>
+<WIRE style='6' a='205,30' b='211,30'/>
+<SYMBOL id='12' pos='197,46' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U12' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='22' pos='215,46' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U13' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,40' b='211,42'/>
+<WIRE style='6' a='193.02,36.8' b='193,42'/>
+<SYMBOL id='26' pos='62,76' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW2' show='1' pos='-11,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<WIRE style='6' a='50,30' b='48,30'/>
+<SYMBOL id='27' pos='146,76' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW3' show='1' pos='-7,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<SYMBOL id='28' pos='169,76' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW4' show='1' pos='-9,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<SYMBOL id='29' pos='247,76' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW5' show='1' pos='-6.4,-47.2'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<WIRE style='8' a='64.5,30' b='77,30'/>
+<WIRE style='8' a='131,30' b='136,30'/>
+<WIRE style='6' a='226,30' b='237,30'/>
+<SYMBOL id='25' pos='254,58' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C14' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='254,64' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U14' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='24' pos='262,48' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R14' show='1' pos='-5.7,1.7'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<WIRE style='8' a='254,46' b='250,46'/>
+<WIRE style='8' a='250,46' b='250,52'/>
+<WIRE style='8' a='250.02,54.8' b='250,54.8'/>
+<WIRE style='8' a='250,54.8' b='250,60'/>
+<WIRE style='8' a='250,46' b='250,30'/>
+<WIRE style='8' a='250,30' b='247,30'/>
+<SYMBOL id='22' pos='267,65' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U15' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='30' pos='269,53' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='CN2' show='1' pos='-8.2,-10'/>
+<FIELD type='1' description='Name' value='Conn GP3 box' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='8' a='266,46' b='262,46'/>
+<WIRE style='8' a='60,34' b='64.5,34'/>
+<WIRE style='8' a='64.5,34' b='64.5,30'/>
+<WIRE style='8' a='60,30' b='64.5,30'/>
+<WIRE style='8' a='136,34' b='131,34'/>
+<WIRE style='8' a='116,30' b='131,30'/>
+<WIRE style='6' a='193,52' b='182,52'/>
+<WIRE style='6' a='182,52' b='182,34'/>
+<WIRE style='6' a='175.5,34' b='167,34'/>
+<WIRE style='6' a='211,52' b='217,52'/>
+<WIRE style='6' a='211,51.98' b='211,52'/>
+<WIRE style='6' a='217,52' b='217,34'/>
+<WIRE style='6' a='229,34' b='237,34'/>
+<WIRE style='8' a='64.5,34' b='64.5,38'/>
+<WIRE style='8' a='64.5,38' b='60,38'/>
+<WIRE style='8' a='64.5,50' b='60,50'/>
+<WIRE style='8' a='60,54' b='64.5,54'/>
+<WIRE style='8' a='64.5,58' b='64.5,62'/>
+<WIRE style='8' a='64.5,62' b='60,62'/>
+<WIRE style='8' a='64.5,70' b='64.5,74'/>
+<WIRE style='8' a='64.5,74' b='60,74'/>
+<WIRE style='8' a='60,70' b='64.5,70'/>
+<WIRE style='8' a='64.5,66' b='64.5,70'/>
+<WIRE style='8' a='232,38' b='237,38'/>
+<WIRE style='6' a='172,30' b='193,30'/>
+<WIRE style='6' a='197,30' b='193,30'/>
+<WIRE style='6' a='211,30' b='226,30'/>
+<WIRE style='6' a='237,42' b='226,42'/>
+<WIRE style='6' a='226,30' b='226,42'/>
+<WIRE style='6' a='237,54' b='226,54'/>
+<WIRE style='6' a='226,54' b='226,66'/>
+<WIRE style='6' a='226,42' b='226,54'/>
+<WIRE style='6' a='226,66' b='237,66'/>
+<WIRE style='6' a='217,34' b='229,34'/>
+<WIRE style='6' a='237,46' b='229,46'/>
+<WIRE style='6' a='229,34' b='229,46'/>
+<WIRE style='6' a='237,58' b='229,58'/>
+<WIRE style='6' a='229,58' b='229,70'/>
+<WIRE style='6' a='229,46' b='229,58'/>
+<WIRE style='6' a='229,70' b='237,70'/>
+<WIRE style='8' a='237,50' b='232,50'/>
+<WIRE style='8' a='232,38' b='232,50'/>
+<WIRE style='8' a='237,62' b='232,62'/>
+<WIRE style='8' a='232,62' b='232,74'/>
+<WIRE style='8' a='232,50' b='232,62'/>
+<WIRE style='8' a='88,58' b='83,58'/>
+<WIRE style='8' a='83,58' b='83,42'/>
+<WIRE style='8' a='88,82' b='79,82'/>
+<WIRE style='8' a='79,82' b='79,54'/>
+<WIRE style='8' a='79,54' b='64.5,54'/>
+<WIRE style='8' a='60,46' b='64.5,46'/>
+<WIRE style='8' a='64.5,50' b='64.5,46'/>
+<WIRE style='8' a='64.5,46' b='64.5,42'/>
+<WIRE style='8' a='64.5,42' b='83,42'/>
+<WIRE style='8' a='60,42' b='64.5,42'/>
+<WIRE style='8' a='60,58' b='64.5,58'/>
+<WIRE style='8' a='64.5,54' b='64.5,58'/>
+<WIRE style='6' a='100,82' b='104,82'/>
+<WIRE style='6' a='110,82' b='110,84'/>
+<WIRE style='8' a='131,34' b='131,38'/>
+<WIRE style='8' a='131,30' b='131,34'/>
+<WIRE style='8' a='131,38' b='136,38'/>
+<WIRE style='8' a='136,46' b='131,46'/>
+<WIRE style='8' a='131,46' b='131,50'/>
+<WIRE style='8' a='131,42' b='131,46'/>
+<WIRE style='8' a='136,58' b='131.5,58'/>
+<WIRE style='8' a='131.5,58' b='131.5,62'/>
+<WIRE style='8' a='131.5,54' b='131.5,58'/>
+<WIRE style='8' a='131.5,62' b='136,62'/>
+<WIRE style='8' a='136,70' b='131.5,70'/>
+<WIRE style='8' a='131.5,66' b='131.5,70'/>
+<WIRE style='8' a='64.5,66' b='75,66'/>
+<WIRE style='8' a='60,66' b='64,66'/>
+<WIRE style='8' a='75,66' b='75,98'/>
+<WIRE style='8' a='75,98' b='122,98'/>
+<WIRE style='8' a='122,98' b='122,74'/>
+<WIRE style='8' a='131.5,66' b='136,66'/>
+<WIRE style='6' a='110,58' b='113,58'/>
+<WIRE style='6' a='104,58' b='110,58'/>
+<WIRE style='6' a='113,58' b='113,50'/>
+<WIRE style='6' a='131,42' b='136,42'/>
+<WIRE style='6' a='110,82' b='117,82'/>
+<WIRE style='6' a='104,82' b='110,82'/>
+<WIRE style='6' a='117,82' b='117,62'/>
+<WIRE style='6' a='131.5,54' b='136,54'/>
+<WIRE style='6' a='167,30' b='172,30'/>
+<WIRE style='6' a='167,42' b='172,42'/>
+<WIRE style='6' a='172,30' b='172,42'/>
+<WIRE style='6' a='167,54' b='172,54'/>
+<WIRE style='6' a='172,54' b='172,66'/>
+<WIRE style='6' a='172,42' b='172,54'/>
+<WIRE style='6' a='172,66' b='167,66'/>
+<WIRE style='6' a='182,34' b='175.5,34'/>
+<WIRE style='6' a='167,46' b='175.5,46'/>
+<WIRE style='6' a='175.5,34' b='175.5,46'/>
+<WIRE style='6' a='167,58' b='175.5,58'/>
+<WIRE style='6' a='175.5,58' b='175.5,70'/>
+<WIRE style='6' a='175.5,46' b='175.5,58'/>
+<WIRE style='6' a='175.5,70' b='167,70'/>
+<WIRE style='8' a='167,38' b='178.5,38'/>
+<WIRE style='8' a='167,50' b='178.5,50'/>
+<WIRE style='8' a='178.5,38' b='178.5,50'/>
+<WIRE style='8' a='167,62' b='178.5,62'/>
+<WIRE style='8' a='178.5,50' b='178.5,62'/>
+<WIRE style='8' a='178.5,74' b='178.5,62'/>
+<WIRE style='8' a='232,74' b='237,74'/>
+<WIRE style='8' a='178.5,74' b='232,74'/>
+<WIRE style='8' a='178.5,74' b='167,74'/>
+<WIRE style='32' a='28,34' b='25,34'/>
+<WIRE style='32' a='25,30' b='25,24'/>
+<WIRE style='32' a='25,34' b='25,30'/>
+<SYMBOL id='24' pos='155,32' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R15' show='1' pos='-9.6,2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<WIRE style='8' a='146,30' b='147,30'/>
+<WIRE style='8' a='155,30' b='157,30'/>
+<SYMBOL id='24' pos='282,58' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R16' show='1' pos='-1.3,-8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='284,64' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U16' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='8' a='280,58' b='280,60'/>
+<WIRE style='8' a='280,50' b='280,46'/>
+<WIRE style='8' a='280,46' b='268,46'/>
+<RECTANGLE a='270,36' b='287,68.5' style='24' fill='0'/>
+<TEXT pos='25.2,92.2' direction='3' font='18' color='000000'>DC-100MHz</TEXT>
+<TEXT pos='34,40' direction='3' font='37' color='000000'>AC</TEXT>
+<TEXT pos='26,40' direction='3' font='38' color='000000'>DC</TEXT>
+<TEXT pos='14,26.6' direction='3' font='46' color='000000'>Input</TEXT>
+<TEXT pos='25.4,22' direction='3' font='4' color='000000'>100n 400V</TEXT>
+<TEXT pos='79.2,31.3' direction='3' font='4' color='000000'>100</TEXT>
+<TEXT pos='94.6,31.3' direction='3' font='4' color='000000'>1M</TEXT>
+<TEXT pos='108.4,31.3' direction='3' font='4' color='000000'>47</TEXT>
+<TEXT pos='117.3,37' direction='0' font='4' color='000000'>1k</TEXT>
+<TEXT pos='88.6,43' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='97.8,23.6' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='104,42' direction='3' font='4' color='000000'>1200p</TEXT>
+<TEXT pos='98,52' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='88.8,69' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='98,68' direction='3' font='4' color='000000'>270p</TEXT>
+<TEXT pos='94.1,59.2' direction='3' font='4' color='000000'>990k</TEXT>
+<TEXT pos='111.2,66.5' direction='0' font='4' color='000000'>10.1k</TEXT>
+<TEXT pos='89.4,93' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='98.2,76' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='93.7,83.4' direction='3' font='4' color='000000'>900k</TEXT>
+<TEXT pos='111.2,90.5' direction='0' font='4' color='000000'>111k</TEXT>
+<TEXT pos='149.6,31.3' direction='3' font='4' color='000000'>10</TEXT>
+<TEXT pos='204.4,23.8' direction='3' font='4' color='000000'>0.8-6p</TEXT>
+<TEXT pos='194.2,41.2' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='194.4,69.4' direction='3' font='4' color='000000'>0.8-6p</TEXT>
+<TEXT pos='198.5,31.3' direction='3' font='10' color='000000'>750k</TEXT>
+<TEXT pos='212.4,38' direction='0' font='11' color='000000'>330k</TEXT>
+<TEXT pos='199.5,59.4' direction='3' font='49' color='000000'>500k</TEXT>
+<TEXT pos='212.2,65.7' direction='0' font='4' color='000000'>1M</TEXT>
+<TEXT pos='273,67' direction='3' font='4' color='000000'>1M Load</TEXT>
+<TEXT pos='256.2,47.4' direction='3' font='4' color='000000'>100</TEXT>
+<TEXT pos='251,59' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='60,30' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,34' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,38' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,42' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,46' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,50' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,54' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,58' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,62' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,66' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,70' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,74' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='133.5,29' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='133.5,33.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='133.5,37.5' direction='3' font='6' color='000000'>3</TEXT>
+<TEXT pos='133.5,41.5' direction='3' font='6' color='000000'>4</TEXT>
+<TEXT pos='133.5,45.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='133.5,49.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='133.5,53.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='133.5,57.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='133.5,61.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='132.5,65.5' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='132.5,69.5' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='132.5,73.5' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='168,29.5' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='168,33.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='168,37.5' direction='3' font='6' color='000000'>3</TEXT>
+<TEXT pos='168,41.5' direction='3' font='6' color='000000'>4</TEXT>
+<TEXT pos='168,45.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='168,49.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='168,53.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='168,57.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='168,61.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='167.5,65.5' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='167.5,69.5' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='167.5,73.5' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='234.5,29.5' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='234.5,33.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='234.5,37.5' direction='3' font='6' color='000000'>3</TEXT>
+<TEXT pos='234.5,41.5' direction='3' font='6' color='000000'>4</TEXT>
+<TEXT pos='235,45.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='235,49.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='235,53.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='235,57.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='235,61.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='234.5,65' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='234.5,69' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='234.5,73' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='60.5,29.5' direction='3' font='8' color='000000'>1</TEXT>
+<TEXT pos='60.5,33.5' direction='3' font='8' color='000000'>2</TEXT>
+<TEXT pos='60.5,37.5' direction='3' font='8' color='000000'>3</TEXT>
+<TEXT pos='60.5,41.5' direction='3' font='8' color='000000'>4</TEXT>
+<TEXT pos='60.5,45.5' direction='3' font='8' color='000000'>5</TEXT>
+<TEXT pos='60.5,49.5' direction='3' font='8' color='000000'>6</TEXT>
+<TEXT pos='60.5,53.5' direction='3' font='8' color='000000'>7</TEXT>
+<TEXT pos='60.5,57.5' direction='3' font='8' color='000000'>8</TEXT>
+<TEXT pos='60.5,61.5' direction='3' font='8' color='000000'>9</TEXT>
+<TEXT pos='60,65.5' direction='3' font='8' color='000000'>10</TEXT>
+<TEXT pos='60,69.5' direction='3' font='8' color='000000'>11</TEXT>
+<TEXT pos='60,73.5' direction='3' font='8' color='000000'>12</TEXT>
+<TEXT pos='42.9,31.3' direction='3' font='4' color='000000'>47</TEXT>
+<TEXT pos='204.72,51.6' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='66,30' direction='3' font='25' color='000000'>4000:1</TEXT>
+<TEXT pos='66,34' direction='3' font='26' color='000000'>2000:1</TEXT>
+<TEXT pos='66,38' direction='3' font='27' color='000000'>1000:1</TEXT>
+<TEXT pos='67,42' direction='3' font='36' color='000000'>400:1</TEXT>
+<TEXT pos='67,46' direction='3' font='35' color='000000'>200:1</TEXT>
+<TEXT pos='67,50' direction='3' font='34' color='000000'>100:1</TEXT>
+<TEXT pos='68,54' direction='3' font='33' color='000000'>40:1</TEXT>
+<TEXT pos='68,58' direction='3' font='32' color='000000'>20:1</TEXT>
+<TEXT pos='68,62' direction='3' font='31' color='000000'>10:1</TEXT>
+<TEXT pos='69,66' direction='3' font='30' color='000000'>4:1</TEXT>
+<TEXT pos='69,70' direction='3' font='29' color='000000'>2:1</TEXT>
+<TEXT pos='69,74' direction='3' font='28' color='000000'>1:1</TEXT>
+<SYMBOL id='1' pos='22,128' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U17' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='2' pos='92,135' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U18' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='3' pos='38,123' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW6' show='1' pos='-11,-6'/>
+<FIELD type='1' description='Name' value='Switch slide 2way 1 pole' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<WIRE style='6' a='40,117' b='32,117'/>
+<WIRE style='6' a='32,117' b='32,121'/>
+<WIRE style='6' a='36,111' b='36,121'/>
+<WIRE style='32' a='30,111' b='25,111'/>
+<WIRE style='6' a='32,111' b='36,111'/>
+<SYMBOL id='4' pos='38,113' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C15' show='1' pos='-1.8,-1.6'/>
+<FIELD type='1' description='Name' value='Capacitor non polar flip' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<SYMBOL id='5' pos='48,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R17' show='1' pos='-6.2,1.6'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='7' pos='84,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R18' show='1' pos='-5.2,2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='8' pos='100,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R19' show='1' pos='-5.6,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='9' pos='114,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R20' show='1' pos='-6.1,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='8' pos='118,127' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R21' show='1' pos='-0.6,-2.4'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='6' pos='108,135' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U19' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='11' pos='120,135' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U20' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='88,117' b='92,117'/>
+<WIRE style='6' a='104,117' b='106,117'/>
+<WIRE style='7' a='114,117' b='116,117'/>
+<WIRE style='7' a='116,117' b='116,119'/>
+<WIRE style='6' a='116,127' b='116,131'/>
+<SYMBOL id='13' pos='106,127' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C16' show='1' pos='-5,-4'/>
+<FIELD type='1' description='Name' value='Capacitor- non polarised' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='104,126' b='104,131'/>
+<WIRE style='6' a='104,123' b='104,117'/>
+<WIRE style='6' a='100,117' b='104,117'/>
+<WIRE style='6' a='88.02,124.8' b='88,124.8'/>
+<WIRE style='6' a='88,124.8' b='88,131'/>
+<WIRE a='58.02,138.8' b='58,138.8'/>
+<SYMBOL id='15' pos='92,129' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C17' show='1' pos='-2,-5'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='15' pos='100,115' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C18' show='1' pos='-5.2,-6.2'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='88,123' b='88,117'/>
+<WIRE style='6' a='84,117' b='88,117'/>
+<WIRE style='6' a='94,111' b='88,111'/>
+<WIRE style='6' a='88,111' b='88,117'/>
+<WIRE style='6' a='96.8,110.98' b='104,110.98'/>
+<WIRE style='6' a='104,110.98' b='104,117'/>
+<SYMBOL id='16' pos='20,119' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='CN3' show='1' pos='-6.8,2.8'/>
+<FIELD type='1' description='Name' value='Conn Coaxial socket' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<WIRE style='32' a='25,117' b='18,117'/>
+<WIRE style='6' a='18,124' b='18,119'/>
+<SYMBOL id='17' pos='92,155' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C19' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='18' pos='92,179' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C20' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='9' pos='100,147' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R22' show='1' pos='-8.3,-3.3'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='10' pos='100,171' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R23' show='1' pos='-7.4,-3.2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='14' pos='106,153' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C21' show='1' pos='-5,-4'/>
+<FIELD type='1' description='Name' value='Capacitor- non polarised' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='9' pos='112,155' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R24' show='1' pos='-0.2,-2.3'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='10' pos='112,179' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R25' show='1' pos='-0.6,-1.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='18' pos='100,143' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C22' show='1' pos='-5.8,-6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='7' a='94,139' b='88,139'/>
+<WIRE style='7' a='88,145' b='88,149'/>
+<WIRE style='7' a='92,145' b='88,145'/>
+<WIRE style='7' a='88,139' b='88,145'/>
+<WIRE style='6' a='100,145' b='104,145'/>
+<WIRE style='6' a='96.8,138.98' b='104,138.98'/>
+<WIRE style='6' a='104,145' b='104,149'/>
+<WIRE style='6' a='104,138.98' b='104,145'/>
+<WIRE style='6' a='110,145' b='110,147'/>
+<WIRE style='7' a='92,169' b='88,169'/>
+<SYMBOL id='19' pos='100,167' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C23' show='1' pos='-5.6,-5.8'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='7' a='94,163' b='88,163'/>
+<WIRE style='7' a='88,169' b='88,173'/>
+<WIRE style='7' a='88,163' b='88,169'/>
+<WIRE style='6' a='96.8,162.98' b='104,162.98'/>
+<WIRE style='6' a='104,162.98' b='104,169'/>
+<SYMBOL id='6' pos='92,185' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U21' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='11' pos='114,185' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U22' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='114,161' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U23' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='22' pos='108,161' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U24' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='23' pos='92,161' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U25' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='88.02,151.8' b='88,151.8'/>
+<WIRE style='6' a='88,151.8' b='88,157'/>
+<WIRE style='6' a='104,152' b='104,157'/>
+<WIRE style='6' a='110,155' b='110,157'/>
+<WIRE style='6' a='110,179' b='110,181'/>
+<WIRE style='6' a='88.02,175.8' b='88,181'/>
+<SYMBOL id='19' pos='197,155' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C24' show='1' pos='-2,-5'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='20' pos='207,147' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R26' show='1' pos='-6.2,1.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='20' pos='213,155' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R27' show='1' pos='-7.7,0.9'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='6' a='199,145' b='193,145'/>
+<WIRE style='6' a='211,145' b='211,147'/>
+<SYMBOL id='21' pos='207,143' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C25' show='1' pos='-6,-6.6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='201,139' b='193,139'/>
+<WIRE style='6' a='193,145' b='193,149'/>
+<WIRE style='6' a='193,139' b='193,145'/>
+<WIRE style='6' a='203.8,138.98' b='211,138.98'/>
+<WIRE style='6' a='211,139' b='211,145'/>
+<WIRE style='6' a='207,145' b='211,145'/>
+<SYMBOL id='11' pos='197,161' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U26' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='215,161' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U27' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,155' b='211,157'/>
+<WIRE style='6' a='193,151.8' b='193,157'/>
+<SYMBOL id='21' pos='197,127' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C26' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='24' pos='206,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R28' show='1' pos='-6.2,1.5'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<SYMBOL id='24' pos='213,127' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R29' show='1' pos='-7.7,0.8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,117' b='211,119'/>
+<SYMBOL id='25' pos='206,115' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C27' show='1' pos='-5.6,-6'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-8,4.4'/>
+</SYMBOL>
+<WIRE style='6' a='200,111' b='193,111'/>
+<WIRE style='6' a='193,117' b='193,121'/>
+<WIRE style='6' a='193,111' b='193,117'/>
+<WIRE style='6' a='202.8,110.98' b='211,110.98'/>
+<WIRE style='6' a='211,110.98' b='211,117'/>
+<WIRE style='6' a='206,117' b='211,117'/>
+<SYMBOL id='12' pos='197,133' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U28' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='22' pos='215,133' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U29' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='6' a='211,127' b='211,129'/>
+<WIRE style='6' a='193.02,123.8' b='193,129'/>
+<SYMBOL id='26' pos='62,163' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW7' show='1' pos='-11,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<WIRE style='6' a='50,117' b='48,117'/>
+<SYMBOL id='27' pos='145,163' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW8' show='1' pos='-7,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<SYMBOL id='28' pos='169,163' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW9' show='1' pos='-9,-48'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<SYMBOL id='29' pos='247,163' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='SW10' show='1' pos='-6.4,-47.2'/>
+<FIELD type='1' description='Name' value='Switch A12 12way' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-43.6'/>
+</SYMBOL>
+<WIRE style='7' a='64.5,117' b='76,117'/>
+<WIRE style='7' a='131,117' b='135,117'/>
+<WIRE style='6' a='226,117' b='237,117'/>
+<SYMBOL id='25' pos='254,145' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C28' show='1' pos='-2,-4'/>
+<FIELD type='1' description='Name' value='Capacitor-Trimmer' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-3.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='254,151' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U30' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='24' pos='262,135' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R30' show='1' pos='-5.7,1.7'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<WIRE style='7' a='254,133' b='250,133'/>
+<WIRE style='7' a='250,133' b='250,139'/>
+<WIRE style='7' a='250.02,141.8' b='250,141.8'/>
+<WIRE style='7' a='250,141.8' b='250,147'/>
+<WIRE style='7' a='250,133' b='250,117'/>
+<WIRE style='7' a='250,117' b='247,117'/>
+<SYMBOL id='22' pos='267,151' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U31' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<SYMBOL id='30' pos='269,140' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='CN4' show='1' pos='-8.2,-10'/>
+<FIELD type='1' description='Name' value='Conn GP3 box' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<WIRE style='7' a='266,133' b='262,133'/>
+<WIRE style='7' a='60,121' b='64.5,121'/>
+<WIRE style='7' a='64.5,121' b='64.5,117'/>
+<WIRE style='7' a='60,117' b='64.5,117'/>
+<WIRE style='7' a='135,121' b='131,121'/>
+<WIRE style='7' a='116,117' b='131,117'/>
+<WIRE style='6' a='193,139' b='182,139'/>
+<WIRE style='6' a='182,139' b='182,121'/>
+<WIRE style='6' a='175.5,121' b='167,121'/>
+<WIRE style='6' a='211,139' b='217,139'/>
+<WIRE style='6' a='211,138.98' b='211,139'/>
+<WIRE style='6' a='217,139' b='217,121'/>
+<WIRE style='6' a='229,121' b='237,121'/>
+<WIRE style='7' a='64.5,121' b='64.5,125'/>
+<WIRE style='7' a='64.5,125' b='60,125'/>
+<WIRE style='7' a='64.5,137' b='60,137'/>
+<WIRE style='7' a='60,141' b='64.5,141'/>
+<WIRE style='7' a='64.5,145' b='64.5,149'/>
+<WIRE style='7' a='64.5,149' b='60,149'/>
+<WIRE style='7' a='64.5,157' b='64.5,161'/>
+<WIRE style='7' a='64.5,161' b='60,161'/>
+<WIRE style='7' a='60,157' b='64.5,157'/>
+<WIRE style='7' a='64.5,153' b='64.5,157'/>
+<WIRE style='7' a='233,125' b='237,125'/>
+<WIRE style='6' a='172,117' b='193,117'/>
+<WIRE style='6' a='198,117' b='193,117'/>
+<WIRE style='6' a='211,117' b='226,117'/>
+<WIRE style='6' a='237,129' b='226,129'/>
+<WIRE style='6' a='226,117' b='226,129'/>
+<WIRE style='6' a='237,141' b='226,141'/>
+<WIRE style='6' a='226,141' b='226,153'/>
+<WIRE style='6' a='226,129' b='226,141'/>
+<WIRE style='6' a='226,153' b='237,153'/>
+<WIRE style='6' a='217,121' b='229,121'/>
+<WIRE style='6' a='237,133' b='229,133'/>
+<WIRE style='6' a='229,121' b='229,133'/>
+<WIRE style='6' a='237,145' b='229,145'/>
+<WIRE style='6' a='229,145' b='229,157'/>
+<WIRE style='6' a='229,133' b='229,145'/>
+<WIRE style='6' a='229,157' b='237,157'/>
+<WIRE style='7' a='237,137' b='233,137'/>
+<WIRE style='7' a='233,125' b='233,137'/>
+<WIRE style='7' a='237,149' b='233,149'/>
+<WIRE style='7' a='233,149' b='233,161'/>
+<WIRE style='7' a='233,137' b='233,149'/>
+<WIRE style='7' a='88,145' b='82,145'/>
+<WIRE style='7' a='82,145' b='82,129'/>
+<WIRE style='7' a='88,169' b='78,169'/>
+<WIRE style='7' a='78,169' b='78,141'/>
+<WIRE style='7' a='78,141' b='64.5,141'/>
+<WIRE style='7' a='60,133' b='64.5,133'/>
+<WIRE style='7' a='64.5,137' b='64.5,133'/>
+<WIRE style='7' a='64.5,133' b='64.5,129'/>
+<WIRE style='7' a='64.5,129' b='82,129'/>
+<WIRE style='7' a='60,129' b='64.5,129'/>
+<WIRE style='7' a='60,145' b='64.5,145'/>
+<WIRE style='7' a='64.5,141' b='64.5,145'/>
+<WIRE style='6' a='100,169' b='104,169'/>
+<WIRE style='6' a='110,169' b='110,171'/>
+<WIRE style='7' a='131,121' b='131,125'/>
+<WIRE style='7' a='131,117' b='131,121'/>
+<WIRE style='7' a='131,125' b='135,125'/>
+<WIRE style='7' a='135,133' b='131,133'/>
+<WIRE style='7' a='131,133' b='131,137'/>
+<WIRE style='7' a='131,129' b='131,133'/>
+<WIRE style='7' a='135,145' b='131.5,145'/>
+<WIRE style='7' a='131.5,145' b='131.5,149'/>
+<WIRE style='7' a='131.5,141' b='131.5,145'/>
+<WIRE style='7' a='131.5,149' b='135,149'/>
+<WIRE style='7' a='135,157' b='131.5,157'/>
+<WIRE style='7' a='131.5,157' b='131.5,161'/>
+<WIRE style='7' a='131.5,153' b='131.5,157'/>
+<WIRE style='7' a='64.5,153' b='74,153'/>
+<WIRE style='7' a='60,153' b='64,153'/>
+<WIRE style='7' a='74,153' b='74,185'/>
+<WIRE style='7' a='74,185' b='123,185'/>
+<WIRE style='7' a='123,185' b='123,161'/>
+<WIRE style='7' a='131.5,153' b='135,153'/>
+<WIRE style='6' a='110,145' b='113,145'/>
+<WIRE style='6' a='104,145' b='110,145'/>
+<WIRE style='6' a='113,145' b='113,137'/>
+<WIRE style='6' a='131,129' b='135,129'/>
+<WIRE style='6' a='110,169' b='118,169'/>
+<WIRE style='6' a='104,169' b='110,169'/>
+<WIRE style='6' a='118,169' b='118,149'/>
+<WIRE style='6' a='131.5,141' b='135,141'/>
+<WIRE style='6' a='167,117' b='172,117'/>
+<WIRE style='6' a='167,129' b='172,129'/>
+<WIRE style='6' a='172,117' b='172,129'/>
+<WIRE style='6' a='167,141' b='172,141'/>
+<WIRE style='6' a='172,141' b='172,153'/>
+<WIRE style='6' a='172,129' b='172,141'/>
+<WIRE style='6' a='172,153' b='167,153'/>
+<WIRE style='6' a='182,121' b='175.5,121'/>
+<WIRE style='6' a='167,133' b='175.5,133'/>
+<WIRE style='6' a='175.5,121' b='175.5,133'/>
+<WIRE style='6' a='167,145' b='175.5,145'/>
+<WIRE style='6' a='175.5,145' b='175.5,157'/>
+<WIRE style='6' a='175.5,133' b='175.5,145'/>
+<WIRE style='6' a='175.5,157' b='167,157'/>
+<WIRE style='7' a='167,125' b='178.5,125'/>
+<WIRE style='7' a='167,137' b='178.5,137'/>
+<WIRE style='7' a='178.5,125' b='178.5,137'/>
+<WIRE style='7' a='167,149' b='178.5,149'/>
+<WIRE style='7' a='178.5,137' b='178.5,149'/>
+<WIRE style='7' a='178.5,161' b='178.5,149'/>
+<WIRE style='7' a='233,161' b='237,161'/>
+<WIRE style='7' a='178.5,161' b='233,161'/>
+<WIRE style='7' a='178.5,161' b='167,161'/>
+<WIRE style='32' a='28,121' b='25,121'/>
+<WIRE style='32' a='25,117' b='25,111'/>
+<WIRE style='32' a='25,121' b='25,117'/>
+<SYMBOL id='24' pos='155,119' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R31' show='1' pos='-9.6,2'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-10,4.4'/>
+</SYMBOL>
+<WIRE style='7' a='145,117' b='147,117'/>
+<WIRE style='7' a='155,117' b='157,117'/>
+<SYMBOL id='24' pos='283,145' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R32' show='1' pos='-1.3,-8'/>
+<FIELD type='1' description='Name' value='Resistor box open bare' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-5.6'/>
+</SYMBOL>
+<SYMBOL id='12' pos='285,151' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U32' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='7' a='281,145' b='281,147'/>
+<WIRE style='7' a='281,137' b='281,133'/>
+<WIRE style='7' a='281,133' b='268,133'/>
+<TEXT pos='34,127' direction='3' font='39' color='000000'>AC</TEXT>
+<TEXT pos='26,127' direction='3' font='40' color='000000'>DC</TEXT>
+<TEXT pos='14,113.6' direction='3' font='44' color='000000'>Input</TEXT>
+<TEXT pos='25.4,109' direction='3' font='4' color='000000'>100n 400V</TEXT>
+<TEXT pos='78.2,118.3' direction='3' font='4' color='000000'>100</TEXT>
+<TEXT pos='94.6,118.3' direction='3' font='4' color='000000'>1M</TEXT>
+<TEXT pos='108.4,118.3' direction='3' font='4' color='000000'>47</TEXT>
+<TEXT pos='117.3,124' direction='0' font='4' color='000000'>1k</TEXT>
+<TEXT pos='88.6,130' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='97.8,108.6' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='104,129' direction='3' font='4' color='000000'>1200p</TEXT>
+<TEXT pos='98,139' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='88.8,156' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='98,155' direction='3' font='4' color='000000'>270p</TEXT>
+<TEXT pos='94.1,146.2' direction='3' font='4' color='000000'>990k</TEXT>
+<TEXT pos='111.2,153.5' direction='0' font='4' color='000000'>10.1k</TEXT>
+<TEXT pos='89.4,180' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='98.2,163' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='93.7,170.4' direction='3' font='4' color='000000'>900k</TEXT>
+<TEXT pos='111.2,177.5' direction='0' font='4' color='000000'>111k</TEXT>
+<TEXT pos='149.6,118.3' direction='3' font='4' color='000000'>10</TEXT>
+<TEXT pos='204.4,110.8' direction='3' font='4' color='000000'>0.8-6p</TEXT>
+<TEXT pos='194.2,128.2' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='194.4,156.4' direction='3' font='4' color='000000'>0.8-6p</TEXT>
+<TEXT pos='199.5,118.3' direction='3' font='5' color='000000'>750k</TEXT>
+<TEXT pos='212.4,125' direction='0' font='9' color='000000'>330k</TEXT>
+<TEXT pos='200.5,146.4' direction='3' font='4' color='000000'>500k</TEXT>
+<TEXT pos='212.2,152.7' direction='0' font='4' color='000000'>1M</TEXT>
+<TEXT pos='274,154' direction='3' font='4' color='000000'>1M Load</TEXT>
+<TEXT pos='256.2,134.4' direction='3' font='4' color='000000'>100</TEXT>
+<TEXT pos='251,146' direction='3' font='4' color='000000'>0.7-3p</TEXT>
+<TEXT pos='60,117' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,121' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,125' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,129' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,133' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,137' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,141' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,145' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,149' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,153' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,157' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='60,161' direction='3' font='4' color='000000'></TEXT>
+<TEXT pos='133.5,116' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='133.5,120.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='133.5,124.5' direction='3' font='6' color='000000'>3</TEXT>
+<TEXT pos='133.5,128.5' direction='3' font='6' color='000000'>4</TEXT>
+<TEXT pos='133.5,132.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='133.5,136.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='133.5,140.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='133.5,144.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='133.5,148.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='132.5,152.5' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='132.5,156.5' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='132.5,160.5' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='168,116.5' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='168,120.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='168,124.5' direction='3' font='6' color='000000'>3</TEXT>
+<TEXT pos='168,128.5' direction='3' font='6' color='000000'>4</TEXT>
+<TEXT pos='168,132.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='168,136.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='168,140.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='168,144.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='168,148.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='167.5,152.5' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='167.5,156.5' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='167.5,160.5' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='234.5,116.5' direction='3' font='6' color='000000'>1</TEXT>
+<TEXT pos='234.5,120.5' direction='3' font='6' color='000000'>2</TEXT>
+<TEXT pos='234.5,124.5' direction='3' font='52' color='000000'>3</TEXT>
+<TEXT pos='234.5,128.5' direction='3' font='51' color='000000'>4</TEXT>
+<TEXT pos='235,132.5' direction='3' font='6' color='000000'>5</TEXT>
+<TEXT pos='235,136.5' direction='3' font='6' color='000000'>6</TEXT>
+<TEXT pos='235,140.5' direction='3' font='6' color='000000'>7</TEXT>
+<TEXT pos='235,144.5' direction='3' font='6' color='000000'>8</TEXT>
+<TEXT pos='235,148.5' direction='3' font='6' color='000000'>9</TEXT>
+<TEXT pos='234.5,152' direction='3' font='6' color='000000'>10</TEXT>
+<TEXT pos='234.5,156' direction='3' font='6' color='000000'>11</TEXT>
+<TEXT pos='234.5,160' direction='3' font='6' color='000000'>12</TEXT>
+<TEXT pos='60.5,116.5' direction='3' font='7' color='000000'>1</TEXT>
+<TEXT pos='60.5,120.5' direction='3' font='7' color='000000'>2</TEXT>
+<TEXT pos='60.5,124.5' direction='3' font='7' color='000000'>3</TEXT>
+<TEXT pos='60.5,128.5' direction='3' font='7' color='000000'>4</TEXT>
+<TEXT pos='60.5,132.5' direction='3' font='7' color='000000'>5</TEXT>
+<TEXT pos='60.5,136.5' direction='3' font='7' color='000000'>6</TEXT>
+<TEXT pos='60.5,140.5' direction='3' font='7' color='000000'>7</TEXT>
+<TEXT pos='60.5,144.5' direction='3' font='7' color='000000'>8</TEXT>
+<TEXT pos='60.5,148.5' direction='3' font='7' color='000000'>9</TEXT>
+<TEXT pos='60,152.5' direction='3' font='7' color='000000'>10</TEXT>
+<TEXT pos='60,156.5' direction='3' font='7' color='000000'>11</TEXT>
+<TEXT pos='60,160.5' direction='3' font='7' color='000000'>12</TEXT>
+<TEXT pos='42.9,118.3' direction='3' font='4' color='000000'>47</TEXT>
+<TEXT pos='205.72,138.6' direction='3' font='4' color='000000'>1-12p</TEXT>
+<TEXT pos='66,117' direction='3' font='0' color='000000'></TEXT>
+<TEXT pos='25,97' direction='3' font='12' color='000000'>Channel #1</TEXT>
+<TEXT pos='25,185' direction='3' font='12' color='000000'>Channel #2</TEXT>
+<TEXT pos='25.2,180.2' direction='3' font='0' color='000000'>DC-100MHz</TEXT>
+<TEXT pos='14.6,23.3' direction='3' font='48' color='000000'>1M</TEXT>
+<TEXT pos='13.6,110.3' direction='3' font='47' color='000000'>1M</TEXT>
+<RECTANGLE a='23,93' b='46,98' style='18' fill='0'/>
+<RECTANGLE a='23,181' b='46,186' style='18' fill='0'/>
+<WIRE style='30' a='59,23' b='59,17'/>
+<WIRE style='30' a='137,17' b='167,17'/>
+<WIRE style='30' a='167,23' b='167,17'/>
+<WIRE style='30' a='167,17' b='238,17'/>
+<WIRE style='30' a='238,17' b='238,24'/>
+<TEXT pos='240,19' direction='3' font='4' color='000000'>4 wafers, 12way, 1pole</TEXT>
+<TEXT pos='187,196' direction='3' font='43' color='000000'>2 Channel. 1Mohm. Attenuator.</TEXT>
+<RECTANGLE a='184,189' b='267,197' style='32' fill='0'/>
+<WIRE style='19' a='266,50' b='263,50'/>
+<WIRE style='19' a='263,50' b='263,61'/>
+<WIRE style='19' a='266,137' b='263,137'/>
+<WIRE style='19' a='263,137' b='263,147'/>
+<WIRE style='24' a='151,120' b='151,187'/>
+<SYMBOL id='22' pos='276,181' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U31' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<ELLIPSE a='268,168' b='266,170' style='18' fill='4'/>
+<WIRE style='30' a='137,23' b='137,17'/>
+<WIRE style='30' a='59,17' b='137,17'/>
+<WIRE style='24' a='151,33' b='151,99'/>
+<SYMBOL id='22' pos='277,96' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U31' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='22' a='267,84' b='273,84'/>
+<WIRE style='22' a='273,84' b='273,92'/>
+<ELLIPSE a='268,83' b='266,85' style='18' fill='4'/>
+<JUNCTION pos='25,30'/>
+<JUNCTION pos='25,117'/>
+<JUNCTION pos='137,17'/>
+<JUNCTION pos='64.5,30'/>
+<JUNCTION pos='64.5,34'/>
+<JUNCTION pos='64.5,42'/>
+<JUNCTION pos='64.5,46'/>
+<JUNCTION pos='64.5,54'/>
+<JUNCTION pos='64.5,58'/>
+<JUNCTION pos='64.5,70'/>
+<JUNCTION pos='64.5,117'/>
+<JUNCTION pos='64.5,121'/>
+<JUNCTION pos='64.5,129'/>
+<JUNCTION pos='64.5,133'/>
+<JUNCTION pos='64.5,141'/>
+<JUNCTION pos='64.5,145'/>
+<JUNCTION pos='64.5,157'/>
+<JUNCTION pos='88,30'/>
+<JUNCTION pos='88,117'/>
+<JUNCTION pos='88,58'/>
+<JUNCTION pos='88,82'/>
+<JUNCTION pos='88,145'/>
+<JUNCTION pos='88,169'/>
+<JUNCTION pos='104,30'/>
+<JUNCTION pos='104,58'/>
+<JUNCTION pos='104,82'/>
+<JUNCTION pos='104,145'/>
+<JUNCTION pos='104,169'/>
+<JUNCTION pos='110,58'/>
+<JUNCTION pos='110,82'/>
+<JUNCTION pos='110,145'/>
+<JUNCTION pos='110,169'/>
+<JUNCTION pos='116,30'/>
+<JUNCTION pos='116,117'/>
+<JUNCTION pos='131,30'/>
+<JUNCTION pos='131,117'/>
+<JUNCTION pos='131,34'/>
+<JUNCTION pos='131,46'/>
+<JUNCTION pos='131,121'/>
+<JUNCTION pos='131,133'/>
+<JUNCTION pos='131.5,58'/>
+<JUNCTION pos='131.5,145'/>
+<JUNCTION pos='131.5,157'/>
+<JUNCTION pos='167,17'/>
+<JUNCTION pos='172,30'/>
+<JUNCTION pos='172,42'/>
+<JUNCTION pos='175.5,46'/>
+<JUNCTION pos='178.5,50'/>
+<JUNCTION pos='172,54'/>
+<JUNCTION pos='175.5,58'/>
+<JUNCTION pos='178.5,62'/>
+<JUNCTION pos='172,117'/>
+<JUNCTION pos='172,129'/>
+<JUNCTION pos='175.5,133'/>
+<JUNCTION pos='178.5,137'/>
+<JUNCTION pos='172,141'/>
+<JUNCTION pos='175.5,145'/>
+<JUNCTION pos='178.5,149'/>
+<JUNCTION pos='193,30'/>
+<JUNCTION pos='193,117'/>
+<JUNCTION pos='175.5,34'/>
+<JUNCTION pos='175.5,121'/>
+<JUNCTION pos='178.5,74'/>
+<JUNCTION pos='178.5,161'/>
+<JUNCTION pos='193,52'/>
+<JUNCTION pos='193,58'/>
+<JUNCTION pos='193,139'/>
+<JUNCTION pos='193,145'/>
+<JUNCTION pos='211,30'/>
+<JUNCTION pos='211,117'/>
+<JUNCTION pos='211,145'/>
+<JUNCTION pos='211,52'/>
+<JUNCTION pos='211,139'/>
+<JUNCTION pos='250,46'/>
+<JUNCTION pos='250,133'/>
+<WIRE style='24' a='151,114' b='151,106'/>
+<WIRE style='24' a='151,27' b='151,18'/>
+<SYMBOL id='35' pos='277,131' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U?' show='0' pos='1,-2'/>
+<FIELD type='1' description='Name' value='Graphic arrow4' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<SYMBOL id='36' pos='277,45' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U?' show='0' pos='1,-2'/>
+<FIELD type='1' description='Name' value='Graphic arrow4' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<SYMBOL id='37' pos='13,32' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U?' show='0' pos='1,-2'/>
+<FIELD type='1' description='Name' value='Graphic arrow4' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<SYMBOL id='38' pos='14,119' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='U?' show='0' pos='1,-2'/>
+<FIELD type='1' description='Name' value='Graphic arrow4' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,0.4'/>
+</SYMBOL>
+<WIRE style='24' a='267,106' b='267,130'/>
+<WIRE style='24' a='267,140' b='267,187'/>
+<POLYGON pos='22,106' style='24' fill='0'><POINT pos='245,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='0,81' arc='0'/>
+<POINT pos='240.12,81' arc='0'/>
+<POINT pos='245,81' arc='0'/>
+</POLYGON>
+<POLYGON pos='22,14' style='24' fill='0'><POINT pos='244,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='0,85.0024' arc='0'/>
+<POINT pos='245.02,85.0024' arc='0'/>
+<POINT pos='245,85.0024' arc='0'/>
+</POLYGON>
+<WIRE style='23' a='267,14' b='267,43'/>
+<WIRE style='23' a='267,53' b='267,83'/>
+<WIRE style='23' a='267,85' b='267,99'/>
+<WIRE style='32' a='272,177' b='272,169'/>
+<WIRE style='32' a='272,169' b='268,169'/>
+<TEXT pos='254,98' direction='3' font='45' color='000000'>Screening</TEXT>
+<TEXT pos='254,186' direction='3' font='45' color='000000'>Screening</TEXT>
+<JUNCTION pos='226,54'/>
+<JUNCTION pos='226,30'/>
+<JUNCTION pos='226,42'/>
+<JUNCTION pos='229,34'/>
+<JUNCTION pos='229,46'/>
+<JUNCTION pos='229,58'/>
+<JUNCTION pos='232,50'/>
+<JUNCTION pos='232,74'/>
+<JUNCTION pos='232,62'/>
+<JUNCTION pos='226,117'/>
+<JUNCTION pos='226,129'/>
+<JUNCTION pos='226,141'/>
+<JUNCTION pos='229,121'/>
+<JUNCTION pos='229,133'/>
+<JUNCTION pos='229,145'/>
+<JUNCTION pos='233,137'/>
+<JUNCTION pos='233,161'/>
+<JUNCTION pos='233,149'/>
+<JUNCTION pos='211,58'/>
+<SYMBOL id='12' pos='279,57' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U16' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<WIRE style='32' a='275,53' b='275,50'/>
+<WIRE style='32' a='275,50' b='268,50'/>
+<WIRE style='27' a='276,140' b='276,137'/>
+<WIRE style='32' a='276,137' b='268,137'/>
+<SYMBOL id='12' pos='280,144' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='U32' show='0' pos='1,-4'/>
+<FIELD type='1' description='Name' value='Graphic common3' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0,0'/>
+<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1,-1.6'/>
+</SYMBOL>
+<RECTANGLE a='270,123' b='287,155.5' style='23' fill='0'/>
+<WIRE style='6' a='117,62' b='131.5,62'/>
+<JUNCTION pos='131.5,62'/>
+<WIRE style='6' a='131,50' b='136,50'/>
+<JUNCTION pos='131,50'/>
+<WIRE style='6' a='113,50' b='131,50'/>
+<WIRE style='8' a='131.5,74' b='136,74'/>
+<JUNCTION pos='131.5,70'/>
+<WIRE style='8' a='131.5,70' b='131.5,74'/>
+<WIRE style='8' a='122,74' b='131.5,74'/>
+<JUNCTION pos='131.5,74'/>
+<JUNCTION pos='104,117'/>
+<WIRE style='6' a='118,149' b='131.5,149'/>
+<WIRE style='6' a='131,137' b='135,137'/>
+<WIRE style='6' a='113,137' b='131,137'/>
+<WIRE style='7' a='131.5,161' b='135,161'/>
+<JUNCTION pos='131.5,161'/>
+<WIRE style='7' a='123,161' b='131.5,161'/>
+<JUNCTION pos='131,137'/>
+<JUNCTION pos='131.5,149'/>
+</TinyCAD>
+</TinyCADSheets>

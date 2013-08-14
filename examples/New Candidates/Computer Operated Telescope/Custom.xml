@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD version 2.50.10
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<Library><SYMBOL><PPP>1</PPP>
+<ORIENTATION>0</ORIENTATION>
+<DETAILS><NAME type='1'>DC-DC Converter</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION></DESCRIPTION>
+<FIELD><NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+</FIELD>
+<FIELD><NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+<DEFAULT>5</DEFAULT>
+<FT>000002</FT>
+</FIELD>
+<FIELD><NAME>Package</NAME>
+<DEFAULT>24DIL</DEFAULT>
+<FT>000001</FT>
+</FIELD>
+</DETAILS>
+<TinyCAD><FONT id='1'><HEIGHT>-10</HEIGHT>
+<WIDTH>0</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='0'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<RECTANGLE a='-16,-28' b='-2,0' style='0' fill='0'/>
+<PIN pos='-18,-24' which='0' elec='0' direction='3' part='0' number='1' show='3' length='10' number_pos='0'>Vin</PIN>
+<PIN pos='0,-24' which='0' elec='0' direction='2' part='0' number='24' show='3' length='10' number_pos='0'>Vin</PIN>
+<PIN pos='0,-10' which='0' elec='4' direction='2' part='0' number='15' show='3' length='10' number_pos='0'>0v</PIN>
+<PIN pos='0,-6' which='0' elec='1' direction='2' part='0' number='14' show='3' length='10' number_pos='0'>+V</PIN>
+<PIN pos='0,-2' which='0' elec='2' direction='2' part='0' number='13' show='3' length='10' number_pos='0'>GND</PIN>
+<PIN pos='-18,-10' which='0' elec='4' direction='3' part='0' number='10' show='3' length='10' number_pos='0'>0v</PIN>
+<PIN pos='-18,-6' which='0' elec='1' direction='3' part='0' number='11' show='3' length='10' number_pos='0'>+V</PIN>
+<PIN pos='-18,-2' which='0' elec='2' direction='3' part='0' number='12' show='3' length='10' number_pos='0'>GND</PIN>
+</TinyCAD>
+</SYMBOL>
+</Library>

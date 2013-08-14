@@ -1,0 +1,11 @@
+====+  Parts List for C:\My Documents\COT Circuits\Dual PSU.dsn  +====
+
+J1a,J1b,J2a,J2b,J3a,J3b,
+J4a,J4b                       8   1 Pin Connector
+C11,C12                       2   4700/35
+R11                           1   4k7
+FS1                           1   500mA
+D5                            1   BY254
+U4                            1   DC-DC Converter
+B1                            1   GBU6
+D4                            1   HLMP1700
