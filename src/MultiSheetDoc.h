@@ -39,6 +39,8 @@ protected:
 	DECLARE_DYNCREATE( CMultiSheetDoc)
 
 public:
+	virtual BOOL DoSave(LPCTSTR lpszPathName, BOOL bReplace = TRUE);	//The standard MFC DoSave accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CMultiSheetDoc::DoSave().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
+	virtual BOOL MyDoPromptFileName(CString& fileName, BOOL bReplace);	//The standard MFC DoPromptFileName() accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CMultiSheetDoc::MyDoPromptFileName().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 
 	// Force an autosave of the document
 	virtual void AutoSave();

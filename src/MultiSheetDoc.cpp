@@ -194,3 +194,146 @@ void CMultiSheetDoc::DelayUpdateFrameTitle()
 		}
 	}
 }
+
+//----------------------------------------------
+//Override CDocument::DoSave() to avoid Microsoft MFC bug that is exposed in Windows 8.1.  This is an attempt to provide identical functionality
+//while avoiding a resource bug that activates the "encountered an improper argument" bug that is missing an exception handler
+
+BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
+	// Save the document data to a file
+	// lpszPathName = path name where to save document file
+	// if lpszPathName is NULL then the user will be prompted (SaveAs)
+	// note: lpszPathName can be different than 'm_strPathName'
+	// if 'bReplace' is TRUE will change file name if successful (SaveAs)
+	// if 'bReplace' is FALSE will not change path name (SaveCopyAs)
+{
+	CString newName = lpszPathName;
+	if (newName.IsEmpty())
+	{
+		CDocTemplate* pTemplate = GetDocTemplate();
+		ASSERT(pTemplate != NULL);
+
+		newName = m_strPathName;
+		if (bReplace && newName.IsEmpty())
+		{
+			newName = m_strTitle;
+			// check for dubious filename
+			int iBad = newName.FindOneOf(_T(":/\\"));
+			if (iBad != -1)
+				newName.ReleaseBuffer(iBad);
+
+			// append the default suffix if there is one
+			CString strExt;
+			if (pTemplate->GetDocString(strExt, CDocTemplate::filterExt) &&
+			  !strExt.IsEmpty())
+			{
+				ASSERT(strExt[0] == '.');
+				int iStart = 0;
+				newName += strExt.Tokenize(_T(";"), iStart);
+			}
+		}
+
+//Replace the buggy DoPromptFileName() code with a different technique
+		//if (!AfxGetApp()->DoPromptFileName(newName,
+		// bReplace ? AFX_IDS_SAVEFILE : AFX_IDS_SAVEFILECOPY,
+		// OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, FALSE, pTemplate))
+		// return FALSE; // don't even attempt to save
+
+		if (!MyDoPromptFileName(newName,bReplace))
+			return false;
+	}
+
+	CWaitCursor wait;
+
+	if (!OnSaveDocument(newName))
+	{
+		if (lpszPathName == NULL)
+		{
+			// be sure to delete the file
+			TRY
+			{
+				CFile::Remove(newName);
+			}
+			CATCH_ALL(e)
+			{
+//the normal place for the following Macro is in mfc\stdafx.h
+//the example code states:  "I bring it here becuase it is used only here and I have no plan to use it anywhere else" (in this file)
+#define DELETE_EXCEPTION(e) do { if(e) { e->Delete(); } } while (0)
+//
+				TRACE(traceAppMsg, 0, "Warning: failed to delete file after failed SaveAs.\n");
+				DELETE_EXCEPTION(e);
+			}
+			END_CATCH_ALL
+		}
+		return FALSE;
+	}
+
+	// reset the title and change the document name
+	if (bReplace)
+		SetPathName(newName);
+
+	return TRUE;        // success
+}
+
+BOOL CMultiSheetDoc::MyDoPromptFileName(CString& fileName, BOOL bReplace)
+{
+	CFileDialog *pDlg;
+	pDlg = new CFileDialog (FALSE,NULL,fileName,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,NULL,NULL);
+	CString title = bReplace ? _T("Save") : _T ("Save As");	//It is the resource identifiers that is the cause of the MFC bug that this function is working around!
+	pDlg->m_ofn.lpstrTitle = title;
+	if (pDlg->DoModal()!=IDOK)
+		return FALSE;
+	fileName=pDlg->GetPathName();
+	return TRUE;
+}
+
+//Original DoPromptFileName() from C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\atlmfc\src\mfc\docmgr.cpp
+#if 0	//this code is here to serve as a type of developer's comment only
+	BOOL CDocManager::DoPromptFileName(CString& fileName, UINT nIDSTitle, DWORD lFlags, BOOL bOpenFileDialog, CDocTemplate* pTemplate)
+	{
+		CFileDialog dlgFile(bOpenFileDialog, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL, NULL, 0);
+
+		CString title;
+		ENSURE(title.LoadString(nIDSTitle));
+
+		dlgFile.m_ofn.Flags |= lFlags;
+
+		CString strFilter;
+		CString strDefault;
+		if (pTemplate != NULL)
+		{
+			ASSERT_VALID(pTemplate);
+			_AfxAppendFilterSuffix(strFilter, dlgFile.m_ofn, pTemplate, &strDefault);
+		}
+		else
+		{
+			// do for all doc template
+			POSITION pos = m_templateList.GetHeadPosition();
+			BOOL bFirst = TRUE;
+			while (pos != NULL)
+			{
+				pTemplate = (CDocTemplate*)m_templateList.GetNext(pos);
+				_AfxAppendFilterSuffix(strFilter, dlgFile.m_ofn, pTemplate,
+					bFirst ? &strDefault : NULL);
+				bFirst = FALSE;
+			}
+		}
+
+		// append the "*.*" all files filter
+		CString allFilter;
+		VERIFY(allFilter.LoadString(AFX_IDS_ALLFILTER));
+		strFilter += allFilter;
+		strFilter += (TCHAR)'\0';   // next string please
+		strFilter += _T("*.*");
+		strFilter += (TCHAR)'\0';   // last string
+		dlgFile.m_ofn.nMaxCustFilter++;
+
+		dlgFile.m_ofn.lpstrFilter = strFilter;
+		dlgFile.m_ofn.lpstrTitle = title;
+		dlgFile.m_ofn.lpstrFile = fileName.GetBuffer(_MAX_PATH);
+
+		INT_PTR nResult = dlgFile.DoModal();
+		fileName.ReleaseBuffer();
+		return nResult == IDOK;
+	}
+#endif	//End of developer's comment

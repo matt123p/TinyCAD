@@ -298,7 +298,8 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
 
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+//	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
+	ON_COMMAND(ID_FILE_OPEN, CTinyCadApp::OnMyFileOpen)
 
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
@@ -880,6 +881,29 @@ void CTinyCadApp::SaveAll()
 //=========================================================================
 //== Message handler                                                     ==
 //=========================================================================
+//---------------------------------------------------------------------
+
+void CTinyCadApp::OnMyFileOpen()
+{
+	//manual open using CFileDialog to get around buggy Microsoft MFC code that affects Windows 8.1
+	//example code copied and modified taken from http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
+	
+	CString strDocFileName = _T(""); 
+	CFileDialog *pDlg;
+
+	pDlg = new CFileDialog (TRUE,_T("dsn"),strDocFileName,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,NULL,NULL);
+
+	if(pDlg->DoModal()==IDOK)
+	{
+		strDocFileName = pDlg->GetPathName();
+
+		//the next line is optained from the following mfc source file
+		//C:\Program Files\Microsoft Visual Studio 9.0\VC\atlmfc\src\mfc\docmgr.cpp
+		AfxGetApp()->OpenDocumentFile(strDocFileName);
+	}
+
+	delete pDlg;
+}
 
 //-------------------------------------------------------------------------
 // This is the idle time processing
@@ -1191,6 +1215,9 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 				break;
 			case PRODUCT_WEB_SERVER:
 				os << "Web Server Edition";
+				break;
+			default:
+				os << "[Unrecognized Windows Type - TinyCAD needs to update the Windows SDK]";
 				break;
 		}
 	}

@@ -167,6 +167,7 @@ public:
 	//=====================================================================
 	virtual BOOL OnIdle(LONG lCount);
 	virtual BOOL ProcessMessageFilter(int code, LPMSG lpMsg);
+	void OnMyFileOpen();
 
 	//{{AFX_MSG(CTinyCadApp)
 	afx_msg void OnAppAbout();
