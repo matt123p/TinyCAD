@@ -1,0 +1,19 @@
+====+  Parts List for C:\My Documents\COT Circuits\Azimuth Drive Circuit.dsn  +====
+
+C5,C7                         2   0.1
++12V,J1,J1b,J2,J2b,J3,J4
+P1-6,P1-7,P1-8,P1-9,P4-1
+P4-2,P4-3,P4-4,P4-5,P4-6
+P4-7,P4-8,P4-9               20   1 Pin Connector
+D10,D7,D8,D9                  4   1N4004
+R26,R27,R29,R31               4   220
+R32                           1   2K2
+D11,D12                       2   30V
+R33,R34,R35,R36               4   470
+R28,R30                       2   4K7
+ISO10,ISO7,ISO8,ISO9          4   4N26
+R24,R25                       2   4k7
+U4,U6                         2   74LS08
+HS1,HS2,HS3,HS4,HS5,HS6       6   HEATSINK
+Q13,Q14                       2   MJE3055
+Q10,Q11,Q12,Q9                4   TIP120

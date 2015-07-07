@@ -1,0 +1,11 @@
+====+  Parts List for C:\My Documents\COT Circuits\Parallel Port and Handpad Connect.dsn  +====
+
+C3                            1   0.1
+ALTA,ALTB,ALTC,ALTD,AZA,
+AZB,AZC,AZD,J1,J10,J2,J3
+J9,RJ1-1,RJ1-2,RJ1-3,
+RJ1-4,RJ1-5,RJ1-6            19   1 Pin Connector
+R1,R2,R3,R4                   4   220
+C1,C2                         2   47/35V
+U6                            1   7805
+P1                            1   DB25

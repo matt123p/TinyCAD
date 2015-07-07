@@ -1,0 +1,2087 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "CAD.ICO"
+IDR_TCADTYPE            ICON                    "res\\idr_main.ico"
+IDI_ALIGN_LEFT          ICON                    "res\\alignLft.ico"
+IDI_ALIGN_CENTRE        ICON                    "res\\alignCtr.ico"
+IDI_ALIGN_RIGHT         ICON                    "res\\alignRt.ico"
+IDI_ALIGN_TOP           ICON                    "res\\alignTop.ico"
+IDI_ALIGN_MIDDLE        ICON                    "res\\alignMid.ico"
+IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+START_BITMAP            BITMAP                  "STARTUP.BMP"
+IDB_BITMAP1             BITMAP                  "res\\LGPLV3.bmp"
+IDB_BITMAP2             BITMAP                  "res\\bitmap2.bmp"
+IDB_BITMAP3             BITMAP                  "res\\bitmap3.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Library"
+    BEGIN
+        MENUITEM "&Libraries...",               IDM_LIBLIB
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Help...",                     ID_HELP_HELP
+        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+    END
+END
+
+IDR_TCADTYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "Close",                       ID_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Design Details...\tCtrl+D",  IDM_FILEDESIGN
+        MENUITEM SEPARATOR
+        MENUITEM "&Import...\tCtrl+I",          IDM_FILEIMPORT
+        MENUITEM SEPARATOR
+        MENUITEM "Export as image file...",     ID_FILE_SAVEASBITMAP
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&age Setup...",              IDM_FILEPAGESET
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO, GRAYED
+        MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Copy to...\tCtrl+E",          ID_EDIT_COPYTO
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "&Find...",                    ID_FIND_FIND
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
+        MENUITEM SEPARATOR
+        MENUITEM "Insert picture...",           ID_EDIT_INSERTPICTURE
+    END
+    POPUP "&Library"
+    BEGIN
+        MENUITEM "&Libraries...",               IDM_LIBLIB
+        MENUITEM SEPARATOR
+        MENUITEM "Set parts per package...",    ID_LIBRARY_SETPARTSPERPACKAGE
+        MENUITEM SEPARATOR
+        MENUITEM "Homogeneous Symbol (same outline for all parts)", 32876
+        MENUITEM "Heterogeneous Symbol (different outlines per part)", 32877
+    END
+    POPUP "&Special"
+    BEGIN
+        MENUITEM "Create PCB &Net List...",     IDM_SPECIALNET
+        MENUITEM "&Check Design Rules...",      IDM_SPECIALCHECK
+        MENUITEM "&Generate Symbol References...", IDM_SPECIALANNOTATE
+        MENUITEM "Create &Parts List...",       IDM_SPECIALBOM
+        MENUITEM SEPARATOR
+        MENUITEM "Create Spice Net List...",    ID_SPECIAL_CREATESPICEFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Insert another design as symbol...", IDM_TOOLHIERARCHICAL
+        MENUITEM "Add hierarchical symbol",     32867
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Settings",                   IDM_VIEW_OPTIONS
+        MENUITEM "Colours",                     ID_OPTIONS_COLOURS
+        MENUITEM SEPARATOR
+        MENUITEM "Show &Position",              IDM_VIEWSHOWPOS
+        MENUITEM "Snap to grid\tCtrl+Shft+N",   IDM_SNAPTOGRID
+        POPUP "Repeat Directions"
+        BEGIN
+            MENUITEM "Name Increment",              IDM_REPEATNAMEUP, CHECKED
+            MENUITEM "Name Decrement",              IDM_REPEATNAMEDOWN
+            MENUITEM SEPARATOR
+            MENUITEM "Pin Increment",               IDM_REPEATPINUP, CHECKED
+            MENUITEM "Pin Decrement",               IDM_REPEATPINDOWN
+        END
+        MENUITEM SEPARATOR
+        POPUP "Toolbars"
+        BEGIN
+            MENUITEM "File",                        ID_VIEW_FILETOOLBAR
+            MENUITEM SEPARATOR
+            MENUITEM "Annotation",                  ID_VIEW_ANNOTATIONTOOLBAR
+            MENUITEM "Block",                       ID_VIEW_GROUPTOOLBAR
+            MENUITEM "Bus",                         ID_VIEW_BUSTOOLBAR
+            MENUITEM "Drawing",                     ID_VIEW_EDITTOOLBAR
+            MENUITEM "Symbol",                      ID_OPTIONS_TOOLBARS_SYMBOL
+        END
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Help...",                     ID_HELP_HELP
+        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
+    END
+END
+
+IDR_LIBTYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "Export all symbols...",       ID_FILE_EXPORTLIBRARY
+        MENUITEM "Import symbols...",           ID_FILE_IMPORTLIBRARY
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Library"
+    BEGIN
+        MENUITEM "&Libraries...",               IDM_LIBLIB
+    END
+    POPUP "Symbol"
+    BEGIN
+        MENUITEM "New Symbol",                  ID_SYMBOL_NEWSYMBOL
+        MENUITEM SEPARATOR
+        MENUITEM "Edit Symbol",                 ID_SYMBOL_EDITSYMBOL
+        MENUITEM "Delete Symbol",               ID_SYMBOL_DELETESYMBOL
+        MENUITEM "Symbol Properties...",        ID_SYMBOL_SYMBOLPROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Duplicate symbol...",         ID_CONTEXT_DUPLICATESYMBOL
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Help...",                     ID_HELP_HELP
+        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM "Email for support...",        ID_HELP_EMAILFORSUPPORT
+        MENUITEM SEPARATOR
+        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+    END
+END
+
+IDR_TXTTYPE MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "Export all symbols",          ID_FILE_EXPORTLIBRARY
+        MENUITEM "Import symbols",              ID_FILE_IMPORTLIBRARY
+        MENUITEM SEPARATOR
+        MENUITEM "&Print\tCtrl+P",              ID_FILE_PRINT
+        MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Library"
+    BEGIN
+        MENUITEM "&Libraries...",               IDM_LIBLIB
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Help...",                     ID_HELP_HELP
+        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    VK_INSERT,      IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_EDIT_COPYTO,         VIRTKEY, CONTROL, NOINVERT
+    "X",            IDM_EDITCUT,            VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      IDM_EDITPASTE,          VIRTKEY, SHIFT, NOINVERT
+    VK_BACK,        IDM_EDITUNDO,           VIRTKEY, ALT, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_OPTIONS_TOGGLE_UNITS, VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_OPTIONS_TOOLBARS_SYMBOL, VIRTKEY, NOINVERT
+    VK_PRIOR,       IDM_VIEWZOOMIN,         VIRTKEY, NOINVERT
+    VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY, NOINVERT
+    VK_F9,          IDM_BUSBACK,            VIRTKEY, NOINVERT
+    VK_F8,          IDM_BUSSLASH,           VIRTKEY, NOINVERT
+    "A",            IDM_EDITSELECTALL,      VIRTKEY, CONTROL, NOINVERT
+    "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY, NOINVERT
+    "U",            IDM_EDITDUPLICATE,      VIRTKEY, CONTROL, NOINVERT
+    VK_ESCAPE,      IDM_EDITEDIT,           VIRTKEY, NOINVERT
+    "F",            IDM_EDITFLIP,           VIRTKEY, CONTROL, NOINVERT
+    "V",            IDM_EDITPASTE,          VIRTKEY, CONTROL, NOINVERT
+    "Y",            IDM_EDITREDO,           VIRTKEY, CONTROL, NOINVERT
+    "L",            IDM_EDITROTATELEFT,     VIRTKEY, CONTROL, NOINVERT
+    "R",            IDM_EDITROTATERIGHT,    VIRTKEY, CONTROL, NOINVERT
+    "Z",            IDM_EDITUNDO,           VIRTKEY, CONTROL, NOINVERT
+    "D",            IDM_FILEDESIGN,         VIRTKEY, CONTROL, NOINVERT
+    "I",            IDM_FILEIMPORT,         VIRTKEY, CONTROL, NOINVERT
+    "N",            IDM_SNAPTOGRID,         VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "G",            IDM_TOGGLE_GRIDSIZE,    VIRTKEY, CONTROL, NOINVERT
+    VK_F10,         IDM_TOOLBUS,            VIRTKEY, NOINVERT
+    VK_F7,          IDM_TOOLBUSNAME,        VIRTKEY, NOINVERT
+    VK_F5,          IDM_TOOLCONNECT,        VIRTKEY, NOINVERT
+    VK_F3,          IDM_TOOLJUNC,           VIRTKEY, NOINVERT
+    VK_F1,          IDM_TOOLLABEL,          VIRTKEY, NOINVERT
+    VK_F4,          IDM_TOOLPOWER,          VIRTKEY, NOINVERT
+    VK_F2,          IDM_TOOLWIRE,           VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 313, 297
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About TinyCad"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1994-2015 Matt Pyne",IDC_STATIC,39,48,127,8
+    DEFPUSHBUTTON   "OK",IDOK,256,276,50,14,WS_GROUP
+    LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,11,282,107,8
+    LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
+    LTEXT           "Founding Author:",IDC_STATIC,39,63,89,8
+    LTEXT           "Development Team for Current Release:",IDC_STATIC,39,87,218,8
+    LTEXT           "Don Lucas",IDC_STATIC,59,98,89,8
+    LTEXT           "Mark Langezaal",IDC_STATIC,59,108,89,8
+    LTEXT           "Magnus Beischer",IDC_STATIC,59,118,89,8
+    LTEXT           "Matt Pyne",IDC_STATIC,60,74,89,8
+    LTEXT           "Stephen Friederichs",IDC_STATIC,59,128,89,8
+    LTEXT           "Other included open source products:",IDC_STATIC,39,159,218,8
+    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,60,170,189,8
+    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,60,181,189,8
+    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,60,192,189,8
+    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,60,203,189,8
+    LTEXT           "Jason Sachs",IDC_STATIC,59,138,89,8
+    LTEXT           "You may use the LGPL version 2.1 or, at your discretion,",IDC_STATIC,39,29,216,8
+    LTEXT           "any later version of the LGPL.",IDC_STATIC,39,38,216,8
+    LTEXT           "Petr Hluzin",IDC_STATIC,59,148,89,8
+    CONTROL         165,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
+    LTEXT           "XML Netlist Generation:  RapidXML Version 1.13",IDC_STATIC,60,214,189,8
+    LTEXT           "Windows Version:  Placeholder",IDC_WINDOWS_VERSION,12,257,294,11
+END
+
+IDD_ANNOTATE DIALOGEX 0, 0, 196, 212
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Generate Symbol References"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Action",-1,7,7,124,35,WS_GROUP
+    CONTROL         "Add References",ANNOTATEBOX_ADD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,18,65,10
+    CONTROL         "Remove References",ANNOTATEBOX_REMOVE,"Button",BS_AUTORADIOBUTTON,11,28,79,10
+    GROUPBOX        "References",-1,7,47,124,62,WS_GROUP
+    CONTROL         "All References",ANNOTATEBOX_ALL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,58,60,10
+    CONTROL         "Un-numbered References",ANNOTATEBOX_UNNUM,"Button",BS_AUTORADIOBUTTON,12,68,95,10
+    CONTROL         "References matching:",ANNOTATEBOX_MATCH,"Button",BS_AUTORADIOBUTTON,12,80,84,10
+    EDITTEXT        ANNOTATEBOX_MATCHVAL,97,79,24,12,WS_GROUP
+    GROUPBOX        "Value",-1,8,113,124,44,WS_GROUP
+    CONTROL         "Default start value",ANNOTATEBOX_DEF,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,128,73,10
+    CONTROL         "Start at value:",ANNOTATEBOX_START,"Button",BS_AUTORADIOBUTTON,11,140,59,10
+    EDITTEXT        ANNOTATEBOX_STARTVAL,70,139,24,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,137,6,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,137,23,50,14
+    GROUPBOX        "Reference painter",-1,7,161,124,44,WS_GROUP
+    PUSHBUTTON      "Use reference painter",IDC_REF_PAINTER,15,180,106,14
+    CONTROL         "All Sheets",IDC_ALL_SHEETS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,47,10
+END
+
+IDD_ERCBOX DIALOGEX 0, 0, 176, 188
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Check Design Rules"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Duplicated references",ERC_DUPREF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,16,84,10
+    CONTROL         "Unconnected items",ERC_UNCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,27,75,10
+    CONTROL         "More than one item on a no-connect net",ERC_NOCONNECT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,38,143,10
+    CONTROL         "Power connected to Power",ERC_POWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,84,100,10
+    CONTROL         "Power connected to an output",ERC_OUTPUTTOPWR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,95,120,10
+    CONTROL         "Output connected to an output",ERC_OUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,106,113,10
+    CONTROL         "No output driving input(s)",ERC_NOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,117,95,10
+    CONTROL         "Unconnected nets",ERC_UNCONNECTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,128,72,10
+    GROUPBOX        "Design errors to check",ERRORBOX_TEXT,7,3,160,64
+    GROUPBOX        "Design warnings to check",ROTATEBOX_UP,8,71,160,95
+    DEFPUSHBUTTON   "Check",IDOK,27,170,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,93,170,50,14
+    CONTROL         "Multiple net names on same net",ERC_MULTIPLENETNAMES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,139,123,10
+    CONTROL         "Non-case distinct net names",ERC_NONCASEDISTINCT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,150,115,10
+    CONTROL         "Unassigned reference designators",ERC_UNASSIGNEDREFDES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,50,132,10
+END
+
+IDD_ERCLIST DIALOGEX 217, 16, 544, 105
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Design Markers"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         ERCLIST_LIST,0,0,544,76,WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Close",IDOK,490,88,50,14
+    DEFPUSHBUTTON   "Re-check",IDOK2,324,82,50,14
+    PUSHBUTTON      "Generate Symbol References",IDC_BUTTON_ANNOTATE,201,82,116,14
+    PUSHBUTTON      "Generate PCB Netlist",IDC_BUTTON_PCB_NETLIST,113,82,81,14
+    PUSHBUTTON      "Generate SPICE Netlist",IDC_BUTTON_SPICE_NETLIST,10,82,96,14
+    GROUPBOX        "Convenience Funtionality",IDC_STATIC,4,71,376,31
+END
+
+IDD_FIND DIALOGEX 0, 0, 157, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        FINDBOX_STRING,7,18,134,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Find",IDOK,20,42,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,86,42,50,14
+    LTEXT           "Find String:",-1,7,7,39,8
+END
+
+IDD_GETFIND DIALOGEX 6, 18, 150, 269
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_SEARCH_STRING,6,22,83,14,ES_AUTOHSCROLL
+    LISTBOX         FINDGET_LIST,7,220,136,43,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "(preview of the selected symbol)",IDC_SHOW_SYMBOL,
+                    "Button",BS_OWNERDRAW | WS_TABSTOP,6,204,138,59
+    LTEXT           "Filter:",IDC_STATIC,6,12,77,8
+    PUSHBUTTON      "Place Symbol",IDM_TOOLGET,94,22,50,14
+    PUSHBUTTON      "Libraries...",IDM_LIBLIB,94,6,50,14
+    CONTROL         "",IDC_SYMBOL_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,7,41,138,156,WS_EX_STATICEDGE
+END
+
+IDD_GRID DIALOGEX 6, 18, 190, 145
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Grid Settings"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Grid Settings",IDC_STATIC,10,6,166,79
+    CONTROL         "Show the grid",GRIDBOX_SHOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,21,56,10
+    CONTROL         "Snap to grid",GRIDBOX_SNAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,33,51,10
+    CONTROL         "Normal grid spacing",GRIDBOX_NORMAL,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,45,76,10
+    CONTROL         "Fine grid spacing",GRIDBOX_FINE,"Button",BS_AUTORADIOBUTTON,14,57,67,10
+    CONTROL         "User set grid spacing",GRIDBOX_USER,"Button",BS_AUTORADIOBUTTON,14,69,80,10
+    EDITTEXT        GRIDBOX_SPACING,99,68,26,12
+    GROUPBOX        "Ruler Settings",IDC_STATIC,10,92,165,46
+    CONTROL         "Units in mm",GRIDBOX_MM,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,107,49,10
+    CONTROL         "Units in inches",GRIDBOX_INCHES,"Button",BS_AUTORADIOBUTTON,14,121,60,10
+    LTEXT           "mm",GRIDBOX_UNITS,127,70,19,8
+END
+
+IDD_NO_TOOL DIALOG  4, 16, 94, 18
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "no tool options",IDC_STATIC,25,5,47,8
+END
+
+IDD_FILLSTYLE DIALOG  6, 18, 197, 107
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Fill Style"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,141,6,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,141,23,50,14
+    PUSHBUTTON      "Colour",IDC_COLOUR,6,87,50,14
+    CONTROL         "",IDC_EXAMPLE,"Button",BS_OWNERDRAW | WS_TABSTOP,6,6,103,63
+    COMBOBOX        IDC_INDEX,75,88,87,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_METHOD DIALOGEX 6, 18, 200, 184
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Ref",METHODBOX_REFON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,21,24,10
+    EDITTEXT        METHODBOX_REF,32,20,42,12,ES_AUTOHSCROLL
+    EDITTEXT        METHODBOX_PPP,77,20,10,12,ES_UPPERCASE
+    CONTROL         "&Up",METHODBOX_UP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,3,6,22,10
+    CONTROL         "&Down",METHODBOX_DOWN,"Button",BS_AUTORADIOBUTTON,31,6,34,10
+    CONTROL         "&Left",METHODBOX_LEFT,"Button",BS_AUTORADIOBUTTON,69,6,26,10
+    CONTROL         "&Right",METHODBOX_RIGHT,"Button",BS_AUTORADIOBUTTON,101,6,32,10
+    CONTROL         "&Mirror",METHODBOX_MIRROR,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,139,6,32,10
+    CONTROL         "Allow re-sizing",METHODBOX_RESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,36,60,10
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_OWNERDRAWFIXED | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,4,53,192,114
+    PUSHBUTTON      "Add",IDC_ADD,4,169,50,11
+    PUSHBUTTON      "Delete",IDC_DELETE,58,169,50,11
+    CONTROL         "Show Power Pins",METHODBOX_SHOWPOWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,36,71,10
+END
+
+IDD_PAGESIZE DIALOG  0, 0, 199, 101
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Page Size"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,12,81,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,73,81,50,14
+    PUSHBUTTON      "Printer Setup",PAGESIZE_PRINTERSET,134,81,52,14
+    GROUPBOX        "Page Size",-1,8,6,99,61,WS_GROUP
+    CONTROL         "A4",PAGESIZE_A4,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,17,18,22,10
+    CONTROL         "A3",PAGESIZE_A3,"Button",BS_AUTORADIOBUTTON,17,28,22,10
+    CONTROL         "A2",PAGESIZE_A2,"Button",BS_AUTORADIOBUTTON,17,38,22,10
+    CONTROL         "A1",PAGESIZE_A1,"Button",BS_AUTORADIOBUTTON,17,48,22,10
+    CONTROL         "Printer Setup",PAGESIZE_PRINTER,"Button",BS_AUTORADIOBUTTON,47,48,55,10
+    CONTROL         "Landscape",PAGESIZE_LAND,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,47,29,48,10
+    CONTROL         "Portrait",PAGESIZE_PORT,"Button",BS_AUTORADIOBUTTON,47,18,36,10
+    LTEXT           "Width",-1,122,24,20,8
+    GROUPBOX        "Size",-1,117,6,72,61
+    EDITTEXT        PAGESIZE_WIDTH,150,22,22,12
+    LTEXT           "Height",-1,122,44,23,8,NOT WS_GROUP
+    EDITTEXT        PAGESIZE_HEIGHT,150,42,23,12
+    LTEXT           "mm",-1,176,24,12,8
+    LTEXT           "mm",-1,176,44,12,8
+END
+
+IDD_PIN DIALOGEX 6, 18, 200, 79
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        PINBOX_NAME,36,4,39,12,ES_AUTOHSCROLL | WS_GROUP
+    EDITTEXT        PINBOX_NUMBER,134,4,24,12,ES_AUTOHSCROLL
+    CONTROL         "Name",PINBOX_NAMEON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,5,32,10
+    CONTROL         "Number",PINBOX_NUMBERON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,5,36,10
+    CONTROL         "&Up",PINBOX_UP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,4,24,22,10
+    CONTROL         "&Down",PINBOX_DOWN,"Button",BS_AUTORADIOBUTTON,30,24,32,10
+    CONTROL         "&Left",PINBOX_LEFT,"Button",BS_AUTORADIOBUTTON,64,24,26,10
+    CONTROL         "&Right",PINBOX_RIGHT,"Button",BS_AUTORADIOBUTTON,94,24,30,10
+    EDITTEXT        PINBOX_LENGTH,31,60,40,14,ES_AUTOHSCROLL
+    LTEXT           "Length",IDC_STATIC,6,63,23,8
+    COMBOBOX        IDC_PIN_TYPE,31,42,57,61,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ELEC,130,42,67,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Shape",IDC_STATIC,5,44,22,8
+    LTEXT           "Electrical",IDC_STATIC,96,44,30,8
+    EDITTEXT        PINBOX_PIN_POS,157,60,40,14,ES_AUTOHSCROLL
+    LTEXT           "Pin Number Offset",IDC_STATIC,94,63,60,8
+    CONTROL         "Centre pin name",IDC_CENTRE_NAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,24,67,10
+END
+
+IDD_POWER DIALOG  6, 18, 166, 48
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        POWERBOX_TEXT,56,2,37,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "Power Voltage",-1,2,4,48,8,NOT WS_GROUP
+    CONTROL         "&Top",POWERBOX_TOP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,2,20,27,10
+    CONTROL         "&Bottom",POWERBOX_BOTTOM,"Button",BS_AUTORADIOBUTTON,32,20,35,10
+    CONTROL         "&Left",POWERBOX_LEFT,"Button",BS_AUTORADIOBUTTON,70,20,26,10
+    CONTROL         "&Right",POWERBOX_RIGHT,"Button",BS_AUTORADIOBUTTON,100,20,31,10
+    CONTROL         "B&ar",POWERBOX_BAR,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,2,34,23,10
+    CONTROL         "&Circle",POWERBOX_CIRCLE,"Button",BS_AUTORADIOBUTTON,28,34,32,10
+    CONTROL         "&Wave",POWERBOX_WAVE,"Button",BS_AUTORADIOBUTTON,62,34,31,10
+    CONTROL         "&Arrow",POWERBOX_ARROW,"Button",BS_AUTORADIOBUTTON,96,34,34,10
+    CONTROL         "&Earth",POWERBOX_EARTH,"Button",BS_AUTORADIOBUTTON,133,34,31,10
+END
+
+IDD_ROTATE DIALOG  6, 18, 164, 21
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "<<",ROTATEBLOCK_LEFT,4,4,50,14
+    PUSHBUTTON      ">>",ROTATEBLOCK_RIGHT,57,4,50,14
+    PUSHBUTTON      "Flip",ROTATEBLOCK_MIRROR,110,4,50,14
+END
+
+IDD_SETPPP DIALOG  0, 0, 160, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Select number of parts in package"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Number of parts in package",-1,17,9,92,8
+    EDITTEXT        IDD_PARTS,117,7,17,12,ES_UPPERCASE | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,8,30,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,102,30,50,14
+END
+
+IDD_SYMBOLRENAME DIALOG  6, 18, 147, 61
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Change Symbol Name"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Old symbol name",-1,3,10,57,8
+    LTEXT           "New name",-1,3,22,37,8
+    LTEXT           "",SYMBOLRENAME_OLD,64,10,72,8
+    EDITTEXT        SYMBOLRENAME_NEW,64,20,71,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,16,41,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,81,41,50,14
+END
+
+IDD_TEXT DIALOGEX 6, 18, 154, 48
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "Microsoft Sans Serif", 400, 0, 0x0
+BEGIN
+    EDITTEXT        TEXTBOX_TEXT,3,14,145,12,ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "Font",IDC_TEXT_FONT,4,31,50,14
+    PUSHBUTTON      "Colour",IDC_TEXT_COLOUR,98,30,50,14
+    CONTROL         "Right",TEXTBOX_LEFT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,90,2,31,10
+    CONTROL         "Up",TEXTBOX_UP,"Button",BS_AUTORADIOBUTTON,126,2,24,10
+    LTEXT           "",TEXTBOX_LABEL,3,3,37,8
+END
+
+IDD_UPDATE DIALOGEX 0, 0, 446, 377
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Update Library Symbol"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PRO_PRIORITY,121,146,24,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_VISIBLE
+    CONTROL         "Spin1",IDC_PRO_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | NOT WS_VISIBLE,139,146,11,14
+    EDITTEXT        IDC_EPI_PRIORITY,121,229,24,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_VISIBLE
+    CONTROL         "Spin1",IDC_EPI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | NOT WS_VISIBLE,141,229,11,14
+    EDITTEXT        IDC_SPICE_MODEL,160,50,270,85,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL
+    LTEXT           "Model",IDC_STATIC3,122,51,20,8,NOT WS_VISIBLE
+    LTEXT           "Epilogue",IDC_STATIC4,121,220,28,8,NOT WS_VISIBLE
+    LTEXT           "Prologue",IDC_STATIC2,121,135,29,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_SPICE_PROLOG,160,135,270,85,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_SPICE_EPILOG,160,220,270,85,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL
+    PUSHBUTTON      "Add",IDC_ADD,121,312,50,11
+    PUSHBUTTON      "Delete",IDC_DELETE,176,312,50,11
+    CONTROL         "List1",IDC_UPDATE_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_OWNERDRAWFIXED | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,124,78,300,230,WS_EX_CLIENTEDGE
+    COMBOBOX        IDC_ORIENTATION,191,9,128,61,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",UPDATE_LIBFILE,49,361,172,8
+    CONTROL         "Tab1",IDC_TAB1,"SysTabControl32",0x0,119,31,316,299
+    LTEXT           "Description",IDC_STATIC1,127,55,38,8
+    EDITTEXT        UPDATE_DESCRIPTION,179,53,247,12,ES_AUTOHSCROLL
+    LISTBOX         IDC_LIST_NAMES,8,45,106,285,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete name",IDC_DELETE_NAME,64,32,50,11
+    PUSHBUTTON      "Add name",IDC_ADD_NAME,8,32,50,11
+    LTEXT           "Parts Per Package",IDC_STATIC,8,11,64,8
+    DEFPUSHBUTTON   "Store",IDOK,390,355,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,237,355,50,14
+    LTEXT           "Library File",IDC_STATIC,8,361,39,8
+    LTEXT           "1",UPDATE_PPP,77,11,37,8
+    LTEXT           "Default orientation",IDC_STATIC,119,11,58,8
+END
+
+IDD_POLYGON DIALOG  4, 16, 152, 66
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Colour",IDC_FILL_COLOUR,3,48,50,14
+    COMBOBOX        IDC_INDEX,61,48,87,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Fill",IDC_FILL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,36,24,10
+    COMBOBOX        LINETHICKBOX_STYLE,102,16,45,42,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        LINETHICKBOX_THICKNESS,63,15,31,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,88,15,11,14
+    LTEXT           "Line Style",IDC_STATIC,5,4,51,8
+    PUSHBUTTON      "Colour",IDC_LINE_COLOUR,4,15,50,14
+END
+
+IDD_POSITIONBOX DIALOGEX 4, 16, 95, 16
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_TOOLWINDOW
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CTEXT           "",POSITIONBOX_POS,8,3,80,9,SS_CENTERIMAGE
+END
+
+IDD_PRINT DIALOG  32, 32, 288, 238
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Print"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Printer",1075,8,4,272,84,WS_GROUP
+    LTEXT           "&Name:",1093,16,20,36,8
+    COMBOBOX        1139,52,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Properties...",1025,212,17,60,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,36,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,52,36,224,10
+    LTEXT           "Type:",1094,16,48,36,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,52,48,224,10
+    LTEXT           "Where:",1097,16,60,36,10,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,52,60,224,10
+    LTEXT           "Comment:",1096,16,72,36,10,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,52,72,156,10
+    CONTROL         "Print to fi&le",1040,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,212,72,64,12
+    GROUPBOX        "Print range",1072,8,92,144,64,WS_GROUP
+    RADIOBUTTON     "&All",1056,16,106,64,12,WS_GROUP
+    RADIOBUTTON     "Pa&ges",1058,16,122,36,12
+    RADIOBUTTON     "&Selection",1057,16,138,64,12,NOT WS_VISIBLE
+    RTEXT           "&from:",1089,52,124,20,8
+    EDITTEXT        1152,74,122,26,12,ES_NUMBER | WS_GROUP
+    RTEXT           "&to:",1090,102,124,16,8
+    EDITTEXT        1153,120,122,26,12,ES_NUMBER | WS_GROUP
+    GROUPBOX        "Copies",1073,160,92,120,64,WS_GROUP
+    LTEXT           "Number of &copies:",1092,168,108,68,8
+    EDITTEXT        1154,240,106,32,12,ES_NUMBER | WS_GROUP
+    ICON            "",1086,170,124,21,20,SS_CENTERIMAGE | WS_GROUP
+    CONTROL         "C&ollate",1041,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,240,130,36,12
+    DEFPUSHBUTTON   "OK",1,180,216,48,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,232,216,48,14
+    PUSHBUTTON      "&Help",1038,8,216,48,14
+    GROUPBOX        "Special",IDC_STATIC,8,160,272,51
+    CONTROL         "Print in black and white",PRINT_BANDW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,193,89,10
+    LTEXT           "Scale",IDC_STATIC,125,193,19,8
+    EDITTEXT        IDC_SCALE,150,190,27,14,ES_AUTOHSCROLL
+    LTEXT           "%",IDC_STATIC,180,193,8,8
+    CONTROL         "Fit on a single page",IDC_FIT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,196,192,77,10
+    CONTROL         "Print current sheet",IDC_SHEET1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,15,174,73,10
+    CONTROL         "Print all sheets",IDC_SHEET2,"Button",BS_AUTORADIOBUTTON,103,174,61,10
+END
+
+IDD_DRAW_LINE DIALOGEX 4, 16, 94, 18
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "&Free",LINEBOX_FREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,8,4,28,10
+    CONTROL         "&45°",LINEBOX_45,"Button",BS_AUTORADIOBUTTON,40,4,24,10
+    CONTROL         "&90°",LINEBOX_90,"Button",BS_AUTORADIOBUTTON,68,4,24,10
+END
+
+IDD_AUTOSNAP DIALOG  6, 18, 190, 145
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Auto wire settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Auto wire settings",-1,8,6,146,69
+    CONTROL         "Auto-snap wires",IDC_AUTOSNAP_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,23,66,10
+    EDITTEXT        IDC_AUTOSNAP_RANGE,96,21,26,12
+    LTEXT           "mm",IDC_AUTOSNAP_UNITS,124,23,19,8
+    CONTROL         "Auto-drag wires",IDC_AUTODRAG_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,40,65,10
+    CONTROL         "Auto-place junctions",IDC_AUTOJUNC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,57,80,10
+END
+
+IDD_LIBRARY DIALOGEX 0, 0, 414, 209
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Library Setup"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         LIBRARYBOX_AVAILABLE,5,22,345,180,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,358,19,50,14
+    CTEXT           "Libraries in Use",IDC_STATIC,5,10,201,8
+    PUSHBUTTON      "Add",LIBRARYBOX_ADD,358,43,50,14
+    PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,358,61,50,14
+    PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,358,106,50,14
+    PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,358,130,50,14
+    PUSHBUTTON      "New",LIBRARYBOX_NEW,358,78,50,14
+END
+
+IDD_AUTOSAVE DIALOG  0, 0, 204, 86
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Backup settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Automatic backup every ",IDC_AUTOSAVE_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,27,94,13
+    CONTROL         "Spin1",IDC_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ARROWKEYS,125,27,11,15
+    LTEXT           "minutes",IDC_STATIC,143,29,35,10
+    GROUPBOX        "Save settings",IDC_STATIC,7,7,190,72
+    LTEXT           "",IDC_AUTOSAVE_BUDDY,113,27,12,14,SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Files are saved with the "".backup"" file extension\r\n in the same directory as the original file.",IDC_STATIC,14,51,168,21
+END
+
+IDD_RENAME_SHEET DIALOG  0, 0, 157, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Rename a sheet"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        ID_RENAME_STRING,7,18,134,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,20,42,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,86,42,50,14
+    LTEXT           "Rename sheet to",-1,7,7,86,8
+END
+
+IDD_REPLACE DIALOGEX 0, 0, 220, 237
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Replace Symbol"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_SEARCH_STRING,6,16,141,14,ES_AUTOHSCROLL
+    LISTBOX         FINDGET_LIST,6,126,208,84,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Hidden",IDC_SHOW_SYMBOL,"Button",BS_OWNERDRAW | WS_TABSTOP,6,58,208,62
+    LTEXT           "Search string:",-1,6,6,44,8
+    PUSHBUTTON      "Replace",IDOK,164,16,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,164,217,50,14
+    CONTROL         "This symbol only",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,6,34,67,10
+    CONTROL         "All symbols on sheet",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,80,34,79,10
+    CONTROL         "Carry over attributes that were defined in the library",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,45,208,10
+END
+
+IDD_LABEL DIALOGEX 6, 18, 160, 73
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        TEXTBOX_TEXT,4,36,151,12,ES_AUTOHSCROLL | WS_GROUP
+    CONTROL         "Up",IDC_LABEL_DIR1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,24,6,24,10
+    CONTROL         "Down",IDC_LABEL_DIR2,"Button",BS_AUTORADIOBUTTON,53,6,31,10
+    CONTROL         "Left",IDC_LABEL_DIR3,"Button",BS_AUTORADIOBUTTON,89,6,31,10
+    CONTROL         "Right",IDC_LABEL_DIR4,"Button",BS_AUTORADIOBUTTON,123,6,31,10
+    CONTROL         "Normal",IDC_STYLE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,4,21,38,10
+    CONTROL         "Input",IDC_STYLE2,"Button",BS_AUTORADIOBUTTON,46,21,32,10
+    CONTROL         "Output",IDC_STYLE3,"Button",BS_AUTORADIOBUTTON,84,21,37,10
+    CONTROL         "I/O",IDC_STYLE4,"Button",BS_AUTORADIOBUTTON,127,21,27,10
+    PUSHBUTTON      "Font",IDC_TEXT_FONT,5,53,50,14
+    PUSHBUTTON      "Colour",IDC_TEXT_COLOUR,104,52,50,14
+END
+
+IDD_HIERARCHICAL DIALOGEX 6, 18, 200, 184
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Ref",METHODBOX_REFON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,21,24,10
+    EDITTEXT        METHODBOX_REF,32,20,42,12,ES_AUTOHSCROLL
+    CONTROL         "&Up",METHODBOX_UP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,3,6,22,10
+    CONTROL         "&Down",METHODBOX_DOWN,"Button",BS_AUTORADIOBUTTON,31,6,34,10
+    CONTROL         "&Left",METHODBOX_LEFT,"Button",BS_AUTORADIOBUTTON,69,6,26,10
+    CONTROL         "&Right",METHODBOX_RIGHT,"Button",BS_AUTORADIOBUTTON,101,6,32,10
+    CONTROL         "&Mirror",METHODBOX_MIRROR,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,139,6,32,10
+    CONTROL         "Allow re-sizing",METHODBOX_RESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,102,21,60,10
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_OWNERDRAWFIXED | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,4,35,192,129
+    PUSHBUTTON      "Add",IDC_ADD,4,168,50,11
+    PUSHBUTTON      "Delete",IDC_DELETE,59,168,50,11
+    PUSHBUTTON      "Design...",IDC_DESIGN,145,167,50,11
+END
+
+IDD_DRAW_POLY DIALOG  4, 16, 94, 29
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "&Free",LINEBOX_FREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,8,4,28,10
+    CONTROL         "&45°",LINEBOX_45,"Button",BS_AUTORADIOBUTTON,40,4,24,10
+    CONTROL         "&90°",LINEBOX_90,"Button",BS_AUTORADIOBUTTON,68,4,24,10
+    CONTROL         "Arc in",LINEBOX_ARC1,"Button",BS_AUTORADIOBUTTON,8,16,36,10
+    CONTROL         "Arc out",LINEBOX_ARC2,"Button",BS_AUTORADIOBUTTON,53,16,36,10
+END
+
+IDD_POSITION DIALOG  4, 16, 152, 66
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Colour",IDC_FILL_COLOUR,3,48,50,14
+    COMBOBOX        IDC_INDEX,61,48,87,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Fill",IDC_FILL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,36,24,10
+    COMBOBOX        LINETHICKBOX_STYLE,102,16,45,42,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        LINETHICKBOX_THICKNESS,63,15,31,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,88,15,11,14
+    LTEXT           "Line Style",IDC_STATIC,5,4,51,8
+    PUSHBUTTON      "Colour",IDC_LINE_COLOUR,4,15,50,14
+END
+
+IDD_LINE DIALOGEX 4, 16, 152, 65
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        LINETHICKBOX_STYLE,102,31,45,42,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        LINETHICKBOX_THICKNESS,63,30,31,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,88,31,11,14
+    LTEXT           "Line Style",IDC_STATIC,5,4,51,8
+    PUSHBUTTON      "Colour",IDC_LINE_COLOUR,4,30,50,14
+    CONTROL         "Change style for entire net",IDC_ENTIRE_NET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,49,98,10
+    CONTROL         "Use normal appearance",IDC_DEFAULT_STYLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,16,91,10
+END
+
+IDD_TOOLNOTETEXT DIALOGEX 4, 16, 282, 110
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_BORDER
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Colour",IDC_FILL_COLOUR,135,25,33,14
+    COMBOBOX        IDC_INDEX,171,26,55,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Fill",IDC_FILL,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,137,12,22,8
+    COMBOBOX        LINETHICKBOX_STYLE,87,26,33,42,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        LINETHICKBOX_THICKNESS,45,25,28,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,73,25,11,14
+    PUSHBUTTON      "Colour",IDC_LINE_COLOUR,9,25,31,14
+    EDITTEXT        TEXTBOX_TEXT,5,57,270,52,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL | WS_GROUP
+    PUSHBUTTON      "Font",IDC_TEXT_FONT,239,25,34,14
+    PUSHBUTTON      "Colour",IDC_TEXT_COLOUR,239,10,34,14
+    GROUPBOX        "Border Style",IDC_STATIC,5,1,120,41
+    GROUPBOX        "Rectangle",IDC_STATIC,129,1,102,41
+    GROUPBOX        "Text",IDC_STATIC,235,1,41,42
+    CONTROL         "Rect",IDC_NOTETEXT_RECTANGLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,12,32,10
+    CONTROL         "Rnd Rect",IDC_NOTETEXT_ROUNDEDRECT,"Button",BS_AUTORADIOBUTTON,44,12,41,10
+    CONTROL         "None",IDC_NOTETEXT_NOBORDER,"Button",BS_AUTORADIOBUTTON,88,12,29,10
+    LTEXT           "Tab Width",IDC_STATIC,172,12,34,8
+    EDITTEXT        IDC_NOTETEXT_TABWIDTH,207,10,19,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Hint:  Use Ctrl-Tab for tabs.",IDC_STATIC,6,45,129,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,80,8,0
+ PRODUCTVERSION 2,80,8,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x3L
+#else
+ FILEFLAGS 0x2L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904b0"
+        BEGIN
+            VALUE "Comments", "http://tinycad.sourceforge.net"
+            VALUE "CompanyName", "TinyCAD"
+            VALUE "FileDescription", "TinyCAD"
+            VALUE "FileVersion", "2, 80, 8, 0"
+            VALUE "InternalName", "TinyCAD"
+            VALUE "LegalCopyright", "Copyright (C) 2002 - 2015 Matt Pyne"
+            VALUE "OriginalFilename", "TinyCAD.EXE"
+            VALUE "ProductName", "TinyCAD for Windows"
+            VALUE "ProductVersion", "2, 80, 8, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 306
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 290
+    END
+
+    IDD_ANNOTATE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        BOTTOMMARGIN, 196
+    END
+
+    IDD_ERCLIST, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 102
+    END
+
+    IDD_GETFIND, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 136
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 263
+        HORZGUIDE, 129
+    END
+
+    IDD_GRID, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 140
+    END
+
+    IDD_FILLSTYLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 191
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 101
+    END
+
+    IDD_METHOD, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 180
+    END
+
+    IDD_PIN, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_SETPPP, DIALOG
+    BEGIN
+        LEFTMARGIN, 8
+        RIGHTMARGIN, 152
+        BOTTOMMARGIN, 44
+    END
+
+    IDD_UPDATE, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 440
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 369
+    END
+
+    IDD_POSITIONBOX, DIALOG
+    BEGIN
+        RIGHTMARGIN, 94
+        BOTTOMMARGIN, 15
+    END
+
+    IDD_PRINT, DIALOG
+    BEGIN
+        LEFTMARGIN, 8
+        RIGHTMARGIN, 280
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_LIBRARY, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 408
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 202
+    END
+
+    IDD_AUTOSAVE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 197
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 79
+    END
+
+    IDD_REPLACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 214
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 231
+    END
+
+    IDD_LABEL, DIALOG
+    BEGIN
+        RIGHTMARGIN, 154
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_HIERARCHICAL, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 181
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITDUPLICATE       "Duplicate the selected block\nDuplicate"
+    ID_SPECIAL_CREATESPICEFILE 
+                            "Output a netlist file suitable for SPICE simulation"
+    ID_EDIT_COPYTO          "Export selection to a file\nCopy to"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_SAVEASBITMAP    "Save this design as a PNG or EMF file"
+    ID_OPTIONS_COLOURS      "Set the colours used in the drawing\nDrawing colours"
+    ID_CONTEXT_DUPLICATESYMBOL 
+                            "Make a copy of this symbol within this library"
+    ID_SYMBOL_SYMBOLPROPERTIES 
+                            "Edit this symbol's name and other properties\nProperties"
+    ID_FILE_EXPORTLIBRARY   "Export this library to an XML file\nExport to XML"
+    ID_FILE_IMPORTLIBRARY   "Import this library from an XML file\nImport library from XML"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_INSERTPICTURE   "Insert a picture from a file"
+    ID_HELP_EMAILFORSUPPORT "Send an email to get some support\nEmail"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SELECTED_BOX        ICON                    "res\\unselect.ico"
+IDI_UNSELECTED_BOX      ICON                    "res\\selected.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_DRAWING             BITMAP                  "res\\toolbar1.bmp"
+IDR_ANNOTATE            BITMAP                  "res\\toolbar2.bmp"
+IDR_DRAWBUS             BITMAP                  "res\\drawbus.bmp"
+IDR_DRAWGROUP           BITMAP                  "res\\drawgrou.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_POLYGON MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Finish polygon",              ID_CONTEXT_FINISHDRAWING
+        MENUITEM "Cancel drawing",              ID_CONTEXT_CANCELDRAWING
+        MENUITEM SEPARATOR
+        MENUITEM "Free line",                   ID_CONTEXT_FREELINE
+        MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
+        MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
+    END
+END
+
+IDR_EDITTOOL MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO
+        MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO
+        MENUITEM SEPARATOR
+        POPUP "Z-Order"
+        BEGIN
+            MENUITEM "Bring to front",              ID_CONTEXT_ZORDER_BRINGTOFRONT
+            MENUITEM "Send to back",                ID_CONTEXT_ZORDER_SENDTOBACK
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
+    END
+END
+
+IDR_POLYGON_EDIT MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Add handle",                  ID_CONTEXT_ADDHANDLE
+        MENUITEM "Delete handle",               ID_CONTEXT_DELETEHANDLE
+        MENUITEM SEPARATOR
+        MENUITEM "Free line",                   ID_CONTEXT_FREELINE
+        MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
+        MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
+        MENUITEM SEPARATOR
+        MENUITEM "Undo",                        IDM_EDITUNDO
+        MENUITEM "Redo",                        IDM_EDITREDO
+        MENUITEM SEPARATOR
+        POPUP "Z-Order"
+        BEGIN
+            MENUITEM "Bring to front",              ID_CONTEXT_ZORDER_BRINGTOFRONT
+            MENUITEM "Send to back",                ID_CONTEXT_ZORDER_SENDTOBACK
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
+    END
+END
+
+IDR_DUMMY MENU 
+BEGIN
+    POPUP "Dummy"
+    BEGIN
+        MENUITEM "Get Symbol",                  IDM_TOOLGET
+        MENUITEM "Resize",                      ID_RESIZE
+        MENUITEM "horz_resize",                 ID_HORZ_RESIZE
+        MENUITEM "ID_LIBRARY_ADDPIN",           32798
+    END
+END
+
+IDR_LIBVIEW MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "New Symbol",                  ID_SYMBOL_NEWSYMBOL
+        MENUITEM SEPARATOR
+        MENUITEM "Edit Symbol",                 ID_SYMBOL_EDITSYMBOL
+        MENUITEM "Delete Symbol",               ID_SYMBOL_DELETESYMBOL
+        MENUITEM "Symbol Properties...",        ID_SYMBOL_SYMBOLPROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Duplicate symbol...",         ID_CONTEXT_DUPLICATESYMBOL
+        MENUITEM "Copy to",                     ID_CONTEXT_COPY_TO
+        MENUITEM SEPARATOR
+        MENUITEM "Export symbol to XML...",     ID_CONTEXT_EXPORTSYMBOL
+        MENUITEM "Export all symbols...",       ID_FILE_EXPORTLIBRARY
+        MENUITEM "Import symbols...",           ID_FILE_IMPORTLIBRARY
+    END
+END
+
+IDR_LINETOOL_EDIT MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Make horizontal",             ID_CONTEXT_MAKEHORIZONTAL
+        MENUITEM "Make vertical",               ID_CONTEXT_MAKEVERTICAL
+        MENUITEM SEPARATOR
+        MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO
+        MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO
+        MENUITEM SEPARATOR
+        POPUP "Z-Order"
+        BEGIN
+            MENUITEM "Bring to front",              ID_CONTEXT_ZORDER_BRINGTOFRONT
+            MENUITEM "Send to back",                ID_CONTEXT_ZORDER_SENDTOBACK
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
+    END
+END
+
+IDR_SHEET_MENU MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Insert sheet",                ID_CONTEXT_ADDSHEET
+        MENUITEM "Delete sheet",                ID_CONTEXT_DELETESHEET
+        MENUITEM "Rename sheet...",             ID_CONTEXT_RENAMESHEET
+        MENUITEM SEPARATOR
+        MENUITEM "Add hierarchical symbol",     ID_CONTEXT_ADDHIERARCHICALSYMBOL
+    END
+END
+
+IDR_SYMBOL_SHEET_MENU MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Set parts per package...",    ID_LIBRARY_SETPARTSPERPACKAGE
+        MENUITEM SEPARATOR
+        MENUITEM "Homogeneous Symbol (same outline for all parts)", ID_LIBRARY_HOMOGENEOUS
+        MENUITEM "Heterogeneous Symbol (different outlines per part)", ID_LIBRARY_HETEROGENEOUS
+    END
+END
+
+IDR_METHOD_EDIT MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Replace symbol...",           ID_CONTEXT_REPLACESYMBOL
+        MENUITEM SEPARATOR
+        MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO
+        MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO
+        MENUITEM SEPARATOR
+        POPUP "Z-Order"
+        BEGIN
+            MENUITEM "Bring to front",              ID_CONTEXT_ZORDER_BRINGTOFRONT
+            MENUITEM "Send to back",                ID_CONTEXT_ZORDER_SENDTOBACK
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM "Select &All\tCtrl+A",         IDM_EDITSELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
+    END
+END
+
+IDR_HIERARCHICAL_EDIT MENU 
+BEGIN
+    POPUP "Context"
+    BEGIN
+        MENUITEM "Reload symbol from design",   ID_CONTEXT_RELOADSYMBOLFROMDESIGN
+        MENUITEM "Open design",                 ID_CONTEXT_OPENDESIGN
+        MENUITEM SEPARATOR
+        MENUITEM "Undo\tCtrl+Z",                IDM_EDITUNDO
+        MENUITEM "Redo\tCtrl+Y",                IDM_EDITREDO
+        MENUITEM SEPARATOR
+        POPUP "Z-Order"
+        BEGIN
+            MENUITEM "Bring to front",              ID_CONTEXT_ZORDER_BRINGTOFRONT
+            MENUITEM "Send to back",                ID_CONTEXT_ZORDER_SENDTOBACK
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Cut\tCtrl+X",                 IDM_EDITCUT
+        MENUITEM "Copy\tCtrl+C",                IDM_EDITCOPY
+        MENUITEM "Paste\tCtrl+V",               IDM_EDITPASTE
+        MENUITEM "Duplicate\tCtrl+U",           IDM_EDITDUPLICATE
+        MENUITEM SEPARATOR
+        MENUITEM "Delete\tDEL",                 IDM_EDITDELITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
+        MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
+        MENUITEM "Flip\tCtrl+F",                IDM_EDITFLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
+        MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_EXPORT_PCB DIALOGEX 0, 0, 264, 105
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "PCB Export"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Export",IDOK,207,84,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,145,84,50,14
+    LTEXT           "Export the design's netlist for import into a PCB drawing program",IDC_STATIC,7,7,200,8
+    LTEXT           "Output file format:",IDC_STATIC,13,28,57,8
+    COMBOBOX        IDC_FILE_TYPE,75,26,126,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output file:",IDC_STATIC,13,48,35,8
+    EDITTEXT        IDC_FILE_NAME,75,45,124,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BROWSE,207,45,50,14
+    CONTROL         "Prefix symbol references with sheet number",IDC_PREFIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,65,165,10
+END
+
+IDD_EXPORT_PNG DIALOGEX 0, 0, 264, 113
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Export as an image file"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_FILE_TYPE,75,26,126,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_SCALING,75,42,25,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FILE_NAME,75,65,124,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BROWSE,207,65,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,145,92,50,14
+    DEFPUSHBUTTON   "Export",IDOK,207,92,50,14
+    LTEXT           "Export this design as a bitmap file",IDC_STATIC,7,7,105,8
+    LTEXT           "Output file format:",IDC_STATIC,13,28,57,8
+    LTEXT           "Output file:",IDC_STATIC,13,68,35,8
+    LTEXT           "Scaling:",IDC_STATIC,42,45,26,8
+    LTEXT           "%",IDC_STATIC,103,44,14,8
+    CONTROL         "Rotate 90°",IDC_ROTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,121,44,50,10
+END
+
+IDD_COLOURS DIALOGEX 0, 0, 331, 114
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Define colours"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,278,94,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,4,94,50,14
+    LTEXT           "Wire",IDC_STATIC,11,21,16,8
+    LTEXT           "Bus",IDC_STATIC,119,36,13,8
+    LTEXT           "Junction",IDC_STATIC,11,37,28,8
+    LTEXT           "No connect",IDC_STATIC,11,53,38,8
+    LTEXT           "Power",IDC_STATIC,119,20,21,8
+    LTEXT           "Pin",IDC_STATIC,119,52,11,8
+    GROUPBOX        "Drawing colours",IDC_STATIC,4,2,323,89
+    CONTROL         "Button1",IDC_COL_WIRE,"Button",BS_OWNERDRAW | WS_TABSTOP,51,20,55,11
+    CONTROL         "Button1",IDC_COL_JUNCTION,"Button",BS_OWNERDRAW | WS_TABSTOP,51,36,55,11
+    CONTROL         "Button1",IDC_COL_NOCONNECT,"Button",BS_OWNERDRAW | WS_TABSTOP,51,51,55,11
+    CONTROL         "Button1",IDC_COL_PIN,"Button",BS_OWNERDRAW | WS_TABSTOP,141,50,55,11
+    CONTROL         "Button1",IDC_COL_POWER,"Button",BS_OWNERDRAW | WS_TABSTOP,141,19,55,11
+    CONTROL         "Button1",IDC_COL_BUS,"Button",BS_OWNERDRAW | WS_TABSTOP,141,35,55,11
+    PUSHBUTTON      "Defaults",IDC_RESET,66,94,50,14
+    LTEXT           "Drawing background",IDC_STATIC,71,78,67,8
+    CONTROL         "Button1",IDC_COL_BACKGROUND,"Button",BS_OWNERDRAW | WS_TABSTOP,141,76,55,11
+    LTEXT           "NoteText Line",IDC_STATIC,213,36,50,8
+    LTEXT           "NoteText Fill",IDC_STATIC,213,20,47,8
+    LTEXT           "NoteText Text",IDC_STATIC,213,52,50,8
+    CONTROL         "Button1",IDC_COL_NOTETEXT_TEXT,"Button",BS_OWNERDRAW | WS_TABSTOP,266,49,55,11
+    CONTROL         "Button1",IDC_COL_NOTETEXT_FILL,"Button",BS_OWNERDRAW | WS_TABSTOP,266,19,55,11
+    CONTROL         "Button1",IDC_COL_NOTETEXT_LINE,"Button",BS_OWNERDRAW | WS_TABSTOP,266,35,55,11
+END
+
+IDD_DETAILS_PAGE1 DIALOGEX 0, 0, 250, 150
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Design"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Display Details",DESIGNBOX_DISPLAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,61,10
+    LTEXT           "Title",IDC_STATIC,8,20,16,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_TITLE,73,18,102,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "Author",IDC_STATIC,8,35,23,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_AUTHOR,73,33,102,12,ES_AUTOHSCROLL
+    LTEXT           "Organisation",IDC_STATIC,8,51,42,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_ORGANISATION,73,49,102,12,ES_AUTOHSCROLL
+    LTEXT           "Revision",IDC_STATIC,8,68,30,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_REVISION,73,66,51,12,ES_AUTOHSCROLL
+    LTEXT           "Document",IDC_STATIC,8,84,34,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_DOCUMENT,73,82,51,12,ES_AUTOHSCROLL
+    LTEXT           "Number of Sheets",IDC_STATIC,8,99,59,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_SHEET,73,97,51,12,ES_AUTOHSCROLL
+    LTEXT           "Date",IDC_STATIC,7,114,59,8,NOT WS_GROUP
+    EDITTEXT        DESIGNBOX_DATE,73,112,83,12,ES_AUTOHSCROLL
+END
+
+IDD_DETAILS_PAGE2 DIALOGEX 0, 0, 250, 150
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Guides"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Show design guides",IDC_SHOW_RULERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,31,79,10
+    LTEXT           "Horizontal guide from 1 to",IDC_STATIC,23,47,81,8
+    EDITTEXT        IDC_HORIZ_GUIDE,108,44,18,14,ES_AUTOHSCROLL
+    LTEXT           "Vertical guide from A to",IDC_STATIC,23,65,74,8
+    EDITTEXT        IDC_VERT_GUIDE,102,62,18,14,ES_UPPERCASE | ES_AUTOHSCROLL
+    GROUPBOX        "Design Guides",IDC_STATIC,7,7,149,95
+END
+
+IDD_EXPORT_BOM DIALOGEX 0, 0, 264, 142
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Save a parts list"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Export",IDOK,207,121,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,145,121,50,14
+    LTEXT           "Create a parts list for this design",IDC_STATIC,7,7,100,8
+    LTEXT           "Output file format:",IDC_STATIC,13,28,57,8
+    COMBOBOX        IDC_FILE_TYPE,75,26,126,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Output file:",IDC_STATIC,13,48,35,8
+    EDITTEXT        IDC_FILE_NAME,75,45,124,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BROWSE,207,45,50,14
+    CONTROL         "Prefix symbol references with sheet number",IDC_PREFIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,102,166,10
+    CONTROL         "Include all attribute information",IDC_ALL_ATTRS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,89,149,10
+    CONTROL         "Include all sheets",IDC_ALL_SHEETS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,65,149,10
+    CONTROL         "Include all hierarchical links",IDC_ALL_HIERARCHICAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,149,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_EXPORT_PCB, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 257
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 98
+    END
+
+    IDD_EXPORT_PNG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 257
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 106
+    END
+
+    IDD_COLOURS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 111
+    END
+
+    IDD_DETAILS_PAGE1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 243
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 142
+    END
+
+    IDD_DETAILS_PAGE2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 243
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 142
+    END
+
+    IDD_EXPORT_BOM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 257
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 135
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      IDM_EDITCUT
+    BUTTON      IDM_EDITCOPY
+    BUTTON      IDM_EDITPASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+END
+
+IDR_DRAWING TOOLBAR  16, 15
+BEGIN
+    BUTTON      IDM_TOOLLABEL
+    BUTTON      IDM_TOOLWIRE
+    BUTTON      IDM_TOOLJUNC
+    BUTTON      IDM_TOOLPOWER
+    BUTTON      IDM_TOOLCONNECT
+    SEPARATOR
+    BUTTON      ID_RULER_HORIZ
+    BUTTON      ID_RULER_VERT
+    SEPARATOR
+    BUTTON      ID_LIBRARY_ADDPIN
+    SEPARATOR
+    BUTTON      ID_OPTIONS_TOOLBARS_SYMBOL
+    SEPARATOR
+    BUTTON      IDM_VIEWCENTRE
+    BUTTON      IDM_EDITDELITEM
+    BUTTON      IDM_EDITEDIT
+    SEPARATOR
+    BUTTON      IDM_EDITROTATELEFT
+    BUTTON      IDM_EDITROTATERIGHT
+    BUTTON      IDM_EDITFLIP
+END
+
+IDR_ANNOTATE TOOLBAR  16, 15
+BEGIN
+    BUTTON      IDM_TOOLTEXT
+    BUTTON      IDM_TOOLPOLYGON
+    BUTTON      IDM_TOOLCIRCLE
+    BUTTON      IDM_TOOLSQUARE
+    BUTTON      IDM_TOOLNOTETEXT
+    SEPARATOR
+    BUTTON      IDM_TOOLARC
+END
+
+IDR_DRAWBUS TOOLBAR  16, 15
+BEGIN
+    BUTTON      IDM_TOOLBUSNAME
+    BUTTON      IDM_BUSBACK
+    BUTTON      IDM_BUSSLASH
+    BUTTON      IDM_TOOLBUS
+END
+
+IDR_DRAWGROUP TOOLBAR  16, 15
+BEGIN
+    BUTTON      IDM_EDITDRAG
+    BUTTON      IDM_EDITMOVE
+    BUTTON      IDM_EDITDUP
+    BUTTON      IDM_EDITROTATE
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\TinyCad.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+AFX_IDC_TRACK4WAY       CURSOR                  "res\\trck4way.cur"
+AFX_IDC_TRACKNESW       CURSOR                  "res\\trcknesw.cur"
+AFX_IDC_TRACKNS         CURSOR                  "res\\trckns.cur"
+AFX_IDC_TRACKNWSE       CURSOR                  "res\\trcknwse.cur"
+AFX_IDC_TRACKWE         CURSOR                  "res\\trckwe.cur"
+IDC_ZOOMCURSOR          CURSOR                  "res\\afx_idc_.cur"
+IDC_REFCURSOR           CURSOR                  "res\\zoomcurs.cur"
+AFX_IDC_TRACK_MOVE      CURSOR                  "res\\cur00001.cur"
+AFX_IDC_TRACK_BLOCK     CURSOR                  "res\\cur00002.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "tinycad.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROPSHT_CAPTION     "Settings"
+    IDS_RECURSION           "The number of included hierarchical drawings is too large - this is probably due to recursive includes"
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    IDP_OLE_INIT_FAILED     "Initialization of OLE failed"
+    IDM_FILEPAGESET         "Setup the page layout for this design\nPage Setup"
+    IDM_FILEIMPORT          "Import another TinyCAD design\nImport"
+    IDM_FILEEXPORT          "Export the selected part of this design\nExport"
+    IDM_FILEDESIGN          "Edit the details of this design\nDesign Details"
+    IDS_PROPSHT_CAPTION1    "Design details"
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "TinyCad"
+    IDR_TCADTYPE            "\ntCad\ntCad\nTinyCad Files (*.dsn)\n.dsn\ndsn\nTinyCad Document"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "TinyCad"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "This net has more than one name"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_BADDETAILS          "You must fill in a name and reference for the symbol."
+    IDS_NOLIBRARY           "The library does not exist!  Create it automatically?"
+    IDS_LIBTIDIED           "The library has been tidied."
+    IDS_BADDEVICE           "Please enter a single letter for the part in the package."
+    IDS_COPYPINS            "Do you want the pins from the current part to be copied into the new part?"
+    IDS_BADPART             "The part letter is too big."
+    IDS_MISSMETH            "Some symbols were missing from the libraries, and so could not be altered."
+    IDS_MISSREF             "Some symbols do not have correct references, the parts list will be inaccurate.  Use Generate Symbol references."
+    IDS_CANNOTOPEN          "Cannot write the parts list file.  Please try again with a different filename."
+    IDS_DESTIDIED           "The design has been tidied."
+    IDS_TOOMANYFILES        "You may only drag one file at a time into TinyCAD."
+    IDS_IAMICON             "You may only import files when the design is shown in a window."
+    IDS_BADLIB              "The library %s is faulty! Some or all of the symbols from it may be unavailable."
+    IDS_MISSLIB             "The library %s is not available.  No symbols will be available from it."
+    IDS_NORES               "Could not find specified resource!  There is a fault in the file TinyCAD.EXE, please re-install it."
+    IDS_NOFIND              "No string could be found."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_NODEFAULT           "You have no default printer.  You will not be able to print until you select a printer in Page Setup."
+    IDS_ABORTLOAD           "The design selected could not be loaded.  Please check the filename and pathname and then try again."
+    IDS_ABORTNOTMINE        "The design selected was not drawn using TinyCAD.  Please check the filename and pathname, and try again."
+    IDS_ABORTSAVE           "The design could not be saved.  Please check filename and pathname, and try again."
+    IDS_ABORTVERSION        "This file was not created by TinyCAD."
+    IDS_ABORTAUTOSAVE       "This design could not be automatically saved."
+    IDS_BADPRINT            "Printing could not begin.  Check the printer settings using the Printer Setup button, and try again."
+    IDS_NOSYMBOL            "Symbol %s not found."
+END
+
+STRINGTABLE 
+BEGIN
+    ERR_DUPREF              "This reference is also used with another symbol"
+    ERR_OUTPUT              "This output is connected to another output"
+    ERR_OUTPUTTOPWR         "This output is connected to a power pin"
+    ERR_UNCONNECTED         "This network is not connected to anything"
+    ERR_OUTPUTBIDIR         "This TriState/Open Collector output is connected to another output pin"
+    ERR_POWERBIDIR          "This TriState/Open Collector output is connected to a power pin"
+    ERR_NOERROR             "No errors were found in this design."
+    IDS_ABORTINDEXSAVE      "The changes could not be saved!  Please check you have the correct access and try again."
+    ERR_UNRECOP             "Unrecognized operator in text file"
+    ERR_UNRECOBJ            "Unrecognized object in text file"
+    IDS_NO_SYM_DELETE       "You cannot delete symbols from old library .idx files.  Close this window, and upgrade the library using the Library dialogue."
+    IDS_DELETE_SHEET        "Are you sure you wish to delete this sheet?\nWARNING: This cannot be reversed with ""undo""."
+    IDS_MUSTUPGRADE         "You must upgrade this library before you can edit it.  Do you wish to do this now?"
+    ERR_UNASSIGNEDREFDES    "This reference designator has not been assigned"
+    ERR_NONDISTINCTNET      "There are 2 or more nets that are spelled with different case letters only.  These will be treated as separate nets."
+    ERR_MULTIPLENETNAMES    "This net has more than one name"
+END
+
+STRINGTABLE 
+BEGIN
+    ERR_UNCONNECT           "This item is not connected to anything else"
+    ERR_POWER               "This power is connected to a different value power"
+    ERR_NOCONNECT           "More than one item is connected to a no-connect"
+    ERR_NOUTPUT             "This network has no output driving it"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_DUPNAME             "There is already a symbol in this library with that name."
+    IDS_BAD_PPP             "You can only change a symbol type if there is only 1 part per package in the symbol.  Set the number of parts in the package to 1 and try again"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_NODELETE            "Cannot delete a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
+    IDM_SNAPTOGRID          "Turn snap to grid on/off\nSnap to grid on/off"
+    ID_HELP_GOTOTINYCADWEBSITE 
+                            "Open an explorer window at the TinyCAD web site"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITCOPY            "Copy the selection to the clipboard\nCopy"
+    IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
+    IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
+    IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITSELECTALL       "Select all objects\nSelect All"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITROTATELEFT      "Rotate selection left\nLeft"
+    IDM_EDITROTATERIGHT     "Rotate selection right\nRight"
+    IDM_EDITFLIP            "Flip selection horizontally\nFlip"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_LIBRARY_REFRESHSYMBOLSFROMLIBRARIES 
+                            "Reload the symbols into this design from the libraries"
+    ID_HELP_HELP            "Get help on TinyCAD\nHelp"
+    ID_RULER_HORIZ          "Horizontal drawing ruler\nHorizontal ruler"
+    ID_RULER_VERT           "Vertical drawing ruler\nVertical ruler"
+    IDM_TOOLPOLYGON         "Draw a polygon or lines\nLines &&Polygon"
+    ID_CONTEXT_FINISHPOLYGON "Finish drawing this polygon"
+    ID_CONTEXT_CANCELDRAWING "Cancel drawing this polygon"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_EDITREDO            "Reverse the operation of the last Undo\nRedo"
+    IDM_EDITMOVE            "Move Block\nMove Block"
+    IDM_EDITDRAG            "Drag Block\nDrag Block"
+    IDM_EDITDUP             "Duplicate Block\nDuplicate Block"
+    IDM_EDITREPEAT          "Repeat the last action\nRepeat"
+    IDM_EDITROTATE          "Rotate Block\nRotate Block"
+    IDM_EDITUNDO            "Undo the last action\nUndo"
+    IDM_LIBLIB              "Go to the set-up libraries dialog\nSetup libraries"
+    IDS_NOHIERARCHICAL_SYMBOL 
+                            "This file does not have a hierarchical symbol associated with it"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_BUSBACK             "Bus join\nBus join (F9)"
+    IDM_TOOLCONNECT         "No connection\nNo connect (F5)"
+    IDM_TOOLGET             "Get a symbol\nSymbol (F6)"
+    IDM_TOOLARC             "Arc annotations\nArc"
+    IDM_VIEWCENTRE          "Zoom in and out\nZoom (Z)"
+    IDM_VIEWZOOMIN          "Zoom In\nZoom In"
+    IDM_VIEWZOOMOUT         "Zoom out\nZoom out"
+    ID_SYMBOL_DELETESYMBOL  "Delete the selected symbol from the library\nDelete symbol"
+    ID_SYMBOL_RENAMESYMBOL  "Rename the symbol within the library\nRename symbol"
+    IDS_NOUPGRADE           "Cannot upgrade a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
+    IDS_NOJUNCTION          "You cannot place junctions manually because junctions are currently configured for automatic placement.\nTo change this go to Options->Setting->Auto Wire settings."
+    IDS_NOUPGRADENEED       "This library is already in the latest file format.  There is no need to upgrade it."
+    ID_SYMBOL_EDITSYMBOL    "Edit the selected symbol\nEdit symbol"
+    ID_SYMBOL_NEWSYMBOL     "Create a new symbol in this library\nNew symbol"
+    ID_LIBRARY_ADDPIN       "Add a pin to the current edited symbol (for editing library symbols only)\nAdd Symbol Pin"
+    ID_LIBRARY_SELECTPARTINPACKAGE 
+                            "Select which part in the package is currently being edited\nPPP"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FIND_FIND            "Find a text string in the design"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FIND_TAG             "Edit/go to tags in the design"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FIND_SETTAG          "Create a new tag\nCreate Tag"
+    ID_OPTION_FONT          "Select the font for the current object"
+    ID_OPTION_LINE          "Select the line style for the current object"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_SPECIALBOM          "Create a bill of materials"
+    IDM_SPECIALANNOTATE     "Automatically create or remove the symbol references"
+    IDM_SPECIALNET          "Create a net-list of the current design"
+    IDM_SPECIALCHECK        "Check the design against layout rules"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_VIEWGRID            "Change the grid and ruler settings"
+    IDM_VIEWSHOWPOS         "Show the current position on the screen"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_TOOLLABEL           "Label a wire\nLabel (F1)"
+    IDM_TOOLWIRE            "Wire connections\nWire (F2)"
+    IDM_TOOLJUNC            "Junction\nJunction (F3)"
+    IDM_TOOLPOWER           "Power\nPower (F4)"
+    IDM_TOOLBUSNAME         "Bus name\nBus name (F7)"
+    IDM_BUSSLASH            "Bus join\nBus join (F8)"
+    IDM_TOOLBUS             "Bus\nBus (F10)"
+    IDM_TOOLTEXT            "Text annotation\nText"
+    IDM_TOOLLINE            "Line annotations\nLine"
+    IDM_TOOLCIRCLE          "Ellipse annotations\nEllipse"
+    IDM_TOOLSQUARE          "Rectangle annotations\nRectangle"
+    IDM_EDITDELITEM         "Delete items\nDelete (DEL)"
+    IDM_EDITEDIT            "Edit items\nEdit (ESC)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_TOOLNOTETEXT        "Multi-Line Text annotations\nNote"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OPTIONS_TOOLBARS_SYMBOL "Symbol picker\nSymbol picker (F6)"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_CONTEXT_ZORDER_BRINGTOFRONT 
+                            "Move the selected object to the top of the z-order"
+    ID_CONTEXT_ZORDER_SENDTOBACK 
+                            "Move the selected object to the back of the z-order"
+    IDM_EDITDUPLICATE       "Duplicate the selected block\nDuplicate"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_CONTEXT_DUPLICATESYMBOL 
+                            "Make a copy of this symbol within this library"
+    ID_SYMBOL_SYMBOLPROPERTIES 
+                            "Edit this symbol's name and other properties\nProperties"
+    ID_FILE_EXPORTLIBRARY   "Export this library to an XML file\nExport to XML"
+    ID_FILE_IMPORTLIBRARY   "Import this library from an XML file\nImport library from XML"
+    ID_CONTEXT_EXPORTSYMBOL "Save the symbol to an XML file"
+    ID_CONTEXT_REPLACESYMBOL 
+                            "Replace this symbol with one from the library..."
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_TOOL_HIERARCHICAL   "Insert drawing\nInsert drawing"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\TinyCad.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

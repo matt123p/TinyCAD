@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD version 2.60.01
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download a copy.-->
+<TinyCADSheets><TinyCAD><NAME>Sheet 1</NAME>
+<DETAILS><Size width='1485' height='1050'/>
+<GUIDES horiz='7' vert='5'/>
+<TITLE>3A VARIABLE PSU</TITLE>
+<AUTHOR>GARY F SMITH</AUTHOR>
+<REVISION>1.0</REVISION>
+<DOCNUMBER></DOCNUMBER>
+<ORGANISATION></ORGANISATION>
+<SHEETS>1 of 1</SHEETS>
+<SHOWS>1</SHOWS>
+<DATE>AUGUST 2006</DATE>
+<GRID spacing='50' snap='1'/>
+</DETAILS>
+<FONT id='1'><HEIGHT>-10</HEIGHT>
+<WIDTH>0</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='3'><HEIGHT>-13</HEIGHT>
+<WIDTH>6</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<FONT id='4'><HEIGHT>-11</HEIGHT>
+<WIDTH>5</WIDTH>
+<WEIGHT>400</WEIGHT>
+<ITALIC>0</ITALIC>
+<UNDERLINE>0</UNDERLINE>
+<STRIKEOUT>0</STRIKEOUT>
+<CHARSET>0</CHARSET>
+<FACENAME>Arial</FACENAME>
+</FONT>
+<STYLE id='0'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<STYLE id='2'><STYLE>0</STYLE>
+<COLOR>000000</COLOR>
+<THICKNESS>1</THICKNESS>
+</STYLE>
+<FILL id='0'><INDEX>-1</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<FILL id='1'><INDEX>0</INDEX>
+<COLOR>000000</COLOR>
+</FILL>
+<SYMBOLDEF id='1'><NAME type='0'>T</NAME>
+<REF type='0'>T?</REF>
+<DESCRIPTION>Transformer</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='52,56'/>
+<TinyCAD><POLYGON pos='46,48' style='0' fill='0'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,47' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,46' style='0' fill='0'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,45' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,44' style='0' fill='0'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,43' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,42' style='0' fill='0'><POINT pos='1,1' arc='0'/>
+<POINT pos='0,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,47' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,46' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,45' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,44' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,43' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,42' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,49' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='49,48' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='1,0' arc='2'/>
+</POLYGON>
+<POLYGON pos='46,49' style='0' fill='0'><POINT pos='1,0' arc='0'/>
+<POINT pos='0,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='44,42' style='0' fill='0'><POINT pos='2,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='44,50' style='0' fill='0'><POINT pos='2,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='48,42' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,8' arc='0'/>
+</POLYGON>
+<POLYGON pos='50,50' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='50,42' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<PIN pos='52,56' which='0' elec='4' direction='0' part='0' number='4' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='44,36' which='0' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='44,56' which='0' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='52,36' which='0' elec='4' direction='1' part='0' number='3' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='2'><NAME type='0'>SWITCH2D</NAME>
+<REF type='0'>S?</REF>
+<DESCRIPTION>DPST switch</DESCRIPTION>
+<PPP>2</PPP>
+<REF_POINT power='0' part='0' pos='139,148'/>
+<TinyCAD><PIN pos='138,148' which='0' elec='0' direction='0' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='138,128' which='0' elec='0' direction='1' part='0' number='2' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='138,128' which='0' elec='0' direction='1' part='1' number='4' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='138,148' which='0' elec='0' direction='0' part='1' number='3' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='135,134' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,8' arc='0'/>
+</POLYGON>
+<ELLIPSE a='137,134' b='139,136' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='3'><NAME type='0'>FUSE</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Fuse</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='64,54'/>
+<TinyCAD><PIN pos='62,34' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='62,54' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='62,40' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,8' arc='0'/>
+</POLYGON>
+<RECTANGLE a='60,40' b='64,48' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='4'><NAME type='0'>VREG1</NAME>
+<REF type='0'>U?</REF>
+<DESCRIPTION>Adj. Voltage Reg.</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='39,61'/>
+<TinyCAD><PIN pos='28,61' which='0' elec='0' direction='0' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='39,51' which='0' elec='0' direction='2' part='0' number='2' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='28,41' which='0' elec='1' direction='1' part='0' number='3' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<TEXT pos='28,46' direction='0' font='4' color='000000'>Out</TEXT>
+<TEXT pos='28,59' direction='0' font='4' color='000000'>In</TEXT>
+<TEXT pos='35,51' direction='3' font='4' color='000000'>Adj</TEXT>
+<POLYGON pos='28,55' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+</POLYGON>
+<POLYGON pos='28,46' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='33,51' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='1,0' arc='0'/>
+</POLYGON>
+<RECTANGLE a='27,47' b='33,55' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='5'><NAME type='0'>CAP</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION>Electrolitic Capacitor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='50,48'/>
+<TinyCAD><PIN pos='46,34' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'>+</PIN>
+<PIN pos='46,48' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'>-</PIN>
+<POLYGON pos='48,37' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='47,38' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='42,42' style='0' fill='0'><POINT pos='8,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='42,40' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='42,40' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+</POLYGON>
+<POLYGON pos='42,41' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='8,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='50,40' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='6'><NAME type='0'>BR</NAME>
+<REF type='0'>BR?</REF>
+<DESCRIPTION>Bridge Rectifier</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='37.6,37.8'/>
+<TinyCAD><PIN pos='20.6,28.8' which='0' elec='0' direction='3' part='0' number='3' show='1' length='5' number_pos='0' centre_name='0'>+</PIN>
+<PIN pos='36.2,28.8' which='0' elec='0' direction='2' part='0' number='4' show='1' length='5' number_pos='0' centre_name='0'>-</PIN>
+<PIN pos='28.4,36.8' which='0' elec='0' direction='0' part='0' number='1' show='1' length='5' number_pos='0' centre_name='0'></PIN>
+<PIN pos='28.4,20.8' which='0' elec='0' direction='1' part='0' number='2' show='1' length='5' number_pos='0' centre_name='0'></PIN>
+<ELLIPSE a='28,36.4' b='29,37.4' style='0' fill='1'/>
+<ELLIPSE a='36.2,28.4' b='37.2,29.4' style='0' fill='1'/>
+<ELLIPSE a='20,28.2' b='21,29.2' style='0' fill='1'/>
+<ELLIPSE a='28,20' b='29,21' style='0' fill='1'/>
+<POLYGON pos='28.4,20.8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='33.4,25.8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='28.4,33.8' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='33.4,28.8' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='20.4,25.8' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='25.4,20.8' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='20.4,28.8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='25.4,33.8' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='31.4,23.8' style='0' fill='0'><POINT pos='0.6,3.4' arc='0'/>
+<POINT pos='3.6,0.4' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='0.6,3.4' arc='0'/>
+</POLYGON>
+<POLYGON pos='30,22.2' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='23.4,31.8' style='0' fill='0'><POINT pos='0.6,3.4' arc='0'/>
+<POINT pos='3.6,0.4' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+<POINT pos='0.6,3.4' arc='0'/>
+</POLYGON>
+<POLYGON pos='22,30.2' style='0' fill='0'><POINT pos='0,3' arc='0'/>
+<POINT pos='3,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='23.4,22.2' style='0' fill='0'><POINT pos='3.4,3' arc='0'/>
+<POINT pos='0.4,0' arc='0'/>
+<POINT pos='0,3.6' arc='0'/>
+<POINT pos='3.4,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='21.8,24.2' style='0' fill='0'><POINT pos='3,3' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='31.4,30.2' style='0' fill='0'><POINT pos='3.4,3' arc='0'/>
+<POINT pos='0.4,0' arc='0'/>
+<POINT pos='0,3.6' arc='0'/>
+<POINT pos='3.4,3' arc='0'/>
+</POLYGON>
+<POLYGON pos='29.8,32.2' style='0' fill='0'><POINT pos='3,3' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='7'><NAME type='0'>RV</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Resistor Potmeter</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='89,52'/>
+<TinyCAD><PIN pos='85,43' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='85,51' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='81,48' which='5' elec='4' direction='3' part='0' number='3' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='85,50.4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1.6' arc='0'/>
+</POLYGON>
+<POLYGON pos='87.2,44.6' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0.6,0.6' arc='0'/>
+</POLYGON>
+<POLYGON pos='87.2,44' style='0' fill='0'><POINT pos='1.4,0' arc='0'/>
+<POINT pos='0,0.6' arc='0'/>
+</POLYGON>
+<POLYGON pos='87.8,44' style='0' fill='0'><POINT pos='0.8,0' arc='0'/>
+<POINT pos='0,1.2' arc='0'/>
+</POLYGON>
+<POLYGON pos='83.6,44' style='0' fill='0'><POINT pos='0,4' arc='0'/>
+<POINT pos='5,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='81,48' style='0' fill='0'><POINT pos='2.6,0' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='85,43' style='0' fill='0'><POINT pos='0,1.6' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<RECTANGLE a='83.4,44.6' b='86.4,50.4' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='8'><NAME type='0'>R</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Resistor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='84,52'/>
+<TinyCAD><PIN pos='82,43' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='82,51' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='82,43' style='0' fill='0'><POINT pos='0,1.6' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='82,50.4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1.6' arc='0'/>
+</POLYGON>
+<RECTANGLE a='80.4,44.6' b='83.4,50.4' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='9'><NAME type='0'>CAP1A</NAME>
+<REF type='0'>C?</REF>
+<DESCRIPTION>Small Electrolytic</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='26,29'/>
+<TinyCAD><PIN pos='23,29' which='0' elec='0' direction='0' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='23,16' which='0' elec='0' direction='1' part='0' number='2' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='20,23' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='6,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='23,23' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1' arc='0'/>
+</POLYGON>
+<POLYGON pos='23,21' style='0' fill='0'><POINT pos='0,1' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='24,25' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='25,24' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,2' arc='0'/>
+</POLYGON>
+<POLYGON pos='23,21' style='0' fill='0'><POINT pos='3,0' arc='0'/>
+<POINT pos='0,1' arc='2'/>
+</POLYGON>
+<POLYGON pos='20,21' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='3,1' arc='2'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='10'><NAME type='0'>FUSE</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Fuse</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='64,54'/>
+<TinyCAD><PIN pos='62,34' which='0' elec='4' direction='1' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='62,54' which='0' elec='4' direction='0' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='62,40' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,8' arc='0'/>
+</POLYGON>
+<RECTANGLE a='60,40' b='64,48' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='12'><NAME type='0'>R</NAME>
+<REF type='0'>R?</REF>
+<DESCRIPTION>Resistor</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='84,52'/>
+<TinyCAD><PIN pos='82,43' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<PIN pos='82,51' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='82,43' style='0' fill='0'><POINT pos='0,1.6' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='82,50.4' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='0,1.6' arc='0'/>
+</POLYGON>
+<RECTANGLE a='80.4,44.6' b='83.4,50.4' style='0' fill='0'/>
+</TinyCAD>
+</SYMBOLDEF>
+<SYMBOLDEF id='13'><NAME type='1'>LED</NAME>
+<REF type='1'>L?</REF>
+<DESCRIPTION>Led</DESCRIPTION>
+<PPP>1</PPP>
+<REF_POINT power='0' part='0' pos='26,26'/>
+<TinyCAD><POLYGON pos='24,22.6' style='0' fill='1'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,1.2' arc='0'/>
+<POINT pos='1.8,0.6' arc='0'/>
+<POINT pos='1.4,1.4' arc='0'/>
+<POINT pos='1.8,1.2' arc='0'/>
+</POLYGON>
+<ELLIPSE a='20,20.6' b='24,24.6' style='0' fill='0'/>
+<POLYGON pos='21,21.8' style='0' fill='1'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+<POINT pos='1,1.4' arc='0'/>
+<POINT pos='0,0' arc='0'/>
+</POLYGON>
+<POLYGON pos='21,23.2' style='0' fill='0'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,0' arc='0'/>
+</POLYGON>
+<PIN pos='22,20' which='0' elec='4' direction='1' part='0' number='1' show='0' length='10' number_pos='0' centre_name='0'></PIN>
+<PIN pos='22,25.4' which='0' elec='4' direction='0' part='0' number='2' show='0' length='10' number_pos='0' centre_name='0'></PIN>
+<POLYGON pos='23.6,24' style='0' fill='1'><POINT pos='0,0' arc='0'/>
+<POINT pos='2,1.2' arc='0'/>
+<POINT pos='1.8,0.6' arc='0'/>
+<POINT pos='1.4,1.4' arc='0'/>
+<POINT pos='1.8,1.2' arc='0'/>
+</POLYGON>
+</TinyCAD>
+</SYMBOLDEF>
+<OPTIONS><GRID>0</GRID>
+<UNITS>0</UNITS>
+<COLOR_WIRE>FF0000</COLOR_WIRE>
+<COLOR_BUS>0000FF</COLOR_BUS>
+<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+<COLOR_LABEL>208000</COLOR_LABEL>
+<COLOR_POWER>000000</COLOR_POWER>
+<COLOR_PIN>4040C0</COLOR_PIN>
+<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+<COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+</OPTIONS>
+<SYMBOL id='1' pos='84,81' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='T1' show='1' pos='-1,-10.6'/>
+<FIELD type='0' description='Name' value='' show='1' pos='-1,-8'/>
+</SYMBOL>
+<SYMBOL id='2' pos='56,62' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='S1' show='1' pos='-20,2'/>
+<FIELD type='0' description='Name' value='' show='1' pos='-20,-4'/>
+</SYMBOL>
+<SYMBOL id='3' pos='76,63' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='F1' show='1' pos='-13,3'/>
+<FIELD type='0' description='Name' value='' show='1' pos='-9,3'/>
+</SYMBOL>
+<WIRE a='76,81' b='36,81'/>
+<ELLIPSE a='34,60' b='36,62' style='2' fill='0'/>
+<ELLIPSE a='34,80' b='36,82' style='2' fill='0'/>
+<SYMBOL id='4' pos='170,67' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='REG1' show='1' pos='-14,-14'/>
+<FIELD type='0' description='Name' value='LM350' show='1' pos='-14,-12'/>
+</SYMBOL>
+<SYMBOL id='5' pos='139,82' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C1' show='1' pos='-3,-3.6'/>
+<FIELD type='0' description='Name' value='33000uF' show='1' pos='-3,-2'/>
+</SYMBOL>
+<SYMBOL id='6' pos='123,80' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='BR1' show='1' pos='-6,-16.6'/>
+<FIELD type='0' description='Name' value='' show='1' pos='1,-16'/>
+</SYMBOL>
+<WIRE a='84,61' b='113.8,61'/>
+<WIRE a='113.8,61' b='113.8,63'/>
+<WIRE a='84,81' b='113.8,81'/>
+<WIRE a='113.8,81' b='113.8,79'/>
+<WIRE a='106,71' b='106,56'/>
+<JUNCTION pos='150,56'/>
+<JUNCTION pos='160,67'/>
+<JUNCTION pos='122,71'/>
+<JUNCTION pos='113.8,63'/>
+<JUNCTION pos='106,71'/>
+<JUNCTION pos='113.8,79'/>
+<JUNCTION pos='84,61'/>
+<JUNCTION pos='84,81'/>
+<JUNCTION pos='76,81'/>
+<JUNCTION pos='76,61'/>
+<WIRE a='121.6,71' b='122,71'/>
+<WIRE a='122,71' b='122,93'/>
+<JUNCTION pos='135,68'/>
+<JUNCTION pos='135,82'/>
+<WIRE a='106,56' b='134,56'/>
+<JUNCTION pos='135,56'/>
+<WIRE a='135,68' b='135,56'/>
+<WIRE a='135,56' b='134,56'/>
+<WIRE a='135,56' b='150,56'/>
+<JUNCTION pos='135,93'/>
+<WIRE a='135,93' b='135,82'/>
+<JUNCTION pos='170,56'/>
+<JUNCTION pos='160,93'/>
+<SYMBOL id='7' pos='164,76' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='VR1' show='1' pos='0,-3.6'/>
+<FIELD type='0' description='Name' value='5K' show='1' pos='0,-2'/>
+</SYMBOL>
+<JUNCTION pos='160,76'/>
+<WIRE a='160,75' b='160,93'/>
+<WIRE a='156,72' b='156,76'/>
+<WIRE a='156,76' b='160,76'/>
+<SYMBOL id='8' pos='172,65' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R1' show='1' pos='0,-3.6'/>
+<FIELD type='0' description='Name' value='200R' show='1' pos='0,-2'/>
+</SYMBOL>
+<JUNCTION pos='170,65'/>
+<WIRE a='160,67' b='170,67'/>
+<WIRE a='170,67' b='170,64'/>
+<LABEL pos='25,72' direction='3' font='3' color='000000' style='0'>240V, 50HZ AC</LABEL>
+<SYMBOL id='9' pos='153,76' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C2' show='1' pos='-8,-8.6'/>
+<FIELD type='0' description='Name' value='0.1uF' show='1' pos='-8,-7'/>
+</SYMBOL>
+<SYMBOL id='9' pos='183,77' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='C3' show='1' pos='-2,-2.6'/>
+<FIELD type='0' description='Name' value='1uF' show='1' pos='-2,-1'/>
+</SYMBOL>
+<JUNCTION pos='150,63'/>
+<JUNCTION pos='150,76'/>
+<JUNCTION pos='180,77'/>
+<JUNCTION pos='180,64'/>
+<WIRE a='150,56' b='150,63'/>
+<JUNCTION pos='160,82'/>
+<WIRE a='150,76' b='150,82'/>
+<WIRE a='150,82' b='160,82'/>
+<WIRE a='160,82' b='180,82'/>
+<WIRE a='180,82' b='180,77'/>
+<WIRE a='180,64' b='180,56'/>
+<WIRE a='170,56' b='180,56'/>
+<SYMBOL id='10' pos='200,58' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='F2' show='1' pos='-14,-6'/>
+<FIELD type='0' description='Name' value='3A' show='1' pos='-14,-4'/>
+</SYMBOL>
+<JUNCTION pos='180,56'/>
+<JUNCTION pos='200,56'/>
+<JUNCTION pos='122,93'/>
+<JUNCTION pos='200,93'/>
+<SYMBOL id='12' pos='198,73' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='0' description='Ref' value='R2' show='1' pos='0,-3.6'/>
+<FIELD type='0' description='Name' value='500R' show='1' pos='0,-2'/>
+</SYMBOL>
+<JUNCTION pos='196,56'/>
+<JUNCTION pos='196,93'/>
+<WIRE a='196,65' b='196,56'/>
+<SYMBOL id='13' pos='200,79' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1' scale_y='1'><FIELD type='1' description='Ref' value='LED1' show='1' pos='-1,-4'/>
+<FIELD type='1' description='Name' value='LED' show='0' pos='0,0'/>
+</SYMBOL>
+<WIRE a='196,78.4' b='196,93'/>
+<WIRE a='122,93' b='200,93'/>
+</TinyCAD>
+</TinyCADSheets>

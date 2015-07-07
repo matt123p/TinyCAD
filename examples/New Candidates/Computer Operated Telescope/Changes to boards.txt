@@ -1,0 +1,13 @@
+Changes to Boards
+
+1. Changed board size formost boards due to the fact that my local supplier (Maplin) doesn't do boards any bigger than 39 strips.
+
+2. Added LEDPlate as per Rafael Gonzalez Website.
+
+3. Added 2 pin connectors to ciruit diagrams and boards for both the Altitude and Azimuth Circuits to connect LED Plate. Notice that I have not included a limit resistor as Rafael has done. This is because the LEDs from Maplin (part no. CJ36T) have built in limit resistors for running of 12v.
+
+4. Changed Bridge Rectifier on Dual PSU 1
+
+5. Changed DC-DC Converter on Dual PSU 1, back to original design. (dont know why, but still.)
+
+6. Added a complete parts list for all the boards with Part numbers and prices. (UK)
