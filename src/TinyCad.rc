@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -52,7 +50,7 @@ IDB_BITMAP3             BITMAP                  "res\\bitmap3.bmp"
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -77,7 +75,7 @@ BEGIN
     END
 END
 
-IDR_TCADTYPE MENU 
+IDR_TCADTYPE MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -190,7 +188,7 @@ BEGIN
     END
 END
 
-IDR_LIBTYPE MENU 
+IDR_LIBTYPE MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -239,7 +237,7 @@ BEGIN
     END
 END
 
-IDR_TXTTYPE MENU 
+IDR_TXTTYPE MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -283,7 +281,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     VK_INSERT,      IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
     "E",            ID_EDIT_COPYTO,         VIRTKEY, CONTROL, NOINVERT
@@ -358,7 +356,7 @@ BEGIN
     LTEXT           "You may use the LGPL version 2.1 or, at your discretion,",IDC_STATIC,39,29,216,8
     LTEXT           "any later version of the LGPL.",IDC_STATIC,39,38,216,8
     LTEXT           "Petr Hluzin",IDC_STATIC,59,148,89,8
-    CONTROL         165,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
+    CONTROL         IDB_BITMAP2,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
     LTEXT           "XML Netlist Generation:  RapidXML Version 1.13",IDC_STATIC,60,214,189,8
     LTEXT           "Windows Version:  Placeholder",IDC_WINDOWS_VERSION,12,257,294,11
 END
@@ -438,17 +436,17 @@ BEGIN
 END
 
 IDD_GETFIND DIALOGEX 6, 18, 150, 269
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_SEARCH_STRING,6,22,83,14,ES_AUTOHSCROLL
-    LISTBOX         FINDGET_LIST,7,220,136,43,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_SEARCH_STRING,4,19,85,14,ES_AUTOHSCROLL
+    LISTBOX         FINDGET_LIST,2,220,144,43,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
     CONTROL         "(preview of the selected symbol)",IDC_SHOW_SYMBOL,
-                    "Button",BS_OWNERDRAW | WS_TABSTOP,6,204,138,59
-    LTEXT           "Filter:",IDC_STATIC,6,12,77,8
-    PUSHBUTTON      "Place Symbol",IDM_TOOLGET,94,22,50,14
-    PUSHBUTTON      "Libraries...",IDM_LIBLIB,94,6,50,14
-    CONTROL         "",IDC_SYMBOL_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,7,41,138,156,WS_EX_STATICEDGE
+                    "Button",BS_OWNERDRAW | WS_TABSTOP,2,202,144,61
+    LTEXT           "Filter:",IDC_STATIC,6,9,79,8
+    PUSHBUTTON      "Place Symbol",IDM_TOOLGET,94,19,50,14
+    PUSHBUTTON      "Libraries...",IDM_LIBLIB,94,3,50,14
+    CONTROL         "",IDC_SYMBOL_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,2,36,143,161,WS_EX_STATICEDGE
 END
 
 IDD_GRID DIALOGEX 6, 18, 190, 145
@@ -469,14 +467,14 @@ BEGIN
     LTEXT           "mm",GRIDBOX_UNITS,127,70,19,8
 END
 
-IDD_NO_TOOL DIALOG  4, 16, 94, 18
+IDD_NO_TOOL DIALOG 4, 16, 94, 18
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
     LTEXT           "no tool options",IDC_STATIC,25,5,47,8
 END
 
-IDD_FILLSTYLE DIALOG  6, 18, 197, 107
+IDD_FILLSTYLE DIALOG 6, 18, 197, 107
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Fill Style"
 FONT 8, "MS Shell Dlg"
@@ -507,7 +505,7 @@ BEGIN
     CONTROL         "Show Power Pins",METHODBOX_SHOWPOWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,36,71,10
 END
 
-IDD_PAGESIZE DIALOG  0, 0, 199, 101
+IDD_PAGESIZE DIALOG 0, 0, 199, 101
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Set Page Size"
 FONT 8, "MS Shell Dlg"
@@ -555,7 +553,7 @@ BEGIN
     CONTROL         "Centre pin name",IDC_CENTRE_NAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,24,67,10
 END
 
-IDD_POWER DIALOG  6, 18, 166, 48
+IDD_POWER DIALOG 6, 18, 166, 48
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -572,7 +570,7 @@ BEGIN
     CONTROL         "&Earth",POWERBOX_EARTH,"Button",BS_AUTORADIOBUTTON,133,34,31,10
 END
 
-IDD_ROTATE DIALOG  6, 18, 164, 21
+IDD_ROTATE DIALOG 6, 18, 164, 21
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -581,7 +579,7 @@ BEGIN
     PUSHBUTTON      "Flip",ROTATEBLOCK_MIRROR,110,4,50,14
 END
 
-IDD_SETPPP DIALOG  0, 0, 160, 50
+IDD_SETPPP DIALOG 0, 0, 160, 50
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Select number of parts in package"
 FONT 8, "MS Shell Dlg"
@@ -592,7 +590,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,102,30,50,14
 END
 
-IDD_SYMBOLRENAME DIALOG  6, 18, 147, 61
+IDD_SYMBOLRENAME DIALOG 6, 18, 147, 61
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Change Symbol Name"
 FONT 8, "MS Shell Dlg"
@@ -651,7 +649,7 @@ BEGIN
     LTEXT           "Default orientation",IDC_STATIC,119,11,58,8
 END
 
-IDD_POLYGON DIALOG  4, 16, 152, 66
+IDD_POLYGON DIALOG 4, 16, 152, 66
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -665,15 +663,7 @@ BEGIN
     PUSHBUTTON      "Colour",IDC_LINE_COLOUR,4,15,50,14
 END
 
-IDD_POSITIONBOX DIALOGEX 4, 16, 95, 16
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_TOOLWINDOW
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CTEXT           "",POSITIONBOX_POS,8,3,80,9,SS_CENTERIMAGE
-END
-
-IDD_PRINT DIALOG  32, 32, 288, 238
+IDD_PRINT DIALOG 32, 32, 288, 238
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Print"
 FONT 8, "MS Shell Dlg"
@@ -726,7 +716,7 @@ BEGIN
     CONTROL         "&90°",LINEBOX_90,"Button",BS_AUTORADIOBUTTON,68,4,24,10
 END
 
-IDD_AUTOSNAP DIALOG  6, 18, 190, 145
+IDD_AUTOSNAP DIALOG 6, 18, 190, 145
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Auto wire settings"
 FONT 8, "MS Shell Dlg"
@@ -754,7 +744,7 @@ BEGIN
     PUSHBUTTON      "New",LIBRARYBOX_NEW,358,78,50,14
 END
 
-IDD_AUTOSAVE DIALOG  0, 0, 204, 86
+IDD_AUTOSAVE DIALOG 0, 0, 204, 86
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Backup settings"
 FONT 8, "MS Shell Dlg"
@@ -767,7 +757,7 @@ BEGIN
     LTEXT           "Files are saved with the "".backup"" file extension\r\n in the same directory as the original file.",IDC_STATIC,14,51,168,21
 END
 
-IDD_RENAME_SHEET DIALOG  0, 0, 157, 62
+IDD_RENAME_SHEET DIALOG 0, 0, 157, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Rename a sheet"
 FONT 8, "MS Shell Dlg"
@@ -830,7 +820,7 @@ BEGIN
     PUSHBUTTON      "Design...",IDC_DESIGN,145,167,50,11
 END
 
-IDD_DRAW_POLY DIALOG  4, 16, 94, 29
+IDD_DRAW_POLY DIALOG 4, 16, 94, 29
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -841,7 +831,7 @@ BEGIN
     CONTROL         "Arc out",LINEBOX_ARC2,"Button",BS_AUTORADIOBUTTON,53,16,36,10
 END
 
-IDD_POSITION DIALOG  4, 16, 152, 66
+IDD_POSITION DIALOG 4, 16, 152, 66
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -940,7 +930,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -963,9 +953,8 @@ BEGIN
 
     IDD_GETFIND, DIALOG
     BEGIN
-        LEFTMARGIN, 6
-        RIGHTMARGIN, 136
-        TOPMARGIN, 6
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 146
         BOTTOMMARGIN, 263
         HORZGUIDE, 129
     END
@@ -1006,12 +995,6 @@ BEGIN
         RIGHTMARGIN, 440
         TOPMARGIN, 7
         BOTTOMMARGIN, 369
-    END
-
-    IDD_POSITIONBOX, DIALOG
-    BEGIN
-        RIGHTMARGIN, 94
-        BOTTOMMARGIN, 15
     END
 
     IDD_PRINT, DIALOG
@@ -1055,6 +1038,10 @@ BEGIN
     BEGIN
         BOTTOMMARGIN, 181
     END
+
+    IDD_POSITION, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1064,7 +1051,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_EDITDUPLICATE       "Duplicate the selected block\nDuplicate"
     ID_SPECIAL_CREATESPICEFILE 
@@ -1072,7 +1059,7 @@ BEGIN
     ID_EDIT_COPYTO          "Export selection to a file\nCopy to"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
     ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
@@ -1080,7 +1067,7 @@ BEGIN
     ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_SAVEASBITMAP    "Save this design as a PNG or EMF file"
     ID_OPTIONS_COLOURS      "Set the colours used in the drawing\nDrawing colours"
@@ -1092,13 +1079,13 @@ BEGIN
     ID_FILE_IMPORTLIBRARY   "Import this library from an XML file\nImport library from XML"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_INSERTPICTURE   "Insert a picture from a file"
     ID_HELP_EMAILFORSUPPORT "Send an email to get some support\nEmail"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -1106,18 +1093,16 @@ BEGIN
     ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1145,7 +1130,7 @@ IDR_DRAWGROUP           BITMAP                  "res\\drawgrou.bmp"
 // Menu
 //
 
-IDR_POLYGON MENU 
+IDR_POLYGON MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1158,7 +1143,7 @@ BEGIN
     END
 END
 
-IDR_EDITTOOL MENU 
+IDR_EDITTOOL MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1188,7 +1173,7 @@ BEGIN
     END
 END
 
-IDR_POLYGON_EDIT MENU 
+IDR_POLYGON_EDIT MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1224,7 +1209,7 @@ BEGIN
     END
 END
 
-IDR_DUMMY MENU 
+IDR_DUMMY MENU
 BEGIN
     POPUP "Dummy"
     BEGIN
@@ -1235,7 +1220,7 @@ BEGIN
     END
 END
 
-IDR_LIBVIEW MENU 
+IDR_LIBVIEW MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1254,7 +1239,7 @@ BEGIN
     END
 END
 
-IDR_LINETOOL_EDIT MENU 
+IDR_LINETOOL_EDIT MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1286,7 +1271,7 @@ BEGIN
     END
 END
 
-IDR_SHEET_MENU MENU 
+IDR_SHEET_MENU MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1298,7 +1283,7 @@ BEGIN
     END
 END
 
-IDR_SYMBOL_SHEET_MENU MENU 
+IDR_SYMBOL_SHEET_MENU MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1309,7 +1294,7 @@ BEGIN
     END
 END
 
-IDR_METHOD_EDIT MENU 
+IDR_METHOD_EDIT MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1341,7 +1326,7 @@ BEGIN
     END
 END
 
-IDR_HIERARCHICAL_EDIT MENU 
+IDR_HIERARCHICAL_EDIT MENU
 BEGIN
     POPUP "Context"
     BEGIN
@@ -1509,7 +1494,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_EXPORT_PCB, DIALOG
     BEGIN
@@ -1566,7 +1551,7 @@ END
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR  16, 15
+IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -1579,7 +1564,7 @@ BEGIN
     BUTTON      ID_FILE_PRINT
 END
 
-IDR_DRAWING TOOLBAR  16, 15
+IDR_DRAWING TOOLBAR 16, 15
 BEGIN
     BUTTON      IDM_TOOLLABEL
     BUTTON      IDM_TOOLWIRE
@@ -1603,7 +1588,7 @@ BEGIN
     BUTTON      IDM_EDITFLIP
 END
 
-IDR_ANNOTATE TOOLBAR  16, 15
+IDR_ANNOTATE TOOLBAR 16, 15
 BEGIN
     BUTTON      IDM_TOOLTEXT
     BUTTON      IDM_TOOLPOLYGON
@@ -1614,7 +1599,7 @@ BEGIN
     BUTTON      IDM_TOOLARC
 END
 
-IDR_DRAWBUS TOOLBAR  16, 15
+IDR_DRAWBUS TOOLBAR 16, 15
 BEGIN
     BUTTON      IDM_TOOLBUSNAME
     BUTTON      IDM_BUSBACK
@@ -1622,12 +1607,17 @@ BEGIN
     BUTTON      IDM_TOOLBUS
 END
 
-IDR_DRAWGROUP TOOLBAR  16, 15
+IDR_DRAWGROUP TOOLBAR 16, 15
 BEGIN
     BUTTON      IDM_EDITDRAG
     BUTTON      IDM_EDITMOVE
     BUTTON      IDM_EDITDUP
     BUTTON      IDM_EDITROTATE
+END
+
+IDR_POSITION TOOLBAR 16, 15
+BEGIN
+    BUTTON      POSITIONBOX_POS
 END
 
 
@@ -1697,7 +1687,7 @@ AFX_IDC_TRACK_BLOCK     CURSOR                  "res\\cur00002.cur"
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PROPSHT_CAPTION     "Settings"
     IDS_RECURSION           "The number of included hierarchical drawings is too large - this is probably due to recursive includes"
@@ -1710,19 +1700,19 @@ BEGIN
     IDS_PROPSHT_CAPTION1    "Design details"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "TinyCad"
     IDR_TCADTYPE            "\ntCad\ntCad\nTinyCad Files (*.dsn)\n.dsn\ndsn\nTinyCad Document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "TinyCad"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -1732,7 +1722,7 @@ BEGIN
     ID_INDICATOR_REC        "REC"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -1745,13 +1735,13 @@ BEGIN
     ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -1771,13 +1761,13 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
     ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
@@ -1787,7 +1777,7 @@ BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -1802,13 +1792,13 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -1819,19 +1809,19 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
     AFX_IDS_MDICHILD        "Activate this window"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_PREVIEW_CLOSE   "This net has more than one name"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_BADDETAILS          "You must fill in a name and reference for the symbol."
     IDS_NOLIBRARY           "The library does not exist!  Create it automatically?"
@@ -1851,7 +1841,7 @@ BEGIN
     IDS_NOFIND              "No string could be found."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NODEFAULT           "You have no default printer.  You will not be able to print until you select a printer in Page Setup."
     IDS_ABORTLOAD           "The design selected could not be loaded.  Please check the filename and pathname and then try again."
@@ -1863,7 +1853,7 @@ BEGIN
     IDS_NOSYMBOL            "Symbol %s not found."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ERR_DUPREF              "This reference is also used with another symbol"
     ERR_OUTPUT              "This output is connected to another output"
@@ -1883,7 +1873,7 @@ BEGIN
     ERR_MULTIPLENETNAMES    "This net has more than one name"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ERR_UNCONNECT           "This item is not connected to anything else"
     ERR_POWER               "This power is connected to a different value power"
@@ -1891,13 +1881,13 @@ BEGIN
     ERR_NOUTPUT             "This network has no output driving it"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DUPNAME             "There is already a symbol in this library with that name."
     IDS_BAD_PPP             "You can only change a symbol type if there is only 1 part per package in the symbol.  Set the number of parts in the package to 1 and try again"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NODELETE            "Cannot delete a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
     IDM_SNAPTOGRID          "Turn snap to grid on/off\nSnap to grid on/off"
@@ -1905,7 +1895,7 @@ BEGIN
                             "Open an explorer window at the TinyCAD web site"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_EDITCOPY            "Copy the selection to the clipboard\nCopy"
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
@@ -1913,19 +1903,19 @@ BEGIN
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_EDITSELECTALL       "Select all objects\nSelect All"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_EDITROTATELEFT      "Rotate selection left\nLeft"
     IDM_EDITROTATERIGHT     "Rotate selection right\nRight"
     IDM_EDITFLIP            "Flip selection horizontally\nFlip"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_LIBRARY_REFRESHSYMBOLSFROMLIBRARIES 
                             "Reload the symbols into this design from the libraries"
@@ -1937,7 +1927,7 @@ BEGIN
     ID_CONTEXT_CANCELDRAWING "Cancel drawing this polygon"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_EDITREDO            "Reverse the operation of the last Undo\nRedo"
     IDM_EDITMOVE            "Move Block\nMove Block"
@@ -1951,7 +1941,7 @@ BEGIN
                             "This file does not have a hierarchical symbol associated with it"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_BUSBACK             "Bus join\nBus join (F9)"
     IDM_TOOLCONNECT         "No connection\nNo connect (F5)"
@@ -1972,24 +1962,24 @@ BEGIN
                             "Select which part in the package is currently being edited\nPPP"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FIND_FIND            "Find a text string in the design"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FIND_TAG             "Edit/go to tags in the design"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FIND_SETTAG          "Create a new tag\nCreate Tag"
     ID_OPTION_FONT          "Select the font for the current object"
     ID_OPTION_LINE          "Select the line style for the current object"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_SPECIALBOM          "Create a bill of materials"
     IDM_SPECIALANNOTATE     "Automatically create or remove the symbol references"
@@ -1997,13 +1987,13 @@ BEGIN
     IDM_SPECIALCHECK        "Check the design against layout rules"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_VIEWGRID            "Change the grid and ruler settings"
     IDM_VIEWSHOWPOS         "Show the current position on the screen"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_TOOLLABEL           "Label a wire\nLabel (F1)"
     IDM_TOOLWIRE            "Wire connections\nWire (F2)"
@@ -2020,17 +2010,17 @@ BEGIN
     IDM_EDITEDIT            "Edit items\nEdit (ESC)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_TOOLNOTETEXT        "Multi-Line Text annotations\nNote"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_OPTIONS_TOOLBARS_SYMBOL "Symbol picker\nSymbol picker (F6)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_CONTEXT_ZORDER_BRINGTOFRONT 
                             "Move the selected object to the top of the z-order"
@@ -2039,7 +2029,7 @@ BEGIN
     IDM_EDITDUPLICATE       "Duplicate the selected block\nDuplicate"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_CONTEXT_DUPLICATESYMBOL 
                             "Make a copy of this symbol within this library"
@@ -2052,12 +2042,12 @@ BEGIN
                             "Replace this symbol with one from the library..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDM_TOOL_HIERARCHICAL   "Insert drawing\nInsert drawing"
 END
 
-#endif    // English (U.K.) resources
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

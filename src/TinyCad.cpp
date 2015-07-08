@@ -46,7 +46,7 @@
 // NOTE: This is never compiled in.  It is used to 
 // make VS.NET recognise that this is an MFC project.
 #ifdef _DUMMY_
-static CWinApp theApp;
+static CWinAppEx theApp;
 #endif
 
 CTinyCadRegistry * g_pRegistry = NULL;
@@ -287,7 +287,7 @@ CTinyCadApp::~CTinyCadApp()
 	delete g_pRegistry;
 }
 
-BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
+BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 //{{AFX_MSG_MAP(CTinyCadApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(IDM_LIBLIB, OnLibLib)
@@ -297,12 +297,12 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
 	ON_COMMAND(ID_HELP_EMAILFORSUPPORT, OnHelpEmailforsupport)
 
 	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-//	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
+	ON_COMMAND(ID_FILE_NEW, CWinAppEx::OnFileNew)
+//	ON_COMMAND(ID_FILE_OPEN, CWinAppEx::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 	ON_COMMAND(ID_FILE_OPEN, CTinyCadApp::OnMyFileOpen)
 
 	// Standard print setup command
-	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinAppEx::OnFilePrintSetup)
 
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -320,6 +320,10 @@ COLORREF CTinyCadApp::m_colours[16];
 HACCEL CTinyCadApp::m_hAccelTable;
 bool CTinyCadApp::m_translateAccelerator = false;
 
+#pragma comment(linker, "\"/manifestdependency:type='win32'\
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
 //=========================================================================
@@ -335,13 +339,29 @@ BOOL CTinyCadApp::InitInstance()
 	// InitCommonControls() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
-	InitCommonControls();
+	//InitCommonControls();
+	INITCOMMONCONTROLSEX CommonControls;
+	CommonControls.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	// I could not see any effect of the specific value here
+	CommonControls.dwICC = ICC_STANDARD_CLASSES;
+	InitCommonControlsEx(&CommonControls);
 
-	// Now run the standard CWinApp initInstance() function
-	CWinApp::InitInstance();
+	// Now run the standard CWinAppEx initInstance() function
+	CWinAppEx::InitInstance();
+
+
+	InitContextMenuManager();
+	InitShellManager();
+	InitKeyboardManager();
+	InitTooltipManager();
+	CMFCToolTipInfo ttParams;
+	ttParams.m_bVislManagerTheme = TRUE;
+	GetTooltipManager()->
+		SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
 	//djl - this next line doesn't work, presumably because this is not the console!
-	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() after call to CWinApp::InitInstance()\r\n"));
+	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() after call to CWinAppEx::InitInstance()\r\n"));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -391,6 +411,8 @@ BOOL CTinyCadApp::InitInstance()
 	CTinyCadCommandLineInfo cmdInfo; //This is the TinyCAD overridden command line parser class
 	ParseCommandLine(cmdInfo); //This parses all of the options on the command line
 
+	CPane::m_bHandleMinSize = true;
+
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
 	pMainFrame->runAsConsoleApp = cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile(); //Check for all commands that need to run as a console app here
@@ -409,9 +431,9 @@ BOOL CTinyCadApp::InitInstance()
 	m_pMainWnd = pMainFrame;
 
 	//Set up the proper help file mode and strings
-	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinApp startup to avoid a memory leak.  The string is allocated before InitInstance is called.
+	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinAppEx startup to avoid a memory leak.  The string is allocated before InitInstance is called.
 	//Change the name of the .HLP file.
-	//The CWinApp destructor will free the memory.
+	//The CWinAppEx destructor will free the memory.
 	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.chm"));	//Create the new help file path name
 	SetHelpMode(afxHTMLHelp);
 
@@ -757,7 +779,7 @@ void CTinyCadApp::ReadRegistry()
 				else
 				{ //no known library format was found
 					CString s;
-					s.Format(_T("    Library not found in any format:\r\n\\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
+					s.Format(_T("    Library not found in any format:\r\n\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
 					AfxMessageBox(s);
 				}
 			}
@@ -909,7 +931,7 @@ void CTinyCadApp::OnMyFileOpen()
 // This is the idle time processing
 BOOL CTinyCadApp::OnIdle(LONG nCount)
 {
-	CWinApp::OnIdle(nCount);
+	CWinAppEx::OnIdle(nCount);
 
 	if (nCount == 0)
 	{
@@ -1016,7 +1038,7 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 			}
 		}
 	}
-	return CWinApp::ProcessMessageFilter(code, lpMsg);
+	return CWinAppEx::ProcessMessageFilter(code, lpMsg);
 }
 
 //-------------------------------------------------------------------------

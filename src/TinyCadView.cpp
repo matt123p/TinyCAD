@@ -1196,7 +1196,7 @@ void CTinyCadView::OnInitialUpdate()
 
 	if (CTinyCadRegistry::GetMDIMaximize())
 	{
-		((CMDIChildWnd *) GetParentFrame())->MDIMaximize();
+		((CMDIChildWndEx *) GetParentFrame())->MDIMaximize();
 	}
 
 	// Center Symbol inside view

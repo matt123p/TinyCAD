@@ -29,7 +29,7 @@
 #endif // _MSC_VER > 1000
 #include "Image.h"
 
-class CImageBitmap: public CImage
+class CImageBitmap: public CTCImage
 {
 protected:
 	// The image bitmap...

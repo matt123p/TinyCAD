@@ -71,7 +71,7 @@ bool CDrawMetaFile::setBitmap(CBitmap &bitmap)
 
 bool CDrawMetaFile::setImageFile(const TCHAR *filename)
 {
-	CImage *i = NULL;
+	CTCImage *i = NULL;
 
 	// Determine the image type
 	TCHAR* ext = (TCHAR *) _tcsrchr(filename, '.');
@@ -151,7 +151,7 @@ bool CDrawMetaFile::setImageFile(const TCHAR *filename)
 
 void CDrawMetaFile::determineSize(CDC &dc)
 {
-	CImage *pImage = m_pDesign->GetOptions()->GetImage(m_metafile);
+	CTCImage *pImage = m_pDesign->GetOptions()->GetImage(m_metafile);
 	if (pImage)
 	{
 		const int max_dim = 500;
@@ -243,14 +243,14 @@ void CDrawMetaFile::Paint(CContext &dc, paint_options options)
 	CRect rect = dc.GetTransform().Scale(drect);
 	int rotmir = dc.GetTransform().GetRotMir();
 
-	CImage *pImage = m_pDesign->GetOptions()->GetImage(m_metafile);
+	CTCImage *pImage = m_pDesign->GetOptions()->GetImage(m_metafile);
 	if (pImage)
 	{
 		pImage->Paint(*dc.GetDC(), rect, rotmir);
 	}
 	else
 	{
-		CImage::PaintInvalid(*dc.GetDC(), rect);
+		CTCImage::PaintInvalid(*dc.GetDC(), rect);
 	}
 }
 

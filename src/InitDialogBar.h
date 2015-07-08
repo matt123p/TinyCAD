@@ -25,7 +25,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-class CInitDialogBar: public CDialogBar
+class CInitDialogBar : public CPaneDialog
 {
 	DECLARE_DYNAMIC( CInitDialogBar)
 
@@ -33,6 +33,8 @@ class CInitDialogBar: public CDialogBar
 public:
 	CInitDialogBar();
 	virtual ~CInitDialogBar();
+
+	
 
 	// Attributes
 public:
@@ -44,23 +46,21 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CInitDialogBar)
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
 	// Implementation
 public:
-	BOOL Create(CWnd * pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID);
-	BOOL Create(CWnd * pParentWnd, LPCTSTR lpszTemplateName, UINT nStyle, UINT nID);
 
 protected:
-	virtual BOOL OnInitDialogBar();
-
+	virtual BOOL OnInitDialog();
 	// Generated message map functions
 protected:
 	//{{AFX_MSG(CInitDialogBar)
 	// NOTE - the ClassWizard will add and remove member functions here.
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg LRESULT HandleInitDialog(WPARAM, LPARAM);
 };
 
 ////////////////////////////////////////////////////////////////////////////

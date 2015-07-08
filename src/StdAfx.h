@@ -46,37 +46,50 @@
 #pragma message("Warning:  Microsoft Visual C++ compilers older than Visual Studio 2003 are not supported.")
 #pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
 #elif _MSC_VER < 1200
-//Visual C++ 6.0
+ //Visual C++ 6.0
 #define USE_2003
 #pragma message("Compiling TinyCAD with Visual C++ 6.0 (unsupported)")
 #pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
 #elif _MSC_VER < 1300
-//Visual Studio 2002 - Don't know if this works
+ //Visual Studio 2002 - Don't know if this works
 #define USE_VS2003
 #pragma message("Compiling TinyCAD with Visual Studio 2002 (unsupported)")
 #pragma message("\tUnsupported compiler - Setting Visual Studio 2003 options - Don't expect too much!")
 #elif _MSC_VER < 1400
-//This source can be compiled with VS2003 with this setting
+ //This source can be compiled with VS2003 with this setting
 #define USE_VS2003
-//#pragma message("Compiling TinyCAD with Visual Studio 2003")
+ //#pragma message("Compiling TinyCAD with Visual Studio 2003")
 #elif _MSC_VER < 1500
-//This source can be compiled with VS2005 with this setting
+ //This source can be compiled with VS2005 with this setting
 #define USE_VS2005
-//#pragma message("Compiling TinyCAD with Visual Studio 2005")
+ //#pragma message("Compiling TinyCAD with Visual Studio 2005")
 #elif _MSC_VER < 1600
-//This source can be compiled with VS2008 with this setting
+ //This source can be compiled with VS2008 with this setting
 #define USE_VS2008
-//#pragma message("Compiling TinyCAD with Visual Studio 2008")
+ //#pragma message("Compiling TinyCAD with Visual Studio 2008")
 #elif _MSC_VER < 1700
-//This source can be compiled with VS2010 with this setting
+ //This source can be compiled with VS2010 with this setting
 #define USE_VS2008	//So far, VS2010 compiles the same as VS2008
-//#pragma message("Compiling TinyCAD with Visual Studio 2010")
+ //#pragma message("Compiling TinyCAD with Visual Studio 2010")
+#elif _MSC_VER >= 1700 && _MSC_VER < 1800
+//This source can be compiled with VS2012 with this setting
+#define USE_VS2012
+//#pragma message("Compiling TinyCAD with Visual Studio 2013")
+#elif _MSC_VER >= 1800 && _MSC_VER < 1900
+//This source can be compiled with VS2013 with this setting
+#define USE_VS2013
+//#pragma message("Compiling TinyCAD with Visual Studio 2013")
+#elif _MSC_VER >= 1900 && _MSC_VER < 2000
+ //This source can be compiled with VS2013 with this setting
+#define USE_VS2015	
+ //#pragma message("Compiling TinyCAD with Visual Studio 2015")
 #else
-//This source has not been tested with a Visual Studio C++ compiler newer than 2010
+ //This source has not been tested with a Visual Studio C++ compiler newer than 2010
 #define USE_VS2008
-#pragma message("Warning:  TinyCAD has not been evaluated or tested with Microsoft Visual Studio versions newer than Microsoft Visual Studio 2010")
+#pragma message("Warning:  TinyCAD has not been evaluated or tested with this version of Microsoft Visual Studio")
 #pragma message("\tUnsupported compiler - Setting Visual Studio 2008/2010 options - Don't expect too much!")
 #endif
+
 
 #ifdef USE_VS2003
 //Tell the Visual Studio 2003 compiler to compile for Windows XP and Windows Server
@@ -102,13 +115,27 @@ typedef int errno_t; /* VS2003 doesn't yet support the errno_t type so represent
 #define _tfopen_s(fp, filename, mode) (((*fp = _tfopen(filename, mode)) == NULL) ? 1: 0)
 #endif
 
-#if defined(USE_VS2005) || defined(USE_VS2008)
+#if defined(USE_VS2005) || defined(USE_VS2008) || defined(USE_VS2013) || defined(USE_VS2015)
 //Tell the Visual Studio 2008 compiler to compile for Windows XP.  95, 98, no longer supported by VS2008
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
 //#define _CONVERSION_DONT_USE_THREAD_LOCALE	//Questionable workaround for locale limitations in ATL/MFC
 //For details of alternate workaround, see http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=100887
 //For original post of the thread locale string problem, see http://alax.info/blog/218
+#endif
+
+#if defined(USE_VS2013) || defined(USE_VS2015)
+#define OVERRIDE override
+#define SEALED sealed
+#define INTERFACE __interface
+#define DECL_EQ_DELETE = delete
+#define NULLPTR nullptr
+#else
+#define OVERRIDE
+#define SEALED
+#define INTERFACE class
+#define DECL_EQ_DELETE
+#define NULLPTR 0
 #endif
 
 //I am not sure why Visual Studio 2008 deprecated the CDaoDatabase class, but it
@@ -125,6 +152,8 @@ typedef int errno_t; /* VS2003 doesn't yet support the errno_t type so represent
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 #include <tchar.h>
+
+#include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
 #include <afxdao.h>			// MFC db support
 #include <afxsock.h>		// MFC socket extensions

@@ -8,6 +8,9 @@
 //
 #pragma once
 
+#ifdef INFINITY
+#undef INFINITY
+#endif
 // when using screen dimensions, this is infinite
 const LONG INFINITY = 0x7fff; // max short
 

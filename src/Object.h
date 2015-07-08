@@ -1311,7 +1311,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint); // Zoom In
 	virtual BOOL RButtonDown(CDPoint, CDPoint); // Zoom Out
 
-	virtual int SetCursor(CDPoint p)
+	virtual int SetCursor(CDPoint /*p*/)
 	{
 		return 9;
 	}
@@ -1339,7 +1339,7 @@ public:
 	virtual void LButtonDown(CDPoint, CDPoint);
 	virtual BOOL RButtonDown(CDPoint, CDPoint); // Zoom Out
 	virtual void RButtonUp(CDPoint, CDPoint);// The user has released the right hand button
-	virtual int SetCursor(CDPoint p)
+	virtual int SetCursor(CDPoint /*p*/)
 	{
 		return 10;
 	}

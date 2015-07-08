@@ -32,12 +32,14 @@
 #include ".\dlggetfindbox.h"
 
 CDlgGetFindBox::CDlgGetFindBox() :
-	CInitDialogBar(), m_Resize(TRUE), m_ResizeLib(FALSE)
+	CInitDialogBar(), /*m_Resize(TRUE),*/ m_ResizeLib(FALSE)
 {
 	//{{AFX_DATA_INIT(CDlgGetFindBox)
 	m_search_string = _T("");
 	//}}AFX_DATA_INIT
 	m_Symbol = NULL;
+
+	SetMinSize(CSize(220, 420));
 }
 
 void CDlgGetFindBox::DoDataExchange(CDataExchange* pDX)
@@ -57,23 +59,21 @@ BEGIN_MESSAGE_MAP(CDlgGetFindBox, CInitDialogBar)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_HORZ_RESIZE, OnHorzResize)
 	//}}AFX_MSG_MAP
-	        ON_WM_DESTROY()
-	        ON_NOTIFY(TVN_SELCHANGED, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnTreeSelect)
-	        ON_NOTIFY(NM_DBLCLK, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnDblclkTree)
+	ON_WM_DESTROY()
+	ON_NOTIFY(TVN_SELCHANGED, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnTreeSelect)
+	ON_NOTIFY(NM_DBLCLK, IDC_SYMBOL_TREE, &CDlgGetFindBox::OnDblclkTree)
+	ON_WM_SHOWWINDOW()
+	//ON_MESSAGE(WM_INITDIALOG, &CDlgGetFindBox::HandleInitDialog)
 END_MESSAGE_MAP()
 
-BOOL CDlgGetFindBox::OnInitDialogBar()
+BOOL CDlgGetFindBox::OnInitDialog()
 {
-	CInitDialogBar::OnInitDialogBar();
+	CInitDialogBar::OnInitDialog();
 
 	BuildTree();
 
 	m_Tree.SetItemHeight(m_Tree.GetItemHeight() - 2); // original height looks weird on Windows
 
-	if (!m_Resize.m_hWnd)
-	{
-		m_Resize.Create(NULL, _T(""), WS_VISIBLE | WS_CHILD, CRect(0, 0, 10, 10), this, ID_RESIZE);
-	}
 	if (!m_ResizeLib.m_hWnd)
 	{
 		m_ResizeLib.Create(NULL, _T(""), WS_VISIBLE | WS_CHILD, CRect(0, 0, 10, 10), this, ID_HORZ_RESIZE);
@@ -92,14 +92,14 @@ BOOL CDlgGetFindBox::OnInitDialogBar()
 	return TRUE;
 }
 
-void CDlgGetFindBox::OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult)
+void CDlgGetFindBox::OnDblclkTree(NMHDR * /*pNMHDR*/, LRESULT *pResult)
 {
 	HTREEITEM hItem = m_Tree.GetSelectedItem();
 	if (!m_Tree.ItemHasChildren(hItem)) AfxGetMainWnd()->PostMessage(WM_COMMAND, IDM_TOOLGET);
 	*pResult = 0;
 }
 
-void CDlgGetFindBox::OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult)
+void CDlgGetFindBox::OnTreeSelect(NMHDR * /*pNMHDR*/, LRESULT *pResult)
 {
 	//LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 	HTREEITEM hItem = m_Tree.GetSelectedItem();
@@ -130,12 +130,12 @@ HTREEITEM GetNextTreeItem(const CTreeCtrl & Tree, HTREEITEM cur)
 {
 	HTREEITEM res;
 	res = Tree.GetChildItem(cur);
-	if (res != 0) return res;
+	if (res != NULL) return res;
 	res = Tree.GetNextSiblingItem(cur);
-	if (res != 0) return res;
+	if (res != NULL) return res;
 
 	HTREEITEM hParent = Tree.GetParentItem(cur);
-	if (hParent == 0) return 0; // no more items in the tree
+	if (hParent == NULL) return NULL; // no more items in the tree
 	res = Tree.GetNextSiblingItem(hParent);
 	return res;
 }
@@ -364,6 +364,12 @@ void CDlgGetFindBox::AddToMRU()
 	}
 }
 
+void CDlgGetFindBox::OnSlide(BOOL bSlideDirection)
+{
+	m_nSlideDelta += m_nSlideDelta / 3; // Speedup the slide
+	CPaneDialog::OnSlide(bSlideDirection);
+}
+
 void CDlgGetFindBox::OnSize(UINT nType, int cx, int cy)
 {
 	CInitDialogBar::OnSize(nType, cx, cy);
@@ -372,7 +378,6 @@ void CDlgGetFindBox::OnSize(UINT nType, int cx, int cy)
 
 void CDlgGetFindBox::DetermineLayout()
 {
-	const int width = 6;
 	CRect client;
 	GetClientRect(client);
 	int cx = client.Width();
@@ -385,20 +390,24 @@ void CDlgGetFindBox::DetermineLayout()
 		CRect lib_list_rect;
 		m_Tree.GetWindowRect(lib_list_rect);
 		ScreenToClient(lib_list_rect);
-
 		int border_y = lib_list_rect.left;
-		int border_x = IsFloating() ? lib_list_rect.left : lib_list_rect.left + 4;
-		lib_list_rect.right = cx - border_x;
+		int border_x = lib_list_rect.left;
 
-		CRect tree_rect(lib_list_rect);
+		//CRect tree_rect(lib_list_rect);
+		CRect tree_rect;
 		m_Tree.GetWindowRect(tree_rect);
 		ScreenToClient(tree_rect);
+		if (tree_rect.Height() < 12)
+			tree_rect.bottom = tree_rect.top + 12;
+		if (tree_rect.bottom > cy - 12)
+			tree_rect.bottom = cy - 12;
+
 		tree_rect.right = cx - border_x;
 		m_Tree.MoveWindow(tree_rect);
 
 		CRect resize_rect(tree_rect);
-		resize_rect.top = tree_rect.bottom + 4;
-		resize_rect.bottom = tree_rect.bottom + width;
+		resize_rect.top = tree_rect.bottom + 0;
+		resize_rect.bottom = resize_rect.top + 6;
 		m_ResizeLib.MoveWindow(resize_rect);
 
 		// Move the symbol preview window into position
@@ -406,72 +415,11 @@ void CDlgGetFindBox::DetermineLayout()
 		m_Show_Symbol.GetWindowRect(show_rect);
 		ScreenToClient(show_rect);
 		//int height = show_rect.Height();
-		show_rect.top = resize_rect.bottom + width;
-		show_rect.bottom = cy - border_y; //= show_rect.top + height;
+		show_rect.top = resize_rect.bottom + 0;
+		show_rect.bottom = cy - border_y;
 		show_rect.right = cx - border_x;
 		m_Show_Symbol.MoveWindow(show_rect);
-
-		if (IsFloating())
-		{
-			resize_rect.left = -5;
-			resize_rect.right = -3;
-			resize_rect.top = 0;
-			resize_rect.bottom = 1;
-		}
-		else
-		{
-			resize_rect.left = cx - width;
-			resize_rect.right = cx;
-			resize_rect.top = border_y;
-			resize_rect.bottom = cy - 2;
-		}
-		m_Resize.MoveWindow(resize_rect);
 	}
-}
-
-CSize CDlgGetFindBox::CalcDynamicLayout(int nLength, DWORD dwMode)
-{
-	if (m_Resize.m_adjust_width != 0)
-	{
-		m_sizeDefault.cx += m_Resize.m_adjust_width;
-		m_Resize.m_adjust_width = 0;
-	}
-
-	if (   (dwMode & LM_STRETCH)!=0
-		|| (dwMode & LM_MRUWIDTH)!=0
-		|| (dwMode & LM_COMMIT)!=0
-		|| (dwMode & LM_HORZDOCK)!=0
-		|| (dwMode & LM_VERTDOCK)!=0)
-	{
-	}
-	else
-	{
-		// Otherwise store this length
-		if ( (dwMode & LM_LENGTHY) != 0)
-		{
-			m_sizeUndockedDefault.cy = nLength;
-		}
-		else
-		{
-			m_sizeUndockedDefault.cx = nLength;
-		}
-		m_sizeDefault = m_sizeUndockedDefault;
-	}
-
-	return CalcFixedLayout(dwMode & LM_STRETCH, dwMode & LM_HORZDOCK);
-}
-
-CSize CDlgGetFindBox::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
-{
-	if (!IsFloating())
-	{
-		CWnd* pWnd = GetParent();
-		CRect r;
-		pWnd->GetClientRect(r);
-		m_sizeDefault.cy = r.Height();
-	}
-
-	return IsFloating() ? m_sizeUndockedDefault : m_sizeDefault;
 }
 
 void CDlgGetFindBox::OnHorzResize()
@@ -502,3 +450,12 @@ void CDlgGetFindBox::OnDestroy()
 	CInitDialogBar::OnDestroy();
 }
 
+void CDlgGetFindBox::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CInitDialogBar::OnShowWindow(bShow, nStatus);
+
+	if (bShow)
+	{
+		GetDlgItem(IDC_SEARCH_STRING)->SetFocus();
+	}
+}

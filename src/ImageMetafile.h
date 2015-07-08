@@ -30,7 +30,7 @@
 #include "Image.h"
 #include "XMLWriter.h"
 
-class CImageMetafile: public CImage
+class CImageMetafile: public CTCImage
 {
 protected:
 private:

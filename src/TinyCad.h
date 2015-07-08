@@ -52,7 +52,7 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 	//			CCommandLineInfo::FilePrint   Indicates that the /p flag was found on the command line.
 	//			CCommandLineInfo::FilePrintTo   Indicates that the /pt flag was found on the command line.
 	//			CCommandLineInfo::FileDDE   Indicates that the /dde flag was found on the command line.
-	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinApp derived classes.
+	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinAppEx derived classes.
 
 	//for convenience maintain a variable for each custom command line option to indicate the param passed. 
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
@@ -90,7 +90,7 @@ public:
 //*                  Main application class                               *
 //*                                                                       *
 //*************************************************************************
-class CTinyCadApp: public CWinApp
+class CTinyCadApp: public CWinAppEx
 {
 	//=====================================================================
 	//== class variables                                                 ==

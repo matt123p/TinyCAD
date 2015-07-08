@@ -20,10 +20,13 @@
 // ImageJpeg.cpp: implementation of the CImageJpeg class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "stdio.h"
 
 #include "stdafx.h"
 #include "ImageJpeg.h"
 #include <setjmp.h>
+
+//#include <stdio.h>
 
 // JPEG includes
 #undef FAR
@@ -34,6 +37,21 @@ extern "C" {
 #include "jpeg/jerror.h"
 #include "jpeg/jpeglib.h"
 }
+
+#if defined(USE_VS2013) || defined(USE_VS2015)
+// libjpeb.lib was compiled with old MSVC compiler.
+// Mimic _iob structure to make it available for linking by libjpeg.lib.
+extern "C" {FILE _iob[3] = { *stdin, *stdout, *stderr }; }
+
+// In VS2015 both _sprintf and _sscanf are not available during link
+// because they only exist as template functions.
+// The _ImageJpeg_dummy_ function will instantiate the template and make the functions available for external linking by libjpeg.lib.
+void _ImageJpeg_dummy_()
+{
+	sprintf((char* const)NULL, (char const* const)NULL);
+	sscanf((char* const)NULL, (char const* const)NULL);
+}
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

@@ -219,7 +219,7 @@ public:
 	////// The Meta File operators //////
 
 	// Add a line style to the list and return it's new index number
-	hMETAFILE AddMetaFile(CImage* s, hMETAFILE MergeNumber = -1)
+	hMETAFILE AddMetaFile(CTCImage* s, hMETAFILE MergeNumber = -1)
 	{
 		return theMetaFileList.Add(new ListOfMetaFiles(s), MergeNumber);
 	}
@@ -237,7 +237,7 @@ public:
 	}
 	
 	// Get a line style from the number
-	CImage* GetImage(hMETAFILE n)
+	CTCImage* GetImage(hMETAFILE n)
 	{
 		return ((ListOfMetaFiles *) theMetaFileList.Get(n))->GetImage();
 	}

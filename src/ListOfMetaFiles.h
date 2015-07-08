@@ -28,7 +28,7 @@ class ListOfMetaFiles: public CDocResource
 
 	// The Fill style this describes
 private:
-	CImage* m_pImage;
+	CTCImage* m_pImage;
 
 	//=====================================================================
 	//== ctor/dtor/initializing                                          ==
@@ -38,18 +38,18 @@ public:
 public:
 	ListOfMetaFiles(const ListOfMetaFiles& o);
 public:
-	ListOfMetaFiles(CImage* s);
+	ListOfMetaFiles(CTCImage* s);
 public:
 	~ListOfMetaFiles();
 private:
-	void Init(CImage* s);
+	void Init(CTCImage* s);
 
 	//=====================================================================
 	//== accessor/mutator                                                ==
 	//=====================================================================
 	// Get the data associated with this resource
 public:
-	CImage* GetImage() const;
+	CTCImage* GetImage() const;
 
 	//=====================================================================
 	//== serialization                                                   ==

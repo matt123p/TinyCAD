@@ -35,7 +35,6 @@ protected:
 
 	CSize m_sizeUndockedDefault;
 
-	CResizeWnd m_Resize; ///< for resizing *this dialog - an stripe on the right edge
 	CResizeWnd m_ResizeLib; ///< for resizing space between library list and symbol preview area
 
 public:
@@ -45,9 +44,6 @@ public:
 	{
 		return m_Symbol;
 	}
-
-	virtual CSize CalcDynamicLayout(int nLength, DWORD dwMode);
-	virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
 
 	void ResetAllSymbols();
 	void AddToMRU();
@@ -66,14 +62,15 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CDlgGetFindBox)
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX) OVERRIDE; // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 
 	// Implementation
 protected:
 	void DetermineLayout();
-	virtual BOOL OnInitDialogBar();
+	virtual BOOL OnInitDialog() OVERRIDE;
+	virtual void OnSlide(BOOL bSlideOut) OVERRIDE;
 
 	//{{AFX_MSG(CDlgGetFindBox)
 	afx_msg void OnChangeSearchString();
@@ -91,6 +88,7 @@ public:
 	afx_msg void OnDestroy();
     afx_msg void OnTreeSelect(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnDblclkTree(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 
 #endif

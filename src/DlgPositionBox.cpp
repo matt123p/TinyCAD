@@ -35,7 +35,7 @@ CDlgPositionBox::CDlgPositionBox()
 	//}}AFX_DATA_INIT
 }
 
-BEGIN_MESSAGE_MAP(CDlgPositionBox, CDialogBar)
+BEGIN_MESSAGE_MAP(CDlgPositionBox, CMFCToolBar)
 //{{AFX_MSG_MAP(CDlgPositionBox)
 //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -43,10 +43,78 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CDlgPositionBox message handlers
 
-
 // Change the text in the Dialog
-void CDlgPositionBox::SetPosition(const TCHAR *s)
+void CDlgPositionBox::SetPosition(const CString s)
 {
-	SetDlgItemText(POSITIONBOX_POS, s);
+	CToolbarLabel* position = dynamic_cast<CToolbarLabel*>(GetButton(0));
+	if (position)
+	{
+		position->m_strText = s;
+		InvalidateButton(0);
+	}
+}
+
+// class definition
+IMPLEMENT_SERIAL(CToolbarLabel, CMFCToolBarButton, 1)
+
+CToolbarLabel::CToolbarLabel(UINT nID, int size)
+: CToolbarLabel(nID, "", size)
+{
+
+}
+
+CToolbarLabel::CToolbarLabel(UINT nID, CString text, int size)
+{
+	m_strText = text;
+	m_size = size;
+	m_bText = TRUE;
+	m_nID = nID;
+	m_iImage = -1;
+}
+
+SIZE CToolbarLabel::OnCalculateSize(CDC* pDC, const CSize& sizeDefault, BOOL bHorz)
+{
+	SIZE size = CMFCToolBarButton::OnCalculateSize(pDC, sizeDefault, bHorz);
+
+	if (bHorz)
+	{
+		if (size.cx < m_size)
+		{
+			size.cx = m_size;
+		}
+	}
+	return size;
+}
+
+void CToolbarLabel::CopyFrom(const CMFCToolBarButton& s)
+{
+	CMFCToolBarButton::CopyFrom(s);
+
+	const CToolbarLabel& src = static_cast<const CToolbarLabel&>(s);
+
+	m_size = src.m_size;
+}
+
+void CToolbarLabel::Serialize(CArchive& ar)
+{
+	CMFCToolBarButton::Serialize(ar);
+
+	if (ar.IsLoading())
+	{
+		ar >> m_size;
+	}
+	else
+	{
+		ar << m_size;
+	}
+}
+
+void CToolbarLabel::OnDraw(CDC* pDC, const CRect& rect, CMFCToolBarImages* /*pImages*/,
+	BOOL /*bHorz*/, BOOL /*bCustomizeMode*/, BOOL /*bHighlight*/,
+	BOOL /*bDrawBorder*/, BOOL /*bGrayDisabledButtons*/)
+{
+	pDC->SetTextColor(GetGlobalData()->clrBtnText);
+	CRect rectText = rect;
+	pDC->DrawText(m_strText, &rectText, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
 }
 

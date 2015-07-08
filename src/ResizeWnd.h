@@ -39,7 +39,7 @@ protected:
 	HCURSOR m_cursor;
 	BOOL m_tracking;
 	BOOL m_vertical;
-
+	BOOL m_mouseOver;
 	// Attributes
 public:
 	int m_adjust_width;
@@ -68,6 +68,8 @@ protected:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnMouseLeave();
 };
 
 /////////////////////////////////////////////////////////////////////////////

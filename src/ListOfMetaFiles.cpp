@@ -27,7 +27,7 @@ ListOfMetaFiles::ListOfMetaFiles(const ListOfMetaFiles& o)
 	Init(o.m_pImage);
 }
 //-------------------------------------------------------------------------
-ListOfMetaFiles::ListOfMetaFiles(CImage* s)
+ListOfMetaFiles::ListOfMetaFiles(CTCImage* s)
 {
 	Init(s);
 }
@@ -37,7 +37,7 @@ ListOfMetaFiles::~ListOfMetaFiles()
 }
 //-------------------------------------------------------------------------
 //-- The default line style
-void ListOfMetaFiles::Init(CImage* s)
+void ListOfMetaFiles::Init(CTCImage* s)
 {
 	m_pImage = s;
 }
@@ -49,7 +49,7 @@ void ListOfMetaFiles::Init(CImage* s)
 
 //-------------------------------------------------------------------------
 //-- Get the data associated with this resource
-CImage* ListOfMetaFiles::GetImage() const
+CTCImage* ListOfMetaFiles::GetImage() const
 {
 	return m_pImage;
 }

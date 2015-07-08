@@ -31,7 +31,8 @@
 #include "FolderFrame.h"
 #include "WinXPToolbar.h"
 
-class CMainFrame: public CMDIFrameWnd
+
+class CMainFrame: public CMDIFrameWndEx
 {
 	DECLARE_DYNAMIC( CMainFrame)
 public:
@@ -59,22 +60,22 @@ public:
 
 protected:
 	// control bar embedded members
-	CStatusBar m_wndStatusBar;
-	CWinXPToolbar m_wndToolBar;
-	CWinXPToolbar m_wndToolBarDraw;
-	CWinXPToolbar m_wndToolBarDrawBus;
-	CWinXPToolbar m_wndToolBarDrawGroup;
-	CWinXPToolbar m_wndToolBarAnnotate;
+	CMFCStatusBar m_wndStatusBar;
+	CMFCToolBar m_wndToolBar;
+	CMFCToolBar m_wndToolBarDraw;
+	CMFCToolBar m_wndToolBarDrawBus;
+	CMFCToolBar m_wndToolBarDrawGroup;
+	CMFCToolBar m_wndToolBarAnnotate;
 	CDlgPositionBox m_wndPositionBox;
 	CDlgGetFindBox m_wndGetFindBox;
 
 	CRect m_oldRect;
 
 public:
-	void setPositionText(CString sPos);
+	void setPositionText(const CString sPos);
 	CLibraryStoreSymbol* GetSelectSymbol();
 	void ResetAllSymbols();
-	virtual LRESULT OnDDEExecute(WPARAM wParam, LPARAM lParam);
+//	virtual LRESULT OnDDEExecute(WPARAM wParam, LPARAM lParam);
 	bool runAsConsoleApp;	//True if running without visible windows in order to process a command line argument from a build script or command prompt
 	int consoleAppRetCode;	//Only used if running as a console app
 
@@ -101,6 +102,7 @@ protected:
 	afx_msg void OnOptionsToolbarsSymbol();
 	afx_msg void OnUpdateOptionsToolbarsSymbol(CCmdUI* pCmdUI);
 	afx_msg void OnTimer(UINT);
+	afx_msg LRESULT OnToolbarReset(WPARAM, LPARAM);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

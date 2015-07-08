@@ -29,9 +29,9 @@ extern void AFXAPI AfxSetWindowText(HWND hWndCtrl, LPCTSTR lpszNew);
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame
-IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWndEx)
 
-BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 //{{AFX_MSG_MAP(CChildFrame)
 // NOTE - the ClassWizard will add and remove mapping macros here.
 //    DO NOT EDIT what you see in these blocks of generated code !
@@ -56,7 +56,7 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
 
-	if (!CMDIChildWnd::PreCreateWindow(cs)) return FALSE;
+	if (!CMDIChildWndEx::PreCreateWindow(cs)) return FALSE;
 
 	return TRUE;
 }
@@ -89,12 +89,12 @@ void CChildFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
 #ifdef _DEBUG
 void CChildFrame::AssertValid() const
 {
-	CMDIChildWnd::AssertValid();
+	CMDIChildWndEx::AssertValid();
 }
 
 void CChildFrame::Dump(CDumpContext& dc) const
 {
-	CMDIChildWnd::Dump(dc);
+	CMDIChildWndEx::Dump(dc);
 }
 
 #endif //_DEBUG
@@ -112,6 +112,6 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	else
 	{
 		// TODO: Add your specialized code here and/or call the base class
-		return CMDIChildWnd::OnCreateClient(lpcs, pContext);
+		return CMDIChildWndEx::OnCreateClient(lpcs, pContext);
 	}
 }
