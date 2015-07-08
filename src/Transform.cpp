@@ -91,21 +91,6 @@ inline int Transform::ScaleY(double a) const
 		+ pixel_offset.y; 
 }
 
-inline int Transform::Scale(double dist) const
-{
-	return ScaleX(dist);
-}
-
-inline double Transform::doubleScale(double a) const
-{
-	return a * m_zoom;
-}
-
-inline double Transform::GetZoomPixelScale() const
-{
-	return 1;
-}
-
 CDPoint Transform::SetTRM(CDPoint os, CDPoint bound, int rotate)
 {
 	CDPoint old = CDPoint(m_x, m_y);
@@ -208,16 +193,6 @@ CPoint Transform::Scale(CDPoint p) const
 	}
 
 	return CPoint(ScaleX(p.x), ScaleY(p.y));
-}
-
-double Transform::doubleDeScale(LONG a) const
-{
-	return a / m_zoom;
-}
-
-double Transform::DeScale(double a) const
-{
-	return a / m_zoom;
 }
 
 // Rotate a direction (for power, pins etc)
