@@ -360,6 +360,10 @@ void CNetList::dumpNetListObjects()
 				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
 				TRACE("    ==>Object:  xPower         =\"%S\" on m_net=%d, context hierarchy level=%d\n", powerLabel, node.m_NetList, node.getFileNameIndex());
 			}
+			else if (!node.m_parent)
+			{
+				TRACE("    ==>Object:  xJunction(Hard) on m_net=%d, context hierarchy level=%d, m_parent->GetType=NULL, net label=\"%S\", refdes=\"%S\", pin number=\"%S\"\n", node.m_NetList, node.getFileNameIndex(), node.getLabel(), node.m_reference, node.m_pin);
+			}
 			else
 			{
 				TRACE("    ==>Object:  %-15S on m_net=%d, context hierarchy level=%d, m_parent->GetType=%d, net label=\"%S\", refdes=\"%S\", pin number=\"%S\"\n", objectNameString, node.m_NetList, node.getFileNameIndex(), node.m_parent->GetType(), node.getLabel(), node.m_reference, node.m_pin);
@@ -477,6 +481,11 @@ void CNetList::WriteWires()
 			{
 				CString powerLabel = get_power_label((CDrawPower *) node.m_parent);
 				TRACE("    ==>Skipping xPower=\"%S\" on m_net=%d\n",powerLabel,node.m_NetList);
+			}
+			else if (!node.m_parent)
+			{
+				TRACE("    ==>Skipping %S node (type=xJunction(Hard)) on m_net=%d, refdes=\"%S\", pin number=\"%S\"\n",
+				objectNameString, node.m_NetList, node.m_reference, node.m_pin);
 			}
 			else
 			{
@@ -1009,8 +1018,8 @@ void CNetList::MakeNetForSheet(fileCollection &imports, int import_index, int sh
 	stringCollection Connected;
 
 	//Prefetch iterator begin and end to speed things up
-	drawingIterator itBegin = pDesign->GetDrawingBegin();
-	drawingIterator itEnd = pDesign->GetDrawingEnd();
+	const drawingIterator itBegin = pDesign->GetDrawingBegin();
+	const drawingIterator itEnd = pDesign->GetDrawingEnd();
 
 	/// Search for nodes, and build the node tree
 	drawingIterator it = itBegin;
