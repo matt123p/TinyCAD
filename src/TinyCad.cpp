@@ -910,21 +910,17 @@ void CTinyCadApp::OnMyFileOpen()
 	//manual open using CFileDialog to get around buggy Microsoft MFC code that affects Windows 8.1
 	//example code copied and modified taken from http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 	
-	CString strDocFileName = _T(""); 
-	CFileDialog *pDlg;
+	CFileDialog pDlg(TRUE, _T("*.dsn"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+					_T("TinyCAD file (*.dsn)|*.dsn|All files (*.*)|*.*||"), AfxGetMainWnd());
 
-	pDlg = new CFileDialog (TRUE,_T("dsn"),strDocFileName,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,NULL,NULL);
-
-	if(pDlg->DoModal()==IDOK)
+	if(pDlg.DoModal()==IDOK)
 	{
-		strDocFileName = pDlg->GetPathName();
+		CString strDocFileName = pDlg.GetPathName();
 
 		//the next line is optained from the following mfc source file
 		//C:\Program Files\Microsoft Visual Studio 9.0\VC\atlmfc\src\mfc\docmgr.cpp
 		AfxGetApp()->OpenDocumentFile(strDocFileName);
 	}
-
-	delete pDlg;
 }
 
 //-------------------------------------------------------------------------

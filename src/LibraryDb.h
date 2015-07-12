@@ -37,31 +37,31 @@ protected:
 
 public:
 	CLibraryDb();
-	virtual ~CLibraryDb();
+	virtual ~CLibraryDb() OVERRIDE;
 
 	// Attach this library to a file
-	virtual void Attach(const TCHAR *filename);
+	virtual BOOL Attach(const TCHAR *filename) OVERRIDE;
 
 	// Write a symbol to this library
-	virtual void Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document);
+	virtual void Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document) OVERRIDE;
 
 	// Delete a symbol from this library
-	virtual void DeleteSymbol(CLibraryStoreNameSet &symbol);
+	virtual void DeleteSymbol(CLibraryStoreNameSet &symbol) OVERRIDE;
 
 	// Do any idle time tasks...
-	virtual void OnIdle();
+	virtual void OnIdle() OVERRIDE;
 
 	// Get the Archive to load from
-	virtual CStream *GetMethodArchive(CLibraryStoreNameSet *symbol);
+	virtual CStream *GetMethodArchive(CLibraryStoreNameSet *symbol) OVERRIDE;
 
 	// Create a new library database
-	virtual bool Create(const TCHAR *filename);
+	virtual bool Create(const TCHAR *filename) OVERRIDE;
 
 	// Is an upgrade required before editing this library?
-	virtual BOOL MustUpgrade();
+	virtual BOOL MustUpgrade() OVERRIDE;
 
 	// Upgrade to the latest version of the library system
-	virtual BOOL Upgrade(CLibraryStore *);
+	virtual BOOL Upgrade(CLibraryStore *) OVERRIDE;
 };
 
 #endif // !defined(AFX_LIBRARYDB_H__0CCD1C42_BEDE_4447_95C4_0C8B663415CB__INCLUDED_)

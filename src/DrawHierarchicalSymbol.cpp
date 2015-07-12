@@ -276,7 +276,7 @@ BOOL CDrawHierarchicalSymbol::IsNoSymbol()
 // Open a file chooser to select the design
 BOOL CDrawHierarchicalSymbol::SelectFile()
 {
-	CFileDialog dlg(TRUE, _T("*.dsn"), NULL, OFN_HIDEREADONLY, _T("Design files (*.dsn)|*.dsn|All files (*.*)|*.*||"), AfxGetMainWnd());
+	CFileDialog dlg(TRUE, _T("*.dsn"), NULL, OFN_HIDEREADONLY, _T("TinyCAD file (*.dsn)|*.dsn|All files (*.*)|*.*||"), AfxGetMainWnd());
 
 	if (dlg.DoModal() != IDOK) return FALSE;
 

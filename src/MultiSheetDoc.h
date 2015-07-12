@@ -65,7 +65,7 @@ public:
 	// Get the file path name during loading or saving
 	virtual CString GetXMLPathName();
 
-	virtual BOOL IsModified();
+	virtual BOOL IsModified() OVERRIDE;
 
 	void DelayUpdateFrameTitle();
 
@@ -79,17 +79,17 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMultiSheetDoc)
 public:
-	virtual void Serialize(CArchive& ar); // overridden for document i/o
+	virtual void Serialize(CArchive& ar) OVERRIDE; // overridden for document i/o
 protected:
-	virtual BOOL OnNewDocument();
+	virtual BOOL OnNewDocument() OVERRIDE;
 	//}}AFX_VIRTUAL
 
 	// Implementation
 public:
 	virtual ~CMultiSheetDoc();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+	virtual void AssertValid() const OVERRIDE;
+	virtual void Dump(CDumpContext& dc) const OVERRIDE;
 #endif
 
 	// Generated message map functions
