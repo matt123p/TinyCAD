@@ -182,7 +182,7 @@ public:
 	virtual bool operator!=(const CDrawingObject &obj) const; // Compare two objects for unequality
 };
 
-typedef std::list<CDrawingObject*> drawingCollection;
+typedef std::vector<CDrawingObject*> drawingCollection;
 typedef drawingCollection::iterator drawingIterator;
 
 typedef std::vector<CDPoint> activePointsCollection;

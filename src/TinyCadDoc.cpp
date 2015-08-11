@@ -42,6 +42,7 @@ CTinyCadDoc::CTinyCadDoc(CMultiSheetDoc *pParent)
 	m_undo_level = 0;
 	m_change_set = FALSE;
 	m_InUndoAddAction = FALSE;
+	m_DuplicateObjectOnly = FALSE;
 	edit = NULL;
 	NameDir = 1;
 	PinDir = 1;
@@ -379,6 +380,8 @@ void CTinyCadDoc::DeleteErrors()
 		{
 			m_drawing.erase(current);
 			delete pointer;
+			// Reset iterator because it was invalidated
+			it = GetDrawingBegin();
 		}
 	}
 
@@ -440,7 +443,7 @@ void CTinyCadDoc::Add(drawingCollection& drawing)
 void CTinyCadDoc::Add(CDrawingObject *NewObject)
 {
 	// Is this a valid object?
-	if (NewObject == NULL) return;
+	if (m_DuplicateObjectOnly || NewObject == NULL) return;
 
 	// Always append to back?
 	if (m_InUndoAddAction || NewObject->GetType() == xError)
@@ -472,7 +475,7 @@ void CTinyCadDoc::Add(CDrawingObject *NewObject)
 		if (!added)
 		{
 			// Append to front of list
-			m_drawing.push_front(NewObject);
+			m_drawing.insert(m_drawing.begin(), NewObject);
 		}
 	}
 
@@ -746,11 +749,10 @@ void CTinyCadDoc::Redo()
 CDrawingObject* CTinyCadDoc::Dup(CDrawingObject *p)
 {
 	// Now make a duplicate for the Undo/Redo list
-	m_InUndoAddAction++;
+	// Don't actualy store the object
+	m_DuplicateObjectOnly = TRUE;
 	CDrawingObject *pNewObject = p->Store();
-	m_InUndoAddAction--;
-	m_drawing.pop_back();
-
+	m_DuplicateObjectOnly = FALSE;
 	return pNewObject;
 }
 
@@ -1036,6 +1038,8 @@ void CTinyCadDoc::BringToFront()
 			MarkDeleteForUndo(pointer);
 			m_drawing.erase(current);
 			selectedObjects.push_back(pointer);
+			// Reset iterator because it was invalidated
+			it = GetDrawingBegin();
 		}
 	}
 
@@ -1086,18 +1090,13 @@ void CTinyCadDoc::SendToBack()
 			MarkDeleteForUndo(pointer);
 			m_drawing.erase(current);
 			selectedObjects.push_back(pointer);
+			// Reset iterator because it was invalidated
+			it = GetDrawingBegin();
 		}
 	}
 
-	// Now push them back on (in the right order)
-	drawingCollection::reverse_iterator itx = selectedObjects.rbegin();
-	while (itx != selectedObjects.rend())
-	{
-		m_drawing.push_front(*itx);
-		MarkAdditionForUndo(*itx);
-		(*itx)->Display();
-		++itx;
-	}
+	// Now re-insert them at the front
+	m_drawing.insert(m_drawing.begin(), selectedObjects.begin(), selectedObjects.end());
 }
 
 // Remove an item from the drawing...
@@ -1166,6 +1165,8 @@ void CTinyCadDoc::SelectDelete()
 			m_drawing.erase(current);
 			pointer->Display();
 			delete pointer;
+			// Reset iterator because it was invalidated
+			it = GetDrawingBegin();
 		}
 	}
 
