@@ -140,13 +140,9 @@ bool CDrawMetaFile::setImageFile(const TCHAR *filename)
 
 	// Read in the buffer
 	i->SetCompressedData(buffer, bytes);
+	m_metafile = m_pDesign->GetOptions()->AddMetaFile(i);
 
-	if (i != NULL)
-	{
-		m_metafile = m_pDesign->GetOptions()->AddMetaFile(i);
-	}
-
-	return i != NULL;
+	return true;
 }
 
 void CDrawMetaFile::determineSize(CDC &dc)

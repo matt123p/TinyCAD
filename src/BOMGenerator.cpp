@@ -123,8 +123,7 @@ void CBOMGenerator::GenerateBomForDesign(int level, size_t parentPos, const CImp
 					std::vector<CString> fields;
 					fields.resize(1);
 					fields[0] = thisMethod->GetSymbolData()->description;
-					int i;
-					for (i = 2; i < thisMethod->GetFieldCount(); i++)
+					for (int i = 2; i < thisMethod->GetFieldCount(); i++)
 					{
 						// Do we include this field?
 						if (thisMethod->GetFieldType(i) == always_hidden)

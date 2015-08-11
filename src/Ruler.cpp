@@ -63,7 +63,7 @@ void Ruler::OnNewSize(CRect nSize)
 
 	if (dir == 2)
 	{
-		Size = CRect(Size.left + hasOrigin ? RULER_WIDTH : 0, Size.top, Size.right, Size.top + RULER_WIDTH);
+		Size = CRect(Size.left + (hasOrigin ? RULER_WIDTH : 0), Size.top, Size.right, Size.top + RULER_WIDTH);
 		theHeight = Size.right - Size.left;
 		MoveWindow(Size);
 		Size = CRect(0, 0, theHeight, RULER_WIDTH);

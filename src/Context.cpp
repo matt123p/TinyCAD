@@ -404,7 +404,7 @@ void CContext::SelectFontNow(bool datum)
 void CContext::PolyBezier(CDPoint *pts, int Size)
 {
 	// Make a new array to hold the points
-	POINT *Np = new POINT[Size];
+	std::vector <POINT> Np(Size);
 
 	// Convert each of the points before calling PolyBezier
 	for (int lp = 0; lp != Size; lp++)
@@ -433,17 +433,15 @@ void CContext::PolyBezier(CDPoint *pts, int Size)
 		}
 		else
 		{
-			m_pDC->Polyline(Np, Size);
+			m_pDC->Polyline(Np.data(), Size);
 		}
 	}
 	else
 	{
 #ifndef _cWIN16_
-		::PolyBezier(m_pDC->m_hDC, Np, Size);
+		::PolyBezier(m_pDC->m_hDC, Np.data(), Size);
 #endif
 	}
-
-	delete Np;
 }
 
 #if 0
