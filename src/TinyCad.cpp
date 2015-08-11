@@ -80,6 +80,11 @@ BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
 	return m_bGenerateXMLNetlistFile;
 }
 
+BOOL CTinyCadCommandLineInfo::IsConsoleApp()
+{
+	return m_bConsoleIORequired;
+}
+
 CString CTinyCadCommandLineInfo::getOutputDirectory()
 {
 	return m_OutputDirectory;
@@ -216,18 +221,18 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			if (!m_bConsoleAcquired) {
 				m_bConsoleAcquired = RedirectIOToConsole();
 			}
-			fwprintf(stderr,_T("TinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
-			fwprintf(stderr,_T("Correct usage is:\n"));
+			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
+			fwprintf(stderr, _T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
 			fwprintf(stderr,_T("Optional command line options:\n"));
 			fwprintf(stderr,_T("\t/s                         Generate Spice netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--gen_spice_netlist        Generate Spice netlist file with same base name as the design file\n"));
-			fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
-			fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
+			//fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
+			//fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n\t                           A trailing '\\' is optional\n"));
-			fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
-			fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
-			fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
 			fwprintf(stderr,_T("\t/h                         Display this help information\n"));
 		}
 		else
@@ -320,6 +325,8 @@ COLORREF CTinyCadApp::m_colours[16];
 HACCEL CTinyCadApp::m_hAccelTable;
 bool CTinyCadApp::m_translateAccelerator = false;
 
+bool m_hiddenWindow = false;
+
 #pragma comment(linker, "\"/manifestdependency:type='win32'\
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -392,15 +399,15 @@ BOOL CTinyCadApp::InitInstance()
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views.
 	m_pDocTemplate = new CMultiDocTemplate(IDR_TCADTYPE, RUNTIME_CLASS(CTinyCadMultiDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CTinyCadView));
+			RUNTIME_CLASS(CTinyCadView));
 	AddDocTemplate(m_pDocTemplate);
 
 	m_pLibTemplate = new CMultiDocTemplate(IDR_LIBTYPE, RUNTIME_CLASS(CLibraryDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CLibraryView));
+			RUNTIME_CLASS(CLibraryView));
 	AddDocTemplate(m_pLibTemplate);
 
 	m_pTxtTemplate = new CMultiDocTemplate(IDR_TXTTYPE, RUNTIME_CLASS(CTextEditDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CTextEditView));
+			RUNTIME_CLASS(CTextEditView));
 	AddDocTemplate(m_pTxtTemplate);
 
 	// Enable DDE Execute open
@@ -415,12 +422,13 @@ BOOL CTinyCadApp::InitInstance()
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
-	pMainFrame->runAsConsoleApp = cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile(); //Check for all commands that need to run as a console app here
+	pMainFrame->runAsConsoleApp = cmdInfo.IsConsoleApp(); //Check for all commands that need to run as a console app here
 	pMainFrame->consoleAppRetCode = -1; //default value indicates failure - will be set to 0 or an exit code by any console app functions that are run.  Not used in GUI mode.
 
 	if (pMainFrame->runAsConsoleApp)
 	{ //This is a TinyCAD specific custom command line argument - hide all windows
 		m_nCmdShow = SW_HIDE; //This flag will be explicitly checked by the NOTOOL window to see whether it should be shown or hidden
+		m_hiddenWindow = true;
 	}
 	else if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
 	{
@@ -428,6 +436,7 @@ BOOL CTinyCadApp::InitInstance()
 	}
 
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) return FALSE;
+
 	m_pMainWnd = pMainFrame;
 
 	//Set up the proper help file mode and strings
@@ -481,36 +490,40 @@ BOOL CTinyCadApp::InitInstance()
 	CTinyCadMultiDoc *pDesign = NULL; //This will be used to hold the FileOpen document, if running as a console app.  Not used otherwise.
 	int retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
 
-	if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
-	{ //This is a TinyCAD specific custom command line argument
-		if (cmdInfo.IsGenerateSpiceFile())
-		{ //Run spice netlister here in hidden mode since this has been invoked from a command prompt
-			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
+	if (cmdInfo.IsConsoleApp())
+	{
+		if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
+		{ //This is a TinyCAD specific custom command line argument
+			if (cmdInfo.IsGenerateSpiceFile())
+			{ //Run spice netlister here in hidden mode since this has been invoked from a command prompt
+				TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
 
-			// The main window has been initialized, so show and update it in hidden display mode.
-			pMainFrame->ShowWindow(m_nCmdShow);
-			pMainFrame->UpdateWindow();
+				// The main window has been initialized, so show and update it in hidden display mode.
+				pMainFrame->ShowWindow(m_nCmdShow);
+				pMainFrame->UpdateWindow();
 
-			//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
-			POSITION localPosition = m_pDocTemplate->GetFirstDocPosition(); //The open design is the only design file in the template collection at this point
-			pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
+				//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
+				POSITION localPosition = m_pDocTemplate->GetFirstDocPosition(); //The open design is the only design file in the template collection at this point
+				pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
 
-			static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
-			retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+				static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
+				retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+			}
+			else
+			{ //Run XML netlister here!
+				TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
+				//retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+			}
+			//Now take an early exit
+			ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
+
+			//Close opened document(s) and anything else created here in InitInstance that needs closing
+			//Note:  If due to some unanticipated error in the netlist, a dialog box does manage to pop up, not closing it here will cause memory leaks.
+			//The only way to handle this properly is to either write a stand-alone command line program, or anticipate all of the possible errors, or simply accept that a memory leak will occur!
+			if (pDesign)
+				pDesign->OnCloseDocument();
+
 		}
-		else
-		{ //Run XML netlister here!
-			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
-			//retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
-		}
-		//Now take an early exit
-		ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
-
-		//Close opened document(s) and anything else created here in InitInstance that needs closing
-		//Note:  If due to some unanticipated error in the netlist, a dialog box does manage to pop up, not closing it here will cause memory leaks.
-		//The only way to handle this properly is to either write a stand-alone command line program, or anticipate all of the possible errors, or simply accept that a memory leak will occur!
-		pDesign->OnCloseDocument();
-
 		//Send the WinApp::run() loop a message to quit and also transfer the desired error code back to Windows.  A batch file running a console mode TinyCAD command will receive this code.
 		AfxPostQuitMessage(retCode);
 	}
@@ -1310,4 +1323,17 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 	}
 	wcscpy_s(str, bufferSize, os.str().c_str());
 	return true;
+}
+
+BOOL CTinyCadApp::LoadWindowPlacement(CRect& rectNormalPosition, int& nFflags, int& nShowCmd)
+{
+	if (m_hiddenWindow)
+	{	// Force window to be hidden
+		nShowCmd = SW_HIDE;
+		BOOL result = CWinAppEx::LoadWindowPlacement(rectNormalPosition, nFflags, nShowCmd);
+		nShowCmd = SW_HIDE;
+		m_nCmdShow = SW_HIDE;
+		return result;
+	}
+	return CWinAppEx::LoadWindowPlacement(rectNormalPosition, nFflags, nShowCmd);
 }

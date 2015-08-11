@@ -58,6 +58,7 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
 	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
 	BOOL m_bOutputDirectory;	//for --output_dir  This allows the user to specify an output directory separately from the input directory or the working directory
+	BOOL m_bConsoleIORequired;
 	enum TCFlag 
 	{
 		TCFlag_Unknown=0,
@@ -74,7 +75,7 @@ public:
 	BOOL IsShellOpen();
 	BOOL IsGenerateSpiceFile();
 	BOOL IsGenerateXMLNetlistFile();
-	BOOL m_bConsoleIORequired;
+	BOOL IsConsoleApp();
 	BOOL m_bConsoleAcquired;
 	CString getOutputDirectory();
 	virtual void ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast);
@@ -179,6 +180,7 @@ public:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
+	virtual BOOL LoadWindowPlacement(CRect& rectNormalPosition, int& nFflags, int& nShowCmd);
 };
 //=========================================================================
 extern int Message(int Resource, int Type = MB_ICONINFORMATION | MB_OK, const TCHAR *NameString = _T(""));
