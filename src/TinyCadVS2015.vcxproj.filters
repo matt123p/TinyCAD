@@ -406,9 +406,6 @@
     <ClCompile Include="WinRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinXPToolbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="xml_parse_tag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
