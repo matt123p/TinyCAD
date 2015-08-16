@@ -144,26 +144,9 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 	//A non-zero return code at this point means that a valid console has either been re-attached to, or created.
 	if (retCode != 0)
 	{
-		// redirect unbuffered STDOUT to the console
-		lStdHandle = (size_t) GetStdHandle(STD_OUTPUT_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "w" );
-		*stdout = *fp;
-		setvbuf( stdout, NULL, _IONBF, 0 );
-
-		// redirect unbuffered STDIN to the console
-		lStdHandle = (size_t) GetStdHandle(STD_INPUT_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "r" );
-		*stdin = *fp;
-		setvbuf( stdin, NULL, _IONBF, 0 );
-
-		// redirect unbuffered STDERR to the console
-		lStdHandle = (size_t) GetStdHandle(STD_ERROR_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "w" );
-		*stderr = *fp;
-		setvbuf( stderr, NULL, _IONBF, 0 );
+		freopen("CONIN$", "r", stdin);
+		freopen("CONOUT$", "w", stdout);
+		freopen("CONOUT$", "w", stderr);
 
 		// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog 
 		// point to console as well
