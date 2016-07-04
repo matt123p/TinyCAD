@@ -27,13 +27,21 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "CAD.ICO"
+
 IDR_TCADTYPE            ICON                    "res\\idr_main.ico"
+
 IDI_ALIGN_LEFT          ICON                    "res\\alignLft.ico"
+
 IDI_ALIGN_CENTRE        ICON                    "res\\alignCtr.ico"
+
 IDI_ALIGN_RIGHT         ICON                    "res\\alignRt.ico"
+
 IDI_ALIGN_TOP           ICON                    "res\\alignTop.ico"
+
 IDI_ALIGN_MIDDLE        ICON                    "res\\alignMid.ico"
+
 IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -41,9 +49,13 @@ IDI_ALIGN_BOTTOM        ICON                    "res\\alignBot.ico"
 //
 
 START_BITMAP            BITMAP                  "STARTUP.BMP"
+
 IDB_BITMAP1             BITMAP                  "res\\LGPLV3.bmp"
+
 IDB_BITMAP2             BITMAP                  "res\\bitmap2.bmp"
+
 IDB_BITMAP3             BITMAP                  "res\\bitmap3.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -336,7 +348,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1994-2015 Matt Pyne",IDC_STATIC,39,48,127,8
+    LTEXT           "Copyright (C) 1994-2016 Matt Pyne",IDC_STATIC,39,48,127,8
     DEFPUSHBUTTON   "OK",IDOK,256,276,50,14,WS_GROUP
     LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,11,282,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
@@ -729,19 +741,19 @@ BEGIN
     CONTROL         "Auto-place junctions",IDC_AUTOJUNC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,57,80,10
 END
 
-IDD_LIBRARY DIALOGEX 0, 0, 414, 209
+IDD_LIBRARY DIALOGEX 0, 0, 415, 169
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Library Setup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LISTBOX         LIBRARYBOX_AVAILABLE,5,22,345,180,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK",IDOK,358,19,50,14
+    LISTBOX         LIBRARYBOX_AVAILABLE,5,22,345,126,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,359,23,50,14
     CTEXT           "Libraries in Use",IDC_STATIC,5,10,201,8
-    PUSHBUTTON      "Add",LIBRARYBOX_ADD,358,43,50,14
-    PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,358,61,50,14
-    PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,358,106,50,14
-    PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,358,130,50,14
-    PUSHBUTTON      "New",LIBRARYBOX_NEW,358,78,50,14
+    PUSHBUTTON      "Add",LIBRARYBOX_ADD,359,43,50,14
+    PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,359,61,50,14
+    PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,359,106,50,14
+    PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,359,130,50,14
+    PUSHBUTTON      "New",LIBRARYBOX_NEW,359,78,50,14
 END
 
 IDD_AUTOSAVE DIALOG 0, 0, 204, 86
@@ -890,8 +902,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,80,8,0
- PRODUCTVERSION 2,80,8,0
+ FILEVERSION 2,90,0,0
+ PRODUCTVERSION 2,90,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -909,12 +921,12 @@ BEGIN
             VALUE "Comments", "http://tinycad.sourceforge.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "2, 80, 8, 0"
+            VALUE "FileVersion", "2.90.0.0"
             VALUE "InternalName", "TinyCAD"
-            VALUE "LegalCopyright", "Copyright (C) 2002 - 2015 Matt Pyne"
+            VALUE "LegalCopyright", "Copyright (C) 2002 - 2016 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "2, 80, 8, 0"
+            VALUE "ProductVersion", "2.90.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1007,9 +1019,9 @@ BEGIN
     IDD_LIBRARY, DIALOG
     BEGIN
         LEFTMARGIN, 5
-        RIGHTMARGIN, 408
+        RIGHTMARGIN, 409
         TOPMARGIN, 3
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 162
     END
 
     IDD_AUTOSAVE, DIALOG
@@ -1044,6 +1056,22 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_LIBRARY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1112,7 +1140,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SELECTED_BOX        ICON                    "res\\unselect.ico"
+
 IDI_UNSELECTED_BOX      ICON                    "res\\selected.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1120,10 +1150,15 @@ IDI_UNSELECTED_BOX      ICON                    "res\\selected.ico"
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
 IDR_DRAWING             BITMAP                  "res\\toolbar1.bmp"
+
 IDR_ANNOTATE            BITMAP                  "res\\toolbar2.bmp"
+
 IDR_DRAWBUS             BITMAP                  "res\\drawbus.bmp"
+
 IDR_DRAWGROUP           BITMAP                  "res\\drawgrou.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1666,14 +1701,23 @@ END
 //
 
 AFX_IDC_TRACK4WAY       CURSOR                  "res\\trck4way.cur"
+
 AFX_IDC_TRACKNESW       CURSOR                  "res\\trcknesw.cur"
+
 AFX_IDC_TRACKNS         CURSOR                  "res\\trckns.cur"
+
 AFX_IDC_TRACKNWSE       CURSOR                  "res\\trcknwse.cur"
+
 AFX_IDC_TRACKWE         CURSOR                  "res\\trckwe.cur"
+
 IDC_ZOOMCURSOR          CURSOR                  "res\\afx_idc_.cur"
+
 IDC_REFCURSOR           CURSOR                  "res\\zoomcurs.cur"
+
 AFX_IDC_TRACK_MOVE      CURSOR                  "res\\cur00001.cur"
+
 AFX_IDC_TRACK_BLOCK     CURSOR                  "res\\cur00002.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1681,6 +1725,7 @@ AFX_IDC_TRACK_BLOCK     CURSOR                  "res\\cur00002.cur"
 //
 
 1                       RT_MANIFEST             "tinycad.manifest"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
