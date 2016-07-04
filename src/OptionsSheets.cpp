@@ -315,7 +315,7 @@ BOOL COptionsAutoSave::OnInitDialog()
 	// valid time range from 1..60 minutes
 	m_spnDelay->SetBuddy(m_wndBuddy);
 	m_spnDelay->SetRange32(1, 60);
-	m_spnDelay->SetPos(m_nDelay);
+	m_spnDelay->SetPos(m_nDelay < 1 ? 10 : m_nDelay);
 
 	OnChange();
 
