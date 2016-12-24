@@ -135,8 +135,8 @@ void CDlgAnnotateBox::ReadData()
 			;
 	}
 	v.all_sheets = static_cast<CButton*> (GetDlgItem(IDC_ALL_SHEETS))->GetCheck() != 0;
-	TCHAR hold[256];
-	GetDlgItemText(ANNOTATEBOX_MATCHVAL, hold, sizeof (hold));
+	TCHAR hold[SIZESTRING];
+	GetDlgItemText(ANNOTATEBOX_MATCHVAL, hold, SIZESTRING);
 	v.matchval = hold;
 	v.startval = GetDlgItemInt(ANNOTATEBOX_STARTVAL);
 }

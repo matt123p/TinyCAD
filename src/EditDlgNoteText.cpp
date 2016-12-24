@@ -330,7 +330,6 @@ void CEditDlgNoteText::OnTextFont()
 void CEditDlgNoteText::OnChange()
 {
 	CDrawNoteText *noteText = static_cast<CDrawNoteText*> (getObject());	//get a pointer to the NoteText object being changed
-	TCHAR str[SIZENOTETEXT];	//This method of buffering the string forces a fixed length on the contents - this could stand some improvement, although I set the string length to 8K bytes (4K Unicode characters)
 
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
 
@@ -338,8 +337,7 @@ void CEditDlgNoteText::OnChange()
 
 	noteText->Display();
 
-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));	//Need to check for exceptions here caused by strings being too long
-	noteText->str = str;
+	GetDlgItemText(TEXTBOX_TEXT, noteText->str);
 
 	//noteText->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
 

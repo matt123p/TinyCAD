@@ -604,7 +604,7 @@ CString CTinyCadApp::GetMainDir()
 {
 	CString sReturn;
 	TCHAR theBuffer[1024];
-	DWORD theBytes = GetModuleFileName(NULL, theBuffer, sizeof (theBuffer) - 1);
+	DWORD theBytes = GetModuleFileName(NULL, theBuffer, (sizeof (theBuffer) - 1) / sizeof(TCHAR));
 	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", theBuffer);
 	if (theBytes != 0)
 	{
@@ -651,7 +651,7 @@ CString CTinyCadApp::GetDefaultLibraryDir()
 		TRACE("CTinyCadApp::GetLibraryDir() - SHGetFolderPath(CSIDL_PERSONAL) returned failure code\n");
 		szPath[0]='\0';
 
-		DWORD theBytes = GetModuleFileName(NULL, szPath, sizeof (szPath) - 1);
+		DWORD theBytes = GetModuleFileName(NULL, szPath, (sizeof (szPath) - 1) / sizeof(TCHAR));
 		TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", szPath);
 		if (theBytes != 0)
 		{
@@ -670,7 +670,7 @@ CString CTinyCadApp::GetLongFileName(const CString shortFilename)
 	//It looks in the current working directory, so this must be set appropriately.
 	TCHAR longFilename[MAX_PATH];
 	CString sTemp = shortFilename;
-	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
+	DWORD count = GetLongPathName(sTemp, longFilename, (sizeof (longFilename) - 1) / sizeof(TCHAR));
 	if (count == 0 || longFilename[0] == 0) return CString(shortFilename); //error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation
 	else return CString(longFilename);
 }

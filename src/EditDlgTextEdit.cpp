@@ -83,15 +83,13 @@ void CEditDlgTextEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 void CEditDlgTextEdit::OnChange()
 {
-	TCHAR str[SIZESTRING];
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
 
 	if (stop) return;
 
 	getObject()->Display();
 
-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
-	static_cast<CDrawText*> (getObject())->str = str;
+	GetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawText*> (getObject())->str);
 	if (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) static_cast<CDrawText*> (getObject())->dir = 3;
 	else static_cast<CDrawText*> (getObject())->dir = 0;
 

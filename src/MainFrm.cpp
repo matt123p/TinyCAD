@@ -364,7 +364,7 @@ LRESULT CMainFrame::OnDDEExecute(WPARAM wParam, LPARAM lParam)
 	TCHAR szCommand[_MAX_PATH * 2];
 	LPCTSTR lpsz = (LPCTSTR) GlobalLock(hData);
 	int commandLength = lstrlen(lpsz);
-	lstrcpyn(szCommand, lpsz, sizeof (szCommand));
+	lstrcpyn(szCommand, lpsz, sizeof (szCommand) / sizeof(TCHAR));
 	if (commandLength >= sizeof (szCommand))
 	{
 		// The command would be truncated. This could be a security problem

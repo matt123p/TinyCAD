@@ -81,7 +81,6 @@ void CEditDlgLabelEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 void CEditDlgLabelEdit::OnChange()
 {
-	TCHAR str[SIZESTRING];
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
 
 	if (stop) return;
@@ -92,8 +91,7 @@ void CEditDlgLabelEdit::OnChange()
 	}
 	getObject()->Display();
 
-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
-	static_cast<CDrawLabel*> (getObject())->str = str;
+	GetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawLabel*> (getObject())->str);
 	static_cast<CDrawLabel*> (getObject())->dir = (BYTE) (GetCheckedRadioButton(IDC_LABEL_DIR1, IDC_LABEL_DIR4) - IDC_LABEL_DIR1);
 
 	int style = GetCheckedRadioButton(IDC_STYLE1, IDC_STYLE4) - IDC_STYLE1;

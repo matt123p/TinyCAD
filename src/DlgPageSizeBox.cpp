@@ -120,8 +120,8 @@ void CDlgPageSizeBox::OnMakePort()
 	// If it is not already portrait then swap width and height
 	if (GetDlgItemInt(PAGESIZE_WIDTH) > GetDlgItemInt(PAGESIZE_HEIGHT))
 	{
-		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, sizeof (BufferWidth));
-		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, sizeof (BufferHeight));
+		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, SIZESTRING);
+		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, SIZESTRING);
 		SetDlgItemText(PAGESIZE_HEIGHT, BufferWidth);
 		SetDlgItemText(PAGESIZE_WIDTH, BufferHeight);
 	}
@@ -136,8 +136,8 @@ void CDlgPageSizeBox::OnMakeLand()
 	// If it is not already landscape then swap width and height
 	if (GetDlgItemInt(PAGESIZE_WIDTH) < GetDlgItemInt(PAGESIZE_HEIGHT))
 	{
-		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, sizeof (BufferWidth));
-		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, sizeof (BufferHeight));
+		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, SIZESTRING);
+		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, SIZESTRING);
 		SetDlgItemText(PAGESIZE_HEIGHT, BufferWidth);
 		SetDlgItemText(PAGESIZE_WIDTH, BufferHeight);
 	}

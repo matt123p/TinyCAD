@@ -106,13 +106,11 @@ void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 void CEditDlgPowerEdit::OnChange()
 {
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
-	TCHAR str[SIZESTRING];
 	if (stop) return;
 
 	getObject()->Display();
 
-	GetDlgItemText(POWERBOX_TEXT, str, sizeof (str));
-	static_cast<CDrawPower*> (getObject())->str = str;
+	GetDlgItemText(POWERBOX_TEXT, static_cast<CDrawPower*> (getObject())->str);
 
 	static_cast<CDrawPower*> (getObject())->dir = (BYTE) (GetCheckedRadioButton(POWERBOX_TOP, POWERBOX_RIGHT) - POWERBOX_TOP);
 	static_cast<CDrawPower*> (getObject())->which = (BYTE) (GetCheckedRadioButton(POWERBOX_BAR, POWERBOX_EARTH) - POWERBOX_BAR);
