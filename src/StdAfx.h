@@ -80,14 +80,14 @@
 #define USE_VS2013
 //#pragma message("Compiling TinyCAD with Visual Studio 2013")
 #elif _MSC_VER >= 1900 && _MSC_VER < 2000
- //This source can be compiled with VS2013 with this setting
+ //This source can be compiled with VS2015 with this setting
 #define USE_VS2015	
  //#pragma message("Compiling TinyCAD with Visual Studio 2015")
 #else
- //This source has not been tested with a Visual Studio C++ compiler newer than 2010
+ //This source has not been tested with a Visual Studio C++ compiler newer than 2015
 #define USE_VS2008
 #pragma message("Warning:  TinyCAD has not been evaluated or tested with this version of Microsoft Visual Studio")
-#pragma message("\tUnsupported compiler - Setting Visual Studio 2008/2010 options - Don't expect too much!")
+#pragma message("\tUnsupported compiler - Setting Visual Studio 2008/2015 options - Don't expect too much!")
 #endif
 
 

@@ -134,7 +134,7 @@ void CNetList::createErrorFile(const TCHAR *filename)
 	{
 		if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
 		{	//in console mode, also output the error message to stderr, wherever that might be pointed
-			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected or full and that sufficient permission is present for writing to this location.\n"), m_err_filename);
+			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected or full and that sufficient permission is present for writing to this location.\n"), m_err_filename.GetBuffer());
 		}
 		else
 		{
@@ -1447,7 +1447,7 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 							}
 						}
 
-						_ftprintf(theFile, _T("[\n%s\n%s\n%s\n\n\n\n]\n"), Ref, Package, Name);
+						_ftprintf(theFile, _T("[\n%s\n%s\n%s\n\n\n\n]\n"), Ref.GetBuffer(), Package.GetBuffer(), Name.GetBuffer());
 					}
 				}
 
@@ -1515,9 +1515,9 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (count > 1)
 			{
 				_ftprintf(theFile, _T("(\n"));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel);
+				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s\n)\n"), theLine);
+				_ftprintf(theFile, _T("\n%s\n)\n"), theLine.GetBuffer());
 			}
 		}
 
@@ -1610,11 +1610,11 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 						} while (Ref.GetLength() < 8);
 						if (withValue && !Value.IsEmpty())
 						{
-							_ftprintf(theFile, _T("%s%s@%s\n"), Ref, Value, Package);
+							_ftprintf(theFile, _T("%s%s@%s\n"), Ref.GetBuffer(), Value.GetBuffer(), Package.GetBuffer());
 						}
 						else
 						{
-							_ftprintf(theFile, _T("%s%s\n"), Ref, Package);
+							_ftprintf(theFile, _T("%s%s\n"), Ref.GetBuffer(), Package.GetBuffer());
 						}
 					}
 				}
@@ -1684,9 +1684,9 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 			if (count > 1)
 			{
 				_ftprintf(theFile, _T("*SIGNAL*  "));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel);
+				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s\n"), theLine);
+				_ftprintf(theFile, _T("\n%s\n"), theLine.GetBuffer());
 			}
 		}
 
@@ -1722,7 +1722,9 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 	// Get the net list
 	MakeNet(pDesign);
 
-	_ftprintf(theFile, NetComment _T(" ====+  Net List for %s  +====\n\n"), pDesign->GetPathName());
+	CString temp;
+	temp = pDesign->GetPathName();
+	_ftprintf(theFile, NetComment _T(" ====+  Net List for %s  +====\n\n"), temp.GetBuffer());
 
 	_ftprintf(theFile, NetComment _T(" ======+ The component list\n\n"));
 
@@ -1760,12 +1762,12 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 					{
 						referenced.insert(Ref);
 
-						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), Ref, Name);
+						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), Ref.GetBuffer(), Name.GetBuffer());
 
 						/// Now write it's "other" references
 						for (int i = 2; i < pMethod->GetFieldCount(); i++)
 						{
-							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), pMethod->GetFieldName(i), pMethod->GetField(i));
+							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), pMethod->GetFieldName(i).GetBuffer(), pMethod->GetField(i).GetBuffer());
 						}
 					}
 				}
@@ -1827,13 +1829,13 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 				_ftprintf(theFile, _T("NET  "));
 				if (Labeled)
 				{
-					_ftprintf(theFile, _T("'%s'"), theLabel);
+					_ftprintf(theFile, _T("'%s'"), theLabel.GetBuffer());
 				}
 				else
 				{
 					_ftprintf(theFile, _T("'N%06d'"), Label++);
 				}
-				_ftprintf(theFile, _T(" =  %s\n"), theLine);
+				_ftprintf(theFile, _T(" =  %s\n"), theLine.GetBuffer());
 			}
 		}
 
@@ -1911,8 +1913,8 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 								Package = pMethod->GetField(i);
 							}
 						}
-
-						_ftprintf(theFile, _T("ADD '%s' %s R0 (0.%d 0.%d);\n"), Ref, Package, x_pos, y_pos);
+						/*     djl holler */
+						_ftprintf(theFile, _T("ADD '%s' %s R0 (0.%d 0.%d);\n"), Ref.GetBuffer(), Package.GetBuffer(), x_pos, y_pos);
 
 						++x_pos;
 						if (x_pos == 10)
@@ -1969,9 +1971,9 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 			if (PrintLine)
 			{
 				_ftprintf(theFile, _T("SIGNAL "));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel);
+				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s   ;\n"), theLine);
+				_ftprintf(theFile, _T("\n%s   ;\n"), theLine.GetBuffer());
 			}
 		}
 
@@ -2303,7 +2305,7 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 					aLabel.Format(_T("N%06d "), Label++);
 				}
 
-				_ftprintf(theFile, _T(" %s  %s\n"), aLabel, theLine); //print the net label and net connections as ANSI characters
+				_ftprintf(theFile, _T(" %s  %s\n"), aLabel.GetBuffer(), theLine.GetBuffer()); //print the net label and net connections as ANSI characters
 			}
 		}
 
@@ -2326,6 +2328,8 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	FILE *theFile;
 	errno_t err;
 	err = _tfopen_s(&theFile, filename, _T("w"));
+	CString temp = "";
+
 	if ( (theFile == NULL) || (err != 0))
 	{
 		Message(IDS_CANNOTOPEN);
@@ -2337,11 +2341,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 
 	CString dateTime = myTime.Format(_T("%x at %X %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
 	/// Output the standard header comment - expected on line 1 by some Spice engines.  Spice netlist files denote comments with an asterisk in column 1.
-	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime);
+	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime.GetBuffer());
 
 	createErrorFile(filename);
 
-	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), pDesign->GetPathName());
+	temp = pDesign->GetPathName();
+
+	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), temp.GetBuffer());
 
 	/// Set the Busy icon
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_WAIT));
@@ -2552,11 +2558,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	int priority;
 	for (priority = 0; priority < 10; priority++)
 	{
+		CString temp;
 		strings &s = prolog_lines[priority];
 		strings::iterator i = s.begin();
 		while (i != s.end())
 		{
-			_ftprintf(theFile, _T("%s\n"), *i);
+			temp = *i;
+			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
 			++i;
 		}
 	}
@@ -2578,13 +2586,18 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		CString spice = pMethod->GetFieldByName(AttrSpice);
 
 		/// Now output the SPICE model line
+		CString temp;
+
 		if (!spice.IsEmpty())
 		{
-			_ftprintf(theFile, _T("%s\n"), expand_spice(file_name_index, sheet, symbol, labels, preferredLabel, spice));
+			CString temp;
+			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
 		}
 		else
 		{
-			_ftprintf(theFile, _T("NO_MODEL found on %s\n"), symbol.m_pMethod->GetRef());
+			CString temp;
+			temp = symbol.m_pMethod->GetRef();
+			_ftprintf(theFile, _T("NO_MODEL found on %s\n"), temp.GetBuffer());
 			writeError(_T("%s: %s on sheet %d has no model\n"), symbol.m_pMethod->GetRef(), symbol.m_pMethod->GetName(), sheet);
 		}
 		++sit;
@@ -2593,11 +2606,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 	/// Now write out the epilog
 	for (priority = 9; priority >= 0; priority--)
 	{
+		CString temp;
 		strings &s = epilog_lines[priority];
 		strings::iterator i = s.begin();
 		while (i != s.end())
 		{
-			_ftprintf(theFile, _T("%s\n"), *i);
+			temp = *i;
+			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
 			++i;
 		}
 	}

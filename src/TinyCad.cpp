@@ -204,7 +204,7 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			if (!m_bConsoleAcquired) {
 				m_bConsoleAcquired = RedirectIOToConsole();
 			}
-			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
+			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion().GetBuffer());
 			fwprintf(stderr, _T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
 			fwprintf(stderr,_T("Optional command line options:\n"));
@@ -463,8 +463,12 @@ BOOL CTinyCadApp::InitInstance()
 				TCHAR workingDirectory[1024];
 				workingDirectory[0] = _T('\0');
 				GetCurrentDirectory(1024, workingDirectory);	//This may cause an error on systems older than WinXP
-				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", cmdInfo.m_strFileName, workingDirectory);
-				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName, workingDirectory);
+
+				/*  djl hollar */
+				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", (char *) cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
+
+
+				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
 			}
 		}
 		return FALSE;
@@ -1136,6 +1140,12 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+
+	//Note:  In Windows 8.1 and above, only the compatibility mode settings will be reported by the deprecated call to GetVersionEx() unless no compatibility mode settings have been set.
+	//In addition, the OS may include extension DLL's that change the effective capabilities of the OS and these will not be reported, according to MSDN
+	//This code needs to be upgraded to one of the newer system calls to identify the compatibility OS as well as the actual underlying OS
+
+
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*) &osvi);
 
 	if (bOsVersionInfoEx == 0)
@@ -1158,81 +1168,109 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 
 	// Test for the specific product.
 	os << L"Microsoft ";
-	if (osvi.dwMajorVersion == 6)
+	if (osvi.dwMajorVersion >= 6)
 	{
-		if (osvi.dwMinorVersion == 0)
-		{
-			if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows Vista ";
-			else os << "Windows Server 2008 ";
-		}
-		if (osvi.dwMinorVersion == 1)
-		{
-			if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
-			else os << "Windows Server 2008 R2 ";
-		}
 
-		PGPI pGPI = (PGPI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
+		PGPI pGPI = (PGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
 		pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.wServicePackMajor, osvi.wServicePackMinor, &dwType);
+
+		if (osvi.dwMajorVersion == 10)
+		{
+			if (osvi.dwMinorVersion == 0)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 10 ";
+				else os << "Windows Server 2016 ";
+			}
+			else {
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "[Unrecognized Windows 10 Minor Version] ";
+				else os << "[Unrecognized Windows Server 2016 Minor Version] ";
+			}
+		}
+		else if (osvi.dwMajorVersion == 6)
+		{
+			if (osvi.dwMinorVersion == 0)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows Vista ";
+				else os << "Windows Server 2008 ";
+			}
+			else if (osvi.dwMinorVersion == 1)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
+				else os << "Windows Server 2008 R2 ";
+			}
+			else {
+				os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+			}
+		}
+		else {
+			os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+		}
 
 		switch (dwType)
 		{
-			case PRODUCT_ULTIMATE:
-				os << "Ultimate Edition";
-				break;
-			case PRODUCT_PROFESSIONAL:
-				os << "Professional";
-				break;
-			case PRODUCT_HOME_PREMIUM:
-				os << "Home Premium Edition";
-				break;
-			case PRODUCT_HOME_BASIC:
-				os << "Home Basic Edition";
-				break;
-			case PRODUCT_ENTERPRISE:
-				os << "Enterprise Edition";
-				break;
-			case PRODUCT_BUSINESS:
-				os << "Business Edition";
-				break;
-			case PRODUCT_STARTER:
-				os << "Starter Edition";
-				break;
-			case PRODUCT_CLUSTER_SERVER:
-				os << "Cluster Server Edition";
-				break;
-			case PRODUCT_DATACENTER_SERVER:
-				os << "Datacenter Edition";
-				break;
-			case PRODUCT_DATACENTER_SERVER_CORE:
-				os << "Datacenter Edition (core installation)";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER:
-				os << "Enterprise Edition";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER_CORE:
-				os << "Enterprise Edition (core installation)";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER_IA64:
-				os << "Enterprise Edition for Itanium-based Systems";
-				break;
-			case PRODUCT_SMALLBUSINESS_SERVER:
-				os << "Small Business Server";
-				break;
-			case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-				os << "Small Business Server Premium Edition";
-				break;
-			case PRODUCT_STANDARD_SERVER:
-				os << "Standard Edition";
-				break;
-			case PRODUCT_STANDARD_SERVER_CORE:
-				os << "Standard Edition (core installation)";
-				break;
-			case PRODUCT_WEB_SERVER:
-				os << "Web Server Edition";
-				break;
-			default:
-				os << "[Unrecognized Windows Type - TinyCAD needs to update the Windows SDK]";
-				break;
+		case PRODUCT_ULTIMATE:
+			os << "Ultimate Edition";
+			break;
+		case PRODUCT_PROFESSIONAL:
+			os << "Professional";
+			break;
+		case PRODUCT_HOME_PREMIUM:
+			os << "Home Premium Edition";
+			break;
+		case PRODUCT_HOME_BASIC:
+			os << "Home Basic Edition";
+			break;
+		case PRODUCT_ENTERPRISE:
+			os << "Enterprise Edition";
+			break;
+		case PRODUCT_BUSINESS:
+			os << "Business Edition";
+			break;
+		case PRODUCT_STARTER:
+			os << "Starter Edition";
+			break;
+		case PRODUCT_CLUSTER_SERVER:
+			os << "Cluster Server Edition";
+			break;
+		case PRODUCT_DATACENTER_SERVER:
+			os << "Datacenter Edition";
+			break;
+		case PRODUCT_DATACENTER_SERVER_CORE:
+			os << "Datacenter Edition (core installation)";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER:
+			os << "Enterprise Edition";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER_CORE:
+			os << "Enterprise Edition (core installation)";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER_IA64:
+			os << "Enterprise Edition for Itanium-based Systems";
+			break;
+		case PRODUCT_SMALLBUSINESS_SERVER:
+			os << "Small Business Server";
+			break;
+		case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
+			os << "Small Business Server Premium Edition";
+			break;
+		case PRODUCT_STANDARD_SERVER:
+			os << "Standard Edition";
+			break;
+		case PRODUCT_STANDARD_SERVER_CORE:
+			os << "Standard Edition (core installation)";
+			break;
+		case PRODUCT_WEB_SERVER:
+			os << "Web Server Edition";
+			break;
+		default:
+			os << L"[Unrecognized product type = " << dwType << L"]";
+			break;
+		}
+
+		if (osvi.dwMajorVersion >= 6)
+		{
+			if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) os << ", 64-bit processor";
+			else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL) os << ", 32-bit processor";
 		}
 	}
 
@@ -1299,11 +1337,6 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 	}
 	os << L" (build " << osvi.dwBuildNumber << L")";
 
-	if (osvi.dwMajorVersion >= 6)
-	{
-		if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) os << ", 64-bit";
-		else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL) os << ", 32-bit";
-	}
 	wcscpy_s(str, bufferSize, os.str().c_str());
 	return true;
 }

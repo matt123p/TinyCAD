@@ -370,7 +370,7 @@ BEGIN
     LTEXT           "Petr Hluzin",IDC_STATIC,59,148,89,8
     CONTROL         IDB_BITMAP2,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
     LTEXT           "XML Netlist Generation:  RapidXML Version 1.13",IDC_STATIC,60,214,189,8
-    LTEXT           "Windows Version:  Placeholder",IDC_WINDOWS_VERSION,12,257,294,11
+    LTEXT           "Windows Version:  Placeholder",IDC_WINDOWS_VERSION,12,241,294,32
 END
 
 IDD_ANNOTATE DIALOGEX 0, 0, 196, 212
