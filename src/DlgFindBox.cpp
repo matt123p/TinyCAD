@@ -30,8 +30,7 @@
 
 void CDlgFindBox::OnOK()
 {
-	GetDlgItemText(FINDBOX_STRING, String.GetBuffer(64), 64);
-	String.ReleaseBuffer();
+	GetDlgItemText(FINDBOX_STRING, String);
 
 	EndDialog(IDOK);
 }

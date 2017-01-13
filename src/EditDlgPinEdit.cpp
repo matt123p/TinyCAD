@@ -131,7 +131,6 @@ void CEditDlgPinEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 void CEditDlgPinEdit::OnChange()
 {
-	TCHAR str[SIZESTRING];
 	CTinyCadApp::SetTranslateAccelerator(FALSE);
 
 	if (stop) return;
@@ -139,11 +138,9 @@ void CEditDlgPinEdit::OnChange()
 	getObject()->Display();
 
 	// Read in the name
-	GetDlgItemText(PINBOX_NAME, str, sizeof (str));
-	static_cast<CDrawPin*> (getObject())->m_str = str;
+	GetDlgItemText(PINBOX_NAME, static_cast<CDrawPin*> (getObject())->m_str);
 
-	GetDlgItemText(PINBOX_NUMBER, str, sizeof (str));
-	static_cast<CDrawPin*> (getObject())->m_number = str;
+	GetDlgItemText(PINBOX_NUMBER, static_cast<CDrawPin*> (getObject())->m_number);
 
 	static_cast<CDrawPin*> (getObject())->m_show = IsDlgButtonChecked(PINBOX_NAMEON) != 0 ? 1 : 0;
 	static_cast<CDrawPin*> (getObject())->m_show |= IsDlgButtonChecked(PINBOX_NUMBERON) != 0 ? 2 : 0;

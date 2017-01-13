@@ -1,0 +1,236 @@
+Index: DlgAnnotateBox.cpp
+===================================================================
+--- DlgAnnotateBox.cpp	(Revision 650)
++++ DlgAnnotateBox.cpp	(Arbeitskopie)
+@@ -135,8 +135,8 @@
+ 			;
+ 	}
+ 	v.all_sheets = static_cast<CButton*> (GetDlgItem(IDC_ALL_SHEETS))->GetCheck() != 0;
+-	TCHAR hold[256];
+-	GetDlgItemText(ANNOTATEBOX_MATCHVAL, hold, sizeof (hold));
++	TCHAR hold[SIZESTRING];
++	GetDlgItemText(ANNOTATEBOX_MATCHVAL, hold, SIZESTRING);
+ 	v.matchval = hold;
+ 	v.startval = GetDlgItemInt(ANNOTATEBOX_STARTVAL);
+ }
+Index: DlgFindBox.cpp
+===================================================================
+--- DlgFindBox.cpp	(Revision 650)
++++ DlgFindBox.cpp	(Arbeitskopie)
+@@ -30,8 +30,7 @@
+ 
+ void CDlgFindBox::OnOK()
+ {
+-	GetDlgItemText(FINDBOX_STRING, String.GetBuffer(64), 64);
+-	String.ReleaseBuffer();
++	GetDlgItemText(FINDBOX_STRING, String);
+ 
+ 	EndDialog(IDOK);
+ }
+Index: DlgPageSizeBox.cpp
+===================================================================
+--- DlgPageSizeBox.cpp	(Revision 650)
++++ DlgPageSizeBox.cpp	(Arbeitskopie)
+@@ -120,8 +120,8 @@
+ 	// If it is not already portrait then swap width and height
+ 	if (GetDlgItemInt(PAGESIZE_WIDTH) > GetDlgItemInt(PAGESIZE_HEIGHT))
+ 	{
+-		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, sizeof (BufferWidth));
+-		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, sizeof (BufferHeight));
++		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, SIZESTRING);
++		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, SIZESTRING);
+ 		SetDlgItemText(PAGESIZE_HEIGHT, BufferWidth);
+ 		SetDlgItemText(PAGESIZE_WIDTH, BufferHeight);
+ 	}
+@@ -136,8 +136,8 @@
+ 	// If it is not already landscape then swap width and height
+ 	if (GetDlgItemInt(PAGESIZE_WIDTH) < GetDlgItemInt(PAGESIZE_HEIGHT))
+ 	{
+-		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, sizeof (BufferWidth));
+-		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, sizeof (BufferHeight));
++		GetDlgItemText(PAGESIZE_WIDTH, BufferWidth, SIZESTRING);
++		GetDlgItemText(PAGESIZE_HEIGHT, BufferHeight, SIZESTRING);
+ 		SetDlgItemText(PAGESIZE_HEIGHT, BufferWidth);
+ 		SetDlgItemText(PAGESIZE_WIDTH, BufferHeight);
+ 	}
+Index: editbar.cpp
+===================================================================
+--- editbar.cpp	(Revision 650)
++++ editbar.cpp	(Arbeitskopie)
+@@ -106,13 +106,11 @@
+ void CEditDlgPowerEdit::OnChange()
+ {
+ 	CTinyCadApp::SetTranslateAccelerator(FALSE);
+-	TCHAR str[SIZESTRING];
+ 	if (stop) return;
+ 
+ 	getObject()->Display();
+ 
+-	GetDlgItemText(POWERBOX_TEXT, str, sizeof (str));
+-	static_cast<CDrawPower*> (getObject())->str = str;
++	GetDlgItemText(POWERBOX_TEXT, static_cast<CDrawPower*> (getObject())->str);
+ 
+ 	static_cast<CDrawPower*> (getObject())->dir = (BYTE) (GetCheckedRadioButton(POWERBOX_TOP, POWERBOX_RIGHT) - POWERBOX_TOP);
+ 	static_cast<CDrawPower*> (getObject())->which = (BYTE) (GetCheckedRadioButton(POWERBOX_BAR, POWERBOX_EARTH) - POWERBOX_BAR);
+Index: EditDlgLabelEdit.cpp
+===================================================================
+--- EditDlgLabelEdit.cpp	(Revision 650)
++++ EditDlgLabelEdit.cpp	(Arbeitskopie)
+@@ -81,7 +81,6 @@
+ 
+ void CEditDlgLabelEdit::OnChange()
+ {
+-	TCHAR str[SIZESTRING];
+ 	CTinyCadApp::SetTranslateAccelerator(FALSE);
+ 
+ 	if (stop) return;
+@@ -92,8 +91,7 @@
+ 	}
+ 	getObject()->Display();
+ 
+-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
+-	static_cast<CDrawLabel*> (getObject())->str = str;
++	GetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawLabel*> (getObject())->str);
+ 	static_cast<CDrawLabel*> (getObject())->dir = (BYTE) (GetCheckedRadioButton(IDC_LABEL_DIR1, IDC_LABEL_DIR4) - IDC_LABEL_DIR1);
+ 
+ 	int style = GetCheckedRadioButton(IDC_STYLE1, IDC_STYLE4) - IDC_STYLE1;
+Index: EditDlgMethodEdit.cpp
+===================================================================
+--- EditDlgMethodEdit.cpp	(Revision 650)
++++ EditDlgMethodEdit.cpp	(Arbeitskopie)
+@@ -236,7 +236,7 @@
+ 
+ 	TCHAR str[SIZESTRING];
+ 
+-	GetDlgItemText(METHODBOX_PPP, str, sizeof (str));
++	GetDlgItemText(METHODBOX_PPP, str, SIZESTRING);
+ 	str[0] = static_cast<TCHAR>(toupper(str[0]));
+ 	// Is this a correct device letter?
+ 	if (str[0] != 0)
+Index: EditDlgNoteText.cpp
+===================================================================
+--- EditDlgNoteText.cpp	(Revision 650)
++++ EditDlgNoteText.cpp	(Arbeitskopie)
+@@ -330,7 +330,6 @@
+ void CEditDlgNoteText::OnChange()
+ {
+ 	CDrawNoteText *noteText = static_cast<CDrawNoteText*> (getObject());	//get a pointer to the NoteText object being changed
+-	TCHAR str[SIZENOTETEXT];	//This method of buffering the string forces a fixed length on the contents - this could stand some improvement, although I set the string length to 8K bytes (4K Unicode characters)
+ 
+ 	CTinyCadApp::SetTranslateAccelerator(FALSE);
+ 
+@@ -338,8 +337,7 @@
+ 
+ 	noteText->Display();
+ 
+-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));	//Need to check for exceptions here caused by strings being too long
+-	noteText->str = str;
++	GetDlgItemText(TEXTBOX_TEXT, noteText->str);
+ 
+ 	//noteText->dir = (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) ? 3:0;
+ 
+Index: EditDlgPinEdit.cpp
+===================================================================
+--- EditDlgPinEdit.cpp	(Revision 650)
++++ EditDlgPinEdit.cpp	(Arbeitskopie)
+@@ -131,7 +131,6 @@
+ 
+ void CEditDlgPinEdit::OnChange()
+ {
+-	TCHAR str[SIZESTRING];
+ 	CTinyCadApp::SetTranslateAccelerator(FALSE);
+ 
+ 	if (stop) return;
+@@ -139,11 +138,9 @@
+ 	getObject()->Display();
+ 
+ 	// Read in the name
+-	GetDlgItemText(PINBOX_NAME, str, sizeof (str));
+-	static_cast<CDrawPin*> (getObject())->m_str = str;
++	GetDlgItemText(PINBOX_NAME, static_cast<CDrawPin*> (getObject())->m_str);
+ 
+-	GetDlgItemText(PINBOX_NUMBER, str, sizeof (str));
+-	static_cast<CDrawPin*> (getObject())->m_number = str;
++	GetDlgItemText(PINBOX_NUMBER, static_cast<CDrawPin*> (getObject())->m_number);
+ 
+ 	static_cast<CDrawPin*> (getObject())->m_show = IsDlgButtonChecked(PINBOX_NAMEON) != 0 ? 1 : 0;
+ 	static_cast<CDrawPin*> (getObject())->m_show |= IsDlgButtonChecked(PINBOX_NUMBERON) != 0 ? 2 : 0;
+Index: EditDlgTextEdit.cpp
+===================================================================
+--- EditDlgTextEdit.cpp	(Revision 650)
++++ EditDlgTextEdit.cpp	(Arbeitskopie)
+@@ -83,7 +83,6 @@
+ 
+ void CEditDlgTextEdit::OnChange()
+ {
+-	TCHAR str[SIZESTRING];
+ 	CTinyCadApp::SetTranslateAccelerator(FALSE);
+ 
+ 	if (stop) return;
+@@ -90,8 +89,7 @@
+ 
+ 	getObject()->Display();
+ 
+-	GetDlgItemText(TEXTBOX_TEXT, str, sizeof (str));
+-	static_cast<CDrawText*> (getObject())->str = str;
++	GetDlgItemText(TEXTBOX_TEXT, static_cast<CDrawText*> (getObject())->str);
+ 	if (GetCheckedRadioButton(TEXTBOX_LEFT, TEXTBOX_UP) == TEXTBOX_LEFT) static_cast<CDrawText*> (getObject())->dir = 3;
+ 	else static_cast<CDrawText*> (getObject())->dir = 0;
+ 
+Index: MainFrm.cpp
+===================================================================
+--- MainFrm.cpp	(Revision 650)
++++ MainFrm.cpp	(Arbeitskopie)
+@@ -364,7 +364,7 @@
+ 	TCHAR szCommand[_MAX_PATH * 2];
+ 	LPCTSTR lpsz = (LPCTSTR) GlobalLock(hData);
+ 	int commandLength = lstrlen(lpsz);
+-	lstrcpyn(szCommand, lpsz, sizeof (szCommand));
++	lstrcpyn(szCommand, lpsz, sizeof (szCommand) / sizeof(TCHAR));
+ 	if (commandLength >= sizeof (szCommand))
+ 	{
+ 		// The command would be truncated. This could be a security problem
+Index: NetList.cpp
+===================================================================
+--- NetList.cpp	(Revision 650)
++++ NetList.cpp	(Arbeitskopie)
+@@ -105,7 +105,7 @@
+ 	++m_errors;
+ 
+ 	va_start( argptr, str );
+-	_vsntprintf_s(buffer, sizeof (buffer), str, argptr);
++	_vsntprintf_s(buffer, sizeof (buffer) / sizeof(TCHAR), str, argptr);
+ 	_ftprintf(m_err_file, _T("Netlist error #%d:  %s"), m_errors, buffer);
+ }
+ 
+Index: TinyCad.cpp
+===================================================================
+--- TinyCad.cpp	(Revision 650)
++++ TinyCad.cpp	(Arbeitskopie)
+@@ -604,7 +604,7 @@
+ {
+ 	CString sReturn;
+ 	TCHAR theBuffer[1024];
+-	DWORD theBytes = GetModuleFileName(NULL, theBuffer, sizeof (theBuffer) - 1);
++	DWORD theBytes = GetModuleFileName(NULL, theBuffer, (sizeof (theBuffer) - 1) / sizeof(TCHAR));
+ 	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", theBuffer);
+ 	if (theBytes != 0)
+ 	{
+@@ -651,7 +651,7 @@
+ 		TRACE("CTinyCadApp::GetLibraryDir() - SHGetFolderPath(CSIDL_PERSONAL) returned failure code\n");
+ 		szPath[0]='\0';
+ 
+-		DWORD theBytes = GetModuleFileName(NULL, szPath, sizeof (szPath) - 1);
++		DWORD theBytes = GetModuleFileName(NULL, szPath, (sizeof (szPath) - 1) / sizeof(TCHAR));
+ 		TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", szPath);
+ 		if (theBytes != 0)
+ 		{
+@@ -670,7 +670,7 @@
+ 	//It looks in the current working directory, so this must be set appropriately.
+ 	TCHAR longFilename[MAX_PATH];
+ 	CString sTemp = shortFilename;
+-	DWORD count = GetLongPathName(sTemp, longFilename, sizeof (longFilename) - 1);
++	DWORD count = GetLongPathName(sTemp, longFilename, (sizeof (longFilename) - 1) / sizeof(TCHAR));
+ 	if (count == 0 || longFilename[0] == 0) return CString(shortFilename); //error during GetLongPathName() or long pathname is too long for buffer or simply not available due to file system historical creation
+ 	else return CString(longFilename);
+ }

@@ -105,7 +105,7 @@ void CNetList::writeError(const _TCHAR *str, ...)
 	++m_errors;
 
 	va_start( argptr, str );
-	_vsntprintf_s(buffer, sizeof (buffer), str, argptr);
+	_vsntprintf_s(buffer, sizeof (buffer) / sizeof(TCHAR), str, argptr);
 	_ftprintf(m_err_file, _T("Netlist error #%d:  %s"), m_errors, buffer);
 }
 
