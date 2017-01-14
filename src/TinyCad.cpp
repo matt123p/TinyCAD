@@ -1198,6 +1198,11 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
 				else os << "Windows Server 2008 R2 ";
 			}
+			else if (osvi.dwMinorVersion == 2)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 8 ";
+				else os << L"[Unrecognized Windows " << L"Server" << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+			}
 			else {
 				os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
 			}
