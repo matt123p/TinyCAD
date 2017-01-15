@@ -39,32 +39,32 @@ public:
 	CLibraryFile(); // The constructor
 	virtual ~CLibraryFile(); // The destructor
 
-	virtual void Attach(const TCHAR *filename); // Attach this library to a file
+	virtual BOOL Attach(const TCHAR *filename) OVERRIDE; // Attach this library to a file
 
 	// Write a symbol to this library
-	virtual void Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document);
+	virtual void Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDoc &document) OVERRIDE;
 
 	// Delete a symbol from this library
-	virtual void DeleteSymbol(CLibraryStoreNameSet &symbol);
+	virtual void DeleteSymbol(CLibraryStoreNameSet &symbol) OVERRIDE;
 
-	virtual void OnIdle()
+	virtual void OnIdle() OVERRIDE
 	{
 		CloseMethodFile();
 	}
 
-	virtual CStream *GetMethodArchive(CLibraryStoreNameSet *symbol); // Get the methods file for this library
+	virtual CStream *GetMethodArchive(CLibraryStoreNameSet *symbol) OVERRIDE; // Get the methods file for this library
 	void CloseMethodFile();
 	BOOL OpenIndexFile(CFile &, int); // Get the symbols file for this library
 
 
 	// Is an upgrade required before editing this library?
-	virtual BOOL MustUpgrade();
+	virtual BOOL MustUpgrade() OVERRIDE;
 
 	// Upgrade to the latest version of the library system
-	virtual BOOL Upgrade(CLibraryStore *);
+	virtual BOOL Upgrade(CLibraryStore *) OVERRIDE;
 
 	// Create a new library database
-	virtual bool Create(const TCHAR *filename);
+	virtual bool Create(const TCHAR *filename) OVERRIDE;
 };
 
 // The dialog for renaming a symbol

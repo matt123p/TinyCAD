@@ -19,7 +19,7 @@ const int CAutoSave::M_NID = 2;
 //=========================================================================
 //== init class variables                                                ==
 //=========================================================================
-UInt32 CAutoSave::m_nDelay = 10;
+UInt32 CAutoSave::m_nDelay = 1000;
 CAutoSave* CAutoSave::m_pInstance = NULL;
 
 //=========================================================================
@@ -80,6 +80,11 @@ void CAutoSave::SetEnabled(boolean bIsEnabled)
 //-- Returns the delay in minutes between timer events
 UInt32 CAutoSave::GetDelay()
 {
+	// initially read AutoSave setting from registry
+	if (CAutoSave::m_nDelay > 999)
+	{
+		CAutoSave::m_nDelay = CRegistry::GetInt("AutoSave", 10);
+	}
 	return CAutoSave::m_nDelay;
 }
 //-------------------------------------------------------------------------

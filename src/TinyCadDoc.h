@@ -116,6 +116,7 @@ protected:
 	undoCollection m_undo;
 	BOOL m_change_set;
 	BOOL m_InUndoAddAction;
+	BOOL m_DuplicateObjectOnly;
 
 public:
 	CDrawingObject* Dup(CDrawingObject *p);

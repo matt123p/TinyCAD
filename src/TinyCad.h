@@ -52,12 +52,13 @@ class CTinyCadCommandLineInfo : public CCommandLineInfo
 	//			CCommandLineInfo::FilePrint   Indicates that the /p flag was found on the command line.
 	//			CCommandLineInfo::FilePrintTo   Indicates that the /pt flag was found on the command line.
 	//			CCommandLineInfo::FileDDE   Indicates that the /dde flag was found on the command line.
-	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinApp derived classes.
+	//			CCommandLineInfo::FileNothing   Turns off the display of a new MDI child window on startup. By design, Application Wizard-generated MDI applications display a new child window on startup. To turn off this feature, an application can use CCommandLineInfo::FileNothing as the shell command when calling ProcessShellCommand. ProcessShellCommand is called by the InitInstance( ) of all CWinAppEx derived classes.
 
 	//for convenience maintain a variable for each custom command line option to indicate the param passed. 
 	BOOL m_bGenerateSpiceFile;     //for /s	This allows the user to generate Spice netlist files from a script processor
 	BOOL m_bGenerateXMLNetlistFile;	//for /x	This allows the user to generate XML netlist files from a script processor
 	BOOL m_bOutputDirectory;	//for --output_dir  This allows the user to specify an output directory separately from the input directory or the working directory
+	BOOL m_bConsoleIORequired;
 	enum TCFlag 
 	{
 		TCFlag_Unknown=0,
@@ -74,7 +75,7 @@ public:
 	BOOL IsShellOpen();
 	BOOL IsGenerateSpiceFile();
 	BOOL IsGenerateXMLNetlistFile();
-	BOOL m_bConsoleIORequired;
+	BOOL IsConsoleApp();
 	BOOL m_bConsoleAcquired;
 	CString getOutputDirectory();
 	virtual void ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL bLast);
@@ -90,7 +91,7 @@ public:
 //*                  Main application class                               *
 //*                                                                       *
 //*************************************************************************
-class CTinyCadApp: public CWinApp
+class CTinyCadApp: public CWinAppEx
 {
 	//=====================================================================
 	//== class variables                                                 ==
@@ -179,6 +180,7 @@ public:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
+	virtual BOOL LoadWindowPlacement(CRect& rectNormalPosition, int& nFflags, int& nShowCmd);
 };
 //=========================================================================
 extern int Message(int Resource, int Type = MB_ICONINFORMATION | MB_OK, const TCHAR *NameString = _T(""));

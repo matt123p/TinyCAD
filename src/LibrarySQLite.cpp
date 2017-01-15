@@ -43,7 +43,7 @@ CLibrarySQLite::~CLibrarySQLite()
 }
 
 // Attach this library to a file
-void CLibrarySQLite::Attach(const TCHAR *filename)
+BOOL CLibrarySQLite::Attach(const TCHAR *filename)
 {
 	m_name = filename;
 
@@ -99,13 +99,18 @@ void CLibrarySQLite::Attach(const TCHAR *filename)
 
 			q.nextRow();
 		}
-	} catch (CppSQLite3Exception& e)
+		return TRUE;
+	}
+	catch (CppSQLite3Exception& e)
 	{
+		if (m_database.mpDB)
+			m_database.close();
+
 		CString s;
 		CString msg(e.errorMessage());
 		s.Format(_T("Cannot open library %s.\r\n%s"), m_name, msg);
 		AfxMessageBox(s);
-		return;
+		return FALSE;
 	}
 }
 

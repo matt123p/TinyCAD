@@ -1196,7 +1196,7 @@ void CTinyCadView::OnInitialUpdate()
 
 	if (CTinyCadRegistry::GetMDIMaximize())
 	{
-		((CMDIChildWnd *) GetParentFrame())->MDIMaximize();
+		((CMDIChildWndEx *) GetParentFrame())->MDIMaximize();
 	}
 
 	// Center Symbol inside view
@@ -1612,7 +1612,7 @@ void CTinyCadView::OnEditInsertpicture()
 	// switch back to the Edit tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
-	CFileDialog dlg( TRUE, ALL_IMAGE_FILES, ALL_IMAGE_FILES, OFN_HIDEREADONLY,
+	CFileDialog dlg( TRUE, ALL_IMAGE_FILES, NULL, OFN_HIDEREADONLY,
 		_T("Image files|") ALL_IMAGE_FILES _T("|")
 		_T("Portable network graphic (*.png)|*.png|")
 		_T("JPEG (*.jpeg)|*.jpeg;*.jpg;*.jpe|")

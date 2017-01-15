@@ -61,7 +61,7 @@ public:
 	virtual CStream *GetMethodArchive(CLibraryStoreNameSet *symbol) = 0;
 
 	// Attach this library to a file
-	virtual void Attach(const TCHAR *filename) = 0;
+	virtual BOOL Attach(const TCHAR *filename) = 0;
 
 	// Is an upgrade required before editing this library?
 	virtual BOOL MustUpgrade() = 0;

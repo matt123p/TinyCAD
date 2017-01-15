@@ -141,14 +141,14 @@ protected:
 	CJunctionUtils m_j;
 
 public:
-	CDragUtils& operator=(const CDragUtils &o)
-	{
-		// Don't do this!
-		ASSERT( FALSE);
-		return *this;
-	}
+	CDragUtils& operator=(const CDragUtils &o) DECL_EQ_DELETE;
+	//{
+	//	// Don't do this!
+	//	ASSERT( FALSE);
+	//	return *this;
+	//}
 
-	CDragUtils(CTinyCadDoc* pDesign);
+	explicit CDragUtils(CTinyCadDoc* pDesign);
 	virtual ~CDragUtils();
 
 	void Begin(CDPoint a, CDPoint b);

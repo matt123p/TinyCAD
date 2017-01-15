@@ -179,7 +179,7 @@ CStream &CStreamDb::operator>>(CString &s)
 		Read(buf, len);
 		buf[len] = 0;
 		s = buf;
-		delete buf;
+		delete[] buf;
 	}
 
 	return *this;

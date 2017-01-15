@@ -168,6 +168,7 @@ void CTinyCadSymbolDoc::EditPartInPackage(int p)
 	// Do we need to copy over the pins?
 	if (!innew && inold && Message(IDS_COPYPINS, MB_YESNO | MB_ICONQUESTION) == IDYES)
 	{
+		drawingCollection newPins;
 		CDrawPin *NewPin;
 		drawingIterator it = GetDrawingBegin();
 		while (it != GetDrawingEnd())
@@ -178,10 +179,15 @@ void CTinyCadSymbolDoc::EditPartInPackage(int p)
 				NewPin = new CDrawPin(this);
 				*NewPin = * ((CDrawPin *) pointer);
 				NewPin->SetPart(GetPart());
-				Add(NewPin);
+				newPins.push_back(NewPin);
 			}
 
 			++it;
+		}
+		// Defer adding objects, so iterator is not invalidated iside the loop
+		for (drawingIterator pin = newPins.begin(); pin != newPins.end(); ++pin)
+		{
+			Add(*pin);
 		}
 	}
 

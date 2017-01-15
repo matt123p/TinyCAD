@@ -85,19 +85,9 @@ void CTinyCadView::OnDraw(CDC* pDC)
 		// Is any of this region in the off-page area?
 		if (!pDC->IsPrinting())
 		{
-
-			// Paint the region white
-			if (pDC->IsPrinting())
-			{
-				dc.SelectBrush(cWHITE);
-				dc.SelectPen(PS_SOLID, 1, cWHITE);
-			}
-			else
-			{
-				COLORREF col = GetCurrentDocument()->GetOptions()->GetUserColor().Get(CUserColor::BACKGROUND);
-				dc.SelectBrush(col, 0);
-				dc.SelectPen(PS_SOLID, 1, col);
-			}
+			COLORREF col = GetCurrentDocument()->GetOptions()->GetUserColor().Get(CUserColor::BACKGROUND);
+			dc.SelectBrush(col, 0);
+			dc.SelectPen(PS_SOLID, 1, col);
 			dc.Rectangle(CDRect(Start.x - 2, Start.y - 2, End.x + 2, End.y + 2));
 
 			dc.SelectBrush(cOFFPAGE);

@@ -17,7 +17,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// Image.cpp: implementation of the CImage class.
+// Image.cpp: implementation of the CTCImage class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,15 +29,15 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CImage::CImage()
+CTCImage::CTCImage()
 {
 }
 
-CImage::~CImage()
+CTCImage::~CTCImage()
 {
 }
 
-void CImage::PaintInvalid(CDC &dc, CRect rect)
+void CTCImage::PaintInvalid(CDC &dc, CRect rect)
 {
 	CPen *old_pen = (CPen *) dc.SelectStockObject(BLACK_PEN);
 	CBrush *old_brush = (CBrush *) dc.SelectStockObject(WHITE_BRUSH);

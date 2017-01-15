@@ -310,6 +310,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 //		TRACE("Scanning for unassigned reference designators...\n");
 		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++)
 		{
+			drawingCollection drawErrors;
+
 			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
 			while (it != pDoc->GetSheet(i)->GetDrawingEnd())
 			{
@@ -325,12 +327,17 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 						CString buffer;
 						buffer.LoadString(ERR_UNASSIGNEDREFDES);
 						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"), buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x / 5, pointer->m_point_a.y / 5);
-						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
+						drawErrors.push_back(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
 						errorList.push_back(formattedBuffer);
 //						TRACE("  ==>%S\n",buffer);
 					}
 				}
 				++it;
+			}
+			// Defer adding objects, so iterator is not invalidated iside the loop
+			for (drawingIterator ierr = drawErrors.begin(); ierr != drawErrors.end(); ++ierr)
+			{
+				pDoc->GetSheet(i)->Add(*ierr);
 			}
 		}
 	}
@@ -464,6 +471,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 
 		for (int i = 0; i < pDoc->GetNumberOfSheets(); i++)
 		{
+			drawingCollection drawErrors;
+
 			drawingIterator it = pDoc->GetSheet(i)->GetDrawingBegin();
 			while (it != pDoc->GetSheet(i)->GetDrawingEnd())
 			{
@@ -479,7 +488,7 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 						CString buffer;
 						buffer.LoadString(ERR_DUPREF);
 						formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"), buffer, pointer->GetName(), ref, i + 1);
-						pDoc->GetSheet(i)->Add(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
+						drawErrors.push_back(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
 						errorList.push_back(formattedBuffer);
 					}
 					else
@@ -489,6 +498,11 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 				}
 
 				++it;
+			}
+			// Defer adding objects, so iterator is not invalidated iside the loop
+			for (drawingIterator ierr = drawErrors.begin(); ierr != drawErrors.end(); ++ierr)
+			{
+				pDoc->GetSheet(i)->Add(*ierr);
 			}
 		}
 	}

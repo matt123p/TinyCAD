@@ -15,12 +15,13 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-IMPLEMENT_DYNAMIC(CInitDialogBar, CDialogBar)
+IMPLEMENT_DYNAMIC(CInitDialogBar, CPaneDialog)
 
-BEGIN_MESSAGE_MAP(CInitDialogBar, CDialogBar)
+BEGIN_MESSAGE_MAP(CInitDialogBar, CPaneDialog)
 //{{AFX_MSG_MAP(CInitDialogBar)
 // NOTE - the ClassWizard will add and remove mapping macros here.
 //}}AFX_MSG_MAP
+	ON_MESSAGE(WM_INITDIALOG, &CInitDialogBar::HandleInitDialog)
 END_MESSAGE_MAP()
 
 CInitDialogBar::CInitDialogBar()
@@ -34,32 +35,7 @@ CInitDialogBar::~CInitDialogBar()
 
 }
 
-BOOL CInitDialogBar::Create(CWnd * pParentWnd, LPCTSTR lpszTemplateName, UINT nStyle, UINT nID)
-{
-	// Let MFC Create the control
-	if (!CDialogBar::Create(pParentWnd, lpszTemplateName, nStyle, nID)) return FALSE;
-
-	// Since there is no WM_INITDIALOG message we have to call
-	// our own InitDialog function ourselves after m_hWnd is valid
-	if (!OnInitDialogBar()) return FALSE;
-
-	return TRUE;
-}
-
-BOOL CInitDialogBar::Create(CWnd * pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID)
-{
-	if (!Create(pParentWnd, MAKEINTRESOURCE(nIDTemplate), nStyle, nID)) return FALSE;
-
-	// Since there is no WM_INITDIALOG message we have to call
-	// our own InitDialog function ourselves after m_hWnd is valid
-	// PH: Seems to be no longer true (at least on my system) and double
-	// call to OnInitDialogBar() interferes with tree initialization.
-	//	if(!OnInitDialogBar())
-	//		return FALSE;
-	return TRUE;
-}
-
-BOOL CInitDialogBar::OnInitDialogBar()
+BOOL CInitDialogBar::OnInitDialog()
 {
 	// Support for the MFC DDX model 
 	// If you do not want this do not call the base class
@@ -69,14 +45,9 @@ BOOL CInitDialogBar::OnInitDialogBar()
 	return TRUE;
 }
 
-void CInitDialogBar::DoDataExchange(CDataExchange* pDX)
+LRESULT CInitDialogBar::HandleInitDialog(WPARAM wParam, LPARAM lParam)
 {
-	//Derived Classes Overide this function
-	ASSERT(pDX);
+	OnInitDialog();
 
-	CDialogBar::DoDataExchange(pDX);
-
-	// In derived class call the DDX_??? functions to set/retrieve values
-	// of your controls. See example derived class for how to do this.
+	return CPaneDialog::HandleInitDialog(wParam, lParam);
 }
-

@@ -29,7 +29,7 @@
 
 CResizeWnd::CResizeWnd(BOOL vertical)
 {
-
+	m_mouseOver = FALSE;
 	m_adjust_width = 0;
 	m_vertical = vertical;
 
@@ -56,6 +56,7 @@ BEGIN_MESSAGE_MAP(CResizeWnd, CWnd)
 	ON_WM_PAINT()
 	ON_WM_SETCURSOR()
 	//}}AFX_MSG_MAP
+	ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,18 @@ void CResizeWnd::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 
 	CWnd::OnMouseMove(nFlags, point);
+	if (!m_mouseOver)
+	{
+		m_mouseOver = TRUE;
+		Invalidate();
+
+		TRACKMOUSEEVENT tme;
+		tme.cbSize = sizeof(tme);
+		tme.hwndTrack = m_hWnd;
+		tme.dwFlags = TME_LEAVE;
+		tme.dwHoverTime = 1;
+		_TrackMouseEvent(&tme);
+	}
 }
 
 void CResizeWnd::OnPaint()
@@ -124,7 +137,11 @@ void CResizeWnd::OnPaint()
 	CBrush *pbrush = dc.SelectObject(&brush);
 	dc.Rectangle(r);
 
-	dc.Draw3dRect(r, GetSysColor(COLOR_BTNHIGHLIGHT), GetSysColor(COLOR_BTNSHADOW));
+	//dc.Draw3dRect(r, GetSysColor(COLOR_BTNHIGHLIGHT), GetSysColor(COLOR_BTNSHADOW));
+	if (m_mouseOver)
+		dc.FillSolidRect(r, RGB(128, 128, 128));
+	else
+		dc.FillSolidRect(r, GetSysColor(COLOR_BTNFACE));
 
 	dc.SelectObject(pbrush);
 
@@ -140,4 +157,14 @@ BOOL CResizeWnd::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	}
 
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
+}
+
+
+void CResizeWnd::OnMouseLeave()
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CWnd::OnMouseLeave();
+	m_mouseOver = FALSE;
+	Invalidate();
 }

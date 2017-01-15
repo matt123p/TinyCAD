@@ -45,7 +45,7 @@ CLibraryFile::~CLibraryFile()
 }
 
 // Create a library associated with an index and methods file
-void CLibraryFile::Attach(const TCHAR *FileName)
+BOOL CLibraryFile::Attach(const TCHAR *FileName)
 {
 	CFile theIndex;
 	CFileException ep;
@@ -53,7 +53,7 @@ void CLibraryFile::Attach(const TCHAR *FileName)
 
 	m_name = FileName;
 
-	if (!OpenIndexFile(theIndex, CFile::modeRead)) return;
+	if (!OpenIndexFile(theIndex, CFile::modeRead)) return FALSE;
 
 	// Open the archive header
 	CStreamFile theIndexStream(&theIndex, CArchive::load);
@@ -142,11 +142,14 @@ void CLibraryFile::Attach(const TCHAR *FileName)
 					CDialog theDialog(_T("BadSymbol"));
 					theDialog.DoModal();
 					methodsFileOpen = FALSE;
-					return;
+					return FALSE;
 				}
 			}
 		}
-	} catch (CArchiveException *e)
+		methodsFileOpen = FALSE;
+		return TRUE;
+	}
+	catch (CArchiveException *e)
 	{
 		// end of files are allowed, all other exceptions are not
 		if (e->m_cause != CArchiveException::endOfFile)
@@ -172,6 +175,7 @@ void CLibraryFile::Attach(const TCHAR *FileName)
 	}
 
 	methodsFileOpen = FALSE;
+	return FALSE;
 }
 
 // Generate the methods file name from library name and revision number

@@ -24,16 +24,18 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "afxpanedialog.h"
 
-class CChildFrame : public CMDIChildWnd
+
+class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
 
-	CDialogBar	m_dialog;
+	CPaneDialog	m_dialog;
 
-// Attributes
+// Attributes	
 public:
 
 // Operations

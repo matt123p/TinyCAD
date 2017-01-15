@@ -263,11 +263,17 @@ CString COption::PointToDisplay(CDPoint a, BOOL horiz)
 	double sy = a.y / Scale;
 	if (horiz)
 	{
-		r.Format(_T("%9.03f"), sy, GetUnits() == 0 ? _T("mm") : _T("\""));
+		if (GetUnits() == 0)
+			r.Format(_T("%9.02f "), sy);
+		else
+			r.Format(_T("%9.03f "), sy);
 	}
 	else
 	{
-		r.Format(_T("%9.03f"), sx, GetUnits() == 0 ? _T("mm") : _T("\""));
+		if (GetUnits() == 0)
+			r.Format(_T("%9.02f "), sx);
+		else
+			r.Format(_T("%9.03f "), sx);
 	}
 
 	return r;
@@ -281,7 +287,10 @@ CString COption::PointToUnit(CDPoint a)
 	double Scale = GetUnits() == 0 ? (float) PIXELSPERMM : ((float) PIXELSPERMM * 25.4f);
 	double sx = a.x / Scale;
 	double sy = a.y / Scale;
-	r.Format(_T("%9.03f,%9.03f%s"), sx, sy, GetUnits() == 0 ? _T(" mm") : _T(" \""));
+	if (GetUnits() == 0)
+		r.Format(_T("%9.02f,%9.02f mm"), sx, sy);
+	else
+		r.Format(_T("%9.03f,%9.03f ''"), sx, sy);
 
 	return r;
 }

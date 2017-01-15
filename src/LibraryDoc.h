@@ -90,8 +90,8 @@ public:
 	virtual ~CLibraryDoc();
 
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+	virtual void AssertValid() const OVERRIDE;
+	virtual void Dump(CDumpContext& dc) const OVERRIDE;
 #endif
 
 	// Generated message map functions

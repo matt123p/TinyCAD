@@ -126,7 +126,7 @@ class Transform
 	BOOL IsYUp; // Should we invert the y-axis?
 	int BoundY; // The Y bound - used when y is up
 
-	// Internal scaling functions
+				// Internal scaling functions
 	int ScaleX(double a) const;
 	int ScaleY(double a) const;
 
@@ -142,7 +142,7 @@ public:
 	void SetYisup(int newBoundY);
 	void SetScaling(int rot, double x, double y);
 	void SetPixelOffset(CPoint &p);
-	double GetZoomPixelScale() const;
+	inline double GetZoomPixelScale() const { return 1; }
 
 	// Change the transform by rotating it 
 	CDPoint SetTRM(CDPoint, CDPoint, int);
@@ -160,14 +160,15 @@ public:
 
 	// Convert from internal coord into window coords
 	CPoint Scale(CDPoint) const;
-	double doubleScale(double a) const;
+	inline double doubleScale(double a) const { return a * m_zoom; }
+
 	CRect Scale(CDRect r) const;
-	int Scale(double dist) const;
+	inline int Scale(double dist) const { return ScaleX(dist); }
 
 	// Convert from window coords into internal coords
 	CDPoint DeScale(TransformSnap &s, CPoint p) const;
-	double doubleDeScale(LONG a) const;
-	double DeScale(double a) const;
+	inline double doubleDeScale(LONG a) const { return a / m_zoom; }
+	inline double DeScale(double a) const { return a / m_zoom; }
 	double DeScaleX(TransformSnap &s, LONG a) const;
 	double DeScaleY(TransformSnap &s, LONG a) const;
 

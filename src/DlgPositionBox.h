@@ -29,20 +29,42 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDlgPositionBox dialog
 
-class CDlgPositionBox: public CDialogBar
+// class prototype
+class CToolbarLabel : public CMFCToolBarButton
+{
+	DECLARE_SERIAL(CToolbarLabel)
+public:
+	CToolbarLabel(UINT nID = NULL, int size = 0);
+	CToolbarLabel(UINT nID, CString lpszText, int size = 0);
+	virtual SIZE OnCalculateSize(CDC* pDC, const CSize& sizeDefault, BOOL bHorz) OVERRIDE;
+	virtual void CToolbarLabel::CopyFrom(const CMFCToolBarButton& s) OVERRIDE;
+	virtual void Serialize(CArchive& ar) OVERRIDE;
+
+	virtual void OnDraw(CDC* pDC, const CRect& rect, CMFCToolBarImages* pImages,
+		BOOL bHorz = TRUE, BOOL bCustomizeMode = FALSE,
+		BOOL bHighlight = FALSE,
+		BOOL bDrawBorder = TRUE,
+		BOOL bGrayDisabledButtons = TRUE) OVERRIDE;
+protected:
+	int m_size;
+};
+
+
+
+class CDlgPositionBox: public CMFCToolBar
 {
 	// Construction
 public:
 	CDlgPositionBox(); // standard constructor
 
 	// Change the text in the Dialog
-	void SetPosition(const TCHAR *s);
+	void SetPosition(const CString s);
 
 	// Dialog Data
 	//{{AFX_DATA(CDlgPositionBox)
 	enum
 	{
-		IDD = IDD_POSITIONBOX
+		IDD = IDR_POSITION
 	};
 	//}}AFX_DATA
 

@@ -159,7 +159,7 @@ bool CImagePNG::ImportBMP(const TCHAR *filename)
 		}
 		lpvColorTable = (LPBYTE) lpBMIH + sizeof(BITMAPINFOHEADER);
 
-		if ( (lpBMIH == NULL) || (lpBMIH->biClrUsed == 0))
+		if (lpBMIH->biClrUsed == 0)
 		{
 			switch (lpBMIH->biBitCount)
 			{
@@ -210,7 +210,7 @@ bool CImagePNG::ImportBMP(const TCHAR *filename)
 				pDibQuad++;
 			}
 			hPalette = ::CreatePalette(pLogPal);
-			delete pLogPal;
+			delete[] pLogPal;
 		}
 
 		lpImage = (LPBYTE) new char[dwSizeImage];
@@ -932,7 +932,7 @@ bool CImagePNG::SubdivColorMap(NewColorMapType *NewColorSubdiv, int m_ColorMapSi
 
 		/* Sort all elements in that entry along the given axis and split at */
 		/* the median.							     */
-		if ( (SortArray = new QuantizedColorType*[NewColorSubdiv[Index].NumEntries]) == NULL) return ERROR;
+		SortArray = new QuantizedColorType*[NewColorSubdiv[Index].NumEntries];
 		for (j = 0, QuantizedColor = NewColorSubdiv[Index].QuantizedColors; j < NewColorSubdiv[Index].NumEntries && QuantizedColor != NULL; j++, QuantizedColor = QuantizedColor -> Pnext)
 			SortArray[j] = QuantizedColor;
 		qsort(SortArray, NewColorSubdiv[Index].NumEntries, sizeof(QuantizedColorType *), SortCmpRtn);

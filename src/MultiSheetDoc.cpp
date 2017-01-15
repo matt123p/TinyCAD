@@ -277,13 +277,13 @@ BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
 
 BOOL CMultiSheetDoc::MyDoPromptFileName(CString& fileName, BOOL bReplace)
 {
-	CFileDialog *pDlg;
-	pDlg = new CFileDialog (FALSE,NULL,fileName,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,NULL,NULL);
+	CFileDialog pDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("TinyCAD (*.dsn)|*.dsn|All files (*.*)|*.*||"), AfxGetMainWnd());
 	CString title = bReplace ? _T("Save") : _T ("Save As");	//It is the resource identifiers that is the cause of the MFC bug that this function is working around!
-	pDlg->m_ofn.lpstrTitle = title;
-	if (pDlg->DoModal()!=IDOK)
+	pDlg.m_ofn.lpstrTitle = title;
+	if (pDlg.DoModal() != IDOK)
 		return FALSE;
-	fileName=pDlg->GetPathName();
+
+	fileName = pDlg.GetPathName();
 	return TRUE;
 }
 

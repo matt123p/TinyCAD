@@ -46,7 +46,7 @@
 // NOTE: This is never compiled in.  It is used to 
 // make VS.NET recognise that this is an MFC project.
 #ifdef _DUMMY_
-static CWinApp theApp;
+static CWinAppEx theApp;
 #endif
 
 CTinyCadRegistry * g_pRegistry = NULL;
@@ -78,6 +78,11 @@ BOOL CTinyCadCommandLineInfo::IsGenerateSpiceFile()
 BOOL CTinyCadCommandLineInfo::IsGenerateXMLNetlistFile()
 {
 	return m_bGenerateXMLNetlistFile;
+}
+
+BOOL CTinyCadCommandLineInfo::IsConsoleApp()
+{
+	return m_bConsoleIORequired;
 }
 
 CString CTinyCadCommandLineInfo::getOutputDirectory()
@@ -139,26 +144,9 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 	//A non-zero return code at this point means that a valid console has either been re-attached to, or created.
 	if (retCode != 0)
 	{
-		// redirect unbuffered STDOUT to the console
-		lStdHandle = (size_t) GetStdHandle(STD_OUTPUT_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "w" );
-		*stdout = *fp;
-		setvbuf( stdout, NULL, _IONBF, 0 );
-
-		// redirect unbuffered STDIN to the console
-		lStdHandle = (size_t) GetStdHandle(STD_INPUT_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "r" );
-		*stdin = *fp;
-		setvbuf( stdin, NULL, _IONBF, 0 );
-
-		// redirect unbuffered STDERR to the console
-		lStdHandle = (size_t) GetStdHandle(STD_ERROR_HANDLE);
-		hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		fp = _fdopen( hConHandle, "w" );
-		*stderr = *fp;
-		setvbuf( stderr, NULL, _IONBF, 0 );
+		freopen("CONIN$", "r", stdin);
+		freopen("CONOUT$", "w", stdout);
+		freopen("CONOUT$", "w", stderr);
 
 		// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog 
 		// point to console as well
@@ -216,18 +204,18 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			if (!m_bConsoleAcquired) {
 				m_bConsoleAcquired = RedirectIOToConsole();
 			}
-			fwprintf(stderr,_T("TinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion());
-			fwprintf(stderr,_T("Correct usage is:\n"));
+			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion().GetBuffer());
+			fwprintf(stderr, _T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
 			fwprintf(stderr,_T("Optional command line options:\n"));
 			fwprintf(stderr,_T("\t/s                         Generate Spice netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--gen_spice_netlist        Generate Spice netlist file with same base name as the design file\n"));
-			fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
-			fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
+			//fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
+			//fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n\t                           A trailing '\\' is optional\n"));
-			fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
-			fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
-			fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
+			//fwprintf(stderr,_T("\t/pt <printer name>         Print the design file to the specified printer name.  This is a Windows service\n"));
 			fwprintf(stderr,_T("\t/h                         Display this help information\n"));
 		}
 		else
@@ -287,7 +275,7 @@ CTinyCadApp::~CTinyCadApp()
 	delete g_pRegistry;
 }
 
-BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
+BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 //{{AFX_MSG_MAP(CTinyCadApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(IDM_LIBLIB, OnLibLib)
@@ -297,12 +285,12 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinApp)
 	ON_COMMAND(ID_HELP_EMAILFORSUPPORT, OnHelpEmailforsupport)
 
 	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-//	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
+	ON_COMMAND(ID_FILE_NEW, CWinAppEx::OnFileNew)
+//	ON_COMMAND(ID_FILE_OPEN, CWinAppEx::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 	ON_COMMAND(ID_FILE_OPEN, CTinyCadApp::OnMyFileOpen)
 
 	// Standard print setup command
-	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinAppEx::OnFilePrintSetup)
 
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -320,6 +308,12 @@ COLORREF CTinyCadApp::m_colours[16];
 HACCEL CTinyCadApp::m_hAccelTable;
 bool CTinyCadApp::m_translateAccelerator = false;
 
+bool m_hiddenWindow = false;
+
+#pragma comment(linker, "\"/manifestdependency:type='win32'\
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
 //=========================================================================
@@ -335,13 +329,29 @@ BOOL CTinyCadApp::InitInstance()
 	// InitCommonControls() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
-	InitCommonControls();
+	//InitCommonControls();
+	INITCOMMONCONTROLSEX CommonControls;
+	CommonControls.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	// I could not see any effect of the specific value here
+	CommonControls.dwICC = ICC_STANDARD_CLASSES;
+	InitCommonControlsEx(&CommonControls);
 
-	// Now run the standard CWinApp initInstance() function
-	CWinApp::InitInstance();
+	// Now run the standard CWinAppEx initInstance() function
+	CWinAppEx::InitInstance();
+
+
+	InitContextMenuManager();
+	InitShellManager();
+	InitKeyboardManager();
+	InitTooltipManager();
+	CMFCToolTipInfo ttParams;
+	ttParams.m_bVislManagerTheme = TRUE;
+	GetTooltipManager()->
+		SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
 	//djl - this next line doesn't work, presumably because this is not the console!
-	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() after call to CWinApp::InitInstance()\r\n"));
+	_cwprintf(_T("CTinyCadApp::InitInstance():  This is displayed by _cwprintf() after call to CWinAppEx::InitInstance()\r\n"));
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -372,15 +382,15 @@ BOOL CTinyCadApp::InitInstance()
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views.
 	m_pDocTemplate = new CMultiDocTemplate(IDR_TCADTYPE, RUNTIME_CLASS(CTinyCadMultiDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CTinyCadView));
+			RUNTIME_CLASS(CTinyCadView));
 	AddDocTemplate(m_pDocTemplate);
 
 	m_pLibTemplate = new CMultiDocTemplate(IDR_LIBTYPE, RUNTIME_CLASS(CLibraryDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CLibraryView));
+			RUNTIME_CLASS(CLibraryView));
 	AddDocTemplate(m_pLibTemplate);
 
 	m_pTxtTemplate = new CMultiDocTemplate(IDR_TXTTYPE, RUNTIME_CLASS(CTextEditDoc), RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-	RUNTIME_CLASS(CTextEditView));
+			RUNTIME_CLASS(CTextEditView));
 	AddDocTemplate(m_pTxtTemplate);
 
 	// Enable DDE Execute open
@@ -391,14 +401,17 @@ BOOL CTinyCadApp::InitInstance()
 	CTinyCadCommandLineInfo cmdInfo; //This is the TinyCAD overridden command line parser class
 	ParseCommandLine(cmdInfo); //This parses all of the options on the command line
 
+	CPane::m_bHandleMinSize = true;
+
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
-	pMainFrame->runAsConsoleApp = cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile(); //Check for all commands that need to run as a console app here
+	pMainFrame->runAsConsoleApp = cmdInfo.IsConsoleApp(); //Check for all commands that need to run as a console app here
 	pMainFrame->consoleAppRetCode = -1; //default value indicates failure - will be set to 0 or an exit code by any console app functions that are run.  Not used in GUI mode.
 
 	if (pMainFrame->runAsConsoleApp)
 	{ //This is a TinyCAD specific custom command line argument - hide all windows
 		m_nCmdShow = SW_HIDE; //This flag will be explicitly checked by the NOTOOL window to see whether it should be shown or hidden
+		m_hiddenWindow = true;
 	}
 	else if (CTinyCadRegistry::GetMaximize() && m_nCmdShow == 1)
 	{
@@ -406,12 +419,13 @@ BOOL CTinyCadApp::InitInstance()
 	}
 
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) return FALSE;
+
 	m_pMainWnd = pMainFrame;
 
 	//Set up the proper help file mode and strings
-	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinApp startup to avoid a memory leak.  The string is allocated before InitInstance is called.
+	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinAppEx startup to avoid a memory leak.  The string is allocated before InitInstance is called.
 	//Change the name of the .HLP file.
-	//The CWinApp destructor will free the memory.
+	//The CWinAppEx destructor will free the memory.
 	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.chm"));	//Create the new help file path name
 	SetHelpMode(afxHTMLHelp);
 
@@ -449,8 +463,12 @@ BOOL CTinyCadApp::InitInstance()
 				TCHAR workingDirectory[1024];
 				workingDirectory[0] = _T('\0');
 				GetCurrentDirectory(1024, workingDirectory);	//This may cause an error on systems older than WinXP
-				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", cmdInfo.m_strFileName, workingDirectory);
-				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName, workingDirectory);
+
+				/*  djl hollar */
+				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", (char *) cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
+
+
+				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
 			}
 		}
 		return FALSE;
@@ -459,36 +477,40 @@ BOOL CTinyCadApp::InitInstance()
 	CTinyCadMultiDoc *pDesign = NULL; //This will be used to hold the FileOpen document, if running as a console app.  Not used otherwise.
 	int retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
 
-	if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
-	{ //This is a TinyCAD specific custom command line argument
-		if (cmdInfo.IsGenerateSpiceFile())
-		{ //Run spice netlister here in hidden mode since this has been invoked from a command prompt
-			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
+	if (cmdInfo.IsConsoleApp())
+	{
+		if (cmdInfo.IsGenerateSpiceFile() || cmdInfo.IsGenerateXMLNetlistFile())
+		{ //This is a TinyCAD specific custom command line argument
+			if (cmdInfo.IsGenerateSpiceFile())
+			{ //Run spice netlister here in hidden mode since this has been invoked from a command prompt
+				TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the Spice netlister.\n");
 
-			// The main window has been initialized, so show and update it in hidden display mode.
-			pMainFrame->ShowWindow(m_nCmdShow);
-			pMainFrame->UpdateWindow();
+				// The main window has been initialized, so show and update it in hidden display mode.
+				pMainFrame->ShowWindow(m_nCmdShow);
+				pMainFrame->UpdateWindow();
 
-			//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
-			POSITION localPosition = m_pDocTemplate->GetFirstDocPosition(); //The open design is the only design file in the template collection at this point
-			pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
+				//Retrieve a pointer to the newly opened CTinyCadMultiDoc (i.e., the dsn file that the command prompt just opened)
+				POSITION localPosition = m_pDocTemplate->GetFirstDocPosition(); //The open design is the only design file in the template collection at this point
+				pDesign = static_cast<CTinyCadMultiDoc *> (m_pDocTemplate->GetNextDoc(localPosition));
 
-			static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
-			retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+				static_cast<CTinyCadView *> (pMainFrame->GetActiveView())->CommandPromptCreatespicefile(pDesign, cmdInfo.m_strFileName, cmdInfo.getOutputDirectory()); //create the spice file
+				retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+			}
+			else
+			{ //Run XML netlister here!
+				TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
+				//retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
+			}
+			//Now take an early exit
+			ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
+
+			//Close opened document(s) and anything else created here in InitInstance that needs closing
+			//Note:  If due to some unanticipated error in the netlist, a dialog box does manage to pop up, not closing it here will cause memory leaks.
+			//The only way to handle this properly is to either write a stand-alone command line program, or anticipate all of the possible errors, or simply accept that a memory leak will occur!
+			if (pDesign)
+				pDesign->OnCloseDocument();
+
 		}
-		else
-		{ //Run XML netlister here!
-			TRACE("CTinyCad::InitInstance() received TinyCad command argument to run the XML netlister.\n");
-			//retCode = pMainFrame->consoleAppRetCode; //Save the return code so it can be used for console mode after the mainframe document is destroyed.
-		}
-		//Now take an early exit
-		ATLTRACE2("CTinyCad::InitInstance():  Console mode operation is completed.  Sending Quit message\n");
-
-		//Close opened document(s) and anything else created here in InitInstance that needs closing
-		//Note:  If due to some unanticipated error in the netlist, a dialog box does manage to pop up, not closing it here will cause memory leaks.
-		//The only way to handle this properly is to either write a stand-alone command line program, or anticipate all of the possible errors, or simply accept that a memory leak will occur!
-		pDesign->OnCloseDocument();
-
 		//Send the WinApp::run() loop a message to quit and also transfer the desired error code back to Windows.  A batch file running a console mode TinyCAD command will receive this code.
 		AfxPostQuitMessage(retCode);
 	}
@@ -757,7 +779,7 @@ void CTinyCadApp::ReadRegistry()
 				else
 				{ //no known library format was found
 					CString s;
-					s.Format(_T("    Library not found in any format:\r\n\\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
+					s.Format(_T("    Library not found in any format:\r\n\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
 					AfxMessageBox(s);
 				}
 			}
@@ -888,28 +910,24 @@ void CTinyCadApp::OnMyFileOpen()
 	//manual open using CFileDialog to get around buggy Microsoft MFC code that affects Windows 8.1
 	//example code copied and modified taken from http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 	
-	CString strDocFileName = _T(""); 
-	CFileDialog *pDlg;
+	CFileDialog pDlg(TRUE, _T("*.dsn"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+					_T("TinyCAD file (*.dsn)|*.dsn|All files (*.*)|*.*||"), AfxGetMainWnd());
 
-	pDlg = new CFileDialog (TRUE,_T("dsn"),strDocFileName,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,NULL,NULL);
-
-	if(pDlg->DoModal()==IDOK)
+	if(pDlg.DoModal()==IDOK)
 	{
-		strDocFileName = pDlg->GetPathName();
+		CString strDocFileName = pDlg.GetPathName();
 
 		//the next line is optained from the following mfc source file
 		//C:\Program Files\Microsoft Visual Studio 9.0\VC\atlmfc\src\mfc\docmgr.cpp
 		AfxGetApp()->OpenDocumentFile(strDocFileName);
 	}
-
-	delete pDlg;
 }
 
 //-------------------------------------------------------------------------
 // This is the idle time processing
 BOOL CTinyCadApp::OnIdle(LONG nCount)
 {
-	CWinApp::OnIdle(nCount);
+	CWinAppEx::OnIdle(nCount);
 
 	if (nCount == 0)
 	{
@@ -1016,7 +1034,7 @@ BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 			}
 		}
 	}
-	return CWinApp::ProcessMessageFilter(code, lpMsg);
+	return CWinAppEx::ProcessMessageFilter(code, lpMsg);
 }
 
 //-------------------------------------------------------------------------
@@ -1122,6 +1140,12 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+
+	//Note:  In Windows 8.1 and above, only the compatibility mode settings will be reported by the deprecated call to GetVersionEx() unless no compatibility mode settings have been set.
+	//In addition, the OS may include extension DLL's that change the effective capabilities of the OS and these will not be reported, according to MSDN
+	//This code needs to be upgraded to one of the newer system calls to identify the compatibility OS as well as the actual underlying OS
+
+
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*) &osvi);
 
 	if (bOsVersionInfoEx == 0)
@@ -1144,81 +1168,114 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 
 	// Test for the specific product.
 	os << L"Microsoft ";
-	if (osvi.dwMajorVersion == 6)
+	if (osvi.dwMajorVersion >= 6)
 	{
-		if (osvi.dwMinorVersion == 0)
-		{
-			if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows Vista ";
-			else os << "Windows Server 2008 ";
-		}
-		if (osvi.dwMinorVersion == 1)
-		{
-			if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
-			else os << "Windows Server 2008 R2 ";
-		}
 
-		PGPI pGPI = (PGPI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
+		PGPI pGPI = (PGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
 		pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.wServicePackMajor, osvi.wServicePackMinor, &dwType);
+
+		if (osvi.dwMajorVersion == 10)
+		{
+			if (osvi.dwMinorVersion == 0)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 10 ";
+				else os << "Windows Server 2016 ";
+			}
+			else {
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "[Unrecognized Windows 10 Minor Version] ";
+				else os << "[Unrecognized Windows Server 2016 Minor Version] ";
+			}
+		}
+		else if (osvi.dwMajorVersion == 6)
+		{
+			if (osvi.dwMinorVersion == 0)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows Vista ";
+				else os << "Windows Server 2008 ";
+			}
+			else if (osvi.dwMinorVersion == 1)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
+				else os << "Windows Server 2008 R2 ";
+			}
+			else if (osvi.dwMinorVersion == 2)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 8 ";
+				else os << L"[Unrecognized Windows " << L"Server" << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+			}
+			else {
+				os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+			}
+		}
+		else {
+			os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
+		}
 
 		switch (dwType)
 		{
-			case PRODUCT_ULTIMATE:
-				os << "Ultimate Edition";
-				break;
-			case PRODUCT_PROFESSIONAL:
-				os << "Professional";
-				break;
-			case PRODUCT_HOME_PREMIUM:
-				os << "Home Premium Edition";
-				break;
-			case PRODUCT_HOME_BASIC:
-				os << "Home Basic Edition";
-				break;
-			case PRODUCT_ENTERPRISE:
-				os << "Enterprise Edition";
-				break;
-			case PRODUCT_BUSINESS:
-				os << "Business Edition";
-				break;
-			case PRODUCT_STARTER:
-				os << "Starter Edition";
-				break;
-			case PRODUCT_CLUSTER_SERVER:
-				os << "Cluster Server Edition";
-				break;
-			case PRODUCT_DATACENTER_SERVER:
-				os << "Datacenter Edition";
-				break;
-			case PRODUCT_DATACENTER_SERVER_CORE:
-				os << "Datacenter Edition (core installation)";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER:
-				os << "Enterprise Edition";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER_CORE:
-				os << "Enterprise Edition (core installation)";
-				break;
-			case PRODUCT_ENTERPRISE_SERVER_IA64:
-				os << "Enterprise Edition for Itanium-based Systems";
-				break;
-			case PRODUCT_SMALLBUSINESS_SERVER:
-				os << "Small Business Server";
-				break;
-			case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-				os << "Small Business Server Premium Edition";
-				break;
-			case PRODUCT_STANDARD_SERVER:
-				os << "Standard Edition";
-				break;
-			case PRODUCT_STANDARD_SERVER_CORE:
-				os << "Standard Edition (core installation)";
-				break;
-			case PRODUCT_WEB_SERVER:
-				os << "Web Server Edition";
-				break;
-			default:
-				os << "[Unrecognized Windows Type - TinyCAD needs to update the Windows SDK]";
-				break;
+		case PRODUCT_ULTIMATE:
+			os << "Ultimate Edition";
+			break;
+		case PRODUCT_PROFESSIONAL:
+			os << "Professional";
+			break;
+		case PRODUCT_HOME_PREMIUM:
+			os << "Home Premium Edition";
+			break;
+		case PRODUCT_HOME_BASIC:
+			os << "Home Basic Edition";
+			break;
+		case PRODUCT_ENTERPRISE:
+			os << "Enterprise Edition";
+			break;
+		case PRODUCT_BUSINESS:
+			os << "Business Edition";
+			break;
+		case PRODUCT_STARTER:
+			os << "Starter Edition";
+			break;
+		case PRODUCT_CLUSTER_SERVER:
+			os << "Cluster Server Edition";
+			break;
+		case PRODUCT_DATACENTER_SERVER:
+			os << "Datacenter Edition";
+			break;
+		case PRODUCT_DATACENTER_SERVER_CORE:
+			os << "Datacenter Edition (core installation)";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER:
+			os << "Enterprise Edition";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER_CORE:
+			os << "Enterprise Edition (core installation)";
+			break;
+		case PRODUCT_ENTERPRISE_SERVER_IA64:
+			os << "Enterprise Edition for Itanium-based Systems";
+			break;
+		case PRODUCT_SMALLBUSINESS_SERVER:
+			os << "Small Business Server";
+			break;
+		case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
+			os << "Small Business Server Premium Edition";
+			break;
+		case PRODUCT_STANDARD_SERVER:
+			os << "Standard Edition";
+			break;
+		case PRODUCT_STANDARD_SERVER_CORE:
+			os << "Standard Edition (core installation)";
+			break;
+		case PRODUCT_WEB_SERVER:
+			os << "Web Server Edition";
+			break;
+		default:
+			os << L"[Unrecognized product type = " << dwType << L"]";
+			break;
+		}
+
+		if (osvi.dwMajorVersion >= 6)
+		{
+			if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) os << ", 64-bit processor";
+			else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL) os << ", 32-bit processor";
 		}
 	}
 
@@ -1285,11 +1342,19 @@ bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
 	}
 	os << L" (build " << osvi.dwBuildNumber << L")";
 
-	if (osvi.dwMajorVersion >= 6)
-	{
-		if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) os << ", 64-bit";
-		else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL) os << ", 32-bit";
-	}
 	wcscpy_s(str, bufferSize, os.str().c_str());
 	return true;
+}
+
+BOOL CTinyCadApp::LoadWindowPlacement(CRect& rectNormalPosition, int& nFflags, int& nShowCmd)
+{
+	if (m_hiddenWindow)
+	{	// Force window to be hidden
+		nShowCmd = SW_HIDE;
+		BOOL result = CWinAppEx::LoadWindowPlacement(rectNormalPosition, nFflags, nShowCmd);
+		nShowCmd = SW_HIDE;
+		m_nCmdShow = SW_HIDE;
+		return result;
+	}
+	return CWinAppEx::LoadWindowPlacement(rectNormalPosition, nFflags, nShowCmd);
 }

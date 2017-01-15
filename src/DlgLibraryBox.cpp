@@ -157,56 +157,73 @@ void CDlgLibraryBox::OnOK()
 //-- Adds it to collection and listbox
 void CDlgLibraryBox::OnAdd()
 {
-	TCHAR szFile[256];
+	CFileDialog dlg(TRUE, _T("*.TCLib"), NULL, OFN_ALLOWMULTISELECT,
+		_T("TinyCAD Library (*.TCLib)|*.TCLib|Legacy Library (*.mdb, *idx, *.TCLib)|*.mdb;*.idx;*.TCLib|All files (*.*)|*.*||"), AfxGetMainWnd());
 
-	_tcscpy_s(szFile, _T("*.TCLib;*.mdb;*.idx\0"));
+	// Create buffer for file names. 
+	const DWORD numberOfFileNames = 100;
+	const DWORD fileNameMaxLength = MAX_PATH + 1;
+	const DWORD bufferSize = (numberOfFileNames * fileNameMaxLength) + 1;
+	TCHAR* filenamesBuffer = new TCHAR[bufferSize];
 
-	CFileDialog dlg(TRUE, _T("*.TCLib"), szFile, OFN_HIDEREADONLY, _T("Library file (*.TCLib, *.mdb, *idx)|*.TCLib;*.mdb;*.idx|All files (*.*)|*.*||"), AfxGetMainWnd());
+	// Initialize beginning and end of buffer.
+	filenamesBuffer[0] = NULL;
+	filenamesBuffer[bufferSize - 1] = NULL;
+
+	// Attach buffer to OPENFILENAME member.
+	dlg.m_ofn.lpstrFile = filenamesBuffer;
+	dlg.m_ofn.nMaxFile = bufferSize;
 
 	if (dlg.DoModal() == IDOK)
 	{
-		_tcscpy_s(szFile, dlg.GetPathName());
-
-		// Remove the extension
-		TCHAR *brk = _tcsrchr(szFile, '.');
-		if (brk)
+		// Retrieve file name(s).
+		POSITION fileNamesPosition = dlg.GetStartPosition();
+		while (fileNamesPosition != NULL)
 		{
-			*brk = 0;
-		}
-		else
-		{
-			brk = szFile;
-		}
+			CString csFileName(dlg.GetNextPathName(fileNamesPosition));
+			CString csExt;
 
-		// Create the library
-		CLibraryStore* NewLib;
+			// Remove the extension
+			int lastindex = csFileName.ReverseFind('.');
+			if (lastindex > 0)
+			{
+				csExt = csFileName.Right(csFileName.GetLength() - (lastindex + 1)).MakeLower();
+				csFileName = csFileName.Left(lastindex);
+			}
+			
+			// Create the library
+			CLibraryStore* NewLib;
 
-		if (_tcsicmp(brk + 1, _T("idx")) == 0)
-		{
-			NewLib = new CLibraryFile;
-		}
-		else if (_tcsicmp(brk + 1, _T("mdb")) == 0)
-		{
-			NewLib = new CLibraryDb;
-		}
-		else
-		{
-			NewLib = new CLibrarySQLite;
-		}
+			if (csExt == _T("idx"))
+			{
+				NewLib = new CLibraryFile;
+			}
+			else if (csExt == _T("mdb"))
+			{
+				NewLib = new CLibraryDb;
+			}
+			else
+			{
+				NewLib = new CLibrarySQLite;
+			}
 
-		NewLib->Attach(szFile);
+			BOOL libraryLoaded = NewLib->Attach(csFileName);
 
-		// Now add it to the library linked list
-		if (!CLibraryCollection::Contains(NewLib))
-		{
-			CLibraryCollection::Add(NewLib);
-			RefreshComponents(true);
-
-			// Finally update the symbol picker...
-			CTinyCadApp::ResetAllSymbols();
+			// Now add it to the library linked list
+			if (libraryLoaded && !CLibraryCollection::Contains(NewLib))
+			{
+				CLibraryCollection::Add(NewLib);
+				RefreshComponents(true);
+			}
 		}
+		// Finally update the symbol picker...
+		CTinyCadApp::ResetAllSymbols();
 	}
+
+	// Release file names buffer. 
+	delete[] filenamesBuffer;
 }
+
 //-------------------------------------------------------------------------
 //-- Removes a library from collection and listbox
 void CDlgLibraryBox::OnRemove()
@@ -281,29 +298,28 @@ void CDlgLibraryBox::OnEdit()
 //--
 void CDlgLibraryBox::OnNew()
 {
-	TCHAR szFile[256];
-
-	_tcscpy_s(szFile, _T("*.TCLib\0"));
-
-	CFileDialog dlg(FALSE, _T("*.TCLib"), szFile, OFN_HIDEREADONLY, _T("Library database in SQLite3 format (*.TCLib)|*.TCLib|Library database in MSJet format (*.mdb)|*.mdb|All files (*.*)|*.*||"), AfxGetMainWnd());
+	CFileDialog dlg(FALSE, _T("TCLib"), NULL, OFN_HIDEREADONLY, 
+					_T("TinyCAD Library (*.TCLib)|*.TCLib|Library database in old MSJet format (*.mdb)|*.mdb|All files (*.*)|*.*||"), 
+					AfxGetMainWnd());
 
 	if (dlg.DoModal() == IDOK)
 	{
 		// Remove the extension
-		_tcscpy_s(szFile, dlg.GetPathName());
-		TCHAR *brk = _tcsrchr(szFile, '.');
-		if (brk)
+		CString csFileName(dlg.GetPathName());
+		CString csExt;
+
+		// Remove the extension
+		int lastindex = csFileName.ReverseFind('.');
+		if (lastindex > 0)
 		{
-			*brk = 0;
-		}
-		else
-		{
-			brk = szFile;
+			csExt = csFileName.Right(csFileName.GetLength() - (lastindex + 1)).MakeLower();
+			csFileName = csFileName.Left(lastindex);
 		}
 
 		// Create the library object
 		CLibraryStore* NewLib;
-		if (_tcsicmp(brk + 1, _T("mdb")) == 0)
+
+		if (csExt == _T("mdb"))
 		{
 			// When you explicitly ask for an MDB, you get an MDB!
 			NewLib = new CLibraryDb;
@@ -314,7 +330,7 @@ void CDlgLibraryBox::OnNew()
 		}
 
 		// .. and create the file
-		if (NewLib->Create(szFile))
+		if (NewLib->Create(csFileName))
 		{
 			// Now add it to the library linked list
 			CLibraryCollection::Add(NewLib);

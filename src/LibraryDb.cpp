@@ -41,7 +41,7 @@ CLibraryDb::~CLibraryDb()
 }
 
 // Attach this library to a file
-void CLibraryDb::Attach(const TCHAR *filename)
+BOOL CLibraryDb::Attach(const TCHAR *filename)
 {
 	m_name = filename;
 
@@ -99,6 +99,8 @@ void CLibraryDb::Attach(const TCHAR *filename)
 
 			name_set.MoveNext();
 		}
+		return TRUE;
+
 	} catch (CException *e)
 	{
 		CString s;
@@ -108,7 +110,7 @@ void CLibraryDb::Attach(const TCHAR *filename)
 		s.Format(_T("Cannot open library %s.\r\n%s"), m_name, msg);
 		AfxMessageBox(s);
 		e->Delete();
-		return;
+		return FALSE;
 	}
 }
 

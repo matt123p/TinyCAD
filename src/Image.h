@@ -17,7 +17,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// Image.h: interface for the CImage class.
+// Image.h: interface for the CTCImage class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,11 +29,11 @@
 #endif // _MSC_VER > 1000
 class CXMLWriter;
 
-class CImage
+class CTCImage
 {
 public:
-	CImage();
-	virtual ~CImage();
+	CTCImage();
+	virtual ~CTCImage();
 
 	// Write as an UUENCODE XML tag
 	virtual void SaveXML(CXMLWriter &xml) = 0;
