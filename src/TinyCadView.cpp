@@ -1333,7 +1333,8 @@ void CTinyCadView::OnUpdateEditpaste(CCmdUI* pCmdUI)
 {
 	BOOL r = IsClipboardAvailable() 
 		|| ::IsClipboardFormatAvailable( CF_ENHMETAFILE )
-		|| ::IsClipboardFormatAvailable( CF_BITMAP );
+		|| ::IsClipboardFormatAvailable( CF_BITMAP )
+		|| ::IsClipboardFormatAvailable( CF_TEXT );
 	pCmdUI->Enable(r);
 }
 
@@ -1541,7 +1542,7 @@ void CTinyCadView::OnFileSaveasbitmap()
 
 	// Get the file in which to save the network
 	TCHAR szFile[256];
-
+	szFile[0] = '\0';
 	_tcscpy_s(szFile, GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile, '.');
 	if (!ext)
@@ -1612,7 +1613,7 @@ void CTinyCadView::OnEditInsertpicture()
 	// switch back to the Edit tool
 	GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
 
-	CFileDialog dlg( TRUE, ALL_IMAGE_FILES, NULL, OFN_HIDEREADONLY,
+	CFileDialog dlg( TRUE, ALL_IMAGE_FILES, ALL_IMAGE_FILES, OFN_HIDEREADONLY,
 		_T("Image files|") ALL_IMAGE_FILES _T("|")
 		_T("Portable network graphic (*.png)|*.png|")
 		_T("JPEG (*.jpeg)|*.jpeg;*.jpg;*.jpe|")

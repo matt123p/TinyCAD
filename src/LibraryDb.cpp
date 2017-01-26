@@ -107,7 +107,7 @@ BOOL CLibraryDb::Attach(const TCHAR *filename)
 		CString msg;
 		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot open library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot open library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		e->Delete();
 		return FALSE;
@@ -363,7 +363,7 @@ bool CLibraryDb::Create(const TCHAR *filename)
 		CString msg;
 		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot create library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		e->Delete();
 		return false;
@@ -512,7 +512,7 @@ bool CLibraryDb::Create(const TCHAR *filename)
 		CString msg;
 		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot create library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		e->Delete();
 		return false;

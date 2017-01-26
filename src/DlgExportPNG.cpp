@@ -95,7 +95,7 @@ void CDlgExportPNG::OnBrowse()
 
 	// Generate the filter string from the extension
 	TCHAR szFilter[256];
-	_stprintf_s(szFilter, _T("%s (*%s)|*%s|All files (*.*)|*.*||"), t.GetBuffer(), ext.GetBuffer(), ext.GetBuffer());
+	_stprintf_s(szFilter, _T("%s (*%s)|*%s|All files (*.*)|*.*||"), (LPCTSTR)t, (LPCTSTR)ext, (LPCTSTR)ext);
 
 	CFileDialog dlg(FALSE, "*" + ext, m_Filename, OFN_HIDEREADONLY, szFilter, AfxGetMainWnd());
 

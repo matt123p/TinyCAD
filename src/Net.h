@@ -118,7 +118,7 @@ public:
 			 *	same design is 1, etc.).  This may be a bit problematic because this sequence may not guarantee uniqueness in all
 			 *	situations. Only further testing will reveal if this is a problem or not.
 			 */
-			s.Format(_T("_HN_%d_%s"), m_file_name_index, m_label);
+			(void) s.Format(_T("_HN_%d_%s"), m_file_name_index, (LPCTSTR)m_label);
 //			TRACE("In getLabel() of hierarchical node.  Constructed label name=[%S], m_pParent->GetName()=[%S], underlying label name=[%S]\n",
 //					s, 
 //					m_parent->GetName(),

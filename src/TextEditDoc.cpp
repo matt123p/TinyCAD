@@ -92,7 +92,7 @@ BOOL CTextEditDoc::LoadFile(const TCHAR *file_name, bool read_only)
 		CString msg;
 		e.GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot load file.\r\n%s"), msg);
+		s.Format(_T("Cannot load file.\r\n%s"), (LPCTSTR)msg);
 		AfxMessageBox(s);
 
 		return FALSE;

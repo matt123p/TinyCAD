@@ -33,7 +33,7 @@ BOOL CDlgAbout::OnInitDialog()
 	super::OnInitDialog();
 
 	CString sVersion;
-	sVersion.Format(_T("%s %s %s"), CTinyCadApp::GetName(), CTinyCadApp::GetVersion(), CTinyCadApp::GetReleaseType());
+	sVersion.Format(_T("%s %s %s"), (LPCTSTR)CTinyCadApp::GetName(), (LPCTSTR)CTinyCadApp::GetVersion(), (LPCTSTR)CTinyCadApp::GetReleaseType());
 	GetDlgItem(IDC_VERSION)->SetWindowText(sVersion);
 
 	CString sWindowsVersion;

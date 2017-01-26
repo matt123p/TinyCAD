@@ -203,6 +203,7 @@ void CTinyCadView::OnSpecialBom()
 
 	// Get the file in which to save the network
 	TCHAR szFile[256];
+	szFile[0] = '\0';
 	_tcscpy_s(szFile, GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile, '.');
 	if (!ext)

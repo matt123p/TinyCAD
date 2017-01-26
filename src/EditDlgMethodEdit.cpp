@@ -508,6 +508,7 @@ void CEditDlgMethodEdit::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 	dc.Rectangle(&lpDrawItemStruct->rcItem);
 
 	TCHAR buffer[256];
+	buffer[0] = '\0';
 	int left = 0;
 	int right = lpDrawItemStruct->rcItem.right;
 	for (int column = 2; column >= 0; column--)

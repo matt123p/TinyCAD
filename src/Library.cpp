@@ -158,7 +158,7 @@ BOOL CLibraryFile::Attach(const TCHAR *FileName)
 			CString msg;
 			e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 			msg.ReleaseBuffer();
-			s.Format(_T("Cannot read library %s.\r\n%s"), m_name, msg);
+			s.Format(_T("Cannot read library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 			AfxMessageBox(s);
 			e->Delete();
 		}
@@ -169,7 +169,7 @@ BOOL CLibraryFile::Attach(const TCHAR *FileName)
 		CString msg;
 		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot read library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot read library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		e->Delete();
 	}
@@ -194,6 +194,7 @@ CString CLibraryFile::MethodsFileName()
 	{
 		hold = m_name + ".m";
 		TCHAR buffer[10];
+		buffer[0] = (TCHAR) '\0';
 
 		_itot_s(revision, buffer, 10);
 

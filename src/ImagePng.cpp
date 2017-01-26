@@ -715,7 +715,7 @@ void CImagePNG::CreateOutputBitmap(CBitmap &output, CDC &dc)
 	unsigned char *ScreenBuffer = NULL;
 	HBITMAP hb = CreateDIBSection(dc.m_hDC, &q.bi, DIB_RGB_COLORS, (void**) &ScreenBuffer, NULL, 0);
 	//int e = 
-		GetLastError();
+		(void) GetLastError();
 	output.Attach(hb);
 
 	unsigned char *Ptr = m_output_bits;

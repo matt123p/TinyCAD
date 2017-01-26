@@ -76,7 +76,7 @@ void CChildFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
 			csText = pDoc->GetTitle();
 		}
 
-		if (m_nWindow > 0) csText.Format(_T("%s: %d"), csText, m_nWindow);
+		if (m_nWindow > 0) csText.Format(_T("%s: %d"), (LPCTSTR)csText, (LPCTSTR)m_nWindow);
 		if (pDoc->IsModified()) csText += " *";
 
 		AfxSetWindowText(m_hWnd, csText);

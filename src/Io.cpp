@@ -419,7 +419,7 @@ BOOL CTinyCadDoc::ReadFile(CStream &theArchive, BOOL Details, drawingCollection 
 		CString msg;
 		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
 		msg.ReleaseBuffer();
-		s.Format(_T("Cannot load file.\r\n%s"), msg);
+		s.Format(_T("Cannot load file.\r\n%s"), (LPCTSTR)msg);
 		AfxMessageBox(s);
 		e->Delete();
 	}

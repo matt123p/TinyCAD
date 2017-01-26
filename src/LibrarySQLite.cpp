@@ -108,7 +108,7 @@ BOOL CLibrarySQLite::Attach(const TCHAR *filename)
 
 		CString s;
 		CString msg(e.errorMessage());
-		s.Format(_T("Cannot open library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot open library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		return FALSE;
 	}
@@ -210,7 +210,7 @@ void CLibrarySQLite::Store(CLibraryStoreNameSet *nwSymbol, CTinyCadMultiSymbolDo
 		m_database.execDML(_T("ROLLBACK TRANSACTION"));
 		CString s;
 		CString msg(e.errorMessage());
-		s.Format(_T("Error storing symbol into library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Error storing symbol into library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 	}
 
@@ -254,7 +254,7 @@ void CLibrarySQLite::DeleteSymbol(int SymbolID)
 		m_database.execDML(_T("ROLLBACK TRANSACTION"));
 		CString s;
 		CString msg(e.errorMessage());
-		s.Format(_T("Error deleting symbol from library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Error deleting symbol from library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 	}
 }
@@ -344,7 +344,7 @@ bool CLibrarySQLite::Create(const TCHAR *filename)
 	{
 		CString s;
 		CString msg(e.errorMessage());
-		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot create library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		return false;
 	}
@@ -394,7 +394,7 @@ bool CLibrarySQLite::Create(const TCHAR *filename)
 		m_database.execDML(_T("ROLLBACK TRANSACTION"));
 		CString s;
 		CString msg(e.errorMessage());
-		s.Format(_T("Cannot create library %s.\r\n%s"), m_name, msg);
+		s.Format(_T("Cannot create library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
 		AfxMessageBox(s);
 		return false;
 	}

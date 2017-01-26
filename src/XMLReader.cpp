@@ -363,7 +363,7 @@ bool CXMLReader::closeTag()
 			else
 			{
 				CString diagnosticMessage;
-				diagnosticMessage.Format(_T("Error:  XMLReader line #378:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"), name, close_name, m_line_counter);
+				diagnosticMessage.Format(_T("Error:  XMLReader line #378:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"), (LPCTSTR)name, (LPCTSTR)close_name, m_line_counter);
 				TRACE(diagnosticMessage);
 				throw new CXMLException(ERR_XML_WRONG_CLOSE, m_line_counter, TRUE);
 			}
@@ -454,7 +454,7 @@ void CXMLReader::outofTag()
 		if (get_current_tag()->m_tag_name != check_name)
 		{
 			CString diagnosticMessage;
-			diagnosticMessage.Format(_T("Error:  XMLReader line #475:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"), check_name, get_current_tag()->m_tag_name, m_line_counter);
+			diagnosticMessage.Format(_T("Error:  XMLReader line #475:  ERR_XML_WRONG_CLOSE:  Expecting tag [%s], but found tag [%s].  Current line number = %d.\n"), (LPCTSTR)check_name, (LPCTSTR)get_current_tag()->m_tag_name, m_line_counter);
 			TRACE(diagnosticMessage);
 
 			throw new CXMLException(ERR_XML_WRONG_CLOSE, m_line_counter, TRUE);

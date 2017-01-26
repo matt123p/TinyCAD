@@ -1205,7 +1205,7 @@ public:
 		CString s;
 		if (file_name_index != 0 && use_file_index)
 		{
-			s.Format(_T("%d_%s"), file_name_index, m_fields[Ref].m_value);
+			s.Format(_T("%d_%s"), file_name_index, (LPCTSTR)m_fields[Ref].m_value);
 		}
 		else
 		{
@@ -1215,7 +1215,7 @@ public:
 		if (use_sheet)
 		{
 			CString r;
-			r.Format(_T("%d%s"), sheet, s);
+			r.Format(_T("%d%s"), sheet, (LPCTSTR)s);
 			return r;
 		}
 		else

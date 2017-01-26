@@ -413,7 +413,7 @@ int CDrawMethod::GetRefVal()
 void CDrawMethod::SetRefVal(int value)
 {
 	TCHAR Buffer[10];
-
+	Buffer[0] = 0;
 	_itot_s(value, Buffer, 10);
 	m_fields[Ref].m_value = GetSymbolData()->reference;
 	m_fields[Ref].m_value = m_fields[Ref].m_value.Left(m_fields[Ref].m_value.ReverseFind('?')) + Buffer;

@@ -95,6 +95,7 @@ void CTinyCadView::OnFindFind()
 			if (theFoundString != "")
 			{
 				TCHAR buffer[STRLEN];
+				buffer[0] = '\0';
 				_tcscpy_s(buffer, pointer->GetName());
 				_tcscat_s(buffer, _T(": "));
 				_tcscat_s(buffer, theFoundString);
@@ -244,6 +245,32 @@ void CTinyCadView::OnEditPaste()
 		{
 			GetCurrentDocument()->AddImage(pObject);
 		}
+	}
+	else if (::IsClipboardFormatAvailable(CF_TEXT))
+	{
+		GetCurrentDocument()->BeginNewChangeSet();
+		GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+
+		// Now open the file
+		CStreamClipboard stream;
+
+		if (stream.ReadFromClipboard(CF_TEXT))
+		{
+			GetCurrentDocument()->SelectObject(NULL);
+
+			if (GetCurrentDocument()->Import(stream))
+			{
+				GetCurrentDocument()->PostPaste();
+				CDrawBlockImport *pImport = new CDrawBlockImport(GetCurrentDocument());
+				GetCurrentDocument()->SelectObject(pImport);
+				pImport->Import();
+			}
+			else
+			{
+				GetCurrentDocument()->SelectObject(new CDrawEditItem(GetCurrentDocument()));
+			}
+		}
+
 	}
 	else
 	{

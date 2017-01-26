@@ -56,7 +56,7 @@ extern "C" {FILE _iob[3] = { *stdin, *stdout, *stderr }; }
 void _ImageJpeg_dummy_()
 {
 	sprintf((char* const)NULL, (char const* const)NULL);
-	sscanf((char* const)NULL, (char const* const)NULL);
+	(void) sscanf((char* const)NULL, (char const* const)NULL);
 }
 #endif
 

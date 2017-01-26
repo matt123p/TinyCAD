@@ -268,7 +268,7 @@ void CLibraryCollection::FillMatchingSymbols(CTreeCtrl* Tree, const CString& sSe
 		{
 			sName = sName.Mid(sName.ReverseFind('\\') + 1);
 		}
-		sCaption.Format(_T("%s (%d)"), sName, matches);
+		sCaption.Format(_T("%s (%d)"), (LPCTSTR)sName, matches);
 		HTREEITEM hLib = Tree->InsertItem(sCaption, TVI_ROOT);
 		Tree->SetItemData(hLib, index);
 

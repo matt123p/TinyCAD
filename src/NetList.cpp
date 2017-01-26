@@ -134,7 +134,7 @@ void CNetList::createErrorFile(const TCHAR *filename)
 	{
 		if (static_cast<CMainFrame*>((static_cast<CTinyCadApp*>(AfxGetApp())->m_pMainWnd))->runAsConsoleApp)
 		{	//in console mode, also output the error message to stderr, wherever that might be pointed
-			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected or full and that sufficient permission is present for writing to this location.\n"), m_err_filename.GetBuffer());
+			_ftprintf(stderr, _T("TinyCAD command error:  Cannot open file %s for writing.  Make sure volume is not write protected or full and that sufficient permission is present for writing to this location.\n"), (LPCTSTR)m_err_filename);
 		}
 		else
 		{
@@ -817,7 +817,7 @@ void CNetList::Link(linkCollection& nets)
 						//xLabelEx2 is not associated with a symbol, so it doesn't have a reference designator.  get_partial_reference_path() must be used rather
 						//than get_reference_path() to avoid exceptions and a duplicate last reference designator.
 						//If get_partial_reference_path() contains at least one hierarchical designator, then it will also include a trailing underscore to be used as a separator
-						preferredNetName.Format(_T("%s%s"), get_partial_reference_path((CDrawMethod*) node.m_parent, m_imports[node.getFileNameIndex()], true), static_cast<CDrawLabel*> (node.m_parent)->GetValue());
+						preferredNetName.Format(_T("%s%s"), (LPCTSTR)get_partial_reference_path((CDrawMethod*) node.m_parent, m_imports[node.getFileNameIndex()], true), (LPCTSTR) (static_cast<CDrawLabel*> (node.m_parent)->GetValue()));
 					}
 					else
 					{
@@ -1447,7 +1447,7 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 							}
 						}
 
-						_ftprintf(theFile, _T("[\n%s\n%s\n%s\n\n\n\n]\n"), Ref.GetBuffer(), Package.GetBuffer(), Name.GetBuffer());
+						_ftprintf(theFile, _T("[\n%s\n%s\n%s\n\n\n\n]\n"), (LPCTSTR)Ref, (LPCTSTR)Package, (LPCTSTR)Name);
 					}
 				}
 
@@ -1487,7 +1487,7 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					add.Format(_T("%s-%s"), theNode.m_reference, theNode.m_pin);
+					add.Format(_T("%s-%s"), (LPCTSTR)theNode.m_reference, (LPCTSTR)theNode.m_pin);
 					len += add.GetLength();
 					if (len > 127)
 					{
@@ -1515,9 +1515,9 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			if (count > 1)
 			{
 				_ftprintf(theFile, _T("(\n"));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
+				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s\n)\n"), theLine.GetBuffer());
+				_ftprintf(theFile, _T("\n%s\n)\n"), (LPCTSTR)theLine);
 			}
 		}
 
@@ -1610,11 +1610,11 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 						} while (Ref.GetLength() < 8);
 						if (withValue && !Value.IsEmpty())
 						{
-							_ftprintf(theFile, _T("%s%s@%s\n"), Ref.GetBuffer(), Value.GetBuffer(), Package.GetBuffer());
+							_ftprintf(theFile, _T("%s%s@%s\n"), (LPCTSTR)Ref, (LPCTSTR)Value, (LPCTSTR)Package);
 						}
 						else
 						{
-							_ftprintf(theFile, _T("%s%s\n"), Ref.GetBuffer(), Package.GetBuffer());
+							_ftprintf(theFile, _T("%s%s\n"), (LPCTSTR)Ref, (LPCTSTR)Package);
 						}
 					}
 				}
@@ -1656,7 +1656,7 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					add.Format(_T("%s.%s"), theNode.m_reference, theNode.m_pin);
+					add.Format(_T("%s.%s"), (LPCTSTR)theNode.m_reference, (LPCTSTR)theNode.m_pin);
 					len += add.GetLength();
 					if (len > 127)
 					{
@@ -1684,9 +1684,9 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 			if (count > 1)
 			{
 				_ftprintf(theFile, _T("*SIGNAL*  "));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
+				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s\n"), theLine.GetBuffer());
+				_ftprintf(theFile, _T("\n%s\n"), (LPCTSTR)theLine);
 			}
 		}
 
@@ -1724,7 +1724,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 
 	CString temp;
 	temp = pDesign->GetPathName();
-	_ftprintf(theFile, NetComment _T(" ====+  Net List for %s  +====\n\n"), temp.GetBuffer());
+	_ftprintf(theFile, NetComment _T(" ====+  Net List for %s  +====\n\n"), (LPCTSTR)temp);
 
 	_ftprintf(theFile, NetComment _T(" ======+ The component list\n\n"));
 
@@ -1762,12 +1762,12 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 					{
 						referenced.insert(Ref);
 
-						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), Ref.GetBuffer(), Name.GetBuffer());
+						_ftprintf(theFile, _T("COMPONENT '%s' = %s\n"), (LPCTSTR)Ref, (LPCTSTR)Name);
 
 						/// Now write it's "other" references
 						for (int i = 2; i < pMethod->GetFieldCount(); i++)
 						{
-							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), pMethod->GetFieldName(i).GetBuffer(), pMethod->GetField(i).GetBuffer());
+							_ftprintf(theFile, _T("\tOPTION '%s' = %s\n"), (LPCTSTR)(pMethod->GetFieldName(i)), (LPCTSTR)(pMethod->GetField(i)));
 						}
 					}
 				}
@@ -1807,7 +1807,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					add.Format(_T("(%s,%s)"), theNode.m_reference, theNode.m_pin);
+					add.Format(_T("(%s,%s)"), (LPCTSTR)theNode.m_reference, (LPCTSTR)theNode.m_pin);
 					if (theNode.getLabel() != add)
 					{
 						if (first)
@@ -1829,13 +1829,13 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 				_ftprintf(theFile, _T("NET  "));
 				if (Labeled)
 				{
-					_ftprintf(theFile, _T("'%s'"), theLabel.GetBuffer());
+					_ftprintf(theFile, _T("'%s'"), (LPCTSTR)theLabel);
 				}
 				else
 				{
 					_ftprintf(theFile, _T("'N%06d'"), Label++);
 				}
-				_ftprintf(theFile, _T(" =  %s\n"), theLine.GetBuffer());
+				_ftprintf(theFile, _T(" =  %s\n"), (LPCTSTR)theLine);
 			}
 		}
 
@@ -1914,7 +1914,7 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 							}
 						}
 						/*     djl holler */
-						_ftprintf(theFile, _T("ADD '%s' %s R0 (0.%d 0.%d);\n"), Ref.GetBuffer(), Package.GetBuffer(), x_pos, y_pos);
+						_ftprintf(theFile, _T("ADD '%s' %s R0 (0.%d 0.%d);\n"), (LPCTSTR)Ref, (LPCTSTR)Package, x_pos, y_pos);
 
 						++x_pos;
 						if (x_pos == 10)
@@ -1963,7 +1963,7 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					add.Format(_T("   %s %s\n"), theNode.m_reference, theNode.m_pin);
+					add.Format(_T("   %s %s\n"), (LPCTSTR)theNode.m_reference, (LPCTSTR)theNode.m_pin);
 					theLine += add;
 					PrintLine = TRUE;
 				}
@@ -1971,9 +1971,9 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 			if (PrintLine)
 			{
 				_ftprintf(theFile, _T("SIGNAL "));
-				if (Labeled) _ftprintf(theFile, _T("%s"), theLabel.GetBuffer());
+				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
 				else _ftprintf(theFile, _T("N%06d"), Label++);
-				_ftprintf(theFile, _T("\n%s   ;\n"), theLine.GetBuffer());
+				_ftprintf(theFile, _T("\n%s   ;\n"), (LPCTSTR)theLine);
 			}
 		}
 
@@ -2268,7 +2268,7 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 				if (!theNode.m_reference.IsEmpty())
 				{
 					CString add;
-					add.Format(_T("%s-%s "), theNode.m_reference, theNode.m_pin);
+					add.Format(_T("%s-%s "), (LPCTSTR)theNode.m_reference, (LPCTSTR)theNode.m_pin);
 					if (theNode.getLabel() != add)
 					{
 						if (first)
@@ -2298,14 +2298,14 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 
 				if (Labeled)
 				{
-					aLabel.Format(_T("%s "), theLabel);
+					aLabel.Format(_T("%s "), (LPCTSTR)theLabel);
 				}
 				else
 				{
 					aLabel.Format(_T("N%06d "), Label++);
 				}
 
-				_ftprintf(theFile, _T(" %s  %s\n"), aLabel.GetBuffer(), theLine.GetBuffer()); //print the net label and net connections as ANSI characters
+				_ftprintf(theFile, _T(" %s  %s\n"), (LPCTSTR)aLabel, (LPCTSTR)theLine); //print the net label and net connections as ANSI characters
 			}
 		}
 
@@ -2341,13 +2341,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 
 	CString dateTime = myTime.Format(_T("%x at %X %z"));	//See http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx for list of formatting codes
 	/// Output the standard header comment - expected on line 1 by some Spice engines.  Spice netlist files denote comments with an asterisk in column 1.
-	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), dateTime.GetBuffer());
+	_ftprintf(theFile, _T("* Schematics Netlist created on %s *\n"), (LPCTSTR)dateTime);
 
 	createErrorFile(filename);
 
 	temp = pDesign->GetPathName();
 
-	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), temp.GetBuffer());
+	_ftprintf(m_err_file, _T("Results of Spice netlist generation for %s\n\n"), (LPCTSTR)temp);
 
 	/// Set the Busy icon
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_WAIT));
@@ -2564,7 +2564,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		while (i != s.end())
 		{
 			temp = *i;
-			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
+			_ftprintf(theFile, _T("%s\n"), (LPCTSTR)temp);
 			++i;
 		}
 	}
@@ -2591,13 +2591,13 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		if (!spice.IsEmpty())
 		{
 			CString temp;
-			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
+			_ftprintf(theFile, _T("%s\n"), (LPCTSTR)temp);
 		}
 		else
 		{
 			CString temp;
 			temp = symbol.m_pMethod->GetRef();
-			_ftprintf(theFile, _T("NO_MODEL found on %s\n"), temp.GetBuffer());
+			_ftprintf(theFile, _T("NO_MODEL found on %s\n"), (LPCTSTR)temp);
 			writeError(_T("%s: %s on sheet %d has no model\n"), symbol.m_pMethod->GetRef(), symbol.m_pMethod->GetName(), sheet);
 		}
 		++sit;
@@ -2612,7 +2612,7 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 		while (i != s.end())
 		{
 			temp = *i;
-			_ftprintf(theFile, _T("%s\n"), temp.GetBuffer());
+			_ftprintf(theFile, _T("%s\n"), (LPCTSTR)temp);
 			++i;
 		}
 	}
@@ -3064,7 +3064,7 @@ bool CNetList::get_pin_by_number(CNetListSymbol &symbol, labelCollection &labels
 		else if ( (labels.find(net) != labels.end()) && !labels[net].IsEmpty())
 		{
 			//labels[net] is not guaranteed to be unique for hierarchical designs so it must be combined with the net number and a reserved prefix to guarantee uniqueness
-			s.Format(_T("_N_%s_%d"), labels[net], net);
+			s.Format(_T("_N_%s_%d"), (LPCTSTR)labels[net], net);
 //			TRACE("CNetList::get_pin_by_number():  symbol=%S; did not find a user assigned net label for net=%d, so label \"%S\" was constructed to be associated with this net.\n", symbol.m_reference_copy, net, s);
 		}
 		else

@@ -190,13 +190,13 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 		_ftprintf(fout, _T("Reference,Quantity,Name"));
 		for (unsigned int i = 0; i < m_attrs.size(); i++)
 		{
-			_ftprintf(fout, _T(",%s"), m_attrs[i].GetBuffer());
+			_ftprintf(fout, _T(",%s"), (LPCTSTR) m_attrs[i]);
 		}
 		_ftprintf(fout, _T("\n"));
 	}
 	else
 	{
-		_ftprintf(fout, _T("====+  Parts List for %s  +====\n\n"), m_filename.GetBuffer());
+		_ftprintf(fout, _T("====+  Parts List for %s  +====\n\n"), (LPCTSTR) m_filename);
 	}
 
 	bomCollection::iterator itx = m_methods.begin();
@@ -214,7 +214,7 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 		{
 			if (csv)
 			{
-				_ftprintf(fout, _T("\",%3d,%s\n"), pieces, LastName.GetBuffer());
+				_ftprintf(fout, _T("\",%3d,%s\n"), pieces, (LPCTSTR) LastName);
 			}
 			else
 			{
@@ -226,7 +226,7 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 				}
 
 				// Write the name
-				_ftprintf(fout, _T("   %3d   %s\n"), pieces, LastName.GetBuffer());
+				_ftprintf(fout, _T("   %3d   %s\n"), pieces, (LPCTSTR) LastName);
 				Xpos = 0;
 			}
 
@@ -258,7 +258,7 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 				}
 				XInc(fout, Xpos, (ref).GetLength());
 			}
-			_ftprintf(fout, _T("%s"), ref.GetBuffer());
+			_ftprintf(fout, _T("%s"), (LPCTSTR) ref);
 			pieces++;
 		}
 
@@ -274,7 +274,7 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 	{
 		if (csv)
 		{
-			_ftprintf(fout, _T("\",%3d,%s\n"), pieces, LastName.GetBuffer());
+			_ftprintf(fout, _T("\",%3d,%s\n"), pieces, (LPCTSTR)LastName);
 		}
 		else
 		{
@@ -286,7 +286,7 @@ void CBOMGenerator::WriteToFile(FILE *fout, bool csv)
 			}
 
 			// Write the name
-			_ftprintf(fout, _T("   %3d   %s\n"), pieces, LastName.GetBuffer());
+			_ftprintf(fout, _T("   %3d   %s\n"), pieces, (LPCTSTR)LastName);
 			Xpos = 0;
 		}
 	}
@@ -309,7 +309,7 @@ void CBOMGenerator::WriteToXls(FILE *fout)
 	_ftprintf(fout, _T("Reference;Quantity;Name"));
 	for (unsigned int i = 0; i < m_attrs.size(); i++)
 	{
-		_ftprintf(fout, _T(";%s"), EscapeForCSV(m_attrs[i], ';').GetBuffer());
+		_ftprintf(fout, _T(";%s"), (LPCTSTR)EscapeForCSV(m_attrs[i], ';'));
 	}
 	_ftprintf(fout, _T("\n"));
 
@@ -327,7 +327,7 @@ void CBOMGenerator::WriteToXls(FILE *fout)
 
 		if (name != LastName && LastName != "")
 		{
-			_ftprintf(fout, _T(";%d;%s\n"), pieces, LastName.GetBuffer());
+			_ftprintf(fout, _T(";%d;%s\n"), pieces, (LPCTSTR)LastName);
 
 			pieces = 0;
 		}
@@ -342,7 +342,7 @@ void CBOMGenerator::WriteToXls(FILE *fout)
 				_ftprintf(fout, _T(","));
 			}
 
-			_ftprintf(fout, _T("%s"), ref.GetBuffer());
+			_ftprintf(fout, _T("%s"), (LPCTSTR)ref);
 			pieces++;
 		}
 
@@ -356,7 +356,7 @@ void CBOMGenerator::WriteToXls(FILE *fout)
 
 	if (pieces > 0)
 	{
-		_ftprintf(fout, _T(";%d;%s\n"), pieces, LastName.GetBuffer());
+		_ftprintf(fout, _T(";%d;%s\n"), pieces, (LPCTSTR)LastName);
 	}
 }
 

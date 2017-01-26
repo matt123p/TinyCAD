@@ -47,6 +47,7 @@ void CTinyCadView::OnSpecialNet()
 
 	// Get the file in which to save the network
 	TCHAR szFile[256];
+	szFile[0] = '\0';
 
 	_tcscpy_s(szFile, GetDocument()->GetPathName());
 	TCHAR* ext = _tcsrchr(szFile, '.');
@@ -325,8 +326,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 					{
 						// We have an unassigned reference designator
 						CString buffer;
-						buffer.LoadString(ERR_UNASSIGNEDREFDES);
-						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"), buffer, ref, pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x / 5, pointer->m_point_a.y / 5);
+						(void) buffer.LoadString(ERR_UNASSIGNEDREFDES);
+						formattedBuffer.Format(_T("%s:  [refdes=%s, page=\"%s\", XY=(%g,%g)]\n"), (LPCTSTR)buffer, (LPCTSTR)ref, (LPCTSTR)pointer->m_pDesign->GetSheetName(), pointer->m_point_a.x / 5, pointer->m_point_a.y / 5);
 						drawErrors.push_back(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
 						errorList.push_back(formattedBuffer);
 //						TRACE("  ==>%S\n",buffer);
@@ -405,8 +406,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 							//While the lower case version of the labelName should not have already been in this list, it apparently is,
 							//so generate a warning that net names that are not case distinct are present in this design.
 //							TRACE("      Warning:  Net name \"%S\" on net #%d is already in this design as \"%S\" on net #%d.  The two nets differ only in character case and identify non-connected nets.\n", labelName, node.m_NetList, firstNetName.find(lcLabelName)->second, allNetNames[lcLabelName].m_NetList);
-							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""), buffer, labelName, firstNetName[lcLabelName]);
+							(void) buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""), (LPCTSTR)buffer, (LPCTSTR)labelName, (LPCTSTR)firstNetName[lcLabelName]);
 							pDoc->GetSheet(node.m_sheet - 1)->Add(new CDrawError(pDoc->GetSheet(node.m_sheet - 1), node.m_a, CurrentError++));
 							errorList.push_back(formattedBuffer);
 
@@ -414,8 +415,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 							//generate an error at the time, but a copy of it's node contents was stored in the allNetNames associative array so it is still possible to retrieve this information.
 							CString firstLabelName;
 							firstLabelName = firstNetName[lcLabelName]; //restore original label name from when it was first saved
-							buffer.LoadString(ERR_NONDISTINCTNET);
-							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""), buffer, firstLabelName, labelName);
+							(void) buffer.LoadString(ERR_NONDISTINCTNET);
+							formattedBuffer.Format(_T("%s:  \"%s\", \"%s\""), (LPCTSTR)buffer, (LPCTSTR)firstLabelName, (LPCTSTR)labelName);
 							pDoc->GetSheet(allNetNames[lcLabelName].m_sheet - 1)->Add(new CDrawError(pDoc->GetSheet(allNetNames[lcLabelName].m_sheet - 1), allNetNames[lcLabelName].m_a, CurrentError++));
 							errorList.push_back(formattedBuffer);
 
@@ -432,18 +433,18 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 				if ( (theErrorTest.e).MultipleNetNames)
 				{ //record the multiple net name warnings
 //					TRACE("    Warning:  Net node %d contains %d different net names\n",net, netNames.size());
-					buffer.LoadString(ERR_MULTIPLENETNAMES); //This is the base error message string
+					(void) buffer.LoadString(ERR_MULTIPLENETNAMES); //This is the base error message string
 //					TRACE("    ==>Base msg=%S\n",buffer);
 
 					//Now unpack and format the multiple net names
 					nodeVectorCollection::iterator nv_it = netNameNodes.begin();
 					CString stuff = (*nv_it).first;
-					formattedBuffer.Format(_T("%s:  [\"%s\""), buffer, (*nv_it).first); //Get the base message and the first net name
+					(void) formattedBuffer.Format(_T("%s:  [\"%s\""), (LPCTSTR)buffer, (LPCTSTR)(*nv_it).first); //Get the base message and the first net name
 //					TRACE("       First formatted msg = %S\n", formattedBuffer);
 
 					while (++nv_it != netNameNodes.end())
 					{
-						buffer.Format(_T(",\"%s\""), (*nv_it).first);
+						(void) buffer.Format(_T(",\"%s\""), (LPCTSTR)(*nv_it).first);
 						formattedBuffer += buffer; //concatenate the next net name onto the end
 //						TRACE("       Next formatted msg = %S\n", formattedBuffer);
 					}
@@ -486,8 +487,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 					{
 						// We have a duplicate...
 						CString buffer;
-						buffer.LoadString(ERR_DUPREF);
-						formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"), buffer, pointer->GetName(), ref, i + 1);
+						(void) buffer.LoadString(ERR_DUPREF);
+						(void) formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"), (LPCTSTR)buffer, (LPCTSTR)pointer->GetName(), (LPCTSTR)ref, i + 1);
 						drawErrors.push_back(new CDrawError(pDoc->GetSheet(i), static_cast<CDrawMethod *> (pointer)->GetFieldPos(CDrawMethod::Ref), CurrentError++));
 						errorList.push_back(formattedBuffer);
 					}
@@ -568,7 +569,7 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 			{
 				partref& ref = ref_it->second;
 				CString buffer = _T("Not all parts in this package are in this design");
-				formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"), buffer, ref.name, ref_it->first, ref.sheet + 1);
+				(void) formattedBuffer.Format(_T("%s:  [Object=\"%s\", RefDes=%s, Page #%d]\n"), (LPCTSTR)buffer, (LPCTSTR)ref.name, (LPCTSTR) (ref_it->first), ref.sheet + 1);
 				pDoc->GetSheet(ref.sheet)->Add(new CDrawError(ref.pDesign, ref.point, CurrentError++));
 				errorList.push_back(formattedBuffer);
 			}
@@ -626,7 +627,7 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 						pos = pObject->m_point_a; //This will be used to locate this object on the sheet for the error message
 						sheet = theNode.m_sheet;
 
-						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+						(void) netObjectName.Format(_T("Obj=%s"), (LPCTSTR)pObject->GetName());
 						netObjectRefDes = "RefDes=N/A";
 						netObjectSheetName.Format(_T("Sheet=#%d"), theNode.m_sheet);
 						netObjectXY.Format(_T("XY=(%g,%g)"), theNode.m_a.x / 5, theNode.m_a.y / 5);
@@ -636,7 +637,7 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 						connections++;
 						pos = pObject->m_point_a;
 						sheet = theNode.m_sheet;
-						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
+						(void) netObjectName.Format(_T("Obj=%s"), (LPCTSTR) (pObject->GetName()));
 						netObjectRefDes = "RefDes=N/A";
 						netObjectSheetName.Format(_T("Sheet=#%d"), theNode.m_sheet);
 						netObjectXY.Format(_T("XY=(%g,%g)"), theNode.m_a.x / 5, theNode.m_a.y / 5);
@@ -679,10 +680,10 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 						sheet = theNode.m_sheet;
 						connections++;
 
-						netObjectName.Format(_T("Obj=%s"), pObject->GetName());
-						netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=\"%s\""), theNode.m_reference, pPin->GetNumber(), pPin->GetPinName());
-						netObjectSheetName.Format(_T("Sheet=\"%s\""), theNode.m_pMethod->m_pDesign->GetSheetName());
-						netObjectXY.Format(_T("XY=(%g,%g)"),pos.x/5, pos.y/5);
+						(void) netObjectName.Format(_T("Obj=%s"), (LPCTSTR)pObject->GetName());
+						(void) netObjectRefDes.Format(_T("RefDes=%s, Pin Number=%s, Pin Name=\"%s\""), (LPCTSTR)theNode.m_reference, (LPCTSTR)(pPin->GetNumber()), (LPCTSTR) (pPin->GetPinName()));
+						(void) netObjectSheetName.Format(_T("Sheet=\"%s\""), (LPCTSTR) (theNode.m_pMethod->m_pDesign->GetSheetName()));
+						(void) netObjectXY.Format(_T("XY=(%g,%g)"),pos.x/5, pos.y/5);
 					}
 						break;
 					default:
@@ -774,8 +775,8 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 		if (ErrorNumber >= ERR_BASE)
 		{
 			CString buffer;
-			buffer.LoadString(ErrorNumber);
-			formattedBuffer.Format(_T("%s:  [%s, %s, %s, %s]"), buffer, netObjectName, netObjectRefDes, netObjectSheetName, netObjectXY);
+			(void) buffer.LoadString(ErrorNumber);
+			(void) formattedBuffer.Format(_T("%s:  [%s, %s, %s, %s]"), (LPCTSTR)buffer, (LPCTSTR)netObjectName, (LPCTSTR)netObjectRefDes, (LPCTSTR)netObjectSheetName, (LPCTSTR)netObjectXY);
 			pDoc->GetSheet(sheet - 1)->Add(new CDrawError(pDoc->GetSheet(sheet - 1), pos, CurrentError++));
 			errorList.push_back(formattedBuffer);
 		}
@@ -787,7 +788,7 @@ int CTinyCadView::DoSpecialCheck(bool alwaysShowList)
 	if (CurrentError == 0 && alwaysShowList)
 	{
 		CString buffer;
-		buffer.LoadString(ERR_NOERROR);
+		(void) buffer.LoadString(ERR_NOERROR);
 		errorList.push_back(buffer);
 	}
 

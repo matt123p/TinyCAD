@@ -197,7 +197,6 @@
 #define IDD_TEXT                        546
 #define IDD_UPDATE                      547
 #define IDD_DRAW_LINE                   549
-//#define IDD_POSITIONBOX                 550
 #define IDD_POLYGON                     551
 #define IDM_EDITROTATELEFT              552
 #define IDM_EDITROTATERIGHT             553
@@ -486,7 +485,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        170
-#define _APS_NEXT_COMMAND_VALUE         32898
+#define _APS_NEXT_COMMAND_VALUE         32899
 #define _APS_NEXT_CONTROL_VALUE         1586
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

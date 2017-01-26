@@ -411,7 +411,12 @@ void CDetails::DisplayBox(CContext& dc, COption& oOption, CString sPathName) con
 		dc.TextOut(tl.x + TextSpace * 2, tl.y + LineHeight * 2, m_sTitle);
 		dc.TextOut(tl.x + TextSpace * 2, tl.y + LineHeight * 4, m_sAuthor);
 		dc.TextOut(tl.x + TextSpace * 2, tl.y + LineHeight * 5, m_sOrg);
+
+
+		// Display the file path name
 		dc.TextOut(tl.x + TextSpace * 2, tl.y + LineHeight * 7, static_cast<int> (MiddleRow - tl.x - TextSpace * 4), sPathName);
+
+
 		dc.TextOut(tl.x + TextSpace * 2, tl.y + LineHeight * 9, m_sRevision);
 		dc.TextOut(MiddleRow + TextSpace * 2, tl.y + LineHeight * 7, m_sDocNo);
 		dc.TextOut(tl.x + BottomRow + TextSpace * 2, tl.y + LineHeight * 9, GetLastChange());

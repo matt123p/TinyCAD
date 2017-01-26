@@ -1337,7 +1337,45 @@ void CTinyCadDoc::SelectObject(CDrawingObject *NewO)
 // Draw the design rulers and the details box
 void CTinyCadDoc::Display(CContext& dc)
 {
-	GetDetails().Display(dc, theOptions, m_pParent->GetPathName());
+	CString pathName;
+	CString fileName;
+	CString preFix = L"";
+	int startChar;
+	int maxDisplayCharacters = 45;	//see note below
+	CString ellipsisString = L" ... ";
+	//Set preFix string to first 45 or fewer characters and append ellipsis string if necessary
+	//Note that since this is a proportionally spaced font, it still may not fit and will be right justified and
+	//truncated at the far left of the display space.  The length in characters of a proportionally spaced font 
+	//is very difficult to calculate and this class is not aware of the font and font size to be used.
+
+	pathName = m_pParent->GetPathName();
+	startChar = pathName.ReverseFind('\\') + 1;	//Move one character past the backslash
+	fileName = pathName.Right(pathName.GetLength() - startChar);
+	if (fileName.GetLength() > 50)
+	{
+		fileName = fileName.Left(50);
+	}
+
+	if (fileName.GetLength() < 1)
+	{	//No backslash character found in pathName so use the full path name
+		fileName = pathName;
+		preFix = L"";
+	}
+	else
+	{
+		preFix = pathName.Left(pathName.GetLength() - fileName.GetLength());
+
+		//If you add the ellipsis string, you must account for the extra length of the ellipsis string
+		if (preFix.GetLength() > maxDisplayCharacters - ellipsisString.GetLength() - fileName.GetLength())
+		{
+			//if the calculated left string length is negative, the .Left() function will set it to 0
+			preFix = preFix.Left(maxDisplayCharacters - ellipsisString.GetLength() - fileName.GetLength()) + ellipsisString;
+		}
+	}
+	
+	// Prior to TinyCAD 2.90.00, the full path was displayed, but frequently there wasn't room and it overran its allocated drawing space
+	//	GetDetails().Display(dc, theOptions, m_pParent->GetPathName());
+	GetDetails().Display(dc, theOptions, preFix + fileName);
 }
 
 void CTinyCadDoc::SetSelectable(CDrawingObject *obj)

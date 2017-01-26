@@ -144,9 +144,9 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 	//A non-zero return code at this point means that a valid console has either been re-attached to, or created.
 	if (retCode != 0)
 	{
-		freopen("CONIN$", "r", stdin);
-		freopen("CONOUT$", "w", stdout);
-		freopen("CONOUT$", "w", stderr);
+		(void) freopen("CONIN$", "r", stdin);
+		(void) freopen("CONOUT$", "w", stdout);
+		(void) freopen("CONOUT$", "w", stderr);
 
 		// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog 
 		// point to console as well
@@ -204,7 +204,7 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			if (!m_bConsoleAcquired) {
 				m_bConsoleAcquired = RedirectIOToConsole();
 			}
-			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2011 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), CTinyCadApp::GetVersion().GetBuffer());
+			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2017 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), (LPCTSTR) (CTinyCadApp::GetVersion()));
 			fwprintf(stderr, _T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
 			fwprintf(stderr,_T("Optional command line options:\n"));
@@ -464,11 +464,9 @@ BOOL CTinyCadApp::InitInstance()
 				workingDirectory[0] = _T('\0');
 				GetCurrentDirectory(1024, workingDirectory);	//This may cause an error on systems older than WinXP
 
-				/*  djl hollar */
-				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", (char *) cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
+				fprintf(stderr,"Error #1:  TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n", (char *) cmdInfo.m_strFileName.GetBuffer(), (char *)workingDirectory);
 
-
-				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName.GetBuffer(), (char *) workingDirectory);
+				ATLTRACE2(_T("TinyCAD cannot find or navigate to the file named \"%s\" starting from location \"%s\"\n"), cmdInfo.m_strFileName, (char *) workingDirectory);
 			}
 		}
 		return FALSE;
@@ -580,7 +578,7 @@ CString CTinyCadApp::GetVersion()
 
 		sReturn.Format(_T("Version %u.%02u.%02u Build #%s%s"), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS), SVN_WCRANGE, SVN_MODIFICATIONS_POSTFIX);
 		//										LOWORD(pFixedInfo->dwProductVersionLS));
-		delete pBuffer;
+		delete[] pBuffer;
 	}
 
 	return sReturn;
@@ -747,7 +745,7 @@ void CTinyCadApp::ReadRegistry()
 		CString sSearch;
 
 		//Library names are stored without type information.  Look for the newest library types first (.TCLib), then the older .mdb, then theh oldest .idx
-		sSearch.Format(_T("%s.TCLib"), sLibName);
+		sSearch.Format(_T("%s.TCLib"), (LPCTSTR)sLibName);
 		//TRACE("  1.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 		FindFile theFind(sSearch);
 		if (theFind.Success())
@@ -758,7 +756,7 @@ void CTinyCadApp::ReadRegistry()
 		}
 		else
 		{
-			sSearch.Format(_T("%s.mdb"), sLibName);
+			sSearch.Format(_T("%s.mdb"), (LPCTSTR)sLibName);
 			//TRACE("  2.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 			FindFile theFind(sSearch);
 			if (theFind.Success())
@@ -768,7 +766,7 @@ void CTinyCadApp::ReadRegistry()
 			}
 			else
 			{
-				sSearch.Format(_T("%s.idx"), sLibName);
+				sSearch.Format(_T("%s.idx"), (LPCTSTR)sLibName);
 				FindFile theFind(sSearch);
 				//TRACE("  3.  Looking to see if sSearch=\"%S\" can be opened\n",sSearch);
 				if (theFind.Success())
@@ -779,7 +777,7 @@ void CTinyCadApp::ReadRegistry()
 				else
 				{ //no known library format was found
 					CString s;
-					s.Format(_T("    Library not found in any format:\r\n\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), sLibName);
+					s.Format(_T("    Library not found in any format:\r\n\t\"%s\"\r\nwhile looking for this library with one of the following extensions:  [.TCLib, .mdb, .idx]"), (LPCTSTR)sLibName);
 					AfxMessageBox(s);
 				}
 			}

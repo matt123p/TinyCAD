@@ -459,7 +459,8 @@ void CEditDlgHierarchicalEdit::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawIte
 
 	dc.Rectangle(&lpDrawItemStruct->rcItem);
 
-	TCHAR buffer[256];
+	TCHAR buffer[512];
+	buffer[0] = 0;
 	int left = 0;
 	int right = lpDrawItemStruct->rcItem.right;
 	for (int column = 2; column >= 0; column--)
@@ -479,7 +480,7 @@ void CEditDlgHierarchicalEdit::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawIte
 		item.iImage = 0;
 		item.iIndent = 0;
 		item.pszText = buffer;
-		item.cchTextMax = sizeof (buffer);
+		item.cchTextMax = sizeof (buffer)/sizeof (TCHAR);
 		m_list.GetItem(&item);
 
 		dc.DrawText(buffer, &r, DT_LEFT | DT_VCENTER | DT_NOPREFIX);
