@@ -7,6 +7,7 @@
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\TinyCad.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define PRODUCT_INSTALLER_NAME "TinyCAD_${PRODUCT_VERSION}_Debug_Release.exe"
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
@@ -43,7 +44,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "${PRODUCT_INSTALLER_NAME}"
 InstallDir "$PROGRAMFILES32\TinyCAD"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 
@@ -69,7 +70,8 @@ Section "MainSection" SEC01
   ExecWait '"$INSTDIR/MDAC_TYP.EXE" /Q'
 
 skip_mdac_download:
-  MessageBox MB_OK "Libraries will be installed to$\n$DATA_DIR\libs$\n$\nExample files will be installed to $\n$DATA_DIR\examples"
+	IFSilent +2
+		MessageBox MB_ICONINFORMATION|MB_OK "Libraries will be installed to$\n$DATA_DIR\libs$\n$\nExample files will be installed to $\n$DATA_DIR\examples"
   CreateDirectory "$DATA_DIR"
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
@@ -94,6 +96,7 @@ skip_mdac_download:
   File "..\installer\LGPL Version 3.0.txt"
 
   CreateShortCut "$SMPROGRAMS\TinyCAD\Help.lnk" "$INSTDIR\TinyCAD.chm"
+
   ;
   ; Register '.dsn' files as 'TinyCAD Design'
   ; 
@@ -102,12 +105,15 @@ skip_mdac_download:
   WriteRegStr HKCR "TinyCAD Design\shell" "" "open"
   WriteRegStr HKCR "TinyCAD Design\DefaultIcon" "" "$INSTDIR\TinyCad.exe,0"
   WriteRegStr HKCR "TinyCAD Design\shell\open\command" "" '"$INSTDIR\TinyCad.exe" "%1"'
+  
   WriteRegStr HKCR "TinyCAD Design\shell\edit" "" "Edit TinyCAD Design"
   WriteRegStr HKCR "TinyCAD Design\shell\edit" "Icon" '"$INSTDIR\TinyCad.exe",0'
   WriteRegStr HKCR "TinyCAD Design\shell\edit\command" "" '"$INSTDIR\TinyCad.exe" "%1"'
+  
   ;WriteRegStr HKCR "TinyCAD Design\shell\print" "" "Print TinyCAD Design"
   ;WriteRegStr HKCR "TinyCAD Design\shell\print" "Icon" '"$INSTDIR\TinyCad.exe",0'
   ;WriteRegStr HKCR "TinyCAD Design\shell\print\command" "" '"$INSTDIR\TinyCad.exe" "%1" /p'
+  
   ;WriteRegStr HKCR "TinyCAD Design\shell\spice" "" "Generate SPICE netlist"
   ;WriteRegStr HKCR "TinyCAD Design\shell\spice" "Icon" '"$INSTDIR\TinyCad.exe",0'
   ;WriteRegStr HKCR "TinyCAD Design\shell\spice\command" "" '"$INSTDIR\TinyCad.exe" "%1" /s'
@@ -193,6 +199,7 @@ Section -AdditionalIcons
   CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
   CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD Manual.lnk" "$INSTDIR\TinyCAD_Manual.pdf"
   CreateShortCut "$SMPROGRAMS\TinyCAD\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\TinyCAD\Users Group.lnk" "http://uk.groups.yahoo.com/group/tinycad/"
 SectionEnd
 
 Section -Post
@@ -306,7 +313,7 @@ Section Uninstall
   Delete "$INSTDIR\msvcp140.dll"
   Delete "$INSTDIR\vcruntime140.dll"
   Delete "$INSTDIR\mfc140u.dll"  
-  
+
   Delete "$INSTDIR\TinyCAD_Manual.pdf"
   Delete "$INSTDIR\TinyCad.exe"
 
@@ -314,6 +321,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk"
   Delete "$SMPROGRAMS\TinyCAD\Help.lnk"
   Delete "$DESKTOP\TinyCAD.lnk"
+  Delete "$SMPROGRAMS\TinyCAD\Users Group.lnk"
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD.lnk"
   Delete "$INSTDIR\LGPL Version 2.1.txt"
   Delete "$INSTDIR\LGPL Version 3.0.txt"
