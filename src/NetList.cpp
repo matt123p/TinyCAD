@@ -2651,6 +2651,8 @@ CString CNetList::expand_spice(int file_name_index, int sheet, CNetListSymbol &s
 	//       Also we haven't dealt with power connections here either.  To determine
 	//       If a connection is a power connection, use the labels map.
 	//
+	//       Note that this function is recursive in the case of the "#include" macro
+	//
 
 	CString spice_line;
 	enum
@@ -2977,6 +2979,21 @@ bool CNetList::eval_spice_macro(int file_name_index, int sheet, CNetListSymbol &
 		get_pin_by_number(symbol, labels, preferredLabel, value, nodes, r, net);
 
 		return nodes == 1;
+	}
+	else if (op == "include")
+	{
+		/// An external file is being included.  Read the file one line at a time and then process the lines recursively
+		//		until end of file occurs.
+
+		// Read the file name and path from the macro, observing that the filename may be bracketed by:
+		//		"FilePathName" - absolute hardcoded Windows style file pathname including drive with no additional modification of FilePathName
+		//		<FilePathName> - file is located in ...\FilePathName where "..." is the pathname of the same directory as the including xxx.dsn file
+		//		Examples are:  include(<adder.vhdl>) or include("c:\SomeArbitraryFilePath\vhdl\adder.vhdl")
+		// 
+
+		spice_line += "<Not implemented yet: " + macro + ">";
+		writeError(_T("%s: %s on sheet %d has unimplemented macro '%s'\n"), symbol.m_pMethod->GetRef(), symbol.m_pMethod->GetName(), sheet, macro);
+
 	}
 	else
 	{
