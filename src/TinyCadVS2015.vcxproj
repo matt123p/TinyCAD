@@ -81,7 +81,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
       <Message>Construct the build version information from the SVN working copy and repository (requires that TortoiseSVN be installed)</Message>
-      <Command>"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f</Command>
+      <Command>del "$(OutDir)\*.dll"
+"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f</Command>
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -151,11 +152,18 @@
     <ManifestResourceCompile>
       <ResourceOutputFileName>Yes</ResourceOutputFileName>
     </ManifestResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)\png\*.dll" "$(OutDir)"
+xcopy /y /d "$(ProjectDir)\libiconv\*.dll" "$(OutDir)"
+xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
       <Message>Construct the build version information from the SVN working copy and repository (requires that TortoiseSVN be installed)</Message>
-      <Command>"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f</Command>
+      <Command>del "$(OutDir)\*.dll"
+"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f</Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -230,6 +238,12 @@
     <ManifestResourceCompile>
       <ResourceOutputFileName>Yes</ResourceOutputFileName>
     </ManifestResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)\png\*.dll" "$(OutDir)"
+xcopy /y /d "$(ProjectDir)\libiconv\*.dll" "$(OutDir)"
+xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
     <ClCompile>
@@ -243,6 +257,10 @@
     <ManifestResourceCompile>
       <ResourceOutputFileName>Yes</ResourceOutputFileName>
     </ManifestResourceCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AutoSave.cpp">

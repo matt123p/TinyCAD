@@ -40,7 +40,7 @@ protected:
 	void UnTag();
 
 	// Save this collection out...
-	void SaveXML(CXMLWriter&);
+	bool SaveXML(CXMLWriter&);
 
 	// Load the document
 	BOOL ReadFile(CStreamFile& file);

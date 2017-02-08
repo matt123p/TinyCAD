@@ -230,21 +230,56 @@ void CTinyCadMultiDoc::AutoSave()
 
 	// Get the filename
 	CString theFileName = GetPathName() + ".autosave";
+	CString theFileNameNew = theFileName + ".new";
 
 	// 
 	CFile theFile;
 
 	// Open the file for saving as a CFile for a CArchive
-	BOOL r = theFile.Open(theFileName, CFile::modeCreate | CFile::modeWrite);
+	BOOL r = theFile.Open(theFileNameNew, CFile::modeCreate | CFile::modeWrite);
 
 	if (r)
 	{
-		// Now save the file
-		CStreamFile stream(&theFile, CArchive::store);
-		CXMLWriter xml(&stream);
-		SaveXML(xml);
+		BOOL saved = false;
+		{
+			// Now save the file
+			CStreamFile stream(&theFile, CArchive::store);
+			CXMLWriter xml(&stream);
+			saved = SaveXML(xml);
+		}
+		theFile.Close();
+		CFileStatus status;
+		if (saved)
+		{
+			try
+			{
+				if (CFile::GetStatus(theFileName, status))
+				{
+					CFile::Remove(theFileName);
+				}
+				CFile::Rename(theFileNameNew, theFileName);
+			}catch (CException *e)
+			{
+				// Could not rename the file properly
+				e->ReportError();
+				e->Delete();
+			}
+		}
+		else if (CFile::GetStatus(theFileNameNew, status))
+		{
+			try
+			{
+				CFile::Remove(theFileNameNew);
+			}
+			catch (CException *e)
+			{
+				// Could not remove the file properly
+				e->ReportError();
+				e->Delete();
+			}
+		}
 	}
-
+	
 	// Turn the cursor back to normal
 	SetCursor(AfxGetApp()->LoadStandardCursor(IDC_ARROW));
 
@@ -354,7 +389,7 @@ BOOL CTinyCadMultiDoc::ReadFile(CStreamFile& file)
 }
 
 //-------------------------------------------------------------------------
-void CTinyCadMultiDoc::SaveXML(CXMLWriter &xml)
+bool CTinyCadMultiDoc::SaveXML(CXMLWriter &xml)
 {
 	// Write the objects to the file
 	try
@@ -382,7 +417,9 @@ void CTinyCadMultiDoc::SaveXML(CXMLWriter &xml)
 		// Could not save the file properly
 		e->ReportError();
 		e->Delete();
+		return false;
 	}
+	return true;
 }
 
 // Is this document editing a library?

@@ -207,20 +207,21 @@ BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
 	// if 'bReplace' is TRUE will change file name if successful (SaveAs)
 	// if 'bReplace' is FALSE will not change path name (SaveCopyAs)
 {
-	CString newName = lpszPathName;
-	if (newName.IsEmpty())
+	CString theFileName = lpszPathName;
+	
+	if (theFileName.IsEmpty())
 	{
 		CDocTemplate* pTemplate = GetDocTemplate();
 		ASSERT(pTemplate != NULL);
 
-		newName = m_strPathName;
-		if (bReplace && newName.IsEmpty())
+		theFileName = m_strPathName;
+		if (bReplace && theFileName.IsEmpty())
 		{
-			newName = m_strTitle;
+			theFileName = m_strTitle;
 			// check for dubious filename
-			int iBad = newName.FindOneOf(_T(":/\\"));
+			int iBad = theFileName.FindOneOf(_T(":/\\"));
 			if (iBad != -1)
-				newName.ReleaseBuffer(iBad);
+				theFileName.ReleaseBuffer(iBad);
 
 			// append the default suffix if there is one
 			CString strExt;
@@ -229,7 +230,7 @@ BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
 			{
 				ASSERT(strExt[0] == '.');
 				int iStart = 0;
-				newName += strExt.Tokenize(_T(";"), iStart);
+				theFileName += strExt.Tokenize(_T(";"), iStart);
 			}
 		}
 
@@ -239,20 +240,38 @@ BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
 		// OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, FALSE, pTemplate))
 		// return FALSE; // don't even attempt to save
 
-		if (!MyDoPromptFileName(newName,bReplace))
+		if (!MyDoPromptFileName(theFileName, bReplace))
+		{
 			return false;
+		}
+		else
+		{
+			// append the default suffix if there is no suffix
+			CString strExt;
+			if (pTemplate->GetDocString(strExt, CDocTemplate::filterExt))
+			{
+				int strExtPos = theFileName.Find(strExt, 0);
+				if (strExtPos < 0 || strExtPos != theFileName.GetLength() - strExt.GetLength())
+				{
+					ASSERT(strExt[0] == '.');
+					int iStart = 0;
+					theFileName += strExt.Tokenize(_T(";"), iStart);
+				}
+			}
+		}
 	}
 
 	CWaitCursor wait;
+	CString theFileNameNew = theFileName + ".new";
 
-	if (!OnSaveDocument(newName))
+	if (!OnSaveDocument(theFileNameNew))
 	{
 		if (lpszPathName == NULL)
 		{
 			// be sure to delete the file
 			TRY
 			{
-				CFile::Remove(newName);
+				CFile::Remove(theFileNameNew);
 			}
 			CATCH_ALL(e)
 			{
@@ -267,10 +286,31 @@ BOOL CMultiSheetDoc::DoSave(LPCTSTR lpszPathName, BOOL bReplace)
 		}
 		return FALSE;
 	}
+	else
+	{
+		try
+		{
+			CFileStatus status;
+			if (CFile::GetStatus(theFileNameNew, status))
+			{
+				if (CFile::GetStatus(theFileName, status))
+				{
+					CFile::Remove(theFileName);
+				}
+				CFile::Rename(theFileNameNew, theFileName);
+			}
+		}catch(CException *e)
+		{
+			// Could not rename the file properly
+			e->ReportError();
+			e->Delete();
+			return FALSE;
+		}
+	}
 
 	// reset the title and change the document name
 	if (bReplace)
-		SetPathName(newName);
+		SetPathName(theFileName);
 
 	return TRUE;        // success
 }
