@@ -476,6 +476,8 @@
 #define IDM_EDITSELECTALL               32895
 #define IDM_TOOLORIGIN                  32896
 #define IDM_TOOLNOTETEXT                32897
+#define ID_SPECIAL_VHDL                 32899
+#define IDM_SPECIALVHDLCHECK            32901
 #define IDC_SCALING                     40000
 #define ID_CONTEXT_COPY_TO              65535
 
@@ -484,8 +486,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        170
-#define _APS_NEXT_COMMAND_VALUE         32899
+#define _APS_NEXT_RESOURCE_VALUE        172
+#define _APS_NEXT_COMMAND_VALUE         32902
 #define _APS_NEXT_CONTROL_VALUE         1586
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

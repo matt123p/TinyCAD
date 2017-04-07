@@ -453,6 +453,22 @@ private:
 	// Worker function used to debug the netlist linker
 	void dumpNetListObjects();
 
+	// For iterating over the library components of the design
+	class ComponentIterator {
+	public:
+		CTinyCadMultiDoc *pDesign;
+		fileCollection::iterator fi;
+		int sheet;
+		CTinyCadMultiDoc *dsn;
+		drawingIterator drawing;
+		bool end;
+	} m_ComponentIterator;
+
+	void componentsBegin(CTinyCadMultiDoc *pDesign);
+	void componentsNext();
+	CDrawMethod *currentComponent();
+	bool componentsEnd();
+
 public:
 	// Get a hierarchical reference path from a symbol.
 	static const bool m_refDirectionForward = false; //a more or less global setting for TinyCAD that controls whether reference designator paths in hierarchical symbols are generated from left to right (i.e., 'forward') or right to left (i.e., 'backwards')
@@ -478,6 +494,9 @@ public:
 
 	// Create netlist and output as a PCB file
 	void WriteNetListFile(int type, CTinyCadMultiDoc *pDesign, const TCHAR *filename);
+
+	// Create netlist and output as a VHDL file
+	void WriteVHDLFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename);
 
 	// Create netlist and output as a SPICE file
 	void WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename);
@@ -534,6 +553,18 @@ public:
 	{
 		return theErrorTest;
 	}
+};
+
+class Bus_Properties {
+public:
+	enum bus_type { internal, input, output, dont_know };
+	Bus_Properties(CString &ref, bus_type t = dont_know);
+	Bus_Properties() {}
+	CString name;
+	int start = 0;
+	int end = 0;
+	bool is_bus = false;	// note that a bus with start==end is still a bus (a bus member)
+	bus_type type = internal;
 };
 
 #endif

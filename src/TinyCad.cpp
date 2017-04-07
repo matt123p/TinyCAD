@@ -210,8 +210,8 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			fwprintf(stderr,_T("Optional command line options:\n"));
 			fwprintf(stderr,_T("\t/s                         Generate Spice netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--gen_spice_netlist        Generate Spice netlist file with same base name as the design file\n"));
-			//fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
-			//fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t/x                         Generate XML netlist file with same base name as the design file\n"));
+			fwprintf(stderr,_T("\t--gen_xml_netlist          Generate XML netlist file with same base name as the design file\n"));
 			fwprintf(stderr,_T("\t--out_directory=<filepath> Specify a full or partial file path to use for generated netlist file(s)\n\t                           A trailing '\\' is optional\n"));
 			//fwprintf(stderr,_T("\t/dde                       Used by Windows for Dynamic Data Exchange.  This is a Windows service\n"));
 			//fwprintf(stderr,_T("\t/p                         Print the design file on the default printing device.  This is a Windows service\n"));
