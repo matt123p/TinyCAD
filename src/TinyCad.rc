@@ -747,19 +747,20 @@ BEGIN
     CONTROL         "Auto-place junctions",IDC_AUTOJUNC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,57,80,10
 END
 
-IDD_LIBRARY DIALOGEX 0, 0, 590, 169
+IDD_LIBRARY DIALOGEX 0, 0, 591, 193
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Library Setup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LISTBOX         LIBRARYBOX_AVAILABLE,5,22,518,126,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK",IDOK,534,23,50,14
-    CTEXT           "Libraries in Use",IDC_STATIC,5,10,201,8
-    PUSHBUTTON      "Add",LIBRARYBOX_ADD,534,42,50,14
-    PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,534,61,50,14
-    PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,534,99,50,14
-    PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,534,130,50,14
-    PUSHBUTTON      "New",LIBRARYBOX_NEW,534,80,50,14
+    LISTBOX         LIBRARYBOX_AVAILABLE,5,13,525,173,LBS_SORT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,535,12,50,14
+    LTEXT           "Libraries in Use:",IDC_STATIC,5,3,103,8
+    PUSHBUTTON      "Add",LIBRARYBOX_ADD,535,31,50,14
+    PUSHBUTTON      "Remove",LIBRARYBOX_REMOVE,535,50,50,14
+    PUSHBUTTON      "New",LIBRARYBOX_NEW,535,69,50,14
+    PUSHBUTTON      "Edit",LIBRARYBOX_EDIT,535,88,50,14
+    PUSHBUTTON      "Cleanup",LIBRARYBOX_CLEANUP,535,145,50,14
+    PUSHBUTTON      "Upgrade",LIBRARYBOX_UPGRADE,535,164,50,14
 END
 
 IDD_AUTOSAVE DIALOG 0, 0, 204, 86
@@ -953,9 +954,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 307
+        RIGHTMARGIN, 306
         TOPMARGIN, 7
-        BOTTOMMARGIN, 301
+        BOTTOMMARGIN, 290
     END
 
     IDD_ANNOTATE, DIALOG
@@ -1226,6 +1227,8 @@ IDR_ANNOTATE            BITMAP                  "res\\toolbar2.bmp"
 IDR_DRAWBUS             BITMAP                  "res\\drawbus.bmp"
 
 IDR_DRAWGROUP           BITMAP                  "res\\drawgrou.bmp"
+
+IDR_POSITION            BITMAP                  "res\\gridset.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1721,6 +1724,10 @@ END
 IDR_POSITION TOOLBAR 16, 15
 BEGIN
     BUTTON      POSITIONBOX_POS
+    BUTTON      IDM_SNAPTOGRID
+    BUTTON      IDM_TOGGLE_GRIDSIZE
+    BUTTON      POSITIONBOX_GRIDSIZE
+    BUTTON      POSITIONBOX_GRIDUNITS
 END
 
 
@@ -2003,9 +2010,16 @@ END
 STRINGTABLE
 BEGIN
     IDS_NODELETE            "Cannot delete a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
+    IDS_NOCLEANUP           "Cannot cleanup a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
     IDM_SNAPTOGRID          "Turn snap to grid on/off\nSnap to grid on/off"
     ID_HELP_GOTOTINYCADWEBSITE 
                             "Open an explorer window at the TinyCAD web site"
+END
+
+STRINGTABLE
+BEGIN
+    IDM_TOGGLE_GRIDSIZE     "Toggle grid size\nNormal / Fine / Custom"
+    IDM_EDITSELECTALL       "Select all objects\nSelect All"
 END
 
 STRINGTABLE
@@ -2014,11 +2028,6 @@ BEGIN
     IDM_EDITPASTE           "Paste the clipboard to the drawing\nPaste"
     IDM_EDITCUT             "Cut the selection to the clipboard\nCut"
     IDS_CONFIRM_DELETE      "Are you sure you wish to delete this symbol?\nOnce it has been deleted you CANNOT undo this operation."
-END
-
-STRINGTABLE
-BEGIN
-    IDM_EDITSELECTALL       "Select all objects\nSelect All"
 END
 
 STRINGTABLE
@@ -2056,11 +2065,11 @@ END
 
 STRINGTABLE
 BEGIN
-    IDM_BUSBACK             "Bus join\nBus join (F9)"
-    IDM_TOOLCONNECT         "No connection\nNo connect (F5)"
-    IDM_TOOLGET             "Get a symbol\nSymbol (F6)"
+    IDM_BUSBACK             "Bus join\nBus join"
+    IDM_TOOLCONNECT         "No connection\nNo connect"
+    IDM_TOOLGET             "Get a symbol\nSymbol"
     IDM_TOOLARC             "Arc annotations\nArc"
-    IDM_VIEWCENTRE          "Zoom in and out\nZoom (Z)"
+    IDM_VIEWCENTRE          "Zoom in and out\nZoom"
     IDM_VIEWZOOMIN          "Zoom In\nZoom In"
     IDM_VIEWZOOMOUT         "Zoom out\nZoom out"
     ID_SYMBOL_DELETESYMBOL  "Delete the selected symbol from the library\nDelete symbol"
@@ -2108,19 +2117,19 @@ END
 
 STRINGTABLE
 BEGIN
-    IDM_TOOLLABEL           "Label a wire\nLabel (F1)"
-    IDM_TOOLWIRE            "Wire connections\nWire (F2)"
-    IDM_TOOLJUNC            "Junction\nJunction (F3)"
-    IDM_TOOLPOWER           "Power\nPower (F4)"
-    IDM_TOOLBUSNAME         "Bus name\nBus name (F7)"
-    IDM_BUSSLASH            "Bus join\nBus join (F8)"
-    IDM_TOOLBUS             "Bus\nBus (F10)"
+    IDM_TOOLLABEL           "Label a wire\nLabel"
+    IDM_TOOLWIRE            "Wire connections\nWire"
+    IDM_TOOLJUNC            "Junction\nJunction"
+    IDM_TOOLPOWER           "Power\nPower"
+    IDM_TOOLBUSNAME         "Bus name\nBus name"
+    IDM_BUSSLASH            "Bus join\nBus join"
+    IDM_TOOLBUS             "Bus\nBus"
     IDM_TOOLTEXT            "Text annotation\nText"
     IDM_TOOLLINE            "Line annotations\nLine"
     IDM_TOOLCIRCLE          "Ellipse annotations\nEllipse"
     IDM_TOOLSQUARE          "Rectangle annotations\nRectangle"
-    IDM_EDITDELITEM         "Delete items\nDelete (DEL)"
-    IDM_EDITEDIT            "Edit items\nEdit (ESC)"
+    IDM_EDITDELITEM         "Delete items\nDelete"
+    IDM_EDITEDIT            "Edit items\nEdit"
 END
 
 STRINGTABLE
@@ -2131,7 +2140,7 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_OPTIONS_TOOLBARS_SYMBOL "Symbol picker\nSymbol picker (F6)"
+    ID_OPTIONS_TOOLBARS_SYMBOL "Symbol picker\nSymbol picker"
 END
 
 STRINGTABLE

@@ -402,6 +402,27 @@ bool CLibrarySQLite::Create(const TCHAR *filename)
 	return true;
 }
 
+// Cleanup a library (runs VACUUM)
+BOOL CLibrarySQLite::Cleanup()
+{
+	CString sql;
+	try
+	{
+		// VACUUM db
+		sql.Format(_T("VACUUM"));
+		CppSQLite3Query q_name = m_database.execQuery(sql);
+		return TRUE;
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		CString s;
+		CString msg(e.errorMessage());
+		s.Format(_T("Error cleanup library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
+		AfxMessageBox(s);
+		return FALSE;
+	}
+}
+
 // Is an upgrade required before editing this library?
 BOOL CLibrarySQLite::MustUpgrade()
 {

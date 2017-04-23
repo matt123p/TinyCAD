@@ -54,6 +54,39 @@ void CDlgPositionBox::SetPosition(const CString s)
 	}
 }
 
+void CDlgPositionBox::SetGridSize(double gridVal, int unitsVal)
+{
+	double ScaledGrid;
+	if (unitsVal == 0) //Units = 0; -> mm
+	{
+		ScaledGrid = gridVal / static_cast<double> (PIXELSPERMM);
+	}
+	else //Units = 1; -> inch
+	{
+		ScaledGrid = (1000.0 * gridVal) / (254.0 * PIXELSPERMM);
+	}
+
+	CString s;
+	s.Format(_T("%.4lg"), ScaledGrid);
+
+	CMFCToolBarEditBoxButton* gridSize = dynamic_cast<CMFCToolBarEditBoxButton*>(GetButton(3));
+	CToolbarLabel* units = dynamic_cast<CToolbarLabel*>(GetButton(4));
+	if (gridSize != nullptr) {
+		gridSize->SetContents(s);
+	}
+	if (units != nullptr) {
+		if (unitsVal == 0)
+		{
+			units->m_strText = ".1mm";
+		}
+		else
+		{
+			units->m_strText = ".001\"";
+		}
+		InvalidateButton(4);
+	}
+}
+
 // class definition
 IMPLEMENT_SERIAL(CToolbarLabel, CMFCToolBarButton, 1)
 

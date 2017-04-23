@@ -56,6 +56,8 @@ public:
 	void CloseMethodFile();
 	BOOL OpenIndexFile(CFile &, int); // Get the symbols file for this library
 
+	// Cleanup a library (runs VACUUM)
+	virtual BOOL Cleanup() OVERRIDE;
 
 	// Is an upgrade required before editing this library?
 	virtual BOOL MustUpgrade() OVERRIDE;

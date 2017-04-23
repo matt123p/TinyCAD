@@ -41,6 +41,7 @@ BEGIN_MESSAGE_MAP( CDlgLibraryBox, CDialog )
 	ON_LBN_DBLCLK(LIBRARYBOX_AVAILABLE, OnDblclkAvailable)
 	ON_LBN_SELCHANGE(LIBRARYBOX_AVAILABLE, OnSelchangeAvailable)
 	ON_BN_CLICKED(LIBRARYBOX_NEW, OnNew)
+	ON_BN_CLICKED(LIBRARYBOX_CLEANUP, OnCleanup)
 	ON_BN_CLICKED(LIBRARYBOX_UPGRADE, OnUpgrade)
 	//}}AFX_MSG_MAP
 	ON_WM_SIZE()
@@ -122,6 +123,7 @@ void CDlgLibraryBox::RefreshComponents(bool bHasToRefill)
 {
 	CButton* btnRemove = static_cast<CButton*> (GetDlgItem(LIBRARYBOX_REMOVE));
 	CButton* btnEdit = static_cast<CButton*> (GetDlgItem(LIBRARYBOX_EDIT));
+	CButton* btnCleanup = static_cast<CButton*> (GetDlgItem(LIBRARYBOX_CLEANUP));
 	CButton* btnUpgrade = static_cast<CButton*> (GetDlgItem(LIBRARYBOX_UPGRADE));
 	BOOL bIsLibSelected = m_lstLibs->GetCurSel() != LB_ERR;
 
@@ -136,6 +138,7 @@ void CDlgLibraryBox::RefreshComponents(bool bHasToRefill)
 	// activ if any listbox entry is selected
 	btnRemove->EnableWindow(bIsLibSelected);
 	btnEdit->EnableWindow(bIsLibSelected);
+	btnCleanup->EnableWindow(bIsLibSelected);
 	btnUpgrade->EnableWindow(bIsLibSelected);
 }
 //-------------------------------------------------------------------------
@@ -347,6 +350,13 @@ void CDlgLibraryBox::OnNew()
 }
 
 //-------------------------------------------------------------------------
+//-- Cleanup a library (runs VACUUM)
+void CDlgLibraryBox::OnCleanup()
+{
+	CLibraryStore* pOldLib = GetSelectedLibrary();
+	CLibraryCollection::Cleanup(pOldLib);
+}
+//-------------------------------------------------------------------------
 //-- Converts a library from the old format to
 //-- the new Microsoft Access database format.
 void CDlgLibraryBox::OnUpgrade()
@@ -384,7 +394,7 @@ void CDlgLibraryBox::OnSize(UINT nType, int cx, int cy)
 		m_lstLibs->MoveWindow(r);
 	}
 
-	const int ids[] = {LIBRARYBOX_ADD, LIBRARYBOX_REMOVE, LIBRARYBOX_EDIT, LIBRARYBOX_NEW, LIBRARYBOX_UPGRADE, IDOK};
+	const int ids[] = {LIBRARYBOX_ADD, LIBRARYBOX_REMOVE, LIBRARYBOX_EDIT, LIBRARYBOX_NEW, LIBRARYBOX_CLEANUP, LIBRARYBOX_UPGRADE, IDOK};
 
 	for (int i = 0; i < sizeof (ids) / sizeof(int); ++i)
 	{

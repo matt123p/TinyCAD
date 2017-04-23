@@ -100,6 +100,10 @@ public:
 	static void SaveToRegistry();
 
 	//-------------------------------------------------------------------------
+	//-- Clanup a library (runs VACUUM)
+	static void Cleanup(CLibraryStore* pLib);
+
+	//-------------------------------------------------------------------------
 	//-- Converts a library from the old format to
 	//-- the new Microsoft Access database format.
 	static CLibraryStore *Upgrade(CLibraryStore* pOldLib);

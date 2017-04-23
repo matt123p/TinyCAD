@@ -383,6 +383,7 @@
 #define IDC_BUTTON_SPICE_NETLIST        1583
 #define IDC_WINDOWS_VERSION             1584
 #define IDR_POSITION                    1585
+#define LIBRARYBOX_CLEANUP              1600
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
 #define AFX_IDC_TRACK_MOVE              30990
@@ -398,7 +399,7 @@
 #define IDM_TOOLLINE                    32779
 #define IDM_TOOLCIRCLE                  32780
 #define IDM_TOOLSQUARE                  32781
-#define ID_BUTTON32782                  32782
+//#define ID_BUTTON32782                  32782
 #define IDM_EDITDELITEM                 32782
 #define IDM_EDITEDIT                    32783
 #define IDM_BUSBACK                     32784
@@ -479,6 +480,9 @@
 #define ID_SPECIAL_VHDL                 32899
 #define IDM_SPECIALVHDLCHECK            32901
 #define IDC_SCALING                     40000
+#define IDS_NOCLEANUP                   40001
+#define POSITIONBOX_GRIDSIZE            40002
+#define POSITIONBOX_GRIDUNITS           40003
 #define ID_CONTEXT_COPY_TO              65535
 
 // Next default values for new objects

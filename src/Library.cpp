@@ -531,6 +531,13 @@ bool CLibraryFile::Create(const TCHAR *filename)
 	return true;
 }
 
+// Cleanup a library (runs VACUUM)
+BOOL CLibraryFile::Cleanup()
+{
+	//TBD: Not Implemented
+	return FALSE;
+}
+
 // Is an upgrade required before editing this library?
 BOOL CLibraryFile::MustUpgrade()
 {

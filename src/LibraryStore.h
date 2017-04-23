@@ -63,6 +63,9 @@ public:
 	// Attach this library to a file
 	virtual BOOL Attach(const TCHAR *filename) = 0;
 
+	// Cleanup a library (runs VACUUM)
+	virtual BOOL Cleanup() = 0;
+
 	// Is an upgrade required before editing this library?
 	virtual BOOL MustUpgrade() = 0;
 

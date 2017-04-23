@@ -57,6 +57,9 @@ public:
 	// Create a new library database
 	virtual bool Create(const TCHAR *filename) OVERRIDE;
 
+	// Cleanup a library (runs VACUUM)
+	virtual BOOL Cleanup() OVERRIDE;
+
 	// Is an upgrade required before editing this library?
 	virtual BOOL MustUpgrade() OVERRIDE;
 

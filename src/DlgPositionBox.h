@@ -59,6 +59,7 @@ public:
 
 	// Change the text in the Dialog
 	void SetPosition(const CString s);
+	void SetGridSize(double grid, int units);
 
 	// Dialog Data
 	//{{AFX_DATA(CDlgPositionBox)

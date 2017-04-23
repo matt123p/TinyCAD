@@ -197,6 +197,8 @@ protected:
 	afx_msg void OnUpdateEditmove(CCmdUI* pCmdUI);
 	afx_msg void OnSnaptogrid();
 	afx_msg void OnUpdateSnaptogrid(CCmdUI* pCmdUI);
+	afx_msg void OnToggleGridSize();
+	afx_msg void OnUpdateGridSize(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRepeatnamedown(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRepeatnameup(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRepeatpindown(CCmdUI* pCmdUI);

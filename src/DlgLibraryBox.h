@@ -104,6 +104,9 @@ protected:
 	//--
 	afx_msg void 		OnNew();
 
+	//-- Cleanup a library (runs VACUUM)
+	afx_msg void 		OnCleanup();
+
 	//-- Converts a library from the old format to
 	//-- the new Microsoft Access database format.
 	afx_msg void 		OnUpgrade();

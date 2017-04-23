@@ -284,7 +284,8 @@ public:
 	{
 		if (collection == NULL) return defaultValue;
 		if (collection->size() == 0) {
-			return NULL;
+//			return NULL;
+			return defaultValue;
 		}
 		return (*collection)[index];
 	}

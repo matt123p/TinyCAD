@@ -73,6 +73,7 @@ protected:
 
 public:
 	void setPositionText(const CString sPos);
+	void setGridSize(double grid, int units);
 	CLibraryStoreSymbol* GetSelectSymbol();
 	void ResetAllSymbols();
 //	virtual LRESULT OnDDEExecute(WPARAM wParam, LPARAM lParam);

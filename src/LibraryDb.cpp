@@ -521,6 +521,51 @@ bool CLibraryDb::Create(const TCHAR *filename)
 	return true;
 }
 
+// Cleanup a library (runs VACUUM)
+BOOL CLibraryDb::Cleanup()
+{
+	CString strTemp, tmpPath;
+	strTemp = m_name + ".mdb";
+	tmpPath = m_name + ".mdb.tmp";
+
+	try
+	{
+		if (m_database.IsOpen())
+		{
+			m_database.Close();
+		}
+
+		// Repair DB
+		//CDaoWorkspace::RepairDatabase(strTemp);
+		// Compact DB
+		CDaoWorkspace::CompactDatabase(strTemp, tmpPath);
+
+		// replace the original file with the compacted one and delete
+		if (DeleteFile(strTemp))
+		{
+			MoveFile(tmpPath, strTemp);
+		}
+
+		if (!m_database.IsOpen())
+		{
+			m_database.Open(strTemp);
+		}
+
+		return TRUE;
+	}
+	catch (CException *e)
+	{
+		CString s;
+		CString msg;
+		e->GetErrorMessage(msg.GetBuffer(256), 256, NULL);
+		msg.ReleaseBuffer();
+		s.Format(_T("Error cleanup library %s.\r\n%s"), (LPCTSTR)m_name, (LPCTSTR)msg);
+		AfxMessageBox(s);
+		e->Delete();
+		return FALSE;
+	}
+}
+
 // Is an upgrade required before editing this library?
 BOOL CLibraryDb::MustUpgrade()
 {

@@ -71,6 +71,9 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_UPDATE_COMMAND_UI(IDM_EDITMOVE, OnUpdateEditmove)
 	ON_COMMAND(IDM_SNAPTOGRID, OnSnaptogrid)
 	ON_UPDATE_COMMAND_UI(IDM_SNAPTOGRID, OnUpdateSnaptogrid)
+	ON_COMMAND(IDM_TOGGLE_GRIDSIZE, OnToggleGridSize)
+	//ON_UPDATE_COMMAND_UI(IDM_TOGGLE_GRIDSIZE, OnUpdateGridSize)
+	ON_UPDATE_COMMAND_UI(POSITIONBOX_GRIDSIZE, OnUpdateGridSize)
 	ON_UPDATE_COMMAND_UI(IDM_REPEATNAMEDOWN, OnUpdateRepeatnamedown)
 	ON_UPDATE_COMMAND_UI(IDM_REPEATNAMEUP, OnUpdateRepeatnameup)
 	ON_UPDATE_COMMAND_UI(IDM_REPEATPINDOWN, OnUpdateRepeatpindown)
@@ -1287,6 +1290,32 @@ void CTinyCadView::OnUpdateSnaptogrid(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(GetCurrentDocument()->GetSnapToGrid() ? 1 : 0);
 }
 
+////// The Toggle Grid Size //////
+
+void CTinyCadView::OnToggleGridSize()
+{
+	double grid = GetCurrentDocument()->m_snap.GetAccurateGrid();
+	if (grid == NormalGrid)
+		grid = FineGrid;
+	else if (grid == FineGrid)
+		grid = FineGrid / 2.0;
+	else if (grid == FineGrid / 2.0)
+		grid = FineGrid / 4.0;
+	else if (grid == FineGrid / 4.0)
+		grid = FineGrid / 10.0;
+	else
+		grid = NormalGrid;
+	GetCurrentDocument()->m_snap.SetAccurateGrid(grid);
+	RedrawWindow();
+}
+
+void CTinyCadView::OnUpdateGridSize(CCmdUI* pCmdUI)
+{
+	double grid = GetCurrentDocument()->m_snap.GetAccurateGrid();
+	int units = GetCurrentDocument()->GetOptions()->GetUnits(); 
+	static_cast<CMainFrame*> (AfxGetMainWnd())->setGridSize(grid, units);
+	pCmdUI->Enable(FALSE);
+}
 ////// The REPEAT menu //////
 
 void CTinyCadView::OnRepeatNameUp()
@@ -1297,7 +1326,6 @@ void CTinyCadView::OnRepeatNameUp()
 void CTinyCadView::OnUpdateRepeatnameup(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(GetCurrentDocument()->GetNameDir() == 1 ? 1 : 0);
-
 }
 
 void CTinyCadView::OnRepeatNameDown()
@@ -1318,7 +1346,6 @@ void CTinyCadView::OnRepeatPinUp()
 void CTinyCadView::OnUpdateRepeatpinup(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(GetCurrentDocument()->GetPinDir() == 1 ? 1 : 0);
-
 }
 
 void CTinyCadView::OnRepeatPinDown()
@@ -1452,25 +1479,21 @@ void CTinyCadView::OnViewOptions()
 void CTinyCadView::OnEditDelete()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, IDM_EDITDELITEM);
-
 }
 
 void CTinyCadView::OnContextMakehorizontal()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_MAKEHORIZONTAL);
-
 }
 
 void CTinyCadView::OnContextMakevertical()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_MAKEVERTICAL);
-
 }
 
 void CTinyCadView::OnContextArcin()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_ARCIN);
-
 }
 
 void CTinyCadView::OnContextArcout()

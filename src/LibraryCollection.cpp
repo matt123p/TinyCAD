@@ -23,6 +23,7 @@
 #include "TinyCad.h"
 #include "LibrarySQLite.h"
 #include <assert.h>
+#include <typeinfo>
 
 typedef std::list<CLibraryStore*>::iterator TIterator;
 
@@ -297,6 +298,25 @@ void CLibraryCollection::SaveToRegistry()
 
 	CRegistry::Set("Libraries", sLibs);
 }
+
+//-------------------------------------------------------------------------
+// Cleanup a library (runs VACUUM)
+void CLibraryCollection::Cleanup(CLibraryStore* pLib)
+{
+	if (CTinyCadApp::IsLibInUse(pLib))
+	{
+		// We cannot clanup whilst in use
+		AfxMessageBox(IDS_NOCLEANUP);
+	}
+	else
+	{
+		if (pLib->Cleanup())
+		{
+			CTinyCadApp::ResetAllSymbols();
+		}
+	}
+}
+
 //-------------------------------------------------------------------------
 //-- Converts a library from the old format to
 //-- the new Microsoft Access database format.
