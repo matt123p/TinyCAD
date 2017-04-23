@@ -283,6 +283,9 @@ public:
 	const T& getObjectWithDefault(const T& defaultValue) const
 	{
 		if (collection == NULL) return defaultValue;
+		if (collection->size() == 0) {
+			return NULL;
+		}
 		return (*collection)[index];
 	}
 
