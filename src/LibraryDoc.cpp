@@ -183,8 +183,9 @@ void CLibraryDoc::EditSymbol(int which)
 	else
 	{
 		// Determine which symbol we are talking about
-		CLibraryStore::symbolCollection::iterator it = getSymbol(which);
+		if ((bool) m_pLibrary->m_Symbols.empty()) return;	//desired symbol doesn't exist
 
+		CLibraryStore::symbolCollection::iterator it = getSymbol(which);
 		if (it != m_pLibrary->m_Symbols.end())
 		{
 			CTinyCadApp::EditSymbol(m_pLibrary, it->second);

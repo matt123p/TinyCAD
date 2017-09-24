@@ -1447,44 +1447,56 @@ void CTinyCadDoc::UngroupSymbols()
 	// Scan and convert any imported symbols
 	// into their component parts
 	drawingIterator it = GetDrawingBegin();
+	bool specialEndOfDrawing = false;
+
 	//(Don't prefetch GetDrawingEnd here)
-	while (it != GetDrawingEnd())
+	while (specialEndOfDrawing == false) 
 	{
-		drawingIterator current = it;
-		++it;
-		CDrawingObject *pObject = *current;
-
-		// Is this a method object?
-		if (pObject->GetType() == xMethodEx3 && IsSelected(pObject))
+		if (it != GetDrawingEnd())
 		{
-			// Convert to the actual type
-			CDrawMethod *pMethod = static_cast<CDrawMethod*> (pObject);
+			drawingIterator current = it;
+			++it;
 
-			// Get the symbol data
-			CDPoint tr;
-			drawingCollection method;
-			pMethod->ExtractSymbol(tr, method);
-
-			// Remove the method from the linked list
-			UnSelect(pMethod);
-			Delete(pMethod);
-
-			// Now re-insert using the offset of the main
-			// method
-			CDPoint offset = method.front()->m_point_a;
-			drawingIterator it = method.begin();
-			while (it != method.end())
+			specialEndOfDrawing = (it == GetDrawingEnd());
+		
+			CDrawingObject *pObject = *current;
+		
+			// Is this a method object?
+			if (pObject->GetType() == xMethodEx3 && IsSelected(pObject))
 			{
-				CDrawingObject *pInsertObject = *it;
-				CDrawingObject *pDup = pInsertObject->Store();
+				// Convert to the actual type
+				CDrawMethod *pMethod = static_cast<CDrawMethod*> (pObject);
 
-				pDup->m_point_a += offset;
-				pDup->m_point_b += offset;
+				// Get the symbol data
+				CDPoint tr;
+				drawingCollection method;
+				pMethod->ExtractSymbol(tr, method);
 
-				Select(pDup);
+				// Remove the method from the linked list
+				UnSelect(pMethod);
+				Delete(pMethod);
 
-				++it;
+				// Now re-insert using the offset of the main
+				// method
+				CDPoint offset = method.front()->m_point_a;
+				for (drawingIterator it = method.begin(); (it != method.end());)
+				{
+					CDrawingObject *pInsertObject = *it;
+					CDrawingObject *pDup = pInsertObject->Store();
+
+					pDup->m_point_a += offset;
+					pDup->m_point_b += offset;
+
+					Select(pDup);
+
+					++it;
+					specialEndOfDrawing |= (it != method.end());
+				}
 			}
+		}
+		else 
+		{
+			specialEndOfDrawing = true;
 		}
 	}
 }
