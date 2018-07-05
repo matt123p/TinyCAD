@@ -96,6 +96,7 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND(IDM_VIEW_OPTIONS, OnViewOptions)
 	ON_COMMAND(ID_CONTEXT_ARCIN, OnContextArcin)
 	ON_COMMAND(ID_CONTEXT_ARCOUT, OnContextArcout)
+	ON_COMMAND(ID_CONTEXT_CURVE, OnContextCurve)
 	ON_COMMAND(ID_CONTEXT_CANCELDRAWING, OnContextCanceldrawing)
 	ON_COMMAND(ID_CONTEXT_FINISHDRAWING, OnContextFinishdrawing)
 	ON_COMMAND(ID_CONTEXT_FREELINE, OnContextFreeline)
@@ -1499,6 +1500,11 @@ void CTinyCadView::OnContextArcin()
 void CTinyCadView::OnContextArcout()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_ARCOUT);
+}
+
+void CTinyCadView::OnContextCurve()
+{
+	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_CURVE);
 }
 
 void CTinyCadView::OnContextFreeline()

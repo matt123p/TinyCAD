@@ -84,7 +84,15 @@ void CDrawPolygon::SaveXML(CXMLWriter &xml)
 		{
 			xml.addTag(_T("POINT"));
 			xml.addAttribute(_T("pos"), CDPoint( (*it).x, (*it).y));
-			xml.addAttribute(_T("arc"), (*it).arc);
+			if ((*it).arc == CArcPoint::Arc_control)
+			{
+				xml.addAttribute(_T("arc"), 0);
+				xml.addAttribute(_T("control"), (*it).control);
+			}
+			else
+			{
+				xml.addAttribute(_T("arc"), (*it).arc);
+			}
 			xml.closeTag();
 			++it;
 		}
@@ -119,14 +127,23 @@ void CDrawPolygon::LoadXML(CXMLReader &xml)
 		if (name == _T("POINT"))
 		{
 			CDPoint p;
+			CDPoint control;
 			int arc = 0;
 			xml.getAttribute(_T("pos"), p);
 			xml.getAttribute(_T("arc"), arc);
+
+			// Is there a control point - if so it overrides the arc control
+			if (xml.getAttribute(_T("control"), control))
+			{
+				arc = CArcPoint::Arc_control;
+			}
+
 
 			CArcPoint q;
 			q.x = p.x;
 			q.y = p.y;
 			q.arc = static_cast<CArcPoint::arc_type> (arc);
+			q.control = control;
 			m_handles.push_back(q);
 		}
 	}
@@ -258,16 +275,19 @@ void CDrawPolygon::Rotate(CDPoint p, int dir)
 	while (it != m_handles.end())
 	{
 		CArcPoint qp(*it + m_point_a);
+		CDPoint cp(it->control + m_point_a);
 		CArcPoint::arc_type at = (*it).arc;
 
 		// Translate this point so the rotational point is the origin
 		qp = CDPoint(qp.x - p.x, qp.y - p.y);
+		cp = CDPoint(cp.x - p.x, cp.y - p.y);
 
 		// Perfrom the rotation
 		switch (dir)
 		{
 			case 2: // Left
 				qp = CDPoint(qp.y, -qp.x);
+				cp = CDPoint(cp.y, -cp.x);
 				if (it->arc == CArcPoint::Arc_in)
 				{
 					it->arc = CArcPoint::Arc_out;
@@ -279,6 +299,7 @@ void CDrawPolygon::Rotate(CDPoint p, int dir)
 				break;
 			case 3: // Right
 				qp = CDPoint(-qp.y, qp.x);
+				cp = CDPoint(-cp.y, cp.x);
 				if (it->arc == CArcPoint::Arc_in)
 				{
 					it->arc = CArcPoint::Arc_out;
@@ -290,6 +311,7 @@ void CDrawPolygon::Rotate(CDPoint p, int dir)
 				break;
 			case 4: // Mirror
 				qp = CDPoint(-qp.x, qp.y);
+				cp = CDPoint(-cp.x, cp.y);
 				break;
 		}
 
@@ -309,6 +331,7 @@ void CDrawPolygon::Rotate(CDPoint p, int dir)
 		}
 
 		// Re-translate the points back to the original location
+		it->control = CDPoint(cp.x + p.x, cp.y + p.y) - m_point_a;
 		*it = CArcPoint(qp.x + p.x, qp.y + p.y, at) - m_point_a;
 
 		++it;
@@ -353,14 +376,35 @@ void CDrawPolygon::CalcBoundingRect()
 		++it;
 	}
 
+	arcpointCollection::iterator itx = m_handles.begin();
+	while (itx != m_handles.end())
+	{
+		if (itx->arc == CArcPoint::Arc_control)
+		{
+			CDPoint qp = itx->control + m_point_a;
+
+			r.left = static_cast<int> (min(r.left, qp.x));
+			r.top = static_cast<int> (min(r.top, qp.y));
+			r.right = static_cast<int> (max(r.right, qp.x));
+			r.bottom = static_cast<int> (max(r.bottom, qp.y));
+		}
+		++itx;
+	}
+
+
 	// Now move everything so that a and b
 	// lie on the bounding rectangle
 
 	CDPoint diff_a = CDPoint(r.left, r.top) - m_point_a;
-	arcpointCollection::iterator itx = m_handles.begin();
+	itx = m_handles.begin();
 	while (itx != m_handles.end())
 	{
 		*itx = *itx - diff_a;
+
+		if (itx->arc == CArcPoint::Arc_control)
+		{
+			itx->control = itx->control - diff_a;
+		}
 		++itx;
 	}
 
@@ -532,6 +576,13 @@ void CDrawPolygon::ContextMenu(CDPoint p, UINT id)
 					m_handles[line].arc = CArcPoint::Arc_out;
 				}
 				break;
+			case ID_CONTEXT_CURVE:
+				if (line > 0)
+				{
+					m_handles[line].arc = CArcPoint::Arc_control;
+					m_handles[line].control = CDPoint(snap_p - m_point_a);
+				}
+				break;
 			case ID_CONTEXT_FREELINE:
 				if (line > 0)
 				{
@@ -539,10 +590,18 @@ void CDrawPolygon::ContextMenu(CDPoint p, UINT id)
 				}
 				break;
 			case ID_CONTEXT_DELETEHANDLE:
-				if (m_handles.size() > 2)
+			{
+				// Is this over a control point?
+				int px = IsInsideField(p);
+				if (px >= 5000)
+				{
+					m_handles[px - 5000].arc = CArcPoint::Arc_none;
+				}
+				else if (m_handles.size() > 2)
 				{
 					m_handles.erase(m_handles.begin() + handle);
 				}
+			}
 				break;
 			case ID_CONTEXT_ADDHANDLE:
 				m_handles.insert(m_handles.begin() + line, CArcPoint(snap_p - m_point_a));
@@ -736,6 +795,13 @@ void CDrawPolygon::PaintHandles(CContext&dc)
 		CDRect r(p.x - 2, p.y - 2, p.x + 2, p.y + 2);
 		dc.Rectangle(r);
 
+		if (it->arc == CArcPoint::Arc_control)
+		{
+			CArcPoint p = it->control + m_point_a;
+			CDRect r(p.x - 2, p.y - 2, p.x + 2, p.y + 2);
+			dc.Rectangle(r);
+		}
+
 		++it;
 	}
 
@@ -759,6 +825,16 @@ int CDrawPolygon::IsInsideField(CDPoint p)
 		if (r.PtInRect(p))
 		{
 			return s + 1000;
+		}
+
+		if (it->arc == CArcPoint::Arc_control)
+		{
+			CDPoint cp = it->control + m_point_a;
+			CDRect cr(cp.x - 2, cp.y - 2, cp.x + 2, cp.y + 2);
+			if (cr.PtInRect(p))
+			{
+				return s + 5000;
+			}
 		}
 
 		++s;
@@ -793,7 +869,12 @@ void CDrawPolygon::MoveField(int w, CDPoint r)
 {
 	Display();
 
-	if (w >= 1000)
+	if (w >= 5000)
+	{
+		// Individual control movement...
+		m_handles[w - 5000].control = m_handles[w - 5000].control + r;
+	}
+	else if (w >= 1000)
 	{
 		// Individual handle movement...
 		m_handles[w - 1000] = m_handles[w - 1000] + r;
@@ -868,6 +949,13 @@ void CDrawPolygon::MoveField(int w, CDPoint r)
 			CArcPoint p = *it;
 			p.x *= scaling_x;
 			p.y *= scaling_y;
+
+			if (it->arc == CArcPoint::Arc_control)
+			{
+				it->control.x *= scaling_x;
+				it->control.y *= scaling_y;
+			}
+
 			*it = p;
 			++it;
 		}
@@ -999,17 +1087,23 @@ void CDrawPolygon::AddPolyBezier(pointCollection &cp, CArcPoint p1, CArcPoint p2
 
 	switch (p2.arc)
 	{
+		case CArcPoint::Arc_in:
+			Np[1].x = mid_x;
+			Np[1].y = Np[0].y;
+			Np[2].x = Np[3].x;
+			Np[2].y = mid_y;
+			break;
 		case CArcPoint::Arc_out:
 			Np[1].x = Np[0].x;
 			Np[1].y = mid_y;
 			Np[2].x = mid_x;
 			Np[2].y = Np[3].y;
 			break;
-		default:
-			Np[1].x = mid_x;
-			Np[1].y = Np[0].y;
-			Np[2].x = Np[3].x;
-			Np[2].y = mid_y;
+		case CArcPoint::Arc_control:
+			Np[1].x = Np[0].x + 2.0 / 3.0 * (p2.control.x - Np[0].x);
+			Np[1].y = Np[0].y + 2.0 / 3.0 * (p2.control.y - Np[0].y);
+			Np[2].x = Np[3].x + 2.0 / 3.0 * (p2.control.x - Np[3].x);
+			Np[2].y = Np[3].y + 2.0 / 3.0 * (p2.control.y - Np[3].y);
 			break;
 	}
 

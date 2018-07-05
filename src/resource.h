@@ -485,6 +485,7 @@
 #define ID_SPECIAL_VHDL                 32899
 #define IDM_SPECIALVHDLCHECK            32901
 #define ID_HELP_SUPPORTFORUM            32902
+#define ID_CONTEXT_CURVE                32903
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002

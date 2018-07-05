@@ -1310,6 +1310,7 @@ BEGIN
         MENUITEM "Free line",                   ID_CONTEXT_FREELINE
         MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
         MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
+        MENUITEM "Curve",                       ID_CONTEXT_CURVE
         MENUITEM SEPARATOR
         MENUITEM "Undo",                        IDM_EDITUNDO
         MENUITEM "Redo",                        IDM_EDITREDO

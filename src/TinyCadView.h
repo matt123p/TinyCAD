@@ -219,6 +219,7 @@ protected:
 	afx_msg void OnViewOptions();
 	afx_msg void OnContextArcin();
 	afx_msg void OnContextArcout();
+	afx_msg void OnContextCurve();
 	afx_msg void OnContextCanceldrawing();
 	afx_msg void OnContextFinishdrawing();
 	afx_msg void OnContextFreeline();

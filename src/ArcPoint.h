@@ -35,9 +35,12 @@ public:
 	{
 		Arc_none, 
 		Arc_in, 
-		Arc_out
+		Arc_out,
+		Arc_control
 	};
 	arc_type arc;
+	CDPoint control;
+
 
 	CArcPoint()
 	{
