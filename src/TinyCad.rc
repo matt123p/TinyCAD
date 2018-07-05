@@ -1289,6 +1289,7 @@ BEGIN
         MENUITEM "Free line",                   ID_CONTEXT_FREELINE
         MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
         MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
+        MENUITEM "Curve",                       ID_CONTEXT_CURVE
         MENUITEM SEPARATOR
         MENUITEM "Undo",                        IDM_EDITUNDO
         MENUITEM "Redo",                        IDM_EDITREDO
@@ -2010,10 +2011,14 @@ END
 STRINGTABLE
 BEGIN
     IDS_NODELETE            "Cannot delete a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
-    IDS_NOCLEANUP           "Cannot cleanup a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
     IDM_SNAPTOGRID          "Turn snap to grid on/off\nSnap to grid on/off"
     ID_HELP_GOTOTINYCADWEBSITE 
                             "Open an explorer window at the TinyCAD web site"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NOCLEANUP           "Cannot cleanup a library while it is being edited or while you are creating a new symbol for it.  Close the editing windows and try again"
 END
 
 STRINGTABLE

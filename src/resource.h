@@ -399,7 +399,6 @@
 #define IDM_TOOLLINE                    32779
 #define IDM_TOOLCIRCLE                  32780
 #define IDM_TOOLSQUARE                  32781
-//#define ID_BUTTON32782                  32782
 #define IDM_EDITDELITEM                 32782
 #define IDM_EDITEDIT                    32783
 #define IDM_BUSBACK                     32784
@@ -479,6 +478,7 @@
 #define IDM_TOOLNOTETEXT                32897
 #define ID_SPECIAL_VHDL                 32899
 #define IDM_SPECIALVHDLCHECK            32901
+#define ID_CONTEXT_CURVE                32902
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002
@@ -491,7 +491,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        172
-#define _APS_NEXT_COMMAND_VALUE         32902
+#define _APS_NEXT_COMMAND_VALUE         32903
 #define _APS_NEXT_CONTROL_VALUE         1586
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

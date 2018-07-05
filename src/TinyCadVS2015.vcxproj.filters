@@ -965,5 +965,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\LGPLV3.bmp" />
+    <Image Include="res\gridset.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

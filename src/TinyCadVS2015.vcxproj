@@ -69,10 +69,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -82,7 +85,7 @@
     <PreBuildEvent>
       <Message>Construct the build version information from the SVN working copy and repository (requires that TortoiseSVN be installed)</Message>
       <Command>del "$(OutDir)\*.dll"
-"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" $(ProjectDir)\.. BuildIDTemplate.h BuildID.h -f</Command>
+"C:\Program Files\TortoiseSVN\bin\SubWCRev.exe" "$(ProjectDir)\.." BuildIDTemplate.h BuildID.h -f</Command>
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1659,6 +1662,7 @@ xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
     <Manifest Include="TinyCAD.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\gridset.bmp" />
     <Image Include="res\LGPLV3.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
