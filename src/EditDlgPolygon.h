@@ -53,6 +53,7 @@ public:
 	CEdit m_Line_Thickness;
 	CComboBox m_Fill_Index;
 	CComboBox m_Line_Style;
+	CButton m_Close;
 	//}}AFX_DATA
 
 
@@ -68,6 +69,7 @@ protected:
 
 	LineStyle m_lStyle;
 	FillStyle m_fStyle;
+	BOOL m_do_stroke;
 	BOOL m_do_fill;
 	BOOL m_close_polygon;
 
@@ -87,8 +89,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedClose();
-	CButton m_Close;
- };
+	CButton m_Line;
+	afx_msg void OnBnClickedShowLine();
+};
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

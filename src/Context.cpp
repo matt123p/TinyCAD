@@ -151,6 +151,11 @@ BOOL CContext::SelectPen(int Style, int Width, LONG Colour, paint_options option
 	{
 		case draw_selected:
 			Colour = cSELECT;
+			if (Style == PS_NULL)
+			{
+				Style = PS_SOLID;
+				Colour = RGB(200, 200, 200);
+			}
 			break;
 		case draw_selectable:
 		{
@@ -169,8 +174,12 @@ BOOL CContext::SelectPen(int Style, int Width, LONG Colour, paint_options option
 				// Light colors will become black.
 				Colour = RGB(0, 0, 0);
 			}
+			if (Style == PS_NULL)
+			{
+				Style = PS_SOLID;
+			}
 		}
-			break;
+		break;
 	}
 
 	//int Selected = -1;
@@ -197,7 +206,7 @@ BOOL CContext::SelectPen(int Style, int Width, LONG Colour, paint_options option
 		int new_style;
 		int style_count = 0;
 
-		if (Style != PS_SOLID && CTinyCadApp::IsWinNT())
+		if (Style != PS_SOLID && Style != PS_NULL && CTinyCadApp::IsWinNT())
 		{
 			const int dot = 4;
 			const int dash = 8;

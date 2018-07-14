@@ -48,6 +48,7 @@ void CEditDlgPolygon::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, LINETHICKBOX_STYLE, m_Line_Style);
 	//}}AFX_DATA_MAP
 	DDX_Control(pDX, IDC_CLOSE_POLYGON, m_Close);
+	DDX_Control(pDX, IDC_SHOW_LINE, m_Line);
 }
 
 BEGIN_MESSAGE_MAP(CEditDlgPolygon, CDialog)
@@ -61,6 +62,7 @@ BEGIN_MESSAGE_MAP(CEditDlgPolygon, CDialog)
 	ON_BN_CLICKED(IDC_FILL, OnFill)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_CLOSE_POLYGON, &CEditDlgPolygon::OnBnClickedClose)
+	ON_BN_CLICKED(IDC_SHOW_LINE, &CEditDlgPolygon::OnBnClickedShowLine)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -116,11 +118,16 @@ void CEditDlgPolygon::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	}
 
 	m_do_fill = fill != fsNONE;
+	m_do_stroke = m_lStyle.Style != PS_NULL;
+
+	m_Line_Style.EnableWindow(m_do_stroke);
+	m_Line_Thickness.EnableWindow(m_do_stroke);
 
 	m_Fill_Index.EnableWindow(m_do_fill);
 	m_Fill_Colour.EnableWindow(m_do_fill);
 	m_Fill.SetCheck(m_do_fill ? 1 : 0);
 	m_Close.SetCheck(m_close_polygon ? 1 : 0);
+	m_Line.SetCheck(m_do_stroke ? 1 : 0);
 
 	CString s;
 	s.Format(_T("%d"), m_lStyle.Thickness);
@@ -275,6 +282,8 @@ void CEditDlgPolygon::UpdateOptions()
 	// Update the window state
 	m_Fill_Colour.EnableWindow(m_do_fill);
 	m_Fill_Index.EnableWindow(m_do_fill);
+	m_Line_Style.EnableWindow(m_do_stroke);
+	m_Line_Thickness.EnableWindow(m_do_stroke);
 
 	// Write back the fill
 	if (!m_do_fill)
@@ -292,6 +301,18 @@ void CEditDlgPolygon::UpdateOptions()
 	m_pDesign->GetOptions()->SetPolygonClose(m_close_polygon);
 
 	// Write back the line style
+	if (!m_do_stroke)
+	{
+		m_lStyle.Style = PS_NULL;
+		m_lStyle.Thickness = 1;
+		m_lStyle.Colour = RGB(0, 0, 0);
+	}
+	else if (m_lStyle.Style == PS_NULL)
+	{
+		m_lStyle.Style = PS_SOLID;
+	}
+
+	// Line
 	WORD line = m_pDesign->GetOptions()->AddStyle(&m_lStyle);
 	m_pDesign->GetOptions()->SetCurrentStyle(getObject()->GetType(), line);
 
@@ -308,5 +329,12 @@ void CEditDlgPolygon::OnFill()
 void CEditDlgPolygon::OnBnClickedClose()
 {
 	m_close_polygon = (m_Close.GetState() & 3) != 0;
+	UpdateOptions();
+}
+
+
+void CEditDlgPolygon::OnBnClickedShowLine()
+{
+	m_do_stroke = (m_Line.GetState() & 3) != 0;
 	UpdateOptions();
 }

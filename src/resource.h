@@ -383,8 +383,9 @@
 #define IDC_BUTTON_SPICE_NETLIST        1583
 #define IDC_WINDOWS_VERSION             1584
 #define IDR_POSITION                    1585
-#define IDC_CLOSE_POLY                  1586
 #define IDC_CLOSE_POLYGON               1586
+#define IDC_CLOSE_POLYGON2              1587
+#define IDC_SHOW_LINE                   1587
 #define LIBRARYBOX_CLEANUP              1600
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
