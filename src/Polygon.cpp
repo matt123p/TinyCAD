@@ -37,6 +37,7 @@ CDrawPolygon::CDrawPolygon(CTinyCadDoc *pDesign, ObjType NewType) :
 	m_segment = 1;
 	xtype = NewType;
 	m_re_edit = FALSE;
+	Close = FALSE;
 
 	switch (xtype)
 	{
@@ -76,6 +77,7 @@ void CDrawPolygon::SaveXML(CXMLWriter &xml)
 		xml.addAttribute(_T("pos"), m_point_a);
 		xml.addAttribute(_T("style"), Style);
 		xml.addAttribute(_T("fill"), Fill);
+		xml.addAttribute(_T("polygon"), Close);
 
 		arcpointCollection::iterator it = m_handles.begin();
 		while (it != m_handles.end())
@@ -96,6 +98,16 @@ void CDrawPolygon::LoadXML(CXMLReader &xml)
 	xml.getAttribute(_T("pos"), m_point_a);
 	xml.getAttribute(_T("style"), Style);
 	xml.getAttribute(_T("fill"), Fill);
+
+	if (Fill != 0)
+	{
+		Close = TRUE;
+	}
+	else
+	{
+		xml.getAttribute(_T("polygon"), Close);
+	}
+
 
 	m_handles.erase(m_handles.begin(), m_handles.end());
 
@@ -590,6 +602,7 @@ void CDrawPolygon::NewOptions()
 	Display();
 	Style = m_pDesign->GetOptions()->GetCurrentStyle(GetType());
 	Fill = m_pDesign->GetOptions()->GetCurrentFillStyle(GetType());
+	Close = m_pDesign->GetOptions()->GetPolygonClose();
 	Display();
 }
 
@@ -1061,7 +1074,7 @@ void CDrawPolygon::Paint(CContext&dc, paint_options options)
 	{
 		//Add last line segment to selectable outline.
 		//It is missing if the polygon is not closed.
-		if (Fill != fsNONE && options == draw_selectable && m_points.size() > 2)
+		if (Close && m_points.size() > 2)
 		{
 			pointCollection outline(m_points);
 			outline.push_back(m_points.front());
@@ -1135,6 +1148,7 @@ void CDrawPolygon::BeginEdit(BOOL re_edit)
 
 	m_pDesign->GetOptions()->SetCurrentStyle(GetType(), Style);
 	m_pDesign->GetOptions()->SetCurrentFillStyle(GetType(), Fill);
+	m_pDesign->GetOptions()->SetPolygonClose(Close);
 
 	m_re_edit = re_edit;
 	if (re_edit)
@@ -1231,7 +1245,7 @@ double CDrawPolygon::DistanceFromPoint(CDPoint p)
 	}
 
 	//For filled polygons also check for distance to closing line segment
-	if (Fill != fsNONE && m_points.size() > 2)
+	if ((Fill != fsNONE || Close) && m_points.size() > 2)
 	{
 		CDPoint np(m_points.front() + m_point_a);
 		CLineUtils l(la, np);

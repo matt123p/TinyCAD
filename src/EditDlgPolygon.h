@@ -27,6 +27,7 @@
 //
 
 #include "diag.h"
+#include "afxwin.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CEditDlgPolygon dialog
@@ -68,6 +69,7 @@ protected:
 	LineStyle m_lStyle;
 	FillStyle m_fStyle;
 	BOOL m_do_fill;
+	BOOL m_close_polygon;
 
 	void UpdateOptions();
 
@@ -83,7 +85,10 @@ protected:
 	afx_msg void OnFill();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-};
+public:
+	afx_msg void OnBnClickedClose();
+	CButton m_Close;
+ };
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

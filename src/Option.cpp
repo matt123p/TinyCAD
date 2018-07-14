@@ -28,6 +28,7 @@ COption::COption()
 	PinLength = 20;
 	PinNumberPos = 0;
 	origin = CDPoint();
+	ClosePolygon = FALSE;
 }
 //-------------------------------------------------------------------------
 void COption::Init(CTinyCadDoc *pDesign)

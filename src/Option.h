@@ -41,6 +41,9 @@ private:
 	std::map<ObjType, hSTYLE> CurrentStyle; // The default line style
 	std::map<ObjType, hFILL> CurrentFillStyle; // The default line style
 
+	// Do we close polygons?
+	BOOL	ClosePolygon;
+
 	// The current grid settings
 	Bool8 GridShow; // Should we show the grid?
 	LONG Units; // The units to use
@@ -215,6 +218,17 @@ public:
 	{
 		CurrentFillStyle[t] = n;
 	}
+
+	BOOL GetPolygonClose()
+	{
+		return ClosePolygon;
+	}
+
+	void SetPolygonClose(BOOL c)
+	{
+		ClosePolygon = c;
+	}
+
 
 	////// The Meta File operators //////
 

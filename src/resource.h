@@ -383,6 +383,8 @@
 #define IDC_BUTTON_SPICE_NETLIST        1583
 #define IDC_WINDOWS_VERSION             1584
 #define IDR_POSITION                    1585
+#define IDC_CLOSE_POLY                  1586
+#define IDC_CLOSE_POLYGON               1586
 #define LIBRARYBOX_CLEANUP              1600
 #define IDC_ZOOMCURSOR                  30988
 #define IDC_REFCURSOR                   30989
@@ -399,7 +401,6 @@
 #define IDM_TOOLLINE                    32779
 #define IDM_TOOLCIRCLE                  32780
 #define IDM_TOOLSQUARE                  32781
-//#define ID_BUTTON32782                  32782
 #define IDM_EDITDELITEM                 32782
 #define IDM_EDITEDIT                    32783
 #define IDM_BUSBACK                     32784
@@ -490,9 +491,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        172
+#define _APS_NEXT_RESOURCE_VALUE        173
 #define _APS_NEXT_COMMAND_VALUE         32902
-#define _APS_NEXT_CONTROL_VALUE         1586
+#define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

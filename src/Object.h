@@ -153,6 +153,8 @@ protected:
 
 	BOOL m_re_edit;
 
+	BOOL Close;
+
 	WORD Style;
 	WORD Fill;
 
