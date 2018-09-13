@@ -247,6 +247,8 @@
 #define IDC_FILL_COLOUR                 1020
 #define IDS_MISSLIB                     1021
 #define IDC_VERSION                     1021
+#define IDC_FILL2                       1021
+#define IDC_LINE                        1021
 #define IDS_NORES                       1022
 #define IDC_TEXT_FONT                   1022
 #define IDS_NOFIND                      1023
@@ -490,9 +492,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        172
+#define _APS_NEXT_RESOURCE_VALUE        173
 #define _APS_NEXT_COMMAND_VALUE         32903
-#define _APS_NEXT_CONTROL_VALUE         1586
+#define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           113
 #endif
 #endif

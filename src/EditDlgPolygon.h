@@ -27,6 +27,7 @@
 //
 
 #include "diag.h"
+#include "afxwin.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CEditDlgPolygon dialog
@@ -52,6 +53,8 @@ public:
 	CEdit m_Line_Thickness;
 	CComboBox m_Fill_Index;
 	CComboBox m_Line_Style;
+	CButton m_Line;
+	CButton m_Line_Colour;
 	//}}AFX_DATA
 
 
@@ -68,6 +71,7 @@ protected:
 	LineStyle m_lStyle;
 	FillStyle m_fStyle;
 	BOOL m_do_fill;
+	BOOL m_do_line;
 
 	void UpdateOptions();
 
@@ -81,9 +85,11 @@ protected:
 	afx_msg void OnChangeThickness();
 	afx_msg void OnSelchangeIndex();
 	afx_msg void OnFill();
+	afx_msg void OnBnClickedLine();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-};
+public:
+ };
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

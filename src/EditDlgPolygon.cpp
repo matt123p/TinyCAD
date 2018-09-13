@@ -47,6 +47,8 @@ void CEditDlgPolygon::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_INDEX, m_Fill_Index);
 	DDX_Control(pDX, LINETHICKBOX_STYLE, m_Line_Style);
 	//}}AFX_DATA_MAP
+	DDX_Control(pDX, IDC_LINE, m_Line);
+	DDX_Control(pDX, IDC_LINE_COLOUR, m_Line_Colour);
 }
 
 BEGIN_MESSAGE_MAP(CEditDlgPolygon, CDialog)
@@ -59,6 +61,7 @@ BEGIN_MESSAGE_MAP(CEditDlgPolygon, CDialog)
 	ON_CBN_SELCHANGE(IDC_INDEX, OnSelchangeIndex)
 	ON_BN_CLICKED(IDC_FILL, OnFill)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_LINE, &CEditDlgPolygon::OnBnClickedLine)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -103,10 +106,15 @@ void CEditDlgPolygon::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	m_Fill_Index.SetCurSel(m_fStyle.Index);
 
 	m_do_fill = fill != fsNONE;
+	m_do_line = m_lStyle.Style != PS_NULL;
 
 	m_Fill_Index.EnableWindow(m_do_fill);
 	m_Fill_Colour.EnableWindow(m_do_fill);
+	m_Line_Style.EnableWindow(m_do_line);
+	m_Line_Thickness.EnableWindow(m_do_line);
+	m_Line_Colour.EnableWindow(m_do_line);
 	m_Fill.SetCheck(m_do_fill ? 1 : 0);
+	m_Line.SetCheck(m_do_line ? 1 : 0);
 
 	CString s;
 	s.Format(_T("%d"), m_lStyle.Thickness);
@@ -261,6 +269,9 @@ void CEditDlgPolygon::UpdateOptions()
 	// Update the window state
 	m_Fill_Colour.EnableWindow(m_do_fill);
 	m_Fill_Index.EnableWindow(m_do_fill);
+	m_Line_Style.EnableWindow(m_do_line);
+	m_Line_Thickness.EnableWindow(m_do_line);
+	m_Line_Colour.EnableWindow(m_do_line);
 
 	// Write back the fill
 	if (!m_do_fill)
@@ -275,9 +286,27 @@ void CEditDlgPolygon::UpdateOptions()
 		m_pDesign->GetOptions()->SetCurrentFillStyle(getObject()->GetType(), fill);
 	}
 
-	// Write back the line style
-	WORD line = m_pDesign->GetOptions()->AddStyle(&m_lStyle);
-	m_pDesign->GetOptions()->SetCurrentStyle(getObject()->GetType(), line);
+	if (!m_do_line)
+	{
+		// Write back the line style
+		LineStyle null_line;
+		null_line.Colour = m_lStyle.Colour;
+		null_line.Style = PS_NULL;
+		null_line.Thickness = m_lStyle.Thickness;
+		WORD line = m_pDesign->GetOptions()->AddStyle(&null_line);
+		m_pDesign->GetOptions()->SetCurrentStyle(getObject()->GetType(), line);
+	}
+	else
+	{
+		// Write back the line style
+		if (m_lStyle.Style == PS_NULL)
+		{
+			m_lStyle.Style = PS_SOLID;
+		}
+		WORD line = m_pDesign->GetOptions()->AddStyle(&m_lStyle);
+		m_pDesign->GetOptions()->SetCurrentStyle(getObject()->GetType(), line);
+	}
+
 
 	getObject()->NewOptions();
 }
@@ -285,5 +314,12 @@ void CEditDlgPolygon::UpdateOptions()
 void CEditDlgPolygon::OnFill()
 {
 	m_do_fill = (m_Fill.GetState() & 3) != 0;
+	UpdateOptions();
+}
+
+
+void CEditDlgPolygon::OnBnClickedLine()
+{
+	m_do_line = (m_Line.GetState() & 3) != 0;
 	UpdateOptions();
 }
