@@ -37,6 +37,7 @@ CDrawPolygon::CDrawPolygon(CTinyCadDoc *pDesign, ObjType NewType) :
 	m_segment = 1;
 	xtype = NewType;
 	m_re_edit = FALSE;
+	m_close_polygon = FALSE;
 
 	switch (xtype)
 	{
@@ -77,6 +78,11 @@ void CDrawPolygon::SaveXML(CXMLWriter &xml)
 		xml.addAttribute(_T("style"), Style);
 		xml.addAttribute(_T("fill"), Fill);
 
+		if (Fill == fsNONE)
+		{
+			xml.addAttribute(_T("polygon"), m_close_polygon);
+		}
+
 		arcpointCollection::iterator it = m_handles.begin();
 		while (it != m_handles.end())
 		{
@@ -104,6 +110,12 @@ void CDrawPolygon::LoadXML(CXMLReader &xml)
 	xml.getAttribute(_T("pos"), m_point_a);
 	xml.getAttribute(_T("style"), Style);
 	xml.getAttribute(_T("fill"), Fill);
+
+	if (Fill == fsNONE)
+	{
+		xml.getAttribute(_T("polygon"), m_close_polygon);
+	}
+
 
 	m_handles.erase(m_handles.begin(), m_handles.end());
 
@@ -593,6 +605,12 @@ void CDrawPolygon::ContextMenu(CDPoint p, UINT id)
 				break;
 			case ID_CONTEXT_ADDHANDLE:
 				m_handles.insert(m_handles.begin() + line, CArcPoint(snap_p - m_point_a));
+				break;
+			case ID_CONTEXT_CLOSEPOLYGON:
+				m_close_polygon = TRUE;
+				break;
+			case ID_CONTEXT_OPENPOLYGON:
+				m_close_polygon = FALSE;
 				break;
 		}
 
@@ -1155,7 +1173,7 @@ void CDrawPolygon::Paint(CContext&dc, paint_options options)
 	{
 		//Add last line segment to selectable outline.
 		//It is missing if the polygon is not closed.
-		if (Fill != fsNONE && options == draw_selectable && m_points.size() > 2)
+		if ((m_close_polygon || (Fill != fsNONE && options == draw_selectable)) && m_points.size() > 2)
 		{
 			pointCollection outline(m_points);
 			outline.push_back(m_points.front());

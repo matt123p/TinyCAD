@@ -247,7 +247,6 @@
 #define IDC_FILL_COLOUR                 1020
 #define IDS_MISSLIB                     1021
 #define IDC_VERSION                     1021
-#define IDC_FILL2                       1021
 #define IDC_LINE                        1021
 #define IDS_NORES                       1022
 #define IDC_TEXT_FONT                   1022
@@ -481,6 +480,9 @@
 #define ID_SPECIAL_VHDL                 32899
 #define IDM_SPECIALVHDLCHECK            32901
 #define ID_CONTEXT_CURVE                32902
+#define ID_CONTEXT_CURVE32903           32903
+#define ID_CONTEXT_CLOSEPOLYGON         32904
+#define ID_CONTEXT_OPENPOLYGON          32905
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002
@@ -493,7 +495,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        173
-#define _APS_NEXT_COMMAND_VALUE         32903
+#define _APS_NEXT_COMMAND_VALUE         32906
 #define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

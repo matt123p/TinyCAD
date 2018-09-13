@@ -161,6 +161,7 @@ protected:
 	BOOL IsInsideLine(double, double, double, double);
 	void FindNearestSegment(CDPoint a, int &line, int &handle);
 
+	BOOL	m_close_polygon;
 	arcpointCollection m_handles;
 
 	pointCollection m_points;

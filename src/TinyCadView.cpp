@@ -97,6 +97,8 @@ BEGIN_MESSAGE_MAP(CTinyCadView, CFolderView)
 	ON_COMMAND(ID_CONTEXT_ARCIN, OnContextArcin)
 	ON_COMMAND(ID_CONTEXT_ARCOUT, OnContextArcout)
 	ON_COMMAND(ID_CONTEXT_CURVE, OnContextCurve)
+	ON_COMMAND(ID_CONTEXT_CLOSEPOLYGON, OnContextClosePolygon)
+	ON_COMMAND(ID_CONTEXT_OPENPOLYGON, OnContextOpenPolygon)
 	ON_COMMAND(ID_CONTEXT_CANCELDRAWING, OnContextCanceldrawing)
 	ON_COMMAND(ID_CONTEXT_FINISHDRAWING, OnContextFinishdrawing)
 	ON_COMMAND(ID_CONTEXT_FREELINE, OnContextFreeline)
@@ -1506,6 +1508,17 @@ void CTinyCadView::OnContextCurve()
 {
 	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_CURVE);
 }
+
+void CTinyCadView::OnContextClosePolygon()
+{
+	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_CLOSEPOLYGON);
+}
+
+void CTinyCadView::OnContextOpenPolygon()
+{
+	GetCurrentDocument()->GetEdit()->ContextMenu(MousePosition, ID_CONTEXT_OPENPOLYGON);
+}
+
 
 void CTinyCadView::OnContextFreeline()
 {

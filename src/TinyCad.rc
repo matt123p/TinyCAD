@@ -1291,10 +1291,17 @@ BEGIN
         MENUITEM "Add handle",                  ID_CONTEXT_ADDHANDLE
         MENUITEM "Delete handle",               ID_CONTEXT_DELETEHANDLE
         MENUITEM SEPARATOR
-        MENUITEM "Free line",                   ID_CONTEXT_FREELINE
-        MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
-        MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
-        MENUITEM "Curve",                       ID_CONTEXT_CURVE
+        POPUP "Curve"
+        BEGIN
+            MENUITEM "Free line",                   ID_CONTEXT_FREELINE
+            MENUITEM SEPARATOR
+            MENUITEM "Arc in",                      ID_CONTEXT_ARCIN
+            MENUITEM "Arc out",                     ID_CONTEXT_ARCOUT
+            MENUITEM SEPARATOR
+            MENUITEM "Curve",                       ID_CONTEXT_CURVE
+        END
+        MENUITEM "Close Polygon",               ID_CONTEXT_CLOSEPOLYGON
+        MENUITEM "Open Polygon",                ID_CONTEXT_OPENPOLYGON
         MENUITEM SEPARATOR
         MENUITEM "Undo",                        IDM_EDITUNDO
         MENUITEM "Redo",                        IDM_EDITREDO
