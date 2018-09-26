@@ -18,6 +18,7 @@
  */
 
 #include "stdafx.h"
+#include <wincrypt.h>
 #include "TinyCadView.h"
 #include "TinyCadMultiSymbolDoc.h"
 #include "HeaderStamp.h"
@@ -485,6 +486,7 @@ void CDesignFileSymbol::SaveXML(CXMLWriter &xml, bool refpoints)
 
 	xml.addTag(_T("DESCRIPTION"), description);
 	xml.addTag(_T("PPP"), ppp);
+	xml.addTag(_T("GUID"), Guid);
 
 	// Save the fields associated with this symbol
 	for (unsigned int i = 0; i < fields.size(); i++)
@@ -561,6 +563,10 @@ void CDesignFileSymbol::LoadXML(CTinyCadDoc *pDesign, CXMLReader &xml)
 		else if (tag == _T("PPP"))
 		{
 			xml.getChildData(ppp);
+		}
+		else if (tag == _T("GUID"))
+		{
+			xml.getChildData(Guid);
 		}
 		else if (tag == _T("FIELD"))
 		{
