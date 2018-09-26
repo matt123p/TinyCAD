@@ -160,6 +160,7 @@ public:
 	CDesignFileSymbol();
 	virtual ~CDesignFileSymbol(); // The Destructor
 
+	CString Guid;	// A unique reference number to identify this symbol
 	DWORD FilePos; // The position in the file or database of this symbol
 	BYTE ppp; // Parts per package
 
