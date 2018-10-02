@@ -382,6 +382,104 @@ void CNetList::dumpNetListObjects()
 	TRACE("Exiting CNetList::DumpNetListObjects()\n\n");
 }
 
+// Use the netlist hints (in the symbols) to re-number to netlist
+void CNetList::ApplyHints()
+{
+	/// Build a re-mapping from the generated netlist numbers to the hinted netlist numbers
+	std::map<int, int>	remapping;
+	std::set<int> used_netlists;
+	int next_unused_netlist = 1;
+
+	/// Scan each netlist
+	netCollection::iterator ni = m_nets.begin();
+	while (ni != m_nets.end())
+	{
+		nodeVector &v = (*ni).second;
+
+		/// Update the nodes in the netlist
+		nodeVector::iterator vi = v.begin();
+		while (vi != v.end())
+		{
+			CNetListNode &node = *vi;
+			if (node.m_pMethod)
+			{
+				// Does this node have a hint for this netlist?
+				int hint = node.m_pMethod->getNetlistHint(node.m_pin);
+				if (hint != 0)
+				{
+					// Is there already a remapping for this netlist?
+					bool remap = true;
+					if (remapping.find(node.m_NetList) != remapping.end())
+					{
+						// Yes, so which one is better?
+						if (remapping[node.m_NetList] <= hint)
+						{
+							// Smaller number wins, so no remapping today
+							remap = false;
+						}
+					}
+
+					if (remap && used_netlists.find(hint) != used_netlists.end())
+					{
+						// This netlist number is already in use
+						remap = false;
+					}
+
+					if (remap)
+					{
+						// Ok, remap
+						remapping[node.m_NetList] = hint;
+
+						TRACE("%d => %d\n", node.m_NetList, hint);
+
+						// Generate the correct unused netlist number
+						used_netlists.insert(hint);
+						next_unused_netlist = max(next_unused_netlist, node.m_NetList + 1);
+						next_unused_netlist = max(next_unused_netlist, hint + 1);
+					}
+				}
+			}
+			++vi;
+		}
+
+		++ni;
+	}
+
+	/// Remap each netlist
+	ni = m_nets.begin();
+	while (ni != m_nets.end())
+	{
+		nodeVector &v = (*ni).second;
+
+		/// Update the nodes in the netlist
+		nodeVector::iterator vi = v.begin();
+		while (vi != v.end())
+		{
+			CNetListNode &node = *vi;
+
+			auto remap = remapping.find(node.m_NetList);
+			if (remap == remapping.end())
+			{
+				remapping[node.m_NetList] = next_unused_netlist;
+				TRACE("%d => %d\n", node.m_NetList, next_unused_netlist);
+
+				++next_unused_netlist;
+				remap = remapping.find(node.m_NetList);
+			}
+
+			node.m_NetList = remap->second;
+
+			if (node.m_pMethod)
+			{
+				node.m_pMethod->setNetlistHint(node.m_pin, node.m_NetList);
+			}
+			++vi;
+		}
+
+		++ni;
+	}
+}
+
 /** 
  * Tell all of the wires what network they are associated with.
  */
@@ -967,6 +1065,8 @@ void CNetList::MakeNet(CTinyCadMultiDoc *pDesign)
 //	TRACE("\nLinking nets from all sheets together\n\n");
 	Link(nets);
 
+	ApplyHints();
+
 	/// ... and write the results into the design for ease of use...
 	WriteWires();
 	//	TRACE("Leaving CNetList::MakeNet():  Finished making nets for every sheet in this design\n");
@@ -1461,8 +1561,6 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 		}
 	}
 
-	int Label = 0;
-
 	netCollection::iterator nit = m_nets.begin();
 
 	while (nit != m_nets.end())
@@ -1477,6 +1575,7 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			BOOL first = TRUE, Labeled = FALSE;
 			int len = 0;
 			int count = 0;
+			int Label = nv_it->m_NetList;
 
 			while (nv_it != (*nit).second.end())
 			{
@@ -1521,7 +1620,7 @@ void CNetList::WriteNetListFileProtel(CTinyCadMultiDoc *pDesign, const TCHAR *fi
 			{
 				_ftprintf(theFile, _T("(\n"));
 				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
-				else _ftprintf(theFile, _T("N%06d"), Label++);
+				else _ftprintf(theFile, _T("N%06d"), Label);
 				_ftprintf(theFile, _T("\n%s\n)\n"), (LPCTSTR)theLine);
 			}
 		}
@@ -1646,6 +1745,7 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 			BOOL first = TRUE, Labeled = FALSE;
 			int len = 0;
 			int count = 0;
+			int Label = nv_it->m_NetList;
 
 			while (nv_it != (*nit).second.end())
 			{
@@ -1690,7 +1790,7 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 			{
 				_ftprintf(theFile, _T("*SIGNAL*  "));
 				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
-				else _ftprintf(theFile, _T("N%06d"), Label++);
+				else _ftprintf(theFile, _T("N%06d"), Label);
 				_ftprintf(theFile, _T("\n%s\n"), (LPCTSTR)theLine);
 			}
 		}
@@ -1838,7 +1938,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 				}
 				else
 				{
-					_ftprintf(theFile, _T("'N%06d'"), Label++);
+					_ftprintf(theFile, _T("'N%06d'"), Label);
 				}
 				_ftprintf(theFile, _T(" =  %s\n"), (LPCTSTR)theLine);
 			}
@@ -1938,13 +2038,13 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 	_ftprintf(theFile, _T("\n\n"));
 
 	netCollection::iterator nit = m_nets.begin();
-	int Label = 0;
 
 	while (nit != m_nets.end())
 	{
 		nodeVector::iterator nv_it = (*nit).second.begin();
 
 		CString theLine, theLabel;
+		int Label = nv_it->m_NetList;
 
 		if (nv_it != (*nit).second.end())
 		{
@@ -1976,7 +2076,7 @@ void CNetList::WriteNetListFileEagle(CTinyCadMultiDoc *pDesign, const TCHAR *fil
 			{
 				_ftprintf(theFile, _T("SIGNAL "));
 				if (Labeled) _ftprintf(theFile, _T("%s"), (LPCTSTR)theLabel);
-				else _ftprintf(theFile, _T("N%06d"), Label++);
+				else _ftprintf(theFile, _T("N%06d"), Label);
 				_ftprintf(theFile, _T("\n%s   ;\n"), (LPCTSTR)theLine);
 			}
 		}
@@ -2150,13 +2250,12 @@ void CNetList::rawWriteNetListFileXML(CTinyCadMultiDoc *pDesign, std::ofstream& 
 		}
 	}
 
-	int Label = 0;
-
 	netCollection::iterator nit = m_nets.begin();
 
 	while (nit != m_nets.end())
 	{
 		nodeVector::iterator nv_it = (*nit).second.begin();
+		int Label = nv_it->m_NetList;
 
 		RXML::node *x_net = doc.allocate_node(rapidxml::node_element, _T("net"));
 		x_nets->append_node(x_net);
@@ -2201,7 +2300,7 @@ void CNetList::rawWriteNetListFileXML(CTinyCadMultiDoc *pDesign, std::ofstream& 
 		}
 
 		TCHAR buf[12];
-		_stprintf_s(buf, 12, _T("%d"), Label++);
+		_stprintf_s(buf, 12, _T("%d"), Label);
 		x_net->append_attribute(doc.allocate_attribute(_T("number"), doc.allocate_string(buf)));
 
 		++nit;
@@ -2244,7 +2343,7 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 
 	// Keep track of the references that we have output...
 	std::set<CString> referenced;
-	int count = 0, Label = 0;
+	int count = 0;
 	netCollection::iterator nit = m_nets.begin();
 
 	while (nit != m_nets.end())
@@ -2252,6 +2351,7 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 		nodeVector::iterator nv_it = (*nit).second.begin();
 
 		CString theLine, theLabel;
+		int Label = nv_it->m_NetList;
 
 		if (nv_it != (*nit).second.end())
 		{
@@ -2306,7 +2406,7 @@ void CNetList::WriteNetListFilePCB(CTinyCadMultiDoc *pDesign, const TCHAR *filen
 				}
 				else
 				{
-					aLabel.Format(_T("N%06d "), Label++);
+					aLabel.Format(_T("N%06d "), Label);
 				}
 
 				_ftprintf(theFile, _T(" %s  %s\n"), (LPCTSTR)aLabel, (LPCTSTR)theLine); //print the net label and net connections as ANSI characters
@@ -2554,7 +2654,6 @@ void CNetList::WriteVHDLFile(CTinyCadMultiDoc *pDesign, const TCHAR *path)
 
 	typedef std::map<int, CString> t_signal_labels;
 	t_signal_labels signal_labels;		// Maps the TinyCad net index to the net label
-	int Label = 0;						// The label number for labeling unlabeled nets
 
 	// To write the port maps
 
@@ -2716,6 +2815,7 @@ void CNetList::WriteVHDLFile(CTinyCadMultiDoc *pDesign, const TCHAR *path)
 		bool in_out = false;
 		int count = 0;
 		int bus_size = 0;
+		int Label = nv_it->m_NetList;
 
 		// Searches all the nodes of the net for a label.
 		// Inputs and outputs automatically label the net.
@@ -2764,8 +2864,8 @@ void CNetList::WriteVHDLFile(CTinyCadMultiDoc *pDesign, const TCHAR *path)
 		}
 
 		if (!Labeled) {
-			if (bus_size==1) theLabel.Format(_T("N%02d"), Label++);
-			else theLabel.Format(_T("N%02d(%d:0)"), Label++, bus_size-1);
+			if (bus_size==1) theLabel.Format(_T("N%02d"), Label);
+			else theLabel.Format(_T("N%02d(%d:0)"), Label, bus_size-1);
 		}
 		signal_labels[(*nit).first] = theLabel;
 

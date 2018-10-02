@@ -493,6 +493,9 @@ public:
 	// Link together several netlists
 	void Link(linkCollection& nets);
 
+	// Use the netlist hints (in the symbols) to re-number to netlist
+	void ApplyHints();
+
 	// Tell all of the wires what network they are associated with
 	void WriteWires();
 
