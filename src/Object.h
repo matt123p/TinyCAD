@@ -1137,6 +1137,10 @@ protected:
 	typedef std::vector<CDPoint> activePointsCollection;
 	activePointsCollection m_activePoints; //Cached Active Points list
 
+	// The netlister hints so that we try and assign the same netlists to
+	// the same pins each time
+	std::map<CString, int>	netlist_hints;
+
 
 	void NewRotation(); // Calculate new co-ords after a rotation
 
@@ -1286,6 +1290,10 @@ public:
 	CDrawMethod(CTinyCadDoc *pDesign);
 
 	void ScalePoint(CDPoint &r);
+
+	// Netlister hints
+	void setNetlistHint(CString pin, int netlist);
+	int getNetlistHint(CString pin);
 
 	virtual ~CDrawMethod()
 	{

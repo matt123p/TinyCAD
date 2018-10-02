@@ -743,8 +743,7 @@ void CDrawMethod::SaveXML(CXMLWriter &xml)
 	xml.addAttribute(_T("scale_x"), scaling_x);
 	xml.addAttribute(_T("scale_y"), scaling_y);
 
-	// Now read in the fields
-	//int field_size = m_fields.size();;
+	// Now write out the fields
 	for (unsigned int i = 0; i < m_fields.size(); i++)
 	{
 		CField &f = m_fields[i];
@@ -757,6 +756,15 @@ void CDrawMethod::SaveXML(CXMLWriter &xml)
 		xml.addAttribute(_T("value"), f.m_value);
 		xml.addAttribute(_T("show"), f.m_show);
 		xml.addAttribute(_T("pos"), CDPoint(f.m_position));
+		xml.closeTag();
+	}
+
+	// .. and the netlist hints
+	for (auto hint : netlist_hints)
+	{
+		xml.addTag(_T("HINT"));
+		xml.addAttribute(_T("pin"), hint.first);
+		xml.addAttribute(_T("net"), hint.second);
 		xml.closeTag();
 	}
 
@@ -793,6 +801,14 @@ void CDrawMethod::LoadXML(CXMLReader &xml)
 			f.m_type = static_cast<SymbolFieldType> (t);
 
 			++i;
+		}
+		else if (name == _T("HINT"))
+		{
+			CString pin;
+			int net;
+			xml.getAttribute(_T("pin"), pin);
+			xml.getAttribute(_T("net"), net);
+			netlist_hints[pin] = net;
 		}
 	}
 	xml.outofTag();
@@ -1339,6 +1355,7 @@ void CDrawMethod::ScalePoint(CDPoint &r)
 	r.y *= scaling_y;
 }
 
+
 void CDrawMethod::Paint(CContext &dc, paint_options options)
 {
 	CDPoint tr;
@@ -1687,4 +1704,19 @@ void CDrawMethod::SetPart(int NewPart)
 
 	// move symbol in such a way that the pins stay stationary
 	Shift(refOld - refNew);
+}
+
+// Netlister hints
+void CDrawMethod::setNetlistHint(CString pin, int netlist)
+{
+	if (netlist_hints[pin] != netlist)
+	{
+		m_pDesign->SetModifiedFlag(TRUE);
+		netlist_hints[pin] = netlist;
+	}
+}
+
+int CDrawMethod::getNetlistHint(CString pin)
+{
+	return netlist_hints[pin];
 }
