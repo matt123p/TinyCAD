@@ -339,6 +339,12 @@ class CContext
 	// Select the font right away...
 	void SelectFontNow(bool datum);
 
+	// Measure the size of the drawing (for copy)
+	CRect drawingExtent;
+	BOOL haveDrawingExtent;
+	void AddExtent(CPoint p);
+	void AddExtent(CRect p);
+
 public:
 	void PaintTracker(CDRect &r);
 	void PaintConnectPoint(CDPoint p);
@@ -457,24 +463,28 @@ public:
 	void Ellipse(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Ellipse(q);
 	}
 	void Ellipse1(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Ellipse(q.left, q.top, q.right + 1, q.bottom + 1);
 	}
 	void Rectangle(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Rectangle(q);
 	}
 	void Rectangle1(CDRect r)
 	{
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		m_pDC->Rectangle(q.left, q.top, q.right + 1, q.bottom + 1);
 	}
@@ -491,6 +501,7 @@ public:
 	{
 		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		//CPoint qRadius = m_Transform.Scale(radius);	//This returns the location of the radius point on the screen, not exactly the same as the scaled radius
 		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
@@ -501,6 +512,7 @@ public:
 	{
 		//See http://msdn.microsoft.com/en-us/library/b0xe62fb.aspx for documentation on CDC::RoundRect()
 		CRect q = m_Transform.Scale(r);
+		AddExtent(q);
 		m_pDC->SetBrushOrg(q.TopLeft());
 		//CPoint qRadius = m_Transform.Scale(radius);
 		//CPoint qRef = m_Transform.Scale(CDPoint(0,0));
@@ -511,11 +523,15 @@ public:
 	void Polyline(pointCollection &points, CDPoint offset, FillStyle *pStyle);
 	void LineTo(CDPoint p)
 	{
-		m_pDC->LineTo(m_Transform.Scale(p));
+		CPoint q = m_Transform.Scale(p);
+		AddExtent(q);
+		m_pDC->LineTo(q);
 	}
 	void MoveTo(CDPoint p)
 	{
-		m_pDC->MoveTo(m_Transform.Scale(p));
+		CPoint q = m_Transform.Scale(p);
+		AddExtent(q);
+		m_pDC->MoveTo(q);
 	}
 	void SetPixel(CDPoint p, int c)
 	{
@@ -530,11 +546,12 @@ public:
 	void DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams);	//Draws flowing multi-line text inside a rectangular area with extended formatting options
 	void DrawText(const TCHAR *t, CDRect r);	//Draws flowing multi-line text inside a rectangular area
 	CDSize GetTextExtent(CString s);
-	void SelectDefault();
 	int GetBkMode()
 	{
 		return m_pDC->GetBkMode();
 	}
+
+	CRect GetDrawingExtent() { return drawingExtent; }
 };
 
 #endif

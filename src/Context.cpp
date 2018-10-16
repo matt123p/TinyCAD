@@ -49,6 +49,7 @@ CContext::CContext(CWnd *NewWindow, Transform NewTransform)
 	allBlack = FALSE;
 	allGrey = FALSE;
 
+	haveDrawingExtent = FALSE;
 }
 
 CContext::CContext(CDC *NewDC, Transform NewTransform, CWnd *pWnd)
@@ -67,6 +68,8 @@ CContext::CContext(CDC *NewDC, Transform NewTransform, CWnd *pWnd)
 
 	allBlack = FALSE;
 	allGrey = FALSE;
+
+	haveDrawingExtent = FALSE;
 }
 
 // The destructor
@@ -103,6 +106,38 @@ CContext::~CContext()
 		delete m_pDC;
 	}
 }
+
+////// Point Extent //////
+void CContext::AddExtent(CPoint p)
+{
+	if (p.x < 0)
+	{
+		int q = 0;
+	}
+
+	if (!haveDrawingExtent)
+	{
+		drawingExtent.left = p.x;
+		drawingExtent.right = p.x;
+		drawingExtent.top = p.y;
+		drawingExtent.bottom = p.y;
+		haveDrawingExtent = true;
+	}
+	else
+	{
+		drawingExtent.left = min(p.x, drawingExtent.left);
+		drawingExtent.right = max(p.x, drawingExtent.right);
+		drawingExtent.top = min(p.y, drawingExtent.top);
+		drawingExtent.bottom = max(p.y, drawingExtent.bottom);
+	}
+}
+
+void CContext::AddExtent(CRect rect)
+{
+	AddExtent(CPoint(rect.left, rect.top));
+	AddExtent(CPoint(rect.right, rect.bottom));
+}
+
 
 ////// The transform operators //////
 
@@ -417,7 +452,10 @@ void CContext::PolyBezier(CDPoint *pts, int Size)
 
 	// Convert each of the points before calling PolyBezier
 	for (int lp = 0; lp != Size; lp++)
+	{
 		Np[lp] = m_Transform.Scale(pts[lp]);
+		AddExtent(Np[lp]);
+	}
 
 	// The PolyBezier function must be emulated in Win32s or for Metafiles
 	if (IsMetaFile())
@@ -472,6 +510,7 @@ void CContext::QuaterArc(CDPoint da, CDPoint db)
 
 	CDRect dRect = CDRect(db.x - Width, da.y - Height, db.x + Width, da.y + Height);
 	CRect theRect = m_Transform.Scale(dRect);
+	AddExtent(theRect);
 
 	CPoint b = m_Transform.Scale(db);
 	CPoint a = m_Transform.Scale(da);
@@ -510,6 +549,7 @@ void CContext::Polyline(pointCollection &points, CDPoint offset, FillStyle *pSty
 	while (it != points.end())
 	{
 		lpPoints[n] = m_Transform.Scale(*it + offset);
+		AddExtent(lpPoints[n]);
 		++it;
 		++n;
 	}
@@ -591,6 +631,7 @@ void CContext::DrawTextEx(const TCHAR *t, CDRect r, LPDRAWTEXTPARAMS lpDTParams)
 	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
 	SelectFontNow(false);
 	CRect q = m_Transform.Scale(r);
+	AddExtent(q);
 
 	//Documentation for DrawTextEx can be found at http://msdn.microsoft.com/en-us/library/7dfdzwya(VS.80).aspx
 	m_pDC->SetTextAlign(TA_LEFT | TA_TOP | TA_NOUPDATECP);
@@ -604,6 +645,7 @@ void CContext::DrawText(const TCHAR *t, CDRect r)
 	//TRACE("CContext::DrawText() - multi-line text within a rectangle:  \"%S\"\n", t);
 	SelectFontNow(false);
 	CRect q = m_Transform.Scale(r);
+	AddExtent(q);
 
 	//Documentation for DrawText can be found at http://msdn.microsoft.com/en-us/library/dd162498.aspx
 
@@ -765,6 +807,8 @@ void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
 		a = CPoint(a.x - ipos, a.y);
 	}
 
+	AddExtent(a);
+
 	m_pDC->ExtTextOut(a.x, a.y, 0, NULL, TextString, widths);
 
 	// Now write the overbars
@@ -796,6 +840,17 @@ void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
 
 		Last = BarString[lp];
 	}
+
+	if (dir >= 2)
+	{
+		AddExtent(CPoint(a.x + x_pos, a.y - iHeight));
+	}
+	else
+	{
+		AddExtent(CPoint(a.x - iHeight, a.y - x_pos));
+	}
+	
+
 
 	if (oldPen)
 	{

@@ -244,111 +244,106 @@ void CTinyCadDoc::SavePNG(const TCHAR *file_name, CDC &ref_dc, int scaling, bool
 // other applications
 HENHMETAFILE CTinyCadDoc::CreateMetafile(CDC &ref_dc, const TCHAR *file_name, bool bw)
 {
-
-	// Calculate the boundries
-	CDRect rect = CDRect(0, 0, 0, 0);
-
-	if (IsSelected())
+	HDC hdcMeta = NULL;
+	CRect rect = CRect(0, 0, 0, 0);
+	for (int loop = 0; loop < 2; ++loop)
 	{
-		BOOL first = TRUE;
+		// Pass 1: Calculate the boundaries
+		// Pass 2: Draw in to the metafile
 
-		selectIterator it = GetSelectBegin();
-		while (it != GetSelectEnd())
+		Transform newTransform;
+		CDC render_dc;
+
+		if (loop == 0)
 		{
-			CDrawingObject *pointer = *it;
-
-			if (first)
-			{
-				rect.top = pointer->m_point_a.y;
-				rect.bottom = pointer->m_point_a.y;
-				rect.left = pointer->m_point_a.x;
-				rect.right = pointer->m_point_a.x;
-				first = FALSE;
-			}
-
-			rect.top = min(rect.top,min(pointer->m_point_a.y,pointer->m_point_b.y));
-			rect.bottom = max(rect.bottom,max(pointer->m_point_a.y,pointer->m_point_b.y));
-			rect.left = min(rect.left,min(pointer->m_point_a.x,pointer->m_point_b.x));
-			rect.right = max(rect.right,max(pointer->m_point_a.x,pointer->m_point_b.x));
-
-			++it;
-		}
-	}
-	else
-	{
-		rect = CDRect(0, 0, GetDetails().m_szPage.cx, GetDetails().m_szPage.cy);
-	}
-
-	rect.InflateRect(0, 0, 10, 10);
-
-	// Transform the origin so the design lies at 0,0
-	Transform newTransform;
-
-	int iWidthMM = ref_dc.GetDeviceCaps(HORZSIZE);
-	int iHeightMM = ref_dc.GetDeviceCaps(VERTSIZE);
-	int iWidthPels = ref_dc.GetDeviceCaps(HORZRES);
-	int iHeightPels = ref_dc.GetDeviceCaps(VERTRES);
-
-	// Convert client coordinates to .01-mm units. 
-	// Use iWidthMM, iWidthPels, iHeightMM, and 
-	// iHeightPels to determine the number of 
-	// .01-millimeter units per pixel in the x- 
-	//  and y-directions. 
-
-	rect.left = (rect.left * iWidthMM * 100) / iWidthPels;
-	rect.top = (rect.top * iHeightMM * 100) / iHeightPels;
-	rect.right = (rect.right * iWidthMM * 100) / iWidthPels;
-	rect.bottom = (rect.bottom * iHeightMM * 100) / iHeightPels;
-
-	// Create the metafile device context. 
-	CRect ir(static_cast<int> (rect.left), static_cast<int> (rect.top), static_cast<int> (rect.right), static_cast<int> (rect.bottom));
-	HDC hdcMeta = CreateEnhMetaFile(ref_dc.m_hDC, file_name, &ir, GetDetails().GetTitle());
-
-	if (!hdcMeta)
-	{
-		AfxMessageBox(_T("Cannot create enhanced metafile for the copy"));
-		return NULL;
-	}
-
-	CDC theMetaDC;
-	theMetaDC.Attach(hdcMeta);
-
-	// Now render into this dc
-	newTransform.SetZoomFactor(1.0);
-
-	// Create the DC and render...
-	{
-		CContext dc(&theMetaDC, newTransform);
-		dc.SetBlack(bw);
-
-		if (IsSelected())
-		{
-			// Draw just the selected part
-			CJunctionUtils j(this);
-			selectIterator it = GetSelectBegin();
-			while (it != GetSelectEnd())
-			{
-				j.AddObjectToTodo(*it);
-				(*it)->Paint(dc, draw_normal);
-				++it;
-			}
-			j.PaintJunctions(dc, draw_normal);
+			render_dc.CreateCompatibleDC(AfxGetMainWnd()->GetDC());
 		}
 		else
 		{
-			// Draw the whole design into the metafile
-			for (drawingIterator i = GetDrawingBegin(); i != GetDrawingEnd(); i++)
+			// Transform the origin so the design lies at 10,10
+			newTransform.SetOrigin(CDPoint(rect.left - 10, rect.top - 10));
+
+			rect.InflateRect(10, 10);
+			int iWidthMM = ref_dc.GetDeviceCaps(HORZSIZE);
+			int iHeightMM = ref_dc.GetDeviceCaps(VERTSIZE);
+			int iWidthPels = ref_dc.GetDeviceCaps(HORZRES);
+			int iHeightPels = ref_dc.GetDeviceCaps(VERTRES);
+
+			// Convert client coordinates to .01-mm units. 
+			// Use iWidthMM, iWidthPels, iHeightMM, and 
+			// iHeightPels to determine the number of 
+			// .01-millimeter units per pixel in the x- 
+			//  and y-directions. 
+
+			rect.left = (rect.left * iWidthMM * 100) / iWidthPels;
+			rect.top = (rect.top * iHeightMM * 100) / iHeightPels;
+			rect.right = (rect.right * iWidthMM * 100) / iWidthPels;
+			rect.bottom = (rect.bottom * iHeightMM * 100) / iHeightPels;
+
+			// Create the metafile device context. 
+			CRect ir(0, 0, static_cast<int> (rect.Width()), static_cast<int> (rect.Height()));
+			hdcMeta = CreateEnhMetaFile(ref_dc.m_hDC, file_name, &ir, GetDetails().GetTitle());
+			render_dc.Attach(hdcMeta);
+
+			if (!hdcMeta)
 			{
-				(*i)->Paint(dc, draw_normal);
+				AfxMessageBox(_T("Cannot create enhanced metafile for the copy"));
+				return NULL;
+			}
+		}
+
+		// Now render into this dc
+		newTransform.SetZoomFactor(1.0);
+
+		// Create the DC and render...
+		{
+			CContext dc(&render_dc, newTransform);
+			dc.SetBlack(bw);
+
+			if (IsSelected())
+			{
+				// Draw just the selected part
+				CJunctionUtils j(this);
+				selectIterator it = GetSelectBegin();
+				while (it != GetSelectEnd())
+				{
+					j.AddObjectToTodo(*it);
+					(*it)->Paint(dc, draw_normal);
+					++it;
+				}
+				j.PaintJunctions(dc, draw_normal);
+			}
+			else
+			{
+				// Draw the whole design into the metafile
+				for (drawingIterator i = GetDrawingBegin(); i != GetDrawingEnd(); i++)
+				{
+					(*i)->Paint(dc, draw_normal);
+				}
+
+				// Show the design details
+				Display(dc);
 			}
 
-			// Show the design details
-			Display(dc);
+			if (loop == 0)
+			{
+				if (IsSelected())
+				{
+					rect = dc.GetDrawingExtent();
+				}
+				else
+				{
+					rect = CRect(0, 0, GetDetails().m_szPage.cx, GetDetails().m_szPage.cy);
+				}
+			}
+		}
+
+		if (loop == 1)
+		{
+			render_dc.Detach();
 		}
 
 	}
-
-	theMetaDC.Detach();
 
 	return CloseEnhMetaFile(hdcMeta);
 }
