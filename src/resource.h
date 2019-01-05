@@ -102,12 +102,15 @@
 #define PAGESIZE_A3                     236
 #define PAGESIZE_A2                     237
 #define PAGESIZE_A1                     238
-#define PAGESIZE_PRINTER                239
-#define PAGESIZE_LAND                   240
-#define PAGESIZE_PORT                   241
-#define IDD_PARTS                       242
-#define PAGESIZE_WIDTH                  243
+#define PAGESIZE_LETTER                 239
+#define PAGESIZE_LEGAL                  240
+#define PAGESIZE_LEDGER                 241
+#define PAGESIZE_PRINTER                242
+#define PAGESIZE_LAND                   243
+#define PAGESIZE_PORT                   244
+#define PAGESIZE_WIDTH                  245
 #define PAGESIZE_HEIGHT                 246
+#define IDD_PARTS                       247
 #define ANNOTATEBOX_ADD                 253
 #define ANNOTATEBOX_REMOVE              254
 #define ANNOTATEBOX_ALL                 255
@@ -493,7 +496,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        173
+#define _APS_NEXT_RESOURCE_VALUE        174
 #define _APS_NEXT_COMMAND_VALUE         32903
 #define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           113
