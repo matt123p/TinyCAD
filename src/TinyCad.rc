@@ -353,7 +353,7 @@ BEGIN
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 1994-2016 Matt Pyne",IDC_STATIC,39,48,127,8
     DEFPUSHBUTTON   "OK",IDOK,257,287,50,14,WS_GROUP
-    LTEXT           "http://tinycad.sourceforge.net",IDC_STATIC,11,293,107,8
+    LTEXT           "https://www.tinycad.net/",IDC_STATIC,11,293,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
     LTEXT           "Founding Author:",IDC_STATIC,39,63,89,8
     LTEXT           "Development Team for Current Release:",IDC_STATIC,39,87,218,8
@@ -523,27 +523,30 @@ BEGIN
     CONTROL         "Show Power Pins",METHODBOX_SHOWPOWER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,36,71,10
 END
 
-IDD_PAGESIZE DIALOG 0, 0, 199, 101
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+IDD_PAGESIZE DIALOGEX 0, 0, 201, 133
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Set Page Size"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,12,81,50,14,WS_GROUP
-    PUSHBUTTON      "Cancel",IDCANCEL,73,81,50,14
-    PUSHBUTTON      "Printer Setup",PAGESIZE_PRINTERSET,134,81,52,14
-    GROUPBOX        "Page Size",-1,8,6,99,61,WS_GROUP
-    CONTROL         "A4",PAGESIZE_A4,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,17,18,22,10
-    CONTROL         "A3",PAGESIZE_A3,"Button",BS_AUTORADIOBUTTON,17,28,22,10
-    CONTROL         "A2",PAGESIZE_A2,"Button",BS_AUTORADIOBUTTON,17,38,22,10
-    CONTROL         "A1",PAGESIZE_A1,"Button",BS_AUTORADIOBUTTON,17,48,22,10
-    CONTROL         "Printer Setup",PAGESIZE_PRINTER,"Button",BS_AUTORADIOBUTTON,47,48,55,10
-    CONTROL         "Landscape",PAGESIZE_LAND,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,47,29,48,10
+    CONTROL         "A4",PAGESIZE_A4,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,17,17,22,10
+    CONTROL         "A3",PAGESIZE_A3,"Button",BS_AUTORADIOBUTTON,17,27,22,10
+    CONTROL         "A2",PAGESIZE_A2,"Button",BS_AUTORADIOBUTTON,17,37,22,10
+    CONTROL         "A1",PAGESIZE_A1,"Button",BS_AUTORADIOBUTTON,17,47,22,10
+    CONTROL         "Letter",PAGESIZE_LETTER,"Button",BS_AUTORADIOBUTTON,17,59,34,10
+    CONTROL         "Legal",PAGESIZE_LEGAL,"Button",BS_AUTORADIOBUTTON,17,69,36,10
+    CONTROL         "Ledger/Tabloid",PAGESIZE_LEDGER,"Button",BS_AUTORADIOBUTTON,17,79,59,10
+    CONTROL         "Printer Setup",PAGESIZE_PRINTER,"Button",BS_AUTORADIOBUTTON,17,92,55,10
     CONTROL         "Portrait",PAGESIZE_PORT,"Button",BS_AUTORADIOBUTTON,47,18,36,10
-    LTEXT           "Width",-1,122,24,20,8
-    GROUPBOX        "Size",-1,117,6,72,61
+    CONTROL         "Landscape",PAGESIZE_LAND,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,47,29,48,10
     EDITTEXT        PAGESIZE_WIDTH,150,22,22,12
-    LTEXT           "Height",-1,122,44,23,8,NOT WS_GROUP
     EDITTEXT        PAGESIZE_HEIGHT,150,42,23,12
+    DEFPUSHBUTTON   "OK",IDOK,9,113,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,71,113,50,14
+    PUSHBUTTON      "Printer Setup",PAGESIZE_PRINTERSET,131,113,52,14
+    GROUPBOX        "Page Size",-1,8,6,98,100,WS_GROUP
+    LTEXT           "Width",-1,122,24,20,8
+    GROUPBOX        "Size",-1,117,6,78,59
+    LTEXT           "Height",-1,122,44,23,8,NOT WS_GROUP
     LTEXT           "mm",-1,176,24,12,8
     LTEXT           "mm",-1,176,44,12,8
 END
@@ -925,7 +928,7 @@ BEGIN
     BEGIN
         BLOCK "080904b0"
         BEGIN
-            VALUE "Comments", "http://tinycad.sourceforge.net"
+            VALUE "Comments", "https://www.tinycad.net/"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
             VALUE "FileVersion", "2.90.0.0"
@@ -1011,6 +1014,8 @@ BEGIN
 
     IDD_PAGESIZE, DIALOG
     BEGIN
+        RIGHTMARGIN, 195
+        BOTTOMMARGIN, 127
     END
 
     IDD_PIN, DIALOG
@@ -1143,6 +1148,11 @@ BEGIN
 END
 
 IDD_POLYGON AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PAGESIZE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

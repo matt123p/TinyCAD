@@ -32,6 +32,9 @@ BEGIN_MESSAGE_MAP( CDlgPageSizeBox, CDialog )
 	ON_BN_CLICKED(PAGESIZE_A3, OnChange )
 	ON_BN_CLICKED(PAGESIZE_A2, OnChange )
 	ON_BN_CLICKED(PAGESIZE_A1, OnChange )
+	ON_BN_CLICKED(PAGESIZE_LETTER, OnChange)
+	ON_BN_CLICKED(PAGESIZE_LEGAL, OnChange)
+	ON_BN_CLICKED(PAGESIZE_LEDGER, OnChange)
 	ON_BN_CLICKED(PAGESIZE_PRINTER, OnChange )
 	ON_BN_CLICKED(PAGESIZE_PORT, OnMakePort )
 	ON_BN_CLICKED(PAGESIZE_LAND, OnMakeLand )
@@ -41,9 +44,10 @@ BEGIN_MESSAGE_MAP( CDlgPageSizeBox, CDialog )
 END_MESSAGE_MAP()
 
 // Arrays storing the sizes of the pre-defined pages
-int Page_SizesA[] = {297, 420, 594, 840, 297};
-int Page_SizesB[] = {210, 297, 420, 594, 210};
-const int NumberOfSizes = 5;
+//					  A4   A3   A2   A1	 Letter  Legal  Ledger	Printer Default
+int Page_SizesA[] = { 297, 420, 594, 840, 216,   216,   280,	297 };
+int Page_SizesB[] = { 210, 297, 420, 594, 280,	 356, 	432,    210 };
+const int NumberOfSizes = _countof(Page_SizesA);
 
 BOOL CDlgPageSizeBox::SetPrinter(BOOL display_dialogue)
 {
