@@ -1058,7 +1058,7 @@ void CTinyCadApp::OnHelpOpenTinyCADUserManual()
 void CTinyCadApp::OnHelpGototinycadwebsite()
 {
 	// Open a browser for our web site
-	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("http://tinycad.sourceforge.net"), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net/"), NULL, NULL, SW_SHOWNORMAL);
 }
 
 //-------------------------------------------------------------------------
