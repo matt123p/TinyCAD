@@ -1,0 +1,24 @@
+Results of Spice netlist generation for C:\Projects\TinyCAD-SVN\TinyCAD\VHDL Netlister\examples\nibbles\FunctionalUnit.dsn
+
+Netlist error #1:  A(3:0): Pin on sheet 1 has a blank pin name.  Pin number = "1"
+Netlist error #2:  B(3:0): Pin on sheet 1 has a blank pin name.  Pin number = "1"
+Netlist error #3:  FS(2:0): Pin on sheet 1 has a blank pin name.  Pin number = "1"
+Netlist error #4:  FL(3:0): Pin on sheet 1 has a blank pin name.  Pin number = "1"
+Netlist error #5:  F(3:0): Pin on sheet 1 has a blank pin name.  Pin number = "1"
+Netlist error #6:  A(3:0): INPUT on sheet 1 has no model
+Netlist error #7:  B(3:0): INPUT on sheet 1 has no model
+Netlist error #8:  F(3:0): OUTPUT on sheet 1 has no model
+Netlist error #9:  FL(3:0): OUTPUT on sheet 1 has no model
+Netlist error #10:  FS(2:0): INPUT on sheet 1 has no model
+Netlist error #11:  Q1: BUF on sheet 1 has no model
+Netlist error #12:  U1: MUX2to1_4 on sheet 1 has no model
+Netlist error #13:  U2: ArithmeticUnit on sheet 1 has no model
+Netlist error #14:  U3: MUX2to1_4 on sheet 1 has no model
+Netlist error #15:  U4: LogicUnit on sheet 1 has no model
+Netlist error #16:  U5: Shifter on sheet 1 has no model
+Netlist error #17:  U6: Buf4 on sheet 1 has no model
+Netlist error #18:  U7: NOR4Bus on sheet 1 has no model
+Netlist error #19:  U8: MUX2to1 on sheet 1 has no model
+Netlist error #20:  U9: MUX2to1 on sheet 1 has no model
+
+20 errors found

@@ -1,0 +1,1 @@
+You need to have ghdl and gtkw installed in the same folder as nibbles to simulate the processor.

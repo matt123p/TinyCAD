@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD Version 2.80.08 Build #650++ Uncontrolled Release
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download the executable.-->
+<TinyCADSheets>
+	<TinyCAD>
+		<NAME>Sheet 1</NAME>
+		<DETAILS>
+			<Size width='1485' height='1050'/>
+			<GUIDES horiz='7' vert='5'/>
+			<TITLE></TITLE>
+			<AUTHOR></AUTHOR>
+			<REVISION>1.0</REVISION>
+			<DOCNUMBER></DOCNUMBER>
+			<ORGANISATION></ORGANISATION>
+			<SHEETS>1 of 1</SHEETS>
+			<SHOWS>1</SHOWS>
+			<DATE></DATE>
+			<GRID spacing='100.00000' snap='1'/>
+		</DETAILS>
+		<FONT id='0'>
+			<HEIGHT>-13</HEIGHT>
+			<WIDTH>6</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<FONT id='1'>
+			<HEIGHT>-10</HEIGHT>
+			<WIDTH>0</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<FONT id='3'>
+			<HEIGHT>-13</HEIGHT>
+			<WIDTH>6</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<STYLE id='2'>
+			<STYLE>0</STYLE>
+			<COLOR>000000</COLOR>
+			<THICKNESS>1</THICKNESS>
+		</STYLE>
+		<FILL id='0'>
+			<INDEX>-1</INDEX>
+			<COLOR>000000</COLOR>
+		</FILL>
+		<SYMBOLDEF id='1'>
+			<NAME type='0'>JumpControl</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>Jump Control</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='68.60000,44.40000'/>
+			<TinyCAD>
+				<PIN pos='34.60000,24.40000' which='0' elec='0' direction='3' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>BC(2:0)</PIN>
+				<PIN pos='34.80000,32.20000' which='0' elec='0' direction='3' part='0' number='2' show='1' length='15' number_pos='0' centre_name='0'>Offset(3:0)</PIN>
+				<PIN pos='52.00000,16.00000' which='0' elec='0' direction='1' part='0' number='4' show='1' length='15' number_pos='0' centre_name='0'>S(3:0)</PIN>
+				<PIN pos='68.00000,28.00000' which='0' elec='1' direction='2' part='0' number='5' show='1' length='15' number_pos='0' centre_name='0'>NewPC(7:0)</PIN>
+				<PIN pos='52.00000,44.00000' which='0' elec='0' direction='0' part='0' number='3' show='1' length='15' number_pos='0' centre_name='0'>OldPC(7:0)</PIN>
+				<RECTANGLE a='37.72690,18.91033' b='65.08967,40.91033' style='2' fill='0'/>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='2'>
+			<NAME type='0'>PCReg</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>PC Register</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='40.00000,28.00000'/>
+			<TinyCAD>
+				<RECTANGLE a='21.00308,25.07351' b='39.00308,15.07351' style='2' fill='0'/>
+				<PIN pos='30.00000,12.00000' which='0' elec='0' direction='1' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>D(7:0)</PIN>
+				<PIN pos='30.00000,28.00000' which='0' elec='1' direction='0' part='0' number='4' show='0' length='15' number_pos='0' centre_name='0'>Q(7:0)</PIN>
+				<PIN pos='18.00000,20.00000' which='2' elec='0' direction='3' part='0' number='3' show='1' length='15' number_pos='0' centre_name='0'>CLK</PIN>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='3'>
+			<NAME type='1'>INPUT</NAME>
+			<REF type='0'>?</REF>
+			<DESCRIPTION>Input</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='22.00000,20.00000'/>
+			<TinyCAD>
+				<PIN pos='22.00000,18.00000' which='0' elec='1' direction='2' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'></PIN>
+				<POLYGON pos='14.00000,16.00000' style='2' fill='0'>
+					<POINT pos='5.00000,2.00000' arc='0'/>
+					<POINT pos='3.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,4.00000' arc='0'/>
+					<POINT pos='3.00000,4.00000' arc='0'/>
+					<POINT pos='5.00000,2.00000' arc='0'/>
+				</POLYGON>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='4'>
+			<NAME type='1'>OUTPUT</NAME>
+			<REF type='0'>?</REF>
+			<DESCRIPTION>Output</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='40.00000,36.00000'/>
+			<TinyCAD>
+				<PIN pos='32.00000,34.00000' which='0' elec='0' direction='3' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'></PIN>
+				<POLYGON pos='35.00000,32.00000' style='2' fill='0'>
+					<POINT pos='0.00000,2.00000' arc='0'/>
+					<POINT pos='2.00000,0.00000' arc='0'/>
+					<POINT pos='5.00000,0.00000' arc='0'/>
+					<POINT pos='5.00000,4.00000' arc='0'/>
+					<POINT pos='2.00000,4.00000' arc='0'/>
+					<POINT pos='0.00000,2.00000' arc='0'/>
+				</POLYGON>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='5'>
+			<NAME type='0'>InstMemory</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>Instruction Memory</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='48.00000,40.00000'/>
+			<TinyCAD>
+				<PIN pos='36.00000,14.00000' which='0' elec='0' direction='1' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>Address(7:0)</PIN>
+				<PIN pos='36.00000,40.00000' which='0' elec='1' direction='0' part='0' number='5' show='0' length='15' number_pos='0' centre_name='0'>Output(7:0)</PIN>
+				<RECTANGLE a='48.00000,17.08590' b='24.96958,37.08590' style='2' fill='0'/>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='6'>
+			<NAME type='0'>Decoder</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>Instruction Decoder</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='78.00000,44.00000'/>
+			<TinyCAD>
+				<PIN pos='50.00000,18.00000' which='0' elec='0' direction='1' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>Inst(7:0)</PIN>
+				<PIN pos='34.00000,44.00000' which='0' elec='1' direction='0' part='0' number='2' show='1' length='15' number_pos='0' centre_name='0'>FW(3:0)</PIN>
+				<PIN pos='30.00000,44.00000' which='0' elec='1' direction='0' part='0' number='3' show='1' length='15' number_pos='0' centre_name='0'>BC(2:0)</PIN>
+				<PIN pos='46.00000,44.00000' which='0' elec='1' direction='0' part='0' number='4' show='1' length='15' number_pos='0' centre_name='0'>AA(1:0)</PIN>
+				<PIN pos='50.00000,44.00000' which='0' elec='1' direction='0' part='0' number='5' show='1' length='15' number_pos='0' centre_name='0'>BA(1:0)</PIN>
+				<PIN pos='38.00000,44.00000' which='0' elec='1' direction='0' part='0' number='6' show='1' length='15' number_pos='0' centre_name='0'>DA(1:0)</PIN>
+				<PIN pos='42.00000,44.00000' which='0' elec='1' direction='0' part='0' number='7' show='1' length='15' number_pos='0' centre_name='0'>WR</PIN>
+				<PIN pos='54.00000,44.00000' which='0' elec='1' direction='0' part='0' number='8' show='1' length='15' number_pos='0' centre_name='0'>MA</PIN>
+				<PIN pos='58.00000,44.00000' which='0' elec='1' direction='0' part='0' number='9' show='1' length='15' number_pos='0' centre_name='0'>MB</PIN>
+				<PIN pos='66.00000,44.00000' which='0' elec='1' direction='0' part='0' number='10' show='1' length='15' number_pos='0' centre_name='0'>FS(2:0)</PIN>
+				<PIN pos='70.00000,44.00000' which='0' elec='1' direction='0' part='0' number='11' show='1' length='15' number_pos='0' centre_name='0'>MD</PIN>
+				<PIN pos='62.00000,44.00000' which='0' elec='1' direction='0' part='0' number='12' show='1' length='15' number_pos='0' centre_name='0'>KNS(3:0)</PIN>
+				<PIN pos='74.00000,44.00000' which='0' elec='1' direction='0' part='0' number='13' show='1' length='15' number_pos='0' centre_name='0'>MW</PIN>
+				<RECTANGLE a='22.00000,21.08967' b='78.00000,41.08967' style='2' fill='0'/>
+				<PIN pos='26.00000,44.00000' which='0' elec='1' direction='0' part='0' number='14' show='1' length='15' number_pos='0' centre_name='0'>Offset(3:0)</PIN>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='7'>
+			<NAME type='0'>StateRegister</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>State Register</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='56.00000,38.00000'/>
+			<TinyCAD>
+				<PIN pos='44.00000,14.00000' which='0' elec='0' direction='1' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>F(3:0)</PIN>
+				<PIN pos='30.00000,22.00000' which='0' elec='0' direction='3' part='0' number='2' show='1' length='15' number_pos='0' centre_name='0'>FW(3:0)</PIN>
+				<PIN pos='44.00000,38.00000' which='0' elec='1' direction='0' part='0' number='4' show='1' length='15' number_pos='0' centre_name='0'>S(3:0)</PIN>
+				<PIN pos='30.00000,30.00000' which='2' elec='0' direction='3' part='0' number='3' show='1' length='15' number_pos='0' centre_name='0'>CLK</PIN>
+				<RECTANGLE a='32.99863,17.09240' b='55.00137,35.09240' style='2' fill='0'/>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<OPTIONS>
+			<GRID>0</GRID>
+			<UNITS>0</UNITS>
+			<COLOR_WIRE>FF0000</COLOR_WIRE>
+			<COLOR_BUS>0000FF</COLOR_BUS>
+			<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+			<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+			<COLOR_LABEL>208000</COLOR_LABEL>
+			<COLOR_POWER>000000</COLOR_POWER>
+			<COLOR_PIN>4040C0</COLOR_PIN>
+			<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+			<COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+			<COLOR_NOTETEXT_FILL>AFFFFF</COLOR_NOTETEXT_FILL>
+			<COLOR_NOTETEXT_LINE>FF0000</COLOR_NOTETEXT_LINE>
+			<COLOR_NOTETEXT_TEXT>FF0000</COLOR_NOTETEXT_TEXT>
+		</OPTIONS>
+		<SYMBOL id='1' pos='80.61271,76.40566' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U2' show='1' pos='-3.00000,-25.60000'/>
+			<FIELD type='0' description='Name' value='JumpControl' show='1' pos='-3.00000,-28.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-23.20000'/>
+		</SYMBOL>
+		<SYMBOL id='7' pos='76.00000,44.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U1' show='1' pos='1.00000,-19.60000'/>
+			<FIELD type='0' description='Name' value='StateRegister' show='1' pos='1.00000,-22.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='0.00000,0.00000'/>
+		</SYMBOL>
+		<SYMBOL id='2' pos='110.00000,82.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U3' show='1' pos='1.00000,-11.60000'/>
+			<FIELD type='0' description='Name' value='PCReg' show='1' pos='1.00000,-14.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-9.20000'/>
+		</SYMBOL>
+		<SYMBOL id='5' pos='112.00000,112.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U4' show='1' pos='1.00000,-21.60000'/>
+			<FIELD type='0' description='Name' value='InstMemory' show='1' pos='1.00000,-24.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='0.00000,0.00000'/>
+		</SYMBOL>
+		<SYMBOL id='6' pos='128.00000,142.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U5' show='1' pos='1.00000,-21.60000'/>
+			<FIELD type='0' description='Name' value='Decoder' show='1' pos='1.00000,-24.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='0.00000,0.00000'/>
+		</SYMBOL>
+		<WIRE a='64.00000,44.00000' b='64.01271,44.00000'/>
+		<WIRE a='64.01271,44.00000' b='64.01271,48.00566'/>
+		<WIRE a='80.01271,60.00566' b='100.00000,60.00566'/>
+		<WIRE a='100.00000,60.00566' b='100.00000,66.00000'/>
+		<WIRE a='100.00000,84.00000' b='100.00000,86.00000'/>
+		<JUNCTION pos='100.00000,84.00000'/>
+		<WIRE a='100.00000,84.00000' b='64.01271,84.00000'/>
+		<WIRE a='100.00000,82.00000' b='100.00000,84.00000'/>
+		<WIRE a='64.01271,84.00000' b='64.01271,76.00566'/>
+		<WIRE a='100.00000,112.00000' b='100.00000,116.00000'/>
+		<WIRE a='42.00000,146.00000' b='42.00000,56.40566'/>
+		<WIRE a='42.00000,56.40566' b='46.61271,56.40566'/>
+		<WIRE a='84.00000,142.00000' b='84.00000,150.00000'/>
+		<WIRE a='84.00000,150.00000' b='38.00000,150.00000'/>
+		<WIRE a='38.00000,150.00000' b='38.00000,28.00000'/>
+		<WIRE a='38.00000,28.00000' b='50.00000,28.00000'/>
+		<WIRE a='76.00000,142.00000' b='46.81271,142.00000'/>
+		<WIRE a='46.81271,142.00000' b='46.81271,64.20566'/>
+		<WIRE a='80.00000,142.00000' b='80.00000,146.00000'/>
+		<WIRE a='80.00000,146.00000' b='42.00000,146.00000'/>
+		<SYMBOL id='3' pos='66.00000,16.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='F(3:0)' show='1' pos='-10.00000,-6.00000'/>
+			<FIELD type='1' description='Name' value='INPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='3' pos='20.00000,22.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='CLK' show='1' pos='1.00000,-2.00000'/>
+			<FIELD type='1' description='Name' value='INPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,0.40000'/>
+		</SYMBOL>
+		<WIRE a='20.00000,20.00000' b='26.00000,20.00000'/>
+		<WIRE a='50.00000,36.00000' b='46.00000,36.00000'/>
+		<WIRE a='88.00000,74.00000' b='86.00000,74.00000'/>
+		<LABEL pos='86.00000,74.00000' direction='2' font='3' color='208000' style='0'>CLK</LABEL>
+		<LABEL pos='46.00000,36.00000' direction='2' font='3' color='208000' style='0'>CLK</LABEL>
+		<WIRE a='64.00000,16.00000' b='64.00000,20.00000'/>
+		<SYMBOL id='4' pos='90.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='DA(1:0)' show='0' pos='-6.00000,6.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='94.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='WR' show='0' pos='-4.00000,4.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='98.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='AA(1:0)' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='102.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='BA(1:0)' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='106.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='MA' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='110.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='MB' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='114.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='KNS(3:0)' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='118.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='FS(2:0)' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='122.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='MD' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<SYMBOL id='4' pos='126.00000,152.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='MW' show='0' pos='-4.00000,2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='-4.00000,4.40000'/>
+		</SYMBOL>
+		<WIRE a='88.00000,142.00000' b='88.00000,144.00000'/>
+		<WIRE a='92.00000,142.00000' b='92.00000,144.00000'/>
+		<WIRE a='96.00000,142.00000' b='96.00000,144.00000'/>
+		<WIRE a='100.00000,142.00000' b='100.00000,144.00000'/>
+		<WIRE a='104.00000,142.00000' b='104.00000,144.00000'/>
+		<WIRE a='108.00000,142.00000' b='108.00000,144.00000'/>
+		<WIRE a='112.00000,142.00000' b='112.00000,144.00000'/>
+		<WIRE a='116.00000,142.00000' b='116.00000,144.00000'/>
+		<WIRE a='120.00000,142.00000' b='120.00000,144.00000'/>
+		<WIRE a='124.00000,142.00000' b='124.00000,144.00000'/>
+		<LABEL pos='88.00000,84.00000' direction='3' font='0' color='208000' style='0'>PC(7:0)</LABEL>
+	</TinyCAD>
+</TinyCADSheets>

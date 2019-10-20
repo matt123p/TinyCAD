@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--This file was written by TinyCAD Version 2.80.08 Build #650++ Uncontrolled Release
+If you wish to view this file go to http://tinycad.sourceforge.net to
+download the executable.-->
+<TinyCADSheets>
+	<TinyCAD>
+		<NAME>Sheet 1</NAME>
+		<DETAILS>
+			<Size width='1485' height='1050'/>
+			<GUIDES horiz='7' vert='5'/>
+			<TITLE></TITLE>
+			<AUTHOR></AUTHOR>
+			<REVISION>1.0</REVISION>
+			<DOCNUMBER></DOCNUMBER>
+			<ORGANISATION></ORGANISATION>
+			<SHEETS>1 of 1</SHEETS>
+			<SHOWS>1</SHOWS>
+			<DATE></DATE>
+			<GRID spacing='100.00000' snap='1'/>
+		</DETAILS>
+		<FONT id='1'>
+			<HEIGHT>-10</HEIGHT>
+			<WIDTH>0</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<FONT id='3'>
+			<HEIGHT>-13</HEIGHT>
+			<WIDTH>6</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<STYLE id='2'>
+			<STYLE>0</STYLE>
+			<COLOR>000000</COLOR>
+			<THICKNESS>1</THICKNESS>
+		</STYLE>
+		<FILL id='0'>
+			<INDEX>-1</INDEX>
+			<COLOR>000000</COLOR>
+		</FILL>
+		<SYMBOLDEF id='1'>
+			<NAME type='1'>INPUT</NAME>
+			<REF type='0'>?</REF>
+			<DESCRIPTION>Input</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='26.00000,20.00000'/>
+			<TinyCAD>
+				<PIN pos='26.00000,18.00000' which='0' elec='1' direction='2' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+				<POLYGON pos='14.00000,16.00000' style='2' fill='0'>
+					<POINT pos='6.00000,2.00000' arc='0'/>
+					<POINT pos='4.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,4.00000' arc='0'/>
+					<POINT pos='4.00000,4.00000' arc='0'/>
+					<POINT pos='6.00000,2.00000' arc='0'/>
+				</POLYGON>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='2'>
+			<NAME type='1'>OUTPUT</NAME>
+			<REF type='0'>?</REF>
+			<DESCRIPTION>Output</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='40.00000,36.00000'/>
+			<TinyCAD>
+				<PIN pos='28.00000,34.00000' which='0' elec='0' direction='3' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
+				<POLYGON pos='34.00000,32.00000' style='2' fill='0'>
+					<POINT pos='0.00000,2.00000' arc='0'/>
+					<POINT pos='2.00000,0.00000' arc='0'/>
+					<POINT pos='6.00000,0.00000' arc='0'/>
+					<POINT pos='6.00000,4.00000' arc='0'/>
+					<POINT pos='2.00000,4.00000' arc='0'/>
+					<POINT pos='0.00000,2.00000' arc='0'/>
+				</POLYGON>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='3'>
+			<NAME type='0'>UALogic</NAME>
+			<REF type='0'>U?</REF>
+			<DESCRIPTION>Logic for the UA</DESCRIPTION>
+			<PPP>1</PPP>
+			<FIELD>
+				<NAME>$$SPICE_PROLOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>$$SPICE_EPILOG_PRIORITY</NAME>
+				<DEFAULT>5</DEFAULT>
+				<FT>000002</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<FIELD>
+				<NAME>Package</NAME>
+				<DEFAULT>package name for PCB layout</DEFAULT>
+				<FT>000001</FT>
+				<VALUE></VALUE>
+				<POS>0.00000,0.00000</POS>
+			</FIELD>
+			<REF_POINT power='0' part='0' pos='34.00000,34.00000'/>
+			<TinyCAD>
+				<RECTANGLE a='21.03588,17.83426' b='31.03588,33.83426' style='2' fill='0'/>
+				<PIN pos='18.00000,20.00000' which='0' elec='0' direction='3' part='0' number='1' show='1' length='15' number_pos='0' centre_name='0'>A</PIN>
+				<PIN pos='18.00000,24.00000' which='0' elec='0' direction='3' part='0' number='2' show='1' length='15' number_pos='0' centre_name='0'>B</PIN>
+				<PIN pos='18.00000,28.00000' which='0' elec='0' direction='3' part='0' number='3' show='1' length='15' number_pos='0' centre_name='0'>S0</PIN>
+				<PIN pos='18.00000,32.00000' which='0' elec='0' direction='3' part='0' number='4' show='1' length='15' number_pos='0' centre_name='0'>S1</PIN>
+				<PIN pos='34.00000,20.00000' which='0' elec='1' direction='2' part='0' number='5' show='1' length='15' number_pos='0' centre_name='0'>X</PIN>
+				<PIN pos='34.00000,24.00000' which='0' elec='1' direction='2' part='0' number='6' show='1' length='15' number_pos='0' centre_name='0'>Y</PIN>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<OPTIONS>
+			<GRID>0</GRID>
+			<UNITS>0</UNITS>
+			<COLOR_WIRE>FF0000</COLOR_WIRE>
+			<COLOR_BUS>0000FF</COLOR_BUS>
+			<COLOR_JUNCTION>000000</COLOR_JUNCTION>
+			<COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+			<COLOR_LABEL>208000</COLOR_LABEL>
+			<COLOR_POWER>000000</COLOR_POWER>
+			<COLOR_PIN>4040C0</COLOR_PIN>
+			<COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+			<COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+			<COLOR_NOTETEXT_FILL>AFFFFF</COLOR_NOTETEXT_FILL>
+			<COLOR_NOTETEXT_LINE>FF0000</COLOR_NOTETEXT_LINE>
+			<COLOR_NOTETEXT_TEXT>FF0000</COLOR_NOTETEXT_TEXT>
+		</OPTIONS>
+		<SYMBOL id='1' pos='28.00000,20.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='A(3:0)' show='1' pos='-7.00000,-4.00000'/>
+			<FIELD type='1' description='Name' value='INPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,0.40000'/>
+		</SYMBOL>
+		<SYMBOL id='1' pos='28.00000,50.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='B(3:0)' show='1' pos='-7.00000,-4.00000'/>
+			<FIELD type='1' description='Name' value='INPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,0.40000'/>
+		</SYMBOL>
+		<WIRE a='40.00000,106.00000' b='40.00000,110.00000'/>
+		<SYMBOL id='2' pos='114.00000,20.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='X(3:0)' show='1' pos='1.00000,-2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+		</SYMBOL>
+		<WIRE a='102.00000,18.00000' b='96.00000,18.00000'/>
+		<WIRE a='96.00000,94.00000' b='96.00000,112.00000'/>
+		<SYMBOL id='3' pos='80.00000,46.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U1' show='1' pos='1.00000,-13.60000'/>
+			<FIELD type='0' description='Name' value='UALogic' show='1' pos='1.00000,-16.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-11.20000'/>
+		</SYMBOL>
+		<SYMBOL id='3' pos='80.00000,68.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U2' show='1' pos='1.00000,-13.60000'/>
+			<FIELD type='0' description='Name' value='UALogic' show='1' pos='1.00000,-16.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-11.20000'/>
+		</SYMBOL>
+		<SYMBOL id='3' pos='80.00000,90.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U3' show='1' pos='1.00000,-13.60000'/>
+			<FIELD type='0' description='Name' value='UALogic' show='1' pos='1.00000,-16.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-11.20000'/>
+		</SYMBOL>
+		<SYMBOL id='3' pos='80.00000,112.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='U4' show='1' pos='1.00000,-13.60000'/>
+			<FIELD type='0' description='Name' value='UALogic' show='1' pos='1.00000,-16.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-11.20000'/>
+		</SYMBOL>
+		<SYMBOL id='1' pos='28.00000,120.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='S(1:0)' show='1' pos='-7.00000,-4.00000'/>
+			<FIELD type='1' description='Name' value='INPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,0.40000'/>
+		</SYMBOL>
+		<WIRE a='48.00000,110.00000' b='48.00000,114.00000'/>
+		<SYMBOL id='2' pos='118.00000,30.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='Y(3:0)' show='1' pos='1.00000,-2.00000'/>
+			<FIELD type='1' description='Name' value='OUTPUT' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
+		</SYMBOL>
+		<WIRE a='106.00000,28.00000' b='102.00000,28.00000'/>
+		<WIRE a='102.00000,98.00000' b='102.00000,112.00000'/>
+		<WIRE a='28.00000,18.00000' b='32.00000,18.00000'/>
+		<WIRE a='32.00000,102.00000' b='32.00000,110.00000'/>
+		<WIRE a='64.00000,32.00000' b='36.00000,32.00000'/>
+		<WIRE a='64.00000,54.00000' b='36.00000,54.00000'/>
+		<WIRE a='64.00000,76.00000' b='36.00000,76.00000'/>
+		<WIRE a='64.00000,98.00000' b='36.00000,98.00000'/>
+		<WIRE a='64.00000,36.00000' b='44.00000,36.00000'/>
+		<WIRE a='64.00000,58.00000' b='44.00000,58.00000'/>
+		<WIRE a='64.00000,80.00000' b='44.00000,80.00000'/>
+		<WIRE a='64.00000,102.00000' b='44.00000,102.00000'/>
+		<BUSSLASH pos='36.00000,32.00000' direction='0'/>
+		<BUSSLASH pos='36.00000,54.00000' direction='0'/>
+		<BUSSLASH pos='36.00000,76.00000' direction='0'/>
+		<BUSSLASH pos='36.00000,98.00000' direction='0'/>
+		<BUSSLASH pos='44.00000,36.00000' direction='0'/>
+		<BUSSLASH pos='44.00000,58.00000' direction='0'/>
+		<BUSSLASH pos='44.00000,80.00000' direction='0'/>
+		<BUSSLASH pos='44.00000,102.00000' direction='0'/>
+		<WIRE a='28.00000,48.00000' b='40.00000,48.00000'/>
+		<JUNCTION pos='40.00000,48.00000'/>
+		<WIRE a='40.00000,40.00000' b='40.00000,48.00000'/>
+		<WIRE a='56.00000,106.00000' b='56.00000,114.00000'/>
+		<BUSSLASH pos='56.00000,114.00000' direction='0'/>
+		<BUSSLASH pos='48.00000,114.00000' direction='0'/>
+		<JUNCTION pos='32.00000,36.00000'/>
+		<WIRE a='32.00000,18.00000' b='32.00000,36.00000'/>
+		<JUNCTION pos='32.00000,58.00000'/>
+		<WIRE a='32.00000,36.00000' b='32.00000,58.00000'/>
+		<JUNCTION pos='32.00000,80.00000'/>
+		<WIRE a='32.00000,58.00000' b='32.00000,80.00000'/>
+		<JUNCTION pos='32.00000,102.00000'/>
+		<WIRE a='32.00000,80.00000' b='32.00000,102.00000'/>
+		<JUNCTION pos='40.00000,40.00000'/>
+		<WIRE a='40.00000,18.00000' b='40.00000,40.00000'/>
+		<JUNCTION pos='40.00000,62.00000'/>
+		<WIRE a='40.00000,48.00000' b='40.00000,62.00000'/>
+		<JUNCTION pos='40.00000,84.00000'/>
+		<WIRE a='40.00000,62.00000' b='40.00000,84.00000'/>
+		<JUNCTION pos='40.00000,106.00000'/>
+		<WIRE a='40.00000,84.00000' b='40.00000,106.00000'/>
+		<WIRE a='64.00000,40.00000' b='56.00000,40.00000'/>
+		<JUNCTION pos='56.00000,40.00000'/>
+		<WIRE a='56.00000,22.00000' b='56.00000,40.00000'/>
+		<WIRE a='64.00000,44.00000' b='48.00000,44.00000'/>
+		<JUNCTION pos='48.00000,44.00000'/>
+		<WIRE a='48.00000,22.00000' b='48.00000,44.00000'/>
+		<WIRE a='64.00000,62.00000' b='56.00000,62.00000'/>
+		<JUNCTION pos='56.00000,62.00000'/>
+		<WIRE a='56.00000,40.00000' b='56.00000,62.00000'/>
+		<WIRE a='64.00000,66.00000' b='48.00000,66.00000'/>
+		<JUNCTION pos='48.00000,66.00000'/>
+		<WIRE a='48.00000,44.00000' b='48.00000,66.00000'/>
+		<WIRE a='64.00000,84.00000' b='56.00000,84.00000'/>
+		<JUNCTION pos='56.00000,84.00000'/>
+		<WIRE a='56.00000,62.00000' b='56.00000,84.00000'/>
+		<WIRE a='64.00000,88.00000' b='48.00000,88.00000'/>
+		<JUNCTION pos='48.00000,88.00000'/>
+		<WIRE a='48.00000,66.00000' b='48.00000,88.00000'/>
+		<WIRE a='64.00000,106.00000' b='56.00000,106.00000'/>
+		<JUNCTION pos='56.00000,106.00000'/>
+		<WIRE a='56.00000,84.00000' b='56.00000,106.00000'/>
+		<WIRE a='64.00000,110.00000' b='48.00000,110.00000'/>
+		<JUNCTION pos='48.00000,110.00000'/>
+		<WIRE a='48.00000,88.00000' b='48.00000,110.00000'/>
+		<WIRE a='44.00000,118.00000' b='52.00000,118.00000'/>
+		<JUNCTION pos='44.00000,118.00000'/>
+		<WIRE a='28.00000,118.00000' b='44.00000,118.00000'/>
+		<LABEL pos='48.00000,22.00000' direction='3' font='3' color='208000' style='0'>S(1)</LABEL>
+		<LABEL pos='56.00000,22.00000' direction='3' font='3' color='208000' style='0'>S(0)</LABEL>
+		<LABEL pos='44.00000,32.00000' direction='3' font='3' color='208000' style='0'>A(0)</LABEL>
+		<LABEL pos='44.00000,54.00000' direction='3' font='3' color='208000' style='0'>A(1)</LABEL>
+		<LABEL pos='44.00000,76.00000' direction='3' font='3' color='208000' style='0'>A(2)</LABEL>
+		<LABEL pos='44.00000,98.00000' direction='3' font='3' color='208000' style='0'>A(3)</LABEL>
+		<LABEL pos='52.00000,36.00000' direction='3' font='3' color='208000' style='0'>B(0)</LABEL>
+		<LABEL pos='52.00000,58.00000' direction='3' font='3' color='208000' style='0'>B(1)</LABEL>
+		<LABEL pos='52.00000,80.00000' direction='3' font='3' color='208000' style='0'>B(2)</LABEL>
+		<LABEL pos='52.00000,102.00000' direction='3' font='3' color='208000' style='0'>B(3)</LABEL>
+		<WIRE a='80.00000,32.00000' b='92.00000,32.00000'/>
+		<WIRE a='80.00000,36.00000' b='98.00000,36.00000'/>
+		<WIRE a='80.00000,54.00000' b='92.00000,54.00000'/>
+		<WIRE a='80.00000,58.00000' b='98.00000,58.00000'/>
+		<WIRE a='80.00000,76.00000' b='92.00000,76.00000'/>
+		<WIRE a='80.00000,80.00000' b='98.00000,80.00000'/>
+		<WIRE a='80.00000,98.00000' b='92.00000,98.00000'/>
+		<WIRE a='80.00000,102.00000' b='98.00000,102.00000'/>
+		<BUSSLASH pos='96.00000,28.00000' direction='0'/>
+		<BUSSLASH pos='102.00000,32.00000' direction='0'/>
+		<BUSSLASH pos='96.00000,50.00000' direction='0'/>
+		<BUSSLASH pos='102.00000,54.00000' direction='0'/>
+		<BUSSLASH pos='96.00000,72.00000' direction='0'/>
+		<BUSSLASH pos='102.00000,76.00000' direction='0'/>
+		<BUSSLASH pos='96.00000,94.00000' direction='0'/>
+		<BUSSLASH pos='102.00000,98.00000' direction='0'/>
+		<JUNCTION pos='96.00000,28.00000'/>
+		<WIRE a='96.00000,18.00000' b='96.00000,28.00000'/>
+		<JUNCTION pos='96.00000,50.00000'/>
+		<WIRE a='96.00000,28.00000' b='96.00000,50.00000'/>
+		<JUNCTION pos='96.00000,72.00000'/>
+		<WIRE a='96.00000,50.00000' b='96.00000,72.00000'/>
+		<JUNCTION pos='96.00000,94.00000'/>
+		<WIRE a='96.00000,72.00000' b='96.00000,94.00000'/>
+		<JUNCTION pos='102.00000,32.00000'/>
+		<WIRE a='102.00000,28.00000' b='102.00000,32.00000'/>
+		<JUNCTION pos='102.00000,54.00000'/>
+		<WIRE a='102.00000,32.00000' b='102.00000,54.00000'/>
+		<JUNCTION pos='102.00000,76.00000'/>
+		<WIRE a='102.00000,54.00000' b='102.00000,76.00000'/>
+		<JUNCTION pos='102.00000,98.00000'/>
+		<WIRE a='102.00000,76.00000' b='102.00000,98.00000'/>
+		<LABEL pos='88.00000,32.00000' direction='3' font='3' color='208000' style='0'>X(0)</LABEL>
+		<LABEL pos='88.00000,54.00000' direction='3' font='3' color='208000' style='0'>X(1)</LABEL>
+		<LABEL pos='88.00000,76.00000' direction='3' font='3' color='208000' style='0'>X(2)</LABEL>
+		<LABEL pos='88.00000,98.00000' direction='3' font='3' color='208000' style='0'>X(3)</LABEL>
+		<LABEL pos='90.00000,36.00000' direction='3' font='3' color='208000' style='0'>Y(0)</LABEL>
+		<LABEL pos='90.00000,58.00000' direction='3' font='3' color='208000' style='0'>Y(1)</LABEL>
+		<LABEL pos='90.00000,80.00000' direction='3' font='3' color='208000' style='0'>Y(2)</LABEL>
+		<LABEL pos='90.00000,102.00000' direction='3' font='3' color='208000' style='0'>Y(3)</LABEL>
+	</TinyCAD>
+</TinyCADSheets>
