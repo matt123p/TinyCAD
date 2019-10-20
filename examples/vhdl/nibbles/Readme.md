@@ -1,4 +1,9 @@
-Times
+## "Nibbles" the 4-bit process which is an example for using VHDL ouput
+
+These files show how to use the VHDL output system built in to TinyCAD.  You must use the VHDL library, which is included in the
+directory above this one or you can find the VHDL files on [tinycad.net](https://www.tinycad.net/Search?key=%23vhdl).
+
+## Times
 
 Make the Register File: 
 3 hours....
