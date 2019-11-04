@@ -31,7 +31,7 @@
 #include "NewTypes.h"
 #include "DPoint.h"
 
-#include "libiconv\iconv.h"
+#include "iconv.h"
 
 typedef TCHAR xml_char_t;
 

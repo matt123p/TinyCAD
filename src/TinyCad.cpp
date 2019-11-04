@@ -565,8 +565,8 @@ CString CTinyCadApp::GetVersion()
 	VS_FIXEDFILEINFO* pFixedInfo;
 	UINT uVersionLen;
 
-	GetModuleFileName(NULL, szModulePath, MAX_PATH - 1);
-	TRACE("CTinyCadApp::GetVersion() - szModulePath=\"%S\"\n", szModulePath);
+	GetModuleFileName(nullptr, szModulePath, MAX_PATH - 1);
+
 	dwSize = GetFileVersionInfoSize(szModulePath, &dwZero);
 
 	if (dwSize > 0)
@@ -576,8 +576,7 @@ CString CTinyCadApp::GetVersion()
 		GetFileVersionInfo(szModulePath, dwZero, dwSize, pBuffer);
 		VerQueryValue(pBuffer, _T("\\"), (void**) &pFixedInfo, (UINT*) &uVersionLen);
 
-		sReturn.Format(_T("Version %u.%02u.%02u Build #%s%s"), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS), SVN_WCRANGE, SVN_MODIFICATIONS_POSTFIX);
-		//										LOWORD(pFixedInfo->dwProductVersionLS));
+		sReturn.Format(_T("Version %u.%02u.%02u " GIT_BRANCH), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS));
 		delete[] pBuffer;
 	}
 
@@ -586,32 +585,13 @@ CString CTinyCadApp::GetVersion()
 //-------------------------------------------------------------------------
 CString CTinyCadApp::GetReleaseType()
 {
-	//There is a custom build step that runs the TortoiseSVN command "SubWCRev.exe".  This command
-	//stores information describing the state of the working copy of the repository used to produce
-	//this particular build.  In conjunction with a header template file, this information ends up
-	//in the following preprocessor definitions:
-	CString svn_wcrange = SVN_WCRANGE; //a valid production build will always consist of a single revision, not a range of revisions
-	CString svn_modifications_postfix = SVN_MODIFICATIONS_POSTFIX; //a valid production build will never contain uncommitted modified files
-
-	//If a range of SVN revisions was used to create this build or if there are modified files that have not been
-	//committed to SVN present in the working copy that produced this build, then the results of this build cannot 
-	//be duplicated by anyone else so it will be described as an "Uncontrolled Release".
-
-	if ( (svn_modifications_postfix.Find('+') != -1) || (svn_wcrange.Find('-') != -1))
-	{ //Either modifications are present or the working copy contains mixed revisions - either way, this build is non-reproducible
-		return "Uncontrolled Release";
+	// If we are building from "master" then assume it is a release build,
+	// otherwise use the branch name
+	if (strcmp(GIT_BRANCH, "master"))
+	{
+		return "Production Release";
 	}
-
-	CString svn_url = SVN_WCURL;
-	if ( (svn_modifications_postfix.Find('-') != -1) || (svn_url.Find(_T("\\branches\\")) != -1) || (svn_url.Find(_T("/branches/")) != -1))
-	{ //Production releases are only made from the trunk or a tag, never from branches
-		return "Alpha Release";
-	}
-
-	//There is not presently a mechanism to automatically mark a release as a beta release
-	//although it would be nice if there were such a mechanism.
-	//	return "Beta Release";
-	return "Production Release";
+	return GIT_BRANCH;
 }
 
 //-------------------------------------------------------------------------

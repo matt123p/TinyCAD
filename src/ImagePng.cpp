@@ -20,6 +20,9 @@
 #include "stdafx.h"
 #include "ImagePNG.h"
 
+#define png_infopp_NULL (png_infopp)NULL
+#define int_p_NULL (int*)NULL
+
 int CImagePNG::SortRGBAxis;
 
 #define RedV(vv) static_cast<int>((vv>>16) & 0xff)
@@ -75,7 +78,7 @@ struct memory_block
 static void __cdecl user_write_mem(struct png_struct_def *p, unsigned char *c, unsigned int size)
 {
 	// Do we need more memory?
-	memory_block *m = (memory_block *) p->io_ptr;
+	memory_block *m = (memory_block *)png_get_io_ptr(p);
 
 	if (m->m_pData == NULL || m->m_size + size >= m->m_total_size)
 	{
@@ -302,7 +305,7 @@ static void __cdecl user_warning_fn(struct png_struct_def *p, const char *c)
 
 void __cdecl CImagePNG::user_read_function(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-	png_buffer *reader = (png_buffer*) (png_ptr->io_ptr);
+	png_buffer *reader = static_cast<png_buffer*>(png_get_io_ptr(png_ptr));
 
 	size_t bytes = length;
 	if (bytes > reader->m_size_left)
@@ -397,7 +400,7 @@ bool CImagePNG::Read(CDC &ref_dc, const unsigned char *buf, size_t size)
 	if (color_type == PNG_COLOR_TYPE_PALETTE) png_set_palette_to_rgb(png_ptr);
 
 	/* Expand grayscale images to the full 8 bits from 1, 2, or 4 bits/pixel */
-	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) png_set_gray_1_2_4_to_8(png_ptr);
+	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) png_set_expand_gray_1_2_4_to_8(png_ptr);
 
 	/* Expand paletted or RGB images with transparency to full alpha channels
 	 * so the data will be available as RGBA quartets.
@@ -515,12 +518,12 @@ bool CImagePNG::Read(CDC &ref_dc, const unsigned char *buf, size_t size)
 
 static void __cdecl user_write_function(struct png_struct_def *p, unsigned char *c, unsigned int size)
 {
-	fwrite(c, size, 1, (FILE*) (p->io_ptr));
+	fwrite(c, size, 1, (FILE*)png_get_io_ptr(p));
 }
 
 static void __cdecl user_flush_function(struct png_struct_def *p)
 {
-	fflush((FILE*) (p->io_ptr));
+	fflush((FILE*)png_get_io_ptr(p));
 }
 
 /******************************************************************************

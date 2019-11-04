@@ -1,0 +1,5 @@
+/src/.vs/*
+/src/Debug/*
+/src/packages/*
+/src/BuildId.h
+/src/Release/*

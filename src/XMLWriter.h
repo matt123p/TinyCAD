@@ -31,7 +31,7 @@
 #include "Stream.h"
 #include <deque>
 
-#include "libiconv\iconv.h"
+#include "iconv.h"
 
 typedef TCHAR xml_char_t;
 

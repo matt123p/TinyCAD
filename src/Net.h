@@ -22,6 +22,7 @@
 
 #define NetComment	_T(";")		// The symbol used for comments
 #include "resource.h"
+#include <fstream>
 
 class CMultiSheetDoc;
 class CTinyCadMultiDoc;
