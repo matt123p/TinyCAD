@@ -176,7 +176,7 @@ public:
 	afx_msg void OnHelpOpenTinyCADUserManual();
 	afx_msg void OnHelpGototinycadwebsite();
 	afx_msg void OnHelpHelp();
-	afx_msg void OnHelpEmailforsupport();
+	afx_msg void OnHelpSupport();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()

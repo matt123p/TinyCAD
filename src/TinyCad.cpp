@@ -282,7 +282,7 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 	ON_COMMAND(ID_HELP_OPENTINYCADUSERMANUAL, OnHelpOpenTinyCADUserManual)
 	ON_COMMAND(ID_HELP_GOTOTINYCADWEBSITE, OnHelpGototinycadwebsite)
 	ON_COMMAND(ID_HELP_HELP, OnHelpHelp)
-	ON_COMMAND(ID_HELP_EMAILFORSUPPORT, OnHelpEmailforsupport)
+	ON_COMMAND(ID_HELP_SUPPORTFORUM, OnHelpSupport)
 
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinAppEx::OnFileNew)
@@ -1023,30 +1023,22 @@ void CTinyCadApp::OnLibLib()
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpOpenTinyCADUserManual()
 {
-	// Open the default path folder - debug only
-	//	ShellExecute( AfxGetMainWnd()->m_hWnd, _T("open"), _T(".\\"), NULL, NULL, SW_SHOWNORMAL );
-
-	// Open the TinyCAD User's Manual
-	CString userManual;
-	userManual = GetMainDir() + _T("TinyCAD_Manual.pdf");
-	TRACE("Opening the TinyCAD User Manual using \"%S\"\n", userManual);
-	int ret_code = 0;
-	ret_code = (int) ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), userManual, NULL, NULL, SW_SHOWNORMAL);
-	TRACE("ShellExecute returned code %d\n", ret_code);
+	// Open a browser for our web site
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net"), NULL, NULL, SW_SHOWNORMAL);
 }
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpGototinycadwebsite()
 {
 	// Open a browser for our web site
-	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net"), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://docs.tinycad.net"), NULL, NULL, SW_SHOWNORMAL);
 }
 
 //-------------------------------------------------------------------------
 
-void CTinyCadApp::OnHelpEmailforsupport()
+void CTinyCadApp::OnHelpSupport()
 {
 	// Open a browser for our web site
-	// ??ShellExecute( AfxGetMainWnd()->m_hWnd, "open", "emailto:don_lucas@sourceforge.net", NULL, NULL, SW_SHOWNORMAL );	
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://forum.tinycad.net"), NULL, NULL, SW_SHOWNORMAL);
 }
 
 //-------------------------------------------------------------------------
