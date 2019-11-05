@@ -375,7 +375,6 @@ BEGIN
     LTEXT           "Jarek Sulkowski",IDC_STATIC,61,158,89,8
     CONTROL         IDB_BITMAP2,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
     LTEXT           "XML Netlist Generation:  RapidXML Version 1.13",IDC_STATIC,61,232,189,8
-    LTEXT           "Windows Version:  Placeholder",IDC_WINDOWS_VERSION,13,245,294,32
     LTEXT           "Petr Hluzin",IDC_STATIC,61,148,89,8
     LTEXT           "Paulo Lopes",IDC_STATIC,61,168,89,8
 END
