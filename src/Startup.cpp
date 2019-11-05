@@ -94,7 +94,7 @@ void CDlgStartUpWindow::OnPaint()
 		CTinyCadApp::GetVersion() + "\r\n" +
 		CTinyCadApp::GetReleaseType();
 
-	dc.DrawText(text,CRect(0, 90, rect.right-4,rect.bottom) ,DT_RIGHT);
+	dc.DrawText(text,CRect(0, 90, rect.right-14,rect.bottom) ,DT_RIGHT);
 
 	dc.SelectObject(old_font);
 }

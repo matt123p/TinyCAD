@@ -36,13 +36,6 @@ BOOL CDlgAbout::OnInitDialog()
 	sVersion.Format(_T("%s %s %s"), (LPCTSTR)CTinyCadApp::GetName(), (LPCTSTR)CTinyCadApp::GetVersion(), (LPCTSTR)CTinyCadApp::GetReleaseType());
 	GetDlgItem(IDC_VERSION)->SetWindowText(sVersion);
 
-	CString sWindowsVersion;
-	//In Windows 8.1 and above, only the compatibility mode settings will be reported unless no compatibility mode settings have been set.
-	CTinyCadApp::GetWindowsVersionName(buffer, 256);
-	sWindowsVersion.Format(_T("Reported Windows version (may be altered by compatibility mode settings):\n%s."), buffer);
-
-	GetDlgItem(IDC_WINDOWS_VERSION)->SetWindowText(sWindowsVersion);
-
 	return TRUE;
 }
 //-------------------------------------------------------------------------
