@@ -241,7 +241,7 @@ BOOL CContext::SelectPen(int Style, int Width, LONG Colour, paint_options option
 		int new_style;
 		int style_count = 0;
 
-		if (Style != PS_SOLID && Style != PS_NULL && CTinyCadApp::IsWinNT())
+		if (Style != PS_SOLID && Style != PS_NULL)
 		{
 			const int dot = 4;
 			const int dash = 8;

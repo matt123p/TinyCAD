@@ -41,6 +41,7 @@
 #include <io.h>
 #include <iostream>
 #include <fstream>
+#include <VersionHelpers.h>
 
 
 // NOTE: This is never compiled in.  It is used to 
@@ -100,25 +101,16 @@ DWORD CTinyCadCommandLineInfo::RedirectIOToConsole()
 	FILE *fp=NULL;
 	DWORD retCode=0;
 
-	// Attach to an existing console, if one is present (only available in WinNT and newer).  Allocate a new console if unable to attach to an existing one.
-	if (CTinyCadApp::IsWinNT())
+	retCode = AttachConsole(ATTACH_PARENT_PROCESS);	//A Windows GUI app has already detached from the console, so it is necessary to reattach
+	if (retCode == 0)
 	{
-		retCode = AttachConsole(ATTACH_PARENT_PROCESS);	//A Windows GUI app has already detached from the console, so it is necessary to reattach
-		if (retCode == 0)
-		{
-			DWORD errorCode = GetLastError();
-			//Note:  Error code==6 will be returned when running under the debugger because a parent console process already exists and you are not allowed to attach to it.  The code indicates an invalid handle was used.
-			ATLTRACE2(_T("CTinyCadCommandLineInfo::RedirectIOToConsole():  AttachConsole failed and returned code=%d.  The GetLastError() function returned %u\n"), retCode, errorCode);
-		}
-		else
-		{
-			fprintf(stdout,"Console is now re-attached\n");
-		}
+		DWORD errorCode = GetLastError();
+		//Note:  Error code==6 will be returned when running under the debugger because a parent console process already exists and you are not allowed to attach to it.  The code indicates an invalid handle was used.
+		ATLTRACE2(_T("CTinyCadCommandLineInfo::RedirectIOToConsole():  AttachConsole failed and returned code=%d.  The GetLastError() function returned %u\n"), retCode, errorCode);
 	}
-	else 
+	else
 	{
-		retCode = static_cast<DWORD>(0);
-		ATLTRACE2("CTinyCadCommandLineInfo::RedirectIOToConsole():  Unable to reattach the active console window because this version of Windows is too old.  Attempting to allocate a new console.\n");
+		fprintf(stdout,"Console is now re-attached\n");
 	}
 
 	if (retCode == 0)	//Reattach to existing console was not successful, for whatever reason
@@ -437,17 +429,9 @@ BOOL CTinyCadApp::InitInstance()
 		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
 		//Lookup the long version of this filename in the current working directory and then open the long version of the filename.
 		ATLTRACE2("CTinyCad::InitInstance() received a file open command from the Windows Shell processor.  Filename=\"%S\"\n", cmdInfo.m_strFileName);
-		if (IsWinNT())
-		{ //The following Windows API function is only present in WinNT and newer systems
-
-			CString longName = GetLongFileName(cmdInfo.m_strFileName); //Convert potential DOS 8.3 short file name into a long file name
-			cmdInfo.m_strFileName = longName; //Replace the short filename with the long filename
-			ATLTRACE2("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
-		}
-		else
-		{
-			ATLTRACE2("CTinyCad::InitInstance():  This version of Windows is too old (i.e., is older than WinNT) to support the GetLongFileName() command - using the native file name instead: \"%S\".\n", cmdInfo.m_strFileName);
-		}
+		CString longName = GetLongFileName(cmdInfo.m_strFileName); //Convert potential DOS 8.3 short file name into a long file name
+		cmdInfo.m_strFileName = longName; //Replace the short filename with the long filename
+		ATLTRACE2("CTinyCad::InitInstance():                                                          long file name=\"%S\"\n", longName);
 	}
 
 	// Now dispatch all TinyCAD custom commands specified on the command line, including the DDE commands such as FileOpen, FilePrint, etc.
@@ -1073,247 +1057,6 @@ BOOL CTinyCadApp::ChooseColor(COLORREF &col)
 	}
 
 	return FALSE;
-}
-
-//-------------------------------------------------------------------------
-bool CTinyCadApp::IsWinNT()
-{
-
-	TCHAR szOS[1024];
-	bool bReturn;
-
-	bReturn = GetWindowsVersionName(szOS, 1024); //Returns true for all versions of Windows >= WinNT
-
-	ATLTRACE2("CTinyCadApp::GetOSDisplayString() returned %S with string =\"%S\"\n", bReturn ? _T("True") : _T("False"), szOS);
-	return bReturn;
-}
-
-//The function windowsVersionName() is borrowed with modifications from the MSDN example code titled "Getting the System Version"
-//located at http://msdn.microsoft.com/en-us/library/ms724429(VS.85).aspx
-#pragma comment(lib, "User32.lib")
-#include "sstream"
-typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
-typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-
-//returns true if version is new enough to determine, false otherwise
-//returned version string str is always returned with a valid string regardless of return value of function
-bool CTinyCadApp::GetWindowsVersionName(wchar_t* str, int bufferSize)
-{
-	OSVERSIONINFOEX osvi;
-	SYSTEM_INFO si;
-	BOOL bOsVersionInfoEx;
-	DWORD dwType;
-
-	std::wstringstream os;
-
-	ZeroMemory(&si, sizeof(SYSTEM_INFO));
-	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
-	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-
-
-	//Note:  In Windows 8.1 and above, only the compatibility mode settings will be reported by the deprecated call to GetVersionEx() unless no compatibility mode settings have been set.
-	//In addition, the OS may include extension DLL's that change the effective capabilities of the OS and these will not be reported, according to MSDN
-	//This code needs to be upgraded to one of the newer system calls to identify the compatibility OS as well as the actual underlying OS
-
-
-	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*) &osvi);
-
-	if (bOsVersionInfoEx == 0)
-	{
-		wcscpy_s(str, bufferSize, _T("Unsupported Windows Version that is older than WinNT"));
-		return false;
-	}
-
-	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-	PGNSI pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
-	if (NULL != pGNSI) pGNSI(&si);
-	else GetSystemInfo(&si);
-
-	// Check for unsupported OS
-	if (VER_PLATFORM_WIN32_NT != osvi.dwPlatformId || osvi.dwMajorVersion <= 4)
-	{
-		wcscpy_s(str, bufferSize, _T("Unsupported Windows Version that is older than WinNT"));
-		return false;
-	}
-
-	// Test for the specific product.
-	os << L"Microsoft ";
-	if (osvi.dwMajorVersion >= 6)
-	{
-
-		PGPI pGPI = (PGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
-		pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.wServicePackMajor, osvi.wServicePackMinor, &dwType);
-
-		if (osvi.dwMajorVersion == 10)
-		{
-			if (osvi.dwMinorVersion == 0)
-			{
-				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 10 ";
-				else os << "Windows Server 2016 ";
-			}
-			else {
-				if (osvi.wProductType == VER_NT_WORKSTATION) os << "[Unrecognized Windows 10 Minor Version] ";
-				else os << "[Unrecognized Windows Server 2016 Minor Version] ";
-			}
-		}
-		else if (osvi.dwMajorVersion == 6)
-		{
-			if (osvi.dwMinorVersion == 0)
-			{
-				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows Vista ";
-				else os << "Windows Server 2008 ";
-			}
-			else if (osvi.dwMinorVersion == 1)
-			{
-				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 7 ";
-				else os << "Windows Server 2008 R2 ";
-			}
-			else if (osvi.dwMinorVersion == 2)
-			{
-				if (osvi.wProductType == VER_NT_WORKSTATION) os << "Windows 8 ";
-				else os << L"[Unrecognized Windows " << L"Server" << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
-			}
-			else {
-				os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
-			}
-		}
-		else {
-			os << L"[Unrecognized Windows " << ((osvi.wProductType == VER_NT_WORKSTATION) ? L"Workstation" : L"Server") << L".  Major version = " << osvi.dwMajorVersion << L", minor version = " << osvi.dwMinorVersion << L"] ";
-		}
-
-		switch (dwType)
-		{
-		case PRODUCT_ULTIMATE:
-			os << "Ultimate Edition";
-			break;
-		case PRODUCT_PROFESSIONAL:
-			os << "Professional";
-			break;
-		case PRODUCT_HOME_PREMIUM:
-			os << "Home Premium Edition";
-			break;
-		case PRODUCT_HOME_BASIC:
-			os << "Home Basic Edition";
-			break;
-		case PRODUCT_ENTERPRISE:
-			os << "Enterprise Edition";
-			break;
-		case PRODUCT_BUSINESS:
-			os << "Business Edition";
-			break;
-		case PRODUCT_STARTER:
-			os << "Starter Edition";
-			break;
-		case PRODUCT_CLUSTER_SERVER:
-			os << "Cluster Server Edition";
-			break;
-		case PRODUCT_DATACENTER_SERVER:
-			os << "Datacenter Edition";
-			break;
-		case PRODUCT_DATACENTER_SERVER_CORE:
-			os << "Datacenter Edition (core installation)";
-			break;
-		case PRODUCT_ENTERPRISE_SERVER:
-			os << "Enterprise Edition";
-			break;
-		case PRODUCT_ENTERPRISE_SERVER_CORE:
-			os << "Enterprise Edition (core installation)";
-			break;
-		case PRODUCT_ENTERPRISE_SERVER_IA64:
-			os << "Enterprise Edition for Itanium-based Systems";
-			break;
-		case PRODUCT_SMALLBUSINESS_SERVER:
-			os << "Small Business Server";
-			break;
-		case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-			os << "Small Business Server Premium Edition";
-			break;
-		case PRODUCT_STANDARD_SERVER:
-			os << "Standard Edition";
-			break;
-		case PRODUCT_STANDARD_SERVER_CORE:
-			os << "Standard Edition (core installation)";
-			break;
-		case PRODUCT_WEB_SERVER:
-			os << "Web Server Edition";
-			break;
-		default:
-			os << L"[Unrecognized product type = " << dwType << L"]";
-			break;
-		}
-
-		if (osvi.dwMajorVersion >= 6)
-		{
-			if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) os << ", 64-bit processor";
-			else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL) os << ", 32-bit processor";
-		}
-	}
-
-	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2)
-	{
-		if (GetSystemMetrics(SM_SERVERR2)) os << "Windows Server 2003 R2, ";
-		else if (osvi.wSuiteMask & VER_SUITE_STORAGE_SERVER) os << "Windows Storage Server 2003";
-		else if (osvi.wSuiteMask & VER_SUITE_WH_SERVER) os << "Windows Home Server";
-		else if (osvi.wProductType == VER_NT_WORKSTATION && si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-		{
-			os << "Windows XP Professional x64 Edition";
-		}
-		else os << "Windows Server 2003, "; // Test for the server type.
-		if (osvi.wProductType != VER_NT_WORKSTATION)
-		{
-			if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64)
-			{
-				if (osvi.wSuiteMask & VER_SUITE_DATACENTER) os << "Datacenter Edition for Itanium-based Systems";
-				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE) os << "Enterprise Edition for Itanium-based Systems";
-			}
-			else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-			{
-				if (osvi.wSuiteMask & VER_SUITE_DATACENTER) os << "Datacenter x64 Edition";
-				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE) os << "Enterprise x64 Edition";
-				else os << "Standard x64 Edition";
-			}
-			else
-			{
-				if (osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER) os << "Compute Cluster Edition";
-				else if (osvi.wSuiteMask & VER_SUITE_DATACENTER) os << "Datacenter Edition";
-				else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE) os << "Enterprise Edition";
-				else if (osvi.wSuiteMask & VER_SUITE_BLADE) os << "Web Edition";
-				else os << "Standard Edition";
-			}
-		}
-	}
-
-	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1)
-	{
-		os << "Windows XP ";
-		if (osvi.wSuiteMask & VER_SUITE_PERSONAL) os << "Home Edition";
-		else os << "Professional";
-	}
-
-	if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0)
-	{
-		os << "Windows 2000 ";
-		if (osvi.wProductType == VER_NT_WORKSTATION)
-		{
-			os << "Professional";
-		}
-		else
-		{
-			if (osvi.wSuiteMask & VER_SUITE_DATACENTER) os << "Datacenter Server";
-			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE) os << "Advanced Server";
-			else os << "Server";
-		}
-	}
-
-	// Include service pack (if any) and build number.
-	if (wcslen(osvi.szCSDVersion) > 0)
-	{
-		os << " " << osvi.szCSDVersion;
-	}
-	os << L" (build " << osvi.dwBuildNumber << L")";
-
-	wcscpy_s(str, bufferSize, os.str().c_str());
-	return true;
 }
 
 BOOL CTinyCadApp::LoadWindowPlacement(CRect& rectNormalPosition, int& nFflags, int& nShowCmd)
