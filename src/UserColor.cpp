@@ -1,7 +1,7 @@
 /*
  * Project:		TinyCAD program for schematic capture
- *				http://tinycad.sourceforge.net
- * Copyright:	© 1994-2005 Matt Pyne
+ *				https://www.tinycad.net
+ * Copyright:	© 1994-2019 Matt Pyne
  * License:		Lesser GNU Public License 2.1 (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */

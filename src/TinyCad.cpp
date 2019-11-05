@@ -576,7 +576,7 @@ CString CTinyCadApp::GetVersion()
 		GetFileVersionInfo(szModulePath, dwZero, dwSize, pBuffer);
 		VerQueryValue(pBuffer, _T("\\"), (void**) &pFixedInfo, (UINT*) &uVersionLen);
 
-		sReturn.Format(_T("Version %u.%02u.%02u " GIT_BRANCH), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS));
+		sReturn.Format(_T("Version %u.%02u.%02u"), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS));
 		delete[] pBuffer;
 	}
 
@@ -587,7 +587,7 @@ CString CTinyCadApp::GetReleaseType()
 {
 	// If we are building from "master" then assume it is a release build,
 	// otherwise use the branch name
-	if (strcmp(GIT_BRANCH, "master"))
+	if (strcmp(GIT_BRANCH, "master")==0)
 	{
 		return "Production Release";
 	}
@@ -1038,7 +1038,7 @@ void CTinyCadApp::OnHelpOpenTinyCADUserManual()
 void CTinyCadApp::OnHelpGototinycadwebsite()
 {
 	// Open a browser for our web site
-	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("http://tinycad.sourceforge.net"), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net"), NULL, NULL, SW_SHOWNORMAL);
 }
 
 //-------------------------------------------------------------------------

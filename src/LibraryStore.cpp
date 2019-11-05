@@ -178,7 +178,7 @@ void CLibraryStore::SaveXML(const TCHAR *filename, int id)
 
 		CString comment;
 		comment.Format( _T("This file was written by TinyCAD %s %s\n")
-						_T("If you wish to view this file go to http://tinycad.sourceforge.net to\n")
+						_T("If you wish to view this file go to https://www.tinycad.net to\n")
 						_T("download the TinyCAD executable."),
 			(LPCTSTR)CTinyCadApp::GetVersion(),
 			(LPCTSTR)CTinyCadApp::GetReleaseType());

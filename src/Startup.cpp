@@ -88,10 +88,13 @@ void CDlgStartUpWindow::OnPaint()
 
 	CFont *old_font = dc.SelectObject(&font);
 	dc.SetTextAlign(TA_LEFT);
-	dc.SetTextColor(RGB(24,24,165));
+	dc.SetTextColor(RGB(255,255,255));
 	dc.SetBkMode(TRANSPARENT);
-	dc.TextOut(265, 120, CTinyCadApp::GetVersion());
-	dc.TextOut(265, 150, CTinyCadApp::GetReleaseType());
+	CString text = "www.tinycad.net\r\n\r\n" +
+		CTinyCadApp::GetVersion() + "\r\n" +
+		CTinyCadApp::GetReleaseType();
+
+	dc.DrawText(text,CRect(0, 90, rect.right-4,rect.bottom) ,DT_RIGHT);
 
 	dc.SelectObject(old_font);
 }
