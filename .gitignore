@@ -3,3 +3,7 @@
 /src/packages/*
 /src/BuildId.h
 /src/Release/*
+.vs/*
+/packages/*
+/Debug/*
+/Release/*
