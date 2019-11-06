@@ -346,16 +346,16 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 314, 308
+IDD_ABOUTBOX DIALOGEX 0, 0, 315, 254
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "About TinyCad"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
     LTEXT           "TinyCAD Version x.xx.xx Placeholder",IDC_VERSION,39,10,213,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 1994-2016 Matt Pyne",IDC_STATIC,39,48,127,8
-    DEFPUSHBUTTON   "OK",IDOK,257,287,50,14,WS_GROUP
-    LTEXT           "https://www.tinycad.net",IDC_STATIC,11,293,107,8
+    DEFPUSHBUTTON   "OK",IDOK,257,229,50,14,WS_GROUP
+    LTEXT           "https://www.tinycad.net",IDC_STATIC,7,235,107,8
     LTEXT           "Released under the GNU Lesser General Public License (LGPL).",IDC_STATIC,39,20,216,8
     LTEXT           "Founding Author:",IDC_STATIC,39,63,89,8
     LTEXT           "Development Team for Current Release:",IDC_STATIC,39,87,218,8
@@ -365,16 +365,15 @@ BEGIN
     LTEXT           "Matt Pyne",IDC_STATIC,60,74,89,8
     LTEXT           "Stephen Friederichs",IDC_STATIC,61,128,89,8
     LTEXT           "Other included open source products:",IDC_STATIC,39,177,218,8
-    LTEXT           "Unicode/Font Conversions:  iconv.dll Version 1.9.0.0",IDC_STATIC,61,188,189,8
-    LTEXT           "PNG Image Support:  libpng13.dll Version 1.2.8.0",IDC_STATIC,61,199,189,8
-    LTEXT           "Image Compression Support:  zlib1.dll 1.2.1.0",IDC_STATIC,61,210,189,8
-    LTEXT           "SQLite Database Support:  sqlite3.dll Version 3.6.11",IDC_STATIC,61,221,189,8
+    LTEXT           "Unicode Conversions:  libiconv",IDC_STATIC,61,188,189,8
+    LTEXT           "PNG Image Support:  libpng & zlib",IDC_STATIC,61,199,189,8
+    LTEXT           "SQLite Database Support:  sqlite",IDC_STATIC,61,209,189,8
     LTEXT           "Jason Sachs",IDC_STATIC,61,138,89,8
     LTEXT           "You may use the LGPL version 2.1 or, at your discretion,",IDC_STATIC,39,29,216,8
     LTEXT           "any later version of the LGPL.",IDC_STATIC,39,38,216,8
     LTEXT           "Jarek Sulkowski",IDC_STATIC,61,158,89,8
     CONTROL         IDB_BITMAP2,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,179,42,60,39
-    LTEXT           "XML Netlist Generation:  RapidXML Version 1.13",IDC_STATIC,61,232,189,8
+    LTEXT           "XML Netlist Generation:  RapidXML",IDC_STATIC,61,219,189,8
     LTEXT           "Petr Hluzin",IDC_STATIC,61,148,89,8
     LTEXT           "Paulo Lopes",IDC_STATIC,61,168,89,8
 END
@@ -959,9 +958,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 306
+        RIGHTMARGIN, 307
         TOPMARGIN, 7
-        BOTTOMMARGIN, 290
+        BOTTOMMARGIN, 243
     END
 
     IDD_ANNOTATE, DIALOG

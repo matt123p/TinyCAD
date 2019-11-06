@@ -157,10 +157,8 @@
       <ResourceOutputFileName>Yes</ResourceOutputFileName>
     </ManifestResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(ProjectDir)\png\*.dll" "$(OutDir)"
-xcopy /y /d "$(ProjectDir)\libiconv\*.dll" "$(OutDir)"
-xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -243,10 +241,8 @@ xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
       <ResourceOutputFileName>Yes</ResourceOutputFileName>
     </ManifestResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(ProjectDir)\png\*.dll" "$(OutDir)"
-xcopy /y /d "$(ProjectDir)\libiconv\*.dll" "$(OutDir)"
-xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
@@ -1668,6 +1664,7 @@ xcopy /y /d "$(ProjectDir)\sqlite\*.dll" "$(OutDir)"
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\gridset.bmp" />
+    <Image Include="res\LGPLV3.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

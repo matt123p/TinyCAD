@@ -951,5 +951,8 @@
     <Image Include="res\gridset.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\LGPLV3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

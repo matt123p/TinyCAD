@@ -91,8 +91,7 @@ void CDlgStartUpWindow::OnPaint()
 	dc.SetTextColor(RGB(255,255,255));
 	dc.SetBkMode(TRANSPARENT);
 	CString text = "www.tinycad.net\r\n\r\n" +
-		CTinyCadApp::GetVersion() + "\r\n" +
-		CTinyCadApp::GetReleaseType();
+		CTinyCadApp::GetVersion() + "\r\n";
 
 	dc.DrawText(text,CRect(0, 90, rect.right-14,rect.bottom) ,DT_RIGHT);
 
