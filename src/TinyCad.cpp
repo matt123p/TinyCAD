@@ -41,7 +41,6 @@
 #include <io.h>
 #include <iostream>
 #include <fstream>
-#include <VersionHelpers.h>
 
 
 // NOTE: This is never compiled in.  It is used to 
@@ -418,7 +417,7 @@ BOOL CTinyCadApp::InitInstance()
 	free((void*) m_pszHelpFilePath);	//Free the string allocated by MFC at CWinAppEx startup to avoid a memory leak.  The string is allocated before InitInstance is called.
 	//Change the name of the .HLP file.
 	//The CWinAppEx destructor will free the memory.
-	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.chm"));	//Create the new help file path name
+	m_pszHelpFilePath = _tcsdup(GetMainDir() + _T("TinyCAD.html"));	//Create the new help file path name
 	SetHelpMode(afxHTMLHelp);
 
 	// Enable drag/drop open
@@ -1033,7 +1032,9 @@ void CTinyCadApp::OnAppAbout()
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpHelp()
 {
-	HtmlHelp(0, HH_DISPLAY_TOPIC);
+	CString url = "file://" + CString(m_pszHelpFilePath);
+	ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), url, NULL, NULL, SW_SHOWNORMAL);
+
 }
 //-------------------------------------------------------------------------
 BOOL CTinyCadApp::ChooseColor(COLORREF &col)
