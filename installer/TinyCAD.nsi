@@ -75,23 +75,16 @@ skip_mdac_download:
   CreateDirectory "$DATA_DIR"
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "..\src\Release\TinyCad.exe"
+  File "..\Release\TinyCad.exe"
   CreateDirectory "$SMPROGRAMS\TinyCAD"
   CreateShortCut "$SMPROGRAMS\TinyCAD\TinyCAD.lnk" "$INSTDIR\TinyCad.exe"
   CreateShortCut "$DESKTOP\TinyCAD.lnk" "$INSTDIR\TinyCad.exe"
   ; 
   ;	Note:  These relative paths only work correctly if you are compiling the install script from the installer sub-directory!
   ; 
-  File "..\src\png\libpng13.dll"
-  File "..\src\png\zlib1.dll"
-  File "..\src\libiconv\iconv.dll"
-  File "..\src\SQLite\sqlite3.dll"
-  File "..\src\msvc\redist\x86\msvcr71.dll"
-  File "..\src\msvc\redist\x86\msvcp140.dll"
-  File "..\src\msvc\redist\x86\vcruntime140.dll"
-  File "..\src\msvc\redist\x86\mfc140u.dll"  
+  File "..\Release\libpng16.dll"
+  File "..\Release\zlib.dll"
   File "..\docs\TinyCAD.chm"
-  File "..\docs\PDF Outputs\TinyCAD_Manual.pdf"
   File "..\installer\LGPL Version 2.1.txt"
   File "..\installer\LGPL Version 3.0.txt"
 
