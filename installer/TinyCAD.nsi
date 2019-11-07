@@ -200,13 +200,11 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  SetShellVarContext current	;Note:  The usual user doesn't have write permission to the "All Users" area, so install TinyCAD on a per user basis
-;  StrCpy $0 $APPDATA
-;  SetShellVarContext all
-;  StrCpy $1 $APPDATA
-;  MessageBox MB_OK $0$\n$1
 
-;  StrCpy $DATA_DIR "$APPDATA\TinyCAD"
+  ; Determine if we installed for all users or a specific user
+  IfFileExists "$SMPROGRAMS\TinyCAD\TinyCAD.lnk" +2 0
+    SetShellVarContext all
+
   StrCpy $DATA_DIR "$DOCUMENTS\TinyCAD"
 
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
@@ -215,6 +213,7 @@ Section Uninstall
   Delete "$DATA_DIR\examples\VREG.DSN"
   Delete "$DATA_DIR\examples\VCA.DSN"
   Delete "$DATA_DIR\examples\nanocomp6802.dsn"
+  Delete "$DATA_DIR\examples\CurrSens.dsn"
   Delete "$DATA_DIR\examples\KEYSW.DSN"
   Delete "$DATA_DIR\examples\INVERTER.DSN"
   Delete "$DATA_DIR\examples\face.dsn"
