@@ -79,11 +79,13 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "Help...",                     ID_HELP_HELP
-        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "User Manual",                 ID_HELP_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
+        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
         MENUITEM SEPARATOR
-        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+        MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
 END
 
@@ -195,10 +197,10 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "Offline Help...",             ID_HELP_HELP
+        MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
         MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
-        MENUITEM "Online TinyCAD User Manual",  ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
@@ -245,12 +247,13 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "Help...",                     ID_HELP_HELP
-        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
-        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
-        MENUITEM "Email for support...",        ID_HELP_EMAILFORSUPPORT
+        MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
-        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+        MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
+        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
 END
 
@@ -284,11 +287,13 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "Help...",                     ID_HELP_HELP
-        MENUITEM "Open TinyCAD User Manual",    ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "User Manual",                 ID_HELP_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
+        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
         MENUITEM SEPARATOR
-        MENUITEM "&About TinyCad...",           ID_APP_ABOUT
+        MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
 END
 
