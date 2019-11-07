@@ -195,7 +195,7 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 			if (!m_bConsoleAcquired) {
 				m_bConsoleAcquired = RedirectIOToConsole();
 			}
-			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2017 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), (LPCTSTR) (CTinyCadApp::GetVersion()));
+			fwprintf(stderr, _T("\nTinyCAD Version %s copyright (c) 1994-2019 Matt Pyne.  Licensed under GNU LGPL 2.1 or newer\n"), (LPCTSTR) (CTinyCadApp::GetVersion()));
 			fwprintf(stderr, _T("Correct usage is:\n"));
 			fwprintf(stderr,_T("tinycad <design file name with optional path and mandatory file type extension (.dsn for design files)> [options]\n"));
 			fwprintf(stderr,_T("Optional command line options:\n"));
