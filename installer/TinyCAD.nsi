@@ -10,24 +10,29 @@
 !define PRODUCT_INSTALLER_NAME "TinyCAD_${PRODUCT_VERSION}_Production_Release.exe"
 
 ; MUI 1.67 compatible ------
-!include "MUI.nsh"
+!include Sections.nsh
+!include "MUI2.nsh"
 
 ; For request admin rights
 !include LogicLib.nsh
+
+; Our custom dialogue
+!include "AllUsersDlg.nsdinc"
 
 ; For the DLL installer
 !include "UpgradeDll.nsh"
 
 ; MUI (Modern User Interface) Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 
 ; License page
 !insertmacro MUI_PAGE_LICENSE "licence.rtf"
+
+; Custom page
+Page custom fnc_AllUsersDlg_Show
 
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
@@ -61,12 +66,9 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 Section "MainSection" SEC01
-  SetShellVarContext current	;Note:  The typical user doesn't have write permission to the "All Users" area, so install TinyCAD on a per user basis
-;  SetShellVarContext all
-
- StrCpy $DATA_DIR "$DOCUMENTS\TinyCAD"
+  StrCpy $DATA_DIR "$DOCUMENTS\TinyCAD"  
   CreateDirectory "$INSTDIR"
-
+  
   IFSilent +2
 		MessageBox MB_ICONINFORMATION|MB_OK "Libraries will be installed to$\n$DATA_DIR\libs$\n$\nExample files will be installed to $\n$DATA_DIR\examples"
   CreateDirectory "$DATA_DIR"

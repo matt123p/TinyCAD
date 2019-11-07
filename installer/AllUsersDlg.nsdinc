@@ -1,0 +1,53 @@
+; handle variables
+Var hCtl_AllUsersDlg
+Var hCtl_AllUsersDlg_Label1
+Var hCtl_AllUsersDlg_SingleUser
+Var hCtl_AllUsersDlg_AllUsers
+Var hwnd
+
+; dialog create function
+Function fnc_AllUsersDlg_Create
+  
+  ; === AllUsersDlg (type: Dialog) ===
+  nsDialogs::Create 1018
+  Pop $hCtl_AllUsersDlg
+  ${If} $hCtl_AllUsersDlg == error
+    Abort
+  ${EndIf}
+  !insertmacro MUI_HEADER_TEXT "Select how to install TinyCAD" ""
+  
+  ; === Label1 (type: Label) ===
+  ${NSD_CreateLabel} 73u 31u 153u 14u "Please select how to install TinyCAD"
+  Pop $hCtl_AllUsersDlg_Label1
+  
+  ; === SingleUser (type: RadioButton) ===
+  ${NSD_CreateRadioButton} 90u 47u 104u 15u "Install for this user only"
+  Pop $hCtl_AllUsersDlg_SingleUser
+  ${NSD_AddStyle} $hCtl_AllUsersDlg_SingleUser ${WS_GROUP}
+  ${NSD_Check} $hCtl_AllUsersDlg_SingleUser
+  ${NSD_OnClick} $hCtl_AllUsersDlg_SingleUser RadioThisUserOnlyClick
+  
+  ; === AllUsers (type: RadioButton) ===
+  ${NSD_CreateRadioButton} 90u 66u 121u 15u "Install for all users on this PC"
+  Pop $hCtl_AllUsersDlg_AllUsers
+  ${NSD_OnClick} $hCtl_AllUsersDlg_AllUsers RadioAllUsersClick
+
+  SetShellVarContext current
+  
+FunctionEnd
+
+Function RadioThisUserOnlyClick
+	Pop $hwnd
+	SetShellVarContext current
+FunctionEnd
+
+Function RadioAllUsersClick
+	Pop $hwnd
+	SetShellVarContext all
+FunctionEnd
+
+; dialog show function
+Function fnc_AllUsersDlg_Show
+  Call fnc_AllUsersDlg_Create
+  nsDialogs::Show
+FunctionEnd
