@@ -662,7 +662,7 @@ CString CTinyCadApp::GetAppDir(CString subfolder)
 	if (theBytes != 0)
 	{
 		PathRemoveFileSpec(szPath);
-		PathAppend(szPath, TEXT("library"));
+		PathAppend(szPath, subfolder);
 	}
 	sReturn = CString(szPath) + "\\";
 

@@ -55,12 +55,16 @@ CTinyCadRegistry::~CTinyCadRegistry()
 void CTinyCadRegistry::CopyExampleFiles()
 {
 	// Make a copy of the examples and libraries
-	const TCHAR* from_paths[] = { _T("libraries"), _T("exmples") };
+	const TCHAR* from_paths[] = { _T("library"), _T("examples") };
 	for (int i = 0; i < 2; ++i)
 	{
 		CString app_dir = CTinyCadApp::GetAppDir(from_paths[i]);
 		CString to_dir = CTinyCadApp::GetMyDocumentDir(from_paths[i]);
+
+		// Create the folder
 		SHCreateDirectoryEx(NULL,to_dir, NULL);
+
+		// Now copy the files
 		FindFile theFind(app_dir + _T("*.*"));
 		if (theFind.Success())
 		{
