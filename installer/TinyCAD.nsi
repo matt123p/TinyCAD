@@ -65,7 +65,11 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 Section "MainSection" SEC01
-  CreateDirectory "$INSTDIR"
+
+  ; If silent install then install for "all users"
+  IFSilent 0 +2
+    SetShellVarContext all
+
   
   CreateDirectory "$INSTDIR"
   SetOutPath "$INSTDIR"
