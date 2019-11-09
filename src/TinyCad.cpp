@@ -605,14 +605,15 @@ CString CTinyCadApp::GetMainDir()
 	return sReturn;
 }
 
-CString CTinyCadApp::GetDefaultLibraryDir()
+CString CTinyCadApp::GetMyDocumentDir(CString subfolder)
 {
 	/*
 	 * Gets the default location of the TinyCAD libraries.
-	 * In older versions of TinyCAD, the default libraries were kept in 
-	 * the installation directory (i.e., c:\Program Files\TinyCAD\libraries).  After Windows Vista
-	 * tightened up the access protections of files stored under c:\Program Files, it became 
-	 * necessary to move the default libraries to the My Documents area.
+	 * So that we can install TinyCAD for "all users" on a PC, the examples and libraries are stored
+	 * in the app's installation folder, we then copy them on first run in to My Documents so that they
+	 * can be edited and genrally used.
+	 * This also has the benefit that if a user uninstalls TinyCAD then the user's libraries are not
+	 * also deleted.
 	 * The My Documents path is found by concatenating the environment variable "USERPROFILE" contents with 
 	 *		Windows XP:  "\My Documents\TinyCAD\libraries"
 	 *		Windows Vista/7/8:  "\documents\TinyCAD\libraries"
@@ -627,7 +628,8 @@ CString CTinyCadApp::GetDefaultLibraryDir()
 								 szPath))) 
 	{
 		TRACE("CTinyCadApp::GetLibraryDir() - SHGetFolderPath(CSIDL_PERSONAL) returned \"%S\"\n", szPath);
-		PathAppend(szPath, TEXT("TinyCAD\\library"));
+		PathAppend(szPath, TEXT("TinyCAD"));
+		PathAppend(szPath, subfolder);
 		TRACE("CTinyCadApp::GetLibraryDir() - concatenated string = \"%S\"\n", szPath);
 	}
 	else {	//May be pre- Windows XP - use the old method
@@ -638,8 +640,29 @@ CString CTinyCadApp::GetDefaultLibraryDir()
 		TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", szPath);
 		if (theBytes != 0)
 		{
+			PathRemoveFileSpec(szPath);
 			PathAppend(szPath, TEXT("library"));
 		}
+	}
+	sReturn = CString(szPath) + "\\";
+
+	return sReturn;
+}
+
+
+CString CTinyCadApp::GetAppDir(CString subfolder)
+{
+	CString sReturn;
+	TCHAR szPath[MAX_PATH];
+
+	szPath[0] = '\0';
+
+	DWORD theBytes = GetModuleFileName(NULL, szPath, (sizeof(szPath) - 1) / sizeof(TCHAR));
+	TRACE("CTinyCadApp::GetModuleFileName() returned \"%S\"\n", szPath);
+	if (theBytes != 0)
+	{
+		PathRemoveFileSpec(szPath);
+		PathAppend(szPath, TEXT("library"));
 	}
 	sReturn = CString(szPath) + "\\";
 

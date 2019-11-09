@@ -12,6 +12,7 @@
 #include <assert.h>
 
 const CString CTinyCadRegistry::M_SKEY = "Software\\TinyCAD\\TinyCAD\\1x20";
+const CString CTinyCadRegistry::M_SEXAMPLESSETUP = "ExamplesSetup";
 const CString CTinyCadRegistry::M_SPAGESIZE = "PageSize";
 const CString CTinyCadRegistry::M_SPRINTSCALE = "PrintScaleFactor";
 const CString CTinyCadRegistry::M_SPRINTBANDW = "PrintBandW";
@@ -30,6 +31,12 @@ CTinyCadRegistry::CTinyCadRegistry() :
 {
 	m_oKey.Create(HKEY_CURRENT_USER, M_SKEY);
 
+	// Do we need to copy the example files?
+	if (!keyExists(M_SEXAMPLESSETUP))
+	{
+		CopyExampleFiles();
+	}
+
 	// Does the registry information exist - if not create it
 	if (!keyExists(M_SPAGESIZE))
 	{
@@ -40,6 +47,40 @@ CTinyCadRegistry::CTinyCadRegistry() :
 CTinyCadRegistry::~CTinyCadRegistry()
 {
 }
+
+
+//-------------------------------------------------------------------------
+//-- Copy the example files from the installation folder to the users
+//   My Documents folder
+void CTinyCadRegistry::CopyExampleFiles()
+{
+	// Make a copy of the examples and libraries
+	const TCHAR* from_paths[] = { _T("libraries"), _T("exmples") };
+	for (int i = 0; i < 2; ++i)
+	{
+		CString app_dir = CTinyCadApp::GetAppDir(from_paths[i]);
+		CString to_dir = CTinyCadApp::GetMyDocumentDir(from_paths[i]);
+		SHCreateDirectoryEx(NULL,to_dir, NULL);
+		FindFile theFind(app_dir + _T("*.*"));
+		if (theFind.Success())
+		{
+			do
+			{
+				if (theFind.IsFile())
+				{
+					CString from_file = app_dir + theFind.GetName();
+					CString to_file = to_dir + theFind.GetName();
+					CopyFile(from_file, to_file, TRUE);
+				}
+			} while (theFind.FindNext());
+		}
+	}
+
+	// Set a flag in the registry
+	super::Set(M_SEXAMPLESSETUP, "1");
+
+}
+
 //-------------------------------------------------------------------------
 //-- Write the initial data to the registry
 void CTinyCadRegistry::CreateDefaultEntries()
@@ -53,7 +94,7 @@ void CTinyCadRegistry::CreateDefaultEntries()
 	// Search the default library directory for libraries
 	for (int l = 0; l < 3; l++)
 	{
-		CString sSearch = CTinyCadApp::GetDefaultLibraryDir() /* + "library\\" */;
+		CString sSearch = CTinyCadApp::GetMyDocumentDir("library");
 
 		if (l == 0)
 		{
@@ -76,11 +117,14 @@ void CTinyCadRegistry::CreateDefaultEntries()
 
 			do
 			{
-				// Add this library to the list of libraries in use
-				if (Libraries != "") Libraries += ",";
-				Libraries += CTinyCadApp::GetDefaultLibraryDir() /* + "library\\" */ + theFind.GetName();
-				// Remove the extension (of .idx or .mdb or .TCLib)
-				Libraries = Libraries.Left(Libraries.ReverseFind('.'));
+				if (theFind.IsFile())
+				{
+					// Add this library to the list of libraries in use
+					if (Libraries != "") Libraries += ",";
+					Libraries += CTinyCadApp::GetMyDocumentDir("library") /* + "library\\" */ + theFind.GetName();
+					// Remove the extension (of .idx or .mdb or .TCLib)
+					Libraries = Libraries.Left(Libraries.ReverseFind('.'));
+				}
 			} while (theFind.FindNext());
 
 			super::Set("Libraries", Libraries);

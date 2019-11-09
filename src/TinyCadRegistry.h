@@ -31,6 +31,7 @@ public:
 	//-- Write the initial data to the registry
 private:
 	static void CreateDefaultEntries();
+	static void CopyExampleFiles();
 
 	//=====================================================================
 	//== Accessor for application settings                               ==
@@ -80,6 +81,7 @@ private:
 	static const CString M_SKEY;
 
 	static const CString M_SPAGESIZE;
+	static const CString M_SEXAMPLESSETUP;
 	static const CString M_SPRINTSCALE;
 	static const CString M_SPRINTBANDW;
 	static const CString M_SMDIMAXIMIZE;

@@ -376,6 +376,12 @@ TCHAR *FindFile::GetName()
 	return fileinfo.cFileName;
 }
 
+bool FindFile::IsFile()
+{
+	return (fileinfo.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
+}
+
+
 // Was the find file successful?
 bool FindFile::Success()
 {

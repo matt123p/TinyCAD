@@ -135,7 +135,8 @@ public:
 	static CString GetReleaseType();
 	static CString GetName();
 	static CString GetMainDir();	//Gets the installed path location of the directory that contains the currently executing copy of TinyCAD
-	static CString GetDefaultLibraryDir();	//Gets the default library directory path
+	static CString GetMyDocumentDir(CString subfolder);	//Gets the default library directory path
+	static CString GetAppDir(CString subfolder); 
 	static CString GetLongFileName(CString shortFilename);	//Gets the long (i.e., non-DOS 8.3) filename
 
 	//=====================================================================

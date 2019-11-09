@@ -105,6 +105,7 @@ public:
 	virtual ~FindFile();
 	bool FindNext();
 	TCHAR *GetName();
+	bool IsFile();
 	bool Success();
 };
 //=========================================================================
