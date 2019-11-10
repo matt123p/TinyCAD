@@ -1,58 +1,76 @@
 #include "stdafx.h"
 
-#include <iostream>
-#include <string>
-#include <curl/curl.h>
+#include "resource.h"
+#include "UpdateCheck.h"
+#include "XMLReader.h"
 
-size_t CurlWrite_CallbackFunc_StdString(void* contents, size_t size, size_t nmemb, std::string* s)
+
+
+void CUpdateCheck::checkForUpdates()
 {
-	size_t newLength = size * nmemb;
-	try
-	{
-		s->append((char*)contents, newLength);
-	}
-	catch (std::bad_alloc & e)
-	{
-		//handle memory problem
-		return 0;
-	}
-	return newLength;
+	_beginthread(CUpdateCheck::bgUpdateCheck, 0, this);
 }
-int main()
+
+void CUpdateCheck::bgUpdateCheck(void*pThis)
 {
-	CURL* curl;
-	CURLcode res;
+	const CUpdateCheck* p = (CUpdateCheck*)pThis;
 
-	curl_global_init(CURL_GLOBAL_DEFAULT);
+	CString strFileName;
+	const HRESULT hr = ::URLDownloadToCacheFile(NULL,
+		_T("https://www.bbc.co.uk"),
+		strFileName.GetBuffer(MAX_PATH),
+		URLOSTRM_GETNEWESTVERSION,
+		0,
+		NULL);
 
-	curl = curl_easy_init();
-	std::string s;
-	if (curl)
+	// Did this work?
+	if (hr == S_OK)
 	{
-
-		curl_easy_setopt(curl, CURLOPT_URL, "curl.haxx.se");
-
-		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //only for https
-		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); //only for https
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &s);
-		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L); //remove this to disable verbose output
-
-
-		/* Perform the request, res will get the return code */
-		res = curl_easy_perform(curl);
-		/* Check for errors */
-		if (res != CURLE_OK)
+		// Yes, so read in the file
 		{
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
-				curl_easy_strerror(res));
+			CFile theFile;
+
+			// Open the file for reading
+			const BOOL r = theFile.Open(strFileName, CFile::modeRead);
+
+			if (r)
+			{
+				CString name;
+
+				// Create the XML stream writer
+				CStreamFile stream(&theFile, CArchive::load);
+				CXMLReader xml(&stream);
+
+				// Now parse the XML to get the update information
+				// Get the update tag
+				xml.nextTag(name);
+				if (name == "Update")
+				{
+					xml.intoTag();
+					while (xml.nextTag(name))
+					{
+						// Is this a symbol?
+						if (name == "DATE")
+						{
+							xml.getChildData(p->lastUpdateDate);
+						}
+						else if (name == "VERSION")
+						{
+							xml.getChildData(p->latestVersion);
+						}
+						else if (name == "MESSAGE")
+						{
+							xml.getChildData(p->userMessage);
+						}
+					}
+				}
+			}
 		}
 
-		/* always cleanup */
-		curl_easy_cleanup(curl);
+		// Now we can delete the file
+		DeleteFile(strFileName);
+
+		// Now signal to the main app that we have new information
+		AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_AUTOUPDATE, 0);
 	}
-
-	std::cout << s << std::endl;
-
-	std::cout << "Program finished!" << std::endl;
 }

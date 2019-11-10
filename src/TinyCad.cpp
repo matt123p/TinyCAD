@@ -41,6 +41,7 @@
 #include <io.h>
 #include <iostream>
 #include <fstream>
+#include "UpdateCheck.h"
 
 
 // NOTE: This is never compiled in.  It is used to 
@@ -422,6 +423,8 @@ BOOL CTinyCadApp::InitInstance()
 
 	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
+
+	m_UpdateCheck.checkForUpdates();
 
 	if (cmdInfo.IsShellOpen())
 	{
