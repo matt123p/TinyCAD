@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "TinyCadRegistry.h"
 #include "tinycad.h"
+#include "BuildId.h"
 #include <assert.h>
 
 const CString CTinyCadRegistry::M_SKEY = "Software\\TinyCAD\\TinyCAD\\1x20";
@@ -32,7 +33,7 @@ CTinyCadRegistry::CTinyCadRegistry() :
 	m_oKey.Create(HKEY_CURRENT_USER, M_SKEY);
 
 	// Do we need to copy the example files?
-	if (!keyExists(M_SEXAMPLESSETUP))
+	if (super::GetString(M_SEXAMPLESSETUP, "") != BUILD_UUID)
 	{
 		CopyExampleFiles();
 	}
@@ -81,7 +82,7 @@ void CTinyCadRegistry::CopyExampleFiles()
 	}
 
 	// Set a flag in the registry
-	super::Set(M_SEXAMPLESSETUP, "1");
+	super::Set(M_SEXAMPLESSETUP, CString(BUILD_UUID));
 
 }
 
