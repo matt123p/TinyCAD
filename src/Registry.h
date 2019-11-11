@@ -68,9 +68,7 @@ public:
 	//=====================================================================
 	static void SetPrinterMode(HANDLE theDevMode, HANDLE thePrinterName);
 
-	//-- Associate this software with some documents
 protected:
-	static void Associate(CString sExtension, CString sTitle, CString sProgram);
 
 	//-- Check key
 	static bool keyExists(CString sKey);

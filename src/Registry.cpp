@@ -31,31 +31,6 @@ CRegistry::~CRegistry()
 }
 //-------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------
-//-- Associate this software with this key
-void CRegistry::Associate(CString sExtension, CString sTitle, CString sProgram)
-{
-	// a separate key
-	CRegKey oRegKey;
-
-	// Associate the file type with an extension
-	oRegKey.Create(HKEY_CLASSES_ROOT, sExtension);
-	oRegKey.SetValue(HKEY_CLASSES_ROOT, sExtension, sTitle);
-
-	// Write the description for this key
-	oRegKey.SetValue(HKEY_CLASSES_ROOT, sTitle, sTitle);
-
-	// Associate the file type with a program
-	oRegKey.Create(HKEY_CLASSES_ROOT, sTitle + "\\shell\\open\\command");
-	oRegKey.SetValue(HKEY_CLASSES_ROOT, sTitle + "\\shell\\open\\command", sProgram + " %1");
-
-	// Associate the file with a program for printing
-	oRegKey.Create(HKEY_CLASSES_ROOT, sTitle + "\\shell\\print\\command");
-	oRegKey.SetValue(HKEY_CLASSES_ROOT, sTitle + "\\shell\\print\\command", sProgram + " /p %1");
-
-	oRegKey.Close();
-}
-//-------------------------------------------------------------------------
 int CRegistry::QueryValueEx(CString sKey, DWORD* Type, void *data, unsigned long *size)
 {
 	return RegQueryValueEx((HKEY) m_oKey, sKey, NULL, Type, (BYTE *) data, size);

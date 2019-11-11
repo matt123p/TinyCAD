@@ -134,9 +134,6 @@ void CTinyCadRegistry::CreateDefaultEntries()
 			super::Set("Libraries", Libraries);
 		}
 	}
-
-	// Finally place the association of this file and the design type
-	super::Associate(".dsn", "TinyCAD design", "TinyCAD");
 }
 //-------------------------------------------------------------------------
 
