@@ -486,6 +486,8 @@
 #define IDM_SPECIALVHDLCHECK            32901
 #define ID_HELP_SUPPORTFORUM            32902
 #define ID_CONTEXT_CURVE                32903
+#define ID_DUMMY_AUTOUPDATE             32903
+#define ID_AUTOUPDATE                   32904
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002
@@ -498,7 +500,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        174
-#define _APS_NEXT_COMMAND_VALUE         32903
+#define _APS_NEXT_COMMAND_VALUE         32905
 #define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           113
 #endif

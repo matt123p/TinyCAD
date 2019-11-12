@@ -25,6 +25,8 @@
 
 #include "resource.h"
 #include "LibraryStore.h"
+#include "UpdateCheck.h"
+
 //
 //This is a minor command line parser support class
 //It allows us to define custom command line arguments that can be passed in when TinyCAD is started
@@ -123,6 +125,10 @@ private:
 	//== ctor/dtor/initializing                                          ==
 	//=====================================================================
 	virtual BOOL InitInstance();
+
+	// Check for updates to TinyCAD
+	CUpdateCheck m_UpdateCheck;
+
 
 public:
 	CTinyCadApp();

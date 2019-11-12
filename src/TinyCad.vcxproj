@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\openssl.1.0.1.21\build\native\openssl.props" Condition="Exists('..\packages\openssl.1.0.1.21\build\native\openssl.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -1416,6 +1417,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="UpdateCheck.cpp" />
     <ClCompile Include="UserColor.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -1593,6 +1595,7 @@
     <ClInclude Include="TinyCadRegistry.h" />
     <ClInclude Include="TinyCadSymbolDoc.h" />
     <ClInclude Include="TinyCadView.h" />
+    <ClInclude Include="UpdateCheck.h" />
     <ClInclude Include="UserColor.h" />
     <ClInclude Include="WinMgr.h" />
     <ClInclude Include="xml_parse_tag.h" />
@@ -1678,6 +1681,10 @@
     <Import Project="packages\libpng_native.1.6.30\build\native\libpng_native.targets" Condition="Exists('packages\libpng_native.1.6.30\build\native\libpng_native.targets')" />
     <Import Project="packages\libjpeg_static.6.1.1.6\build\native\libjpeg_static.targets" Condition="Exists('packages\libjpeg_static.6.1.1.6\build\native\libjpeg_static.targets')" />
     <Import Project="packages\libiconv.lib.1.16.0.6\build\native\libiconv.lib.targets" Condition="Exists('packages\libiconv.lib.1.16.0.6\build\native\libiconv.lib.targets')" />
+    <Import Project="..\packages\libssh2.redist.1.4.3.1\build\native\libssh2.redist.targets" Condition="Exists('..\packages\libssh2.redist.1.4.3.1\build\native\libssh2.redist.targets')" />
+    <Import Project="..\packages\openssl.redist.1.0.1.21\build\native\openssl.redist.targets" Condition="Exists('..\packages\openssl.redist.1.0.1.21\build\native\openssl.redist.targets')" />
+    <Import Project="..\packages\openssl.1.0.1.21\build\native\openssl.targets" Condition="Exists('..\packages\openssl.1.0.1.21\build\native\openssl.targets')" />
+    <Import Project="..\packages\libssh2.1.4.3.1\build\native\libssh2.targets" Condition="Exists('..\packages\libssh2.1.4.3.1\build\native\libssh2.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
@@ -1698,5 +1705,10 @@
     <Error Condition="!Exists('packages\libpng_native.1.6.30\build\native\libpng_native.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libpng_native.1.6.30\build\native\libpng_native.targets'))" />
     <Error Condition="!Exists('packages\libjpeg_static.6.1.1.6\build\native\libjpeg_static.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libjpeg_static.6.1.1.6\build\native\libjpeg_static.targets'))" />
     <Error Condition="!Exists('packages\libiconv.lib.1.16.0.6\build\native\libiconv.lib.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libiconv.lib.1.16.0.6\build\native\libiconv.lib.targets'))" />
+    <Error Condition="!Exists('..\packages\libssh2.redist.1.4.3.1\build\native\libssh2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libssh2.redist.1.4.3.1\build\native\libssh2.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\openssl.redist.1.0.1.21\build\native\openssl.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\openssl.redist.1.0.1.21\build\native\openssl.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\openssl.1.0.1.21\build\native\openssl.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\openssl.1.0.1.21\build\native\openssl.props'))" />
+    <Error Condition="!Exists('..\packages\openssl.1.0.1.21\build\native\openssl.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\openssl.1.0.1.21\build\native\openssl.targets'))" />
+    <Error Condition="!Exists('..\packages\libssh2.1.4.3.1\build\native\libssh2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libssh2.1.4.3.1\build\native\libssh2.targets'))" />
   </Target>
 </Project>
