@@ -82,8 +82,10 @@ BEGIN
         MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
         MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
-        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Tutorials and Documentation", ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates",           ID_HELP_CHECKFORUPDATES
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
@@ -200,8 +202,10 @@ BEGIN
         MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
         MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
-        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Tutorials and Documentation", ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates",           ID_HELP_CHECKFORUPDATES
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
@@ -250,8 +254,10 @@ BEGIN
         MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
         MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
-        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Tutorials and Documentation", ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates",           ID_HELP_CHECKFORUPDATES
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
@@ -290,8 +296,10 @@ BEGIN
         MENUITEM "User Manual",                 ID_HELP_HELP
         MENUITEM SEPARATOR
         MENUITEM "Support Forum",               ID_HELP_SUPPORTFORUM
-        MENUITEM "Online Support",              ID_HELP_OPENTINYCADUSERMANUAL
+        MENUITEM "Tutorials and Documentation", ID_HELP_OPENTINYCADUSERMANUAL
         MENUITEM "Go to TinyCAD web site",      ID_HELP_GOTOTINYCADWEBSITE
+        MENUITEM SEPARATOR
+        MENUITEM "Check for Updates",           ID_HELP_CHECKFORUPDATES
         MENUITEM SEPARATOR
         MENUITEM "&About TinyCAD...",           ID_APP_ABOUT
     END
@@ -1616,6 +1624,15 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,149,10
 END
 
+IDD_UPDATECHECK DIALOG 0, 0, 320, 200
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,209,179,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,263,179,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1670,6 +1687,14 @@ BEGIN
         RIGHTMARGIN, 257
         TOPMARGIN, 7
         BOTTOMMARGIN, 135
+    END
+
+    IDD_DlgUpdateCheck, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
     END
 END
 #endif    // APSTUDIO_INVOKED

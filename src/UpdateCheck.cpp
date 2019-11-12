@@ -6,22 +6,28 @@
 
 
 
-void CUpdateCheck::checkForUpdates()
+void CUpdateCheck::checkForUpdates(HWND hwnd)
 {
+	m_hwnd = hwnd;
+	lastUpdateDate = "";
+	latestVersion = "";
+	userMessage = "";
+
 	_beginthread(CUpdateCheck::bgUpdateCheck, 0, this);
 }
 
 void CUpdateCheck::bgUpdateCheck(void*pThis)
 {
-	const CUpdateCheck* p = (CUpdateCheck*)pThis;
+	CUpdateCheck* p = (CUpdateCheck*)pThis;
 
 	CString strFileName;
 	const HRESULT hr = ::URLDownloadToCacheFile(NULL,
-		_T("https://www.bbc.co.uk"),
+		_T("https://www.tinycad.net/Update/TinyCAD"),
 		strFileName.GetBuffer(MAX_PATH),
 		URLOSTRM_GETNEWESTVERSION,
 		0,
 		NULL);
+	strFileName.ReleaseBuffer();
 
 	// Did this work?
 	if (hr == S_OK)
@@ -71,6 +77,6 @@ void CUpdateCheck::bgUpdateCheck(void*pThis)
 		DeleteFile(strFileName);
 
 		// Now signal to the main app that we have new information
-		AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_AUTOUPDATE, 0);
+		SendMessage(p->m_hwnd, WM_COMMAND, ID_AUTOUPDATE, 0);
 	}
 }

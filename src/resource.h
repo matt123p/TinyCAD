@@ -15,6 +15,7 @@
 #define IDS_PROPSHT_CAPTION1            110
 #define IDD_DETAILS_PAGE1               111
 #define IDD_DETAILS_PAGE2               112
+#define IDD_UPDATECHECK              	113
 #define IDM_VIEWGRID                    115
 #define IDM_VIEWSHOWPOS                 116
 #define IDR_MAINFRAME                   128
@@ -488,6 +489,7 @@
 #define ID_CONTEXT_CURVE                32903
 #define ID_DUMMY_AUTOUPDATE             32903
 #define ID_AUTOUPDATE                   32904
+#define ID_HELP_CHECKFORUPDATES         32905
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002
@@ -500,8 +502,8 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        174
-#define _APS_NEXT_COMMAND_VALUE         32905
+#define _APS_NEXT_COMMAND_VALUE         32906
 #define _APS_NEXT_CONTROL_VALUE         1587
-#define _APS_NEXT_SYMED_VALUE           113
+#define _APS_NEXT_SYMED_VALUE           114
 #endif
 #endif

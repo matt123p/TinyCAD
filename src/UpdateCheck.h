@@ -3,6 +3,9 @@ class CUpdateCheck
 {
 private:
 
+	// Window to signal back on
+	HWND m_hwnd;
+
 	// When was the last time this update information was generated?
 	CString lastUpdateDate;
 
@@ -15,6 +18,6 @@ private:
 
 	static void bgUpdateCheck(void*);
 public:
-	void checkForUpdates();
+	void checkForUpdates(HWND hwnd);
 };
 

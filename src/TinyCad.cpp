@@ -42,6 +42,7 @@
 #include <iostream>
 #include <fstream>
 #include "UpdateCheck.h"
+#include "DlgUpdateCheck.h"
 
 
 // NOTE: This is never compiled in.  It is used to 
@@ -270,6 +271,7 @@ CTinyCadApp::~CTinyCadApp()
 BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 //{{AFX_MSG_MAP(CTinyCadApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
+	ON_COMMAND(ID_HELP_CHECKFORUPDATES, OnAppUpdateCheck)
 	ON_COMMAND(IDM_LIBLIB, OnLibLib)
 	ON_COMMAND(ID_HELP_OPENTINYCADUSERMANUAL, OnHelpOpenTinyCADUserManual)
 	ON_COMMAND(ID_HELP_GOTOTINYCADWEBSITE, OnHelpGototinycadwebsite)
@@ -424,8 +426,6 @@ BOOL CTinyCadApp::InitInstance()
 	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
 
-	m_UpdateCheck.checkForUpdates();
-
 	if (cmdInfo.IsShellOpen())
 	{
 		//Depending on Windows registry settings, Explorer or a command shell may choose to pass in an old fashioned DOS 8.3 filename.
@@ -502,7 +502,12 @@ BOOL CTinyCadApp::InitInstance()
 	{ // The main window has been initialized, so show and update it.
 		pMainFrame->ShowWindow(m_nCmdShow);
 		pMainFrame->UpdateWindow();
-		CAutoSave::Start(); //Turn on the auto-save functionality
+
+		//Turn on the auto-save functionality
+		CAutoSave::Start(); 
+
+		// Check for updates
+		m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd);
 	}
 
 	return TRUE;
@@ -1054,6 +1059,11 @@ void CTinyCadApp::OnHelpSupport()
 void CTinyCadApp::OnAppAbout()
 {
 	CDlgAbout().DoModal();
+}
+//-------------------------------------------------------------------------
+void CTinyCadApp::OnAppUpdateCheck()
+{
+	CDlgUpdateCheck().DoModal();
 }
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpHelp()

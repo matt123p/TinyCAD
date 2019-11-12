@@ -178,3 +178,4 @@ typedef int errno_t; /* VS2003 doesn't yet support the errno_t type so represent
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__7554172E_EEA9_40FA_8A4A_C9D910CB873F__INCLUDED_)
+#include <afxwin.h>

@@ -298,6 +298,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="DlgUpdateCheck.cpp" />
     <ClCompile Include="DrawNoteText.cpp" />
     <ClCompile Include="DrawOrigin.cpp" />
     <ClCompile Include="EditDlgNoteText.cpp" />
@@ -1500,6 +1501,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="colour.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="DlgUpdateCheck.h" />
     <ClInclude Include="EditDlgNoteText.h" />
     <ClInclude Include="DbAttributeSet.h" />
     <ClInclude Include="DbLibNameSet.h" />

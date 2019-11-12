@@ -177,6 +177,7 @@ public:
 
 	//{{AFX_MSG(CTinyCadApp)
 	afx_msg void OnAppAbout();
+	afx_msg void OnAppUpdateCheck();
 	afx_msg void OnLibLib();
 	afx_msg void OnHelpOpenTinyCADUserManual();
 	afx_msg void OnHelpGototinycadwebsite();
