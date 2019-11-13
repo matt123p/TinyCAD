@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by TinyCad.rc
 //
+#define IDOK3                           2
+#define ID_CHECK_NOW                    100
 #define IDOK2                           3
 #define IDD_ABOUTBOX                    100
 #define IDS_PROPSHT_CAPTION             102
@@ -15,7 +17,7 @@
 #define IDS_PROPSHT_CAPTION1            110
 #define IDD_DETAILS_PAGE1               111
 #define IDD_DETAILS_PAGE2               112
-#define IDD_UPDATECHECK              	113
+#define IDD_UPDATECHECK                 113
 #define IDM_VIEWGRID                    115
 #define IDM_VIEWSHOWPOS                 116
 #define IDR_MAINFRAME                   128
@@ -206,6 +208,7 @@
 #define IDM_EDITROTATERIGHT             553
 #define IDM_EDITFLIP                    554
 #define IDM_LIBCOPY                     600
+#define ID_INDICATOR_UPDATE				601
 #define IDS_NODEFAULT                   1000
 #define LINETHICKBOX_THICKNESS          1000
 #define IDS_ABORTLOAD                   1001
@@ -501,7 +504,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        174
+#define _APS_NEXT_RESOURCE_VALUE        175
 #define _APS_NEXT_COMMAND_VALUE         32906
 #define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           114

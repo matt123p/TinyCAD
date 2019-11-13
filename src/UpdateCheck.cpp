@@ -6,9 +6,10 @@
 
 
 
-void CUpdateCheck::checkForUpdates(HWND hwnd)
+void CUpdateCheck::checkForUpdates(HWND hwnd, bool inform_no_update)
 {
 	m_hwnd = hwnd;
+	m_inform_no_update = inform_no_update;
 	lastUpdateDate = "";
 	latestVersion = "";
 	userMessage = "";

@@ -55,6 +55,12 @@ public:
 	//-- Returns list of libraries
 	static CStringList* GetLibraryNames();
 
+	//-- Are automatic updates on (1), off (0) or unconfigured (-1)?
+	static int GetAutomaticUpdatesOn();
+
+	//-- What was the last version of TinyCAD update the user was told about?
+	static CString GetLastAutomaticUpdateVersion();
+
 	//=====================================================================
 	//== Mutator for application settings                               ==
 	//=====================================================================
@@ -73,6 +79,12 @@ public:
 	//-- Changes main window state
 	static void SetMaximize(bool bWndMaximize);
 
+	//-- Save auto-update preferences
+	static void SetAutomaticUpdatesOn(bool on);
+
+	//-- What was the last version of TinyCAD update the user was told about
+	static void SetLastAutomaticUpdateVersion(CString version);
+
 	//=====================================================================
 	//== class constants                                                 ==
 	//=====================================================================
@@ -87,6 +99,8 @@ private:
 	static const CString M_SMDIMAXIMIZE;
 	static const CString M_SMAXIMIZE;
 	static const CString M_SLIBRARIES;
+	static const CString M_AUTOUDPATES;
+	static const CString M_AUTOUDPATEVERSION;
 };
 //=========================================================================
 

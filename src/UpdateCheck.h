@@ -15,9 +15,17 @@ private:
 	// Is there a special message for the user?
 	CString userMessage;
 
+	// Do we notify even if there is no update available?
+	bool m_inform_no_update;
+
 
 	static void bgUpdateCheck(void*);
 public:
-	void checkForUpdates(HWND hwnd);
+	void checkForUpdates(HWND hwnd, bool inform_no_update);
+
+	CString getLatestVersion() { return latestVersion; }
+	CString getLastUpdateDate() { return lastUpdateDate; }
+	CString getUserMessage() { return userMessage; }
+	bool getInformNoUpdate() { return m_inform_no_update;  }
 };
 

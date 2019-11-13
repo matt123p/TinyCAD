@@ -260,6 +260,7 @@ void CTinyCadCommandLineInfo::ParseParam(const TCHAR* pszParam, BOOL bFlag, BOOL
 
 CTinyCadApp::CTinyCadApp()
 {
+	m_UpdateAvailable = FALSE;
 }
 
 CTinyCadApp::~CTinyCadApp()
@@ -272,6 +273,7 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 //{{AFX_MSG_MAP(CTinyCadApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(ID_HELP_CHECKFORUPDATES, OnAppUpdateCheck)
+	ON_COMMAND(ID_AUTOUPDATE, OnAppUpdateChecked)
 	ON_COMMAND(IDM_LIBLIB, OnLibLib)
 	ON_COMMAND(ID_HELP_OPENTINYCADUSERMANUAL, OnHelpOpenTinyCADUserManual)
 	ON_COMMAND(ID_HELP_GOTOTINYCADWEBSITE, OnHelpGototinycadwebsite)
@@ -282,6 +284,8 @@ BEGIN_MESSAGE_MAP(CTinyCadApp, CWinAppEx)
 	ON_COMMAND(ID_FILE_NEW, CWinAppEx::OnFileNew)
 //	ON_COMMAND(ID_FILE_OPEN, CWinAppEx::OnFileOpen)	//The standard OnFileOpen accesses buggy Microsoft MFC code that manifests only in Windows 8.1.  I replaced it with CTinyCadApp::OnMyFileOpen().  See http://yourprosoft.blogspot.com/2012/01/mfc-encountered-improper-argument.html
 	ON_COMMAND(ID_FILE_OPEN, CTinyCadApp::OnMyFileOpen)
+
+	ON_UPDATE_COMMAND_UI(ID_INDICATOR_UPDATE, &CTinyCadApp::OnUpdateUpdateIndicator)
 
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinAppEx::OnFilePrintSetup)
@@ -506,8 +510,21 @@ BOOL CTinyCadApp::InitInstance()
 		//Turn on the auto-save functionality
 		CAutoSave::Start(); 
 
-		// Check for updates
-		m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd);
+		// Check for updates, if enabled
+		switch (CTinyCadRegistry::GetAutomaticUpdatesOn())
+		{
+		case 0:
+			// Auto updates are off
+			break;
+		case 1:
+			// Auto updates are on
+			m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd, false);
+			break;
+		default:
+			// Auto-updates are not configured
+			AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_HELP_CHECKFORUPDATES);
+			break;
+		}
 	}
 
 	return TRUE;
@@ -1063,8 +1080,65 @@ void CTinyCadApp::OnAppAbout()
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnAppUpdateCheck()
 {
-	CDlgUpdateCheck().DoModal();
+	if (CDlgUpdateCheck().DoModal() == ID_CHECK_NOW)
+	{
+		m_UpdateCheck.checkForUpdates(AfxGetMainWnd()->m_hWnd, true);
+	}
 }
+
+void CTinyCadApp::OnAppUpdateChecked()
+{
+	// Is there a new update to tell the user about
+	CString previousUpdateVersion = CTinyCadRegistry::GetLastAutomaticUpdateVersion();
+	CString currentVersion = GetVersion();
+	CString latestVersion = m_UpdateCheck.getLatestVersion();
+	currentVersion.Replace(_T("Version "), _T(""));
+
+	// Is there an update to be had?
+	if (currentVersion != latestVersion)
+	{
+		// Set the indicator
+		m_UpdateAvailable = TRUE;
+
+		// Have we never told the user about this or have we been asked to
+		// report the outcome?
+		if (latestVersion != previousUpdateVersion || m_UpdateCheck.getInformNoUpdate())
+		{
+			// Tell the user
+			CTinyCadRegistry::SetLastAutomaticUpdateVersion(latestVersion);
+			int result = AfxMessageBox(_T("There is a new verson TinyCAD available!\r\nClick OK to go to www.tinycad.net to download it or press cancel to dismiss this dialog."), MB_OKCANCEL);
+			if (result == IDOK)
+			{
+				// Open a browser for our web site
+				ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net/"), NULL, NULL, SW_SHOWNORMAL);
+			}
+
+		}
+	}
+	else
+	{
+		// No new update
+		m_UpdateAvailable = FALSE;
+		if (m_UpdateCheck.getInformNoUpdate())
+		{
+			AfxMessageBox(_T("There is no new version of TinyCAD."), MB_OK);
+		}
+	}
+}
+
+void CTinyCadApp::OnUpdateUpdateIndicator(CCmdUI* pCmdUI)
+{
+	if (m_UpdateAvailable)
+	{
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetText(_T("New version of TinyCAD available"));
+	}
+	else
+	{
+		pCmdUI->Enable(FALSE);
+	}
+}
+
 //-------------------------------------------------------------------------
 void CTinyCadApp::OnHelpHelp()
 {

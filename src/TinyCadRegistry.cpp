@@ -20,6 +20,8 @@ const CString CTinyCadRegistry::M_SPRINTBANDW = "PrintBandW";
 const CString CTinyCadRegistry::M_SMDIMAXIMIZE = "MdiMaximize";
 const CString CTinyCadRegistry::M_SMAXIMIZE = "Maximize";
 const CString CTinyCadRegistry::M_SLIBRARIES = "Libraries";
+const CString CTinyCadRegistry::M_AUTOUDPATES = "AutomaticUpdates";
+const CString CTinyCadRegistry::M_AUTOUDPATEVERSION = "AutomaticUpdateVersion";
 
 //=========================================================================
 //== ctor/dtor/initializing                                              ==
@@ -191,6 +193,19 @@ CStringList* CTinyCadRegistry::GetLibraryNames()
 	return colReturn;
 }
 //-------------------------------------------------------------------------
+//-- Are automatic updates on (1), off (0) or unconfigured (-1)?
+int CTinyCadRegistry::GetAutomaticUpdatesOn()
+{
+	return CRegistry::GetInt(M_AUTOUDPATES,-1);
+}
+//-------------------------------------------------------------------------
+//-- What was the last version of TinyCAD update the user was told about?
+CString CTinyCadRegistry::GetLastAutomaticUpdateVersion()
+{
+	return CRegistry::GetString(M_AUTOUDPATEVERSION, "");
+}
+//-------------------------------------------------------------------------
+
 
 //=========================================================================
 //== Mutator for application settings                                    ==
@@ -227,3 +242,16 @@ void CTinyCadRegistry::SetMaximize(bool bMaximize)
 	CTinyCadRegistry::Set(M_SMAXIMIZE, bMaximize);
 }
 //-------------------------------------------------------------------------
+//-- Save auto-update preferences
+void CTinyCadRegistry::SetAutomaticUpdatesOn(bool on)
+{
+	CTinyCadRegistry::Set(M_AUTOUDPATES, on ? 1 : 0);
+}
+//-------------------------------------------------------------------------
+//-- What was the last version of TinyCAD update the user was told about
+void CTinyCadRegistry::SetLastAutomaticUpdateVersion(CString version)
+{
+	CTinyCadRegistry::Set(M_AUTOUDPATEVERSION, version);
+}
+//-------------------------------------------------------------------------
+

@@ -1624,13 +1624,24 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,149,10
 END
 
-IDD_UPDATECHECK DIALOG 0, 0, 320, 200
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Shell Dlg"
+IDD_UPDATECHECK DIALOGEX 0, 0, 309, 163
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Update Check"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,209,179,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,263,179,50,14
+    DEFPUSHBUTTON   "OK",IDOK,252,142,50,14
+    CONTROL         "Enable update check",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,132,82,10
+    LTEXT           "Automatic Updates",IDC_STATIC,7,10,62,8
+    LTEXT           "TinyCAD can automatically check for updates when it starts and inform you when",IDC_STATIC,7,24,260,8
+    LTEXT           "there is a new version to download.",IDC_STATIC,7,34,116,8
+    LTEXT           "It does this by contacting www.tinycad.net",IDC_STATIC,7,47,140,8
+    LTEXT           "No personal information is stored by tinycad.net (for example your IP address is not logged",IDC_STATIC,7,59,295,8
+    LTEXT           "and no other unique identifiers are sent).",IDC_STATIC,7,68,133,8
+    LTEXT           "If you wish to opt-out of this update check, then please untick the box below and TinyCAD",IDC_STATIC,7,82,291,8
+    LTEXT           "will not attempt to contact tinycad.net.",IDC_STATIC,7,91,126,8
+    LTEXT           "You can opt in or out at any time by going to the ""Check for Updates"" option in the help",IDC_STATIC,7,106,280,8
+    LTEXT           "menu.",IDC_STATIC,7,114,21,8
+    PUSHBUTTON      "Check Now",ID_CHECK_NOW,193,142,50,14
 END
 
 
@@ -1689,15 +1700,26 @@ BEGIN
         BOTTOMMARGIN, 135
     END
 
-    IDD_DlgUpdateCheck, DIALOG
+    IDD_UPDATECHECK, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 313
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 193
+        RIGHTMARGIN, 302
+        TOPMARGIN, 10
+        BOTTOMMARGIN, 156
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_UPDATECHECK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1888,6 +1910,7 @@ BEGIN
     ID_INDICATOR_SCRL       "SCRL"
     ID_INDICATOR_OVR        "OVR"
     ID_INDICATOR_REC        "REC"
+	ID_INDICATOR_UPDATE		"                                                                "
 END
 
 STRINGTABLE
