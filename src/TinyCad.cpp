@@ -518,7 +518,22 @@ BOOL CTinyCadApp::InitInstance()
 			break;
 		case 1:
 			// Auto updates are on
-			m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd, false);
+			// Do we really need to check?
+			{
+				CString previousUpdateVersion = CTinyCadRegistry::GetLastAutomaticUpdateVersion();
+				CString currentVersion = GetVersion();
+
+				if (previousUpdateVersion == currentVersion)
+				{
+					// Check on-line for a new version
+					m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd, false);
+				}
+				else
+				{
+					// No need to check, we already know there is a new version
+					m_UpdateAvailable = TRUE;
+				}
+			}
 			break;
 		default:
 			// Auto-updates are not configured
@@ -584,7 +599,7 @@ CString CTinyCadApp::GetVersion()
 		GetFileVersionInfo(szModulePath, dwZero, dwSize, pBuffer);
 		VerQueryValue(pBuffer, _T("\\"), (void**) &pFixedInfo, (UINT*) &uVersionLen);
 
-		sReturn.Format(_T("Version %u.%02u.%02u"), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS));
+		sReturn.Format(_T("%u.%02u.%02u"), HIWORD(pFixedInfo->dwProductVersionMS), LOWORD(pFixedInfo->dwProductVersionMS), HIWORD(pFixedInfo->dwProductVersionLS));
 		delete[] pBuffer;
 	}
 
@@ -1092,7 +1107,6 @@ void CTinyCadApp::OnAppUpdateChecked()
 	CString previousUpdateVersion = CTinyCadRegistry::GetLastAutomaticUpdateVersion();
 	CString currentVersion = GetVersion();
 	CString latestVersion = m_UpdateCheck.getLatestVersion();
-	currentVersion.Replace(_T("Version "), _T(""));
 
 	// Is there an update to be had?
 	if (currentVersion != latestVersion)
