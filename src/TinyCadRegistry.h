@@ -85,6 +85,9 @@ public:
 	//-- What was the last version of TinyCAD update the user was told about
 	static void SetLastAutomaticUpdateVersion(CString version);
 
+	// Get when TinyCAD was installed
+	static CString GetInstalledFileTime();
+
 	//=====================================================================
 	//== class constants                                                 ==
 	//=====================================================================
@@ -93,7 +96,8 @@ private:
 	static const CString M_SKEY;
 
 	static const CString M_SPAGESIZE;
-	static const CString M_SEXAMPLESSETUP;
+	static const CString M_BUILDID;
+	static const CString M_INSTALLED;
 	static const CString M_SPRINTSCALE;
 	static const CString M_SPRINTBANDW;
 	static const CString M_SMDIMAXIMIZE;

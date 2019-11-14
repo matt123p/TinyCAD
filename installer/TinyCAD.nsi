@@ -152,6 +152,10 @@ Section "MainSection" SEC01
   File "..\examples\circuits\CurrSens.dsn"
   File "..\examples\circuits\nanocomp6802.dsn"
   File "..\examples\circuits\WaterSensor.dsn"
+  
+  ; A file purely for the purpose of setting a timestamp of when TinyCAD was installed
+  FileOpen $0 "$INSTDIR\installed.txt" w
+  FileClose $0
 
   ; Install the C++ redistributable  
   SetOutPath "$INSTDIR"
@@ -284,6 +288,7 @@ Section Uninstall
   Delete "$INSTDIR\zlib.dll"
   Delete "$INSTDIR\libpng16.dll"
   Delete "$INSTDIR\TinyCad.exe"
+  Delete "$INSTDIR\installed.txt"
 
   Delete "$SMPROGRAMS\TinyCAD\Uninstall.lnk"
   Delete "$SMPROGRAMS\TinyCAD\TinyCAD Website.lnk"

@@ -13,7 +13,8 @@
 #include <assert.h>
 
 const CString CTinyCadRegistry::M_SKEY = "Software\\TinyCAD\\TinyCAD\\1x20";
-const CString CTinyCadRegistry::M_SEXAMPLESSETUP = "ExamplesSetup";
+const CString CTinyCadRegistry::M_BUILDID = "BuildID";
+const CString CTinyCadRegistry::M_INSTALLED = "Installed";
 const CString CTinyCadRegistry::M_SPAGESIZE = "PageSize";
 const CString CTinyCadRegistry::M_SPRINTSCALE = "PrintScaleFactor";
 const CString CTinyCadRegistry::M_SPRINTBANDW = "PrintBandW";
@@ -34,10 +35,17 @@ CTinyCadRegistry::CTinyCadRegistry() :
 {
 	m_oKey.Create(HKEY_CURRENT_USER, M_SKEY);
 
+	// Get the installer date
+	CString installedAt = GetInstalledFileTime();
+
 	// Do we need to copy the example files?
-	if (super::GetString(M_SEXAMPLESSETUP, "") != BUILD_UUID)
+	if (super::GetString(M_BUILDID, "") != BUILD_UUID || super::GetString(M_INSTALLED, "") != installedAt)
 	{
 		CopyExampleFiles();
+		if (!installedAt.IsEmpty())
+		{
+			super::Set(M_INSTALLED, installedAt);
+		}
 	}
 
 	// Does the registry information exist - if not create it
@@ -51,6 +59,42 @@ CTinyCadRegistry::~CTinyCadRegistry()
 {
 }
 
+//-------------------------------------------------------------------------
+//-- Try and determine when TinyCAD was installed, so we can see if it has
+//	 changed/been re-installed.
+CString CTinyCadRegistry::GetInstalledFileTime()
+{
+	CString app_installed_file = CTinyCadApp::GetAppDir("") + _T("installed.txt");
+	auto hFile = CreateFile(app_installed_file, GENERIC_READ, FILE_SHARE_READ, NULL,
+		OPEN_EXISTING, 0, NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		// File not found
+		return "";
+	}
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
+	DWORD dwRet;
+
+	// Retrieve the file times for the file.
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+	{
+		return "";
+	}
+
+	// Convert the last-write time to local time.
+	FileTimeToSystemTime(&ftWrite, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+	// Build a string showing the date and time.
+	CString r;
+	r.Format(TEXT("%02d/%02d/%d  %02d:%02d"),
+		stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+		stLocal.wHour, stLocal.wMinute);
+
+	return r;
+}
 
 //-------------------------------------------------------------------------
 //-- Copy the example files from the installation folder to the users
@@ -84,7 +128,7 @@ void CTinyCadRegistry::CopyExampleFiles()
 	}
 
 	// Set a flag in the registry
-	super::Set(M_SEXAMPLESSETUP, CString(BUILD_UUID));
+	super::Set(M_BUILDID, CString(BUILD_UUID));
 
 }
 
