@@ -26,7 +26,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "CAD.ICO"
+IDR_MAINFRAME           ICON                    "res\\idr_main.ico"
 
 IDR_TCADTYPE            ICON                    "res\\idr_main.ico"
 
