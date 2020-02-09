@@ -681,6 +681,13 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 </ol>
 <p>You can move a symbol’s text fields around. First select the symbol for editing, and then you can drag any of the symbol’s fields with the mouse to a new position on the drawing.</p>
 <p>At any one time a certain number of symbol libraries are in use. The libraries to be searched are listed in the libraries option of the Library Menu. Before you can start using symbols at least one symbol library must be listed here. (See the Library Menu, in the menu reference for more help on adding a library to this list).</p>
+<h2 id="to-replace-a-symbol-in-your-design">To replace a symbol in your design</h2>
+<p>If you edit a symbol or change which symbol you want to use then you may wish to change all of the similar symbols in your
+design to match.</p>
+<p>The function you are looking for is &quot;Replace symbol&quot;.</p>
+<p>Right click on the symbol you wish to change and select the option &quot;Replace symbol&quot; from the menu.  The dialog will 
+suggest a new symbol, however, you can change the symbol by using the built in search function.</p>
+<p>You then have the option to replace all symbols or just this single one.</p>
 <h2 id="to-wire-up-your-design">To wire up your design</h2>
 <ol>
 <li><p>Use the wire tool, which is the blue line on the toolbar.</p>
@@ -1336,6 +1343,10 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 directly from the <a href="https://visualstudio.microsoft.com">Microsoft Visual Studio</a> web site.  Do not download Visual Studio Code
 as this is insufficient to build TinyCAD.</p>
 <p>You will need at least Visual Studio 2019 to build TinyCAD.</p>
+<h2 id="git-command-line-tools">Git command line tools</h2>
+<p>When a build is created then it uses git to determine which branch it is being built from.</p>
+<p>If you have installed a git tool then the command line tools will probably have been installed too.  Just make sure the
+&quot;git&quot; command is available in your PATH.  You can check this by typing &quot;git&quot; in a Cmd prompt.</p>
 <h2 id="node-js-and-limedocs-wiki-converter">Node.js and Limedocs Wiki Converter</h2>
 <p><a href="https://github.com/limedocs/limedocs-wiki-converter">Limedocs Wiki Converter</a> is a tool that converts the TinyCAD Wiki pages in to a single HTML file to be distributed with the executable.  This program is written in Javascript and requires
 <a href="https://nodejs.org">Node.js</a> for it to run.</p>
@@ -1351,7 +1362,19 @@ as this is insufficient to build TinyCAD.</p>
 <p>The latest version of the TinyCAD source code is available on <a href="https://github.com/matt123p/TinyCAD">Github</a>.  If you are going to make changes to the TinyCAD source that might be of benefit to other users then I strongly urge you to fork the Github repository and submit a <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request">Pull Request</a> when you are ready.</p>
 <p>If you have code changes, but are having problems generating the Pull Request then please contact me at <a href="#mailtoadmintinycadnet">admin@tinycad.net</a></p>
 <h2 id="building-source">Building Source</h2>
-<p>To build the source code you need only open the TinyCAD.sln file in Visual Studio 2019 and build.  The default install options of Visual Studio do not include all of the required components for building TinyCAD.  Make sure you have installed C++ for Desktop development and the MFC libraries.  If you have not then run the Visual Studio Installer and install them.</p>
+<p>To build the source code you need to: </p>
+<ol>
+<li>Open the TinyCAD.sln file in Visual Studio 2019.</li>
+<li>Restore the NuGet packages - do this by going to the &quot;Project&quot; menu and select &quot;Manage NuGet Packages&quot;.  Then when prompted click the &quot;Restore&quot; button to restore all the NuGet packages.</li>
+<li>Select &quot;Build&quot;</li>
+</ol>
+<p><em>NOTE</em>: The default install options of Visual Studio do not include all of the required components for building TinyCAD.  Make sure you have installed C++ for Desktop development and the MFC libraries.  If you have not then run the Visual Studio Installer and install them.</p>
+<p><strong>If you still have problems with Nuget packages</strong> see the discussion here:  <a href="https://forum.tinycad.net/index.php?p=/discussion/4024/failed-to-compile-on-visual-studio-2019#latest">TinyCAD forum</a></p>
+<h2 id="release-builds">Release builds</h2>
+<p>When you build Release version of TinyCAD then the git branch is determined by the batch file &quot;gitbranch.bat&quot;.  You need
+git command line tools installed for this to work.  If you are having problems with it then I suggest you edit
+gitbranch.bat to hard-code the git branch and avoid the problem.</p>
+<h2 id="64-bit-builds">64 bit builds</h2>
 <p>Please note that TinyCAD is not 64 bit safe at this time and that TinyCAD is still optionally using Microsoft’s DAO to hold the symbol library databases and DAO does not and never will support 64 bit platforms, according to Microsoft.  Only the SQLite3 symbol libraries should be used if you attempt to build a 64-bit version.  This developer is not presently aware of any 64 bit issues other than the DAO component.</p>
 <h2 id="building-the-help-file">Building the help file</h2>
 <p>Before you can build the help file make sure you have installed <a href="https://nodejs.org">Node.js</a> and <a href="https://github.com/limedocs/limedocs-wiki-converter">Limedocs Wiki Converter</a>.</p>
