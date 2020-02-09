@@ -1729,7 +1729,6 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 	}
 
 	_ftprintf(theFile, _T("\n*NET*\n"));
-	int Label = 0;
 
 	netCollection::iterator nit = m_nets.begin();
 
@@ -1738,6 +1737,7 @@ void CNetList::WriteNetListFilePADS(CTinyCadMultiDoc *pDesign, const TCHAR *file
 		nodeVector::iterator nv_it = (*nit).second.begin();
 
 		CString theLine, theLabel;
+		int Label = nv_it->m_NetList;
 
 		if (nv_it != (*nit).second.end())
 		{
@@ -1883,7 +1883,6 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 	}
 
 	_ftprintf(theFile, _T("\n\n") NetComment _T(" ======+ The net list\n\n"));
-	int Label = 0;
 
 	netCollection::iterator nit = m_nets.begin();
 
@@ -1892,6 +1891,7 @@ void CNetList::WriteNetListFileTinyCAD(CTinyCadMultiDoc *pDesign, const TCHAR *f
 		nodeVector::iterator nv_it = (*nit).second.begin();
 
 		CString theLine, theLabel;
+		int Label = nv_it->m_NetList;
 
 		if (nv_it != (*nit).second.end())
 		{

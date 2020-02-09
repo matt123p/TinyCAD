@@ -28,7 +28,7 @@
 
 #undef FAR
 #define XMD_H
-#define boolean bool
+#define boolean int
 #define HAVE_BOOLEAN
 extern "C" {
 #include "jpeglib.h"
@@ -121,6 +121,10 @@ METHODDEF(void) my_error_exit(j_common_ptr cinfo)
 {
 	/* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
 	my_error_ptr myerr = (my_error_ptr) cinfo->err;
+
+	char jpegLastErrorMsg[JMSG_LENGTH_MAX];
+	/* Create the message */
+	(*(cinfo->err->format_message)) (cinfo, jpegLastErrorMsg);
 
 	/* Always display the message. */
 	/* We could postpone this until after returning, if we chose. */
