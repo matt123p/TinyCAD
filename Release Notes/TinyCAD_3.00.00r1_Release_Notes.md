@@ -1,3 +1,14 @@
+# TinyCAD version 3.00.01
+
+## Overview
+
+This version is a bug fix release that addreses the following issues:
+
+1. Embedded JPEGs were not being displayed correctly
+2. Netlist output for Protel and TinyCAD format was incorrect
+3. The installer had problems installing the Visual Studio redistributable
+
+
 # TinyCAD version 3.00.00
 
 ## Overview
