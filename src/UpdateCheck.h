@@ -27,5 +27,7 @@ public:
 	CString getLastUpdateDate() { return lastUpdateDate; }
 	CString getUserMessage() { return userMessage; }
 	bool getInformNoUpdate() { return m_inform_no_update;  }
+
+	int64_t VersionAsNumber(CString str);
 };
 

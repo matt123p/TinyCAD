@@ -1109,7 +1109,7 @@ void CTinyCadApp::OnAppUpdateChecked()
 	CString latestVersion = m_UpdateCheck.getLatestVersion();
 
 	// Is there an update to be had?
-	if (currentVersion != latestVersion)
+	if (m_UpdateCheck.VersionAsNumber(currentVersion) < m_UpdateCheck.VersionAsNumber(latestVersion))
 	{
 		// Set the indicator
 		m_UpdateAvailable = TRUE;
