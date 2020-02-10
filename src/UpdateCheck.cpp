@@ -81,3 +81,11 @@ void CUpdateCheck::bgUpdateCheck(void*pThis)
 		SendMessage(p->m_hwnd, WM_COMMAND, ID_AUTOUPDATE, 0);
 	}
 }
+
+int64_t CUpdateCheck::VersionAsNumber(CString str)
+{
+	// Decode the version in to 2 numbers for easy comparison
+	CString n = str;
+	n.Replace(_T("."), _T(""));
+	return _wtoll(n);
+}
