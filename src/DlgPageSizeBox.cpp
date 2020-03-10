@@ -153,21 +153,24 @@ void CDlgPageSizeBox::OnChange()
 {
 	int which = GetCheckedRadioButton(PAGESIZE_A4, PAGESIZE_PRINTER) - PAGESIZE_A4;
 
-	int a = Page_SizesA[which];
-	int b = Page_SizesB[which];
-
-	if (GetCheckedRadioButton(PAGESIZE_LAND, PAGESIZE_PORT) == PAGESIZE_PORT)
+	if (which >= 0 && which < _countof(Page_SizesA))
 	{
-		SetDlgItemInt(PAGESIZE_HEIGHT, a);
-		SetDlgItemInt(PAGESIZE_WIDTH, b);
-	}
-	else
-	{
-		SetDlgItemInt(PAGESIZE_WIDTH, a);
-		SetDlgItemInt(PAGESIZE_HEIGHT, b);
-	}
+		int a = Page_SizesA[which];
+		int b = Page_SizesB[which];
 
-	PageSizeChanged = TRUE;
+		if (GetCheckedRadioButton(PAGESIZE_LAND, PAGESIZE_PORT) == PAGESIZE_PORT)
+		{
+			SetDlgItemInt(PAGESIZE_HEIGHT, a);
+			SetDlgItemInt(PAGESIZE_WIDTH, b);
+		}
+		else
+		{
+			SetDlgItemInt(PAGESIZE_WIDTH, a);
+			SetDlgItemInt(PAGESIZE_HEIGHT, b);
+		}
+
+		PageSizeChanged = TRUE;
+	}
 }
 
 void CDlgPageSizeBox::OnChangeText()
@@ -175,8 +178,14 @@ void CDlgPageSizeBox::OnChangeText()
 	int NewWidth = GetDlgItemInt(PAGESIZE_WIDTH);
 	int NewHeight = GetDlgItemInt(PAGESIZE_HEIGHT);
 
-	if (NewWidth < NewHeight) CheckRadioButton(PAGESIZE_LAND, PAGESIZE_PORT, PAGESIZE_PORT);
-	else CheckRadioButton(PAGESIZE_LAND, PAGESIZE_PORT, PAGESIZE_LAND);
+	if (NewWidth < NewHeight)
+	{
+		CheckRadioButton(PAGESIZE_LAND, PAGESIZE_PORT, PAGESIZE_PORT);
+	}
+	else
+	{
+		CheckRadioButton(PAGESIZE_LAND, PAGESIZE_PORT, PAGESIZE_LAND);
+	}
 
 	// Do these values correspond to a predefined value?
 	int a = max(NewWidth,NewHeight);
@@ -190,8 +199,8 @@ void CDlgPageSizeBox::OnChangeText()
 
 void CDlgPageSizeBox::OnOK()
 {
-	Size.x = GetDlgItemInt(PAGESIZE_WIDTH) * PIXELSPERMM;
-	Size.y = GetDlgItemInt(PAGESIZE_HEIGHT) * PIXELSPERMM;
+	Size.x = min(GetDlgItemInt(PAGESIZE_WIDTH),1500) * PIXELSPERMM;
+	Size.y = min(GetDlgItemInt(PAGESIZE_HEIGHT),1500)* PIXELSPERMM;
 
 	if (PageSetupChanged || PageSizeChanged)
 	{
