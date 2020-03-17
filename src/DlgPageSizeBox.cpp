@@ -199,8 +199,8 @@ void CDlgPageSizeBox::OnChangeText()
 
 void CDlgPageSizeBox::OnOK()
 {
-	Size.x = min(GetDlgItemInt(PAGESIZE_WIDTH),1500) * PIXELSPERMM;
-	Size.y = min(GetDlgItemInt(PAGESIZE_HEIGHT),1500)* PIXELSPERMM;
+	Size.x = min(GetDlgItemInt(PAGESIZE_WIDTH),2500) * PIXELSPERMM;
+	Size.y = min(GetDlgItemInt(PAGESIZE_HEIGHT),2500)* PIXELSPERMM;
 
 	if (PageSetupChanged || PageSizeChanged)
 	{
