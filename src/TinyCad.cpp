@@ -523,15 +523,15 @@ BOOL CTinyCadApp::InitInstance()
 				CString previousUpdateVersion = CTinyCadRegistry::GetLastAutomaticUpdateVersion();
 				CString currentVersion = GetVersion();
 
-				if (previousUpdateVersion == currentVersion)
-				{
-					// Check on-line for a new version
-					m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd, false);
-				}
-				else
+				if (m_UpdateCheck.VersionAsNumber(previousUpdateVersion) > m_UpdateCheck.VersionAsNumber(currentVersion))
 				{
 					// No need to check, we already know there is a new version
 					m_UpdateAvailable = TRUE;
+				}
+				else
+				{
+					// Check on-line for a new version
+					m_UpdateCheck.checkForUpdates(pMainFrame->m_hWnd, false);
 				}
 			}
 			break;
@@ -1124,7 +1124,7 @@ void CTinyCadApp::OnAppUpdateChecked()
 			if (result == IDOK)
 			{
 				// Open a browser for our web site
-				ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net/"), NULL, NULL, SW_SHOWNORMAL);
+				ShellExecute(AfxGetMainWnd()->m_hWnd, _T("open"), _T("https://www.tinycad.net/Home/Download"), NULL, NULL, SW_SHOWNORMAL);
 			}
 
 		}
