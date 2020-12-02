@@ -2267,9 +2267,9 @@ void CNetList::rawWriteNetListFileXML(CTinyCadMultiDoc *pDesign, std::ofstream& 
 			CNetListNode& theNode = *nv_it;
 			++nv_it;
 
-			if (netname == NULL && !theNode.getLabel().IsEmpty())
+			if (netname == NULL && !theNode.getPreferredLabel().IsEmpty())
 			{
-				netname = doc.allocate_string(theNode.getLabel());
+				netname = doc.allocate_string(theNode.getPreferredLabel());
 			}
 
 			if (theNode.m_parent != NULL && theNode.m_parent->GetType() == xPinEx)
