@@ -160,7 +160,7 @@ void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
 	}
 
 	// Do we need to decompress the image?
-	if (!m_input_bits && m_compressed_data)
+	if ((!m_input_bits || dc.IsPrinting()) && m_compressed_data)
 	{
 		m_invalid_image = !Read(dc, m_compressed_data, m_compressed_size);
 	}
@@ -181,6 +181,12 @@ void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
 		dc.StretchBlt(r.left, r.top, r.Width(), r.Height(), &bitmap_dc, 0, 0, m_Width, m_Height, SRCCOPY);
 
 		bitmap_dc.SelectObject(old_bitmap);
+	}
+
+	if (m_input_bits && dc.IsPrinting())
+	{
+		m_input.DeleteObject();
+		m_input_bits = NULL;
 	}
 }
 
