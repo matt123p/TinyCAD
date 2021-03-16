@@ -131,9 +131,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
-        MENUITEM "Flip",                IDM_EDITFLIP
+        MENUITEM "Flip",                        IDM_EDITFLIP
         MENUITEM SEPARATOR
-        MENUITEM "&Find...\tCtrl+F",                    ID_FIND_FIND
+        MENUITEM "&Find...\tCtrl+F",            ID_FIND_FIND
         MENUITEM SEPARATOR
         MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
         MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
@@ -319,16 +319,16 @@ BEGIN
     "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
     "Q",            ID_OPTIONS_TOGGLE_UNITS, VIRTKEY, CONTROL
-    VK_F6,          ID_OPTIONS_TOOLBARS_SYMBOL, VIRTKEY
-    VK_F9,          IDM_BUSBACK,            VIRTKEY
-    VK_F8,          IDM_BUSSLASH,           VIRTKEY
+    VK_F6,          ID_OPTIONS_TOOLBARS_SYMBOL, VIRTKEY 
+    VK_F9,          IDM_BUSBACK,            VIRTKEY 
+    VK_F8,          IDM_BUSSLASH,           VIRTKEY 
     "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL
     VK_INSERT,      IDM_EDITCOPY,           VIRTKEY, CONTROL
     VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT
     "X",            IDM_EDITCUT,            VIRTKEY, CONTROL
-    VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY
+    VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY 
     "U",            IDM_EDITDUPLICATE,      VIRTKEY, CONTROL
-    VK_ESCAPE,      IDM_EDITEDIT,           VIRTKEY
+    VK_ESCAPE,      IDM_EDITEDIT,           VIRTKEY 
     "F",            ID_FIND_FIND,           VIRTKEY, CONTROL
     "V",            IDM_EDITPASTE,          VIRTKEY, CONTROL
     VK_INSERT,      IDM_EDITPASTE,          VIRTKEY, SHIFT
@@ -342,15 +342,15 @@ BEGIN
     "I",            IDM_FILEIMPORT,         VIRTKEY, CONTROL
     "N",            IDM_SNAPTOGRID,         VIRTKEY, SHIFT, CONTROL
     "G",            IDM_TOGGLE_GRIDSIZE,    VIRTKEY, CONTROL
-    VK_F10,         IDM_TOOLBUS,            VIRTKEY
-    VK_F7,          IDM_TOOLBUSNAME,        VIRTKEY
-    VK_F5,          IDM_TOOLCONNECT,        VIRTKEY
-    VK_F3,          IDM_TOOLJUNC,           VIRTKEY
-    VK_F1,          IDM_TOOLLABEL,          VIRTKEY
-    VK_F4,          IDM_TOOLPOWER,          VIRTKEY
-    VK_F2,          IDM_TOOLWIRE,           VIRTKEY
-    VK_PRIOR,       IDM_VIEWZOOMIN,         VIRTKEY
-    VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY
+    VK_F10,         IDM_TOOLBUS,            VIRTKEY 
+    VK_F7,          IDM_TOOLBUSNAME,        VIRTKEY 
+    VK_F5,          IDM_TOOLCONNECT,        VIRTKEY 
+    VK_F3,          IDM_TOOLJUNC,           VIRTKEY 
+    VK_F1,          IDM_TOOLLABEL,          VIRTKEY 
+    VK_F4,          IDM_TOOLPOWER,          VIRTKEY 
+    VK_F2,          IDM_TOOLWIRE,           VIRTKEY 
+    VK_PRIOR,       IDM_VIEWZOOMIN,         VIRTKEY 
+    VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY 
 END
 
 
@@ -1338,7 +1338,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
-        MENUITEM "Flip",                IDM_EDITFLIP
+        MENUITEM "Flip",                        IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In",                     IDM_VIEWZOOMIN
         MENUITEM "Zoom Out",                    IDM_VIEWZOOMOUT
@@ -1401,7 +1401,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
-        MENUITEM "Flip",                IDM_EDITFLIP
+        MENUITEM "Flip",                        IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
         MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
@@ -1415,6 +1415,9 @@ BEGIN
         MENUITEM "Insert sheet",                ID_CONTEXT_ADDSHEET
         MENUITEM "Delete sheet",                ID_CONTEXT_DELETESHEET
         MENUITEM "Rename sheet...",             ID_CONTEXT_RENAMESHEET
+        MENUITEM SEPARATOR
+        MENUITEM "<- Move Sheet left",          ID_CONTEXT_MOVESHEET
+        MENUITEM "Move Sheet right ->",         ID_CONTEXT_MOVESHEETRIGHT
         MENUITEM SEPARATOR
         MENUITEM "Add hierarchical symbol",     ID_CONTEXT_ADDHIERARCHICALSYMBOL
     END
@@ -1456,7 +1459,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
-        MENUITEM "Flip",                IDM_EDITFLIP
+        MENUITEM "Flip",                        IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
         MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT
@@ -1488,7 +1491,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rotate Left\tCtrl+L",         IDM_EDITROTATELEFT
         MENUITEM "Rotate Right\tCtrl+R",        IDM_EDITROTATERIGHT
-        MENUITEM "Flip",                IDM_EDITFLIP
+        MENUITEM "Flip",                        IDM_EDITFLIP
         MENUITEM SEPARATOR
         MENUITEM "Zoom In\tPg Up",              IDM_VIEWZOOMIN
         MENUITEM "Zoom Out\tPg Dn",             IDM_VIEWZOOMOUT

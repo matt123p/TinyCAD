@@ -3,8 +3,8 @@
 // Used by TinyCad.rc
 //
 #define IDOK3                           2
-#define ID_CHECK_NOW                    100
 #define IDOK2                           3
+#define ID_CHECK_NOW                    100
 #define IDD_ABOUTBOX                    100
 #define IDS_PROPSHT_CAPTION             102
 #define IDS_RECURSION                   103
@@ -208,7 +208,7 @@
 #define IDM_EDITROTATERIGHT             553
 #define IDM_EDITFLIP                    554
 #define IDM_LIBCOPY                     600
-#define ID_INDICATOR_UPDATE				601
+#define ID_INDICATOR_UPDATE             601
 #define IDS_NODEFAULT                   1000
 #define LINETHICKBOX_THICKNESS          1000
 #define IDS_ABORTLOAD                   1001
@@ -493,6 +493,8 @@
 #define ID_DUMMY_AUTOUPDATE             32903
 #define ID_AUTOUPDATE                   32904
 #define ID_HELP_CHECKFORUPDATES         32905
+#define ID_CONTEXT_MOVESHEET            32906
+#define ID_CONTEXT_MOVESHEETRIGHT       32907
 #define IDC_SCALING                     40000
 #define IDS_NOCLEANUP                   40001
 #define POSITIONBOX_GRIDSIZE            40002
@@ -505,7 +507,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        175
-#define _APS_NEXT_COMMAND_VALUE         32906
+#define _APS_NEXT_COMMAND_VALUE         32908
 #define _APS_NEXT_CONTROL_VALUE         1587
 #define _APS_NEXT_SYMED_VALUE           114
 #endif

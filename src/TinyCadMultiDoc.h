@@ -50,6 +50,7 @@ protected:
 	void Clear();
 	void InsertSheet(int i, CTinyCadDoc *pDoc = NULL);
 	void DeleteSheet(int i);
+	void MoveSheet(int index, bool left);
 
 	// Attributes
 public:
@@ -116,6 +117,8 @@ protected:
 	afx_msg void OnContextDeletesheet();
 	afx_msg void OnUpdateContextDeletesheet(CCmdUI* pCmdUI);
 	afx_msg void OnContextRenamesheet();
+	afx_msg void OnContextMoveSheetLeft();
+	afx_msg void OnContextMoveSheetRight();
 	afx_msg void OnLibraryAddpin();
 	afx_msg void OnUpdateLibraryAddpin(CCmdUI* pCmdUI);
 	//}}AFX_MSG

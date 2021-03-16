@@ -60,6 +60,9 @@ BEGIN_MESSAGE_MAP(CTinyCadMultiDoc, CMultiSheetDoc)
 	ON_COMMAND(ID_CONTEXT_DELETESHEET, OnContextDeletesheet)
 	ON_UPDATE_COMMAND_UI(ID_CONTEXT_DELETESHEET, OnUpdateContextDeletesheet)
 	ON_COMMAND(ID_CONTEXT_RENAMESHEET, OnContextRenamesheet)
+	ON_COMMAND(ID_CONTEXT_MOVESHEET, OnContextMoveSheetLeft)
+	ON_COMMAND(ID_CONTEXT_MOVESHEETRIGHT, OnContextMoveSheetRight)
+
 	//}}AFX_MSG_MAP
 	ON_COMMAND(ID_CONTEXT_ADDHIERARCHICALSYMBOL, OnContextAddhierarchicalsymbol)
 	ON_UPDATE_COMMAND_UI(ID_CONTEXT_ADDHIERARCHICALSYMBOL, OnUpdateContextAddhierarchicalsymbol)
@@ -214,6 +217,37 @@ void CTinyCadMultiDoc::DeleteSheet(int i)
 	{
 		m_active_doc--;
 	}
+}
+
+//-------------------------------------------------------------------------
+void CTinyCadMultiDoc::MoveSheet(int index, bool left)
+{
+
+	if (left && index > 0) 
+	{
+		auto from = m_sheets.begin() + index;
+		auto to = m_sheets.begin() + index - 1;
+		std::swap(*to, *from);
+
+		if (m_active_doc == index)
+		{
+			--m_active_doc;
+		}
+	}
+
+	if (!left && index < m_sheets.size()-1)
+	{
+		auto from = m_sheets.begin() + index;
+		auto to = m_sheets.begin() + index + 1;
+		std::swap(*to, *from);
+		
+		if (m_active_doc == index)
+		{
+			++m_active_doc;
+		}
+	}
+
+	SetTabsFromDocument();
 }
 
 //-------------------------------------------------------------------------
@@ -526,6 +560,19 @@ void CTinyCadMultiDoc::OnContextRenamesheet()
 	}
 }
 
+void CTinyCadMultiDoc::OnContextMoveSheetLeft()
+{
+	int index = GetActiveSheetIndex();
+	MoveSheet(index, true);
+}
+
+void CTinyCadMultiDoc::OnContextMoveSheetRight()
+{
+	int index = GetActiveSheetIndex();
+	MoveSheet(index, false);
+}
+
+
 void CTinyCadMultiDoc::OnUpdateContextRenamesheet(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(!GetCurrentSheet()->IsHierarchicalSymbol());
@@ -535,6 +582,7 @@ void CTinyCadMultiDoc::SetTabsFromDocument()
 {
 	UpdateAllViews(NULL, DOC_UPDATE_TABS);
 }
+
 void CTinyCadMultiDoc::OnContextAddhierarchicalsymbol()
 {
 	// Add in a new document that is the hierarchical symbol
