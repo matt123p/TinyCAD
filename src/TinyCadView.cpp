@@ -769,7 +769,7 @@ void CTinyCadView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				OnEditRotateLeft();
 				break;
 			case 'F':
-				OnEditFlip();
+				OnFindFind();
 				break;
 			case 'U':
 				OnEditDuplicate();
