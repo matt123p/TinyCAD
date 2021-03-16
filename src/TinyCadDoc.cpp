@@ -266,10 +266,10 @@ HENHMETAFILE CTinyCadDoc::CreateMetafile(CDC &ref_dc, const TCHAR *file_name, bo
 			rect.InflateRect(10, 10);
 
 			// We hard-code these to make the output the same regardless of monitor
-			int iWidthMM = 477;		//  ref_dc.GetDeviceCaps(HORZSIZE);
-			int iHeightMM = 268;	//  ref_dc.GetDeviceCaps(VERTSIZE);
-			int iWidthPels = 1920;	// ref_dc.GetDeviceCaps(HORZRES);
-			int iHeightPels = 1080; // ref_dc.GetDeviceCaps(VERTRES);
+			int iWidthMM = ref_dc.GetDeviceCaps(HORZSIZE);
+			int iHeightMM = ref_dc.GetDeviceCaps(VERTSIZE);
+			int iWidthPels = ref_dc.GetDeviceCaps(HORZRES);
+			int iHeightPels = ref_dc.GetDeviceCaps(VERTRES);
 
 			// Convert client coordinates to .01-mm units. 
 			// Use iWidthMM, iWidthPels, iHeightMM, and 
