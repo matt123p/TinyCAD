@@ -55,7 +55,7 @@ CImageBitmap::~CImageBitmap()
 }
 
 // Roate this image through 90 degrees
-void CImageBitmap::Rotate(CDC &dc)
+void CImageBitmap::Rotate(CDC& dc)
 {
 	// Keep a copy of the old bitmap
 	if (!m_input_bits)
@@ -83,7 +83,7 @@ void CImageBitmap::Rotate(CDC &dc)
 		for (int x = 0; x < m_Width; x++)
 		{
 			// Locate the old location of this pixel
-			unsigned char *old_p = old_input_bits + (old_RowStep * x * bytes_per_pixel) + ( (m_Height - y) * bytes_per_pixel);
+			unsigned char* old_p = old_input_bits + (old_RowStep * x * bytes_per_pixel) + ((m_Height - y) * bytes_per_pixel);
 
 			for (int i = 0; i < bytes_per_pixel; i++)
 			{
@@ -95,7 +95,7 @@ void CImageBitmap::Rotate(CDC &dc)
 	}
 }
 
-CBitmap *CImageBitmap::CreateImageBitmap(int Width, int Height, CDC &dc, int bpp)
+CBitmap* CImageBitmap::CreateImageBitmap(int Width, int Height, CDC& dc, int bpp)
 {
 	m_Width = Width;
 	m_Height = Height;
@@ -122,7 +122,7 @@ CBitmap *CImageBitmap::CreateImageBitmap(int Width, int Height, CDC &dc, int bpp
 	else if (bpp == 24)
 	{
 		m_RowStep = m_Width * 3;
-		while ( (m_RowStep % 4) != 0)
+		while ((m_RowStep % 4) != 0)
 		{
 			m_RowStep++;
 		}
@@ -132,7 +132,7 @@ CBitmap *CImageBitmap::CreateImageBitmap(int Width, int Height, CDC &dc, int bpp
 	q.bi.bmiHeader.biWidth = Width;
 	q.bi.bmiHeader.biHeight = Height;
 	q.bi.bmiHeader.biPlanes = 1;
-	q.bi.bmiHeader.biBitCount = (WORD) bpp;
+	q.bi.bmiHeader.biBitCount = (WORD)bpp;
 	q.bi.bmiHeader.biCompression = BI_RGB;
 	q.bi.bmiHeader.biSizeImage = 0;
 	q.bi.bmiHeader.biXPelsPerMeter = 0;
@@ -145,13 +145,13 @@ CBitmap *CImageBitmap::CreateImageBitmap(int Width, int Height, CDC &dc, int bpp
 	q.bi.bmiColors[0].rgbReserved = 0;
 
 	m_input_bits = NULL;
-	HBITMAP hb = CreateDIBSection(dc.m_hDC, &q.bi, DIB_RGB_COLORS, (void**) &m_input_bits, NULL, 0);
+	HBITMAP hb = CreateDIBSection(dc.m_hDC, &q.bi, DIB_RGB_COLORS, (void**)&m_input_bits, NULL, 0);
 	m_input.Attach(hb);
 
 	return &m_input;
 }
 
-void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
+void CImageBitmap::Paint(CDC& dc, CRect r, int rotmir)
 {
 	// Is there anything we can do?
 	if (!m_compressed_data && !m_input_bits)
@@ -173,8 +173,23 @@ void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
 	else
 	{
 		CDC bitmap_dc;
+		CBitmap* old_bitmap;
+
 		bitmap_dc.CreateCompatibleDC(&dc);
-		CBitmap *old_bitmap = bitmap_dc.SelectObject(&m_input);
+
+		if (dc.IsPrinting()) {
+			// Create a compatible bitmap and copy it to the DC
+			CBitmap memoryBitmap;
+			memoryBitmap.CreateCompatibleBitmap(&dc, m_Width, m_Height);
+			old_bitmap = bitmap_dc.SelectObject(&memoryBitmap);
+			CImage m;
+			m.Attach((HBITMAP)m_input);
+			m.BitBlt(bitmap_dc.m_hDC, 0, 0, m_Width, m_Height, 0, 0, SRCCOPY);
+			m.Detach();
+		}
+		else {
+			old_bitmap = bitmap_dc.SelectObject(&m_input);
+		}
 
 		dc.SetStretchBltMode(HALFTONE);
 		dc.SetBrushOrg(r.left, r.top);
@@ -185,7 +200,7 @@ void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
 }
 
 // Get the size of this bitmap
-CSize CImageBitmap::GetSize(CDC &dc)
+CSize CImageBitmap::GetSize(CDC& dc)
 {
 	// Is there anything we can do?
 	if (!m_compressed_data && !m_input_bits)
@@ -203,7 +218,7 @@ CSize CImageBitmap::GetSize(CDC &dc)
 }
 
 // Set the memory image data
-bool CImageBitmap::SetCompressedData(unsigned char *data, size_t size)
+bool CImageBitmap::SetCompressedData(unsigned char* data, size_t size)
 {
 	if (m_compressed_data)
 	{
@@ -217,7 +232,7 @@ bool CImageBitmap::SetCompressedData(unsigned char *data, size_t size)
 }
 
 // Write as an UUENCODE XML tag
-void CImageBitmap::SaveXML(CXMLWriter &xml)
+void CImageBitmap::SaveXML(CXMLWriter& xml)
 {
 	// Write the size to the archive
 	xml.addChildDataUUencode(m_compressed_data, m_compressed_size);
