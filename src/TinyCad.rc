@@ -313,44 +313,44 @@ END
 
 IDR_MAINFRAME ACCELERATORS
 BEGIN
-    "E",            ID_EDIT_COPYTO,         VIRTKEY, CONTROL
-    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
-    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
-    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
-    "Q",            ID_OPTIONS_TOGGLE_UNITS, VIRTKEY, CONTROL
-    VK_F6,          ID_OPTIONS_TOOLBARS_SYMBOL, VIRTKEY 
-    VK_F9,          IDM_BUSBACK,            VIRTKEY 
-    VK_F8,          IDM_BUSSLASH,           VIRTKEY 
-    "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL
-    VK_INSERT,      IDM_EDITCOPY,           VIRTKEY, CONTROL
-    VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT
-    "X",            IDM_EDITCUT,            VIRTKEY, CONTROL
-    VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY 
-    "U",            IDM_EDITDUPLICATE,      VIRTKEY, CONTROL
-    VK_ESCAPE,      IDM_EDITEDIT,           VIRTKEY 
-    "F",            ID_FIND_FIND,           VIRTKEY, CONTROL
-    "V",            IDM_EDITPASTE,          VIRTKEY, CONTROL
-    VK_INSERT,      IDM_EDITPASTE,          VIRTKEY, SHIFT
-    "Y",            IDM_EDITREDO,           VIRTKEY, CONTROL
-    "L",            IDM_EDITROTATELEFT,     VIRTKEY, CONTROL
-    "R",            IDM_EDITROTATERIGHT,    VIRTKEY, CONTROL
-    "A",            IDM_EDITSELECTALL,      VIRTKEY, CONTROL
-    VK_BACK,        IDM_EDITUNDO,           VIRTKEY, ALT
-    "Z",            IDM_EDITUNDO,           VIRTKEY, CONTROL
-    "D",            IDM_FILEDESIGN,         VIRTKEY, CONTROL
-    "I",            IDM_FILEIMPORT,         VIRTKEY, CONTROL
-    "N",            IDM_SNAPTOGRID,         VIRTKEY, SHIFT, CONTROL
-    "G",            IDM_TOGGLE_GRIDSIZE,    VIRTKEY, CONTROL
-    VK_F10,         IDM_TOOLBUS,            VIRTKEY 
-    VK_F7,          IDM_TOOLBUSNAME,        VIRTKEY 
-    VK_F5,          IDM_TOOLCONNECT,        VIRTKEY 
-    VK_F3,          IDM_TOOLJUNC,           VIRTKEY 
-    VK_F1,          IDM_TOOLLABEL,          VIRTKEY 
-    VK_F4,          IDM_TOOLPOWER,          VIRTKEY 
-    VK_F2,          IDM_TOOLWIRE,           VIRTKEY 
-    VK_PRIOR,       IDM_VIEWZOOMIN,         VIRTKEY 
-    VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY 
+    "E",            ID_EDIT_COPYTO,         VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_FIND_FIND,           VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_OPTIONS_TOGGLE_UNITS, VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_OPTIONS_TOOLBARS_SYMBOL, VIRTKEY, NOINVERT
+    VK_F9,          IDM_BUSBACK,            VIRTKEY, NOINVERT
+    VK_F8,          IDM_BUSSLASH,           VIRTKEY, NOINVERT
+    "C",            IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      IDM_EDITCOPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      IDM_EDITCUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            IDM_EDITCUT,            VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      IDM_EDITDELITEM,        VIRTKEY, NOINVERT
+    "U",            IDM_EDITDUPLICATE,      VIRTKEY, CONTROL, NOINVERT
+    VK_ESCAPE,      IDM_EDITEDIT,           VIRTKEY, NOINVERT
+    "V",            IDM_EDITPASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      IDM_EDITPASTE,          VIRTKEY, SHIFT, NOINVERT
+    "Y",            IDM_EDITREDO,           VIRTKEY, CONTROL, NOINVERT
+    "L",            IDM_EDITROTATELEFT,     VIRTKEY, CONTROL, NOINVERT
+    "R",            IDM_EDITROTATERIGHT,    VIRTKEY, CONTROL, NOINVERT
+    "A",            IDM_EDITSELECTALL,      VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        IDM_EDITUNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            IDM_EDITUNDO,           VIRTKEY, CONTROL, NOINVERT
+    "D",            IDM_FILEDESIGN,         VIRTKEY, CONTROL, NOINVERT
+    "I",            IDM_FILEIMPORT,         VIRTKEY, CONTROL, NOINVERT
+    "N",            IDM_SNAPTOGRID,         VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "G",            IDM_TOGGLE_GRIDSIZE,    VIRTKEY, CONTROL, NOINVERT
+    VK_F10,         IDM_TOOLBUS,            VIRTKEY, NOINVERT
+    VK_F7,          IDM_TOOLBUSNAME,        VIRTKEY, NOINVERT
+    VK_F5,          IDM_TOOLCONNECT,        VIRTKEY, NOINVERT
+    VK_F3,          IDM_TOOLJUNC,           VIRTKEY, NOINVERT
+    VK_F1,          IDM_TOOLLABEL,          VIRTKEY, NOINVERT
+    VK_F4,          IDM_TOOLPOWER,          VIRTKEY, NOINVERT
+    VK_F2,          IDM_TOOLWIRE,           VIRTKEY, NOINVERT
+    VK_PRIOR,       IDM_VIEWZOOMIN,         VIRTKEY, NOINVERT
+    VK_NEXT,        IDM_VIEWZOOMOUT,        VIRTKEY, NOINVERT
 END
 
 
