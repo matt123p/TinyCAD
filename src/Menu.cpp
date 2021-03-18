@@ -243,6 +243,8 @@ void CTinyCadView::OnEditPaste()
 		CDrawMetaFile *pObject = new CDrawMetaFile(GetCurrentDocument());
 		if (pObject->setBitmap(bitmap))
 		{
+			CClientDC dc(this);
+			pObject->determineSize(dc);
 			GetCurrentDocument()->AddImage(pObject);
 		}
 	}
