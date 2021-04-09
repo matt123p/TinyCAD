@@ -42,12 +42,14 @@ CDrawEditItem::CDrawEditItem(CTinyCadDoc *pDesign) :
 
 void CDrawEditItem::BeginEdit(BOOL re_edit)
 {
+	AspectRatio = 1.0;
 	// If there is a single item selected then
 	// begin editing it...
 	if (m_pDesign->IsSingleItemSelected())
 	{
 		m_pDesign->GetSingleSelectedItem()->BeginEdit(TRUE);
 		m_segment = 0;
+		AspectRatio = m_pDesign->GetSingleSelectedItem()->AspectRatio();
 	}
 }
 
@@ -121,33 +123,29 @@ void CDrawEditItem::Move(CDPoint p, CDPoint no_snap_p)
 			switch (EditMethodText)
 			{
 				// Tracker movement...
-				case CRectTracker::hitBottomLeft:
-				case CRectTracker::hitTopRight:
-					if (fabs(r.x) > fabs(r.y))
-					{
-						r.y = -r.x;
-					}
-					else
-					{
-						r.x = -r.y;
-					}
-					break;
-				case CRectTracker::hitTopLeft:
-				case CRectTracker::hitBottomRight:
-					if (abs(r.x) > abs(r.y))
-					{
-						r.y = r.x;
-					}
-					else
-					{
-						r.x = r.y;
-					}
-					break;
-				case CRectTracker::hitTop:
-				case CRectTracker::hitRight:
-				case CRectTracker::hitBottom:
-				case CRectTracker::hitLeft:
-					break;
+			case CRectTracker::hitBottomLeft:
+			case CRectTracker::hitTopRight:
+				if (fabs(r.x) > fabs(r.y)) {
+					r.y = -r.x * AspectRatio;
+				}
+				else {
+					r.x = -r.y / AspectRatio;
+				}
+				break;
+			case CRectTracker::hitTopLeft:
+			case CRectTracker::hitBottomRight:
+				if (fabs(r.x) > fabs(r.y)) {
+					r.y = r.x * AspectRatio;
+				}
+				else {
+					r.x = r.y / AspectRatio;
+				}
+				break;
+			case CRectTracker::hitTop:
+			case CRectTracker::hitRight:
+			case CRectTracker::hitBottom:
+			case CRectTracker::hitLeft:
+				break;
 			}
 		}
 		m_pDesign->GetSingleSelectedItem()->MoveField(EditMethodText, r);
@@ -269,6 +267,7 @@ void CDrawEditItem::ClickSelection(CDPoint p, CDPoint no_snap_p)
 	// Has the user clicked in a field to be moved/edited?
 	if (m_pDesign->IsSingleItemSelected())
 	{
+		AspectRatio = m_pDesign->GetSingleSelectedItem()->AspectRatio();
 		// Has the user clicked on one of the method fields?
 		EditMethodText = m_pDesign->GetSingleSelectedItem()->IsInsideField(no_snap_p);
 		if (EditMethodText != -1)
