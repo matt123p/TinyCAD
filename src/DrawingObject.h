@@ -112,6 +112,10 @@ public:
 
 	CDPoint ReadPoint(CStream &);
 
+	double AspectRatio() const  {
+		return abs((m_point_b.y - m_point_a.y) / (m_point_b.x - m_point_a.x));
+	}
+
 	virtual void Load(CStream &); // Load data into this object
 
 	// Load and save to an XML file

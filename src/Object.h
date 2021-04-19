@@ -1066,7 +1066,7 @@ class CDrawEditItem: public CDrawingObject
 	CDPoint LastPos;
 	CDPoint OffsetMove;
 	CDPoint OffsetDrag;
-
+	double AspectRatio;
 	CDragUtils m_drag_utils;
 
 	CDrawingObject* GetClosestObject(CDPoint p);
