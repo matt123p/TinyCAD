@@ -345,7 +345,11 @@ BOOL CContext::SelectBrush(COLORREF Colour, int Index)
 {
 	//int Selected = -1;
 
-	if (allBlack) Colour = RGB(0,0,0);
+	constexpr COLORREF cWhite = RGB(255, 255, 255);
+	constexpr COLORREF cBlack = RGB(0, 0, 0);
+
+	// If painting all back and if any other colour than white override the colour
+	if (allBlack && Colour != cWhite) Colour = cBlack;	
 
 	// Does this brush already exist?
 	brush_map::iterator itb = m_brushes.find(sBrush(Colour, Index));
