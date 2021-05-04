@@ -28,7 +28,6 @@
 
 void CEditDlg::Show(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
 	m_pDesign = pDesign;
 	m_pObject = pObject;
 
@@ -37,7 +36,6 @@ void CEditDlg::Show(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 void CEditDlg::Close()
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
 	if (!g_EditToolBar.GetSafeHwnd())
 	{
 		// When shutting down
@@ -100,12 +98,10 @@ void CEditDlgPowerEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	ReFocus();
 
 	stop = FALSE;
-	CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 void CEditDlgPowerEdit::OnChange()
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
 	if (stop) return;
 
 	getObject()->Display();

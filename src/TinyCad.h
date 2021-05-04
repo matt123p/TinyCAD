@@ -155,7 +155,6 @@ private:
 	void ReadRegistry();
 public:
 	static void SetLockOutSymbolRedraw(bool r);
-	static void SetTranslateAccelerator(bool b);
 
 	//=====================================================================
 	//==  manage views                                                   ==

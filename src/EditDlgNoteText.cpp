@@ -331,8 +331,6 @@ void CEditDlgNoteText::OnChange()
 {
 	CDrawNoteText *noteText = static_cast<CDrawNoteText*> (getObject());	//get a pointer to the NoteText object being changed
 
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
-
 	if (stop) return;
 
 	noteText->Display();

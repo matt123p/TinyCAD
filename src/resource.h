@@ -176,7 +176,8 @@
 #define PINBOX_POWER                    384
 #define PINBOX_HIDDEN                   385
 #define TEXTBOX_TEXT                    400
-#define ID_FIND_FIND                    510
+#define ID_FIND_FIND                    554
+#define IDM_EDITFLIP                    510
 #define ID_FIND_SETTAG                  512
 #define IDD_ANNOTATE                    519
 #define ID_OPTION_FONT                  520
@@ -206,7 +207,6 @@
 #define IDD_POLYGON                     551
 #define IDM_EDITROTATELEFT              552
 #define IDM_EDITROTATERIGHT             553
-#define IDM_EDITFLIP                    554
 #define IDM_LIBCOPY                     600
 #define ID_INDICATOR_UPDATE             601
 #define IDS_NODEFAULT                   1000

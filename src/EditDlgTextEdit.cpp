@@ -78,13 +78,10 @@ void CEditDlgTextEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 
 	ReFocus();
 	stop = FALSE;
-	CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 void CEditDlgTextEdit::OnChange()
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
-
 	if (stop) return;
 
 	getObject()->Display();

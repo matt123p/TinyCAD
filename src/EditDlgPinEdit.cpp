@@ -126,13 +126,10 @@ void CEditDlgPinEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	ReFocus();
 
 	stop = FALSE;
-	CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 void CEditDlgPinEdit::OnChange()
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
-
 	if (stop) return;
 
 	getObject()->Display();

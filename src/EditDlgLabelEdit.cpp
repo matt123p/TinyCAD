@@ -76,13 +76,10 @@ void CEditDlgLabelEdit::Open(CTinyCadDoc *pDesign, CDrawingObject *pObject)
 	ReFocus();
 
 	stop = FALSE;
-	CTinyCadApp::SetTranslateAccelerator(TRUE);
 }
 
 void CEditDlgLabelEdit::OnChange()
 {
-	CTinyCadApp::SetTranslateAccelerator(FALSE);
-
 	if (stop) return;
 
 	if (!getObject())

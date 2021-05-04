@@ -303,8 +303,6 @@ CMultiDocTemplate* CTinyCadApp::m_pLibTemplate = NULL;
 CMultiDocTemplate* CTinyCadApp::m_pTxtTemplate = NULL;
 bool CTinyCadApp::m_LockOutSymbolRedraw = false;
 COLORREF CTinyCadApp::m_colours[16];
-HACCEL CTinyCadApp::m_hAccelTable;
-bool CTinyCadApp::m_translateAccelerator = false;
 
 bool m_hiddenWindow = false;
 
@@ -364,9 +362,6 @@ BOOL CTinyCadApp::InitInstance()
 		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
 		return FALSE;
 	}
-
-	// Load the accelerator table for the ProcessMessageFilter function
-	m_hAccelTable = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME));
 
 	// Change the registry key under which our settings are stored.
 	SetRegistryKey(CTinyCadApp::GetName());
@@ -737,11 +732,6 @@ void CTinyCadApp::SetLockOutSymbolRedraw(bool r)
 	}
 }
 
-void CTinyCadApp::SetTranslateAccelerator(bool b)
-{
-	m_translateAccelerator = b;
-
-}
 
 //-------------------------------------------------------------------------
 
@@ -966,98 +956,6 @@ BOOL CTinyCadApp::OnIdle(LONG nCount)
 // This is an implementation suggested by Microsoft KB100770.
 BOOL CTinyCadApp::ProcessMessageFilter(int code, LPMSG lpMsg)
 {
-	if (code >= 0)
-	{
-		if (m_hAccelTable && m_pMainWnd)
-		{
-			// If a library has been deleted since the last time that TinyCAD 			
-			// was started, m_pMainWnd will be null when bringing up a dialog 			
-			// box that will tell you that the library is missing.  For some reason,			
-			// the other tests below did not catch this condition and caused a			
-			// null pointer exception.			
-			//
-			BOOL translate = TRUE;
-
-			if (!m_translateAccelerator)
-			{
-				// Allow simple text editing in dialogs:
-				//  Ctrl+Z        Undo
-				//  Ctrl+Y        Redo
-				//  Ctrl+X        Cut
-				//  Ctrl+C        Copy
-				//  Ctrl+V        Paste
-				//  Shift+Delete  Cut
-				//  Ctrl+Insert   Copy
-				//  Shift+Insert  Paste
-				//  Delete        Delete
-				if (WM_KEYDOWN == lpMsg->message)
-				{
-					if (::GetKeyState(VK_CONTROL) < 0)
-					{
-						switch (lpMsg->wParam)
-						{
-							case 'Z': // Undo
-							case 'Y': // Redo
-							case 'X': // Cut
-							case 'C': // Copy
-							case 'V': // Paste
-							case VK_INSERT: // Copy
-								translate = FALSE;
-						}
-					}
-					else if (::GetKeyState(VK_SHIFT) < 0)
-					{
-						switch (lpMsg->wParam)
-						{
-							case VK_INSERT: // Paste
-							case VK_DELETE: // Cut
-								translate = FALSE;
-						}
-					}
-					else
-					{
-						if ('A' <= lpMsg->wParam && lpMsg->wParam <= 'Z') // Plain text
-						{
-							translate = FALSE;
-						}
-						else
-						{
-							switch (lpMsg->wParam)
-							{
-								case VK_DELETE: // Delete
-									translate = FALSE;
-							}
-						}
-					}
-				}
-			}
-
-			// Not for popup windows like message boxes or modal dialogs
-			if (translate && ! ( (::GetWindowLong(::GetParent(lpMsg->hwnd), GWL_STYLE)) & (WS_POPUP | WS_EX_DLGMODALFRAME)))
-			{
-				if (::TranslateAccelerator(m_pMainWnd->m_hWnd, m_hAccelTable, lpMsg)) return TRUE;
-			}
-
-			// Disable the Accelerator translator when
-			// Any non ctrl key is pressed or when
-			// the left mousebutton is pressed
-			if (m_translateAccelerator)
-			{
-				// Allow simple text editing in dialogs.
-				if (WM_KEYDOWN == lpMsg->message)
-				{
-					if (::GetKeyState(VK_CONTROL) >= 0)
-					{
-						m_translateAccelerator = FALSE;
-					}
-				}
-				else if (WM_LBUTTONDOWN == lpMsg->message)
-				{
-					m_translateAccelerator = FALSE;
-				}
-			}
-		}
-	}
 	return CWinAppEx::ProcessMessageFilter(code, lpMsg);
 }
 
