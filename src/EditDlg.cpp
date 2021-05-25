@@ -47,6 +47,20 @@ void CEditDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
+void CEditDlg::OnCancel()
+{	
+	// This member is called when edit dialog is in focus and user presses VK_ESCAPE.
+	// Process this situation in the same way as what would happen if the main application window would
+	// have been in focus and user pressed VK_ESCAPE.
+
+	extern CTinyCadView *g_currentview;
+
+	if (g_currentview) {
+		// CTinyCadView maps the VK_ESCAPE to this command
+		g_currentview->SendMessage(WM_COMMAND, IDM_EDITEDIT, 0);
+	}
+}
+
 BEGIN_MESSAGE_MAP(CEditDlg, CDialog)
 //{{AFX_MSG_MAP(CEditDlg)
 // No message handlers

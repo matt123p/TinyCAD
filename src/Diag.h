@@ -135,9 +135,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
 	//}}AFX_VIRTUAL
-
-	// Implementation
-protected:
+	void OnCancel() override;
 
 private:
 	CDrawingObject *m_pObject;
