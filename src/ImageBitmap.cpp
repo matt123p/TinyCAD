@@ -177,9 +177,27 @@ void CImageBitmap::Paint(CDC &dc, CRect r, int rotmir)
 		CBitmap *old_bitmap = bitmap_dc.SelectObject(&m_input);
 
 		dc.SetStretchBltMode(HALFTONE);
-		dc.SetBrushOrg(r.left, r.top);
-		dc.StretchBlt(r.left, r.top, r.Width(), r.Height(), &bitmap_dc, 0, 0, m_Width, m_Height, SRCCOPY);
 
+		POINT points[3];
+
+        if (r.top > r.bottom && r.left < r.right) {
+			// rotated left
+			points[0] = { r.left, r.top };
+			points[1] = { r.left, r.bottom };
+			points[2] = { r.right, r.top };
+		} else if (r.left > r.right && r.bottom > r.top) {
+			// rotated right
+			points[0] = { r.left, r.top };
+			points[1] = { r.left, r.bottom };
+			points[2] = { r.right, r.top };
+		} else {
+			// no rotation or flipped
+			points[0] = { r.left, r.top };
+			points[1] = { r.right, r.top };
+			points[2] = { r.left, r.bottom };
+		}
+
+		dc.PlgBlt(&points[0], &bitmap_dc, 0, 0, m_Width, m_Height, CBitmap(), 0, 0);
 		bitmap_dc.SelectObject(old_bitmap);
 	}
 

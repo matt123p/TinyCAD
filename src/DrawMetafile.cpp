@@ -239,7 +239,7 @@ void CDrawMetaFile::Paint(CContext &dc, paint_options options)
 	CRect rect = dc.GetTransform().Scale(drect);
 	int rotmir = dc.GetTransform().GetRotMir();
 
-	CTCImage *pImage = m_pDesign->GetOptions()->GetImage(m_metafile);
+	CTCImage *pImage = m_pDesign->GetOption().GetImage(m_metafile);
 	if (pImage)
 	{
 		pImage->Paint(*dc.GetDC(), rect, rotmir);
