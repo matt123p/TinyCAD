@@ -1071,7 +1071,7 @@ BOOL CTinyCadApp::ChooseColor(COLORREF &col)
 	c.lCustData = 0;
 	c.lpfnHook = NULL;
 	c.lpTemplateName = NULL;
-	c.lpCustColors = m_colours;
+	c.lpCustColors = &m_colours[0];
 
 	if (::ChooseColor(&c))
 	{
