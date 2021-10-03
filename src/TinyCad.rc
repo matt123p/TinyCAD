@@ -926,8 +926,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,0,3,0
- PRODUCTVERSION 3,0,3,0
+ FILEVERSION 3,0,4,0
+ PRODUCTVERSION 3,0,4,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -945,12 +945,12 @@ BEGIN
             VALUE "Comments", "https://www.tinycad.net"
             VALUE "CompanyName", "TinyCAD"
             VALUE "FileDescription", "TinyCAD"
-            VALUE "FileVersion", "3.0.3.0"
+            VALUE "FileVersion", "3.0.4.0"
             VALUE "InternalName", "TinyCAD"
-            VALUE "LegalCopyright", "Copyright (C) 2002 - 2020 Matt Pyne"
+            VALUE "LegalCopyright", "Copyright (C) 2002 - 2021 Matt Pyne"
             VALUE "OriginalFilename", "TinyCAD.EXE"
             VALUE "ProductName", "TinyCAD for Windows"
-            VALUE "ProductVersion", "3.0.3.0"
+            VALUE "ProductVersion", "3.0.4.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -2116,6 +2116,11 @@ STRINGTABLE
 BEGIN
     IDM_EDITROTATELEFT      "Rotate selection left\nLeft"
     IDM_EDITROTATERIGHT     "Rotate selection right\nRight"
+    ID_FIND_FIND            "Find a text string in the design"
+END
+
+STRINGTABLE
+BEGIN
     IDM_EDITFLIP            "Flip selection horizontally\nFlip"
 END
 
@@ -2164,11 +2169,6 @@ BEGIN
     ID_LIBRARY_ADDPIN       "Add a pin to the current edited symbol (for editing library symbols only)\nAdd Symbol Pin"
     ID_LIBRARY_SELECTPARTINPACKAGE 
                             "Select which part in the package is currently being edited\nPPP"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FIND_FIND            "Find a text string in the design"
 END
 
 STRINGTABLE
