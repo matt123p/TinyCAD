@@ -21,64 +21,72 @@ void CUpdateCheck::bgUpdateCheck(void*pThis)
 {
 	CUpdateCheck* p = (CUpdateCheck*)pThis;
 
-	CString strFileName;
-	const HRESULT hr = ::URLDownloadToCacheFile(NULL,
-		_T("https://www.tinycad.net/Update/TinyCAD"),
-		strFileName.GetBuffer(MAX_PATH),
-		URLOSTRM_GETNEWESTVERSION,
-		0,
-		NULL);
-	strFileName.ReleaseBuffer();
 
-	// Did this work?
-	if (hr == S_OK)
+	try
 	{
-		// Yes, so read in the file
+		CString strFileName;
+		const HRESULT hr = ::URLDownloadToCacheFile(NULL,
+			_T("https://www.tinycad.net/Update/TinyCAD"),
+			strFileName.GetBuffer(MAX_PATH),
+			URLOSTRM_GETNEWESTVERSION,
+			0,
+			NULL);
+		strFileName.ReleaseBuffer();
+
+		// Did this work?
+		if (hr == S_OK)
 		{
-			CFile theFile;
-
-			// Open the file for reading
-			const BOOL r = theFile.Open(strFileName, CFile::modeRead);
-
-			if (r)
+			// Yes, so read in the file
 			{
-				CString name;
+				CFile theFile;
 
-				// Create the XML stream writer
-				CStreamFile stream(&theFile, CArchive::load);
-				CXMLReader xml(&stream);
+				// Open the file for reading
+				const BOOL r = theFile.Open(strFileName, CFile::modeRead);
 
-				// Now parse the XML to get the update information
-				// Get the update tag
-				xml.nextTag(name);
-				if (name == "Update")
+				if (r)
 				{
-					xml.intoTag();
-					while (xml.nextTag(name))
+					CString name;
+
+					// Create the XML stream writer
+					CStreamFile stream(&theFile, CArchive::load);
+					CXMLReader xml(&stream);
+
+					// Now parse the XML to get the update information
+					// Get the update tag
+					xml.nextTag(name);
+					if (name == "Update")
 					{
-						// Is this a symbol?
-						if (name == "DATE")
+						xml.intoTag();
+						while (xml.nextTag(name))
 						{
-							xml.getChildData(p->lastUpdateDate);
-						}
-						else if (name == "VERSION")
-						{
-							xml.getChildData(p->latestVersion);
-						}
-						else if (name == "MESSAGE")
-						{
-							xml.getChildData(p->userMessage);
+							// Is this a symbol?
+							if (name == "DATE")
+							{
+								xml.getChildData(p->lastUpdateDate);
+							}
+							else if (name == "VERSION")
+							{
+								xml.getChildData(p->latestVersion);
+							}
+							else if (name == "MESSAGE")
+							{
+								xml.getChildData(p->userMessage);
+							}
 						}
 					}
 				}
 			}
+
+			// Now we can delete the file
+			DeleteFile(strFileName);
+
+			// Now signal to the main app that we have new information
+			SendMessage(p->m_hwnd, WM_COMMAND, ID_AUTOUPDATE, 0);
 		}
-
-		// Now we can delete the file
-		DeleteFile(strFileName);
-
-		// Now signal to the main app that we have new information
-		SendMessage(p->m_hwnd, WM_COMMAND, ID_AUTOUPDATE, 0);
+	}
+	catch (...)
+	{
+		// We can safely ignore any errors, the user will just not get an update check
 	}
 }
 
