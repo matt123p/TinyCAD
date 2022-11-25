@@ -234,7 +234,7 @@ bool CppSQLite3DB::tableExists(LPCTSTR szTable)
 }
 
 
-int CppSQLite3DB::execDML(LPCTSTR szSQL)
+void CppSQLite3DB::execDML(LPCTSTR szSQL)
 {
 	int nRet;
 	sqlite3_stmt* pVM; 

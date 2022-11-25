@@ -107,7 +107,7 @@ public:
 
     void close();
     bool tableExists(LPCTSTR szTable);
-    int execDML(LPCTSTR szSQL);
+    void execDML(LPCTSTR szSQL);
 
     CppSQLite3Query execQuery(LPCTSTR szSQL);
 
