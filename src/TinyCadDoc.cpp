@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "TinyCad.h"
 #include "TinyCadDoc.h"
-#include "TinyCadRegistry.h" 
+#include "TinyCadRegistry.h"
 #include "LineUtils.h"
 #include <math.h>
 #include "ImagePNG.h"
@@ -222,7 +222,7 @@ void CTinyCadDoc::SavePNG(const TCHAR *file_name, CDC &ref_dc, int scaling, bool
 				++it;
 			}
 
-			// Show the design 
+			// Show the design
 			Display(dc);
 		}
 
@@ -271,18 +271,18 @@ HENHMETAFILE CTinyCadDoc::CreateMetafile(CDC &ref_dc, const TCHAR *file_name, bo
 			int iWidthPels = ref_dc.GetDeviceCaps(HORZRES);
 			int iHeightPels = ref_dc.GetDeviceCaps(VERTRES);
 
-			// Convert client coordinates to .01-mm units. 
-			// Use iWidthMM, iWidthPels, iHeightMM, and 
-			// iHeightPels to determine the number of 
-			// .01-millimeter units per pixel in the x- 
-			//  and y-directions. 
+			// Convert client coordinates to .01-mm units.
+			// Use iWidthMM, iWidthPels, iHeightMM, and
+			// iHeightPels to determine the number of
+			// .01-millimeter units per pixel in the x-
+			//  and y-directions.
 
 			rect.left = (rect.left * iWidthMM * 100) / iWidthPels;
 			rect.top = (rect.top * iHeightMM * 100) / iHeightPels;
 			rect.right = (rect.right * iWidthMM * 100) / iWidthPels;
 			rect.bottom = (rect.bottom * iHeightMM * 100) / iHeightPels;
 
-			// Create the metafile device context. 
+			// Create the metafile device context.
 			CRect ir(0, 0, static_cast<int> (rect.Width()), static_cast<int> (rect.Height()));
 			hdcMeta = CreateEnhMetaFile(ref_dc.m_hDC, file_name, &ir, GetDetails().GetTitle());
 			render_dc.Attach(hdcMeta);
@@ -415,7 +415,7 @@ BOOL CTinyCadDoc::IsSingleItemSelected() const
 	return m_selected.size() == 1;
 }
 
-CDrawingObject* CTinyCadDoc::GetSingleSelectedItem()
+CDrawingObject* CTinyCadDoc::GetSingleSelectedItem() const
 {
 	if (m_selected.size() == 1)
 	{
@@ -663,7 +663,7 @@ void CTinyCadDoc::Redo()
 		m_pParent->CDocument::SetModifiedFlag(s.m_dirty);
 		s.m_dirty = (BYTE) dirty;
 
-		// Go through the list of action and redo each one 
+		// Go through the list of action and redo each one
 		//
 		CDocUndoSet::actionCollection::iterator act_it = s.m_actions.begin();
 
@@ -974,8 +974,8 @@ void CTinyCadDoc::Select(CDPoint p1, CDPoint p2)
 		CDrawingObject *obj = *it;
 
 		if ( (lefttoright ? obj->IsInside(left,right,top,bottom) :
-		                    obj->IsCompletelyInside(left,right,top,bottom)) 
-			&& 
+		                    obj->IsCompletelyInside(left,right,top,bottom))
+			&&
 			(obj->GetType() != xJunction || !GetOption().GetAutoJunc() ) )
 		{
 			obj->Display();
@@ -1312,8 +1312,17 @@ void CTinyCadDoc::SelectObject(CDrawingObject *NewO)
 {
 	if (edit)
 	{
+		CDrawingObject *pEdited = GetSingleSelectedItem();
+
 		edit->EndEdit();
 		delete edit;
+
+		if (pEdited && pEdited->IsEmpty()) {
+			// Remove empty object from the document. Otherwise empty labels and
+			// text boxes will stay on the canvas as invisible objects that
+			// confuse user when they are inadvertently clicked and selected.
+			Delete(pEdited);
+		}
 	}
 
 	if (NewO)
@@ -1342,7 +1351,7 @@ void CTinyCadDoc::Display(CContext& dc)
 	CString ellipsisString = L" ... ";
 	//Set preFix string to first 45 or fewer characters and append ellipsis string if necessary
 	//Note that since this is a proportionally spaced font, it still may not fit and will be right justified and
-	//truncated at the far left of the display space.  The length in characters of a proportionally spaced font 
+	//truncated at the far left of the display space.  The length in characters of a proportionally spaced font
 	//is very difficult to calculate and this class is not aware of the font and font size to be used.
 
 	pathName = m_pParent->GetPathName();
@@ -1369,7 +1378,7 @@ void CTinyCadDoc::Display(CContext& dc)
 			preFix = preFix.Left(maxDisplayCharacters - ellipsisString.GetLength() - fileName.GetLength()) + ellipsisString;
 		}
 	}
-	
+
 	// Prior to TinyCAD 2.90.00, the full path was displayed, but frequently there wasn't room and it overran its allocated drawing space
 	//	GetDetails().Display(dc, theOptions, m_pParent->GetPathName());
 	GetDetails().Display(dc, theOptions, preFix + fileName);
@@ -1447,7 +1456,7 @@ void CTinyCadDoc::UngroupSymbols()
 	bool specialEndOfDrawing = false;
 
 	//(Don't prefetch GetDrawingEnd here)
-	while (specialEndOfDrawing == false) 
+	while (specialEndOfDrawing == false)
 	{
 		if (it != GetDrawingEnd())
 		{
@@ -1455,9 +1464,9 @@ void CTinyCadDoc::UngroupSymbols()
 			++it;
 
 			specialEndOfDrawing = (it == GetDrawingEnd());
-		
+
 			CDrawingObject *pObject = *current;
-		
+
 			// Is this a method object?
 			if (pObject->GetType() == xMethodEx3 && IsSelected(pObject))
 			{
@@ -1491,7 +1500,7 @@ void CTinyCadDoc::UngroupSymbols()
 				}
 			}
 		}
-		else 
+		else
 		{
 			specialEndOfDrawing = true;
 		}
@@ -1806,7 +1815,7 @@ void CTinyCadDoc::SetModifiedFlag(BOOL bModified)
 	{
 		if (!m_InUndoAddAction)
 		{
-			// bModified == FALSE means the document has just 
+			// bModified == FALSE means the document has just
 			// been saved or loaded.
 			if (bModified == FALSE)
 			{
