@@ -35,6 +35,13 @@ class CDlgExportPNG: public CDialog
 public:
 	CDlgExportPNG(CWnd* pParent = NULL); // standard constructor
 
+	enum ExportType : int {
+		COLOUR_PNG = 0,
+		BW_PNG,
+		COLOUR_EMF,
+		BW_EMF
+	};
+
 	// Dialog Data
 	//{{AFX_DATA(CDlgExportPNG)
 	enum
@@ -46,11 +53,13 @@ public:
 	CString m_Filename;
 	int m_Scaling;
 	CButton m_RotateCtrl;
+	CButton m_ExportCtrl;
 	//}}AFX_DATA
 
 	CString getExtension();
-	int m_type;
+	ExportType m_type;
 	bool m_Rotate;
+	bool m_ExportAllSheets;
 
 	// Overrides
 	// ClassWizard generated virtual function overrides

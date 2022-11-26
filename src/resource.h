@@ -176,7 +176,6 @@
 #define PINBOX_POWER                    384
 #define PINBOX_HIDDEN                   385
 #define TEXTBOX_TEXT                    400
-#define ID_FIND_FIND                    554
 #define IDM_EDITFLIP                    510
 #define ID_FIND_SETTAG                  512
 #define IDD_ANNOTATE                    519
@@ -207,6 +206,7 @@
 #define IDD_POLYGON                     551
 #define IDM_EDITROTATELEFT              552
 #define IDM_EDITROTATERIGHT             553
+#define ID_FIND_FIND                    554
 #define IDM_LIBCOPY                     600
 #define ID_INDICATOR_UPDATE             601
 #define IDS_NODEFAULT                   1000
@@ -375,6 +375,7 @@
 #define IDC_CHECK1                      1553
 #define IDC_ROTATE                      1554
 #define METHODBOX_SHOWPOWER             1555
+#define IDC_EXPORT_ALL_SHEETS           1555
 #define IDC_CENTRE_NAME                 1556
 #define ERC_MULTIPLENETNAMES            1564
 #define ERC_NONCASEDISTINCT             1565

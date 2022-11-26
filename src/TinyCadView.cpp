@@ -1572,45 +1572,56 @@ void CTinyCadView::OnFileSaveasbitmap()
 {
 
 	// Get the file in which to save the network
-	TCHAR szFile[256];
-	szFile[0] = '\0';
-	_tcscpy_s(szFile, GetDocument()->GetPathName());
-	TCHAR* ext = _tcsrchr(szFile, '.');
-	if (!ext)
-	{
-		_tcscpy_s(szFile, _T("output.png"));
+	CString baseFileName = GetDocument()->GetPathName();
+	int suffixIdx = baseFileName.ReverseFind('.');
+	if (suffixIdx == -1) {
+		baseFileName = _T("output.png");
+		suffixIdx = baseFileName.ReverseFind('.');
 	}
-	else
-	{
-#ifdef USE_VS2003
-		_tcscpy(ext, _T(".png"));
-#else
-		size_t remaining_space = &szFile[255] - ext + 1;
-		_tcscpy_s(ext, remaining_space, _T(".png"));
-#endif
-	}
+	// replace suffix
+	baseFileName.Truncate(suffixIdx); 
+	baseFileName.Insert(suffixIdx, _T(".png"));
 
 	CDlgExportPNG dlg;
-	dlg.m_Filename = szFile;
+	dlg.m_Filename = baseFileName;	
 
 	if (dlg.DoModal() != IDOK) return;
 
-	CClientDC dc(this);
-	switch (dlg.m_type)
-	{
-		case 0: // Colour PNG
-			GetCurrentDocument()->SavePNG(dlg.m_Filename, dc, dlg.m_Scaling, false, dlg.m_Rotate);
+	auto ExportDoc = [&](CTinyCadDoc *pDoc, const CString &fileName) {
+		CClientDC dc(this);
+		switch (dlg.m_type)
+		{
+		case CDlgExportPNG::COLOUR_PNG:
+			pDoc->SavePNG(fileName, dc, dlg.m_Scaling, false, dlg.m_Rotate);
 			break;
-		case 1: // B&W PNG
-			GetCurrentDocument()->SavePNG(dlg.m_Filename, dc, dlg.m_Scaling, true, dlg.m_Rotate);
+		case CDlgExportPNG::BW_PNG: // Black&White
+			pDoc->SavePNG(fileName, dc, dlg.m_Scaling, true, dlg.m_Rotate);
 			break;
-		case 2: // Colour EMF
-			GetCurrentDocument()->CreateMetafile(dc, dlg.m_Filename, false);
+		case CDlgExportPNG::COLOUR_EMF:
+			pDoc->CreateMetafile(dc, fileName, false);
 			break;
-		case 3: // B&W EMF
-			GetCurrentDocument()->CreateMetafile(dc, dlg.m_Filename, true);
+		case CDlgExportPNG::BW_EMF: // Black&White
+			pDoc->CreateMetafile(dc, fileName, true);
 			break;
+		}
+	};
+
+	if (dlg.m_ExportAllSheets) {
+
+		// separator between main and the sheet name in the filename.
+		const TCHAR *separator = _T("_");
+
+		for (int i = 0; i < GetDocument()->GetNumberOfSheets(); i++) {
+			// Append sheet name on the base filename.
+			CString fileName = dlg.m_Filename;
+			// e.g. c:\work\myfolder\project.jpg -> c:\work\myfolder\project_Sheet1.jpg
+			fileName.Insert(suffixIdx, separator + GetDocument()->GetSheetName(i));
+			ExportDoc(GetDocument()->GetSheet(i), fileName);
+		}
+	} else {
+		ExportDoc(GetCurrentDocument(), dlg.m_Filename);
 	}
+
 }
 //-------------------------------------------------------------------------
 void CTinyCadView::OnOptionsColours()

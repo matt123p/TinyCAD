@@ -7,3 +7,6 @@
 /packages/*
 /Debug/*
 /Release/*
+*.aps
+*.vcxproj.user
+

@@ -37,9 +37,10 @@ CDlgExportPNG::CDlgExportPNG(CWnd* pParent /*=NULL*/) :
 	m_Scaling = 0;
 	//}}AFX_DATA_INIT
 
-	m_type = CTinyCadRegistry::GetInt("BitmapType", 0);
+	m_type = static_cast<ExportType>(CTinyCadRegistry::GetInt("BitmapType", 0));
 	m_Scaling = CTinyCadRegistry::GetInt("BitmapScaling", 100);
 	m_Rotate = CTinyCadRegistry::GetInt("BitmapRotation", 0) != 0;
+	m_ExportAllSheets = CTinyCadRegistry::GetInt("BitmapExportAll", 0) != 0;
 }
 
 void CDlgExportPNG::DoDataExchange(CDataExchange* pDX)
@@ -49,6 +50,7 @@ void CDlgExportPNG::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SCALING, m_ScalingCtrl);
 	DDX_Control(pDX, IDC_FILE_TYPE, m_Filetype);
 	DDX_Control(pDX, IDC_ROTATE, m_RotateCtrl);
+	DDX_Control(pDX, IDC_EXPORT_ALL_SHEETS, m_ExportCtrl);
 	DDX_Text(pDX, IDC_FILE_NAME, m_Filename);
 	DDX_Text(pDX, IDC_SCALING, m_Scaling);
 	DDV_MinMaxInt(pDX, m_Scaling, 1, 1000);
@@ -111,8 +113,9 @@ void CDlgExportPNG::OnOK()
 	// Get the data before exiting...
 	UpdateData(TRUE);
 
-	m_type = m_Filetype.GetCurSel();
-	m_Rotate = m_RotateCtrl.GetCheck() != 0;
+	m_type = static_cast<ExportType>(m_Filetype.GetCurSel());
+	m_Rotate = m_RotateCtrl.GetCheck();
+	m_ExportAllSheets = m_ExportCtrl.GetCheck();
 
 	CTinyCadRegistry::Set("BitmapType", m_type);
 	CTinyCadRegistry::Set("BitmapScaling", m_Scaling);
@@ -146,6 +149,7 @@ void CDlgExportPNG::UpdateExtension()
 
 CString CDlgExportPNG::getExtension()
 {
-	bool emf = m_Filetype.GetCurSel() >= 2;
+	bool emf = m_Filetype.GetCurSel() >= COLOUR_EMF;
 	return emf ? ".emf" : ".png";
 }
+
