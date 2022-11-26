@@ -146,7 +146,7 @@ void CDrawLabel::Load(CStream &archive, ObjType xtype)
 			break;
 	}
 
-	CDSize size = m_pDesign->GetTextExtent(str, FontStyle);
+	CDSize size = m_pDesign->GetTextExtent(str.GetLength() ? str : " ", FontStyle);
 
 	if (dir >= 2)
 	{
@@ -387,7 +387,7 @@ void CDrawLabel::Display(BOOL erase)
 
 void CDrawLabel::CalcLayout()
 {
-	CDSize size = m_pDesign->GetTextExtent(str, FontStyle);
+	CDSize size = m_pDesign->GetTextExtent(str.GetLength() ? str : " ", FontStyle);
 
 	if (original_width == 0)
 	{
@@ -459,7 +459,7 @@ void CDrawLabel::Paint(CContext &dc, paint_options options)
 	CalcLayout();
 
 	dc.SelectFont(*m_pDesign->GetOptions()->GetFont(FontStyle), dir);
-	CDSize size = dc.GetTextExtent(str);
+	CDSize size = dc.GetTextExtent(str.GetLength() ? str : " ");
 
 	// Now draw the surrounding lines for input & output labels
 	if (m_Style != label_normal)

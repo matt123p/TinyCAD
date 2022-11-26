@@ -171,7 +171,7 @@ public:
 	BOOL IsSelected(CDrawingObject * p) const;
 	BOOL IsSingleItemSelected() const;
 	BOOL IsSelected() const;
-	CDrawingObject* GetSingleSelectedItem();
+	CDrawingObject* GetSingleSelectedItem() const;
 
 	// Select an area
 	void Select(CDPoint, CDPoint);
