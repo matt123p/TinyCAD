@@ -427,10 +427,10 @@ CDrawingObject* CDrawEditItem::GetClosestObject(CDPoint p)
 	CDrawingObject* inside_object = NULL;
 	double closest_distance = 100;
 
-	drawingIterator it = m_pDesign->GetDrawingBegin();
-	while (it != m_pDesign->GetDrawingEnd())
+	for(drawingIterator it = m_pDesign->GetDrawingBegin(); it != m_pDesign->GetDrawingEnd(); ++it)
 	{
 		CDrawingObject *pointer = *it;
+		if (pointer->GetType() == xMetaFile) continue;
 
 		double distance = pointer->DistanceFromPoint(p);
 		if (distance <= closest_distance)
@@ -444,9 +444,6 @@ CDrawingObject* CDrawEditItem::GetClosestObject(CDPoint p)
 		{
 			inside_object = pointer;
 		}
-
-		// Move pointer on
-		++it;
 	}
 
 	if (closest_object)
@@ -456,6 +453,20 @@ CDrawingObject* CDrawEditItem::GetClosestObject(CDPoint p)
 		if (closest_distance == 0 || closest_distance > 10.0 / (m_pDesign->GetTransform().GetZoomFactor()))
 		{
 			closest_object = inside_object;
+		}
+	}
+
+	if (!closest_object) {
+		// Nothing selected, check last the metaobjects (such as bitmap images)
+		for (drawingIterator it = m_pDesign->GetDrawingBegin(); it != m_pDesign->GetDrawingEnd(); ++it)
+		{
+			CDrawingObject *pointer = *it;
+			if (pointer->GetType() != xMetaFile) continue;
+
+			if (pointer->IsInside(p.x, p.x, p.y, p.y)) {
+				closest_object = pointer;
+				break;
+			}
 		}
 	}
 

@@ -198,7 +198,6 @@ void CLibraryView::OnDraw(CDC* pDC)
 	int text_pos_x;
 	int text_col_width = 0;
 	CDPoint p;
-	CDPoint qq;
 
 	for (; it != pDoc->m_SymbolMap.end(); ++it)
 	{
@@ -228,10 +227,9 @@ void CLibraryView::OnDraw(CDC* pDC)
 		//TRACE("Symbol orientation = %d, raw symbol origin = %g/%g\n",orientation, p.x, p.y);
 
 		if (orientation >= 2)
-		{ //swap x and y coordinates
-			qq = p;
-			p.x = qq.y;
-			p.y = qq.x;
+		{
+			//swap x and y coordinates
+			std::swap(p.x, p.y);
 		}
 		//TRACE("Symbol orientation = %d, rotated symbol origin = %g/%g\n",orientation, p.x, p.y);
 
@@ -489,7 +487,7 @@ void CLibraryView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 
 void CLibraryView::OnEndPrinting(CDC* pDC, CPrintInfo* pInfo)
 {
-	// TODO: Add your specialized code here and/or call the base class	
+	// TODO: Add your specialized code here and/or call the base class
 	CScrollView::OnEndPrinting(pDC, pInfo);
 }
 

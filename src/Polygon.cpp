@@ -809,7 +809,7 @@ void CDrawPolygon::PaintHandles(CContext&dc)
 	CalcBoundingRect();
 	CDRect r(m_point_a.x - OUTLINE_SPACER, m_point_a.y - OUTLINE_SPACER, m_point_b.x + OUTLINE_SPACER, m_point_b.y + OUTLINE_SPACER);
 
-	dc.PaintTracker(r);
+	dc.PaintTracker(r, true);
 }
 
 // Move fields of this object about
@@ -1032,7 +1032,7 @@ BOOL CDrawPolygon::IsInsidePolygon(CDPoint p)
 		if (l1.x == l2.x)
 		{
 			// Perform quick calculation
-			if (   p.y < min(l1.y,l2.y) 
+			if (   p.y < min(l1.y,l2.y)
 				|| p.y > max(l1.y,l2.y) )
 			{
 				continue;
@@ -1056,7 +1056,7 @@ BOOL CDrawPolygon::IsInsidePolygon(CDPoint p)
 		}
 
 		// Is this inside the line?
-		if (	x_intersect < min(l1.x,l2.x) 
+		if (	x_intersect < min(l1.x,l2.x)
 			||	x_intersect > max(l1.x,l2.x))
 		{
 			// No, so continue
@@ -1303,7 +1303,7 @@ double CDrawPolygon::DistanceFromPoint(CDPoint p)
 	// Use fast cut-off to see if the bounding box is inside the intersection box
 	// Use somewhat enlarged bounding box to allow DistanceFromPoint from just outside the bounding box
 	if ( ((m_point_a.x<p.x-10 && m_point_b.x<p.x-10) || (m_point_a.x>p.x+10 && m_point_b.x>p.x+10)
-	   || (m_point_a.y<p.y-10 && m_point_b.y<p.y-10) || (m_point_a.y>p.y+10 && m_point_b.y>p.y+10))) 
+	   || (m_point_a.y<p.y-10 && m_point_b.y<p.y-10) || (m_point_a.y>p.y+10 && m_point_b.y>p.y+10)))
 	{
 		return 100.0;
 	}
@@ -1393,7 +1393,7 @@ BOOL CDrawPolygon::IsInside(double left, double right, double top, double bottom
 		return TRUE;
 	}
 
-	// If we are filled or editing then check to see 
+	// If we are filled or editing then check to see
 	// if any of the four points are inside our polygon
 	if (Fill != fsNONE || m_re_edit || (left == right && top == bottom))
 	{

@@ -144,7 +144,7 @@ public:
 	void SetPixelOffset(CPoint &p);
 	inline double GetZoomPixelScale() const { return 1; }
 
-	// Change the transform by rotating it 
+	// Change the transform by rotating it
 	CDPoint SetTRM(CDPoint, CDPoint, int);
 	void EndTRM(CDPoint);
 	int RotateDir(int) const;
@@ -346,7 +346,7 @@ class CContext
 	void AddExtent(CRect p);
 
 public:
-	void PaintTracker(CDRect &r);
+	void PaintTracker(CDRect &r, bool handles);
 	void PaintConnectPoint(CDPoint p);
 
 	CContext(CWnd *, Transform); // Construction from window

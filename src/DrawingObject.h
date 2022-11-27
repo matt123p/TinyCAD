@@ -63,12 +63,12 @@ enum ObjType {
 	xLine = 32, xDash = 33, xText = 34, xCircle = 35, xSquare = 36, xArc = 37, xLineEx = 38, xTextEx = 39,
 	xCircleEx = 40, xSquareEx = 41, xArcEx = 42,
 
-	xLineEx2 = 43, xCircleEx2 = 44, xSquareEx2 = 45, xArcEx2 = 46, xMetaFile = 47, 
+	xLineEx2 = 43, xCircleEx2 = 44, xSquareEx2 = 45, xArcEx2 = 46, xMetaFile = 47,
 
 	xTag  = 48, xRuler = 49, xMethodEx3 = 50, xPolygon = 51,
 	xNoteText = 64,
 
-	xEditItem = 128, 
+	xEditItem = 128,
 	xDesignInformation2 = 129,
 	xMetaFiles = 130,
 	xOptions = 131,
@@ -105,10 +105,7 @@ public:
 	char m_segment; // Mode of current edit
 
 	CDrawingObject(CTinyCadDoc *pDesign);
-	virtual ~CDrawingObject()
-	{
-	} // The destructor
-
+	virtual ~CDrawingObject() = default;
 
 	CDPoint ReadPoint(CStream &);
 
