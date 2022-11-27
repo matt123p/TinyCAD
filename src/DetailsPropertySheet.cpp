@@ -32,11 +32,13 @@ CDetailsPropertySheet::CDetailsPropertySheet(CMultiSheetDoc* pDesign, CWnd* pWnd
 	// the order that they appear in here will be
 	// the order they appear in on screen.  By default,
 	// the first page of the set is the active one.
-	// One way to make a different property page the 
+	// One way to make a different property page the
 	// active one is to call SetActivePage().
 
 	AddPage(&m_Page1);
 	AddPage(&m_Page2);
+
+	m_psh.dwFlags |= PSH_NOAPPLYNOW;
 }
 
 CDetailsPropertySheet::~CDetailsPropertySheet()
