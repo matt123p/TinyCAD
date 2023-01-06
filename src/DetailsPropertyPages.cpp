@@ -44,6 +44,7 @@ CDetailsPropertyPage1::CDetailsPropertyPage1(CMultiSheetDoc* pDesign) :
 	m_sSheets = _T("");
 	m_sTitle = _T("");
 	m_bIsVisible = FALSE;
+	m_bApplyAllSheets = FALSE;
 	//}}AFX_DATA_INIT
 
 	m_pDesign = pDesign;
@@ -65,6 +66,7 @@ void CDetailsPropertyPage1::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, DESIGNBOX_SHEET, m_sSheets);
 	DDX_Text(pDX, DESIGNBOX_TITLE, m_sTitle);
 	DDX_Check(pDX, DESIGNBOX_DISPLAY, m_bIsVisible);
+	DDX_Check(pDX, DESIGNBOX_COPY, m_bApplyAllSheets);
 	//}}AFX_DATA_MAP
 }
 
@@ -114,14 +116,26 @@ BOOL CDetailsPropertyPage1::OnApply()
 {
 	UpdateData(TRUE);
 
-	m_pDesign->GetCurrentSheet()->GetDetails().SetVisible(m_bIsVisible == TRUE);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetTitle(m_sTitle);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetAuthor(m_sAuthor);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetRevision(m_sRevision);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetDocumentNumber(m_sDoc);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetOrganisation(m_sOrg);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetSheets(m_sSheets);
-	m_pDesign->GetCurrentSheet()->GetDetails().SetLastChange(m_sDate);
+	auto applyToSheet = [&](CDetails &details, bool updateNumber) {
+		details.SetVisible(m_bIsVisible == TRUE);
+		details.SetTitle(m_sTitle);
+		details.SetAuthor(m_sAuthor);
+		details.SetRevision(m_sRevision);
+		if(!updateNumber) details.SetDocumentNumber(m_sDoc);
+		details.SetOrganisation(m_sOrg);
+		details.SetSheets(m_sSheets);
+		details.SetLastChange(m_sDate);
+	};
+
+	if (m_bApplyAllSheets) {
+		int activeSheet = m_pDesign->GetActiveSheetIndex();
+		for (int i = 0; i < m_pDesign->GetNumberOfSheets(); i++) {
+			applyToSheet(m_pDesign->GetSheet(i)->GetDetails(), i == activeSheet);
+		}
+	}
+	else {
+		applyToSheet(m_pDesign->GetCurrentSheet()->GetDetails(), true);
+	}
 
 	// Force the modified flag on ::CDocument
 	m_pDesign->GetCurrentSheet()->GetParent()->SetModifiedFlag();

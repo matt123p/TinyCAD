@@ -52,6 +52,7 @@ public:
 	CString m_sSheets;
 	CString m_sTitle;
 	BOOL m_bIsVisible;
+	BOOL m_bApplyAllSheets;
 	//}}AFX_DATA
 
 
