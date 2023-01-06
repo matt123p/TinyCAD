@@ -311,7 +311,7 @@ void CDrawMethod::Rotate(CDPoint p, int ndir)
 
 int CDrawMethod::DoRotate(int olddir, int newdir)
 {
-	//New rotation=>2  3  4  
+	//New rotation=>2  3  4
 	//                  Old dir ..\/..
 	int table[] = {6, 3, 4, // 0 (Up)
 	               7, 2, 5, // 1 (Down)
@@ -468,7 +468,7 @@ CString CDrawMethod::GetField(int which)
 //-------------------------------------------------------------------------
 int CDrawMethod::GetFieldIndexByName(CString name, bool caseSensitive)
 {
-	// For now, this is a loop. If speed is an issue, maybe there should be 
+	// For now, this is a loop. If speed is an issue, maybe there should be
 	// a field name map index.
 	int i;
 	fieldCollection::iterator it;
@@ -876,21 +876,6 @@ void CDrawMethod::Load(CStream &archive)
 	ExtractSymbol(tr, method);
 }
 
-inline void swap(int &a, int &b)
-{
-	int sp;
-	sp = a;
-	a = b;
-	b = sp;
-}
-inline void swap(double &a, double &b)
-{
-	double sp;
-	sp = a;
-	a = b;
-	b = sp;
-}
-
 double CDrawMethod::DistanceFromPoint(CDPoint p)
 {
 	// Use fast cut-off to see if the bounding box is inside the intersection box
@@ -931,10 +916,10 @@ double CDrawMethod::DistanceFromPoint(CDPoint p)
 				nt = - (nt - tr.y / sy);
 				break;
 			case 2: // Left
-				swap(nt, nl);
+				std::swap(nt, nl);
 				break;
 			case 3: // Right
-				swap(nt, nl);
+				std::swap(nt, nl);
 				nt = - (nt - tr.y / sx);
 				break;
 		}
@@ -1004,18 +989,18 @@ BOOL CDrawMethod::IsInside(double left, double right, double top, double bottom)
 		switch (rotate & 3)
 		{
 			case 1: // Down
-				swap(nt, nb);
+				std::swap(nt, nb);
 				nt = - (nt - tr.y / sy);
 				nb = - (nb - tr.y / sy);
 				break;
 			case 2: // Left
-				swap(nt, nl);
-				swap(nb, nr);
+				std::swap(nt, nl);
+				std::swap(nb, nr);
 				break;
 			case 3: // Right
-				swap(nt, nl);
-				swap(nb, nr);
-				swap(nt, nb);
+				std::swap(nt, nl);
+				std::swap(nb, nr);
+				std::swap(nt, nb);
 				nt = - (nt - tr.y / sx);
 				nb = - (nb - tr.y / sx);
 				break;
@@ -1028,13 +1013,13 @@ BOOL CDrawMethod::IsInside(double left, double right, double top, double bottom)
 			{
 				nl = -nl + tr.x / sy;
 				nr = -nr + tr.x / sy;
-				swap(nl, nr);
+				std::swap(nl, nr);
 			}
 			else
 			{
 				nl = -nl + tr.x / sx;
 				nr = -nr + tr.x / sx;
-				swap(nl, nr);
+				std::swap(nl, nr);
 			}
 		}
 
@@ -1424,7 +1409,7 @@ void CDrawMethod::PaintHandles(CContext &dc)
 	{
 		// Put some handles around this object
 		CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
-		dc.PaintTracker(r);
+		dc.PaintTracker(r, true);
 	}
 }
 
@@ -1455,7 +1440,7 @@ int CDrawMethod::SetCursorEdit(CDPoint p)
 void CDrawMethod::AddReference(int min_ref, bool all_sheets)
 {
 	// Search the document for a gap in our references
-	// 
+	//
 	CString our_reference = GetSymbolData()->reference;
 	int ppp = GetSymbolData()->ppp;
 
@@ -1479,7 +1464,7 @@ void CDrawMethod::AddReference(int min_ref, bool all_sheets)
 			ObjType objType = pointer->GetType();
 			if (   (objType == xMethodEx3 || objType == xHierarchicalSymbol)
 				&& pointer != this
-				&& pMethod->HasRef()) 
+				&& pMethod->HasRef())
 			{
 				// Has this got the same reference as us?
 				if (pMethod->GetSymbolData()->reference == our_reference)

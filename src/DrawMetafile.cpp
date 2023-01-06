@@ -231,7 +231,6 @@ void CDrawMetaFile::LoadXML(CXMLReader &xml)
 
 void CDrawMetaFile::Paint(CContext &dc, paint_options options)
 {
-
 	CDPoint sma = m_point_a;
 	CDPoint smb = m_point_b;
 
@@ -239,14 +238,22 @@ void CDrawMetaFile::Paint(CContext &dc, paint_options options)
 	CRect rect = dc.GetTransform().Scale(drect);
 	int rotmir = dc.GetTransform().GetRotMir();
 
-	CTCImage *pImage = m_pDesign->GetOption().GetImage(m_metafile);
-	if (pImage)
-	{
-		pImage->Paint(*dc.GetDC(), rect, rotmir);
-	}
-	else
-	{
-		CTCImage::PaintInvalid(*dc.GetDC(), rect);
+	if (options == paint_options::draw_selectable) {
+
+		// Draw outline instead of drawing the whole image. Image would hide other
+		// selectable items drawn over the image.
+		PaintSelectable(dc);
+
+	} else {
+		CTCImage *pImage = m_pDesign->GetOption().GetImage(m_metafile);
+		if (pImage)
+		{
+			pImage->Paint(*dc.GetDC(), rect, rotmir);
+		}
+		else
+		{
+			CTCImage::PaintInvalid(*dc.GetDC(), rect);
+		}
 	}
 }
 

@@ -40,7 +40,14 @@ void CDrawRectOutline::PaintHandles(CContext &dc)
 	// Put some handles around this object
 	CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
 
-	dc.PaintTracker(r);
+	dc.PaintTracker(r, true);
+}
+
+void CDrawRectOutline::PaintSelectable(CContext &dc)
+{
+	CDRect r(m_point_a.x, m_point_a.y, m_point_b.x, m_point_b.y);
+
+	dc.PaintTracker(r, false);
 }
 
 // Move fields of this object about
@@ -53,7 +60,7 @@ int CDrawRectOutline::IsInsideField(CDPoint p)
 	CRectTracker tracker(rect, CRectTracker::dottedLine | CRectTracker::resizeOutside);
 	int r = tracker.HitTest(q);
 
-	if (r == 8)
+	if (r == CRectTracker::hitMiddle)
 	{
 		r = 11;
 	}

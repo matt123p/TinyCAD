@@ -42,6 +42,8 @@ protected:
 	{
 	}
 
+	virtual void PaintSelectable(CContext &dc);
+
 	// Redraw this object (including the handles)
 	virtual void Display(BOOL erase = TRUE);
 	virtual void PaintHandles(CContext &dc);
@@ -653,23 +655,23 @@ public:
 	{
 		return m_number;
 	}
-	
+
 	CString GetPinName()
 	{
 		return m_str;
 	}
-	
+
 	CString Find(const TCHAR *);
 	int GetPart()
 	{
 		return m_part;
 	}
-	
+
 	int GetElec()
 	{
 		return m_elec;
 	}
-	
+
 	static const TCHAR *GetElectricalTypeName(int etype);
 
 	virtual UINT getMenuID()
@@ -771,11 +773,11 @@ public:
 	{
 		return m_type == xSquareEx3;
 	}
-	
+
 	// This is used for the construction of this object
 	CDrawSquare(CTinyCadDoc *pDesign, ObjType type);
 
-	virtual UINT getMenuID() 
+	virtual UINT getMenuID()
 	{
 		return IsSquare() ? IDM_TOOLSQUARE : IDM_TOOLCIRCLE;
 	}
@@ -843,7 +845,7 @@ public:
 	virtual ~CDrawNoteText()
 	{
 	}
-	virtual UINT getMenuID() 
+	virtual UINT getMenuID()
 	{
 		return IDM_TOOLNOTETEXT;
 	}
@@ -1153,8 +1155,8 @@ public:
 
 	enum FieldPos
 	{
-		Ref = 0, 
-		Name, 
+		Ref = 0,
+		Name,
 		Other
 	};
 

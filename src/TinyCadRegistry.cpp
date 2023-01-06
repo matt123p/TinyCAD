@@ -75,7 +75,6 @@ CString CTinyCadRegistry::GetInstalledFileTime()
 	}
 	FILETIME ftCreate, ftAccess, ftWrite;
 	SYSTEMTIME stUTC, stLocal;
-	DWORD dwRet;
 
 	// Retrieve the file times for the file.
 	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))

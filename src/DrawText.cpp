@@ -356,7 +356,7 @@ void CDrawText::MoveField(int w, CDPoint r)
 
 		if (original_box_width > 0)
 		{
-			FontStyle = m_pDesign->GetOptions()->ChangeFontSize(FontStyle, dir < 2 ? r.x : -r.y, 
+			FontStyle = m_pDesign->GetOptions()->ChangeFontSize(FontStyle, dir < 2 ? r.x : -r.y,
 				(original_width * target_box_width) / original_box_width );
 		}
 
@@ -462,18 +462,21 @@ void CDrawText::Paint(CContext &dc, paint_options options)
 	dc.SetTextColor(FontColour);
 	dc.TextOut(str, m_point_a, options, dir);
 
-	// Draw a little blob, so the user knows where it
-	// is stuck to
-	if (xtype == xLabelEx2)
-	{
+	if (xtype == xTextEx2) {
+		if (options == paint_options::draw_selectable) {
+			// Draw outline
+			PaintSelectable(dc);
+		}
+
+	} else if (xtype == xLabelEx2) {
+
+		// Draw a little blob, so the user knows where it is stuck to
 		dc.SelectBrush();
 		dc.SelectPen(PS_SOLID, 1, cBOLD);
 		dc.Rectangle(CDRect(m_point_a.x - 2, m_point_a.y - 2, m_point_a.x + 2, m_point_a.y + 2));
-	}
 
-	// Is this a bus name?
-	if (xtype == xBusNameEx)
-	{
+	} else if (xtype == xBusNameEx) {
+
 		switch (options)
 		{
 			case draw_selected:

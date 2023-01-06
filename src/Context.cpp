@@ -197,7 +197,7 @@ BOOL CContext::SelectPen(int Style, int Width, LONG Colour, paint_options option
 			COLORREF col = Colour;
 
 			// Calculate a rough appearent luminosity of the color.
-			// The human eye is not very sensitive to the color blue, 
+			// The human eye is not very sensitive to the color blue,
 			// that's why its contribution in the calculation is halved.
 			if (GetRValue(col) + GetGValue(col) + (GetBValue(col) >> 1) < (3 * 128))
 			{
@@ -349,7 +349,7 @@ BOOL CContext::SelectBrush(COLORREF Colour, int Index)
 	constexpr COLORREF cBlack = RGB(0, 0, 0);
 
 	// If painting all back and if any other colour than white override the colour
-	if (allBlack && Colour != cWhite) Colour = cBlack;	
+	if (allBlack && Colour != cWhite) Colour = cBlack;
 
 	// Does this brush already exist?
 	brush_map::iterator itb = m_brushes.find(sBrush(Colour, Index));
@@ -567,13 +567,13 @@ void CContext::Polyline(pointCollection &points, CDPoint offset, FillStyle *pSty
 		int brushorigin = 0;
 		// Find top-left point, which is set as brush origin.
 		// This is needed to work around a bug in the GDI hatch fill pattern.
-		for (int i=1; i < n; i++) 
+		for (int i=1; i < n; i++)
 		{
-			if (lpPoints[i].x < lpPoints[brushorigin].x) 
+			if (lpPoints[i].x < lpPoints[brushorigin].x)
 			{
 				brushorigin = i;
 			}
-			else if (lpPoints[i].x == lpPoints[brushorigin].x && 
+			else if (lpPoints[i].x == lpPoints[brushorigin].x &&
 				lpPoints[i].y < lpPoints[brushorigin].y)
 			{
 				brushorigin = i;
@@ -668,7 +668,7 @@ void CContext::TextOut(double x, double y, const TCHAR *t)
 }
 
 // Display the text on the screen with kerning and overbars.
-// This is used to display user entered annotation text (i.e., single line text strings), 
+// This is used to display user entered annotation text (i.e., single line text strings),
 // pin names and numbers, parameters, net labels, etc.
 // This is the primary method of displaying most text objects.
 void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
@@ -853,7 +853,7 @@ void CContext::TextOut(CString text, CDPoint da, paint_options options, int dir)
 	{
 		AddExtent(CPoint(a.x - iHeight, a.y - x_pos));
 	}
-	
+
 
 
 	if (oldPen)
@@ -915,7 +915,7 @@ void CContext::PaintConnectPoint(CDPoint dp)
 	m_pDC->Ellipse(CRect(p.x + size, p.y + size, p.x - size, p.y - size));
 }
 
-void CContext::PaintTracker(CDRect &r)
+void CContext::PaintTracker(CDRect &r, bool handles)
 {
 	// Convert to normal
 	Transform t(m_Transform);
@@ -924,8 +924,12 @@ void CContext::PaintTracker(CDRect &r)
 	int q = 1;
 	rect.InflateRect(q, q, q, q);
 
-	// Put some handles around this object
-	CRectTracker tracker(rect, CRectTracker::dottedLine | CRectTracker::resizeOutside);
-	tracker.Draw(GetDC());
+	UINT style = CRectTracker::dottedLine;
+	if(handles){
+		// Put some handles around this object
+		 style |= CRectTracker::resizeOutside;
+	}
 
+	CRectTracker tracker(rect, style);
+	tracker.Draw(GetDC());
 }
