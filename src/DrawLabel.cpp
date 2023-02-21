@@ -433,19 +433,23 @@ void CDrawLabel::CalcLayout()
 	}
 	else
 	{
-		m_point_a = m_active_point;
+		const double spacing = size.cy / 5;
 		switch (dir)
 		{
 			case 0: // Up
+				m_point_a = CDPoint(m_active_point.x, m_active_point.y - spacing);
 				m_point_b = CDPoint(m_point_a.x - size.cy, m_point_a.y - size.cx);
 				break;
 			case 1: // Down
+				m_point_a = CDPoint(m_active_point.x, m_active_point.y + spacing);
 				m_point_b = CDPoint(m_point_a.x - size.cy, m_point_a.y + size.cx);
 				break;
 			case 2: // Left
+				m_point_a = CDPoint(m_active_point.x - spacing, m_active_point.y);
 				m_point_b = CDPoint(m_point_a.x - size.cx, m_point_a.y - size.cy);
 				break;
 			case 3: // Right
+				m_point_a = CDPoint(m_active_point.x + spacing, m_active_point.y);
 				m_point_b = CDPoint(m_point_a.x + size.cx, m_point_a.y - size.cy);
 				break;
 		}
