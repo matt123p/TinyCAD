@@ -3217,7 +3217,8 @@ void CNetList::WriteSpiceFile(CTinyCadMultiDoc *pDesign, const TCHAR *filename)
 
 		if (!spice.IsEmpty())
 		{
-			CString temp;
+			CString temp = expand_spice(file_name_index, sheet, symbol, labels, preferredLabel, spice);
+
 			_ftprintf(theFile, _T("%s\n"), (LPCTSTR)temp);
 		}
 		else
